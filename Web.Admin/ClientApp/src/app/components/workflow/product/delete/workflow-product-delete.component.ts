@@ -5,6 +5,7 @@ import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { Product } from '../../../../models/Product/Product';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-product-delete',
@@ -16,7 +17,7 @@ export class WorkflowProductDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   product: Product;
 
-  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -52,7 +53,7 @@ export class WorkflowProductDeleteComponent implements OnInit {
       data => {
         this.product = JSON.parse(JSON.stringify(data));
 
-        this.ajs.getOrganization(this.product.vendor.id).subscribe(
+        this.OrganizationService.getOrganization(this.product.vendor.id).subscribe(
           data => { this.product.vendor = JSON.parse(JSON.stringify(data)); },
           err => { },
           () => { }

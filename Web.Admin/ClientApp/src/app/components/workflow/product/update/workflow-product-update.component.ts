@@ -5,6 +5,7 @@ import { Product } from '../../../../models/Product/Product';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-product-update',
@@ -16,7 +17,7 @@ export class WorkflowProductUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowProductUpdatePayload>;
   currentState: Product;
 
-  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -51,7 +52,7 @@ export class WorkflowProductUpdateComponent implements OnInit {
     this.workflowItem = item;
 
     // Get the data for the vendor listed in the WF item
-    this.ajs.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
+    this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
       data => { this.workflowItem.payload.vendor = data; }
     );
 
@@ -69,7 +70,7 @@ export class WorkflowProductUpdateComponent implements OnInit {
         this.currentState = data;
 
         // Get the data for the vendor listed in the currentState
-        this.ajs.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
+        this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
           data => {
             this.workflowItem.payload.vendor = data;
             console.log(data);

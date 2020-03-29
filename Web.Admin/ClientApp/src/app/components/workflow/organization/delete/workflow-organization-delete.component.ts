@@ -5,6 +5,7 @@ import { Organization } from '../../../../models/Organization/Organization';
 import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-organization-delete',
@@ -16,7 +17,7 @@ export class WorkflowOrganizationDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   currentState: Organization;
 
-  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -51,7 +52,7 @@ export class WorkflowOrganizationDeleteComponent implements OnInit {
     this.workflowItem = item;
 
     // Go get the current state for comparison
-    this.ajs.getOrganization(this.workflowItem.payload.id).subscribe(
+    this.OrganizationService.getOrganization(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
       },

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationLite } from '../../models/Organization/OrganizationLite';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { OrganizationList } from '../../models/Organization/OrganizationList';
-import { PagingService } from '../../services/paging/paging.service';
+import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
+import { OrganizationListParameters } from '../../models/Organization/OrganizationListParameters';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-validation-db-organizations',
@@ -11,15 +11,66 @@ import { PagingService } from '../../services/paging/paging.service';
 })
 export class ValidationDbOrganizationsComponent implements OnInit {
 
+  listData: OrganizationListParameters;
   organizations: OrganizationList;
 
-  constructor(private ajs: AjaxService, private paging: PagingService) { }
+  constructor(private OrganizationService: OrganizationProviderService, private router: Router, private route: ActivatedRoute) { }
+
+  loadData() {
+
+    // Anytime the user's search changes, we default to page one
+    this.listData.page = 1;
+
+    // This sets the queryParams, but if they're empty, they end up having "&name=" by itself in the URL
+    // So the following if statements check each of the available routeParams and clear them from the URL if they're set
+    this.router.navigate([], {
+      queryParams: this.listData
+    });
+
+    // Clear empty ones as necessary
+    if (this.listData.name === "") {
+      this.router.navigate([], {
+        queryParams: { name: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.id === "") {
+      this.router.navigate([], {
+        queryParams: { id: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+
+    // Now, actually get the data
+    this.OrganizationService.getOrganizations(this.listData).subscribe(
+      data => {
+        this.organizations = data;
+        this.router.navigate([], {
+          queryParams: { page: this.listData.page },
+          queryParamsHandling: 'merge'
+        });
+      },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
+  }
 
   ngOnInit() {
+    this.listData = new OrganizationListParameters("", "");
     this.organizations = new OrganizationList();
-    this.organizations.currentPage = 1;
-    this.organizations.pageSize = 10;
-    this.ajs.getOrganizations(this.organizations.pageSize, this.organizations.currentPage).subscribe(
+
+    this.listData.pageSize = 10;
+    this.listData.page = 1;
+
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+    if (this.route.snapshot.queryParamMap.get('name')) {
+      this.listData.name = this.route.snapshot.queryParamMap.get('name');
+    }
+
+    this.OrganizationService.getOrganizations(this.listData).subscribe(
       data => { this.organizations = data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
@@ -29,20 +80,30 @@ export class ValidationDbOrganizationsComponent implements OnInit {
   getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.organizations.currentPage = 1;
+      this.listData.page = 1;
     }
     else if (whichPage == "previous") {
-      this.organizations.currentPage--;
+      if (this.listData.page > 1) {
+        this.listData.page = --this.listData.page;
+      }
     }
     else if (whichPage == "next") {
-      this.organizations.currentPage++;
+      if (this.listData.page < this.organizations.totalPages) {
+        this.listData.page = ++this.listData.page;
+      }
     }
     else if (whichPage == "last") {
-      this.organizations.currentPage = this.organizations.totalPages;
+      this.listData.page = this.organizations.totalPages;
     }
 
-    this.ajs.getOrganizations(this.organizations.pageSize, this.organizations.currentPage).subscribe(
-      data => { this.organizations = data; },
+    this.OrganizationService.getOrganizations(this.listData).subscribe(
+      data => {
+        this.organizations = data;
+        this.router.navigate([], {
+          queryParams: { page: this.listData.page },
+          queryParamsHandling: 'merge'
+        });
+      },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );

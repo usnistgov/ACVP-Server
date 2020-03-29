@@ -5,6 +5,7 @@ import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { WorkflowCreateProductPayloadContact } from '../../../../models/Workflow/Product/WorkflowCreateProductPayloadContact';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-product-create',
@@ -15,7 +16,7 @@ export class WorkflowProductCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowProductCreatePayload>;
 
-  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -47,7 +48,7 @@ export class WorkflowProductCreateComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowProductCreatePayload>) {
     this.workflowItem = item;
 
-    this.ajs.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
+    this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
       data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
       err => { },
       () => { }

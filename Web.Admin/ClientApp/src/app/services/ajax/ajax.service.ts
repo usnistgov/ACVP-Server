@@ -63,30 +63,6 @@ export class AjaxService {
   }
   // END Person-related calls
 
-  // Organization-related calls
-  getOrganization(id: number) {
-    return this.http.get<Organization>(this.apiRoot + '/Organizations/' + id);
-  }
-
-  getOrganizations(pageSize: number, pageNumber: number) {
-    var params = { "pageSize": pageSize, "page": pageNumber };
-
-    return this.http.post<OrganizationList>(this.apiRoot + '/Organizations', params);
-  }
-
-  addNewAddress(parameters: AddressCreateParameters) {
-    return this.http.post(this.apiRoot + '/Addresses/', parameters);
-  }
-
-  deleteAddressFromOrganization(index: number, organizationID: number) {
-    return this.http.delete(this.apiRoot + '/Organizations/' + organizationID + '/Addresses/' + index);
-  }
-
-  updateOrganization(organization: Organization) {
-    return this.http.patch(this.apiRoot + '/Organizations/' + organization.id, organization);
-  }
-  // END Organization-related calls
-
   // Begin TestSession-related calls
   getTestSessions(pageSize: number, pageNumber: number) {
     // Build the request body

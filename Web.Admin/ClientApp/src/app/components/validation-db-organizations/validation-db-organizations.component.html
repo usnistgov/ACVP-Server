@@ -1,12 +1,22 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2">
+
       <div class="row mt-3">
-        <h3>Filters</h3>
+        <h2>&nbsp;</h2>
       </div>
-      <div class="row mt-3">
-        <input type="text" class="form-control">
+
+      <div class="row">
+        <div class="container">
+          <h3>Filters</h3>
+          <label class="bold-heading">ID</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.id" (ngModelChange)="loadData()" placeholder="Type..." />
+          <label class="bold-heading">Name</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.name" (ngModelChange)="loadData()" placeholder="Name..." />
+          <br />
+        </div>
       </div>
+
     </div>
 
     <div class="col-lg-10">

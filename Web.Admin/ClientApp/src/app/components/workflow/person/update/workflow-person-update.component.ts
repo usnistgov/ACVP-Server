@@ -5,6 +5,7 @@ import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowPersonUpdatePayload } from '../../../../models/Workflow/Person/WorkflowPersonUpdatePayload';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-person-update',
@@ -16,7 +17,7 @@ export class WorkflowPersonUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowPersonUpdatePayload>;
   currentState: Person;
 
-  constructor(private ajs: AjaxService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -56,7 +57,7 @@ export class WorkflowPersonUpdateComponent implements OnInit {
 
       let splitsArr = this.workflowItem.payload.organizationUrl.split('/');
 
-      this.ajs.getOrganization(parseInt(splitsArr[splitsArr.length-1])).subscribe(
+      this.OrganizationService.getOrganization(parseInt(splitsArr[splitsArr.length-1])).subscribe(
         data => {
           this.workflowItem.payload.organization = data;
         },

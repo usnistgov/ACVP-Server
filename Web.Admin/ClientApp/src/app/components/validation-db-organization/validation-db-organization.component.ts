@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
 import { Address } from '../../models/Address/Address';
 import { AddressCreateParameters } from '../../models/Address/AddressCreateParameters';
+import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-validation-db-organization',
@@ -19,7 +20,7 @@ export class ValidationDbOrganizationComponent implements OnInit {
 
   newAddressData = new AddressCreateParameters(-1, -1, "", "", "", "", "", "", "");
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private OrganizationService: OrganizationProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
 
   raiseNewAddressModal() {
     this.newAddressData = new AddressCreateParameters(-1, -1, "", "", "", "", "", "", "");
@@ -27,7 +28,7 @@ export class ValidationDbOrganizationComponent implements OnInit {
   }
 
   updateOrganization() {
-    this.ajs.updateOrganization(this.referenceCopyOrganization).subscribe(
+    this.OrganizationService.updateOrganization(this.referenceCopyOrganization).subscribe(
       data => { this.updateStatusFlag = "successful"; this.refreshPageData(); },
       err => { console.log("Update failed"); },
       () => { });
@@ -37,21 +38,21 @@ export class ValidationDbOrganizationComponent implements OnInit {
     // Always insert at the end for now
     this.newAddressData.orderIndex = this.selectedOrganization.addresses.length+1;
     this.newAddressData.organizationID = this.selectedOrganization.id;
-    this.ajs.addNewAddress(this.newAddressData).subscribe(
+    this.OrganizationService.addNewAddress(this.newAddressData).subscribe(
       data => { this.refreshPageData(); this.modalService.hideModal("newAddressModal"); },
       err => { },
       () => { });
   }
 
   deleteAddressAtIndex(index: number) {
-    this.ajs.deleteAddressFromOrganization(index, this.selectedOrganization.id).subscribe(
+    this.OrganizationService.deleteAddressFromOrganization(index, this.selectedOrganization.id).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
   }
 
   refreshPageData() {
-    this.ajs.getOrganization(this.selectedOrganization.id).subscribe(
+    this.OrganizationService.getOrganization(this.selectedOrganization.id).subscribe(
       data => { this.selectedOrganization = JSON.parse(JSON.stringify(data)); this.referenceCopyOrganization = JSON.parse(JSON.stringify(data)); },
       err => { },
       () => { });
@@ -59,7 +60,7 @@ export class ValidationDbOrganizationComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getOrganization(parseInt(params.get("id"))).subscribe(
+      this.OrganizationService.getOrganization(parseInt(params.get("id"))).subscribe(
         data => { this.selectedOrganization = JSON.parse(JSON.stringify(data)); this.referenceCopyOrganization = JSON.parse(JSON.stringify(data)); },
         err => { },
         () => { })
