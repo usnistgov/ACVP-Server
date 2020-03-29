@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -21,13 +21,17 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 5;
             }
-
+            return new GenerateResponse();
+        }
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             var keyParam = new DsaKeyParameters
             {
                 DomainParameters = group.DomainParams

@@ -9,7 +9,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
 {
-    public class TestCaseGeneratorBft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorBft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -22,13 +22,17 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 32;
             }
-
+            return new GenerateResponse();
+        }
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             var param = new EddsaSignatureParameters
             {
                 Curve = group.Curve,

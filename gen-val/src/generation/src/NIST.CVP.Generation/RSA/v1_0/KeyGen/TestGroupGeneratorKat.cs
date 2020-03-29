@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 {
-    public class TestGroupGeneratorKat : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorKat : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "KAT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
             if (parameters.PubExpMode == PublicExponentModes.Fixed)
             {
-                return testGroups;
+                return Task.FromResult(testGroups);
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
@@ -46,7 +48,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

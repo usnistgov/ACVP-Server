@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -7,11 +9,11 @@ using NIST.CVP.Generation.DSA.v1_0.PqgVer.TestCaseExpectations;
 
 namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
 {
-    public class TestGroupGeneratorPQ : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorPQ : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -38,7 +40,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

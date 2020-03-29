@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MessageQueueProcessor.MessagePayloads
+namespace NIST.CVP.MessageQueue.MessagePayloads
 {
 	public class RegisterTestSessionPayload
 	{

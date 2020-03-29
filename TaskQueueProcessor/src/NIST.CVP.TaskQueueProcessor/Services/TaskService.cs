@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using NIST.CVP.TaskQueueProcessor.Providers;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
@@ -24,7 +25,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             return _taskProvider.GetTaskFromQueue();
         }
 
-        public void RunTask(ExecutableTask task)
+        public async Task RunTaskAsync(ExecutableTask task)
         {
             Log.Information($"Running job: {task.DbId}");
             var taskType = "";
@@ -36,17 +37,17 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 {
                     case GenerationTask generationTask:
                         taskType = "generation";
-                        _genValService.RunGenerator(generationTask);
-                        break;
+                        await _genValService.RunGeneratorAsync(generationTask);
+                        return;
 
                     case ValidationTask validationTask:
                         taskType = "validation";
-                        _genValService.RunValidator(validationTask);
-                        break;
+                        await _genValService.RunValidatorAsync(validationTask);
+                        return;
 
                     case PoolTask poolTask:
                         taskType = "pool spawn";
-                        _poolService.SpawnPoolData();
+                        await _poolService.SpawnPoolDataAsync();
                         break;
                 }
             }

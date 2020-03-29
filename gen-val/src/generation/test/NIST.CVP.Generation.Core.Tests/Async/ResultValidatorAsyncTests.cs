@@ -32,16 +32,16 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         }
         
         [Test]
-        public void ShouldReturnValidation()
+        public async Task ShouldReturnValidation()
         {
-            var validation = _subject.ValidateResults(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
+            var validation = await _subject.ValidateResultsAsync(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
             Assert.IsNotNull(validation);
         }
 
         [Test]
         [TestCase(3)]
         [TestCase(16)]
-        public void ShouldReturnOnResultValidationPerSuppliedValidator(int count)
+        public async Task ShouldReturnOnResultValidationPerSuppliedValidator(int count)
         {
             var validators = new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>();
             for (var idx = 0; idx < count; idx++)
@@ -49,17 +49,17 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 validators.Add(new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = idx+1});
             }
 
-            var validation = _subject.ValidateResults(validators, new List<FakeTestGroup>(), false);
+            var validation = await _subject.ValidateResultsAsync(validators, new List<FakeTestGroup>(), false);
 
             Assume.That(validation != null);
             Assert.AreEqual(count, validation.Validations.Count);
         }
 
         [Test]
-        public void ShouldMarkMissingIfNoMatchingResultPresent()
+        public async Task ShouldMarkMissingIfNoMatchingResultPresent()
         {
             var validation =
-                _subject.ValidateResults(
+                await _subject.ValidateResultsAsync(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
@@ -78,10 +78,10 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         }
 
         [Test]
-        public void ShouldMarkPassedForValidResult()
+        public async Task ShouldMarkPassedForValidResult()
         {
             var validation =
-                _subject.ValidateResults(
+                await _subject.ValidateResultsAsync(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Passed) {TestCaseId = 1}
@@ -100,10 +100,10 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         }
 
         [Test]
-        public void ShouldMarkFailedForInvalidResult()
+        public async Task ShouldMarkFailedForInvalidResult()
         {
             var validation =
-                _subject.ValidateResults(
+                await _subject.ValidateResultsAsync(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1}
@@ -122,10 +122,10 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         }
 
         [Test]
-        public void ShouldMarkAllResultsProperly()
+        public async Task ShouldMarkAllResultsProperly()
         {
             var validation =
-                _subject.ValidateResults(
+                await _subject.ValidateResultsAsync(
                     new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>
                     {
                         new FakeTestCaseValidator<FakeTestGroup, FakeTestCase>(Disposition.Failed) {TestCaseId = 1},
@@ -158,7 +158,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [TestCase(15, 5)] // 3x max (will need to wait a few times)
         [TestCase(500, 100)] // 5x max, larger max, will need to wait a few times
         [TestCase(499, 102)] // maxQueue and number to queue aren't evenly divisible
-        public void ShouldEnqueueWorkUpToMaxAmount(int numberToQueue, int maxQueue)
+        public async Task ShouldEnqueueWorkUpToMaxAmount(int numberToQueue, int maxQueue)
         {
             var orleansConfig = new OrleansConfig()
             {
@@ -170,7 +170,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Setup(s => s.ValidateAsync(It.IsAny<FakeTestCase>(), It.IsAny<bool>()))
                 .Returns(async () =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Yield();
                     return new TestCaseValidation();
                 });
             
@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 });
             }
             
-            var result = _subject.ValidateResults(validators, new [] { testGroup }, false);
+            var result = await _subject.ValidateResultsAsync(validators, new List<FakeTestGroup>() { testGroup }, false);
             
             Assert.AreEqual(numberToQueue, result.Validations.Count());
         }

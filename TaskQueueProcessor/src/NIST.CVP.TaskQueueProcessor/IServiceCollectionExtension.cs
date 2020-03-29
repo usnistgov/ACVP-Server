@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Common;
 using NIST.CVP.Generation;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.TaskQueueProcessor.Providers;
@@ -10,11 +11,11 @@ namespace NIST.CVP.TaskQueueProcessor
     {
         public static IServiceCollection InjectTaskQueueProcessorInterfaces(this IServiceCollection services)
         {
-            services.AddTransient<IGenValInvoker, GenValInvoker>();
-            services.AddTransient<IGenValService, GenValService>();
-            services.AddTransient<ITaskProvider, TaskProvider>();
-            services.AddTransient<IPoolService, PoolService>();
-            services.AddTransient<IJsonProvider, JsonProvider>();
+            services.AddSingleton<IGenValInvoker, GenValInvoker>();
+            services.AddSingleton<IGenValService, GenValService>();
+            services.AddSingleton<ITaskProvider, TaskProvider>();
+            services.AddSingleton<IPoolService, PoolService>();
+            services.AddSingleton<IJsonProvider, JsonProvider>();
                     
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ICleaningService, CleaningService>();

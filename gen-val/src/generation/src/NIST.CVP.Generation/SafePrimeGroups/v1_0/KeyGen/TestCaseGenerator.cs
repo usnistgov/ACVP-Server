@@ -2,13 +2,14 @@ using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 using NLog;
 
 namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,19 +20,26 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        {
+            if (isSample)
+            {
+                NumberOfTestCasesToGenerate = 3;
+            }
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             // when sample, need to actually generate a key on behalf of the IUT.
             if (isSample)
             {
-                NumberOfTestCasesToGenerate = 3;
-
                 try
                 {
-                    var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(group.SafePrimeGroup);
+                    var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = group.SafePrimeGroup});
                     var result = await _oracle.GetDsaKeyAsync(new DsaKeyParameters()
                     {
-                        DomainParameters = dp
+                        DomainParameters = dp.DomainParameters
                     });
 
                     return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase

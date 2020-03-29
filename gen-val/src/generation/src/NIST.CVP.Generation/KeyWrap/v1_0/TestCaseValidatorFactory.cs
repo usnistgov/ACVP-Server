@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KeyWrap.v1_0
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase>, new()
     {
-        public IEnumerable<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TTestGroup, TTestCase>> GetValidators(TTestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TTestGroup, TTestCase>>();
 

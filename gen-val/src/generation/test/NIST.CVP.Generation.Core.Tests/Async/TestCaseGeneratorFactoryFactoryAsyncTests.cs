@@ -60,22 +60,22 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         }
 
         [Test]
-        public void ShouldReturnErrorMessageWithinGenerateResponseWhenFails()
+        public async Task ShouldReturnErrorMessageWithinGenerateResponseWhenFails()
         {
             _testCaseGenerator
                 .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>("fail")));
 
-            var result = _subject.BuildTestCases(_testVectorSet);
+            var result = await _subject.BuildTestCasesAsync(_testVectorSet);
 
             Assert.IsFalse(result.Success, nameof(result.Success));
             Assert.IsTrue(!string.IsNullOrEmpty(result.ErrorMessage), nameof(result.ErrorMessage));
         }
 
         [Test]
-        public void ShouldReturnGenerateResponseWhenGenerateSuccess()
+        public async Task ShouldReturnGenerateResponseWhenGenerateSuccess()
         {
-            var results = _subject.BuildTestCases(_testVectorSet);
+            var results = await _subject.BuildTestCasesAsync(_testVectorSet);
 
             Assert.IsTrue(results.Success);
             _testCaseGeneratorFactory
@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [TestCase(1)]
         [TestCase(5)]
         [TestCase(10)]
-        public void ShouldCallGetGeneratorForEachGroup(int numberOfGroups)
+        public async Task ShouldCallGetGeneratorForEachGroup(int numberOfGroups)
         {
             _testVectorSet = new FakeTestVectorSet()
             {
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 _testVectorSet.TestGroups.Add(new FakeTestGroup());
             }
 
-            var results = _subject.BuildTestCases(_testVectorSet);
+            var results = await _subject.BuildTestCasesAsync(_testVectorSet);
 
             Assume.That(results.Success);
             _testCaseGeneratorFactory
@@ -117,13 +117,13 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [TestCase(1)]
         [TestCase(5)]
         [TestCase(10)]
-        public void ShouldCallGenerateSpecifiedNumberOfTimes(int numberOfTestCasesToGenerate)
+        public async Task ShouldCallGenerateSpecifiedNumberOfTimes(int numberOfTestCasesToGenerate)
         {
             _testCaseGenerator
                 .SetupGet(s => s.NumberOfTestCasesToGenerate)
                 .Returns(numberOfTestCasesToGenerate);
 
-            var results = _subject.BuildTestCases(_testVectorSet);
+            var results = await _subject.BuildTestCasesAsync(_testVectorSet);
 
             Assume.That(results.Success);
             _testCaseGenerator
@@ -143,7 +143,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
         [TestCase(15, 5)] // 3x max (will need to wait a few times)
         [TestCase(500, 100)] // 5x max, larger max, will need to wait a few times
         [TestCase(499, 102)] // maxQueue and number to queue aren't evenly divisible
-        public void ShouldEnqueueWorkUpToMaxAmount(int numberToQueue, int maxQueue)
+        public async Task ShouldEnqueueWorkUpToMaxAmount(int numberToQueue, int maxQueue)
         {
             var orleansConfig = new OrleansConfig()
             {
@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 .Setup(s => s.GenerateAsync(It.IsAny<FakeTestGroup>(), It.IsAny<bool>(), It.IsAny<int>()))
                 .Returns(async () =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Yield();
                     return new TestCaseGenerateResponse<FakeTestGroup, FakeTestCase>(new FakeTestCase());
                 });
             _subject =
@@ -174,7 +174,7 @@ namespace NIST.CVP.Generation.Core.Tests.Async
                 }
             };
             
-            _subject.BuildTestCases(vectorSet);
+            await _subject.BuildTestCasesAsync(vectorSet);
 
             Assert.AreEqual(numberToQueue, vectorSet.TestGroups.SelectMany(s => s.Tests).Count());
         }

@@ -1,9 +1,9 @@
 ﻿using ACVPWorkflow;
-using MessageQueueProcessor.MessagePayloads;
+using NIST.CVP.MessageQueue.MessagePayloads;
 using System;
 using System.Text.Json;
 
-namespace MessageQueueProcessor
+namespace NIST.CVP.MessageQueue
 {
 	public class Message
 	{

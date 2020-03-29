@@ -38,13 +38,13 @@
         <NuGetVersionAutofac>4.9.2</NuGetVersionAutofac>
         <NuGetVersionNewtonsoftJson>12.0.3</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
-        <NugetVersionMicrosoftOrleansServer>3.0.2</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.0.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
-        <NugetVersionMicrosoftOrleansClient>3.0.2</NugetVersionMicrosoftOrleansClient>
-        <NugetVersionMicrosoftOrleansCoreAbstractions>3.0.2</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftOrleansClusteringAdoNet>3.0.2</NugetVersionMicrosoftOrleansClusteringAdoNet>
-        <NuGetVersionOrleansDashboard>3.0.7</NuGetVersionOrleansDashboard>
-        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>3.0.2</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
+        <NugetVersionMicrosoftOrleansServer>3.1.2</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.1.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>3.1.2</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>3.1.2</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NugetVersionMicrosoftOrleansClusteringAdoNet>3.1.2</NugetVersionMicrosoftOrleansClusteringAdoNet>
+        <NuGetVersionOrleansDashboard>3.0.8</NuGetVersionOrleansDashboard>
+        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>3.1.2</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
         <NuGetVersionSystemDataSqlClient>4.8.1</NuGetVersionSystemDataSqlClient>

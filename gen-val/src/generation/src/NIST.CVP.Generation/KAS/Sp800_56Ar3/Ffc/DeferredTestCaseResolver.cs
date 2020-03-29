@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NIST.CVP.Common.Oracle;
+using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 
@@ -20,7 +21,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
             }
             
             // Safe prime groups *could* be grabbed from testGroup, but are not serialized due to them being static. Just grab from an orleans grain
-            return await Oracle.GetSafePrimeGroupsDomainParameterAsync(serverTestGroup.SafePrime);
+            var dp = await Oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = serverTestGroup.SafePrime});
+            return dp.DomainParameters;
         }
     }
 }

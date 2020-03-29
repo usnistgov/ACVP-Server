@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
             
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
                 }));
             }
 
-            return groups;
+            return Task.FromResult(groups);
         }
     }
 }

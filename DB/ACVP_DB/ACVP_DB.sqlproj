@@ -367,6 +367,8 @@
     <Build Include="val\Stored Procedures\WorkflowItemGetById.sql" />
     <Build Include="val\Stored Procedures\WorkflowItemsGet.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
+    <Build Include="common\Stored Procedures\MessageGetPayload.sql" />
+    <Build Include="common\Stored Procedures\MessageQueueList.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

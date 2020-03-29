@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Generation.KAS.v1_0.ECC_Component;
@@ -42,11 +43,11 @@ namespace NIST.CVP.Generation.KAS.EccComponent.Tests
 
         [Test]
         [TestCaseSource(nameof(_testCurves))]
-        public void ShouldReturnOneGroupPerValidCurve(string label, string[] curves, int expectedCount)
+        public async Task ShouldReturnOneGroupPerValidCurve(string label, string[] curves, int expectedCount)
         {
             var p = new ParameterBuilder().WithCurves(curves).Build();
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedCount, result.Count());
         }
