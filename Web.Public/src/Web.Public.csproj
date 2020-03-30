@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
+      <ProjectReference Include="..\..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
+using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
-	public class Organization
+	public class Organization : IJsonObject
 	{
 		[JsonIgnore]
 		public long ID { get; set; }
@@ -28,5 +29,10 @@ namespace Web.Public.Models
 
 		[JsonPropertyName("addresses")]
 		public List<Address> Addresses { get; set; }
+
+		public List<string> ValidateObject()
+		{
+			return new List<string>();
+		}
 	}
 }

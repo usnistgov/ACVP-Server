@@ -1,6 +1,7 @@
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using ACVPWorkflow;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Helpers
@@ -31,6 +32,23 @@ namespace Web.Public.Helpers
 
             // This kinda sucks but prevents "double json" results using JsonResult
             return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), JsonSerializerOptions);
+        }
+
+        public static string BuildRequestObject(long requestId, APIAction apiActionId, long userId, object content)
+        {
+            var reqObject = new RequestObject
+            {
+                RequestID = requestId,
+                ApiActionID = apiActionId,
+                UserID = userId,
+                Json = content
+            };
+
+            // Must allow null because that's how DELETE requests operate
+            return JsonSerializer.Serialize(reqObject, new JsonSerializerOptions
+            {
+                IgnoreNullValues = false
+            });
         }
     }
 }

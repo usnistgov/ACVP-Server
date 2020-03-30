@@ -20,7 +20,7 @@ namespace Web.Public.Providers
             
             try
             {
-                var data = db.SingleFromProcedure("acvp.AcvpUserGetByCertificate", new
+                var data = db.SingleFromProcedure("acvp.AcvpUserSeedGetByCertificate", new
                 {
                     CertificateRawData = certRawData
                 });

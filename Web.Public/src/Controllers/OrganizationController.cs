@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Helpers;
@@ -16,6 +18,9 @@ namespace Web.Public.Controllers
 	public class OrganizationController : ControllerBase
 	{
 		private readonly IOrganizationService _organizationService;
+		private readonly IMessageService _messageService;
+		private readonly IJsonService<Organization> _jsonService;
+		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("name", false, new List<string> { "eq", "start", "end", "contains" }),
 			("website", false, new List<string> { "eq", "start", "end", "contains" }),
@@ -23,9 +28,29 @@ namespace Web.Public.Controllers
 			("phoneNumber", false, new List<string> { "eq", "start", "end", "contains" })
 		};
 
-		public OrganizationController(IOrganizationService organizationService)
+		public OrganizationController(IOrganizationService organizationService, IMessageService messageService, IJsonService<Organization> jsonService)
 		{
 			_organizationService = organizationService;
+			_messageService = messageService;
+			_jsonService = jsonService;
+		}
+
+		[HttpPost]
+		public JsonHttpStatusResult CreateVendor()
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonService.GetJsonFromBody(Request.Body);
+			
+			// Convert to Organization
+			var organization = _jsonService.GetObjectFromBodyJson(jsonBlob);
+			
+			// Pass to message queue
+			_messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
+			
+			return new JsonHttpStatusResult("", HttpStatusCode.Accepted);
 		}
 
 		[HttpGet("{id}")]
