@@ -74,6 +74,8 @@
     <Folder Include="Security\" />
     <Folder Include="acvp\Stored Procedures\" />
     <Folder Include="val\Stored Procedures" />
+    <Folder Include="ref\Stored Procedures\" />
+    <Folder Include="external\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="acvp\Tables\ACVP_ROLE.sql" />
@@ -141,5 +143,9 @@
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
     <Build Include="val\Stored Procedures\AddressesForOrganizationGet.sql" />
+    <Build Include="val\Stored Procedures\AddressGet.sql" />
+    <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
+    <Build Include="external\Stored Procedures\RequestGetNextID.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUserSeedGetByCertificate.sql" />
   </ItemGroup>
 </Project>
