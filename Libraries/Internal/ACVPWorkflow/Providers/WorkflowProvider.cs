@@ -130,7 +130,7 @@ namespace ACVPWorkflow.Providers
 				_logger.LogError(ex);
 			}
 
-			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)

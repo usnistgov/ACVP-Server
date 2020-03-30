@@ -20,7 +20,7 @@ namespace Web.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult<WrappedEnumerable<MessageQueueItem>> GetMessageQueue() => _messageQueueService.List().WrapEnumerable();
+        public ActionResult<WrappedEnumerable<MessageQueueItem>> GetMessageQueue() => _messageQueueService.List().ToWrappedEnumerable();
 
         [HttpGet("{messageID}")]
         public string GetMessagePayload(Guid messageID) => _messageQueueService.GetMessagePayload(messageID);
