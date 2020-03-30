@@ -4,6 +4,6 @@ namespace Web.Public.Services
 {
     public interface IAddressService
     {
-        Address Get(long id);
+        Address Get(long vendorId, long id);
     }
 }

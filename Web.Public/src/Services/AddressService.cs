@@ -12,7 +12,7 @@ namespace Web.Public.Services
             _addressProvider = addressProvider;
         }
 
-        public Address Get(long id) => _addressProvider.Get(id);
+        public Address Get(long vendorId, long id) => _addressProvider.Get(vendorId, id);
 
     }
 }

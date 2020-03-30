@@ -16,7 +16,7 @@ namespace Web.Public.Providers
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
-        public Address Get(long id)
+        public Address Get(long vendorId, long id)
         {
             var db = new MightyOrm(_connectionString);
 
@@ -45,7 +45,7 @@ namespace Web.Public.Providers
                     PostalCode = addressData.PostalCode
                 };
 
-                return result;
+                return result.OrganizationID == vendorId ? result : null;
             }
             catch (Exception ex)
             {
