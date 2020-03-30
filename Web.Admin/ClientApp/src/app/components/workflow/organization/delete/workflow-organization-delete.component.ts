@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
 import { Organization } from '../../../../models/Organization/Organization';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
@@ -17,7 +16,7 @@ export class WorkflowOrganizationDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   currentState: Organization;
 
-  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
 import { Dependency } from '../../models/dependency/dependency';
-import { ModalService } from '../../services/modal/modal.service';
 import { DependencyDataProviderService } from '../../services/ajax/dependency/dependency-data-provider.service';
 import { Attribute } from '../../models/dependency/attribute';
 

@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { OperatingEnvironmentCreatePayload } from '../../../../models/Workflow/OperatingEnvironment/OperatingEnvironmentCreatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
-import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({

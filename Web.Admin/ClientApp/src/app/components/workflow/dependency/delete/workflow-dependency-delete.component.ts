@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';

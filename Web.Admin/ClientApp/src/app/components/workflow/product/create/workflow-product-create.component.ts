@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowProductCreatePayload } from '../../../../models/Workflow/Product/WorkflowProductCreatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { WorkflowCreateProductPayloadContact } from '../../../../models/Workflow/Product/WorkflowCreateProductPayloadContact';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
+import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
 
 @Component({
   selector: 'app-workflow-product-create',
@@ -16,7 +16,7 @@ export class WorkflowProductCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowProductCreatePayload>;
 
-  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private PersonService: PersonProviderService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -55,7 +55,7 @@ export class WorkflowProductCreateComponent implements OnInit {
     );
 
     for (let i = 0; i < this.workflowItem.payload.contacts.length; i++) {
-      this.ajs.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
+      this.PersonService.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
         data => {
           let contact = new WorkflowCreateProductPayloadContact();
           contact.person = JSON.parse(JSON.stringify(data));

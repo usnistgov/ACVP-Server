@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowOrganizationUpdatePayload } from '../../../../models/Workflow/Organization/WorkflowOrganizationUpdatePayload';
 import { Organization } from '../../../../models/Organization/Organization';
@@ -17,7 +16,7 @@ export class WorkflowOrganizationUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowOrganizationUpdatePayload>;
   currentState: Organization;
 
-  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(

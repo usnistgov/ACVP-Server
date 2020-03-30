@@ -54,10 +54,12 @@
       <None Remove="ClientApp\src\app\models\Organization\OrganizationLite.ts" />
       <None Remove="ClientApp\src\app\models\Person\Person.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonListParameters.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
       <None Remove="ClientApp\src\app\models\Product\Product.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
       <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
+      <None Remove="ClientApp\src\app\models\Product\ProductListParameters.ts" />
       <None Remove="ClientApp\src\app\models\responses\PagedEnumerable.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
@@ -141,11 +143,17 @@
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonListParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonList.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\Person.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductListParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
@@ -209,6 +217,10 @@
       <None Update="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.js">
         <DependentUpon>WorkflowStatus.enum.ts</DependentUpon>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\app\services\ajax\product\" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

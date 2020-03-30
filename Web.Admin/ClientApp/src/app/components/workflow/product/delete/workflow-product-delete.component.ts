@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { Product } from '../../../../models/Product/Product';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
+import { ProductProviderService } from '../../../../services/ajax/product/product-provider.service';
 
 @Component({
   selector: 'app-workflow-product-delete',
@@ -17,7 +17,7 @@ export class WorkflowProductDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   product: Product;
 
-  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private ProductService: ProductProviderService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
@@ -49,7 +49,7 @@ export class WorkflowProductDeleteComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowDeletePayload>) {
     this.workflowItem = item;
 
-    this.ajs.getProduct(this.workflowItem.payload.id).subscribe(
+    this.ProductService.getProduct(this.workflowItem.payload.id).subscribe(
       data => {
         this.product = JSON.parse(JSON.stringify(data));
 

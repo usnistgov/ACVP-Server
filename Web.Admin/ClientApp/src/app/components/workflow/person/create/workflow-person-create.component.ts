@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowPersonCreatePayload } from '../../../../models/Workflow/Person/WorkflowPersonCreatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { Organization } from '../../../../models/Organization/Organization';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
@@ -17,7 +16,7 @@ export class WorkflowPersonCreateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
   organization: Organization;
 
-  constructor(private ajs: AjaxService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(

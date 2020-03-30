@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Organization } from '../../models/organization/organization';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
-import { Address } from '../../models/Address/Address';
 import { AddressCreateParameters } from '../../models/Address/AddressCreateParameters';
 import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
 

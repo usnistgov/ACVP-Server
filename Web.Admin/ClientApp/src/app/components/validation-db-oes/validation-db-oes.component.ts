@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperatingEnvironmentProviderService } from '../../services/ajax/operatingEnvironment/operating-environment-provider.service';

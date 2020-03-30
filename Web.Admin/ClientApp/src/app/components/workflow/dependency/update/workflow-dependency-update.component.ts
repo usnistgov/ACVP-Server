@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDependencyUpdatePayload } from '../../../../models/Workflow/Dependency/WorkflowDependencyUpdatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Dependency } from '../../../../models/dependency/dependency';
 import { Router } from '@angular/router';
 import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
