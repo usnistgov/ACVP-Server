@@ -40,7 +40,7 @@ namespace NIST.CVP.TaskQueueProcessor
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
+                await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);
                 await _semaphore.WaitAsync(stoppingToken);
 
                 Log.Debug($"Grabbed a spot from the semaphore. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
@@ -65,7 +65,6 @@ namespace NIST.CVP.TaskQueueProcessor
                 
                 Log.Debug("No tasks available. Releasing the semaphore log and waiting.");
                 _semaphore.Release();
-                await Task.Delay(_taskConfig.PollDelay * 1000 * 2, stoppingToken);
             }
         }
         
