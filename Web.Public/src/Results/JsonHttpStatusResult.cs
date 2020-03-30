@@ -2,7 +2,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Public.Helpers
+namespace Web.Public.Results
 {
     public class JsonHttpStatusResult : JsonResult
     {

@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
+using Web.Public.Results;
 using Web.Public.Services;
 
 namespace Web.Public.Controllers
@@ -19,7 +18,8 @@ namespace Web.Public.Controllers
 	{
 		private readonly IOrganizationService _organizationService;
 		private readonly IMessageService _messageService;
-		private readonly IJsonService<Organization> _jsonService;
+		private readonly IJsonReaderService<Organization> _jsonReader;
+		private readonly IJsonWriterService _jsonWriter;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("name", false, new List<string> { "eq", "start", "end", "contains" }),
@@ -28,11 +28,16 @@ namespace Web.Public.Controllers
 			("phoneNumber", false, new List<string> { "eq", "start", "end", "contains" })
 		};
 
-		public OrganizationController(IOrganizationService organizationService, IMessageService messageService, IJsonService<Organization> jsonService)
+		public OrganizationController(
+			IOrganizationService organizationService, 
+			IMessageService messageService, 
+			IJsonReaderService<Organization> jsonReader,
+			IJsonWriterService jsonWriter)
 		{
 			_organizationService = organizationService;
 			_messageService = messageService;
-			_jsonService = jsonService;
+			_jsonReader = jsonReader;
+			_jsonWriter = jsonWriter;
 		}
 
 		[HttpPost]
@@ -42,10 +47,10 @@ namespace Web.Public.Controllers
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
 
 			// Get raw JSON
-			var jsonBlob = _jsonService.GetJsonFromBody(Request.Body);
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonService.GetObjectFromBodyJson(jsonBlob);
+			var organization = _jsonReader.GetObjectFromBodyJson(jsonBlob);
 			
 			// Pass to message queue
 			_messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
@@ -60,7 +65,7 @@ namespace Web.Public.Controllers
 			if (result == null)
 			{
 				return new JsonHttpStatusResult(
-					JsonHelper.BuildVersionedObject(
+					_jsonWriter.BuildVersionedObject(
 						new ErrorObject
 						{
 							Error = $"Unable to find organization with id: {id}"
@@ -68,7 +73,7 @@ namespace Web.Public.Controllers
 					HttpStatusCode.NotFound);
 			}
 			
-			return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(result));
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));
 		}
 
 		[HttpGet]
@@ -107,7 +112,7 @@ namespace Web.Public.Controllers
 				var data = _organizationService.GetFilteredList(filter.FilterString, pagingOptions, filter.OrDelimiter, filter.AndDelimiter);
 				var pagedData =  new PagedResponse<Organization>(data.TotalCount, data.Organizations, "/acvp/v1/vendors", pagingOptions, filterString);
 				
-				return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(pagedData));
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));
 			}
 
 			var error = new ErrorObject
@@ -115,7 +120,7 @@ namespace Web.Public.Controllers
 				Error = $"Invalid filter applied: {filterString}"
 			};
 			
-			return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);
 		}
 	}
 }

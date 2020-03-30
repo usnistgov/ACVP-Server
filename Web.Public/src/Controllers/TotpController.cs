@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Web.Public.Helpers;
 using Web.Public.JsonObjects;
+using Web.Public.Results;
 using Web.Public.Services;
 
 namespace Web.Public.Controllers
@@ -11,10 +11,12 @@ namespace Web.Public.Controllers
     public class TotpController : ControllerBase
     {
         private readonly ITotpService _totpService;
+        private readonly IJsonWriterService _jsonWriter;
         
-        public TotpController(ITotpService totpService)
+        public TotpController(ITotpService totpService, IJsonWriterService jsonWriter)
         {
             _totpService = totpService;
+            _jsonWriter = jsonWriter;
         }
         
         [HttpGet]
@@ -32,7 +34,7 @@ namespace Web.Public.Controllers
                 Password = result
             };
             
-            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(passwordObject));
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(passwordObject));
         }
     }
 }

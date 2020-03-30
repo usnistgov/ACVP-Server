@@ -7,7 +7,7 @@ using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
 {
-    public class JsonService<T>
+    public class JsonReaderService<T> : IJsonReaderService<T>
         where T : IJsonObject
     {
         public T GetObjectFromBodyJson(string jsonBody)

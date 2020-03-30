@@ -1,5 +1,6 @@
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
+using Web.Public.Models;
 using Web.Public.Providers;
 using Web.Public.Services;
 
@@ -17,13 +18,15 @@ namespace Web.Public
             
             item.AddTransient<ITotpService, TotpService>();
             item.AddTransient<ITotpProvider, TotpProvider>();
-
             item.AddTransient<IJwtService, JwtService>();
 
+            item.AddTransient<IJsonWriterService, JsonWriterService>();
+            
             item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
 
             item.AddTransient<IOrganizationProvider, OrganizationProvider>();
             item.AddTransient<IOrganizationService, OrganizationService>();
+            item.AddTransient<IJsonReaderService<Organization>, JsonReaderService<Organization>>();
 
             item.AddTransient<IAddressProvider, AddressProvider>();
             item.AddTransient<IAddressService, AddressService>();

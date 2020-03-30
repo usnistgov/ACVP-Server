@@ -1,8 +1,9 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
+using Web.Public.Results;
+using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
@@ -11,10 +12,12 @@ namespace Web.Public.Controllers
     public class AlgorithmController : ControllerBase
     {
         private readonly IAlgorithmProvider _algorithmProvider;
+        private readonly IJsonWriterService _jsonWriter;
 
-        public AlgorithmController(IAlgorithmProvider algorithmProvider)
+        public AlgorithmController(IAlgorithmProvider algorithmProvider, IJsonWriterService jsonWriter)
         {
             _algorithmProvider = algorithmProvider;
+            _jsonWriter = jsonWriter;
         }
 
         [HttpGet]
@@ -22,7 +25,7 @@ namespace Web.Public.Controllers
         {
             // Retrieve and return listing
             var list = _algorithmProvider.GetAlgorithmList();
-            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(new AlgorithmListObject {AlgorithmList = list}));
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new AlgorithmListObject {AlgorithmList = list}));
         }
 
         [HttpGet("{id}")]
@@ -32,7 +35,7 @@ namespace Web.Public.Controllers
             if (algo == null)
             {
                 return new JsonHttpStatusResult(
-                    JsonHelper.BuildVersionedObject(
+                    _jsonWriter.BuildVersionedObject(
                     new ErrorObject
                             {
                                 Error = $"No algorithm matches provided id: {id}"
@@ -40,7 +43,7 @@ namespace Web.Public.Controllers
                     HttpStatusCode.NotFound);
             }
             
-            return new JsonHttpStatusResult(JsonHelper.BuildVersionedObject(algo));
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(algo));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Web.Public.Tests
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\", \"phoneNumbers\": [{\"number\": \"555-555-0001\", \"type\": \"phone\"}, {\"number\": \"555-555-0002\", \"type\": \"fax\"}]}]")]
         public void ShouldDeserializeOrganizationObjects(string json)
         {
-            var jsonParser = new JsonService<Organization>();
+            var jsonParser = new JsonReaderService<Organization>();
             Organization result;
             try
             {

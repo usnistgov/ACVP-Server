@@ -1,4 +1,4 @@
-namespace Web.Public.Helpers
+namespace Web.Public.Models
 {
     public class PagingOptions
     {

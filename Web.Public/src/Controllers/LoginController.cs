@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Web.Public.Helpers;
 using Web.Public.JsonObjects;
+using Web.Public.Results;
 using Web.Public.Services;
 
 namespace Web.Public.Controllers
@@ -12,11 +12,13 @@ namespace Web.Public.Controllers
     {
         private readonly ITotpService _totpService;
         private readonly IJwtService _jwtService;
+        private readonly IJsonWriterService _jsonWriter;
         
-        public LoginController(ITotpService totpService, IJwtService jwtService)
+        public LoginController(ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter)
         {
             _totpService = totpService;
             _jwtService = jwtService;
+            _jsonWriter = jsonWriter;
         }
         
         // TODO is it possible to separate the methods based on the body coming in?
@@ -41,7 +43,7 @@ namespace Web.Public.Controllers
                 };
                 
                 return new JsonHttpStatusResult(
-                    JsonHelper.BuildVersionedObject(
+                    _jsonWriter.BuildVersionedObject(
                         errorObject),
                     HttpStatusCode.Forbidden);
             }
@@ -56,13 +58,13 @@ namespace Web.Public.Controllers
                 };
                 
                 return new JsonHttpStatusResult(
-                    JsonHelper.BuildVersionedObject(
+                    _jsonWriter.BuildVersionedObject(
                         errorObject), 
                     HttpStatusCode.Forbidden);
             }
 
             return new JsonHttpStatusResult(
-                JsonHelper.BuildVersionedObject(
+                _jsonWriter.BuildVersionedObject(
                     new JwtObject
                     {
                         AccessToken = tokenResult.Token

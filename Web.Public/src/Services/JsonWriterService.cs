@@ -4,17 +4,17 @@ using System.Text.Json;
 using ACVPWorkflow;
 using Web.Public.JsonObjects;
 
-namespace Web.Public.Helpers
+namespace Web.Public.Services
 {
-    public static class JsonHelper
+    public class JsonWriterService : IJsonWriterService
     {
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions
+        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             IgnoreNullValues = true
         };
         
-        public static object BuildVersionedObject(object content)
+        public object BuildVersionedObject(object content)
         {
             var versionObject = new VersionObject
             {
@@ -25,16 +25,16 @@ namespace Web.Public.Helpers
             using (var writer = new Utf8JsonWriter(stream))
             {
                 writer.WriteStartArray();
-                JsonSerializer.Serialize(writer, versionObject, JsonSerializerOptions);
-                JsonSerializer.Serialize(writer, content, JsonSerializerOptions);
+                JsonSerializer.Serialize(writer, versionObject, _jsonSerializerOptions);
+                JsonSerializer.Serialize(writer, content, _jsonSerializerOptions);
                 writer.WriteEndArray();
             }
 
             // This kinda sucks but prevents "double json" results using JsonResult
-            return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), JsonSerializerOptions);
+            return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), _jsonSerializerOptions);
         }
 
-        public static string BuildRequestObject(long requestId, APIAction apiActionId, long userId, object content)
+        public string BuildRequestObject(long requestId, APIAction apiActionId, long userId, object content)
         {
             var reqObject = new RequestObject
             {

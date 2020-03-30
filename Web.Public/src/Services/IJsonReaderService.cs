@@ -3,7 +3,7 @@ using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
 {
-    public interface IJsonService<out T>
+    public interface IJsonReaderService<out T>
         where T : IJsonObject
     {
         T GetObjectFromBodyJson(string jsonBody);
