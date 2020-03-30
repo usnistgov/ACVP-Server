@@ -1,0 +1,20 @@
+using System.Collections.Generic;
+using NIST.CVP.Algorithms.External;
+using Web.Public.Providers;
+
+namespace Web.Public.Services
+{
+    public class AlgorithmService : IAlgorithmService
+    {
+        private readonly IAlgorithmProvider _algoProvider;
+
+        public AlgorithmService(IAlgorithmProvider algoProvider)
+        {
+            _algoProvider = algoProvider;
+        }
+
+        public IEnumerable<AlgorithmBase> GetAlgorithmList() => _algoProvider.GetAlgorithmList();
+
+        public AlgorithmBase GetAlgorithm(int id) => _algoProvider.GetAlgorithm(id);
+    }
+}

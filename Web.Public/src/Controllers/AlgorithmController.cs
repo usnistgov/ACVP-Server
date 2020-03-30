@@ -1,7 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
-using Web.Public.Providers;
 using Web.Public.Results;
 using Web.Public.Services;
 
@@ -11,12 +10,12 @@ namespace Web.Public.Controllers
     [ApiController]
     public class AlgorithmController : ControllerBase
     {
-        private readonly IAlgorithmProvider _algorithmProvider;
+        private readonly IAlgorithmService _algoService;
         private readonly IJsonWriterService _jsonWriter;
 
-        public AlgorithmController(IAlgorithmProvider algorithmProvider, IJsonWriterService jsonWriter)
+        public AlgorithmController(IAlgorithmService algoService, IJsonWriterService jsonWriter)
         {
-            _algorithmProvider = algorithmProvider;
+            _algoService = algoService;
             _jsonWriter = jsonWriter;
         }
 
@@ -24,14 +23,14 @@ namespace Web.Public.Controllers
         public JsonHttpStatusResult GetAlgorithmList()
         {
             // Retrieve and return listing
-            var list = _algorithmProvider.GetAlgorithmList();
+            var list = _algoService.GetAlgorithmList();
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new AlgorithmListObject {AlgorithmList = list}));
         }
 
         [HttpGet("{id}")]
         public JsonHttpStatusResult GetAlgorithmProperties(int id)
         {
-            var algo = _algorithmProvider.GetAlgorithm(id);
+            var algo = _algoService.GetAlgorithm(id);
             if (algo == null)
             {
                 return new JsonHttpStatusResult(

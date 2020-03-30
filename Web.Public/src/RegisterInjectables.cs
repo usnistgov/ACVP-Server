@@ -23,6 +23,7 @@ namespace Web.Public
             item.AddTransient<IJsonWriterService, JsonWriterService>();
             
             item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
+            item.AddTransient<IAlgorithmService, AlgorithmService>();
 
             item.AddTransient<IOrganizationProvider, OrganizationProvider>();
             item.AddTransient<IOrganizationService, OrganizationService>();
