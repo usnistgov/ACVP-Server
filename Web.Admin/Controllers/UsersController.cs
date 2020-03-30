@@ -19,7 +19,7 @@ namespace Web.Admin.Controllers
         }
         
         [HttpPost]
-        public ActionResult<WrappedEnumerable<AcvpUserLite>> Get(AcvpUserListParameters param)
+        public ActionResult<PagedEnumerable<AcvpUserLite>> Get(AcvpUserListParameters param)
         {
             if (param == null)
                 return new BadRequestResult();
