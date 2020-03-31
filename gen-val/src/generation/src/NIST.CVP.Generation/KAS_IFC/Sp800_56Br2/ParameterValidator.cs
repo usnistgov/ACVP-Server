@@ -313,12 +313,12 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
-            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
+            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.PublicExponent))
             {
                 errorResults.Add("Valid fixed public exponent required for this method of key generation");
             }
 
-            if (!requiresFixedPublicKey && keyGenBase.FixedPublicExponent != 0)
+            if (!requiresFixedPublicKey && keyGenBase.PublicExponent != 0)
             {
                 errorResults.Add("Unexpected fixed public exponent");
             }

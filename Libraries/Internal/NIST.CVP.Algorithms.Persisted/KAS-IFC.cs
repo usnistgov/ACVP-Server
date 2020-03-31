@@ -142,7 +142,7 @@ namespace NIST.CVP.Algorithms.Persisted
 
 		public class KeyGenerationMethodModuloFixedPubExp : KeyGenerationMethodModulo
 		{
-			[AlgorithmProperty(Name = "fixedPublicExponent", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "fixedPubExp", PrependParentPropertyName = true)]
 			public string FixedPublicExponent { get; set; }
 
 			public static KeyGenerationMethodModuloFixedPubExp Create(External.KAS_IFC.KeyGenerationMethodModuloFixedPubExp externalKeyGenerationMethodModuloFixedPubExp) => externalKeyGenerationMethodModuloFixedPubExp == null ? null : new KeyGenerationMethodModuloFixedPubExp

@@ -64,9 +64,9 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     var keyGenMethods = GetKeyGenMethods(schemeBase);
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
-                        var exponent = keyGenerationMethod.FixedPublicExponent == 0
+                        var exponent = keyGenerationMethod.PublicExponent == 0
                             ? DefaultExponent
-                            : keyGenerationMethod.FixedPublicExponent;
+                            : keyGenerationMethod.PublicExponent;
 
                         foreach (var modulo in GetModulos(keyGenerationMethod))
                         {

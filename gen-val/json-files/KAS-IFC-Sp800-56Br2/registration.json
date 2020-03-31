@@ -14,14 +14,14 @@
         "responder"
       ],
       "keyGenerationMethods": {
-        "rsakpg2-crt": {
-          "keyGenerationMethod": "rsakpg2-crt",
-          "keyGenerationMode": "random",
+        "rsakpg1-crt": {
+          "keyGenerationMethod": "rsakpg1-crt",
+          "keyGenerationMode": "fixed",
           "privateKeyMode": "crt",
           "modulo": [
             2048
           ],
-          "fixedPublicExponent": ""
+          "fixedPubExp": "010001"
         }
       },
       "kdfMethods": {
