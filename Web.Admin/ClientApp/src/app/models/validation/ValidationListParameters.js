@@ -14,16 +14,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var PagedEnumerable_1 = require("../responses/PagedEnumerable");
-var ProductListParameters = /** @class */ (function (_super) {
-    __extends(ProductListParameters, _super);
-    function ProductListParameters(name, id, description) {
+var ValidationListParameters = /** @class */ (function (_super) {
+    __extends(ValidationListParameters, _super);
+    function ValidationListParameters(validationId, validationLabel, productName) {
         var _this = _super.call(this) || this;
-        _this.name = name;
-        _this.id = id;
-        _this.description = description;
+        _this.validationId = validationId;
+        _this.validationLabel = validationLabel;
+        _this.productName = productName;
         return _this;
     }
-    return ProductListParameters;
+    return ValidationListParameters;
 }(PagedEnumerable_1.PagedEnumerable));
-exports.ProductListParameters = ProductListParameters;
-//# sourceMappingURL=ProductListParameters.js.map
+exports.ValidationListParameters = ValidationListParameters;
+//# sourceMappingURL=ValidationListParameters.js.map

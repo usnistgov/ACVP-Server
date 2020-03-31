@@ -35,11 +35,11 @@ export class ProductProviderService {
       "id": parseInt(params.id) // Because text inputs must bind to strings, but the API takes integers
     }
 
-    return this.http.post<ProductList>(this.apiRoot + '/Products', slightlyReformatted);
+    return this.http.post<ProductList>(this.apiRoot + '/Implementations', slightlyReformatted);
   };
 
   updateProduct(product: Product) {
-    return this.http.patch(this.apiRoot + '/Products/' + product.id, product);
+    return this.http.patch(this.apiRoot + '/Implementations/' + product.id, product);
   }
   updateAddress(address: Address) {
     return this.http.patch(this.apiRoot + '/Addresses/' + address.id, address);
