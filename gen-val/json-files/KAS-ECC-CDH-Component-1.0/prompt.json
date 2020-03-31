@@ -1,0 +1,405 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-ECC",
+  "mode": "CDH-Component",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "curve": "P-192",
+      "tests": [
+        {
+          "tcId": 1,
+          "publicServerX": "0FD14E304356213E377F182489B1A402DFEC75F6B6ED1BCB",
+          "publicServerY": "BC918DE33FBAFA179BCB4F7F3827136BB2F5239404026E76"
+        },
+        {
+          "tcId": 2,
+          "publicServerX": "B82FFDB451E3E9F06503928EF234AD7ED49C904474532F32",
+          "publicServerY": "D4ABF6CC01F47A7FFD921FE5F5321308825D03C480365B08"
+        },
+        {
+          "tcId": 3,
+          "publicServerX": "26881DD9DE5E41DC72E6B536D46528A85A4498D1B89D162F",
+          "publicServerY": "B595A1370B07B54AE282DD879574AAAB7F9915825E2F7FF2"
+        },
+        {
+          "tcId": 4,
+          "publicServerX": "F1BB6276030EC3B0D7C8CDE16721FE06CD14E6591CB755D1",
+          "publicServerY": "B67C27ABB8E42F555B17CD9A09A1D8DEBD4A6B2BCF4F9D9D"
+        },
+        {
+          "tcId": 5,
+          "publicServerX": "18945C8D300E69822E6931C6422BD6C272F9EA8D09240F8D",
+          "publicServerY": "56D8810CC03776D2E77F34DFA17D2F53C3235EB24AD17A27"
+        },
+        {
+          "tcId": 6,
+          "publicServerX": "72EDAAD6734A398768928130EC7929101D3ACC73896A5C9A",
+          "publicServerY": "16906055EC3211F4B4446B0EF6E868925F42A2AEAFC1D290"
+        },
+        {
+          "tcId": 7,
+          "publicServerX": "B11393E4A0939810CCCA26CBC819B944E847B3F8B45127F3",
+          "publicServerY": "6A5B28FAD0E42408CE949179EE019319ACE39BCA44862021"
+        },
+        {
+          "tcId": 8,
+          "publicServerX": "4F26C2FC7CDEED0DE66B3309B8E1555C9D2352AE39D97873",
+          "publicServerY": "DBB3C15150BE8D0A9C00F0FCE08F8AA47E2EB4A8510E1918"
+        },
+        {
+          "tcId": 9,
+          "publicServerX": "39D95B9C1E8DD9967D9081ACCDAB6B8F6CC5CFDEBD68238A",
+          "publicServerY": "048BC4181A9FDCE3660BB69255592EEF0098061F4C0C581D"
+        },
+        {
+          "tcId": 10,
+          "publicServerX": "ACFBCAA9F799A1EA8D942BF8EC6328D381F97BED5E84FCBA",
+          "publicServerY": "1CC5A99882994C62687B588C58B60646ACDC0ABFD34E4286"
+        },
+        {
+          "tcId": 11,
+          "publicServerX": "B514E24D333D95E3CC757D35A1B82ABAE70EC414B986E97A",
+          "publicServerY": "0673A1F9EC2CAECFF7C24797E24B02D53988A0BA336C23C4"
+        },
+        {
+          "tcId": 12,
+          "publicServerX": "9C2CF97BE2FEC6F955658D0F481C2B109D74202CDDC2A44A",
+          "publicServerY": "D29379560C33288B12E501243BD677E25BE03E1523BC69C8"
+        },
+        {
+          "tcId": 13,
+          "publicServerX": "2670EE13AF00ACB528B6ED6813CF59FF3172BC7AEB1E48AF",
+          "publicServerY": "B671101DD4F7B7386F47AE1CB0EBD04D9A3E1F0BB2590EFE"
+        },
+        {
+          "tcId": 14,
+          "publicServerX": "975E3E33A5C8B8A9C42F06F796F70C4A4362567E61EA5252",
+          "publicServerY": "54C029A9B43DEE7B3777C1C7F642F230CFD9F8049F82A3DD"
+        },
+        {
+          "tcId": 15,
+          "publicServerX": "F694C9726D54AF0476CE6E5B54B8BFD7548D1EF60BFC2F9F",
+          "publicServerY": "6370240DA849376ACE2429CFD849BEE575D258675B3A2036"
+        },
+        {
+          "tcId": 16,
+          "publicServerX": "850A6258814D751FA56A5B5633C604355750A96C506E848A",
+          "publicServerY": "4C631B5AE376B4DDE2D4C2684A9493D521BE6D3B92E8AF5E"
+        },
+        {
+          "tcId": 17,
+          "publicServerX": "D48D505627AEC4EF75E14C1F1E777CA5B7DCBB71CBB455D0",
+          "publicServerY": "FB35DEBF20AD7EDE7D8BA3BF952A5070E60C28D1164487C0"
+        },
+        {
+          "tcId": 18,
+          "publicServerX": "09581FBCF74ACAADC423D38724E686B9767F1B076439186C",
+          "publicServerY": "4F44E56E6BD0A2408FB201935D33CA8685370F9B86B49BC4"
+        },
+        {
+          "tcId": 19,
+          "publicServerX": "3BD2749B2D9526688A163F5A15C960EB895AC85556710DBA",
+          "publicServerY": "C2230479720172884EFF4BEF84240C6B3E3F72E0CC146C9E"
+        },
+        {
+          "tcId": 20,
+          "publicServerX": "A98954D23E03D54E05C315AE89F0907106D238FA4FC95DC8",
+          "publicServerY": "416C4326C30555838B6D3094C849064D798A2C3DB6F24BC2"
+        },
+        {
+          "tcId": 21,
+          "publicServerX": "93A0CF378AECD5A47A4B2C4CE4CFED45DD9F8F115ED35F1F",
+          "publicServerY": "AA7B86729C165E7E640593FAEE1FD30894E1B2BA14505250"
+        },
+        {
+          "tcId": 22,
+          "publicServerX": "733F0FA8DAFC96712C323C1CDB903C92550E5B3C047BFA49",
+          "publicServerY": "5261665CA3567C6FDB32F601A0E255231C3C6A2A0BF0269D"
+        },
+        {
+          "tcId": 23,
+          "publicServerX": "824C637B5750DD499B11A59A937960F28E41C5A1905D160B",
+          "publicServerY": "964B6D908BF16DE372FDC1E8E7420EC8DE602294361BCB14"
+        },
+        {
+          "tcId": 24,
+          "publicServerX": "1EE818E7FE29DC976A4426686BBD7DA2CDA8AF46046C2AE4",
+          "publicServerY": "0A0A559A51082F807EACF52C7FC728FCC9425343FDB4CBA2"
+        },
+        {
+          "tcId": 25,
+          "publicServerX": "6D46FB3FBE2A760BDA02E6C4C5E9FB8DDA9CDD9DB0BF3A15",
+          "publicServerY": "3A2FDE49142CDBFC2C0DC0DA9BCFC62D1092A72CF5BF0177"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "curve": "K-163",
+      "tests": [
+        {
+          "tcId": 26,
+          "publicServerX": "06DB639CE61C099557CE2FF77C3558B30B31E08B4F",
+          "publicServerY": "04EC3297E5092DB495144D6AB97D0749C56BC55777"
+        },
+        {
+          "tcId": 27,
+          "publicServerX": "06A9E2BAFEC9530E28E119BB37BE3752B9BE366C50",
+          "publicServerY": "03A5C1E0EFD03D32926993D5F2331A9857B134219E"
+        },
+        {
+          "tcId": 28,
+          "publicServerX": "00E886D70AE05F461D2B54342F0F8009B243597382",
+          "publicServerY": "02F6C89ECDEC50D938EE4DF51D7AFB84EC39D65228"
+        },
+        {
+          "tcId": 29,
+          "publicServerX": "064E928057A515F7E145CE46B1FFC9D9176914058B",
+          "publicServerY": "0298E809F28C36210F8ACEE535F152B718467B1F3B"
+        },
+        {
+          "tcId": 30,
+          "publicServerX": "03E091B1D003053F42CE85F4680DEBD6F05167E93C",
+          "publicServerY": "0611F3863DFE3BC43FD7440398BAC85E67104C0AA0"
+        },
+        {
+          "tcId": 31,
+          "publicServerX": "07F8A6E91ABCBA0A81D88D5AA036D05FEDA1534D88",
+          "publicServerY": "01DBA5BDE9B481E4045F7457D83F49F8477A72DD18"
+        },
+        {
+          "tcId": 32,
+          "publicServerX": "03F9A34B9F3BF35EEA6B7C36A6D0F6DDE3753488B4",
+          "publicServerY": "04AFAE78FAD37BF14274DFABF84FB5C1DE21D7AD40"
+        },
+        {
+          "tcId": 33,
+          "publicServerX": "0734D1168F5E1505E293D73B9720C72062E133D734",
+          "publicServerY": "0304809DEC6D22385862D20EFFB4952D9014B279D2"
+        },
+        {
+          "tcId": 34,
+          "publicServerX": "00F0A966CC3602A6F3EC6C13ABFA3380BC25449624",
+          "publicServerY": "007879D88DC17CD5F628E3BE30EE7F1D19D0849460"
+        },
+        {
+          "tcId": 35,
+          "publicServerX": "07E4A1D81C5C3CEBA20308D339404367B630B12534",
+          "publicServerY": "01A0ADAE1D2FB4C269BAA94579C1D25E04EE9CE253"
+        },
+        {
+          "tcId": 36,
+          "publicServerX": "00C904B7D7B67581E5F5079A94C3792821459815E5",
+          "publicServerY": "05339155A0C6D511818D1181BDBE6E5A3C94E23B99"
+        },
+        {
+          "tcId": 37,
+          "publicServerX": "060FF9567AAF46613DFBDEAB2EABB8E4C335E753CB",
+          "publicServerY": "00727F988680CA065B03A784728B7EE507FBE4CF80"
+        },
+        {
+          "tcId": 38,
+          "publicServerX": "045B725D24DA2FDE7F00D440807550F1360AE2C693",
+          "publicServerY": "0250A74E63288E976E7EEAE1AF2AED65102748E71A"
+        },
+        {
+          "tcId": 39,
+          "publicServerX": "0519D6F91EF78D826B430421EAB6E65B7B0ADA3CB5",
+          "publicServerY": "05EEA55FD2D4722BCD5DECAF63E2C4D717F193B659"
+        },
+        {
+          "tcId": 40,
+          "publicServerX": "02D6554C90C9F968FEF8467A00377BED008D04CDFB",
+          "publicServerY": "052B1D7FF994554146520847718D7A2E8E35C6FD9F"
+        },
+        {
+          "tcId": 41,
+          "publicServerX": "03AB18182950EC1EBC54226D475B794AFDCADA5AC8",
+          "publicServerY": "07DC5213C3A9E52F7BB3D3C72CC621EDCC1EAD175A"
+        },
+        {
+          "tcId": 42,
+          "publicServerX": "03AB1FC7F11D07E1FD1181ED91AA89D5030E776D4C",
+          "publicServerY": "031EF8F0AA24FDAA767869DAA81F8F2E670934F201"
+        },
+        {
+          "tcId": 43,
+          "publicServerX": "02F3ADD51A66831C1E62999C971449A19184360FBC",
+          "publicServerY": "00A2137538C42EF4A210E673F55EAA0742A6157E54"
+        },
+        {
+          "tcId": 44,
+          "publicServerX": "0228DDA51DAAA4EBABEFDC753EAC0F354F9BDAFED4",
+          "publicServerY": "00AE40C130729EAAC1F826760CCF921DBC2E25045D"
+        },
+        {
+          "tcId": 45,
+          "publicServerX": "001046BAB479C4F901ACD4668BDA5ABE11035DE2C9",
+          "publicServerY": "067E3DD1FF2FF44D9E4C5B8DB8B6C74B47192CA53A"
+        },
+        {
+          "tcId": 46,
+          "publicServerX": "077BD87BECE344688AAFA9A1F72013BCAE84979CD2",
+          "publicServerY": "00EFD054B9BC0E9EA0CFDB569917ED07CE6B6B045F"
+        },
+        {
+          "tcId": 47,
+          "publicServerX": "07BDC3063C41472CBAFFCEEA0DC163326932819C7A",
+          "publicServerY": "07BAB21E3B246369C48B9F62A173086895651EB53B"
+        },
+        {
+          "tcId": 48,
+          "publicServerX": "06529484AE18D855F96B69B5DC6B244C4C3938C57F",
+          "publicServerY": "02791B3614B6947EA4B8F19C4CDC08837D8236D075"
+        },
+        {
+          "tcId": 49,
+          "publicServerX": "028984AED07C38A64B6A3F30A17DCAED5FE8D8B659",
+          "publicServerY": "062311A25F3A3C9C3F9FB1AF3E9F253C159C0D771E"
+        },
+        {
+          "tcId": 50,
+          "publicServerX": "02F16856F756D90FE14AFEFD7F1C9D60D36EC3D758",
+          "publicServerY": "006C12B95369117BD98750F2D74F339DB7F69C0660"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "curve": "B-163",
+      "tests": [
+        {
+          "tcId": 51,
+          "publicServerX": "050A948C306D48E7AF96C8C7B638F49CFA2C266AEF",
+          "publicServerY": "07547440D95CDAE9AF7A1EC54BFA821E79B51EB17D"
+        },
+        {
+          "tcId": 52,
+          "publicServerX": "06375299AC60225A83AE1BD95DCA44197792865D7C",
+          "publicServerY": "002CB27AAC4549D80709E2843BC20A76471DFE3705"
+        },
+        {
+          "tcId": 53,
+          "publicServerX": "051D5713472D344B4168B5BB6AA6D9562CAB6FFC7D",
+          "publicServerY": "060DAEE769061F76D081ED6D79AA9EF038A55148B7"
+        },
+        {
+          "tcId": 54,
+          "publicServerX": "0735B6FFEF454B489CC8AAAB54D4322FE014EA935C",
+          "publicServerY": "03489F5109DC4309AF8A3A8A4B730EB188475A0906"
+        },
+        {
+          "tcId": 55,
+          "publicServerX": "00CA876242855F609EA93571495D738ABED75F0E8F",
+          "publicServerY": "04208362E4837371DE3C80EE335746D7EC7C2F19F2"
+        },
+        {
+          "tcId": 56,
+          "publicServerX": "04AAB247DA2488B5A89A99A9531B824DD43AA51204",
+          "publicServerY": "012D728AE478858D6FC13ADFD89BA9D384142309CF"
+        },
+        {
+          "tcId": 57,
+          "publicServerX": "0777FA57150A1B7A5A24FE072234D8C184AE119A30",
+          "publicServerY": "038A36C046EF49A0B2027C2F4DF5ED18732086993E"
+        },
+        {
+          "tcId": 58,
+          "publicServerX": "038C74FB45A8AFB2AD13617A6D1EDE8F8B70C3184B",
+          "publicServerY": "04FF3B87EF615145C7AB5A0D1EDE9BE6B13B9B76F6"
+        },
+        {
+          "tcId": 59,
+          "publicServerX": "07BA13AA4B2E70303078073609A9691156C4B13DF2",
+          "publicServerY": "07F85DB429C75C6CBD4890188833B536F0C178DCC7"
+        },
+        {
+          "tcId": 60,
+          "publicServerX": "057B8689B219A2106B221A398CB1B980B07BDF4D5A",
+          "publicServerY": "04F60E421D52FFD8C35AD0145E093FB965FD4312A5"
+        },
+        {
+          "tcId": 61,
+          "publicServerX": "01A92E3A269D3B6AB597F37E46B9FE09A214E2A540",
+          "publicServerY": "02F236A7B72F9715B97DDCD4C84717DC50DC2D6B32"
+        },
+        {
+          "tcId": 62,
+          "publicServerX": "069FBE3F978990F42733E7505DC468AA85EB0AB3D3",
+          "publicServerY": "02AC56BB0E1A1E1F8F7B7189BDA5959A3741B55D6C"
+        },
+        {
+          "tcId": 63,
+          "publicServerX": "04A0A440972A2A04EE5ECC484387641DEE15CA005E",
+          "publicServerY": "04E4D53DE28C6222B784E1C06FD481880B89DF76B8"
+        },
+        {
+          "tcId": 64,
+          "publicServerX": "06BFDE42215C37017E4946C5B72D34D1370132B3E0",
+          "publicServerY": "04647CF9153BCB7EEECC8338832B1F331F56C5F168"
+        },
+        {
+          "tcId": 65,
+          "publicServerX": "05519D2B5C077D85CD55E816AAB2C378C7D8ED4A85",
+          "publicServerY": "036DD55283EBE124B2F77465D9FE1EF8B77AB8A41F"
+        },
+        {
+          "tcId": 66,
+          "publicServerX": "019136C9BA268CE230433EC18CE12DD0F37981A923",
+          "publicServerY": "023B3AE07ABABF92E169526D92887A643A44C0736B"
+        },
+        {
+          "tcId": 67,
+          "publicServerX": "0550FCDFB523BE4898F0F927B0B4810BAF8D98E6CF",
+          "publicServerY": "05DEB32F195FE1CBBE2B41CAAC1971C93CB8FC0830"
+        },
+        {
+          "tcId": 68,
+          "publicServerX": "005BADF8E56F56303808438FB7FD0160C0B6F4A42B",
+          "publicServerY": "030E0483C4AD58E5413F2753172F150069B19DA41F"
+        },
+        {
+          "tcId": 69,
+          "publicServerX": "04EB3ACAF0429950C70E5B9C3900FDD4487F29B838",
+          "publicServerY": "027BAFC888B787B59ECC144543D563300087F3BAE1"
+        },
+        {
+          "tcId": 70,
+          "publicServerX": "00A20145D323E2F0CAD8D6190BCA30DD9D0632BFDA",
+          "publicServerY": "03A5497E9F8FC35301E8016F0591EEF0C24314813E"
+        },
+        {
+          "tcId": 71,
+          "publicServerX": "0098EB12A09EE44575972310CC43E300AF3C7EB6E7",
+          "publicServerY": "05DBA0B9B0E430E76B2030F2AED54CFB3169B8EE2E"
+        },
+        {
+          "tcId": 72,
+          "publicServerX": "07D782B3467D3E34227102353CEA9C450B4E8D97B9",
+          "publicServerY": "040FE295F019609A1B63FCD924D8F67E17E9973E61"
+        },
+        {
+          "tcId": 73,
+          "publicServerX": "02343C8EA2A1C6460AE9B3350EFC154432E5CE2F5A",
+          "publicServerY": "02587F9B6D90CC1CB548468E1FC54BDA4D26BA5BCF"
+        },
+        {
+          "tcId": 74,
+          "publicServerX": "0108A53FC18F54A3A5050BF482B236C7C941ED6F3B",
+          "publicServerY": "04FA208B2F6CE9E23DAB60DF925A97D745EFD491E1"
+        },
+        {
+          "tcId": 75,
+          "publicServerX": "03B04555960E1C4ABFC23EE8AB01D2D664457D6F90",
+          "publicServerY": "070C6FC9FEBF8E712B3B2B6818837A7E03980B4804"
+        }
+      ]
+    }
+  ]
+}

@@ -68,6 +68,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
                     
                     KdfParameter = result.KdfParameter,
+                    KtsParameter = result.KtsParameter,
                     
                     MacKey = result.KasResult.MacKey,
                     MacData = result.KasResult.MacData,

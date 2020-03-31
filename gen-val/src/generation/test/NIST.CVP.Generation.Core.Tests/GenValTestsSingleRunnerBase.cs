@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.Common.Enums;
 using Serilog;
 
 namespace NIST.CVP.Generation.Core.Tests
@@ -45,8 +46,8 @@ namespace NIST.CVP.Generation.Core.Tests
         // Set this during a test if you want to save the json from the session
         private bool SaveJson = true;
 
-        private static readonly Logger GenLogger = LogManager.GetLogger("Generator");
-        private static readonly Logger ValLogger = LogManager.GetLogger("Validator");
+        protected static readonly Logger GenLogger = LogManager.GetLogger("Generator");
+        protected static readonly Logger ValLogger = LogManager.GetLogger("Validator");
 
         private IServiceProvider _serviceProvider;
 
@@ -205,7 +206,7 @@ namespace NIST.CVP.Generation.Core.Tests
             return targetFolder;
         }
 
-        protected async Task RunGeneration(string targetFolder, string fileName, bool overrideRegisteredDependencies)
+        protected async Task<GenerateResponse> RunGeneration(string targetFolder, string fileName, bool overrideRegisteredDependencies)
         {
             var registrationJson = FileService.ReadFile(fileName);
             
@@ -221,16 +222,18 @@ namespace NIST.CVP.Generation.Core.Tests
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[2]), result.PromptProjection, true);
 
                 Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+                return result;
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
                 Assert.Fail("Exception running Generator.");
+                return new GenerateResponse("Test fail", StatusCode.GeneratorError);
             }
         }
 
-        protected async Task RunValidation(string targetFolder)
+        protected async Task<ValidateResponse> RunValidation(string targetFolder)
         {
             var resultJson = FileService.ReadFile(Path.Combine(targetFolder, _testVectorFileNames[0]));
             var internalJson = FileService.ReadFile(Path.Combine(targetFolder, _testVectorFileNames[1]));
@@ -246,12 +249,14 @@ namespace NIST.CVP.Generation.Core.Tests
 
                 Assert.IsTrue(result.Success,
                     $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+                return result;
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
                 Assert.Fail("Exception running Validator.");
+                return new ValidateResponse("Test fail", StatusCode.ValidatorError);
             }
         }
 

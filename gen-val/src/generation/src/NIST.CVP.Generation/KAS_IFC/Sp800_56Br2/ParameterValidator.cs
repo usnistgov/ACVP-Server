@@ -136,6 +136,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             "algorithmId",
             "label"
         };
+        
+        private static readonly string[] ValidAssociatedDataPatternPieces =
+        {
+            "l",
+            "uPartyInfo",
+            "vPartyInfo",
+            "context",
+            "algorithmId",
+            "label"
+        };
         #endregion Validation statics
 
         private AlgoMode _algoMode;
@@ -567,15 +577,33 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|literal\[[0-9a-fA-F]+\])).)+$";
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (fiPieces?.Length == 0)
+            {
+                errorResults.Add($"Invalid {nameof(associatedDataPattern)} {associatedDataPattern}");
+            }
             foreach (var fiPiece in fiPieces)
             {
-                Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fiPiece))
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(associatedDataPattern)} has invalid element {fiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                    }
+                    
+                    continue;
+                }
+
+                if (!ValidAssociatedDataPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }

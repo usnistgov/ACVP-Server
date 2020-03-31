@@ -100,7 +100,8 @@ namespace Web.Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
+            if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()) 
+            || env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Dev.ToString()))
             {
                 app.UseDeveloperExceptionPage();
             }

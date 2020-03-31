@@ -2,10 +2,13 @@ using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyVer;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    public class GenValTest_SafePrime_KeyVer : GenValTestsSingleRunnerBase
+    [TestFixture, LongRunningIntegrationTest]
+    public class GenValTest_SafePrime_KeyVer : GenValTestsWithNoSample
     {
         public override AlgoMode AlgoMode => AlgoMode.SafePrimes_keyGen_v1_0;
         public override string Algorithm => "SafePrimes";
@@ -45,6 +48,20 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string folderName)
         {
             return GetTestFileFewTestCases(folderName);
+        }
+        
+        protected override string GetTestFileFewTestCasesNotSample(string folderName)
+        {
+            var p = new Parameters()
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Revision = Revision,
+                IsSample = false,
+                SafePrimeGroups = new []{ SafePrime.Ffdhe2048, SafePrime.Modp2048 }
+            };
+
+            return CreateRegistration(folderName, p);
         }
     }
 }
