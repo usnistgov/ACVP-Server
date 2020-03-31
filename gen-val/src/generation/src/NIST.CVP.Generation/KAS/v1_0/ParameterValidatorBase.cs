@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
@@ -333,6 +335,15 @@ namespace NIST.CVP.Generation.KAS.v1_0
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of oiPattern contained non hex values.");
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
                     }
                     
                     continue;

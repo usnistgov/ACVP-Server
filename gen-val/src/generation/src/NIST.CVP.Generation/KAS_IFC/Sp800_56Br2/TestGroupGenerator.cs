@@ -343,7 +343,17 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                             break;
                     }
 
-                    foreach (var saltMethod in auxFunction.MacSaltMethods.ToList().Shuffle().Take(1))
+                    var saltMethods = new List<MacSaltMethod>();
+                    if (auxFunction.MacSaltMethods != null && auxFunction.MacSaltMethods.Any())
+                    {
+                        saltMethods = auxFunction.MacSaltMethods.ToList().Shuffle().Take(1).ToList();
+                    }
+                    else
+                    {
+                        saltMethods.Add(MacSaltMethod.None);
+                    }
+                    
+                    foreach (var saltMethod in saltMethods)
                     {
                         list.Add(new OneStepConfiguration()
                         {
@@ -361,6 +371,22 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
         private AuxFunction[] GetKdfMethodAuxFunctions(OneStepKdf kdfMethod)
         {
+            var sha2 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA2_D224,
+                KasKdfOneStepAuxFunction.SHA2_D256,
+                KasKdfOneStepAuxFunction.SHA2_D384,
+                KasKdfOneStepAuxFunction.SHA2_D512,
+                KasKdfOneStepAuxFunction.SHA2_D512_T224,
+                KasKdfOneStepAuxFunction.SHA2_D512_T256,
+            };
+            var sha3 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA3_D224,
+                KasKdfOneStepAuxFunction.SHA3_D256,
+                KasKdfOneStepAuxFunction.SHA3_D384,
+                KasKdfOneStepAuxFunction.SHA3_D512,
+            };
             var hmacSha2 = new[]
             {
                 KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
@@ -386,6 +412,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             var registeredMacMethods = kdfMethod.AuxFunctions.ToList().Shuffle();
 
             var chosenAuxFunctions = new List<AuxFunction>();
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha2.Contains(f.AuxFunctionName)));
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => kmac.Contains(f.AuxFunctionName)));
