@@ -68,10 +68,6 @@
       <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
-      <None Remove="ClientApp\src\app\models\validation\Validation.ts" />
-      <None Remove="ClientApp\src\app\models\validation\ValidationList.ts" />
-      <None Remove="ClientApp\src\app\models\validation\ValidationListParameters.ts" />
-      <None Remove="ClientApp\src\app\models\validation\ValidationLite.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts" />
@@ -170,14 +166,6 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
-      <TypeScriptCompile Include="ClientApp\src\app\models\validation\ValidationListParameters.ts">
-        <SubType>Code</SubType>
-      </TypeScriptCompile>
-      <TypeScriptCompile Include="ClientApp\src\app\models\validation\ValidationLite.ts">
-        <SubType>Code</SubType>
-      </TypeScriptCompile>
-      <TypeScriptCompile Include="ClientApp\src\app\models\validation\Validation.ts" />
-      <TypeScriptCompile Include="ClientApp\src\app\models\validation\ValidationList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
@@ -227,16 +215,12 @@
       <None Update="ClientApp\src\app\models\Person\PersonPhone.ts">
         <SubType>Code</SubType>
       </None>
-      <None Update="ClientApp\src\app\models\validation\ValidationLite.js">
-        <DependentUpon>ValidationLite.ts</DependentUpon>
-      </None>
       <None Update="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.js">
         <DependentUpon>WorkflowStatus.enum.ts</DependentUpon>
       </None>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ClientApp\src\app\services\ajax\validation\" />
       <Folder Include="ClientApp\src\app\services\ajax\product\" />
     </ItemGroup>
 
