@@ -1,11 +1,12 @@
 ﻿using System;
-using NIST.CVP.Results;
-
+using System.Collections.Generic;
+using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Results;
 
-namespace ACVPCore.Providers
+namespace NIST.CVP.TaskQueue.Providers
 {
 	public class TaskQueueProvider : ITaskQueueProvider
 	{
@@ -52,6 +53,45 @@ namespace ACVPCore.Providers
 			}
 
 			return new Result();
+		}
+
+		public List<TaskQueueItem> List()
+		{
+			var db = new MightyOrm<TaskQueueItem>(_acvpConnectionString);
+
+			return db.QueryFromProcedure("common.TaskQueueList").ToList();
+		}
+
+		public Result Delete(long taskID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("common.TaskQueueDelete", inParams: new { TaskID = taskID });
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+		}
+
+		public Result RestartAll()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("common.TaskQueueRestart");
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
 		}
 	}
 }

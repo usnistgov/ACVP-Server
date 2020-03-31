@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ExtensionMethods",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.MessageQueue", "Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj", "{66CDF631-5B8B-4F0E-9116-ABC6A9E09414}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.TaskQueue", "Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj", "{0E72E539-0875-41EC-A383-CA195F18A2AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{66CDF631-5B8B-4F0E-9116-ABC6A9E09414}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66CDF631-5B8B-4F0E-9116-ABC6A9E09414}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66CDF631-5B8B-4F0E-9116-ABC6A9E09414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E72E539-0875-41EC-A383-CA195F18A2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E72E539-0875-41EC-A383-CA195F18A2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E72E539-0875-41EC-A383-CA195F18A2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E72E539-0875-41EC-A383-CA195F18A2AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

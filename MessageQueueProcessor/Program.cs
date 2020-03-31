@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.MessageQueue;
+using NIST.CVP.TaskQueue;
 using Serilog;
 
 namespace MessageQueueProcessor
@@ -52,6 +53,7 @@ namespace MessageQueueProcessor
 					services.InjectACVPWorkflow();
 					services.InjectDatabaseInterface();
 					services.InjectMessageQueue();
+					services.InjectTaskQueue();
 
 					//Inject local things
 					services.AddSingleton<IMessageProcessorFactory, MessageProcessorFactory>();

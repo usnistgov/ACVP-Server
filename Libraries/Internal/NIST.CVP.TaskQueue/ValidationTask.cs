@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ACVPCore
+﻿namespace NIST.CVP.TaskQueue
 {
 	public class ValidationTask
 	{
