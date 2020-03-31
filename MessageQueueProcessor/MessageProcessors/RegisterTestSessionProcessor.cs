@@ -1,7 +1,10 @@
 ﻿using System.Text.Json;
 using ACVPCore.Services;
-using MessageQueueProcessor.MessagePayloads;
+using NIST.CVP.MessageQueue;
+using NIST.CVP.MessageQueue.MessagePayloads;
 using NIST.CVP.Results;
+using NIST.CVP.TaskQueue;
+using NIST.CVP.TaskQueue.Services;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
@@ -37,7 +40,7 @@ namespace MessageQueueProcessor.MessageProcessors
 					if (vectorSetResult.IsSuccess)
 					{
 						//Add to the task queue
-						vectorSetResult = _taskQueueService.AddGenerationTask(new ACVPCore.GenerationTask
+						vectorSetResult = _taskQueueService.AddGenerationTask(new GenerationTask
 						{
 							IsSample = registerTestSessionPayload.IsSample,
 							VectorSetID = vectorSetRegistration.VectorSetID

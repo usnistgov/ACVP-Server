@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.Core
+﻿using System.Threading.Tasks;
+
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Used to generate a set test vectors for a provided JSON registration.
@@ -10,6 +12,6 @@
         /// </summary>
         /// <param name="generateRequest">The json representing an <see cref="IParameters"/>.</param>
         /// <returns></returns>
-        GenerateResponse Generate(GenerateRequest generateRequest);
+        Task<GenerateResponse> GenerateAsync(GenerateRequest generateRequest);
     }
 }

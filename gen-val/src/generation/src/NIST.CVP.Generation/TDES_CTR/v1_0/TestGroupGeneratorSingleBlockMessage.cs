@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TDES_CTR.v1_0
 {
-    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorSingleBlockMessage : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
         private const string INTERNAL_TEST_TYPE = "singleblock";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -34,7 +36,7 @@ namespace NIST.CVP.Generation.TDES_CTR.v1_0
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

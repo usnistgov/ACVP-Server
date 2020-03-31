@@ -1,8 +1,9 @@
-import { Injectable, Attribute } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Dependency } from '../../../models/dependency/dependency';
 import { DependencyList } from '../../../models/dependency/dependency-list';
 import { DependencyListParameters } from '../../../models/dependency/DependencyListParameters';
+import { Attribute } from '../../../models/dependency/attribute';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,6 @@ export class DependencyDataProviderService {
     // These need to be here because the API handles nulls but not empty strings well, so we
     // need to null-out anything that's an empty-string due to the angular two-way data binding to a text box
     if (params.name === "") { params.name = null; }
-    if (params.id === "") { params.id = null; }
     if (params.type === "") { params.type = null; }
     if (params.description === "") { params.description = null; }
 

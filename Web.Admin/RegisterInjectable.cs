@@ -5,6 +5,8 @@ using LCAVPCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.MessageQueue;
+using NIST.CVP.TaskQueue;
 using Web.Admin.Auth.Models;
 
 namespace Web.Admin
@@ -25,6 +27,8 @@ namespace Web.Admin
             item.InjectACVPCore();
             item.InjectACVPWorkflow();
             item.InjectLCAVPCore();
+            item.InjectMessageQueue();
+            item.InjectTaskQueue();
         }
     }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowOrganizationCreatePayload } from '../../../../models/Workflow/Organization/WorkflowOrganizationCreatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-organization-create',
@@ -13,17 +13,17 @@ export class WorkflowOrganizationCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowOrganizationCreatePayload>;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }

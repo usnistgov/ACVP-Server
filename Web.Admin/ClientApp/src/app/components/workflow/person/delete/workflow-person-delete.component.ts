@@ -2,8 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { Person } from '../../../../models/Person/Person';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
 
 @Component({
   selector: 'app-workflow-person-delete',
@@ -15,17 +16,17 @@ export class WorkflowPersonDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   currentState: Person;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private PersonService: PersonProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -50,7 +51,7 @@ export class WorkflowPersonDeleteComponent implements OnInit {
     this.workflowItem = item;
 
     // Go get the current state for comparison
-    this.ajs.getPerson(this.workflowItem.payload.id).subscribe(
+    this.PersonService.getPerson(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
       },

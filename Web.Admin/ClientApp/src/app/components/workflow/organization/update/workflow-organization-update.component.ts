@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowOrganizationUpdatePayload } from '../../../../models/Workflow/Organization/WorkflowOrganizationUpdatePayload';
 import { Organization } from '../../../../models/Organization/Organization';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
   selector: 'app-workflow-organization-update',
@@ -15,17 +16,17 @@ export class WorkflowOrganizationUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowOrganizationUpdatePayload>;
   currentState: Organization;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -50,7 +51,7 @@ export class WorkflowOrganizationUpdateComponent implements OnInit {
     this.workflowItem = item;
 
     // Go get the current state for comparison
-    this.ajs.getOrganization(this.workflowItem.payload.id).subscribe(
+    this.OrganizationService.getOrganization(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
         console.log(data);

@@ -108,7 +108,7 @@ namespace ACVPWorkflow.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("acvp.WorkflowItemsGet",
+				var dbResult = db.QueryWithExpando("val.WorkflowItemsGet",
 					new
 					{
 						param.PageSize,
@@ -130,7 +130,7 @@ namespace ACVPWorkflow.Providers
 				_logger.LogError(ex);
 			}
 
-			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public WorkflowItem GetWorkflowItem(long workflowItemId)
@@ -139,7 +139,7 @@ namespace ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("acvp.WorkflowItemGetById", new
+				var data = db.SingleFromProcedure("val.WorkflowItemGetById", new
 				{
 					workflowItemId
 				});

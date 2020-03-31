@@ -153,7 +153,7 @@ namespace ACVPCore.Providers
 					return null;
 				}
 
-				return implementations.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+				return implementations.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 			}
 			catch (Exception ex)
 			{

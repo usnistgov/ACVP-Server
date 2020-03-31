@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Generation.Core
+﻿using System.Threading.Tasks;
+
+namespace NIST.CVP.Generation.Core
 {
     /// <summary>
     /// Used to create <see cref="TTestCase"/>s for a <see cref="TTestVectorSet"/>.
@@ -16,6 +18,6 @@
         /// </summary>
         /// <param name="testVectorSet">The <see cref="TTestVectorSet"/> to base test case creation off of.</param>
         /// <returns></returns>
-        GenerateResponse BuildTestCases(TTestVectorSet testVectorSet);
+        Task<GenerateResponse> BuildTestCasesAsync(TTestVectorSet testVectorSet);
     }
 }

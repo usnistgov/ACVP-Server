@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
             _oracle = oracle;
         }
         
+        
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             if (isSample)

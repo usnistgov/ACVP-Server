@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { Person } from '../../../../models/Person/Person';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Router } from '@angular/router';
 import { WorkflowPersonUpdatePayload } from '../../../../models/Workflow/Person/WorkflowPersonUpdatePayload';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
+import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
 
 @Component({
   selector: 'app-workflow-person-update',
@@ -15,17 +17,17 @@ export class WorkflowPersonUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowPersonUpdatePayload>;
   currentState: Person;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private PersonService: PersonProviderService, private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -55,7 +57,7 @@ export class WorkflowPersonUpdateComponent implements OnInit {
 
       let splitsArr = this.workflowItem.payload.organizationUrl.split('/');
 
-      this.ajs.getOrganization(parseInt(splitsArr[splitsArr.length-1])).subscribe(
+      this.OrganizationService.getOrganization(parseInt(splitsArr[splitsArr.length-1])).subscribe(
         data => {
           this.workflowItem.payload.organization = data;
         },
@@ -65,7 +67,7 @@ export class WorkflowPersonUpdateComponent implements OnInit {
     }
 
     // Go get the current state for comparison
-    this.ajs.getPerson(this.workflowItem.payload.id).subscribe(
+    this.PersonService.getPerson(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
         console.log(data);

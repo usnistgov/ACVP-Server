@@ -1,20 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using NIST.CVP.Common.Config;
-using NIST.CVP.Common.Interfaces;
 using NIST.CVP.Common.Oracle;
-using NIST.CVP.Common.Oracle.ResultTypes;
-using NIST.CVP.Common.Services;
-using NIST.CVP.Crypto.Oracle;
-using NIST.CVP.Pools;
-using NIST.CVP.Pools.Interfaces;
-using NIST.CVP.Pools.Services;
 using NLog;
 
 namespace NIST.CVP.PoolAPI
@@ -25,7 +13,7 @@ namespace NIST.CVP.PoolAPI
 
         public Startup(IConfiguration config)
         {
-            LogManager.GetCurrentClassLogger().Info("Startup service ctor.");
+            Logger.Info("Startup service ctor.");
             Configuration = config;
         }
 
@@ -34,7 +22,7 @@ namespace NIST.CVP.PoolAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            LogManager.GetCurrentClassLogger().Info("Configuring IOC container.");
+            Logger.Info("Configuring IOC container.");
 
             services.AddCors(options =>
             {
@@ -53,17 +41,13 @@ namespace NIST.CVP.PoolAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, IHostApplicationLifetime applicationLifetime, IOracle oracle)
         {
-            LogManager.GetCurrentClassLogger().Info("Configuring Startup service...");
-
+            Logger.Info("Configuring Startup service...");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                //app.UseHsts();
             }
 
             app.UseRouting();
@@ -73,7 +57,18 @@ namespace NIST.CVP.PoolAPI
                 endpoints.MapControllers();
             });
 
-            LogManager.GetCurrentClassLogger().Info("Startup service configured.");
+            applicationLifetime.ApplicationStarted.Register(() =>
+            {
+                oracle.InitializeClusterClient().Wait();
+            });
+            applicationLifetime.ApplicationStopping.Register(() =>
+            {
+                oracle.CloseClusterClient().Wait();
+            });
+            
+            Logger.Info("Startup service configured.");
         }
+
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
     }
 }

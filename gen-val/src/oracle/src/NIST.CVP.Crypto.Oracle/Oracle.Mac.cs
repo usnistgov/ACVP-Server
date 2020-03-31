@@ -23,7 +23,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetCmacCaseAsync(param);
             }
         }
@@ -40,7 +40,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetHmacCaseAsync(param);
             }
         }
@@ -57,7 +57,7 @@ namespace NIST.CVP.Crypto.Oracle
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
-                ThisLogger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetKmacCaseAsync(param);
             }
         }

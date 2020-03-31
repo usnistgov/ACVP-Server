@@ -223,8 +223,8 @@ namespace ACVPCore.Providers
 					OEID = oeID
 				});
  
-				OEResult.ID = OEData.id;
-				OEResult.Name = OEData.name;
+				OEResult.ID = OEData.Id;
+				OEResult.Name = OEData.Name;
 
 				var data = db.QueryFromProcedure("val.OEDependenciesGet", inParams: new
 				{
@@ -276,7 +276,7 @@ namespace ACVPCore.Providers
 				_logger.LogError(ex.Message);
 			}
 
-			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {
-        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 

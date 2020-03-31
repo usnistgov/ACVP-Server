@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
-import { Dependency } from '../../../../models/dependency/dependency';
 import { Router } from '@angular/router';
 import { OperatingEnvironmentUpdatePayload } from '../../../../models/Workflow/OperatingEnvironment/OperatingEnvironmentUpdatePayload';
 import { OperatingEnvironment } from '../../../../models/operatingEnvironment/operatingEnvironment';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
   selector: 'app-workflow-oe-update',
@@ -17,7 +17,7 @@ export class WorkflowOeUpdateComponent implements OnInit {
   currentState: OperatingEnvironment;
   objectKeys = Object.keys;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private OEService: OperatingEnvironmentProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   shouldAttributeBeDisplayed(key: string) {
     if (key == "id" || key == "isInlineCreate") {
@@ -27,14 +27,14 @@ export class WorkflowOeUpdateComponent implements OnInit {
   }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -63,7 +63,7 @@ export class WorkflowOeUpdateComponent implements OnInit {
       // Frustratingly, the API still provide the name, type, and description fields on existing ones, but they're always
       // null, as a result of an issue with the API-side modeling.  Something to fix later on the server-side and then we can remove this block (TODO)
       if (this.workflowItem.payload.dependencies[i].isInlineCreate == false) {
-        this.ajs.getDependency(this.workflowItem.payload.dependencies[i].id).subscribe(
+        this.OEService.getDependency(this.workflowItem.payload.dependencies[i].id).subscribe(
           data => {
             this.workflowItem.payload.dependencies[i] = data;
             this.workflowItem.payload.dependencies[i].isInlineCreate = false;
@@ -75,7 +75,7 @@ export class WorkflowOeUpdateComponent implements OnInit {
       }
     }
     
-    this.ajs.getOE(this.workflowItem.payload.id).subscribe(
+    this.OEService.getOE(this.workflowItem.payload.id).subscribe(
       data => {
         this.currentState = data;
       },

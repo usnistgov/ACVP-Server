@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../../models/Person/Person';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
 import { PersonPhone } from '../../models/Person/PersonPhone';
 import { PersonNote } from '../../models/Person/PersonNote';
+import { PersonProviderService } from '../../services/ajax/person/person-provider.service';
 
 @Component({
   selector: 'app-validation-db-person',
@@ -27,7 +27,7 @@ export class ValidationDbPersonComponent implements OnInit {
   //newNoteData = new PersonNote();
   //newNoteFlag = false;
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private PersonService: PersonProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
 
   submitNewPhone() {
 
@@ -42,7 +42,7 @@ export class ValidationDbPersonComponent implements OnInit {
     patchBody.phoneNumbers.push(this.newPhoneData);
 
     // And final, submit it
-    this.ajs.updatePerson(patchBody).subscribe(
+    this.PersonService.updatePerson(patchBody).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });;
@@ -59,7 +59,7 @@ export class ValidationDbPersonComponent implements OnInit {
     // And remove the relevant one (this is perhaps a bit wordy, but hopefully is readable)
     patchBody.phoneNumbers.splice(index, 1);
 
-    this.ajs.updatePerson(patchBody).subscribe(
+    this.PersonService.updatePerson(patchBody).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
@@ -75,7 +75,7 @@ export class ValidationDbPersonComponent implements OnInit {
 
     patchBody.emailAddresses.push(this.newEmailData);
     console.log('submitting data now.');
-    this.ajs.updatePerson(patchBody).subscribe(
+    this.PersonService.updatePerson(patchBody).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
@@ -92,7 +92,7 @@ export class ValidationDbPersonComponent implements OnInit {
     // And remove the relevant one (this is perhaps a bit wordy, but hopefully is readable)
     patchBody.emailAddresses.splice(index, 1);
 
-    this.ajs.updatePerson(patchBody).subscribe(
+    this.PersonService.updatePerson(patchBody).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
@@ -124,14 +124,14 @@ export class ValidationDbPersonComponent implements OnInit {
 
     patchBody.name = this.referenceCopyPerson.name;
 
-    this.ajs.updatePerson(patchBody).subscribe(
+    this.PersonService.updatePerson(patchBody).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
   }
 
   refreshPageData() {
-    this.ajs.getPerson(this.selectedPerson.id).subscribe(
+    this.PersonService.getPerson(this.selectedPerson.id).subscribe(
       data => {
         this.selectedPerson = JSON.parse(JSON.stringify(data));
         this.referenceCopyPerson = JSON.parse(JSON.stringify(data));
@@ -150,7 +150,7 @@ export class ValidationDbPersonComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getPerson(parseInt(params.get("id"))).subscribe(
+      this.PersonService.getPerson(parseInt(params.get("id"))).subscribe(
         data => { this.selectedPerson = JSON.parse(JSON.stringify(data)); this.referenceCopyPerson = JSON.parse(JSON.stringify(data)); },
         err => { },
         () => { })

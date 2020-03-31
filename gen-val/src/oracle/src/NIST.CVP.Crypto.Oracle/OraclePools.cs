@@ -19,12 +19,11 @@ namespace NIST.CVP.Crypto.Oracle
         private readonly IHttpClientFactory _httpClientFactory;
 
         public OraclePools(
-            IDbConnectionStringFactory dbConnectionStringFactory,
-            IOptions<EnvironmentConfig> environmentConfig, 
+            IClusterClientFactory clusterClientFactory,
             IOptions<OrleansConfig> orleansConfig,
             IOptions<PoolConfig> poolConfig,
             IHttpClientFactory httpClientFactory
-        ) : base(dbConnectionStringFactory, environmentConfig, orleansConfig)
+        ) : base(clusterClientFactory, orleansConfig)
         {
             _rsaKeyComposerFactory = new KeyComposerFactory();
             _poolConfig = poolConfig;

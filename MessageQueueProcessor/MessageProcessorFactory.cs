@@ -3,6 +3,7 @@ using ACVPCore.Services;
 using ACVPWorkflow;
 using ACVPWorkflow.Services;
 using MessageQueueProcessor.MessageProcessors;
+using NIST.CVP.TaskQueue.Services;
 
 namespace MessageQueueProcessor
 {

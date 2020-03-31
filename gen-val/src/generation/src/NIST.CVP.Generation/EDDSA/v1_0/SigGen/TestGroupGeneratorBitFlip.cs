@@ -10,7 +10,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
 {
-    public class TestGroupGeneratorBitFlip : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorBitFlip : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "BFT";
 
@@ -21,13 +21,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var groups = BuildTestGroupsAsync(parameters);
-            return groups.Result.ToArray();
-        }
-
-        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -84,7 +78,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
                 }
             }
 
-            return testGroups;
+            return testGroups.ToList();
         }
     }
 }

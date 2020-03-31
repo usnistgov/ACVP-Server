@@ -21,6 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
     <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj" />
     <ProjectReference Include="..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
     <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
   </ItemGroup>

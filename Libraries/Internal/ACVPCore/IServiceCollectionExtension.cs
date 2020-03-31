@@ -16,8 +16,6 @@ namespace ACVPCore
 			services.AddSingleton<ITestSessionProvider, TestSessionProvider>();
 			services.AddSingleton<IVectorSetService, VectorSetService>();
 			services.AddSingleton<IVectorSetProvider, VectorSetProvider>();
-			services.AddSingleton<ITaskQueueService, TaskQueueService>();
-			services.AddSingleton<ITaskQueueProvider, TaskQueueProvider>();
 			services.AddSingleton<IDependencyService, DependencyService>();
 			services.AddSingleton<IDependencyProvider, DependencyProvider>();
 			services.AddSingleton<IOEService, OEService>();

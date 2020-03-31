@@ -1,15 +1,17 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
 {
-    public class TestGroupGeneratorAft : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorAft : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
 
@@ -88,7 +90,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

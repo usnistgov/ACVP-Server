@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDependencyUpdatePayload } from '../../../../models/Workflow/Dependency/WorkflowDependencyUpdatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
 import { Dependency } from '../../../../models/dependency/dependency';
 import { Router } from '@angular/router';
+import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-dependency-update',
@@ -16,17 +17,17 @@ export class WorkflowDependencyUpdateComponent implements OnInit {
   currentState: Dependency;
   objectKeys = Object.keys;
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private DependencyDataService: DependencyDataProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
@@ -53,7 +54,7 @@ export class WorkflowDependencyUpdateComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowDependencyUpdatePayload>) {
     this.workflowItem = item;
 
-    this.ajs.getDependency(this.workflowItem.payload.id).subscribe(
+    this.DependencyDataService.getDependency(this.workflowItem.payload.id).subscribe(
       data => { this.currentState = data; console.log(this.currentState); },
       err => { },
       () => { }

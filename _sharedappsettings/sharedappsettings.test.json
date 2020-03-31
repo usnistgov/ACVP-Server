@@ -37,8 +37,6 @@
     "OrleansGatewayPort": 30000,
     "ClusterId":  "cryptoDist-test",
     "MinimumLogLevel": "Warning",
-    "UseConsoleLogging": false,
-    "UseFileLogging": true,
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 4,
     "LoadSheddingCpuThreshold": 0,

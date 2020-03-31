@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service'
 import { DependencyList } from '../../models/dependency/dependency-list';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DependencyDataProviderService } from '../../services/ajax/dependency/dependency-data-provider.service';
@@ -63,7 +62,6 @@ export class ValidationDbDependenciesComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.listData = new DependencyListParameters("","","");
     this.dependencies = new DependencyList();
 

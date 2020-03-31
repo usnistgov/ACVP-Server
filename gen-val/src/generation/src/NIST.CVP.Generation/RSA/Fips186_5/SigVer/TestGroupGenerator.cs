@@ -13,7 +13,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "GDT";
 
@@ -26,15 +26,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-
-            return groups.Result;
-        }
-
-        private async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             var keyFormat = EnumHelpers.GetEnumFromEnumDescription<PrivateKeyModes>(parameters.KeyFormat);

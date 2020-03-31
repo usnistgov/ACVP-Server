@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
 import { WorkflowDependencyCreatePayload } from '../../../../models/Workflow/Dependency/WorkflowDependencyCreatePayload';
-import { AjaxService } from '../../../../services/ajax/ajax.service';
-import { WorkflowStatus } from '../../../../models/Workflow/WorkflowStatus.enum';
-import { WorkflowComponent } from '../../workflow/workflow.component';
 import { Router } from '@angular/router';
+import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
+import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-dependency-create',
@@ -13,17 +12,17 @@ import { Router } from '@angular/router';
 })
 export class WorkflowDependencyCreateComponent implements OnInit {
 
-  constructor(private ajs: AjaxService, private router: Router) { }
+  constructor(private DependencyDataService: DependencyDataProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
 
   approveWorkflow() {
-    this.ajs.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }
     );
   }
   rejectWorkflow() {
-    this.ajs.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
+    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { }

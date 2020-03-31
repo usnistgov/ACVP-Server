@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service'
 import { TestSessionList } from '../../models/TestSession/TestSessionList';
 import { TestSession } from '../../models/TestSession/TestSession';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TestSessionProviderService } from '../../services/ajax/testSession/test-session-provider.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   selectedSession: TestSession;
   sessions: TestSessionList;
 
-  constructor(private ajs: AjaxService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private TestSessionService: TestSessionProviderService, private router: Router, private route: ActivatedRoute) { }
 
   getPage(whichPage: string) {
 
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
       this.sessions.currentPage = this.sessions.totalPages;
     }
 
-    this.ajs.getTestSessions(this.sessions.pageSize, this.sessions.currentPage).subscribe(
+    this.TestSessionService.getTestSessions(this.sessions.pageSize, this.sessions.currentPage).subscribe(
       data => {
         this.sessions = data;
         this.router.navigate([], {
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
     }
 
     // ... Then make the initial data request accordingly
-    this.ajs.getTestSessions(10, this.sessions.currentPage).subscribe(
+    this.TestSessionService.getTestSessions(10, this.sessions.currentPage).subscribe(
       data => { this.sessions = data; },
       err => { throw new Error('TestSession list not available') },
       () => { }
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
   }
 
   setSelectedSession(sessionId:number) {
-    this.ajs.getTestSession(sessionId).subscribe(
+    this.TestSessionService.getTestSession(sessionId).subscribe(
       data => {
         this.selectedSession = data;
       },

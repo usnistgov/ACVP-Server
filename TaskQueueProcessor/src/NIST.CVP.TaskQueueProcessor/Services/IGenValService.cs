@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 
 namespace NIST.CVP.TaskQueueProcessor.Services
 {
     public interface IGenValService
     {
-        void RunGenerator(GenerationTask generationTask);
-        void RunValidator(ValidationTask validationTask);
+        Task RunGeneratorAsync(GenerationTask generationTask);
+        Task RunValidatorAsync(ValidationTask validationTask);
     }
 }

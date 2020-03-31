@@ -11,7 +11,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
 {
-public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -22,13 +22,17 @@ public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 3;
             }
-
+            return new GenerateResponse();
+        }
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             if (group.InfoGeneratedByServer || isSample)
             {
                 // Generate a full key

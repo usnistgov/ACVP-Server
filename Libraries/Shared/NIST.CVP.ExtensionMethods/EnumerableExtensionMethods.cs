@@ -13,7 +13,7 @@ namespace NIST.CVP.ExtensionMethods
         /// <param name="items">Items to wrap.</param>
         /// <typeparam name="T">The type of object wrapped.</typeparam>
         /// <returns><see cref="WrappedEnumerable{T}"/></returns>
-        public static WrappedEnumerable<T> WrapEnumerable<T>(this IEnumerable<T> items)
+        public static WrappedEnumerable<T> ToWrappedEnumerable<T>(this IEnumerable<T> items)
         {
             return new WrappedEnumerable<T>(items);
         }
@@ -28,7 +28,7 @@ namespace NIST.CVP.ExtensionMethods
         /// <param name="totalRecords">The total number of records.</param>
         /// <typeparam name="T">The type of object wrapped.</typeparam>
         /// <returns><see cref="PagedEnumerable{T}"/></returns>
-        public static PagedEnumerable<T> WrapPagedEnumerable<T>(this IEnumerable<T> items, int pageSize, int currentPage, long totalRecords)
+        public static PagedEnumerable<T> ToPagedEnumerable<T>(this IEnumerable<T> items, int pageSize, int currentPage, long totalRecords)
         {
             return new PagedEnumerable<T>(items, pageSize, currentPage, totalRecords);
         }

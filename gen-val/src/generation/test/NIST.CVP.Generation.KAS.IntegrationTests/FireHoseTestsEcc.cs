@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
+using NIST.CVP.Crypto.Oracle;
 using NIST.CVP.Crypto.Oracle.Builders;
 using NIST.CVP.Generation.KAS.v1_0.ECC;
 using NIST.CVP.Generation.KAS.v1_0.ECC.Parsers;
@@ -52,7 +53,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            var oracle = new OracleBuilder().Build();
+            var oracle = await new OracleBuilder().Build();
 
             var tasks = new Dictionary<Task<KasResult>, (TestGroup testGroup, TestCase testCase)>();
 

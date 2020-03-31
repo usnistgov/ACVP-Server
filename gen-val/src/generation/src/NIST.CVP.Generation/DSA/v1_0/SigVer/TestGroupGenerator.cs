@@ -8,11 +8,12 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NLog;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.DSA.v1_0.SigVer
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private readonly bool _randomizeMessagePriorToSign;
@@ -23,15 +24,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
             _randomizeMessagePriorToSign = randomizeMessagePriorToSign;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-
-            return groups.Result;
-        }
-
-        private async Task<HashSet<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             Dictionary<TestGroup, Task<DsaDomainParametersResult>> map = new Dictionary<TestGroup, Task<DsaDomainParametersResult>>();
 
@@ -82,7 +75,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigVer
                 groups.Add(group);
             }
 
-            return groups;
+            return groups.ToList();
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

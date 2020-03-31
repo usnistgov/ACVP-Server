@@ -154,7 +154,7 @@ namespace ACVPCore.Providers
 				_logger.LogError(ex, ex.Message);
 			}
 			
-			return result.WrapPagedEnumerable(param.PageSize, param.Page, totalRecords);
+			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 
 		public Validation GetValidation(long validationId)

@@ -1,10 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Interfaces;
+using NIST.CVP.Common.Oracle;
 
 namespace NIST.CVP.Crypto.Oracle.Builders
 {
@@ -26,29 +27,17 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             _orleansConfig = serviceProvider.GetService<IOptions<OrleansConfig>>();
         }
 
-        public OracleBuilder WithDbConnectionStringFactory(IDbConnectionStringFactory value)
+        public async Task<IOracle> Build()
         {
-            _dbConnectionStringFactory = value;
-            return this;
-        }
+            var oracle = new Oracle(
+                new ClusterClientFactory(_dbConnectionStringFactory, _environmentConfig, _orleansConfig), 
+                _orleansConfig
+            );
 
-        public OracleBuilder WithEnvironmentConfig(IOptions<EnvironmentConfig> value)
-        {
-            _environmentConfig = value;
-            return this;
-        }
-
-        public OracleBuilder WithOrleansConfig(IOptions<OrleansConfig> value)
-        {
-            _orleansConfig = value;
-            return this;
-        }
-
-        public IOracle Build()
-        {
+            await oracle.InitializeClusterClient();
+            
             return new Oracle(
-                _dbConnectionStringFactory,
-                _environmentConfig,
+                new ClusterClientFactory(_dbConnectionStringFactory, _environmentConfig, _orleansConfig), 
                 _orleansConfig
             );
         }

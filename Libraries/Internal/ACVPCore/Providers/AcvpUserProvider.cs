@@ -53,7 +53,7 @@ namespace ACVPCore.Providers
                 _logger.LogError(ex, ex.Message);
             }
 			
-            return result.WrapPagedEnumerable(param.PageSize, param.PageSize, totalRecords);
+            return result.ToPagedEnumerable(param.PageSize, param.PageSize, totalRecords);
         }
 
         public AcvpUser GetUserDetails(long userId)

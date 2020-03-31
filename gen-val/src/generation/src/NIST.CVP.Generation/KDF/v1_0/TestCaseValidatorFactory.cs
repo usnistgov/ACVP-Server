@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.KDF.v1_0
             _oracle = oracle;
         }
 
-        public IEnumerable<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
+        public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
         {
             var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
