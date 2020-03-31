@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
@@ -32,7 +34,19 @@ namespace Web.Public.Models
 
 		public List<string> ValidateObject()
 		{
-			return new List<string>();
+			var errors = new List<string>();
+			
+			if (Emails != null)
+			{
+				errors.AddRange(from email in Emails where !PropertyValidatorHelper.IsValidEmail(email) select $"Invalid email provided: {email}");
+			}
+
+			if (PhoneNumbers != null)
+			{
+				errors.AddRange(from phoneNumber in PhoneNumbers where !PropertyValidatorHelper.IsValidPhoneNumber(phoneNumber.Number) select $"Invalid phone number provided: {phoneNumber.Number}");
+			}
+			
+			return errors;
 		}
 	}
 }

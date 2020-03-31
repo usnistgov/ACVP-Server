@@ -21,6 +21,9 @@ namespace Web.Public
             item.AddTransient<IJwtService, JwtService>();
 
             item.AddTransient<IJsonWriterService, JsonWriterService>();
+
+            item.AddTransient<IMessageProvider, MessageProvider>();
+            item.AddTransient<IMessageService, MessageService>();
             
             item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
             item.AddTransient<IAlgorithmService, AlgorithmService>();
