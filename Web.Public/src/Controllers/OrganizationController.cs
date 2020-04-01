@@ -4,6 +4,7 @@ using System.Net;
 using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -13,6 +14,7 @@ namespace Web.Public.Controllers
 {
 	[Route("acvp/vendors")]
 	[Authorize]
+	[TypeFilter(typeof(ExceptionFilter))]
 	[ApiController]
 	public class OrganizationController : ControllerBase
 	{

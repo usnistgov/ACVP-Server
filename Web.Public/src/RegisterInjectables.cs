@@ -1,6 +1,5 @@
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
-using Web.Public.Models;
 using Web.Public.Providers;
 using Web.Public.Services;
 

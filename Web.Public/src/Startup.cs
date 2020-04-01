@@ -68,7 +68,7 @@ namespace Web.Public
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
         {
             _jwtConfig = jwtConfig.Value;
-            
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
