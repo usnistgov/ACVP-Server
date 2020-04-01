@@ -18,7 +18,7 @@ namespace Web.Public.Controllers
 	{
 		private readonly IOrganizationService _organizationService;
 		private readonly IMessageService _messageService;
-		private readonly IJsonReaderService<Organization> _jsonReader;
+		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
@@ -31,7 +31,7 @@ namespace Web.Public.Controllers
 		public OrganizationController(
 			IOrganizationService organizationService, 
 			IMessageService messageService, 
-			IJsonReaderService<Organization> jsonReader,
+			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter)
 		{
 			_organizationService = organizationService;
@@ -50,7 +50,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetObjectFromBodyJson(jsonBlob);
+			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
 			
 			// Pass to message queue
 			_messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);

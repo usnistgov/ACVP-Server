@@ -1,16 +1,17 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using Serilog;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
 {
-    public class JsonReaderService<T> : IJsonReaderService<T>
-        where T : IJsonObject
+    public class JsonReaderService : IJsonReaderService
     {
-        public T GetObjectFromBodyJson(string jsonBody)
+        public T GetObjectFromBodyJson<T>(string jsonBody)
+            where T : IJsonObject
         {
             try
             {
@@ -50,9 +51,8 @@ namespace Web.Public.Services
         
         public string GetJsonFromBody(Stream body)
         {
-            var request = body;
-            request.Seek(0, SeekOrigin.Begin);
-            return new StreamReader(request).ReadToEnd();
+            var reader = new StreamReader(body, Encoding.UTF8);
+            return reader.ReadToEndAsync().Result;
         }
     }
 }

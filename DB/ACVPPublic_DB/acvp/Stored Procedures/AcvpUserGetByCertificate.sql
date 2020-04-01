@@ -3,6 +3,6 @@
 	
 AS
 
-SELECT TOP(1) (seed)
+SELECT id AS UserID
 FROM [acvp].[ACVP_USER] au
 WHERE au.certificate = @CertificateRawData

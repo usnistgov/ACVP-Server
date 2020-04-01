@@ -19,11 +19,11 @@ namespace Web.Public.Helpers
                 email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
                     RegexOptions.None, TimeSpan.FromMilliseconds(200));
             }
-            catch (RegexMatchTimeoutException e)
+            catch (RegexMatchTimeoutException)
             {
                 return false;
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 return false;
             }

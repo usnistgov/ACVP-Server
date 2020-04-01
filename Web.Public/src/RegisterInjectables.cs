@@ -21,7 +21,9 @@ namespace Web.Public
             item.AddTransient<IJwtService, JwtService>();
 
             item.AddTransient<IJsonWriterService, JsonWriterService>();
+            item.AddTransient<IJsonReaderService, JsonReaderService>();
 
+            item.AddTransient<IUserProvider, UserProvider>();
             item.AddTransient<IMessageProvider, MessageProvider>();
             item.AddTransient<IMessageService, MessageService>();
             
@@ -38,8 +40,6 @@ namespace Web.Public
             item.AddTransient<IPersonService, PersonService>();
             item.AddTransient<IOrganizationProvider, OrganizationProvider>();
             item.AddTransient<IOrganizationService, OrganizationService>();
-
-            item.AddTransient<IJsonReaderService<Organization>, JsonReaderService<Organization>>();
 
             item.AddTransient<IAddressProvider, AddressProvider>();
             item.AddTransient<IAddressService, AddressService>();
