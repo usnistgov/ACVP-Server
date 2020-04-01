@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using ACVPCore.Services;
+﻿using ACVPCore.Services;
 using ACVPWorkflow;
 using ACVPWorkflow.Services;
 using MessageQueueProcessor.MessageProcessors;
+using Microsoft.Extensions.Configuration;
 using NIST.CVP.TaskQueue.Services;
 
 namespace MessageQueueProcessor
@@ -13,19 +13,17 @@ namespace MessageQueueProcessor
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
 		private readonly IWorkflowService _workflowService;
-		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
-		private readonly IWorkflowItemProcessorFactory _workflowItemProcessorFactory;
+		private readonly IConfigurationSection _autoApproveConfiguration;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
 
-		public MessageProcessorFactory(ITestSessionService testSessionService, IVectorSetService vectorSetService, ITaskQueueService taskQueueService, IAutoApproveProvider autoApproveProvider, IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, IWorkflowItemPayloadFactory workflowItemPayloadFactory)
+		public MessageProcessorFactory(ITestSessionService testSessionService, IVectorSetService vectorSetService, ITaskQueueService taskQueueService, IWorkflowService workflowService, IWorkflowItemProcessorFactory workflowItemProcessorFactory, IWorkflowItemPayloadFactory workflowItemPayloadFactory, IConfiguration configuration)
 		{
 			_testSessionService = testSessionService;
 			_vectorSetService = vectorSetService;
 			_taskQueueService = taskQueueService;
 			_workflowService = workflowService;
-			_workflowItemProcessorFactory = workflowItemProcessorFactory;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
-			_autoApproveConfiguration = autoApproveProvider.GetAutoApproveConfiguration();
+			_autoApproveConfiguration = configuration.GetSection("MessageQueueProcessor:AutoApprove");
 		}
 
 		public IMessageProcessor GetMessageProcessor(APIAction action)

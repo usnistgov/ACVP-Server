@@ -285,8 +285,6 @@
     <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="acvp\Tables\APIActions.sql" />
-    <Build Include="acvp\Tables\AutoApproveConfiguration.sql" />
-    <Build Include="acvp\Stored Procedures\AutoApproveConfigurationGet.sql" />
     <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />

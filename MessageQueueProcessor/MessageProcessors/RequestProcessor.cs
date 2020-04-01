@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text.Json;
+﻿using System.Text.Json;
 using ACVPWorkflow;
 using ACVPWorkflow.Models;
 using ACVPWorkflow.Services;
+using Microsoft.Extensions.Configuration;
 using NIST.CVP.MessageQueue;
 using NIST.CVP.MessageQueue.MessagePayloads;
 using NIST.CVP.Results;
@@ -13,9 +13,9 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IWorkflowService _workflowService;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
-		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
+		private readonly IConfigurationSection _autoApproveConfiguration;
 
-		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, IConfigurationSection autoApproveConfiguration)
 		{
 			_workflowService = workflowService;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
@@ -52,7 +52,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			bool isValid = _workflowService.Validate(workflowItem).IsSuccess;
 
 			//Auto approve if configured to do so
-			if (isValid && _autoApproveConfiguration.GetValueOrDefault(apiAction))
+			if (isValid && _autoApproveConfiguration.GetValue<bool>(apiAction.ToString()))
 			{
 				//Approve it - don't care if this passes or fails, from the message processing standpoint the message has been fully processed
 				_workflowService.Approve(workflowItem);

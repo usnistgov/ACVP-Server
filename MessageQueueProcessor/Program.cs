@@ -57,7 +57,6 @@ namespace MessageQueueProcessor
 
 					//Inject local things
 					services.AddSingleton<IMessageProcessorFactory, MessageProcessorFactory>();
-					services.AddSingleton<IAutoApproveProvider, AutoApproveProvider>();
 				});
 	}
 }
