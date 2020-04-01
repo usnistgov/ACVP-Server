@@ -16,6 +16,7 @@ using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
@@ -575,6 +576,15 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
                     }
                     
                     continue;

@@ -13,6 +13,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
@@ -130,6 +131,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             "l",
             "iv",
             "salt",
+            "uPartyInfo",
+            "vPartyInfo",
+            "context",
+            "algorithmId",
+            "label"
+        };
+        
+        private static readonly string[] ValidAssociatedDataPatternPieces =
+        {
+            "l",
             "uPartyInfo",
             "vPartyInfo",
             "context",
@@ -303,12 +314,12 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
-            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
+            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.PublicExponent))
             {
                 errorResults.Add("Valid fixed public exponent required for this method of key generation");
             }
 
-            if (!requiresFixedPublicKey && keyGenBase.FixedPublicExponent != 0)
+            if (!requiresFixedPublicKey && keyGenBase.PublicExponent != 0)
             {
                 errorResults.Add("Unexpected fixed public exponent");
             }
@@ -534,6 +545,15 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
                     }
+
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                     
                     continue;
                 }
@@ -567,15 +587,33 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|literal\[[0-9a-fA-F]+\])).)+$";
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (fiPieces?.Length == 0)
+            {
+                errorResults.Add($"Invalid {nameof(associatedDataPattern)} {associatedDataPattern}");
+            }
             foreach (var fiPiece in fiPieces)
             {
-                Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fiPiece))
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(associatedDataPattern)} has invalid element {fiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                    }
+                    
+                    continue;
+                }
+
+                if (!ValidAssociatedDataPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }

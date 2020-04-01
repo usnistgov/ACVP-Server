@@ -8,6 +8,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls10_11;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTls12;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
@@ -41,6 +42,26 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
                     instance => true;
             }
 
+            var includeFixedPublicExponent = new[]
+            {
+                nameof(TestGroup.PublicExponent)
+            };
+            var fixedPubExpIncludeWithKeyGens = new[]
+            {
+                IfcKeyGenerationMethod.RsaKpg1_basic,
+                IfcKeyGenerationMethod.RsaKpg1_crt,
+                IfcKeyGenerationMethod.RsaKpg1_primeFactor
+            };
+            if (includeFixedPublicExponent.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                        return fixedPubExpIncludeWithKeyGens.Contains(testGroup.KeyGenerationMethod);
+                    };
+            }
+            
             return jsonProperty.ShouldSerialize = instance => false;
         }
 
@@ -72,6 +93,24 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
                     instance => true;
             }
 
+            var ktsParameterProperty = new[]
+            {
+                nameof(TestCase.KtsParameter)
+            };
+            if (ktsParameterProperty.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testCase.KtsParameter != null)
+                            return testCase.KtsParameter.ShouldSerialize;
+
+                        return false;
+                    };
+            }
+            
             #region Conditional Test Case properties
             var includePropertiesValScenarios = new[]
             {

@@ -176,6 +176,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                     fixedInfoParameter.Label = kdfParam.Label;
                     fixedInfoParameter.Context = kdfParam.Context;
                     fixedInfoParameter.AlgorithmId = kdfParam.AlgorithmId;
+                    fixedInfoParameter.L = _param.L;
                 }
 
                 // KTS
@@ -189,14 +190,38 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                 KtsParameter ktsParam = null;
                 if (KeyGenerationRequirementsHelper.IfcKtsSchemes.Contains(_param.Scheme))
                 {
+                    const int bitsOfEntropy = 128;
+                    var context =
+                        _param.KtsConfiguration.AssociatedDataPattern.Contains(nameof(KtsParameter.Context),
+                            StringComparison.OrdinalIgnoreCase)
+                            ? _entropyProvider.GetEntropy(bitsOfEntropy)
+                            : null;
+                    var algorithmId =
+                        _param.KtsConfiguration.AssociatedDataPattern.Contains(nameof(KtsParameter.AlgorithmId),
+                            StringComparison.OrdinalIgnoreCase)
+                            ? _entropyProvider.GetEntropy(bitsOfEntropy)
+                            : null;
+                    var label =
+                        _param.KtsConfiguration.AssociatedDataPattern.Contains(nameof(KtsParameter.Label),
+                            StringComparison.OrdinalIgnoreCase)
+                            ? _entropyProvider.GetEntropy(bitsOfEntropy)
+                            : null;
+                    
                     fixedInfoParameter.Encoding = _param.KtsConfiguration.Encoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KtsConfiguration.AssociatedDataPattern;
+                    fixedInfoParameter.Context = context;
+                    fixedInfoParameter.AlgorithmId = algorithmId;
+                    fixedInfoParameter.Label = label;
+                    fixedInfoParameter.L = _param.L;
 
                     ktsParam = new KtsParameter()
                     {
                         Encoding = _param.KtsConfiguration.Encoding,
                         AssociatedDataPattern = _param.KtsConfiguration.AssociatedDataPattern,
-                        KtsHashAlg = _param.KtsConfiguration.HashAlg
+                        KtsHashAlg = _param.KtsConfiguration.HashAlg,
+                        Context = context,
+                        Label = label,
+                        AlgorithmId = algorithmId
                     };
                 }
 

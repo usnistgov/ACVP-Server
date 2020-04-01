@@ -4,10 +4,13 @@ using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS_IFC.Sp800_56Br2;
 using NIST.CVP.Math;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    public class GenValTestsKtsIfc : GenValTestsSingleRunnerBase
+    [TestFixture, LongRunningIntegrationTest]
+    public class GenValTestsKtsIfc : GenValTestsWithNoSample
     {
         public override AlgoMode AlgoMode => AlgoMode.KTS_IFC_Sp800_56Br2;
         public override string Algorithm => "KTS-IFC";
@@ -70,6 +73,87 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
+                IutId = new BitString("123456ABCD"),
+                Scheme = new Schemes()
+                {
+                    //                    Kts_oaep_basic = new Kts_oaep_basic()
+                    //                    {
+                    //                        L = 512,
+                    //                        KasRole = new []
+                    //                        {
+                    //                            KeyAgreementRole.InitiatorPartyU, 
+                    //                            KeyAgreementRole.ResponderPartyV
+                    //                        },
+                    //                        KtsMethod = new KtsMethod()
+                    //                        {
+                    //                            Encoding = new []{ FixedInfoEncoding.Concatenation },
+                    //                            HashAlgs = new []{ KasHashAlg.SHA2_D224 },
+                    //                            AssociatedDataPattern = "l||uPartyInfo||vPartyInfo",
+                    //                            SupportsNullAssociatedData = true
+                    //                        },
+                    //                        KeyGenerationMethods = new KeyGenerationMethods()
+                    //                        {
+                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
+                    ////                            {
+                    ////                                Modulo = new[] { 2048 },
+                    ////                                FixedPublicExponent = new BigInteger(65537)
+                    ////                            },
+                    //                            RsaKpg2_basic = new RsaKpg2_basic()
+                    //                            {
+                    //                                Modulo = new[] { 2048 },
+                    //                            }
+                    //                        }
+                    //                    },
+                    Kts_oaep_partyV_confirmation = new Kts_oaep_partyV_confirmation()
+                    {
+                        L = 512,
+                        KasRole = new[]
+                        {
+                            KeyAgreementRole.InitiatorPartyU,
+                            KeyAgreementRole.ResponderPartyV
+                        },
+                        KtsMethod = new KtsMethod()
+                        {
+                            Encoding = new[] { FixedInfoEncoding.Concatenation },
+                            HashAlgs = new[] { KasHashAlg.SHA2_D224 },
+                            AssociatedDataPattern = "l||uPartyInfo||vPartyInfo||label",
+                            SupportsNullAssociatedData = true
+                        },
+                        KeyGenerationMethods = new KeyGenerationMethods()
+                        {
+                            //                            RsaKpg1_basic = new RsaKpg1_basic()
+                            //                            {
+                            //                                Modulo = new[] { 2048 },
+                            //                                FixedPublicExponent = new BigInteger(65537)
+                            //                            },
+                            RsaKpg2_basic = new RsaKpg2_basic()
+                            {
+                                Modulo = new[] { 2048 },
+                            }
+                        },
+                        MacMethods = new MacMethods()
+                        {
+                            Kmac128 = new MacOptionKmac128()
+                            {
+                                KeyLen = 128,
+                                MacLen = 224
+                            }
+                        }
+                    },
+                }
+            };
+
+            return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileFewTestCasesNotSample(string folderName)
+        {
+            var p = new Parameters()
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Revision = Revision,
+                IsSample = false,
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {

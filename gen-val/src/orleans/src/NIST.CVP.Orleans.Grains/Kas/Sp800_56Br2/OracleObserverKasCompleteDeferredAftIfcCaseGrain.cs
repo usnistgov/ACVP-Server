@@ -121,6 +121,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                     fixedInfoParameter.Label = _param.KdfParameter.Label;
                     fixedInfoParameter.Context = _param.KdfParameter.Context;
                     fixedInfoParameter.AlgorithmId = _param.KdfParameter.AlgorithmId;
+                    fixedInfoParameter.L = _param.L;
                 }
 
                 // KTS fixed info construction
@@ -128,6 +129,10 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                 {
                     fixedInfoParameter.Encoding = _param.KtsParameter.Encoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KtsParameter.AssociatedDataPattern;
+                    fixedInfoParameter.Label = _param.KtsParameter.Label;
+                    fixedInfoParameter.Context = _param.KtsParameter.Context;
+                    fixedInfoParameter.AlgorithmId = _param.KtsParameter.AlgorithmId;
+                    fixedInfoParameter.L = _param.L;
                 }
 
                 MacParameters macParam = null;

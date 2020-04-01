@@ -6,11 +6,12 @@
   "isSample": true,
   "iutId": "123456ABCD",
   "scheme": {
-    "staticUnified": {
-      "scheme": "staticUnified",
+    "onePassUnified": {
+      "scheme": "onePassUnified",
       "underlyingAlgorithm": "Ecc",
       "kasRole": [
-        "initiator"
+        "initiator",
+        "responder"
       ],
       "kdfMethods": {
         "oneStepKdf": {
@@ -70,7 +71,8 @@
           "unilateral"
         ],
         "keyConfirmationRoles": [
-          "provider"
+          "provider",
+          "recipient"
         ]
       },
       "l": 512
