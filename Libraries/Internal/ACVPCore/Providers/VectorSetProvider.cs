@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ACVPCore.Models;
-using NIST.CVP.Results;
-
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Results;
 
 namespace ACVPCore.Providers
 {
@@ -69,7 +68,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetUpdateSubmittedResults @0, @1", vectorSetID, System.Text.Encoding.UTF8.GetBytes(results));
+				db.ExecuteProcedure("acvp.VectorSetUpdateSubmittedResult", inParams: new { VectorSetID = vectorSetID, Results = System.Text.Encoding.UTF8.GetBytes(results) });
 			}
 			catch (Exception ex)
 			{
@@ -86,7 +85,12 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("acvp.VectorSetUpdateStatusAndMessage @0, @1, @2", vectorSetID, status, errorMessage);
+				db.ExecuteProcedure("acvp.VectorSetUpdateStatusAndMessage", inParams: new
+				{
+					VectorSetID = vectorSetID,
+					Status = status,
+					ErrorMessage = errorMessage
+				});
 			}
 			catch (Exception ex)
 			{

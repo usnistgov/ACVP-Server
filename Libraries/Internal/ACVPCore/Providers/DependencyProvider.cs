@@ -41,7 +41,7 @@ namespace ACVPCore.Providers
 						Name = data.Name,
 						Type = data.Type,
 						Description = data.Description,
-						Attributes = GetAttributes(dependencyID)	//TODO - decide whether or not this should be populated, or if I just want the base dependency object
+						Attributes = GetAttributes(dependencyID)    //TODO - decide whether or not this should be populated, or if I just want the base dependency object
 					};
 				}
 				else
@@ -93,7 +93,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyDelete @0", dependencyID);
+				db.ExecuteProcedure("val.DependencyDelete", inParams: new { DependencyID = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -110,7 +110,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyAttributeDeleteAll @0", dependencyID);
+				db.ExecuteProcedure("val.DependencyAttributeDeleteAll", inParams: new { DependencyID = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +127,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyAttributeDelete @0", attributeID);
+				db.ExecuteProcedure("val.DependencyAttributeDelete", inParams: new { DependencyAttributeID = attributeID });
 			}
 			catch (Exception ex)
 			{
@@ -144,7 +144,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyOELinkForDependencyDeleteAll @0", dependencyID);
+				db.ExecuteProcedure("val.DependencyOELinkForDependencyDeleteAll", inParams: new { DependencyID = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -161,7 +161,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyOELinkDelete @0, @1", dependencyID, oeID);
+				db.ExecuteProcedure("val.DependencyOELinkDelete", inParams: new { DependencyID = dependencyID, OEID = oeID });
 			}
 			catch (Exception ex)
 			{

@@ -28,7 +28,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.OrganizationDelete @0", organizationID);
+				db.ExecuteProcedure("val.OrganizationDelete", inParams: new { OrganizationID = organizationID });
 			}
 			catch (Exception ex)
 			{
@@ -45,7 +45,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.OrganizationEmailDeleteAll @0", organizationID);
+				db.ExecuteProcedure("val.OrganizationEmailDeleteAll", inParams: new { OrganizationID = organizationID });
 			}
 			catch (Exception ex)
 			{

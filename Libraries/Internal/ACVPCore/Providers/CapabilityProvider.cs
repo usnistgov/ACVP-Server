@@ -25,7 +25,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.CapabilitiesForScenarioAlgorithmDelete @0", scenarioAlgorithmID);
+				db.ExecuteProcedure("val.CapabilitiesForScenarioAlgorithmDelete", inParams: new { ScenarioAlgorithmId = scenarioAlgorithmID });
 			}
 			catch (Exception ex)
 			{
