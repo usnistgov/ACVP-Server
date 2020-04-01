@@ -122,7 +122,7 @@ namespace ACVPWorkflow.Models
 
 		//Everything below this is here only to handle the goofy messages. It should go away once Public is rewritten
 		private long VendorID { get; set; }
-		private List<long> ContactIDs { get; set; }
+		private List<long> ContactIDs => _contacts?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();		// { get; set; }
 
 		private Vendor _vendor;
 		private List<Contact> _contacts;
@@ -146,7 +146,7 @@ namespace ACVPWorkflow.Models
 			set
 			{
 				_contacts = value;
-				ContactIDs = _contacts?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();
+				//ContactIDs = _contacts?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList();
 				ContactURLsUpdated = true;
 			}
 		}
