@@ -3,10 +3,9 @@ using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
 {
-    public interface IJsonReaderService<out T>
-        where T : IJsonObject
+    public interface IJsonReaderService
     {
-        T GetObjectFromBodyJson(string jsonBody);
+        T GetObjectFromBodyJson<T>(string jsonBody) where T : IJsonObject;
         string GetJsonFromBody(Stream body);
     }
 }

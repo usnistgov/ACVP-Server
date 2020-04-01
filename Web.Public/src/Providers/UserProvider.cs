@@ -5,7 +5,7 @@ using Serilog;
 
 namespace Web.Public.Providers
 {
-    public class UserProvider
+    public class UserProvider : IUserProvider
     {
         private readonly string _connectionString;
 
@@ -36,6 +36,7 @@ namespace Web.Public.Providers
             {
                 Log.Error(ex.StackTrace);
                 throw;
-            }        }
+            }
+        }
     }
 }

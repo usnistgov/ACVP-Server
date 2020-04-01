@@ -23,7 +23,22 @@ namespace Web.Public.Providers
             // Build json message to go into table
             var requestJson = _jsonWriter.BuildRequestObject(requestID, apiAction, userID, content);
 
-            throw new System.NotImplementedException();
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                db.SingleFromProcedure("common.MessageQueueInsert", new
+                {
+                    MessageType = apiAction,
+                    Payload = requestJson
+                });
+                Log.Information($"Added requestID: {requestID} to the message queue");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unable to insert message into message queue: {requestJson}", ex);
+                throw;
+            }
         }
 
         public long GetNextRequestID()
@@ -38,7 +53,7 @@ namespace Web.Public.Providers
                     throw new Exception("Unable to get next request ID");
                 }
 
-                return data.ID;
+                return (long)data.ID;
             }
             catch (Exception ex)
             {
