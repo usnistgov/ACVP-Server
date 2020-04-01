@@ -4,6 +4,7 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -19,6 +20,63 @@ namespace Web.Public.Providers
 			_acvpPublicConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
 		}
 
+		public Person Get(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.PersonGet", new
+				{
+					PersonID = id
+				});
+
+				var result = new Person
+				{
+					ID = id,
+					Name = data.Name,
+					OrganizationID = data.OrganizationID
+				};
+
+				var emailData = db.QueryFromProcedure("val.PersonEmailsGet", new
+				{
+					PersonID = id
+				});
+
+				if (emailData != null)
+				{
+					result.Emails = new List<string>();
+					
+					foreach (var email in emailData)
+					{
+						result.Emails.Add(email.EmailAddress);
+					}
+				}
+
+				var phoneData = db.QueryFromProcedure("val.PersonPhonesGet", new
+				{
+					PersonID = id
+				});
+
+				if (phoneData != null)
+				{
+					result.PhoneNumbers = new List<PhoneNumber>();
+					
+					foreach (var phone in phoneData)
+					{
+						result.PhoneNumbers.Add(new PhoneNumber { Number = phone.PhoneNumber, Type = phone.PhoneType });
+					}
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, $"Unable to find person with id {id}");
+				throw;
+			}
+		}
+		
 		public (long TotalCount, List<Person> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
 		{
 			var db = new MightyOrm(_acvpPublicConnectionString);

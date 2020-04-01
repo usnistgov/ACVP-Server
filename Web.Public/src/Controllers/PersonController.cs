@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
@@ -17,7 +19,7 @@ namespace Web.Public.Controllers
 	{
 		private readonly IPersonService _personService;
 		private readonly IMessageService _messageService;
-		//private readonly IJsonReaderService<Person> _jsonReader;
+		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
@@ -29,12 +31,110 @@ namespace Web.Public.Controllers
 
 		public PersonController(
 			IPersonService personService,
-			//IJsonReaderService<Person> jsonReader,
+			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter)
 		{
 			_personService = personService;
-			//_jsonReader = jsonReader;
+			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
+		}
+
+		[HttpPost]
+		public JsonHttpStatusResult CreatePerson()
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Person
+			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.CreatePerson, certRawData, person);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+		}
+
+		[HttpPut("{id}")]
+		public JsonHttpStatusResult UpdatePerson(int id)
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Person
+			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+
+			person.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.UpdatePerson, certRawData, person);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+		}
+
+		[HttpDelete("{id}")]
+		public JsonHttpStatusResult DeletePerson(int id)
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Person
+			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+
+			person.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.DeletePerson, certRawData, person);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+		}
+		
+		
+		[HttpGet("{id}")]
+		public JsonHttpStatusResult GetPerson(int id)
+		{
+			var result = _personService.Get(id);
+			if (result == null)
+			{
+				return new JsonHttpStatusResult(
+					_jsonWriter.BuildVersionedObject(
+						new ErrorObject
+						{
+							Error = $"Unable to find person with id: {id}"
+						}),
+					HttpStatusCode.NotFound);
+			}
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));
 		}
 
 		[HttpGet]

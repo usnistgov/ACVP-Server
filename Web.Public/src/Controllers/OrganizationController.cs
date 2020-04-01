@@ -67,6 +67,62 @@ namespace Web.Public.Controllers
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
+		[HttpPut("{id}")]
+		public JsonHttpStatusResult UpdateVendor(int id)
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Organization
+			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
+			
+			// Give object the necessary ID
+			organization.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateVendor, certRawData, organization);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+		}
+
+		[HttpDelete("{id}")]
+		public JsonHttpStatusResult DeleteVendor(int id)
+		{
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Organization
+			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
+			
+			// Give object the necessary ID
+			organization.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.DeleteVendor, certRawData, organization);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+		}
+		
 		[HttpGet("{id}")]
 		public JsonHttpStatusResult GetVendor(long id)
 		{

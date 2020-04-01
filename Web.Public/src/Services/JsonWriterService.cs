@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using ACVPWorkflow;
 using Web.Public.JsonObjects;
 
@@ -8,11 +10,19 @@ namespace Web.Public.Services
 {
     public class JsonWriterService : IJsonWriterService
     {
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
+
+        public JsonWriterService()
         {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            IgnoreNullValues = true
-        };
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                IgnoreNullValues = true
+            };
+            
+            // This needs to be set via constructor as Converters only has a getter
+            _jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        }
         
         public object BuildVersionedObject(object content)
         {
