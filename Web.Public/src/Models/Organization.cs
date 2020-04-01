@@ -35,6 +35,11 @@ namespace Web.Public.Models
 		public List<string> ValidateObject()
 		{
 			var errors = new List<string>();
+
+			if (string.IsNullOrWhiteSpace(Name))
+			{
+				errors.Add("Must provide a name");
+			}
 			
 			if (Emails != null)
 			{

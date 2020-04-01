@@ -18,17 +18,27 @@ namespace Web.Public.Exceptions
         
         public void OnException(ExceptionContext context)
         {
-            var error = new ErrorObject
+            var error = context.Exception switch
             {
-                Error = "Internal service error. Contact service provider."
+                JsonReaderException ex => OnJsonReaderException(ex),
+                _ => new ErrorObject
+                {
+                    Error = "Internal service error. Contact service provider."
+                }
             };
-            
-            Log.Error("EXCEPTION HANDLED");
-            Log.Error(context.Exception.Message);
-            Log.Error(context.Exception.StackTrace);
+
+            Log.Error(context.Exception, "EXCEPTION HANDLED");
             
             context.ExceptionHandled = true;
             context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.InternalServerError);
+        }
+
+        private ErrorObject OnJsonReaderException(JsonReaderException ex)
+        {
+            return new ErrorObject
+            {
+                Error = ex.Message
+            };
         }
     }
 }

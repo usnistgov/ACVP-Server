@@ -37,7 +37,7 @@ namespace Web.Public.Services
                 var errorList = extractedObject.ValidateObject();
                 if (errorList.Any())
                 {
-                    throw new JsonReaderException("Errors parsing body object");
+                    throw new JsonReaderException($"Errors parsing body object. {string.Join(";", errorList)}");
                 }
 
                 return extractedObject;

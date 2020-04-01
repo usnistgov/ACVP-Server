@@ -14,11 +14,13 @@ namespace Web.Public.Services
             _userProvider = userProvider;
         }
         
-        public void InsertIntoQueue(APIAction apiAction, byte[] userCert, object content)
+        public long InsertIntoQueue(APIAction apiAction, byte[] userCert, object content)
         {
             var requestID = _messageProvider.GetNextRequestID();
             var userID = _userProvider.GetUserIDFromCertificate(userCert);
             _messageProvider.InsertIntoQueue(apiAction, requestID, userID, content);
+
+            return requestID;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Web.Public.Services
 
         public string BuildRequestObject(long requestId, APIAction apiActionId, long userId, object content)
         {
-            var reqObject = new RequestObject
+            var reqObject = new MessageObject
             {
                 RequestID = requestId,
                 ApiActionID = apiActionId,

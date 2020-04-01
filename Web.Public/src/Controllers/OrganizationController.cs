@@ -55,9 +55,16 @@ namespace Web.Public.Controllers
 			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
 			
 			// Pass to message queue
-			_messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
+			var requestID = _messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
 			
-			return new JsonHttpStatusResult("", HttpStatusCode.Accepted);
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
 		[HttpGet("{id}")]
