@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.HMAC.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -89,7 +90,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
         
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
             MathDomain keyLen,
             MathDomain macLen,
@@ -103,7 +104,7 @@ namespace NIST.CVP.Generation.HMAC.Tests
                 MacLen = macLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

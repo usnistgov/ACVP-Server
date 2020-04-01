@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             new string[] { "", "", "" },
             new int[] { 1, 2, 3 }
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
             string label,
             string[] mode,
             int[] keyLen
@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.AES_OFB.Tests
             int expectedResultCount = keyLen.Length * mode.Length;
 
             _subject = new TestGroupGeneratorMultiBlockMessage();
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }

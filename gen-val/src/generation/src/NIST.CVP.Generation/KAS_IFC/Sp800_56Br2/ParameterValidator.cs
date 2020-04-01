@@ -544,6 +544,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
                     }
 
                     try
@@ -553,9 +554,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
+                        continue;
                     }
-                    
-                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
@@ -606,9 +606,18 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
                     }
                     
-                    continue;
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                        continue;
+                    }
                 }
 
                 if (!ValidAssociatedDataPatternPieces.Contains(fiPiece))

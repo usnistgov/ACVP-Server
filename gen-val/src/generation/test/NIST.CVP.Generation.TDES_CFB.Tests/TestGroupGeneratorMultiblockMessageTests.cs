@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {
@@ -45,7 +46,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             new int[] { 1, 2 },
             3
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
             string label,
             string[] mode,
             int[] keyOption,
@@ -60,13 +61,13 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 KeyingOption = keyOption,
             };
 
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }
 
         [Test]
-        public void ShouldNotReturnEncryptKeyingOption2Group()
+        public async Task ShouldNotReturnEncryptKeyingOption2Group()
         {
             Parameters p = new Parameters()
             {
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 KeyingOption = new[] { 1, 2 },
             };
 
-            var result = _subject.BuildTestGroups(p).ToList().Select(s => (TestGroup)s);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.IsFalse(result.Any(a => a.Function.ToLower() == "encrypt" && a.KeyingOption == 2));
         }

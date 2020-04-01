@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             var suppliedTestCase = GetTestCase(hexP, hexQ);
             var testGroup = GetTestGroup(mod, pt);
 
-            var subject = new DeferredTestCaseResolverGDT(new OracleBuilder().Build());
+            var subject = new DeferredTestCaseResolverGDT(new OracleBuilder().Build().GetAwaiter().GetResult());
 
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
             var suppliedTestCase = GetTestCase(hexP, hexQ);
             var testGroup = GetTestGroup(mod, pt);
 
-            var subject = new DeferredTestCaseResolverGDT(new OracleBuilder().Build());
+            var subject = new DeferredTestCaseResolverGDT(new OracleBuilder().Build().GetAwaiter().GetResult());
 
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 

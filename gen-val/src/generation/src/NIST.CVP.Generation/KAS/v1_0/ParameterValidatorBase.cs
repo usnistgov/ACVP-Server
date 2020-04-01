@@ -335,6 +335,7 @@ namespace NIST.CVP.Generation.KAS.v1_0
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of oiPattern contained non hex values.");
+                        continue;
                     }
                     
                     try
@@ -344,9 +345,8 @@ namespace NIST.CVP.Generation.KAS.v1_0
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
+                        continue;
                     }
-                    
-                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))

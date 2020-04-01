@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CFB.Tests
 {
@@ -59,7 +60,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
             new int[] { 1, 2 },
             10
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamtersWithNoKatOrMctImpl(
             string label,
             string[] mode,
             int[] keyOption,
@@ -74,7 +75,7 @@ namespace NIST.CVP.Generation.TDES_CFB.Tests
                 KeyingOption = keyOption,
             };
 
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }

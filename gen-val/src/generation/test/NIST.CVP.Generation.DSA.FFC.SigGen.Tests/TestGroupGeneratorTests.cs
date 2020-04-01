@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
@@ -60,7 +60,7 @@ namespace NIST.CVP.Generation.DSA.FFC.SigGen.Tests
                 .Returns(Task.FromResult(new DsaDomainParametersResult()));
 
             var subject = new TestGroupGenerator(oracleMock.Object, false);
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }
