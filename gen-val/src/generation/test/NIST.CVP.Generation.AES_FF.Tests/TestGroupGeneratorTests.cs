@@ -6,6 +6,7 @@ using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_FF.Tests
 {
@@ -174,7 +175,7 @@ namespace NIST.CVP.Generation.AES_FF.Tests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-        public void ShouldReturnCorrectNumberOfTestGroups(
+        public async Task ShouldReturnCorrectNumberOfTestGroups(
             string label,
             AlgoMode algoMode,
             string[] direction,
@@ -195,7 +196,7 @@ namespace NIST.CVP.Generation.AES_FF.Tests
                 .Build();
 
             _subject = new TestGroupGenerator();
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }

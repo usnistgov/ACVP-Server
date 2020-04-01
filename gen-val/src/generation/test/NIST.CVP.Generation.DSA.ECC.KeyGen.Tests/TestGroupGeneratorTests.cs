@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.ECDSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -49,10 +50,10 @@ namespace NIST.CVP.Generation.DSA.ECC.KeyGen.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfCurveAndSecret(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfCurveAndSecret(int expectedGroups, Parameters parameters)
         {
             var subject = new TestGroupGenerator();
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

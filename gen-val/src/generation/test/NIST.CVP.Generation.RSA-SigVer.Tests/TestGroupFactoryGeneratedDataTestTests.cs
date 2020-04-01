@@ -55,7 +55,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate3TestGroupsForEachCombinationOfModeModuloAndHashAlg(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate3TestGroupsForEachCombinationOfModeModuloAndHashAlg(int expectedGroups, Parameters parameters)
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
@@ -63,7 +63,7 @@ namespace NIST.CVP.Generation.RSA_SigVer.Tests
                 .Returns(Task.FromResult(new RsaKeyResult()));
 
             var subject = new TestGroupGenerator(oracleMock.Object, false);
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups * 3, result.Count());
         }
     }

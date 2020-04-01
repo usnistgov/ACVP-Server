@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace NIST.CVP.Generation.SHA2.Tests
@@ -38,7 +39,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
         }
 
         [Test]
-        public void ShouldReturnVectorSet()
+        public async Task ShouldReturnVectorSet()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
             Parameters p = new Parameters
@@ -50,14 +51,14 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.IsNotNull(groups);
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
             Parameters p = new Parameters
@@ -69,7 +70,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(12, groups.Count);       // 2 * 6 (aft + mct X digest sizes)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.CSHAKE.v1_0;
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -59,7 +60,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(4, groups.Count);       // (AFT,MCT) = 2 * 2 digestsizes = 4

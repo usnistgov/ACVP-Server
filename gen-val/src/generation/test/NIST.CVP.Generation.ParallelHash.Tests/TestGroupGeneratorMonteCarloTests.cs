@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.ParallelHash.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -76,10 +77,10 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate2TestGroupsForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreate2TestGroupsForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGeneratorMonteCarlo();
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.KDF_Components.v1_0.IKEv1;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -128,7 +129,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
 
         [Test]
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
-        public void ShouldReturnOneITestGroupForEachCombination(string label, Capability[] capabilities, int expectedResultCount)
+        public async Task ShouldReturnOneITestGroupForEachCombination(string label, Capability[] capabilities, int expectedResultCount)
         {
             var p = new Parameters
             {
@@ -138,7 +139,7 @@ namespace NIST.CVP.Generation.IKEv1.Tests
             };
 
             _subject = new TestGroupGenerator();
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count);
         }

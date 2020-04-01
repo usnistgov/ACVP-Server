@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.AES_CCM.v1_0;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
@@ -83,11 +84,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         #endregion Parameter test scenarios
 
         [Test]
-        public void ShouldContainGroupsForEachTestType()
+        public async Task ShouldContainGroupsForEachTestType()
         {
             Parameters p = new ParameterBuilder().Build();
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             foreach (InternalTestTypes testType in Enum.GetValues(typeof(InternalTestTypes)))
             {
@@ -106,7 +107,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public void ShouldHaveValidNumberOfGroupsForDecryptionVerification(
+        public async Task ShouldHaveValidNumberOfGroupsForDecryptionVerification(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,
@@ -127,7 +128,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             // Only the min/max aadLen and ptLens go into the creation of the group
             int aadLenMultiplier = (_subject.AadLens.Min() == _subject.AadLens.Max()) ? 1 : 2;
@@ -149,7 +150,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public void ShouldHaveValidNumberOfGroupsForVariableAssocatedData(
+        public async Task ShouldHaveValidNumberOfGroupsForVariableAssocatedData(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,
@@ -170,7 +171,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             // AAD is a range of values, add an additional group if SupportsAad2Pow16
             int aadLenRange = (_subject.AadLens.Max() - _subject.AadLens.Min()) / 8 + 1 +
@@ -194,7 +195,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public void ShouldHaveValidNumberOfGroupsForVariableNonce(
+        public async Task ShouldHaveValidNumberOfGroupsForVariableNonce(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,
@@ -215,7 +216,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             // aad, pt, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * _subject.NonceLens.Count() * 1 * 1;
@@ -235,7 +236,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public void ShouldHaveValidNumberOfGroupsForVariablePayload(
+        public async Task ShouldHaveValidNumberOfGroupsForVariablePayload(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,
@@ -256,7 +257,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             // Payload is a range of values, add an additional group if SupportsAad2Pow16
             var payloadCount = (_subject.PtLens.Max() - _subject.PtLens.Min()) / 8 + 1;
@@ -279,7 +280,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public void ShouldHaveValidNumberOfGroupsForVariableTag(
+        public async Task ShouldHaveValidNumberOfGroupsForVariableTag(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,
@@ -300,7 +301,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                 TagLen = tagLen
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             // aad, pt, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * 1 * 1 * _subject.TagLens.Length;
@@ -314,11 +315,11 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         [TestCase(InternalTestTypes.VariableNonce, true, false)]
         [TestCase(InternalTestTypes.VariablePayload, true, true)]
         [TestCase(InternalTestTypes.VariableTag, true, true)]
-        public void ShouldUseSharedParameterInGroup(InternalTestTypes testType, bool useSharedKey, bool useSharedNonce)
+        public async Task ShouldUseSharedParameterInGroup(InternalTestTypes testType, bool useSharedKey, bool useSharedNonce)
         {
             Parameters p = new ParameterBuilder().Build();
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             var typeTests = result.Where(w => w.InternalTestType == testType.ToString()).Select(s => s);
             var correctShares =

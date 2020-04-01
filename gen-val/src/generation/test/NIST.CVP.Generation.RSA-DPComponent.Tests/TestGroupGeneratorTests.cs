@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.RSA.v1_0.DpComponent;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
         [Test]
         [TestCase(true, 2, 6)]
         [TestCase(false, 10, 30)]
-        public void ShouldCreateASingleGroupWithCorrectProperties(bool isSample, int failing, int total)
+        public async Task ShouldCreateASingleGroupWithCorrectProperties(bool isSample, int failing, int total)
         {
             var parameters = new Parameters
             {
@@ -22,7 +23,7 @@ namespace NIST.CVP.Generation.RSA_DPComponent.Tests
             };
 
             var subject = new TestGroupGenerator();
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
 
             Assert.AreEqual(1, result.Count());
 

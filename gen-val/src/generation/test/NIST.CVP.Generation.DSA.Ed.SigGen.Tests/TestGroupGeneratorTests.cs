@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfCurveHashAlg(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfCurveHashAlg(int expectedGroups, Parameters parameters)
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.DSA.Ed.SigGen.Tests
                 .Returns(Task.FromResult(new EddsaKeyResult { Key = new EdKeyPair(new BitString("ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf")) }));
 
             var subject = new TestGroupGenerator(oracleMock.Object);
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

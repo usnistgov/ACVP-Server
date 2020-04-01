@@ -576,6 +576,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
                     }
                     
                     try
@@ -585,9 +586,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
+                        continue;
                     }
-                    
-                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))

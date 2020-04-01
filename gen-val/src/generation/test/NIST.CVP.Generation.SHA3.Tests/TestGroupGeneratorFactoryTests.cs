@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA3.Tests
 {
@@ -40,7 +41,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(6, groups.Count);       // 2 * 3 (digest sizes * test types)

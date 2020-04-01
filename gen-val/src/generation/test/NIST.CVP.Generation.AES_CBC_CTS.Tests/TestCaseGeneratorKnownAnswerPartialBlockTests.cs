@@ -53,6 +53,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.Tests
             };
 
             _subject = new TestCaseGeneratorKnownAnswerPartialBlock(_oracle.Object, keyLength, katType);
+            _subject.PrepareGenerator(testGroup, false);
             var result = await _subject.GenerateAsync(testGroup, false);
 
             Assert.IsTrue(result.Success, nameof(result.Success));
@@ -95,7 +96,7 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.Tests
             };
 
             _subject = new TestCaseGeneratorKnownAnswerPartialBlock(_oracle.Object, keyLength, katType);
-
+            _subject.PrepareGenerator(testGroup, false);
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i < _subject.NumberOfTestCasesToGenerate; i++)
             {
@@ -128,7 +129,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.Tests
             };
 
             _subject = new TestCaseGeneratorKnownAnswerPartialBlock(_oracle.Object, keyLength, katType);
-
+            _subject.PrepareGenerator(testGroup, false);
+            
             var results = new List<TestCaseGenerateResponse<TestGroup, TestCase>>();
             for (int i = 0; i <= _subject.NumberOfTestCasesToGenerate; i++)
             {

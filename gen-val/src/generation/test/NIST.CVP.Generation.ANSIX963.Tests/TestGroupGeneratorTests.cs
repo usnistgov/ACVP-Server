@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -57,10 +58,10 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreateATestGroupForEachCombination(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreateATestGroupForEachCombination(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGenerator();
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }

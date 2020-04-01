@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.KDF_Components.v1_0.SRTP;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -43,10 +44,10 @@ namespace NIST.CVP.Generation.SRTP.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreateATestGroupForEachCombination(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreateATestGroupForEachCombination(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGenerator();
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }
