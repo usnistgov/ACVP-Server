@@ -40,7 +40,6 @@ namespace Web.Public
             item.AddTransient<IPersonService, PersonService>();
             item.AddTransient<IOrganizationProvider, OrganizationProvider>();
             item.AddTransient<IOrganizationService, OrganizationService>();
-
             item.AddTransient<IAddressProvider, AddressProvider>();
             item.AddTransient<IAddressService, AddressService>();
         }
