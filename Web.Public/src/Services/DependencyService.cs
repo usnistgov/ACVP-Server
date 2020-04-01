@@ -1,0 +1,19 @@
+using System.Collections.Generic;
+using Web.Public.Models;
+using Web.Public.Providers;
+
+namespace Web.Public.Services
+{
+	public class DependencyService : IDependencyService
+	{
+		private readonly IDependencyProvider _dependencyProvider;
+
+		public DependencyService(IDependencyProvider dependencyProvider)
+		{
+			_dependencyProvider = dependencyProvider;
+		}
+
+		public (long TotalCount, List<Dependency> Dependencys) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
+			=> _dependencyProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+	}
+}
