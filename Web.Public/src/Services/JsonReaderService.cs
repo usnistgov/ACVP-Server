@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Serilog;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
@@ -20,14 +21,14 @@ namespace Web.Public.Services
                 
                 if (jsonObjects.Length != 2)
                 {
-                    throw new Exception("Unable to deserialize body into two objects");
+                    throw new JsonReaderException("Unable to deserialize body into two objects");
                 }
 
                 // Extract and verify version info
                 var versionObject = JsonSerializer.Deserialize<VersionObject>(jsonObjects[0].ToString());
                 if (versionObject.AcvVersion != "1.0")
                 {
-                    throw new Exception($"Invalid version provided: {versionObject.AcvVersion}");
+                    throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
                 }
 
                 // Extract and verify object info
@@ -37,14 +38,14 @@ namespace Web.Public.Services
                 var errorList = extractedObject.ValidateObject();
                 if (errorList.Any())
                 {
-                    throw new Exception("Errors parsing body object");
+                    throw new JsonReaderException("Errors parsing body object");
                 }
 
                 return extractedObject;
             }
-            catch (Exception ex)
+            catch (JsonReaderException ex)
             {
-                Log.Error("Unable to parse json", ex);
+                Log.Error("Error parsing JSON", ex);
                 throw;
             }
         }
