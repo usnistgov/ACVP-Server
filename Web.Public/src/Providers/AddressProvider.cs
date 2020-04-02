@@ -54,9 +54,10 @@ namespace Web.Public.Providers
             }
         }
 
-        public (long TotalCount, List<Address> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
+        public (long TotalCount, List<Address> Organizations) GetFilteredList(string filter, long offset, long limit,
+            string orDelimiter, string andDelimiter)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -43,6 +44,30 @@ namespace Web.Public.Controllers
 			_jsonWriter = jsonWriter;
 		}
 
+		[HttpPost]
+		public JsonHttpStatusResult CreateImplementation()
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpPut("{id}")]
+		public JsonHttpStatusResult UpdateImplementation(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpDelete("{id}")]
+		public JsonHttpStatusResult DeleteImplementation(int id)
+		{
+			throw new NotImplementedException();
+		}
+		
+		[HttpGet("{id}")]
+		public JsonHttpStatusResult GetImplementation(int id)
+		{
+			throw new NotImplementedException();
+		}
+		
 		[HttpGet]
 		public JsonHttpStatusResult GetFilteredImplementationList()
 		{

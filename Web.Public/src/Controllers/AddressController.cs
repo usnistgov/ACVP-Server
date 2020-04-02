@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,8 +46,7 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonHttpStatusResult GetAddressList(int vendorId)
         {
-            // TODO
-            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(vendorId));
+            throw new NotImplementedException();
         }
     }
 }

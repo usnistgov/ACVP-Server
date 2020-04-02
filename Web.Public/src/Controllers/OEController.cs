@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -36,6 +37,30 @@ namespace Web.Public.Controllers
 			_messageService = messageService;
 			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
+		}
+		
+		[HttpPost]
+		public JsonHttpStatusResult CreateOE()
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpPut("{id}")]
+		public JsonHttpStatusResult UpdateOE(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpDelete("{id}")]
+		public JsonHttpStatusResult DeleteOE(int id)
+		{
+			throw new NotImplementedException();
+		}
+		
+		[HttpGet("{id}")]
+		public JsonHttpStatusResult GetOE(int id)
+		{
+			throw new NotImplementedException();
 		}
 
 		[HttpGet]

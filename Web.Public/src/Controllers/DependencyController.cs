@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -38,6 +39,30 @@ namespace Web.Public.Controllers
 			_messageService = messageService;
 			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
+		}
+
+		[HttpPost]
+		public JsonHttpStatusResult CreateDependency()
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpPut("{id}")]
+		public JsonHttpStatusResult UpdateDependency(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		[HttpDelete("{id}")]
+		public JsonHttpStatusResult DeleteDependency(int id)
+		{
+			throw new NotImplementedException();
+		}
+		
+		[HttpGet("{id}")]
+		public JsonHttpStatusResult GetDependency(int id)
+		{
+			throw new NotImplementedException();
 		}
 
 		[HttpGet]
