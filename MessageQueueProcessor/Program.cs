@@ -48,6 +48,9 @@ namespace MessageQueueProcessor
 				{
 					services.AddHostedService<Worker>();
 
+					//Do the configuration thing
+					services.Configure<MessageQueueProcessorConfig>(hostContext.Configuration.GetSection("MessageQueueProcessor"));
+
 					//Inject libraries
 					services.InjectACVPCore();
 					services.InjectACVPWorkflow();

@@ -2,9 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageQueueProcessor.MessageProcessors;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NIST.CVP.MessageQueue;
 using NIST.CVP.MessageQueue.Services;
 
@@ -17,12 +17,12 @@ namespace MessageQueueProcessor
 		private readonly IMessageProcessorFactory _messageProcessorFactory;
 		private readonly int _sleepDuration;
 
-		public Worker(ILogger<Worker> logger, IMessageQueueService messageQueueService, IMessageProcessorFactory messageProcessorFactory, IConfiguration configuration)
+		public Worker(ILogger<Worker> logger, IMessageQueueService messageQueueService, IMessageProcessorFactory messageProcessorFactory, IOptions<MessageQueueProcessorConfig> messageQueueProcessorConfig)
 		{
 			_logger = logger;
 			_messageQueueService = messageQueueService;
 			_messageProcessorFactory = messageProcessorFactory;
-			_sleepDuration = configuration.GetValue<int>("MessageQueueProcessor:SleepDuration");
+			_sleepDuration = messageQueueProcessorConfig.Value.SleepDuration;
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
