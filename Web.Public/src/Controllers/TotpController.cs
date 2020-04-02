@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -7,6 +8,7 @@ namespace Web.Public.Controllers
 {
     // TODO Excluded from Prod, only used by developers
     [Route("acvp/[controller]")]
+    [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
     public class TotpController : ControllerBase
     {

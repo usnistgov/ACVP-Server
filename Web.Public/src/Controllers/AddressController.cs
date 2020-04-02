@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -9,18 +10,21 @@ namespace Web.Public.Controllers
 {
     [Route("acvp/vendors/{vendorId}/addresses")]
     [Authorize]
+    [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
     public class AddressController : ControllerBase
     {
         private readonly IAddressService _addressService;
         private readonly IJsonWriterService _jsonWriter;
 
-        public AddressController(IAddressService addressService, IJsonWriterService jsonWriter)
+        public AddressController(
+            IAddressService addressService,
+            IJsonWriterService jsonWriter)
         {
             _addressService = addressService;
             _jsonWriter = jsonWriter;
         }
-        
+
         [HttpGet("{id}")]
         public JsonHttpStatusResult GetAddress(int vendorId, int id)
         {

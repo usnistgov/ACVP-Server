@@ -31,6 +31,7 @@ namespace Web.Public.Models
 
 		public List<string> ValidateObject()
 		{
+			// TODO validate other properties?
 			var errors = new List<string>();
 			
 			if (Emails != null)

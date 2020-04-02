@@ -5,6 +5,7 @@ using System.Net;
 using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -14,6 +15,7 @@ namespace Web.Public.Controllers
 {
 	[Route("acvp/persons")]
 	[Authorize]
+	[TypeFilter(typeof(ExceptionFilter))]
 	[ApiController]
 	public class PersonController : ControllerBase
 	{
@@ -31,10 +33,12 @@ namespace Web.Public.Controllers
 
 		public PersonController(
 			IPersonService personService,
+			IMessageService messageService,
 			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter)
 		{
 			_personService = personService;
+			_messageService = messageService;
 			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
 		}

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -12,12 +13,13 @@ namespace Web.Public.Controllers
 {
 	[Route("acvp/dependencies")]
 	[Authorize]
+	[TypeFilter(typeof(ExceptionFilter))]
 	[ApiController]
 	public class DependencyController : ControllerBase
 	{
 		private readonly IDependencyService _dependencyService;
 		private readonly IMessageService _messageService;
-		//private readonly IJsonReaderService<Dependency> _jsonReader;
+		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
@@ -28,11 +30,13 @@ namespace Web.Public.Controllers
 
 		public DependencyController(
 			IDependencyService dependencyService,
-			//IJsonReaderService<Dependency> jsonReader,
+			IMessageService messageService,
+			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter)
 		{
 			_dependencyService = dependencyService;
-			//_jsonReader = jsonReader;
+			_messageService = messageService;
+			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
 		}
 

@@ -1,8 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
-	public class Address
+	public class Address : IJsonObject
 	{
 		[JsonIgnore]
 		public long ID { get; set; }
@@ -33,5 +35,10 @@ namespace Web.Public.Models
 
 		[JsonPropertyName("postalCode")]
 		public string PostalCode { get; set; }
+
+		public List<string> ValidateObject()
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

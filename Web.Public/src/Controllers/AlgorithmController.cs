@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -7,6 +8,7 @@ using Web.Public.Services;
 namespace Web.Public.Controllers
 {
     [Route("acvp/algorithms")]
+    [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
     public class AlgorithmController : ControllerBase
     {

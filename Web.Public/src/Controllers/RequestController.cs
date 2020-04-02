@@ -1,6 +1,8 @@
+using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
+using Web.Public.Results;
 
 namespace Web.Public.Controllers
 {
@@ -11,15 +13,15 @@ namespace Web.Public.Controllers
     public class RequestController : ControllerBase
     {
         [HttpGet]
-        public void GetAllRequests()
+        public JsonHttpStatusResult GetAllRequests()
         {
-            
+            throw new NotImplementedException();
         }
 
         [HttpGet("{id}")]
-        public void GetRequest(int id)
+        public JsonHttpStatusResult GetRequest(int id)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

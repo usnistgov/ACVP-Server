@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -12,12 +13,13 @@ namespace Web.Public.Controllers
 {
 	[Route("acvp/modules")]
 	[Authorize]
+	[TypeFilter(typeof(ExceptionFilter))]
 	[ApiController]
 	public class ImplementationController : ControllerBase
 	{
 		private readonly IImplementationService _implementationService;
 		private readonly IMessageService _messageService;
-		//private readonly IJsonReaderService<Implementation> _jsonReader;
+		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
@@ -31,11 +33,13 @@ namespace Web.Public.Controllers
 
 		public ImplementationController(
 			IImplementationService implementationService,
-			//IJsonReaderService<Implementation> jsonReader,
+			IMessageService messageService,
+			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter)
 		{
 			_implementationService = implementationService;
-			//_jsonReader = jsonReader;
+			_messageService = messageService;
+			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
 		}
 
