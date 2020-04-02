@@ -20,4 +20,12 @@ export class AdministrativeAjaxProviderService {
     return this.http.get<TaskQueue>(this.apiRoot + '/TaskQueue');
   }
 
+  deleteMessage(id: string) {
+    return this.http.delete(this.apiRoot + '/MessageQueue/' + id);
+  }
+
+  deleteTask(id: number) {
+    return this.http.delete(this.apiRoot + '/TaskQueue/' + id);
+  }
+
 }

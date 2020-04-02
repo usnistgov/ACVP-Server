@@ -17,6 +17,7 @@
               <th>Created</th>
               <th>Length</th>
               <th>Payload</th>
+              <th style="text-align:center;">Delete</th>
             </tr>
           </thead>
           <tbody *ngIf="messageQueue?.data.length > 0">
@@ -27,10 +28,11 @@
               <td>{{ message.createdOn  | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{ message.length }}</td>
               <td><a [attr.href]="'/api/MessageQueue/' + message.id">Download</a></td>
+              <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="deleteMessage(message.id)">X</button></td>
             </tr>
           </tbody>
           <tbody *ngIf="messageQueue?.data.length === 0">
-            <tr><td colspan="6" align="center">No messages</td></tr>
+            <tr><td colspan="7" align="center">No messages</td></tr>
           </tbody>
         </table>
       </div><!-- Close Main Table Row -->

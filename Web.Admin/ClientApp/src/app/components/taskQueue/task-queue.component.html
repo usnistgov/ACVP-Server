@@ -18,6 +18,7 @@
               <th>showExpected</th>
               <th>Status</th>
               <th>Created</th>
+              <th style="text-align:center;">Delete</th>
             </tr>
           </thead>
           <tbody *ngIf="taskQueue?.data.length > 0">
@@ -29,10 +30,11 @@
               <td>{{ task.showExpected }}</td>
               <td>{{ task.status   }}</td>
               <td>{{ task.createdOn  | date:'yyyy-MM-dd HH:mm'}}</td>
+              <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">X</button></td>
             </tr>
           </tbody>
           <tbody *ngIf="taskQueue?.data.length === 0">
-            <tr><td colspan="7" align="center">No messages</td></tr>
+            <tr><td colspan="8" align="center">No messages</td></tr>
           </tbody>
         </table>
       </div><!-- Close Main Table Row -->

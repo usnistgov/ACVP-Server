@@ -13,6 +13,14 @@ export class MessageQueueComponent implements OnInit {
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService) { }
 
+  deleteMessage(id: string) {
+    this.AdministrativeAjax.deleteMessage(id).subscribe(
+      data => {
+        // Reload the page
+        this.ngOnInit();
+      });
+  }
+
   ngOnInit() {
     this.AdministrativeAjax.getMessageQueue().subscribe(
       data => {

@@ -13,6 +13,14 @@ export class TaskQueueComponent implements OnInit {
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService) { }
 
+  deleteTask(id: number) {
+    this.AdministrativeAjax.deleteTask(id).subscribe(
+      data => {
+        // Reload the page
+        this.ngOnInit();
+      });
+  }
+
   ngOnInit() {
     this.AdministrativeAjax.getTaskQueue().subscribe(
       data => {
