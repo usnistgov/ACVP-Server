@@ -20,7 +20,7 @@
               <th>Created</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="taskQueue?.data.length > 0">
             <tr *ngFor="let task of taskQueue?.data">
               <td>{{ task.id }}</td>
               <td>{{ task.type }}</td>
@@ -30,6 +30,9 @@
               <td>{{ task.status   }}</td>
               <td>{{ task.createdOn  | date:'yyyy-MM-dd HH:mm'}}</td>
             </tr>
+          </tbody>
+          <tbody *ngIf="taskQueue?.data.length === 0">
+            <tr><td colspan="6" align="center">No messages</td></tr>
           </tbody>
         </table>
       </div><!-- Close Main Table Row -->

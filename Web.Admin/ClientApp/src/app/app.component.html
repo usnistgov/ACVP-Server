@@ -9,7 +9,7 @@
       <ul class="navbar-nav ml-auto">
 
         <!-- ACVP Navbar group -->
-        <li class="nav-item dropdown">
+        <!--<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbar_acvp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ACVP
           </a>
@@ -19,7 +19,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" [routerLink]="['/workflow']">Workflow Items</a>
           </div>
-        </li>
+        </li>-->
 
         <!-- Administration navbar group -->
         <li class="nav-item dropdown">
@@ -27,7 +27,8 @@
             Administration
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_administration">
-            <a class="dropdown-item" href="#">Properties</a>
+            <a class="dropdown-item" [routerLink]="['/messageQueue']">Message Queue</a>
+            <a class="dropdown-item" [routerLink]="['/taskQueue']">Task Queue</a>
           </div>
         </li>
 
@@ -38,7 +39,6 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_legacy">
             <a class="dropdown-item" [routerLink]="['/legacyFileUpload']">Upload ZIP</a>
-            <a class="dropdown-item" href="#">Review</a>
           </div>
         </li>
 

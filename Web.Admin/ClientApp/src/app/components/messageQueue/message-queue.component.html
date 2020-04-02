@@ -19,7 +19,7 @@
               <th>Payload</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="messageQueue?.data.length > 0">
             <tr *ngFor="let message of messageQueue?.data">
               <td>{{ message.id }}</td>
               <td>{{ message.status }}</td>
@@ -28,6 +28,9 @@
               <td>{{ message.length }}</td>
               <td><a [attr.href]="'/api/MessageQueue/' + message.id">Download</a></td>
             </tr>
+          </tbody>
+          <tbody *ngIf="messageQueue?.data.length === 0">
+            <tr><td colspan="6" align="center">No messages</td></tr>
           </tbody>
         </table>
       </div><!-- Close Main Table Row -->
