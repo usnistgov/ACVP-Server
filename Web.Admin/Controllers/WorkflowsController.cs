@@ -10,7 +10,7 @@ namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class WorkflowsController : BaseAuthorizedController
+    public class WorkflowsController : ControllerBase
     {
         private readonly ILogger<WorkflowsController> _logger;
         private readonly IWorkflowService _workflowService;
