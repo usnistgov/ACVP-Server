@@ -83,10 +83,13 @@ namespace ACVPCore.Services
 			}
 
 			//Insert all the attribute records
-			InsertResult attributeResult;
-			foreach (DependencyAttributeCreateParameters attribute in dependency.Attributes)
+			if (dependency.Attributes != null)
 			{
-				attributeResult = _dependencyProvider.InsertAttribute(dependencyInsertResult.ID, attribute.Name, attribute.Value);
+				InsertResult attributeResult;
+				foreach (DependencyAttributeCreateParameters attribute in dependency.Attributes)
+				{
+					attributeResult = _dependencyProvider.InsertAttribute(dependencyInsertResult.ID, attribute.Name, attribute.Value);
+				}
 			}
 
 			return new DependencyResult(dependencyInsertResult.ID);
