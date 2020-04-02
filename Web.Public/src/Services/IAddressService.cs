@@ -6,6 +6,6 @@ namespace Web.Public.Services
     public interface IAddressService
     {
         Address Get(long vendorId, long id);
-        (long TotalCount, List<Address> Addresses) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
+        (long TotalRecords, List<Address> Addresses) GetAddressList(long vendorId, PagingOptions pagingOptions);
     }
 }

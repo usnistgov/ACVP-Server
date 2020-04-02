@@ -15,6 +15,24 @@ namespace Web.Public.Services
 
         public Address Get(long vendorId, long id) => _addressProvider.Get(vendorId, id);
 
-        public (long TotalCount, List<Address> Addresses) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter) => _addressProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+        public (long TotalRecords, List<Address> Addresses) GetAddressList(long vendorId, PagingOptions pagingOptions)
+        {
+            var addressList = _addressProvider.GetAddressList(vendorId);
+
+            // If there isn't enough for a full page, return the list
+            if (addressList.Count <= pagingOptions.Limit)
+            {
+                pagingOptions.Limit = addressList.Count;
+                return (addressList.Count, addressList);
+            }
+
+            // Fix limit so it doesn't go past the end of the list
+            if (pagingOptions.Offset + pagingOptions.Limit > addressList.Count)
+            {
+                pagingOptions.Limit = addressList.Count - pagingOptions.Offset;
+            }
+            
+            return (addressList.Count, addressList.GetRange(pagingOptions.Offset, pagingOptions.Limit));
+        }
     }
 }

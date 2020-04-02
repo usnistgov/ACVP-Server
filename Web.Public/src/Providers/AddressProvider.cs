@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
 using Serilog;
@@ -54,10 +55,43 @@ namespace Web.Public.Providers
             }
         }
 
-        public (long TotalCount, List<Address> Organizations) GetFilteredList(string filter, long offset, long limit,
-            string orDelimiter, string andDelimiter)
+        public List<Address> GetAddressList(long vendorId)
         {
-            throw new NotImplementedException();
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
+                {
+                    OrganizationID = vendorId
+                });
+
+                if (addressData == null)
+                {
+                    throw new Exception("Unable to find address");
+                }
+                
+                var addresses = addressData.ToList().Select(address => new Address
+                    {
+                        ID = address.ID,
+                        OrganizationID = address.OrganizationID,
+                        Street1 = address.Street1,
+                        Street2 = address.Street2,
+                        Street3 = address.Street3,
+                        Locality = address.Locality,
+                        Region = address.Region,
+                        Country = address.Country,
+                        PostalCode = address.PostalCode
+                    })
+                    .ToList();
+
+                return addresses;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unable to find addresses for organization: {vendorId}", ex);
+                throw;
+            }
         }
     }
 }
