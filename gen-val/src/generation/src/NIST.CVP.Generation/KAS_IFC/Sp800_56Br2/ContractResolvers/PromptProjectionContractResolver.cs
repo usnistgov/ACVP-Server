@@ -114,10 +114,10 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers
             #region Conditional Test Case properties
             var includePropertiesValScenarios = new[]
             {
-                nameof(TestCase.ServerD),
-                nameof(TestCase.ServerDmp1),
-                nameof(TestCase.ServerDmq1),
-                nameof(TestCase.ServerIqmp),
+                // nameof(TestCase.ServerD),
+                // nameof(TestCase.ServerDmp1),
+                // nameof(TestCase.ServerDmq1),
+                // nameof(TestCase.ServerIqmp),
                 nameof(TestCase.Tag),
                 nameof(TestCase.Dkm)
             };
