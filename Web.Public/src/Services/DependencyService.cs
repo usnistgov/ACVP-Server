@@ -13,6 +13,8 @@ namespace Web.Public.Services
 			_dependencyProvider = dependencyProvider;
 		}
 
+		public Dependency GetDependency(long id) => _dependencyProvider.GetDependency(id);
+
 		public (long TotalCount, List<Dependency> Dependencys) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _dependencyProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}

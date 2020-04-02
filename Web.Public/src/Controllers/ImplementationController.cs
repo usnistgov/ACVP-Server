@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
@@ -47,19 +48,80 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public JsonHttpStatusResult CreateImplementation()
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var implementation = _jsonReader.GetObjectFromBodyJson<Implementation>(jsonBlob);
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.CreateImplementation, certRawData, implementation);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
 		[HttpPut("{id}")]
 		public JsonHttpStatusResult UpdateImplementation(int id)
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var implementation = _jsonReader.GetObjectFromBodyJson<Implementation>(jsonBlob);
+
+			implementation.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateImplementation, certRawData, implementation);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
 		[HttpDelete("{id}")]
 		public JsonHttpStatusResult DeleteImplementation(int id)
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var implementation = _jsonReader.GetObjectFromBodyJson<Implementation>(jsonBlob);
+
+			implementation.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.DeleteImplementation, certRawData, implementation);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 		
 		[HttpGet("{id}")]

@@ -32,6 +32,7 @@ namespace Web.Public.Controllers
         [HttpGet("{id}")]
         public JsonHttpStatusResult GetAlgorithmProperties(int id)
         {
+            // TODO more information
             var algo = _algoService.GetAlgorithm(id);
             if (algo == null)
             {

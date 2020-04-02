@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
@@ -18,6 +17,11 @@ namespace Web.Public.Providers
 		{
 			_logger = logger;
 			_acvpPublicConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+		}
+
+		public Dependency GetDependency(long id)
+		{
+			throw new NotImplementedException();
 		}
 
 		public (long TotalCount, List<Dependency> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)

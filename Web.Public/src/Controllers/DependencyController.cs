@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using ACVPWorkflow;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
@@ -44,19 +45,80 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public JsonHttpStatusResult CreateDependency()
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.CreateDependency, certRawData, dependency);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
 		[HttpPut("{id}")]
 		public JsonHttpStatusResult UpdateDependency(int id)
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+
+			dependency.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateDependency, certRawData, dependency);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 
 		[HttpDelete("{id}")]
 		public JsonHttpStatusResult DeleteDependency(int id)
 		{
-			throw new NotImplementedException();
+			// Get user cert
+			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+
+			// Get raw JSON
+			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			
+			// Convert to Dependency
+			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+
+			dependency.ID = id;
+			
+			// Pass to message queue
+			var requestID = _messageService.InsertIntoQueue(APIAction.DeleteDependency, certRawData, dependency);
+			
+			// Build request object for response
+			var requestObject = new RequestObject
+			{
+				RequestID = requestID,
+				Status = RequestStatus.Initial
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
 		}
 		
 		[HttpGet("{id}")]
