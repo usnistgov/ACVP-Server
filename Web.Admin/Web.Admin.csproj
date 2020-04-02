@@ -45,6 +45,8 @@
       <None Remove="ClientApp\src\app\models\dependency.ts" />
       <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
       <None Remove="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\MessageQueue\Message.ts" />
+      <None Remove="ClientApp\src\app\models\MessageQueue\MessageQueue.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
@@ -62,6 +64,8 @@
       <None Remove="ClientApp\src\app\models\Product\ProductListParameters.ts" />
       <None Remove="ClientApp\src\app\models\responses\PagedEnumerable.ts" />
       <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+      <None Remove="ClientApp\src\app\models\TaskQueue\Task.ts" />
+      <None Remove="ClientApp\src\app\models\TaskQueue\TaskQueue.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
@@ -137,6 +141,14 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TaskQueue\Task.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\TaskQueue\TaskQueue.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\MessageQueue\Message.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\MessageQueue\MessageQueue.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />

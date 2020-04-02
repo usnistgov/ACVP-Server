@@ -42,6 +42,8 @@ import { WorkflowOeDeleteComponent } from './components/workflow/operatingEnviro
 import { WorkflowOrganizationDeleteComponent } from './components/workflow/organization/delete/workflow-organization-delete.component';
 import { WorkflowPersonDeleteComponent } from './components/workflow/person/delete/workflow-person-delete.component';
 import { WorkflowProductDeleteComponent } from './components/workflow/product/delete/workflow-product-delete.component';
+import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
+import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { WorkflowProductDeleteComponent } from './components/workflow/product/de
     WorkflowOeDeleteComponent,
     WorkflowOrganizationDeleteComponent,
     WorkflowPersonDeleteComponent,
-    WorkflowProductDeleteComponent
+    WorkflowProductDeleteComponent,
+    MessageQueueComponent,
+    TaskQueueComponent
   ],
   imports: [
     BrowserModule,

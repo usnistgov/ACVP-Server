@@ -18,6 +18,8 @@ import { ValidationDbOrganizationsComponent } from './components/validation-db-o
 import { WorkflowComponent } from './components/workflow/workflow/workflow.component';
 import { WorkflowsComponent } from './components/workflows/workflows.component';
 import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
+import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
+import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,14 @@ const routes: Routes = [
   {
     path: 'validation-db/organizations/:id',
     component: ValidationDbOrganizationComponent
+  },
+  {
+    path: 'messageQueue',
+    component: MessageQueueComponent
+  },
+  {
+    path: 'taskQueue',
+    component: TaskQueueComponent
   },
   {
     // This is a parent module that loads all the other workflow modules itself

@@ -53,11 +53,10 @@ namespace NIST.CVP.MessageQueue.Providers
 		public string GetMessagePayload(Guid id)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
-
-			return (string)db.ScalarFromProcedure("common.MessageGetPayload", inParams: new
+			return db.ScalarFromProcedure("common.MessageGetPayload", inParams: new
 			{
 				MessageId = id
-			});
+			}).ToString();
 		}
 	}
 }
