@@ -125,10 +125,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            // RsaKpg2_crt = new RsaKpg2_crt()
-                            // {
-                            //     Modulo = new[] { 2048 },
-                            // }
                             RsaKpg1_crt = new RsaKpg1_crt()
                             {
                                 PublicExponent = new BigInteger(65537),
@@ -161,7 +157,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
-                    Kas1_partyV_confirmation = new Kas1_partyV_confirmation()
+                    Kas1_basic = new Kas1_basic()
                     {
                         L = 512,
                         KasRole = new[]
@@ -178,8 +174,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                 {
                                     new AuxFunction()
                                     {
-                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                                        MacSaltMethods = new []{ MacSaltMethod.Default }
+                                        AuxFunctionName = KasKdfOneStepAuxFunction.SHA2_D256
                                     }
                                 },
                                 FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
@@ -205,23 +200,11 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            // RsaKpg2_crt = new RsaKpg2_crt()
-                            // {
-                            //     Modulo = new[] { 2048 },
-                            // }
                             RsaKpg1_crt = new RsaKpg1_crt()
                             {
                                 PublicExponent = new BigInteger(65537),
                                 Modulo = new[] { 2048 },
                             }
-                        },
-                        MacMethods = new MacMethods()
-                        {
-                            Kmac128 = new MacOptionKmac128()
-                            {
-                                KeyLen = 128,
-                                MacLen = 224
-                            },
                         }
                     },
                 }

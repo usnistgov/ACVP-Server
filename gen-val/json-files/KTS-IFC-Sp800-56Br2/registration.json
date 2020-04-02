@@ -20,8 +20,7 @@
           "privateKeyMode": "standard",
           "modulo": [
             2048
-          ],
-          "fixedPublicExponent": ""
+          ]
         }
       },
       "ktsMethod": {

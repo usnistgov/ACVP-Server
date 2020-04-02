@@ -76,34 +76,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
-                    //                    Kts_oaep_basic = new Kts_oaep_basic()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KtsMethod = new KtsMethod()
-                    //                        {
-                    //                            Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                            HashAlgs = new []{ KasHashAlg.SHA2_D224 },
-                    //                            AssociatedDataPattern = "l||uPartyInfo||vPartyInfo",
-                    //                            SupportsNullAssociatedData = true
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        }
-                    //                    },
                     Kts_oaep_partyV_confirmation = new Kts_oaep_partyV_confirmation()
                     {
                         L = 512,
@@ -121,11 +93,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            //                            RsaKpg1_basic = new RsaKpg1_basic()
-                            //                            {
-                            //                                Modulo = new[] { 2048 },
-                            //                                FixedPublicExponent = new BigInteger(65537)
-                            //                            },
                             RsaKpg2_basic = new RsaKpg2_basic()
                             {
                                 Modulo = new[] { 2048 },
@@ -157,34 +124,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
-                    //                    Kts_oaep_basic = new Kts_oaep_basic()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KtsMethod = new KtsMethod()
-                    //                        {
-                    //                            Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                            HashAlgs = new []{ KasHashAlg.SHA2_D224 },
-                    //                            AssociatedDataPattern = "l||uPartyInfo||vPartyInfo",
-                    //                            SupportsNullAssociatedData = true
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        }
-                    //                    },
                     Kts_oaep_partyV_confirmation = new Kts_oaep_partyV_confirmation()
                     {
                         L = 512,
@@ -202,11 +141,6 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            //                            RsaKpg1_basic = new RsaKpg1_basic()
-                            //                            {
-                            //                                Modulo = new[] { 2048 },
-                            //                                FixedPublicExponent = new BigInteger(65537)
-                            //                            },
                             RsaKpg2_basic = new RsaKpg2_basic()
                             {
                                 Modulo = new[] { 2048 },
