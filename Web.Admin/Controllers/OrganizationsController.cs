@@ -12,7 +12,7 @@ namespace Web.Admin.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class OrganizationsController : BaseAuthorizedController
+	public class OrganizationsController : ControllerBase
 	{
 		private readonly IOrganizationService _organizationService;
 
