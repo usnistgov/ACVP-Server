@@ -50,9 +50,9 @@ namespace ACVPCore.Services
 				return new OEResult(oeInsertResult.ErrorMessage);
 			}
 
-			//Insert all the dependency links
+			//Insert all the dependency links)
 			Result linkResult;
-			foreach (long dependencyID in oe.DependencyIDs)
+			foreach (long dependencyID in oe.DependencyIDs ?? new List<long>())
 			{
 				linkResult = _oeProvider.InsertDependencyLink(oeInsertResult.ID, dependencyID);
 			}

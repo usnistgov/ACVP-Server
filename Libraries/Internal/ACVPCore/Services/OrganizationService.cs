@@ -69,20 +69,26 @@ namespace ACVPCore.Services
 			}
 
 			//Insert the email addresses. Using a for loop instead of a foreach because the order of the addresses needs to be specified
-			Result emailResult;
-			for (int i = 0; i < parameters.EmailAddresses.Count; i++)
+			if (parameters.EmailAddresses != null)
 			{
-				emailResult = _organizationProvider.InsertEmailAddress(organizationInsertResult.ID, parameters.EmailAddresses[i], i);
+				Result emailResult;
+				for (int i = 0; i < parameters.EmailAddresses.Count; i++)
+				{
+					emailResult = _organizationProvider.InsertEmailAddress(organizationInsertResult.ID, parameters.EmailAddresses[i], i);
+				}
 			}
 
 			//Insert the addresses. Using a for loop because the org ID and the order index need to be included in the parameters
-			InsertResult addressResult;
-			for (int i = 0; i < parameters.Addresses.Count; i++)
+			if (parameters.Addresses != null)
 			{
-				parameters.Addresses[i].OrganizationID = organizationInsertResult.ID;
-				parameters.Addresses[i].OrderIndex = i;
+				InsertResult addressResult;
+				for (int i = 0; i < parameters.Addresses.Count; i++)
+				{
+					parameters.Addresses[i].OrganizationID = organizationInsertResult.ID;
+					parameters.Addresses[i].OrderIndex = i;
 
-				addressResult = _addressService.Create(parameters.Addresses[i]);
+					addressResult = _addressService.Create(parameters.Addresses[i]);
+				}
 			}
 
 			return new OrganizationResult(organizationInsertResult.ID);

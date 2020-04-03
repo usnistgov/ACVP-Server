@@ -60,10 +60,13 @@ namespace ACVPCore.Services
 			}
 
 			//Insert the contact. Using a for loop instead of a foreach because the order needs to be specified
-			Result contactResult;
-			for (int i = 0; i < parameters.ContactIDs.Count; i++)
+			if (parameters.ContactIDs != null)
 			{
-				contactResult = _implementationProvider.InsertContact(implementationInsertResult.ID, parameters.ContactIDs[i], i);
+				Result contactResult;
+				for (int i = 0; i < parameters.ContactIDs.Count; i++)
+				{
+					contactResult = _implementationProvider.InsertContact(implementationInsertResult.ID, parameters.ContactIDs[i], i);
+				}
 			}
 
 			return new ImplementationResult(implementationInsertResult.ID);
