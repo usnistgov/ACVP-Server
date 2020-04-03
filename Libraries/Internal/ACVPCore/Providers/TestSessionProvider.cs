@@ -143,6 +143,7 @@ namespace ACVPCore.Providers
 						param.PageSize,
 						param.Page,
 						param.TestSessionId,
+						param.TestSessionStatus,
 						param.VectorSetId
 					}, new
 					{
