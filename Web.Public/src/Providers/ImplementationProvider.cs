@@ -4,6 +4,7 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -17,6 +18,57 @@ namespace Web.Public.Providers
 		{
 			_logger = logger;
 			_acvpPublicConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+		}
+
+		public Implementation Get(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.ImplementationGet", new
+				{
+					ID = id
+				});
+
+				if (data == null)
+				{
+					throw new Exception($"Unable to find implementation: {id}");
+				}
+				
+				var result = new Implementation
+				{
+					ID = id,
+					Name = data.ImplementationName,
+					TypeString = data.ImplementationType,
+					Version = data.ImplementationVersion,
+					Description = data.ImplementationDescription,
+					Website = data.Website,
+					AddressID = data.AddressID,
+					OrganizationID = data.OrganizationID
+				};
+
+				var personData = db.QueryFromProcedure("val.PersonsForImplementationGet", new
+				{
+					ImplementationID = id
+				});
+
+				if (personData != null)
+				{
+					result.ContactIDs = new List<long>();
+					foreach (var person in personData)
+					{
+						result.ContactIDs.Add(person.PersonID);
+					}
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, "Error on Implementation GET");
+				throw;
+			}
 		}
 
 		public (long TotalCount, List<Implementation> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -122,7 +121,8 @@ namespace Web.Public.Controllers
 		[HttpGet("{id}")]
 		public JsonHttpStatusResult GetOE(int id)
 		{
-			throw new NotImplementedException();
+			var oe = _oeService.GetOE(id);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(oe));
 		}
 
 		[HttpGet]

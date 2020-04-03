@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -124,7 +123,8 @@ namespace Web.Public.Controllers
 		[HttpGet("{id}")]
 		public JsonHttpStatusResult GetDependency(int id)
 		{
-			throw new NotImplementedException();
+			var dependency = _dependencyService.GetDependency(id);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(dependency));
 		}
 
 		[HttpGet]

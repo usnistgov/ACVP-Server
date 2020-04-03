@@ -127,7 +127,19 @@ namespace Web.Public.Controllers
 		[HttpGet("{id}")]
 		public JsonHttpStatusResult GetImplementation(int id)
 		{
-			throw new NotImplementedException();
+			var result = _implementationService.GetImplementation(id);
+			if (result == null)
+			{
+				return new JsonHttpStatusResult(
+					_jsonWriter.BuildVersionedObject(
+						new ErrorObject
+						{
+							Error = $"Unable to find implementation with id: {id}"
+						}),
+					HttpStatusCode.NotFound);
+			}
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));
 		}
 		
 		[HttpGet]

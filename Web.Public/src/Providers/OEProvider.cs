@@ -4,6 +4,7 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -17,6 +18,50 @@ namespace Web.Public.Providers
 		{
 			_logger = logger;
 			_acvpPublicConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+		}
+
+		public OperatingEnvironment Get(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.OEGet", new
+				{
+					OEID = id
+				});
+
+				if (data == null)
+				{
+					throw new Exception($"Unable to find OE with id: {id}");
+				}
+				
+				var result = new OperatingEnvironment
+				{
+					Name = data.Name
+				};
+
+				var dependencyData = db.QueryFromProcedure("val.DependenciesForOEGet", new
+				{
+					OEID = id
+				});
+
+				if (dependencyData != null)
+				{
+					result.DependencyIDs = new List<long>();
+					foreach (var dependency in dependencyData)
+					{
+						result.DependencyIDs.Add(dependency.DependencyID);
+					}
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, "Unable to find OE");
+				throw;
+			}
 		}
 
 		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)

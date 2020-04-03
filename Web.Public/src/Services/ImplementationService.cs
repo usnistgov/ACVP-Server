@@ -13,6 +13,8 @@ namespace Web.Public.Services
 			_implementationProvider = implementationProvider;
 		}
 
+		public Implementation GetImplementation(long id) => _implementationProvider.Get(id);
+
 		public (long TotalCount, List<Implementation> Implementations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _implementationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}

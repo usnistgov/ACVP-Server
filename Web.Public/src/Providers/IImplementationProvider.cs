@@ -5,6 +5,7 @@ namespace Web.Public.Providers
 {
 	public interface IImplementationProvider
 	{
+		Implementation Get(long id);
 		(long TotalCount, List<Implementation> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter);
 	}
 }

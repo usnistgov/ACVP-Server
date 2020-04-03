@@ -13,6 +13,8 @@ namespace Web.Public.Services
 			_oeProvider = oeProvider;
 		}
 
+		public OperatingEnvironment GetOE(long id) => _oeProvider.Get(id);
+
 		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _oeProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}

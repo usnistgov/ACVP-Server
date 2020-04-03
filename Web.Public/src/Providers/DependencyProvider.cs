@@ -4,6 +4,7 @@ using System.Linq;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -21,7 +22,49 @@ namespace Web.Public.Providers
 
 		public Dependency GetDependency(long id)
 		{
-			throw new NotImplementedException();
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("val.DependencyGet", new
+				{
+					DependencyID = id
+				});
+
+				if (data == null)
+				{
+					throw new Exception($"Unable to find dependency with id: {id}");
+				}
+				
+				var result = new Dependency
+				{
+					ID = id,
+					Description = data.Description,
+					Name = data.Name,
+					Type = data.Type
+				};
+
+				var dataAttributes = db.QueryFromProcedure("val.DependencyAttributeGet", new
+				{
+					DependencyID = id
+				});
+
+				if (dataAttributes != null)
+				{
+					result.Attributes = new Dictionary<string, object>();
+					foreach (var attribute in dataAttributes)
+					{
+						result.Attributes.Add(attribute.Name, attribute.Value);
+					}
+				}
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				Log.Error(ex, "Unable to find dependency");
+				throw;
+			}
 		}
 
 		public (long TotalCount, List<Dependency> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
