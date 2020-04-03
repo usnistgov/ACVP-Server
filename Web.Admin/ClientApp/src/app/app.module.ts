@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
+import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 
 // These two additional ones are for the ngx-file-upload library used for LCAVP uploads.  However, the HTTP
 // one may be necessary once implementing AJAX shortly
@@ -50,6 +51,7 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
     AppComponent,
     HomeComponent,
     AboutComponent,
+    CurrentUserComponent,
     LegacyFileUploadComponent,
     ValidationDbValidationComponent,
     ValidationDbValidationsComponent,

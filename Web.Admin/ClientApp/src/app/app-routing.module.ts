@@ -20,11 +20,16 @@ import { WorkflowsComponent } from './components/workflows/workflows.component';
 import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
 import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
 import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
+import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'currentUser',
+    component: CurrentUserComponent
   },
   {
     path: 'legacyFileUpload',
