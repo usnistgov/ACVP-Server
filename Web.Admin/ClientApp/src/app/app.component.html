@@ -8,16 +8,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
 
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/']" id="navbar_home" role="button">
+            Home
+          </a>
+        </li>
+
         <!-- ACVP Navbar group -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbar_acvp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" id="navbar_acvp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ACVP
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_acvp">
             <!--<a class="dropdown-item" href="#">Users</a>-->
             <!--<a class="dropdown-item" href="#">Sessions</a>-->
-            <a class="dropdown-item" href="/">ACVP Home</a>
-            <div class="dropdown-divider"></div>
+            <!--<div class="dropdown-divider"></div>-->
             <a class="dropdown-item" [routerLink]="['/workflow']">Workflow Items</a>
           </div>
         </li>
