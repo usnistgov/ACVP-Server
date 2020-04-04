@@ -1,4 +1,5 @@
-﻿CREATE TABLE [acvp].[VECTOR_SET_EXPECTED_RESULTS] (
+﻿-- TODO - Drop this table after data is migrated - not removing it yet because dropping it before data migration would be bad...
+CREATE TABLE [acvp].[VECTOR_SET_EXPECTED_RESULTS] (
     [vector_set_id]       BIGINT          NOT NULL,
     [capabilities]        VARBINARY (MAX) NOT NULL,
     [prompt]              VARBINARY (MAX) NULL,
