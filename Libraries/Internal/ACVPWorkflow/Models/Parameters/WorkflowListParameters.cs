@@ -19,5 +19,9 @@ namespace ACVPWorkflow.Models.Parameters
         /// The requestId of the workflow item.
         /// </summary>
         public string RequestId { get; set; }
+        /// <summary>
+        /// The status of the workflow item.
+        /// </summary>
+        public WorkflowStatus? Status { get; set; }
     }
 }

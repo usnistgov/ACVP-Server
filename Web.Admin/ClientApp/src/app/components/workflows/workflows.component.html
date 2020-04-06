@@ -10,10 +10,10 @@
         <div class="container">
           <h3>Filters</h3>
           <label class="bold-heading">RequestId</label><br />
-          <input type="text" class="form-control" [(ngModel)]="requestId" (ngModelChange)="loadData()" placeholder="Request Id" />
+          <input type="text" class="form-control" [(ngModel)]="listData.RequestId" (ngModelChange)="loadData()" placeholder="Request Id" />
           <br /> <!-- Just for spacing -->
           <label class="bold-heading">API Action</label><br />
-          <select class="form-control" #selectList (change)="setAPIAction(selectList.value)">
+          <select class="form-control" #APIActionList (change)="setAPIAction(APIActionList.value)">
             <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
             <option (click)="setAPIAction('All')" value="All">All</option>
             <option *ngFor="let apiAction of APIAction.values()" (click)="setAPIAction(apiAction)" value="{{apiAction}}">
@@ -21,9 +21,14 @@
             </option>
           </select>
           <br />
-          <label class="bold-heading">DB ID</label><br />
-          <input type="text" class="form-control" [(ngModel)]="DBID" (ngModelChange)="loadData()" placeholder="DB ID" />
-
+          <label class="bold-heading">Status</label><br />
+          <select class="form-control" #statusList (change)="setStatus(statusList.value)">
+            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
+            <option (click)="setAPIAction('All')" value="All">All</option>
+            <option *ngFor="let status of WorkflowStatus.values()" (click)="setStatus(status)" value="{{status}}">
+              {{status}}
+            </option>
+          </select>
         </div>
       </div>
     </div>

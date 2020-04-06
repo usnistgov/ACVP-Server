@@ -96,6 +96,7 @@
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowListParameters.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts" />
     </ItemGroup>
 
@@ -226,6 +227,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowDeletePayload.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
