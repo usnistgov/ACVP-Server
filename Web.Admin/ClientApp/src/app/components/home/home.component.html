@@ -122,7 +122,7 @@
                       <p *ngIf="vectorSet.jsonFilesAvailable.length == 0">No Files Available</p>
                       <p *ngIf="vectorSet.jsonFilesAvailable.length > 0">Available Files:</p>
                       <ul>
-                        <li *ngFor="let fileName of vectorSet.jsonFilesAvailable"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/' + fileName" target="_blank">{{fileName}}</a></li>
+                        <li *ngFor="let fileName of vectorSet.jsonFilesAvailable"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/' + fileName" [attr.target]="'_blank'">{{fileName}}</a></li>
                       </ul>
                     </td>
 
