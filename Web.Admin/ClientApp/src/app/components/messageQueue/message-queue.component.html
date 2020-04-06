@@ -27,7 +27,7 @@
               <td>{{ message.messageType }}</td>
               <td>{{ message.createdOn  | date:'yyyy-MM-dd HH:mm'}}</td>
               <td>{{ message.length }}</td>
-              <td><a [attr.href]="'/api/MessageQueue/' + message.id" target="_blank">Download</a></td>
+              <td><a [attr.href]="'/api/MessageQueue/' + message.id" [attr.target]="'_blank'">Download</a></td>
               <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="deleteMessage(message.id)">X</button></td>
             </tr>
           </tbody>
