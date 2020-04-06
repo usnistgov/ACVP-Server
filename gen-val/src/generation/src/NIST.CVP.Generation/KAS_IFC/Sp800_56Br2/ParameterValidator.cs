@@ -554,8 +554,9 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
@@ -616,8 +617,9 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if (!ValidAssociatedDataPatternPieces.Contains(fiPiece))

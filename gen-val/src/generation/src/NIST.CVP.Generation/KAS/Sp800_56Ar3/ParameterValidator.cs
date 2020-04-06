@@ -586,8 +586,9 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
-                        continue;
                     }
+
+                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
