@@ -39,9 +39,7 @@ namespace Web.Admin
                     {
                         builder
                             //.WithOrigins("https://sts.nist.gov")
-                            .AllowAnyOrigin()
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyOrigin();
                     });
             });
             
@@ -62,16 +60,18 @@ namespace Web.Admin
 
             if (ssoConfig.UseSso)
             {
+                Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
                 services.AddAuthentication(sharedOptions =>
                     {
                         sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        sharedOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                         sharedOptions.DefaultChallengeScheme = WsFederationDefaults.AuthenticationScheme;
                     })
                     .AddWsFederation(options =>
                     {
                         options.Wtrealm = ssoConfig.WtRealm;
                         options.MetadataAddress = ssoConfig.AdfsMetadata;
-                        options.Events.OnAuthenticationFailed = context =>
+                        options.Events.OnAuthenticationFailed += context =>
                         {
                             var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Startup>>();
                             logger.LogError("Failed auth.");
@@ -80,7 +80,7 @@ namespace Web.Admin
                             
                             return Task.CompletedTask;
                         }; 
-                        options.Events.OnSecurityTokenValidated = PrincipalValidator.ValidateAsync;
+                        options.Events.OnSecurityTokenValidated += PrincipalValidator.ValidateAsync;
                     })
                     .AddCookie();
             }

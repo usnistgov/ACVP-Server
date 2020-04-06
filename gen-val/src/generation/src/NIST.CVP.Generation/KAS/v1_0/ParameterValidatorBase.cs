@@ -345,8 +345,9 @@ namespace NIST.CVP.Generation.KAS.v1_0
                     catch (InvalidBitStringLengthException e)
                     {
                         errorResults.Add(e.Message);
-                        continue;
                     }
+                    
+                    continue;
                 }
 
                 if (!ValidFixedInfoPatternPieces.Contains(fiPiece))

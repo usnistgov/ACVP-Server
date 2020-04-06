@@ -63,6 +63,11 @@ namespace ACVPWorkflow.Services
 				_logger.LogWarning(ex);
 				return new Result(ex.Message);
 			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+				return new Result(ex.Message);
+			}
 		}
 
 
@@ -95,6 +100,11 @@ namespace ACVPWorkflow.Services
 			catch (ResourceProcessorException ex)
 			{
 				UpdateStatus(workflowItem, WorkflowStatus.Incomplete);
+				_logger.LogError(ex);
+				return new Result(ex.Message);
+			}
+			catch (Exception ex)
+			{
 				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}

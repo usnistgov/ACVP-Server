@@ -5,8 +5,8 @@ namespace ACVPCore.Models.Parameters
 	public class CertifyTestSessionParameters
 	{
 		public long TestSessionID { get; set; }
-		public long ImplementationID { get; set; }
-		public long OEID { get; set; }
+		public long? ImplementationID { get; set; }
+		public long? OEID { get; set; }
 		public List<AlgorithmPrerequisites> Prerequisites { get; set; }
 
 		public class AlgorithmPrerequisites

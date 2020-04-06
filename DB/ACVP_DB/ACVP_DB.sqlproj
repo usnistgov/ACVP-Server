@@ -230,7 +230,6 @@
     <Build Include="common\Stored Procedures\MessageQueueDelete.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionVectorSetsCancel.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetCancel.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetUpdateSubmittedResults.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetInsert.sql" />
     <Build Include="common\Stored Procedures\TaskQueueInsert.sql" />
