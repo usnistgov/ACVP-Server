@@ -57,7 +57,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			{
 				isNewImplementation = true;
 
-				//Create an implementation and set the ID in the parameters to the new ID
+				//Create an implementation and set the ID in the parameters to the new ID. This technically could fail, but previous validation would catch the condition that would cause it.
 				parameters.ImplementationID = CreateInlineImplementation(certifyTestSessionPayload.ImplementationToCreate).ID;
 			}
 
@@ -139,7 +139,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 		{
 			//Convert the payload to create parameters
 			ImplementationCreateParameters implementationCreateParameters = implementationCreatePayload.ToImplementationCreateParameters();
-
+			
 			//Create the implementation
 			return _implementationService.Create(implementationCreateParameters);
 		}

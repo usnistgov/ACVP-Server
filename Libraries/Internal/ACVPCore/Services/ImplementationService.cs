@@ -1,4 +1,5 @@
-﻿using ACVPCore.Models;
+﻿using System.Linq;
+using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using ACVPCore.Results;
@@ -10,10 +11,12 @@ namespace ACVPCore.Services
 	public class ImplementationService : IImplementationService
 	{
 		private readonly IImplementationProvider _implementationProvider;
+		private readonly IAddressService _addressService;
 
-		public ImplementationService(IImplementationProvider implementationProvider)
+		public ImplementationService(IImplementationProvider implementationProvider, IAddressService addressService)
 		{
 			_implementationProvider = implementationProvider;
+			_addressService = addressService;
 		}
 
 		public Implementation Get(long implementationID)
@@ -51,8 +54,18 @@ namespace ACVPCore.Services
 
 		public ImplementationResult Create(ImplementationCreateParameters parameters)
 		{
+			//AddressID might be null, which means it should come from the Organization - they should, but may not, have an address
+			if (parameters.AddressID == null)
+			{
+				parameters.AddressID = _addressService.GetAllForOrganization(parameters.OrganizationID).FirstOrDefault()?.ID;
+				if (parameters.AddressID == null)
+				{
+					return new ImplementationResult("No address ID specified and organization has no addresses");
+				}
+			}
+
 			//Insert the implementation record
-			InsertResult implementationInsertResult = _implementationProvider.Insert(parameters.Name, parameters.Description, parameters.Type, parameters.Version, parameters.Website, parameters.OrganizationID, parameters.AddressID, parameters.IsITAR);
+			InsertResult implementationInsertResult = _implementationProvider.Insert(parameters.Name, parameters.Description, parameters.Type, parameters.Version, parameters.Website, parameters.OrganizationID, (long)parameters.AddressID, parameters.IsITAR);
 
 			if (!implementationInsertResult.IsSuccess)
 			{
