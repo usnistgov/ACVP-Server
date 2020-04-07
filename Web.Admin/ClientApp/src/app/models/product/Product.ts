@@ -1,5 +1,5 @@
-import { Organization } from '../Organization/Organization';
-import { Address } from '../Address/Address';
+import { Organization } from '../organization/Organization';
+import { Address } from '../address/Address';
 
 export class Product {
 

@@ -1,5 +1,5 @@
-import { PersonPhone } from '../../Person/PersonPhone';
-import { Organization } from '../../Organization/Organization';
+import { PersonPhone } from '../../person/PersonPhone';
+import { Organization } from '../../organization/Organization';
 
 export class WorkflowPersonUpdatePayload {
   id: number;

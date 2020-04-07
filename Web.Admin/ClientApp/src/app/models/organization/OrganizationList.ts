@@ -1,5 +1,5 @@
-import { OrganizationLite } from './OrganizationLite';
 import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
+import { OrganizationLite } from './OrganizationLite';
 
 export class OrganizationList implements IWrappedEnumerable {
 

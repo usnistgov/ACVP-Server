@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskQueue } from '../../models/TaskQueue/TaskQueue';
+import { TaskQueue } from '../../models/taskQueue/TaskQueue';
 import { AdministrativeAjaxProviderService } from '../../services/ajax/administrative/administrative-ajax-provider.service';
 
 @Component({

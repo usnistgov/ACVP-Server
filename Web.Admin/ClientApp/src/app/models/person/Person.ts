@@ -1,4 +1,4 @@
-import { Organization } from '../Organization/Organization';
+import { Organization } from '../organization/Organization';
 import { PersonPhone } from './PersonPhone';
 import { PersonNote } from './PersonNote';
 

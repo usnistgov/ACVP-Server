@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../../../models/Product/Product';
-import { ProductList } from '../../../models/Product/ProductList';
-import { Address } from '../../../models/Address/Address';
-import { ProductListParameters } from '../../../models/Product/ProductListParameters';
+import { Product } from '../../../models/product/Product';
+import { ProductList } from '../../../models/product/ProductList';
+import { Address } from '../../../models/address/Address';
+import { ProductListParameters } from '../../../models/product/ProductListParameters';
 
 @Injectable({
   providedIn: 'root'

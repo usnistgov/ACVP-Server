@@ -1,4 +1,4 @@
-import { PersonPhone } from '../../Person/PersonPhone';
+import { PersonPhone } from '../../person/PersonPhone';
 
 export class WorkflowPersonCreatePayload {
   id: number;

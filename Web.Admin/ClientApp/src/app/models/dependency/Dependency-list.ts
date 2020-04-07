@@ -1,5 +1,5 @@
 import { IWrappedEnumerable } from '../../interfaces/wrapped-enumerable';
-import { DependencyLite } from './dependency-lite';
+import { DependencyLite } from './Dependency-lite';
 
 export class DependencyList implements IWrappedEnumerable {
   pageSize: number;

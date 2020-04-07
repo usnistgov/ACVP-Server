@@ -1,4 +1,4 @@
-import { Person } from '../../Person/Person';
+import { Person } from '../../person/Person';
 
 export class WorkflowCreateProductPayloadContact {
   orderIndex: number;

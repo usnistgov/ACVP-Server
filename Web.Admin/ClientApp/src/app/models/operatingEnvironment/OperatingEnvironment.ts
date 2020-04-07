@@ -1,4 +1,4 @@
-import { DependencyLite } from '../dependency/dependency-lite';
+import { DependencyLite } from '../dependency/Dependency-lite';
 
 export class OperatingEnvironment {
 

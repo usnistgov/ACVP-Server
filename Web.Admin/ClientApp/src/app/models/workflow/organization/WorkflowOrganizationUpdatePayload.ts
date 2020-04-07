@@ -1,4 +1,4 @@
-import { Address } from '../../Address/Address';
+import { Address } from '../../address/Address';
 
 export class WorkflowOrganizationUpdatePayload {
   id: number;

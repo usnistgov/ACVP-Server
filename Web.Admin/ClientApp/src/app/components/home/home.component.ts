@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TestSessionList } from '../../models/TestSession/TestSessionList';
-import { TestSession } from '../../models/TestSession/TestSession';
+import { TestSessionList } from '../../models/testSession/TestSessionList';
+import { TestSession } from '../../models/testSession/TestSession';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestSessionProviderService } from '../../services/ajax/testSession/test-session-provider.service';
-import { TestSessionStatus } from '../../models/TestSession/TestSessionStatus';
-import { TestSessionListParameters } from '../../models/TestSession/TestSessionListParameters';
+import { TestSessionStatus } from '../../models/testSession/TestSessionStatus';
+import { TestSessionListParameters } from '../../models/testSession/TestSessionListParameters';
 
 @Component({
   selector: 'app-home',

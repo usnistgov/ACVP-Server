@@ -1,5 +1,5 @@
-import { OperatingEnvironment } from '../../operatingEnvironment/operatingEnvironment';
-import { Product } from '../../Product/Product';
+import { OperatingEnvironment } from '../../operatingEnvironment/OperatingEnvironment';
+import { Product } from '../../product/Product';
 import { WorkflowValidationCreatePayloadCertification } from './WorkflowValidationCreatePayloadCertification';
 
 export class WorkflowValidationCreatePayload {

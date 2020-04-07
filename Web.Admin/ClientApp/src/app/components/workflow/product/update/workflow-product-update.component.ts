@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowProductUpdatePayload } from '../../../../models/Workflow/Product/WorkflowProductUpdatePayload';
-import { Product } from '../../../../models/Product/Product';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { WorkflowProductUpdatePayload } from '../../../../models/workflow/product/WorkflowProductUpdatePayload';
+import { Product } from '../../../../models/product/Product';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';

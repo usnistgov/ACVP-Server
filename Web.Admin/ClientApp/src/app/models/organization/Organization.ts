@@ -1,5 +1,5 @@
-import { Address } from '../Address/Address';
-import { PersonLite } from '../Person/PersonLite';
+import { Address } from '../address/Address';
+import { PersonLite } from '../person/PersonLite';
 
 export class Organization {
 

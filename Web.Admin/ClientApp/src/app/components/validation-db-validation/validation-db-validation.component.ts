@@ -3,7 +3,7 @@ import { Validation } from '../../models/validation/Validation';
 import { ValidationProviderService } from '../../services/ajax/validation/validation-provider.service';
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
-import { Organization } from '../../models/Organization/Organization';
+import { Organization } from '../../models/organization/Organization';
 
 @Component({
   selector: 'app-validation-db-validation',

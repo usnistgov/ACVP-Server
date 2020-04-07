@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { Person } from '../../../../models/Person/Person';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { Person } from '../../../../models/person/Person';
 import { Router } from '@angular/router';
-import { WorkflowPersonUpdatePayload } from '../../../../models/Workflow/Person/WorkflowPersonUpdatePayload';
+import { WorkflowPersonUpdatePayload } from '../../../../models/workflow/person/WorkflowPersonUpdatePayload';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';

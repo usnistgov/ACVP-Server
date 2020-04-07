@@ -1,4 +1,4 @@
-import { Dependency } from '../../dependency/dependency';
+import { Dependency } from '../../dependency/Dependency';
 
 export class OperatingEnvironmentUpdatePayload {
   id: number;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Dependency } from '../../models/dependency/dependency';
+import { Dependency } from '../../models/dependency/Dependency';
 import { DependencyDataProviderService } from '../../services/ajax/dependency/dependency-data-provider.service';
-import { Attribute } from '../../models/dependency/attribute';
+import { Attribute } from '../../models/dependency/Attribute';
 
 @Component({
   selector: 'app-validation-db-dependency',

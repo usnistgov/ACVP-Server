@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/Product/Product';
+import { Product } from '../../models/product/Product';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
 import { ProductProviderService } from '../../services/ajax/product/product-provider.service';

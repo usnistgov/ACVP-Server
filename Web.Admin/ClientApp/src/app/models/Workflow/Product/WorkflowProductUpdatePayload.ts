@@ -1,6 +1,6 @@
-import { Organization } from '../../Organization/Organization';
+import { Organization } from '../../organization/Organization';
 import { WorkflowCreateProductPayloadContact } from './WorkflowCreateProductPayloadContact';
-import { Address } from '../../Address/Address';
+import { Address } from '../../address/Address';
 
 export class WorkflowProductUpdatePayload {
   id: number;
