@@ -1,4 +1,4 @@
-namespace Web.Public.JsonObjects
+namespace Web.Public.Models
 {
     public enum RequestStatus
     {

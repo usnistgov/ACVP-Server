@@ -31,16 +31,24 @@ namespace Web.Public
 
             item.AddTransient<IDependencyProvider, DependencyProvider>();
             item.AddTransient<IDependencyService, DependencyService>();
+            
             item.AddTransient<IImplementationProvider, ImplementationProvider>();
             item.AddTransient<IImplementationService, ImplementationService>();
+            
             item.AddTransient<IOEProvider, OEProvider>();
             item.AddTransient<IOEService, OEService>();
+            
             item.AddTransient<IPersonProvider, PersonProvider>();
             item.AddTransient<IPersonService, PersonService>();
+            
             item.AddTransient<IOrganizationProvider, OrganizationProvider>();
             item.AddTransient<IOrganizationService, OrganizationService>();
+            
             item.AddTransient<IAddressProvider, AddressProvider>();
             item.AddTransient<IAddressService, AddressService>();
+
+            item.AddTransient<IRequestProvider, RequestProvider>();
+            item.AddTransient<IRequestService, RequestService>();
         }
     }
 }
