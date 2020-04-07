@@ -115,7 +115,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
         private static readonly MacSaltMethod[] ValidSaltGenerationMethods = { MacSaltMethod.Default, MacSaltMethod.Random };
 
-        private static readonly FixedInfoEncoding[] ValidEncodingTypes = new[]
+        private static readonly FixedInfoEncoding[] ValidEncodingTypes = 
         {
             FixedInfoEncoding.Concatenation, FixedInfoEncoding.ConcatenationWithLengths
         };
@@ -534,6 +534,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             {
                 errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
             }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(fixedInfoPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
@@ -597,6 +607,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             {
                 errorResults.Add($"Invalid {nameof(associatedDataPattern)} {associatedDataPattern}");
             }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(associatedDataPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))

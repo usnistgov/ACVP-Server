@@ -5,13 +5,11 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
@@ -566,6 +564,16 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             {
                 errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
             }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(fixedInfoPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
