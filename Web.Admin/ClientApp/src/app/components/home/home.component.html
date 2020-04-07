@@ -89,6 +89,7 @@
           </div>
           <div class="card-body">
             <span class="bold-heading">Created On:</span> {{ selectedSession?.created | date:'yyyy-MM-dd HH:mm' }}<br />
+            <span class="bold-heading">User:</span> {{ selectedSession?.userName }}<br />
             <span class="bold-heading">Passed:</span> {{ selectedSession?.passedOn === null ? 'N/A' : selectedSession?.passedOn | date:'yyyy-MM-dd HH:mm' }}<br />
             <span class="bold-heading">Publishable:</span> {{ selectedSession?.publishable }}<br />
             <span class="bold-heading">Published:</span> {{ selectedSession?.published }}<br />

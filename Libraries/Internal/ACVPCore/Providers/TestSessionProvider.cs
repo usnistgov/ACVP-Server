@@ -163,10 +163,6 @@ namespace ACVPCore.Providers
 
 		public TestSession Get(long testSessionId)
 		{
-			var result = new TestSession()
-			{
-				TestSessionId = testSessionId
-			};
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
@@ -181,21 +177,24 @@ namespace ACVPCore.Providers
 				if (testSessionData == null)
 					return null;
 
-				result.Created = testSessionData.created_on;
-				result.Publishable = testSessionData.publishable;
-				result.Published = testSessionData.published;
-				result.PassedOn = testSessionData.passed_date;
-				result.IsSample = testSessionData.sample;
-
-				result.VectorSets = new List<VectorSet>();
+				return new TestSession()
+				{
+					TestSessionId = testSessionId,
+					Created = testSessionData.created_on,
+					Publishable = testSessionData.publishable,
+					Published = testSessionData.published,
+					PassedOn = testSessionData.passed_date,
+					IsSample = testSessionData.sample,
+					UserID = testSessionData.UserId,
+					UserName = testSessionData.UserName,
+					VectorSets = new List<VectorSet>()
+				};
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, ex.Message);
 				return null;
 			}
-
-			return result;
 		}
 
 		public List<VectorSet> GetVectorSetsForTestSession(long testSessionId)
