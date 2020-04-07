@@ -42,7 +42,7 @@ namespace NIST.CVP.TaskQueueProcessor
             {
                 await _semaphore.WaitAsync(stoppingToken);
 
-                Log.Information($"Grabbed a spot from the semaphore. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
+                Log.Debug($"Grabbed a spot from the semaphore. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
 
                 // Grab the next task
                 var task = _taskService.GetTaskFromQueue();
@@ -53,7 +53,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     taskQueued = true;
                     
                     // Spawn a one-off task to run
-                    Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing");
+                    Log.Information($"Grabbed dbId: {task.DbId}, vsId: {task.VsId} for gen/val processing. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
                     QueueGenVal(stoppingToken, task).FireAndForget();
                 }
 
@@ -61,13 +61,13 @@ namespace NIST.CVP.TaskQueueProcessor
                 {
                     taskQueued = true;
                     
-                    Log.Debug("No gen-val work to queue, starting pool population task.");
+                    Log.Information($"No gen-val work to queue, starting pool population task. Semaphore currently using {_maxTasks - _semaphore.CurrentCount} of {_maxTasks} threads.");
                     QueuePoolWork(stoppingToken).FireAndForget();
                 }
 
                 if (!taskQueued)
                 {
-                    Log.Information("No tasks available. Releasing the semaphore log and waiting.");
+                    Log.Debug("No tasks available. Releasing the semaphore log and waiting.");
                     _semaphore.Release();
                     await Task.Delay(_taskConfig.PollDelay * 1000, stoppingToken);    
                 }
@@ -91,7 +91,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 }
                 finally
                 {
-                    Log.Information($"{task.GetType()} task completed DbId {task.DbId}, VsId {task.VsId}. Releasing Semaphore.");
+                    Log.Information($"{task.GetType()} task completed DbId {task.DbId}, VsId {task.VsId}.");
                     _semaphore.Release();                        
                 }
             }, stoppingToken);
@@ -113,7 +113,7 @@ namespace NIST.CVP.TaskQueueProcessor
                 }
                 finally
                 {
-                    Log.Debug("Pool task completed. Releasing Semaphore.");
+                    Log.Information($"Pool task completed.");
                     _semaphore.Release();                        
                 }
             }, cancellationToken);
