@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
 using Serilog;
@@ -44,6 +46,31 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex, "Error getting request");
+                throw;
+            }
+        }
+
+        public List<Request> GetAllRequestsForUser(long userID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var requestData = db.QueryFromProcedure("acvp.RequestGetFromUser", new
+                {
+                    UserID = userID
+                });
+
+                if (requestData == null)
+                {
+                    throw new Exception($"Unable to find requests for user id: {userID}");
+                }
+
+                return requestData.Select(request => new Request {RequestID = request.ID, Status = request.Status, ApprovedID = request.ApprovedID, APIAction = request.APIActionID}).ToList();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error getting requests");
                 throw;
             }
         }

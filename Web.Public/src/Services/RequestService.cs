@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ACVPWorkflow;
 using Web.Public.Models;
 using Web.Public.Providers;
@@ -25,6 +26,21 @@ namespace Web.Public.Services
             }
             
             return request;
+        }
+
+        public List<Request> GetAllRequestsForUser(long userID)
+        {
+            var requests = _requestProvider.GetAllRequestsForUser(userID);
+
+            foreach (var request in requests)
+            {
+                if (request.Status == RequestStatus.Approved)
+                {
+                    request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
+                }
+            }
+
+            return requests;
         }
 
         private string BuildApprovedURL(long approvedID, APIAction apiAction)
