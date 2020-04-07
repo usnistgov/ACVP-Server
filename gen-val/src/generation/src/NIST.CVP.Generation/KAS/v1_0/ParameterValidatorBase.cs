@@ -325,6 +325,16 @@ namespace NIST.CVP.Generation.KAS.v1_0
             {
                 errorResults.Add($"Invalid {nameof(oiPattern)} {oiPattern}");
             }
+
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(oiPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
