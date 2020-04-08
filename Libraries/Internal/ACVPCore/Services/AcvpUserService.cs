@@ -30,5 +30,10 @@ namespace ACVPCore.Services
         {
             return _adminUserProvider.SetUserTotpSeed(userId, seed);
         }
+
+        public Result CreateUser(AcvpUserCreateParameters param)
+        {
+            return _adminUserProvider.CreateUser(param);
+        }
     }
 }

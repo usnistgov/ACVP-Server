@@ -84,7 +84,8 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
     WorkflowPersonDeleteComponent,
     WorkflowProductDeleteComponent,
     MessageQueueComponent,
-    TaskQueueComponent
+    TaskQueueComponent,
+    AdminUserComponent
   ],
   imports: [
     BrowserModule,

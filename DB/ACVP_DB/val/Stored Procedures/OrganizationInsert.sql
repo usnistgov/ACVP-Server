@@ -26,4 +26,3 @@ VALUES (
 )
 
 SELECT CAST(SCOPE_IDENTITY() AS bigint) AS OrganizationID
-
