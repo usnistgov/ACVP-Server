@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Person } from '../../../models/Person/Person';
-import { PersonList } from '../../../models/Person/PersonList';
-import { PersonListParameters } from '../../../models/Person/PersonListParameters';
+import { Person } from '../../../models/person/Person';
+import { PersonList } from '../../../models/person/PersonList';
+import { PersonListParameters } from '../../../models/person/PersonListParameters';
 
 @Injectable({
   providedIn: 'root'

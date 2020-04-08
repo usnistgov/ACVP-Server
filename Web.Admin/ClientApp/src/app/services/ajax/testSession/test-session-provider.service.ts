@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TestSessionList } from '../../../models/TestSession/TestSessionList';
-import { TestSession } from '../../../models/TestSession/TestSession';
-import { VectorSet } from '../../../models/TestSession/VectorSet';
-import { TestSessionListParameters } from '../../../models/TestSession/TestSessionListParameters';
-import { TestSessionStatus } from '../../../models/TestSession/TestSessionStatus';
+import { TestSessionList } from '../../../models/testSession/TestSessionList';
+import { TestSession } from '../../../models/testSession/TestSession';
+import { VectorSet } from '../../../models/testSession/VectorSet';
+import { TestSessionListParameters } from '../../../models/testSession/TestSessionListParameters';
+import { TestSessionStatus } from '../../../models/testSession/TestSessionStatus';
 
 @Injectable({
   providedIn: 'root'

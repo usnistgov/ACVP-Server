@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowValidationCreatePayload } from '../../../../models/Workflow/Validation/WorkflowValidationCreatePayload';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { WorkflowValidationCreatePayload } from '../../../../models/workflow/validation/WorkflowValidationCreatePayload';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 

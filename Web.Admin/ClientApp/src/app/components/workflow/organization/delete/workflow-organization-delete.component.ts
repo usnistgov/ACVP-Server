@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowDeletePayload } from '../../../../models/Workflow/WorkflowDeletePayload';
-import { Organization } from '../../../../models/Organization/Organization';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { WorkflowDeletePayload } from '../../../../models/workflow/WorkflowDeletePayload';
+import { Organization } from '../../../../models/organization/Organization';
 import { Router } from '@angular/router';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';

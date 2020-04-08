@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationList } from '../../models/Organization/OrganizationList';
+import { OrganizationList } from '../../models/organization/OrganizationList';
 import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
-import { OrganizationListParameters } from '../../models/Organization/OrganizationListParameters';
+import { OrganizationListParameters } from '../../models/organization/OrganizationListParameters';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

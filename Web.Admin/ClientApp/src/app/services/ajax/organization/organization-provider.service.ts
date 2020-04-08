@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Organization } from '../../../models/Organization/Organization';
-import { OrganizationList } from '../../../models/Organization/OrganizationList';
-import { AddressCreateParameters } from '../../../models/Address/AddressCreateParameters';
-import { OrganizationListParameters } from '../../../models/Organization/OrganizationListParameters';
+import { Organization } from '../../../models/organization/Organization';
+import { OrganizationList } from '../../../models/organization/OrganizationList';
+import { AddressCreateParameters } from '../../../models/address/AddressCreateParameters';
+import { OrganizationListParameters } from '../../../models/organization/OrganizationListParameters';
 
 @Injectable({
   providedIn: 'root'

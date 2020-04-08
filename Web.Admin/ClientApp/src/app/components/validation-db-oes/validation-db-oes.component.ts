@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { OperatingEnvironmentList } from '../../models/OperatingEnvironment/OperatingEnvironmentList';
+import { OperatingEnvironmentList } from '../../models/operatingEnvironment/OperatingEnvironmentList';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperatingEnvironmentProviderService } from '../../services/ajax/operatingEnvironment/operating-environment-provider.service';
-import { OperatingEnvironmentListParameters } from '../../models/OperatingEnvironment/OperatingEnvironmentListParameters';
+import { OperatingEnvironmentListParameters } from '../../models/operatingEnvironment/OperatingEnvironmentListParameters';
 
 @Component({
   selector: 'app-validation-db-oes',
