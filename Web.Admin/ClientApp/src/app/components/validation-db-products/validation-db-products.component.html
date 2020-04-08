@@ -1,10 +1,25 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2">
-      <div class="container mt-3">
-        <h3>Filters</h3>
-        (Not yet implemented)
+
+      <div class="row mt-3">
+        <h2>&nbsp;</h2>
       </div>
+
+      <div class="row">
+        <div class="container">
+          <h3>Filters</h3>
+          <label class="bold-heading">Name</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.name" (ngModelChange)="loadData()" placeholder="Name..." />
+          <br />
+          <label class="bold-heading">ID</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.id" (ngModelChange)="loadData()" placeholder="Type..." />
+          <br />
+          <label class="bold-heading">Description</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.description" (ngModelChange)="loadData()" placeholder="Description..." />
+        </div>
+      </div>
+
     </div>
 
     <div class="col-lg-10">

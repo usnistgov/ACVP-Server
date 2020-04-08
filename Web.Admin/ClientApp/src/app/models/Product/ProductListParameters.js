@@ -18,9 +18,9 @@ var ProductListParameters = /** @class */ (function (_super) {
     __extends(ProductListParameters, _super);
     function ProductListParameters(name, id, description) {
         var _this = _super.call(this) || this;
-        _this.name = "";
-        _this.id = "";
-        _this.description = "";
+        _this.name = name;
+        _this.id = id;
+        _this.description = description;
         return _this;
     }
     return ProductListParameters;

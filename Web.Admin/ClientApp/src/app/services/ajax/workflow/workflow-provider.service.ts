@@ -3,6 +3,7 @@ import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
 import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
 import { WorkflowItemList } from '../../../models/Workflow/WorkflowItemList';
 import { HttpClient } from '@angular/common/http';
+import { WorkflowListParameters } from '../../../models/Workflow/WorkflowListParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,24 @@ export class WorkflowProviderService {
     return this.http.get<WorkflowItemBase<IWorkflowItemPayload>>(this.apiRoot + '/Workflows/' + workflowId);
   }
 
-  getWorkflows(pageSize: number, pageNumber: number, RequestId: string, APIAction: string, DBID: string) {
+  getWorkflows(params: WorkflowListParameters) {
 
-    if (RequestId === "") { RequestId = null; }
-    if (DBID === "") { DBID = null; }
+    if (params.RequestId === "") { params.RequestId = null; }
+    if (params.APIActionID === "") { params.APIActionID = null; }
+    if (params.WorkflowItemId === "") { params.WorkflowItemId = null; }
+    if (params.Status === "") { params.Status = null; }
 
     // Build the request body
-    var params = {
-      "pageSize": pageSize,
-      "page": pageNumber,
-      "requestId": RequestId,
-      "APIActionID": APIAction,
-      "WorkflowItemID": parseInt(DBID)
+    var slightlyReformatted = {
+      "pageSize": params.pageSize,
+      "page": params.page,
+      "RequestId": params.RequestId,
+      "APIActionID": params.APIActionID,
+      "WorkflowItemID": parseInt(params.WorkflowItemId),
+      "Status": params.Status
     };
 
-    return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', params);
+    return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', slightlyReformatted);
   }
 
   approveWorkflow(workflowId: number) {

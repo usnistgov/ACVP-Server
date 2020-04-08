@@ -57,7 +57,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			{
 				isNewImplementation = true;
 
-				//Create an implementation and set the ID in the parameters to the new ID
+				//Create an implementation and set the ID in the parameters to the new ID. This technically could fail, but previous validation would catch the condition that would cause it.
 				parameters.ImplementationID = CreateInlineImplementation(certifyTestSessionPayload.ImplementationToCreate).ID;
 			}
 
@@ -72,10 +72,10 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 			}
 
 			//Get or create the validation ID
-			(long validationID, bool isNewValidation) = GetValidationID(parameters.ImplementationID, isNewImplementation);
+			(long validationID, bool isNewValidation) = GetValidationID((long)parameters.ImplementationID, isNewImplementation);
 
 			//Get or create the scenario ID
-			(long scenarioID, bool isNewScenario) = GetScenarioID(validationID, parameters.OEID, isNewValidation, isNewOE);
+			(long scenarioID, bool isNewScenario) = GetScenarioID(validationID, (long)parameters.OEID, isNewValidation, isNewOE);
 
 			//Get all the existing scenario algorithms, as we'll be replacing some or all of these - know that it is an empty collection if a new scenario
 			List<(long ScenarioAlgorithmID, long AlgorithmID)> existingScenarioAlgorithms = isNewScenario ? new List<(long ScenarioAlgorithmID, long AlgorithmID)>() : _validationService.GetScenarioAlgorithms(scenarioID);
@@ -139,7 +139,7 @@ namespace ACVPWorkflow.WorkflowItemProcessors
 		{
 			//Convert the payload to create parameters
 			ImplementationCreateParameters implementationCreateParameters = implementationCreatePayload.ToImplementationCreateParameters();
-
+			
 			//Create the implementation
 			return _implementationService.Create(implementationCreateParameters);
 		}

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Symmetric.KeyWrap.Enums;
 using NIST.CVP.Generation.KeyWrap.v1_0.AES;
 using NIST.CVP.Math;
@@ -114,7 +115,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
 
         [Test]
         [TestCaseSource(nameof(GetParametersAndExpectedGroups))]
-        public void ShouldCreateCorrectNumberOfGroups(
+        public async Task ShouldCreateCorrectNumberOfGroups(
             string testLabel,
             KeyWrapType algorithm,
             int[] keyLen,
@@ -130,7 +131,7 @@ namespace NIST.CVP.Generation.KeyWrap.Tests.AES
                 .WithKeyLen(keyLen)
                 .Build();
 
-            var result = _subject.BuildTestGroups(parameters);
+            var result = await _subject.BuildTestGroupsAsync(parameters);
 
             Assert.AreEqual(expectedNumberOfGroups, result.Count());
         }

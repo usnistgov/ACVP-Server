@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
         }
 
         [Test]
-        public void ShouldReturnTestGroups()
+        public async Task ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -62,14 +62,14 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.DSA.ECC.SigGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(12 * 10, groups.Count);

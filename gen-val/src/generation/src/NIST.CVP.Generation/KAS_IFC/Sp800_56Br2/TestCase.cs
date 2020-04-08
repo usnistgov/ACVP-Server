@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
@@ -348,6 +349,12 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IKdfParameter KdfParameter { get; set; }
+        
+        /// <summary>
+        /// The KTS parameter additional information.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public KtsParameter KtsParameter { get; set; }
 
         /// <summary>
         /// The encrypted C value created by the IUT.

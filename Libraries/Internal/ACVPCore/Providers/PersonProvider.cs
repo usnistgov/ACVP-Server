@@ -104,7 +104,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.PersonDelete @0", personID);
+				db.ExecuteProcedure("val.PersonDelete", inParams: new { PersonID = personID });
 			}
 			catch (Exception ex)
 			{
@@ -121,7 +121,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.PersonEmailDeleteAll @0", personID);
+				db.ExecuteProcedure("val.PersonEmailDeleteAll", inParams: new { PersonID = personID });
 			}
 			catch (Exception ex)
 			{
@@ -138,7 +138,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.PersonPhoneDeleteAll @0", personID);
+				db.ExecuteProcedure("val.PersonPhoneDeleteAll", inParams: new { PersonID = personID });
 			}
 			catch (Exception ex)
 			{

@@ -27,7 +27,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
         public int Modulo { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("fixedPubExp", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BigInteger PublicExponent { get; set; }
 
         public int L { get; set; }

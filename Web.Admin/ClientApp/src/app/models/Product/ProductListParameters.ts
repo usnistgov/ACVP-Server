@@ -8,8 +8,8 @@ export class ProductListParameters extends PagedEnumerable {
 
   public constructor(name: string, id: string, description: string) {
     super();
-    this.name = "";
-    this.id = "";
-    this.description = "";
+    this.name = name;
+    this.id = id;
+    this.description = description;
   }
 }

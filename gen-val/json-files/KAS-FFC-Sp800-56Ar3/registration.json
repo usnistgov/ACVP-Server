@@ -28,35 +28,6 @@
           "encoding": [
             "concatenation"
           ]
-        },
-        "twoStepKdf": {
-          "kdfType": "twoStep",
-          "capabilities": [
-            {
-              "macSaltMethods": [
-                "random"
-              ],
-              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
-              "encoding": [
-                "concatenation"
-              ],
-              "kdfMode": "feedback",
-              "macMode": [
-                "HMAC-SHA3-224"
-              ],
-              "supportedLengths": [
-                512
-              ],
-              "fixedDataOrder": [
-                "after fixed data"
-              ],
-              "counterLength": [
-                32
-              ],
-              "requiresEmptyIv": false,
-              "supportsEmptyIv": false
-            }
-          ]
         }
       },
       "keyConfirmationMethod": {
@@ -68,18 +39,17 @@
           }
         },
         "keyConfirmationDirections": [
-          "unilateral",
-          "bilateral"
+          "unilateral"
         ],
         "keyConfirmationRoles": [
-          "provider",
-          "recipient"
+          "provider"
         ]
       },
       "l": 512
     }
   },
   "domainParameterGenerationMethods": [
-    "ffdhe2048"
+    "ffdhe2048",
+    "FB"
   ]
 }

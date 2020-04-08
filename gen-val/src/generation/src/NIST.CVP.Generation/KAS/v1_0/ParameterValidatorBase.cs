@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
@@ -323,6 +325,16 @@ namespace NIST.CVP.Generation.KAS.v1_0
             {
                 errorResults.Add($"Invalid {nameof(oiPattern)} {oiPattern}");
             }
+
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(oiPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
@@ -333,6 +345,16 @@ namespace NIST.CVP.Generation.KAS.v1_0
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of oiPattern contained non hex values.");
+                        continue;
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
                     }
                     
                     continue;

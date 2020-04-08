@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Results;
-
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Results;
 
 namespace ACVPCore.Providers
 {
@@ -71,7 +70,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.ScenarioAlgorithmDelete @0", scenarioAlgorithmID);
+				db.ExecuteProcedure("val.ScenarioAlgorithmDelete", inParams: new { ScenarioAlgorithmId = scenarioAlgorithmID });
 			}
 			catch (Exception ex)
 			{

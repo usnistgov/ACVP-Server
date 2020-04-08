@@ -93,7 +93,7 @@ namespace NIST.CVP.Algorithms.External
 
 		public class KeyGenerationMethodModuloFixedPubExp : KeyGenerationMethodModulo
 		{
-			[JsonPropertyName("fixedPublicExponent")]
+			[JsonPropertyName("fixedPubExp")]
 			public string FixedPublicExponent { get; set; }
 		}
 

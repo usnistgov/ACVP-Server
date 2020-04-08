@@ -17,11 +17,19 @@ import { ValidationDbOrganizationsComponent } from './components/validation-db-o
 // This is a parent module that loads all the other workflow modules itself
 import { WorkflowComponent } from './components/workflow/workflow/workflow.component';
 import { WorkflowsComponent } from './components/workflows/workflows.component';
+import { ValidationDbValidationComponent } from './components/validation-db-validation/validation-db-validation.component';
+import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
+import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
+import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'currentUser',
+    component: CurrentUserComponent
   },
   {
     path: 'legacyFileUpload',
@@ -30,6 +38,10 @@ const routes: Routes = [
   {
     path: 'validation-db/validations',
     component: ValidationDbValidationsComponent
+  },
+  {
+    path: 'validation-db/validations/:id',
+    component: ValidationDbValidationComponent
   },
   {
     path: 'validation-db/dependencies',
@@ -70,6 +82,14 @@ const routes: Routes = [
   {
     path: 'validation-db/organizations/:id',
     component: ValidationDbOrganizationComponent
+  },
+  {
+    path: 'messageQueue',
+    component: MessageQueueComponent
+  },
+  {
+    path: 'taskQueue',
+    component: TaskQueueComponent
   },
   {
     // This is a parent module that loads all the other workflow modules itself

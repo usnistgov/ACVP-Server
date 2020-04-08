@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DRBG.IntegrationTests
     {
         string _testPath;
 
-        private readonly IOracle _subject = new OracleBuilder().Build();
+        private readonly IOracle _subject = new OracleBuilder().Build().GetAwaiter().GetResult();
 
         [OneTimeSetUp]
         public void OneTimeSetup()

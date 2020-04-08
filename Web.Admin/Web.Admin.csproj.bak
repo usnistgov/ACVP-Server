@@ -1,0 +1,255 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+        <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+        <IsPackable>false</IsPackable>
+        <SpaRoot>ClientApp\</SpaRoot>
+        <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+        <!-- Set this to true if you enable server-side prerendering -->
+        <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.2" />
+
+        <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
+        <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="$(NuGetVersionSerilogSinksConsole)" />
+
+        <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign)" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Don't publish the SPA source files, but do show them in the project files list -->
+        <Content Remove="$(SpaRoot)**" />
+        <None Remove="$(SpaRoot)**" />
+        <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="ClientApp\src\app\models\Address\Address.ts" />
+      <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
+      <None Remove="ClientApp\src\app\models\dependency-list.ts" />
+      <None Remove="ClientApp\src\app\models\dependency-lite.ts" />
+      <None Remove="ClientApp\src\app\models\dependency.ts" />
+      <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
+      <None Remove="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\OrganizationList.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\OrganizationListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\Organization\OrganizationLite.ts" />
+      <None Remove="ClientApp\src\app\models\Person\Person.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
+      <None Remove="ClientApp\src\app\models\Product\Product.ts" />
+      <None Remove="ClientApp\src\app\models\OperatingEnvironment\operatingEnvironment.ts" />
+      <None Remove="ClientApp\src\app\models\Product\ProductList.ts" />
+      <None Remove="ClientApp\src\app\models\Product\ProductListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\responses\PagedEnumerable.ts" />
+      <None Remove="ClientApp\src\app\models\responses\Result.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Person\WorkflowPersonUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Product\WorkflowProductUpdatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayloadCertification.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowDeletePayload.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
+      <None Remove="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
+      <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\LCAVPCore\LCAVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
+    </ItemGroup>
+
+    <!-- vvv App settings linking, directory changes depending on build environment vvv -->
+    <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">
+        <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.example.json" Link="sharedappsettings.example.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.local.json" Link="sharedappsettings.local.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+    <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) == 'tc'">
+        <Content Include="..\_sharedappsettings\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.tc.json" Link="sharedappsettings.tc.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.dev.json" Link="sharedappsettings.dev.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.test.json" Link="sharedappsettings.test.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.demo.json" Link="sharedappsettings.demo.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+        <Content Include="..\_sharedappsettings\sharedappsettings.prod.json" Link="sharedappsettings.prod.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    </ItemGroup>
+    <!-- ^^^ App settings linking, directory changes depending on build environment ^^^ -->
+
+
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Address\Address.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\attribute.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-list.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationListParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationLite.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\Organization.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Organization\OrganizationList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonListParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonList.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\Person.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Person\PersonLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductListParameters.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\ProductList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Product\Product.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironment.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\responses\PagedEnumerable.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\responses\Result.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSession.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\TestSession\VectorSet.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\IWorkflowItemPayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\OperatingEnvironment\OperatingEnvironmentCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Organization\WorkflowOrganizationCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Person\WorkflowPersonUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Person\WorkflowPersonCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowCreateProductPayloadContact.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowProductUpdatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Product\WorkflowProductCreatePayload.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Validation\WorkflowValidationCreatePayloadCertification.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowDeletePayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Workflow\WorkflowItemBase.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="ClientApp\src\app\models\Person\PersonNote.ts">
+        <SubType>Code</SubType>
+      </None>
+      <None Update="ClientApp\src\app\models\Person\PersonPhone.ts">
+        <SubType>Code</SubType>
+      </None>
+      <None Update="ClientApp\src\app\models\Workflow\WorkflowStatus.enum.js">
+        <DependentUpon>WorkflowStatus.enum.ts</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\app\services\ajax\product\" />
+    </ItemGroup>
+
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+        <!-- Ensure Node.js is installed -->
+        <Exec Command="node --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    </Target>
+
+    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+        <!-- Include the newly-built files in the publish output -->
+        <ItemGroup>
+            <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+            <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+                <RelativePath>%(DistFiles.Identity)</RelativePath>
+                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            </ResolvedFileToPublish>
+        </ItemGroup>
+    </Target>
+
+</Project>

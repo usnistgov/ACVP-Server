@@ -53,7 +53,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.OEDelete @0", oeID);
+				db.ExecuteProcedure("val.OEDelete", inParams: new { OEID = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -70,7 +70,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.OEDependencyLinksDeleteAll @0", oeID);
+				db.ExecuteProcedure("val.OEDependencyLinksDeleteAll", inParams: new { OEID = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -87,7 +87,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.DependencyOELinkDelete @0, @1", dependencyID, oeID);
+				db.ExecuteProcedure("val.DependencyOELinkDelete", inParams: new { DependencyID = dependencyID, OEID = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -222,7 +222,7 @@ namespace ACVPCore.Providers
 				{
 					OEID = oeID
 				});
- 
+
 				OEResult.ID = OEData.Id;
 				OEResult.Name = OEData.Name;
 

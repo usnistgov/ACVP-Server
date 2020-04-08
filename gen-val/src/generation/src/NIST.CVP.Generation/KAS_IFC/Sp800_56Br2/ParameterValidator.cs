@@ -13,6 +13,7 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
@@ -114,7 +115,7 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
         private static readonly MacSaltMethod[] ValidSaltGenerationMethods = { MacSaltMethod.Default, MacSaltMethod.Random };
 
-        private static readonly FixedInfoEncoding[] ValidEncodingTypes = new[]
+        private static readonly FixedInfoEncoding[] ValidEncodingTypes = 
         {
             FixedInfoEncoding.Concatenation, FixedInfoEncoding.ConcatenationWithLengths
         };
@@ -130,6 +131,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             "l",
             "iv",
             "salt",
+            "uPartyInfo",
+            "vPartyInfo",
+            "context",
+            "algorithmId",
+            "label"
+        };
+        
+        private static readonly string[] ValidAssociatedDataPatternPieces =
+        {
+            "l",
             "uPartyInfo",
             "vPartyInfo",
             "context",
@@ -303,12 +314,12 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(keyGenBase.Modulo, ValidModulo, "Modulus"));
 
-            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.FixedPublicExponent))
+            if (requiresFixedPublicKey && !RsaKeyHelper.IsValidExponent(keyGenBase.PublicExponent))
             {
                 errorResults.Add("Valid fixed public exponent required for this method of key generation");
             }
 
-            if (!requiresFixedPublicKey && keyGenBase.FixedPublicExponent != 0)
+            if (!requiresFixedPublicKey && keyGenBase.PublicExponent != 0)
             {
                 errorResults.Add("Unexpected fixed public exponent");
             }
@@ -523,6 +534,16 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             {
                 errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
             }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(fixedInfoPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
                 if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
@@ -533,8 +554,18 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     if (notHexRegex.IsMatch(tempLiteral))
                     {
                         errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
                     }
-                    
+
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
+
                     continue;
                 }
 
@@ -567,15 +598,53 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 return;
             }
 
-            const string fiRegex = @"^((?!(l|uPartyInfo|vPartyInfo|literal\[[0-9a-fA-F]+\])).)+$";
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
             var fiPieces = associatedDataPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (fiPieces?.Length == 0)
+            {
+                errorResults.Add($"Invalid {nameof(associatedDataPattern)} {associatedDataPattern}");
+            }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(associatedDataPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
-                Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fiPiece))
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(associatedDataPattern)} has invalid element {fiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
+
+                    continue;
+                }
+
+                if (!ValidAssociatedDataPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }

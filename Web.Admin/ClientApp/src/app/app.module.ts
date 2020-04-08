@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
+import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 
 // These two additional ones are for the ngx-file-upload library used for LCAVP uploads.  However, the HTTP
 // one may be necessary once implementing AJAX shortly
@@ -42,12 +43,15 @@ import { WorkflowOeDeleteComponent } from './components/workflow/operatingEnviro
 import { WorkflowOrganizationDeleteComponent } from './components/workflow/organization/delete/workflow-organization-delete.component';
 import { WorkflowPersonDeleteComponent } from './components/workflow/person/delete/workflow-person-delete.component';
 import { WorkflowProductDeleteComponent } from './components/workflow/product/delete/workflow-product-delete.component';
+import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
+import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
+    CurrentUserComponent,
     LegacyFileUploadComponent,
     ValidationDbValidationComponent,
     ValidationDbValidationsComponent,
@@ -78,7 +82,9 @@ import { WorkflowProductDeleteComponent } from './components/workflow/product/de
     WorkflowOeDeleteComponent,
     WorkflowOrganizationDeleteComponent,
     WorkflowPersonDeleteComponent,
-    WorkflowProductDeleteComponent
+    WorkflowProductDeleteComponent,
+    MessageQueueComponent,
+    TaskQueueComponent
   ],
   imports: [
     BrowserModule,

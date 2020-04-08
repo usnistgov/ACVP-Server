@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.ParallelHash.v1_0;
@@ -43,7 +44,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
         [TestCase(new [] {false}, 4)]
         [TestCase(new [] {true}, 4)]
         [TestCase(new [] {true, false}, 8)]
-        public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool[] xof, int expected)
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool[] xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 2    (digestsizes * XOF * TestGroups)

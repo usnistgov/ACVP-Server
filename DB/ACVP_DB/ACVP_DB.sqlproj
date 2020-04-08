@@ -230,7 +230,6 @@
     <Build Include="common\Stored Procedures\MessageQueueDelete.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionVectorSetsCancel.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetCancel.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetUpdateSubmittedResults.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetInsert.sql" />
     <Build Include="common\Stored Procedures\TaskQueueInsert.sql" />
@@ -285,8 +284,6 @@
     <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="acvp\Tables\APIActions.sql" />
-    <Build Include="acvp\Tables\AutoApproveConfiguration.sql" />
-    <Build Include="acvp\Stored Procedures\AutoApproveConfigurationGet.sql" />
     <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />

@@ -38,15 +38,15 @@ namespace NIST.CVP.Generation.DRBG.Tests
             p.Algorithm = mechanism;
             p.Capabilities.First().Mode = mode;
 
-            Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestGroups(p));
+            Assert.Throws(typeof(ArgumentException), () => _subject.BuildTestGroupsAsync(p));
         }
 
         [Test]
-        public void ShouldCreateOneGroupPerLengthParamterWhenMinAndMaxAreSame()
+        public async Task ShouldCreateOneGroupPerLengthParamterWhenMinAndMaxAreSame()
         {
             var p = GetParametersDomainsAsValue();
 
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(1, result.Count);
         }
@@ -77,7 +77,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
         [TestCase("hmacDRBG", "SHA2-512/224", false, DrbgMechanism.HMAC, DrbgMode.SHA512t224)]
         [TestCase("hmacDRBG", "SHA2-512/256", false, DrbgMechanism.HMAC, DrbgMode.SHA512t256)]
 
-        public void ShouldCreateMechanismModeCorrectly(
+        public async Task ShouldCreateMechanismModeCorrectly(
             string algorithm, 
             string mode, 
             bool derFunc, 
@@ -103,7 +103,7 @@ namespace NIST.CVP.Generation.DRBG.Tests
                 }.ToArray()
             };
 
-            var results = _subject.BuildTestGroups(p);
+            var results = await _subject.BuildTestGroupsAsync(p);
             Assume.That(results.Count() == 2, "Should only be working with a 2 groups");
 
             foreach (TestGroup result in results)

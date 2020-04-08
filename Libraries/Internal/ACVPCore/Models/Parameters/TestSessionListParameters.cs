@@ -13,5 +13,9 @@ namespace ACVPCore.Models.Parameters
         /// The Vector Set to search for.
         /// </summary>
         public long? VectorSetId { get; set; }
+        /// <summary>
+        /// The status value to search for.
+        /// </summary>
+        public TestSessionStatus? TestSessionStatus { get; set; }
     }
 }

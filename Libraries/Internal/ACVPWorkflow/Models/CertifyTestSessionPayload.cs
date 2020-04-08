@@ -30,8 +30,8 @@ namespace ACVPWorkflow.Models
 			CertifyTestSessionParameters certifyTestSessionParameters = new CertifyTestSessionParameters
 			{
 				TestSessionID = TestSessionID,
-				ImplementationID = ParseIDFromURL(ImplementationURL),
-				OEID = ParseIDFromURL(OEURL),
+				ImplementationID = ParseNullableIDFromURL(ImplementationURL),
+				OEID = ParseNullableIDFromURL(OEURL),
 				Prerequisites = new List<CertifyTestSessionParameters.AlgorithmPrerequisites>()
 			};
 

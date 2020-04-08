@@ -17,14 +17,14 @@ namespace MessageQueueProcessor.MessageProcessors
 		private readonly ITestSessionService _testSessionService;
 		private readonly IWorkflowService _workflowService;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
-		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
+		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_testSessionService = testSessionService;
 			_workflowService = workflowService;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
-			_autoApproveConfiguration = autoApproveConfiguration;
+			_messageQueueProcessorConfig = messageQueueProcessorConfig;
 		}
 
 		public Result Process(Message message)
@@ -89,7 +89,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			}
 
 			//Auto approve if configured to do so
-			if (isValid && _autoApproveConfiguration.GetValueOrDefault(APIAction.CertifyTestSession))
+			if (isValid && _messageQueueProcessorConfig.AutoApprove.GetValueOrDefault(APIAction.CertifyTestSession))
 			{
 				//Approve it - don't care if this passes or fails, from the message processing standpoint the message has been fully processed
 				_workflowService.Approve(workflowItem);

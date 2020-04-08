@@ -64,17 +64,23 @@ namespace ACVPCore.Services
 			}
 
 			//Insert the email addresses. Using a for loop instead of a foreach because the order of the needs to be specified
-			Result emailResult;
-			for (int i = 0; i < parameters.EmailAddresses.Count; i++)
+			if (parameters.EmailAddresses != null)
 			{
-				emailResult = _personProvider.InsertEmailAddress(personInsertResult.ID, parameters.EmailAddresses[i], i);
+				Result emailResult;
+				for (int i = 0; i < parameters.EmailAddresses.Count; i++)
+				{
+					emailResult = _personProvider.InsertEmailAddress(personInsertResult.ID, parameters.EmailAddresses[i], i);
+				}
 			}
 
 			//Insert the phone numbers. Using a for loop instead of a foreach because the order of the needs to be specified
-			Result phoneNumberResult;
-			for (int i = 0; i < parameters.PhoneNumbers.Count; i++)
+			if (parameters.PhoneNumbers != null)
 			{
-				phoneNumberResult = _personProvider.InsertPhoneNumber(personInsertResult.ID, parameters.PhoneNumbers[i].Type, parameters.PhoneNumbers[i].Number, i);
+				Result phoneNumberResult;
+				for (int i = 0; i < parameters.PhoneNumbers.Count; i++)
+				{
+					phoneNumberResult = _personProvider.InsertPhoneNumber(personInsertResult.ID, parameters.PhoneNumbers[i].Type, parameters.PhoneNumbers[i].Number, i);
+				}
 			}
 
 			return new PersonResult(personInsertResult.ID);

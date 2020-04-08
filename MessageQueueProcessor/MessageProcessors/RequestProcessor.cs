@@ -13,13 +13,13 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IWorkflowService _workflowService;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
-		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
+		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public RequestProcessor(IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_workflowService = workflowService;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
-			_autoApproveConfiguration = autoApproveConfiguration;
+			_messageQueueProcessorConfig = messageQueueProcessorConfig;
 		}
 
 		public Result Process(Message message)
@@ -52,7 +52,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			bool isValid = _workflowService.Validate(workflowItem).IsSuccess;
 
 			//Auto approve if configured to do so
-			if (isValid && _autoApproveConfiguration.GetValueOrDefault(apiAction))
+			if (isValid && _messageQueueProcessorConfig.AutoApprove.GetValueOrDefault(apiAction))
 			{
 				//Approve it - don't care if this passes or fails, from the message processing standpoint the message has been fully processed
 				_workflowService.Approve(workflowItem);

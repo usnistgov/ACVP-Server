@@ -42,7 +42,7 @@ namespace ACVPCore.Providers
 						Url = data.organization_url,
 						VoiceNumber = data.organization_voice_number,
 						FaxNumber = data.organization_fax_number,
-						Parent = (data.organization_parent_id == null) ? null : new OrganizationLite(){ ID = data.organization_parent_id }
+						Parent = (data.organization_parent_id == null) ? null : new OrganizationLite() { ID = data.organization_parent_id }
 					};
 
 					Address address = new Address
@@ -65,7 +65,7 @@ namespace ACVPCore.Providers
 						ID = implementationID,
 						Vendor = organization,
 						Address = address,
-						URL =  data.product_url,
+						URL = data.product_url,
 						Name = data.module_name,
 						Type = tmp,
 						Version = data.module_version,
@@ -98,11 +98,11 @@ namespace ACVPCore.Providers
 					Id = param.Id,
 					Name = param.Name,
 					Description = param.Description
-				}, 
+				},
 					outParams: new
-				{
-					totalRecords = (long)0
-				});
+					{
+						totalRecords = (long)0
+					});
 
 				List<Implementation> implementations = new List<Implementation>();
 
@@ -167,7 +167,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.ImplementationDelete @0", implementationID);
+				db.ExecuteProcedure("val.ImplementationDelete", inParams: new { ImplementationID = implementationID });
 			}
 			catch (Exception ex)
 			{
@@ -184,7 +184,7 @@ namespace ACVPCore.Providers
 
 			try
 			{
-				db.Execute("val.ImplementationContactsDeleteAll @0", implementationID);
+				db.ExecuteProcedure("val.ImplementationContactsDeleteAll", inParams: new { ImplementationID = implementationID });
 			}
 			catch (Exception ex)
 			{
@@ -261,11 +261,6 @@ namespace ACVPCore.Providers
 			if (nameUpdated && string.IsNullOrWhiteSpace(name)) return new Result("Invalid name value");
 			if (versionUpdated && string.IsNullOrWhiteSpace(version)) return new Result("Invalid version value");
 			if (descriptionUpdated && string.IsNullOrWhiteSpace(description)) return new Result("Invalid description value");
-
-			Console.WriteLine(name);
-			Console.WriteLine(nameUpdated);
-			Console.WriteLine(version);
-			Console.WriteLine(versionUpdated);
 
 			var db = new MightyOrm(_acvpConnectionString);
 

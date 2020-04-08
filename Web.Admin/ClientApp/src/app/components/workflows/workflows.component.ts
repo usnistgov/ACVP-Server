@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
 import { APIAction } from '../../models/Workflow/APIAction.enum';
 import { WorkflowProviderService } from '../../services/ajax/workflow/workflow-provider.service';
+import { WorkflowStatus } from '../../models/Workflow/WorkflowStatus.enum';
+import { WorkflowListParameters } from '../../models/Workflow/WorkflowListParameters';
 
 @Component({
   selector: 'app-workflows',
@@ -12,40 +14,120 @@ import { WorkflowProviderService } from '../../services/ajax/workflow/workflow-p
 export class WorkflowsComponent implements OnInit {
 
   workflowItems: WorkflowItemList;
-  requestId: string;
-  DBID: string;
+  listData: WorkflowListParameters;
   APIAction = APIAction;
+  WorkflowStatus = WorkflowStatus;
   selectedAPIAction: string;
-  
-
-  WorkflowStatusOptions = [ "All", "Pending", "Approved", "Incomplete", "Rejected" ];
+  selectedStatus: string;
 
   constructor(private workflowService: WorkflowProviderService, private router: Router, private route: ActivatedRoute) { }
+
+  setStatus(input: string) {
+    if (input === "All") { this.listData.Status = ""; }
+    else { this.listData.Status = input; }
+    this.loadData();
+  }
+
+  setAPIAction(input: string) {
+    if (input === "All") { this.listData.APIActionID = ""; }
+    else { this.listData.APIActionID = input; }
+    this.loadData();
+  }
+
+  loadData() {
+
+    // Anytime the user's search changes, we default to page one
+    this.listData.page = 1;
+
+    // This sets the queryParams, but if they're empty, they end up having "&name=" by itself in the URL
+    // So the following if statements check each of the available routeParams and clear them from the URL if they're set
+    this.router.navigate([], {
+      queryParams: this.listData
+    });
+
+    // Clear empty ones as necessary
+    if (this.listData.RequestId === "") {
+      this.router.navigate([], {
+        queryParams: { name: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.APIActionID === "") {
+      this.router.navigate([], {
+        queryParams: { id: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.WorkflowItemId === "") {
+      this.router.navigate([], {
+        queryParams: { description: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.Status === "All") {
+      this.router.navigate([], {
+        queryParams: { description: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+
+    // Now, actually get the data
+    this.workflowService.getWorkflows(this.listData).subscribe(
+      data => {
+        this.workflowItems = data;
+        this.router.navigate([], {
+          queryParams: { page: this.listData.page },
+          queryParamsHandling: 'merge'
+        });
+      },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
+  }
+
+  ngOnInit() {
+    this.listData = new WorkflowListParameters("", "", "", "");
+    this.workflowItems = new WorkflowItemList();
+
+    this.listData.pageSize = 10;
+    this.listData.page = 1;
+
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+
+    this.workflowService.getWorkflows(this.listData).subscribe(
+      data => { this.workflowItems = data; },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
+  }
 
   getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.workflowItems.currentPage = 1;
+      this.listData.page = 1;
     }
     else if (whichPage == "previous") {
-      if (this.workflowItems.currentPage > 1) {
-        this.workflowItems.currentPage = --this.workflowItems.currentPage;
+      if (this.listData.page > 1) {
+        this.listData.page = --this.listData.page;
       }
     }
     else if (whichPage == "next") {
-      if (this.workflowItems.currentPage < this.workflowItems.totalPages) {
-        this.workflowItems.currentPage = ++this.workflowItems.currentPage;
+      if (this.listData.page < this.workflowItems.totalPages) {
+        this.listData.page = ++this.listData.page;
       }
     }
     else if (whichPage == "last") {
-      this.workflowItems.currentPage = this.workflowItems.totalPages;
+      this.listData.page = this.workflowItems.totalPages;
     }
 
-    this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
+    this.workflowService.getWorkflows(this.listData).subscribe(
       data => {
         this.workflowItems = data;
         this.router.navigate([], {
-          queryParams: { page: this.workflowItems.currentPage },
+          queryParams: { page: this.listData.page },
           queryParamsHandling: 'merge'
         });
       },
@@ -54,106 +136,5 @@ export class WorkflowsComponent implements OnInit {
     );
   };
 
-  setAPIAction(input: string) {
-    this.selectedAPIAction = input;
-    this.loadData();
-  }
-
-  loadData() {
-
-    if (this.requestId !== "") {
-      this.router.navigate([], {
-        queryParams: { requestId: this.requestId },
-        queryParamsHandling: 'merge'
-      });
-    }
-    else {
-      this.router.navigate([], {
-        queryParams: { requestId: null },
-        queryParamsHandling: 'merge'
-      });
-    }
-
-    if (this.DBID !== "") {
-      this.router.navigate([], {
-        queryParams: { DBID: this.DBID },
-        queryParamsHandling: 'merge'
-      });
-    }
-    else {
-      this.router.navigate([], {
-        queryParams: { DBID: null },
-        queryParamsHandling: 'merge'
-      });
-    }
-
-    if (this.selectedAPIAction !== "All") {
-      this.router.navigate([], {
-        queryParams: { selectedAPIAction: this.selectedAPIAction },
-        queryParamsHandling: 'merge'
-      });
-    }
-    else {
-      this.router.navigate([], {
-        queryParams: { selectedAPIAction: null },
-        queryParamsHandling: 'merge'
-      });
-    }
-
-    if (this.selectedAPIAction === "All") {
-      this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, null, this.DBID).subscribe(
-        data => {
-          this.workflowItems = data;
-          this.router.navigate([], {
-            queryParams: { page: this.workflowItems.currentPage },
-            queryParamsHandling: 'merge'
-          });
-        },
-        err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
-        () => { }
-      );
-    }
-    else {
-      this.workflowService.getWorkflows(this.workflowItems.pageSize, this.workflowItems.currentPage, this.requestId, this.selectedAPIAction, this.DBID).subscribe(
-        data => {
-          this.workflowItems = data;
-          this.router.navigate([], {
-            queryParams: { page: this.workflowItems.currentPage },
-            queryParamsHandling: 'merge'
-          });
-        },
-        err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
-        () => { }
-      );
-    }
-  }
-
-  ngOnInit() {
-
-    this.workflowItems = new WorkflowItemList();
-    this.workflowItems.pageSize = 10;
-    this.workflowItems.currentPage = 1;
-
-    // Check the params in the route and set accordingly.  This enables the user to
-    // go back/forward and not lose settings for filtering
-    if (this.route.snapshot.queryParamMap.get('page')) {
-      this.workflowItems.currentPage = parseInt(this.route.snapshot.queryParamMap.get('page'));
-    }
-    if (this.route.snapshot.queryParamMap.get('requestId')) {
-      this.requestId = this.route.snapshot.queryParamMap.get('requestId');
-    }
-    if (this.route.snapshot.queryParamMap.get('DBID')) {
-      this.DBID = this.route.snapshot.queryParamMap.get('DBID');
-    }
-    if (this.route.snapshot.queryParamMap.get('selectedAPIAction')) {
-      if (this.route.snapshot.queryParamMap.get('selectedAPIAction') === 'All') {
-        this.selectedAPIAction = "All";
-      }
-      this.selectedAPIAction = APIAction[this.route.snapshot.queryParamMap.get('selectedAPIAction')];
-    }
-
-    this.loadData();
-
-  }
 
 }

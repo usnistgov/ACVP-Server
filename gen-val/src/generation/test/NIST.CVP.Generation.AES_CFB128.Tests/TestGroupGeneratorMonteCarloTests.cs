@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.AES_CFB128.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -47,11 +48,11 @@ namespace NIST.CVP.Generation.AES_CFB128.Tests
             };
             [Test]
             [TestCaseSource(nameof(parameters))]
-            public void ShouldCreate1TestGroupForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
+            public async Task ShouldCreate1TestGroupForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
             {
                 TestGroupGeneratorMonteCarlo subject = new TestGroupGeneratorMonteCarlo();
 
-                var results = subject.BuildTestGroups(parameters);
+                var results = await subject.BuildTestGroupsAsync(parameters);
                 Assert.AreEqual(expectedGroupsCreated, results.Count());
             }
         }
