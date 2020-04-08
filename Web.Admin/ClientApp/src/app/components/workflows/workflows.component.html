@@ -1,0 +1,192 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+
+      <div class="row mt-3">
+        <h2>&nbsp;</h2><!-- Just for visual spacing purposes -->
+      </div>
+
+      <div class="row">
+        <div class="container">
+          <h3>Filters</h3>
+          <label class="bold-heading">RequestId</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.RequestId" (ngModelChange)="loadData()" placeholder="Request Id" />
+          <br /> <!-- Just for spacing -->
+          <label class="bold-heading">API Action</label><br />
+          <select class="form-control" #APIActionList (change)="setAPIAction(APIActionList.value)">
+            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
+            <option (click)="setAPIAction('All')" value="All">All</option>
+            <option *ngFor="let apiAction of APIAction.values()" (click)="setAPIAction(apiAction)" value="{{apiAction}}">
+              {{apiAction}}
+            </option>
+          </select>
+          <br />
+          <label class="bold-heading">Status</label><br />
+          <select class="form-control" #statusList (change)="setStatus(statusList.value)">
+            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
+            <option (click)="setAPIAction('All')" value="All">All</option>
+            <option *ngFor="let status of WorkflowStatus.values()" (click)="setStatus(status)" value="{{status}}">
+              {{status}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-10">
+
+      <div class="row mt-3">
+        <h2>Workflow Items</h2>
+      </div>
+
+      <!-- Main Table Row -->
+      <div class="row">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Submitter</th>
+              <th>Action</th>
+              <th>Type</th>
+              <th>Submitted</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let workflowItem of workflowItems?.data" [routerLink]="workflowItem.workflowItemId">
+              <td>{{ workflowItem.submissionId }}</td>
+              <td>{{ workflowItem.submitter }}</td>
+
+              <ng-container [ngSwitch]="workflowItem.apiAction">
+
+                <ng-container *ngSwitchCase="'Unknown'">
+                  <td>Unknown</td>
+                  <td>Unknown</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateDependency'">
+                  <td>Create</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateDependency'">
+                  <td>Update</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteDependency'">
+                  <td>Delete</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateImplementation'">
+                  <td>Create</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateImplementation'">
+                  <td>Update</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteImplementation'">
+                  <td>Delete</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateOE'">
+                  <td>Create</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateOE'">
+                  <td>Update</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteOE'">
+                  <td>Delete</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreatePerson'">
+                  <td>Create</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdatePerson'">
+                  <td>Update</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeletePerson'">
+                  <td>Delete</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateVendor'">
+                  <td>Create</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateVendor'">
+                  <td>Update</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteVendor'">
+                  <td>Delete</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'RegisterTestSession'">
+                  <td>Register</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CancelTestSession'">
+                  <td>Cencel</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CertifyTestSession'">
+                  <td>Certify</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'SubmitVectorSetResults'">
+                  <td>Submit</td>
+                  <td>Vector Set</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CancelVectorSet'">
+                  <td>Cencel</td>
+                  <td>Vector Se</td>
+                </ng-container>
+
+              </ng-container>
+
+              <td>{{ workflowItem.submitted }}</td>
+              <td>{{ workflowItem.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- Close Main Table Row -->
+      <!-- Pagination Buttons Row-->
+      <div class="row">
+        <table class="center">
+          <tr>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
+            <td><button class="btn btn-primary bold-heading">&gt;&gt;</button></td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:center;">Page {{ workflowItems?.currentPage }} of {{ workflowItems?.totalPages }}</td>
+          </tr>
+        </table>
+      </div> <!-- Close Pagination Buttons Row -->
+
+    </div>
+  </div>
+</div>

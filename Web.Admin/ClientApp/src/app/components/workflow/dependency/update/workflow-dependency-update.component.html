@@ -1,0 +1,86 @@
+<div class="row mt-3">
+  <div class="col-lg-9">
+    <div class="card">
+      <h5 class="card-header">Update Dependency</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <th style="border:none;"></th>
+            <th style="border:none;">Existing</th>
+            <th style="border:none;">Update</th>
+          </tr>
+          <tr>
+            <th>Name</th>
+            <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
+            <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty Name)" : workflowItem?.payload.name }}</td>
+          </tr>
+          <tr>
+            <th>Type</th>
+            <td>{{ currentState?.type == "" || currentState?.type == null ? "(Empty)" : currentState?.type }}</td>
+            <td>{{ workflowItem?.payload.type == "" || workflowItem?.payload.type == null ? "(Empty Type)" : workflowItem?.payload.type }}</td>
+          </tr>
+          <tr>
+            <th>Description</th>
+            <td>{{ currentState?.description == "" || currentState?.description == null ? "(Empty)" : currentState?.description }}</td>
+            <td>{{ workflowItem?.payload.description == "" || workflowItem?.payload.description == null ? "(Empty Description)" : workflowItem?.payload.description }}</td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-3">
+    <div class="card">
+      <h5 class="card-header">Available Actions</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+          </tr>
+          <tr>
+            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
+
+<div class="row mt-3">
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Existing Attributes</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr *ngFor="let attribute of currentState?.attributes">
+            <th style="border:none;">
+              {{ attribute?.name == "" || attribute?.name == null ? "(Empty)" : attribute?.name }}
+            </th>
+            <td style="border:none;">
+              {{ attribute?.value == "" || attribute?.value == null ? "(Empty)" : attribute?.value }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Proposed Attributes</h5>
+      <div class="card-body">
+        <table class="table">
+          <tr *ngFor="let key of objectKeys(workflowItem.payload)">
+            <th style="border:none;" *ngIf="isUserDefinedAttribute(key)">
+              {{ key }}
+            </th>
+            <td style="border:none;" *ngIf="isUserDefinedAttribute(key)">
+              {{ workflowItem.payload[key] }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div> <!-- Close Dependency Info Card -->
+  </div> <!-- Close col-lg-6 -->
+</div>
