@@ -150,7 +150,7 @@ namespace LCAVPCore.Registration.Algorithms.Component
 		[JsonProperty("mqv2", NullValueHandling = NullValueHandling.Ignore)]
 		public Mqv2 Mqv2 { get; set; }
 
-		[JsonProperty("hybridOneFlow", NullValueHandling = NullValueHandling.Ignore)]
+		[JsonProperty("dhHybridOneFlow", NullValueHandling = NullValueHandling.Ignore)]
 		public DhHybridOneFlow DhHybridOneFlow { get; set; }
 
 		[JsonProperty("dhOneFlow", NullValueHandling = NullValueHandling.Ignore)]

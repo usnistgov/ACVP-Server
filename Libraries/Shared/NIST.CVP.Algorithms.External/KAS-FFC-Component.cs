@@ -33,7 +33,7 @@ namespace NIST.CVP.Algorithms.External
 			[JsonPropertyName("mqv2")]
 			public Scheme Mqv2 { get; set; }
 
-			[JsonPropertyName("hybridOneFlow")]
+			[JsonPropertyName("dhHybridOneFlow")]
 			public Scheme DhHybridOneFlow { get; set; }
 
 			[JsonPropertyName("dhOneFlow")]
