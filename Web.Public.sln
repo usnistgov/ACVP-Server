@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.DataTyp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Algorithms.External", "Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj", "{8E30C2C2-0BCE-4D24-9324-55E933F60580}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ACVPWorkflow", "Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj", "{9FC606AF-5A41-4BB0-B899-082819E340F9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,10 +73,6 @@ Global
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FC606AF-5A41-4BB0-B899-082819E340F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FC606AF-5A41-4BB0-B899-082819E340F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FC606AF-5A41-4BB0-B899-082819E340F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FC606AF-5A41-4BB0-B899-082819E340F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,7 +88,6 @@ Global
 		{1A4F738A-76C5-4AF8-95EA-4132920E51AF} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 		{4D39DCA3-45D8-43F5-95C3-529CE97242EA} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 		{8E30C2C2-0BCE-4D24-9324-55E933F60580} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
-		{9FC606AF-5A41-4BB0-B899-082819E340F9} = {E6D6E73F-90EB-4D17-80AC-18471D21E64A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62E9A5BD-DDED-44DA-82EE-37C3EAA0E436}
