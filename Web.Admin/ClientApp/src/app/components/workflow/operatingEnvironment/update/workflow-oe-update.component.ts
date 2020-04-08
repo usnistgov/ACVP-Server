@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { Router } from '@angular/router';
-import { OperatingEnvironmentUpdatePayload } from '../../../../models/Workflow/OperatingEnvironment/OperatingEnvironmentUpdatePayload';
-import { OperatingEnvironment } from '../../../../models/operatingEnvironment/operatingEnvironment';
+import { OperatingEnvironmentUpdatePayload } from '../../../../models/workflow/operatingEnvironment/OperatingEnvironmentUpdatePayload';
+import { OperatingEnvironment } from '../../../../models/operatingEnvironment/OperatingEnvironment';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 

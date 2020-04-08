@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Person } from '../../models/Person/Person';
+import { Person } from '../../models/person/Person';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
-import { PersonPhone } from '../../models/Person/PersonPhone';
-import { PersonNote } from '../../models/Person/PersonNote';
+import { PersonPhone } from '../../models/person/PersonPhone';
 import { PersonProviderService } from '../../services/ajax/person/person-provider.service';
 
 @Component({

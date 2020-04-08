@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DependencyList } from '../../models/dependency/dependency-list';
+import { DependencyList } from '../../models/dependency/Dependency-list';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DependencyDataProviderService } from '../../services/ajax/dependency/dependency-data-provider.service';
 import { DependencyListParameters } from '../../models/dependency/DependencyListParameters';

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { OperatingEnvironment } from '../../models/operatingEnvironment/operatingEnvironment';
+import { OperatingEnvironment } from '../../models/operatingEnvironment/OperatingEnvironment';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
-import { Dependency } from '../../models/dependency/dependency';
-import { Attribute } from '../../models/dependency/attribute';
-import { DependencyList } from '../../models/dependency/dependency-list';
+import { Dependency } from '../../models/dependency/Dependency';
+import { Attribute } from '../../models/dependency/Attribute';
+
 import { OperatingEnvironmentProviderService } from '../../services/ajax/operatingEnvironment/operating-environment-provider.service';
+import { DependencyList } from 'src/app/models/dependency/Dependency-list';
 
 @Component({
   selector: 'app-validation-db-oe',

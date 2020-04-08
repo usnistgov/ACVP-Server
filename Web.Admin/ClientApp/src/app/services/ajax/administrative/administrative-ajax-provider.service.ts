@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MessageQueue } from '../../../models/MessageQueue/MessageQueue';
-import { TaskQueue } from '../../../models/TaskQueue/TaskQueue';
+import { MessageQueue } from '../../../models/messageQueue/MessageQueue';
+import { TaskQueue } from '../../../models/taskQueue/TaskQueue';
 
 @Injectable({
   providedIn: 'root'

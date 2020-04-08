@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
-import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
-import { WorkflowItemList } from '../../../models/Workflow/WorkflowItemList';
+import { WorkflowItemBase } from '../../../models/workflow/WorkflowItemBase';
+import { IWorkflowItemPayload } from '../../../models/workflow/IWorkflowItemPayload';
+import { WorkflowItemList } from '../../../models/workflow/WorkflowItemList';
 import { HttpClient } from '@angular/common/http';
-import { WorkflowListParameters } from '../../../models/Workflow/WorkflowListParameters';
+import { WorkflowListParameters } from '../../../models/workflow/WorkflowListParameters';
 
 @Injectable({
   providedIn: 'root'

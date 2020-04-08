@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdministrativeAjaxProviderService } from '../../services/ajax/administrative/administrative-ajax-provider.service';
-import { MessageQueue } from '../../models/MessageQueue/MessageQueue';
+import { MessageQueue } from '../../models/messageQueue/MessageQueue';
 
 @Component({
   selector: 'app-message-queue',

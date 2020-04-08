@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowDependencyCreatePayload } from '../../../../models/Workflow/Dependency/WorkflowDependencyCreatePayload';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { WorkflowDependencyCreatePayload } from '../../../../models/workflow/dependency/WorkflowDependencyCreatePayload';
 import { Router } from '@angular/router';
 import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';

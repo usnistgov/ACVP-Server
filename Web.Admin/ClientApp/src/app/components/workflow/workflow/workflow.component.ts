@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
-import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
+import { WorkflowItemBase } from '../../../models/workflow/WorkflowItemBase';
+import { IWorkflowItemPayload } from '../../../models/workflow/IWorkflowItemPayload';
 import { WorkflowProviderService } from '../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({

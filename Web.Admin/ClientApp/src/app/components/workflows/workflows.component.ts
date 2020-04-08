@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { WorkflowItemList } from '../../models/Workflow/WorkflowItemList';
-import { APIAction } from '../../models/Workflow/APIAction.enum';
+import { WorkflowItemList } from '../../models/workflow/WorkflowItemList';
+import { APIAction } from '../../models/workflow/APIAction.enum';
 import { WorkflowProviderService } from '../../services/ajax/workflow/workflow-provider.service';
-import { WorkflowStatus } from '../../models/Workflow/WorkflowStatus.enum';
-import { WorkflowListParameters } from '../../models/Workflow/WorkflowListParameters';
+import { WorkflowStatus } from '../../models/workflow/WorkflowStatus.enum';
+import { WorkflowListParameters } from '../../models/workflow/WorkflowListParameters';
 
 @Component({
   selector: 'app-workflows',
