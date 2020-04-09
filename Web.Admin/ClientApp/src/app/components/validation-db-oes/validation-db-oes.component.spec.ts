@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidationDbOperatingEnvironmentsComponent } from './validation-db-operating-environments.component';
+import { ValidationDbOEsComponent } from './validation-db-oes.component';
 
-describe('ValidationDbOperatingEnvironmentsComponent', () => {
-  let component: ValidationDbOperatingEnvironmentsComponent;
-  let fixture: ComponentFixture<ValidationDbOperatingEnvironmentsComponent>;
+describe('ValidationDbOEsComponent', () => {
+  let component: ValidationDbOEsComponent;
+  let fixture: ComponentFixture<ValidationDbOEsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ValidationDbOperatingEnvironmentsComponent ]
+      declarations: [ ValidationDbOEsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidationDbOperatingEnvironmentsComponent);
+    fixture = TestBed.createComponent(ValidationDbOEsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
