@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ClickableClickModule } from 'angular-clickable-click';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
@@ -91,13 +91,14 @@ import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-ne
     AcvpUserComponent,
     AcvpUsersComponent,
     AcvpUsersNewUserComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-
+    ClickableClickModule,
     // For NgxFileUpload
     HttpClientModule
   ],

@@ -38,7 +38,7 @@ namespace NIST.CVP.Algorithms.Persisted
 			[AlgorithmProperty(Name = "mqv2", PrependParentPropertyName = true)]
 			public SchemeKC Mqv2 { get; set; }
 
-			[AlgorithmProperty(Name = "hybridOneFlow", PrependParentPropertyName = true)]
+			[AlgorithmProperty(Name = "dhHybridOneFlow", PrependParentPropertyName = true)]
 			public SchemeKC DhHybridOneFlow { get; set; }
 
 			[AlgorithmProperty(Name = "dhOneFlow", PrependParentPropertyName = true)]
