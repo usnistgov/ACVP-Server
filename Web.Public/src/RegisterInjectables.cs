@@ -49,6 +49,12 @@ namespace Web.Public
 
             item.AddTransient<IRequestProvider, RequestProvider>();
             item.AddTransient<IRequestService, RequestService>();
+
+            item.AddTransient<ITestSessionProvider, TestSessionProvider>();
+            item.AddTransient<ITestSessionService, TestSessionService>();
+
+            item.AddTransient<IVectorSetProvider, VectorSetProvider>();
+            //item.AddTransient<IVectorSetService, VectorSetService>();
         }
     }
 }
