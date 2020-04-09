@@ -10,6 +10,6 @@ namespace ACVPCore.Providers
         PagedEnumerable<AcvpUserLite> GetUserList(AcvpUserListParameters param);
         AcvpUser GetUserDetails(long userId);
         Result SetUserTotpSeed(long userId, string seed);
-        Result CreateUser(AcvpUserCreateParameters param);
+        Result CreateUser(string personName, long organizationID, byte[] certificate, string seed);
     }
 }

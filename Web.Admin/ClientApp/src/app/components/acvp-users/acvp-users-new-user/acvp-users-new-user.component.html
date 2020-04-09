@@ -1,0 +1,113 @@
+<div id="AddUserModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" *ngIf="NewUserInputPage == 0">Select Lab</h4>
+        <h4 class="modal-title" *ngIf="NewUserInputPage == 1">Enter Personal Information</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div *ngIf="NewUserInputPage == 0">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="container">
+                  <table width="100%">
+                    <tr>
+                      <td width="10%">
+                        <label class="bold-heading">Filters</label>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" [(ngModel)]="listData.id" placeholder="ID..." />
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" [(ngModel)]="listData.name" placeholder="Name..." />
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <!-- Main Table Row -->
+                <div class="row mt-3">
+                  <table class="table table-hover" style="min-height: 556px;max-height:556px;">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>URL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr [ngClass]="{'table-active':(organization.id === selectedOrganization?.id)}" *ngFor="let organization of organizations?.data" (click)="selectedOrganization = organization">
+                        <td width="10%">{{ organization.id }}</td>
+                        <td width="45%">
+                          <span *ngIf="organization.name === ' ' || organization.name === null">---</span>
+                          <span *ngIf="organization.name !== ' ' && organization.name !== null">
+                            {{ organization.name.substring(0,35) }}
+                            <span *ngIf="organization.name.length > 35">...</span>
+                          </span>
+                        </td>
+                        <td width="45%">
+                          <span *ngIf="organization.url === ' ' || organization.url === null">---</span>
+                          <span *ngIf="organization.url !== ' ' && organization.url !== null">
+                            {{ organization.url.substring(0,35) }}
+                            <span *ngIf="organization.url.length > 35">...</span>
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div><!-- Close Main Table Row -->
+                <!-- Pagination Buttons Row-->
+                <div class="row">
+                  <table class="center">
+                    <tr>
+                      <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
+                      <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
+                      <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
+                      <td><button class="btn btn-primary bold-heading" (click)="getPage('last')">&gt;&gt;</button></td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" style="text-align:center;">Page {{ organizations?.currentPage }} of {{ organizations?.totalPages }}</td>
+                    </tr>
+                  </table>
+                </div> <!-- Close Pagination Buttons Row -->
+
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="NewUserInputPage == 1">
+            <div class="row">
+              <label class="bold-heading">Selected Lab:</label>&nbsp;&nbsp;{{selectedOrganization.name}}
+            </div>
+            <div class="row mt-3">
+              <label class="bold-heading">Person Name</label><input [(ngModel)]="newUserParams && newUserParams.person.Name" type="text" class="form-control" />
+            </div>
+            <!--<div class="row mt-3">
+              <label class="bold-heading">Organization Name</label><input [(ngModel)]="newUserParams && newUserParams.person.organization.name" type="text" class="form-control" />
+            </div>-->
+            <div class="row mt-3">
+              <label class="bold-heading">Certificate</label><br />
+              <textarea [(ngModel)]='newUserParams && newUserParams.certificate' rows="5" cols="60" class="form-control"></textarea>
+            </div>
+            <div class="row mt-3">
+              <label class="bold-heading">Seed</label><input [(ngModel)]="newUserParams && newUserParams.seed" type="text" class="form-control" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="NewUserInputPage === 0" (click)="NewUserInputPage = NewUserInputPage + 1">Next</button>
+        <button type="button" class="btn btn-primary" *ngIf="NewUserInputPage === 1" (click)="submitNewUser()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

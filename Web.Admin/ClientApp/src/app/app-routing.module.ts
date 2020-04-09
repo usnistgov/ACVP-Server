@@ -21,11 +21,21 @@ import { ValidationDbValidationComponent } from './components/validation-db-vali
 import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
 import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
 import { CurrentUserComponent } from './components/currentUser/currentUser.component';
+import { AcvpUsersComponent } from './components/acvp-users/acvp-users.component';
+import { AcvpUserComponent } from './components/acvp-user/acvp-user.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'acvpUsers/:id',
+    component: AcvpUserComponent
+  },
+  {
+    path: 'acvpUsers',
+    component: AcvpUsersComponent
   },
   {
     path: 'currentUser',

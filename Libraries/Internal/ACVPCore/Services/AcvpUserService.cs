@@ -33,7 +33,7 @@ namespace ACVPCore.Services
 
         public Result CreateUser(AcvpUserCreateParameters param)
         {
-            return _adminUserProvider.CreateUser(param);
+            return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate, param.Seed);
         }
     }
 }

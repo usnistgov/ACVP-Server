@@ -45,6 +45,9 @@ import { WorkflowPersonDeleteComponent } from './components/workflow/person/dele
 import { WorkflowProductDeleteComponent } from './components/workflow/product/delete/workflow-product-delete.component';
 import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
 import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
+import { AcvpUserComponent } from './components/acvp-user/acvp-user.component';
+import { AcvpUsersComponent } from './components/acvp-users/acvp-users.component';
+import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-new-user/acvp-users-new-user.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
     WorkflowProductDeleteComponent,
     MessageQueueComponent,
     TaskQueueComponent,
-    AdminUserComponent
+    AcvpUserComponent,
+    AcvpUsersComponent,
+    AcvpUsersNewUserComponent
   ],
   imports: [
     BrowserModule,
