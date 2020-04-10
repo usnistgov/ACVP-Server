@@ -5,18 +5,18 @@ namespace ACVPCore
     public enum VectorSetJsonFileTypes
     {
         [EnumMember(Value = "capabilities")]
-        Capabilities,
+        Capabilities = 1,
         [EnumMember(Value = "prompt")]
-        Prompt,
+        Prompt = 2,
         [EnumMember(Value = "internalProjection")]
-        InternalProjection,
+        InternalProjection = 3,
         [EnumMember(Value = "expectedAnswers")]
-        ExpectedAnswers,
+        ExpectedAnswers = 4,
         [EnumMember(Value = "submittedAnswers")]
-        SubmittedAnswers,
+        SubmittedAnswers = 5,
         [EnumMember(Value = "validation")]
-        Validation,
+        Validation = 6,
         [EnumMember(Value = "error")]
-        Error
+        Error = 7
     }
 }
