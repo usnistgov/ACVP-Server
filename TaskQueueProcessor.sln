@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Results", "Librari
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Algorithms.External", "Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj", "{58FE9AAD-DBCC-4E85-9987-F2A6EF91861C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.TaskQueue", "Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj", "{9B95C831-68C0-48F4-B749-29BCC8F8FD83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{58FE9AAD-DBCC-4E85-9987-F2A6EF91861C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58FE9AAD-DBCC-4E85-9987-F2A6EF91861C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58FE9AAD-DBCC-4E85-9987-F2A6EF91861C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B95C831-68C0-48F4-B749-29BCC8F8FD83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B95C831-68C0-48F4-B749-29BCC8F8FD83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B95C831-68C0-48F4-B749-29BCC8F8FD83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B95C831-68C0-48F4-B749-29BCC8F8FD83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +171,7 @@ Global
 		{D8AFF4C2-19A6-4F03-BA4F-344D2AD2A798} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 		{54C6A53E-AB5B-4540-AD65-C6A25F2097EE} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 		{58FE9AAD-DBCC-4E85-9987-F2A6EF91861C} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
+		{9B95C831-68C0-48F4-B749-29BCC8F8FD83} = {AF1DAE3D-65BB-47F5-B397-95CA4606FC1A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30A1396A-D4FA-4875-AA3A-BE0435E02B80}

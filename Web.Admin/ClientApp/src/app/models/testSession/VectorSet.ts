@@ -1,4 +1,5 @@
 import { VectorSetStatus } from './VectorSetStatus';
+import { VectorSetResetOption } from './VectorSetResetOption.enum';
 
 export class VectorSet {
 
@@ -8,5 +9,5 @@ export class VectorSet {
   algorithm: string;
   status: VectorSetStatus;
   jsonFilesAvailable: string[];
-
+  resetOption: VectorSetResetOption
 }

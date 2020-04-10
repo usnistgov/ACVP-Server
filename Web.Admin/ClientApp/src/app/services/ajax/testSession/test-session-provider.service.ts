@@ -42,5 +42,13 @@ export class TestSessionProviderService {
     return this.http.get<VectorSet>(this.apiRoot + '/TestSessions/VectorSet/' + vectorSetId);
   }
 
+  queueGeneration(vectorSetId: number) {
+    return this.http.post(this.apiRoot + `/TestSessions/vectorSet/${vectorSetId}/requeue/generation`, null);
+  }
+
+  queueValidation(vectorSetId: number) {
+    return this.http.post(this.apiRoot + `/TestSessions/vectorSet/${vectorSetId}/requeue/validation`, null);
+  }
+
   // END TestSession-related calls
 }

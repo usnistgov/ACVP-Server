@@ -102,5 +102,7 @@ namespace ACVPCore.Services
 		public Result Archive(long vectorSetID) => _vectorSetProvider.Archive(vectorSetID);
 
 		public List<long> GetVectorSetsToArchive() => _vectorSetProvider.GetVectorSetsToArchive();
+
+		public Result RemoveVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType) => _vectorSetProvider.RemoveVectorFileJson(vectorSetId, fileType);
 	}
 }

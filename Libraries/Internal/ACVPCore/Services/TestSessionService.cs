@@ -143,10 +143,9 @@ namespace ACVPCore.Services
 			return testSession;
 		}
 
-		public bool TestSessionExists(long testSessionID)
-		{
-			return _testSessionProvider.TestSessionExists(testSessionID);
-		}
+		public long GetTestSessionIDFromVectorSet(long vectorSetID) => _testSessionProvider.GetTestSessionIDFromVectorSet(vectorSetID);
+
+		public bool TestSessionExists(long testSessionID) => _testSessionProvider.TestSessionExists(testSessionID);
 
 		public void Expire(int ageInDays) => _testSessionProvider.Expire(ageInDays);
 	}

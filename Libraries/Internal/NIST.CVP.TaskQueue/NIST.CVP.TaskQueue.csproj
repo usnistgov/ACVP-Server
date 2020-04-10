@@ -13,6 +13,7 @@
 	<ItemGroup>
     <ProjectReference Include="..\..\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
     <ProjectReference Include="..\..\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
+    <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
   </ItemGroup>
 
 </Project>

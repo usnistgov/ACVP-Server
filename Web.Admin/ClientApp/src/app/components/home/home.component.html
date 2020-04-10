@@ -125,8 +125,11 @@
                       <ul>
                         <li *ngFor="let fileName of vectorSet.jsonFilesAvailable"><a [attr.href]="'/api/testSessions/vectorSet/' + vectorSet.id + '/json/' + fileName" [attr.target]="'_blank'">{{fileName}}</a></li>
                       </ul>
+                      <div *ngIf="vectorSet.resetOption !== 'None'">
+                        <button type="button" *ngIf="vectorSet.resetOption === 'ResetToGenerate'" class="btn btn-warning" (click)="queueGeneration(vectorSet.id, selectedSession?.testSessionId)">Queue Generation</button>
+                        <button type="button" *ngIf="vectorSet.resetOption === 'ResetToValidate'" class="btn btn-warning" (click)="queueValidation(vectorSet.id, selectedSession?.testSessionId)">Queue Validation</button>
+                      </div>
                     </td>
-
                   </tr>
                 </ng-container>
               </table>
