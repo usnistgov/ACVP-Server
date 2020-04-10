@@ -155,7 +155,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             OneStepKdf = new OneStepKdf()
                             {
                                 AuxFunctions = new []{ new AuxFunction() { AuxFunctionName = KasKdfOneStepAuxFunction.SHA2_D256 } },
-                                FixedInfoPattern = "literal[1234567890CAFECAFE]||uPartyInfo||vPartyInfo",
+                                FixedInfoPattern = "literal[1234567890CAFECAFE]||uPartyInfo||vPartyInfo||algorithmId",
                                 Encoding = new []{ FixedInfoEncoding.Concatenation }
                             }
                         },
