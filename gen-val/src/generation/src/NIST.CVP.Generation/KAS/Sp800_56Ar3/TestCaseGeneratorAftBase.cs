@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     KasAlgorithm = group.KasAlgorithm,
                     IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
                     ServerGenerationRequirements = group.KeyNonceGenRequirementsServer,
+                    KdfConfiguration = group.KdfConfiguration,
                     PartyIdServer = group.ServerId
                 });
 
@@ -43,7 +44,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     EphemeralKeyServer = GetKey(result.ServerSecretKeyingMaterial.EphemeralKeyPair),
                     StaticKeyServer = GetKey(result.ServerSecretKeyingMaterial.StaticKeyPair),
                     DkmNonceServer = result.ServerSecretKeyingMaterial.DkmNonce,
-                    EphemeralNonceServer = result.ServerSecretKeyingMaterial.EphemeralNonce
+                    EphemeralNonceServer = result.ServerSecretKeyingMaterial.EphemeralNonce,
+                    KdfParameter = result.KdfParameter
                 });
             }
             catch (Exception ex)
