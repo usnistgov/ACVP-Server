@@ -4,6 +4,7 @@ using ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Enumerables;
 using NIST.CVP.Results;
+using System;
 
 namespace Web.Admin.Controllers
 {
@@ -36,6 +37,12 @@ namespace Web.Admin.Controllers
                 return new NotFoundResult();
 
             return user;
+        }
+
+        [HttpPut]
+        public Result CreateUser([FromBody] AcvpUserCreateParameters param)
+        {
+            return _adminUserService.CreateUser(param);
         }
 
         [HttpPost("{userId}/seed")]

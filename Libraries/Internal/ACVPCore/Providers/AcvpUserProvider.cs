@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using CVP.DatabaseInterface;
@@ -108,6 +109,78 @@ namespace ACVPCore.Providers
             }
 
             return new Result();
+        }
+
+        public Result CreateUser(AcvpUserCreateParameters param)
+        {
+
+            // Parse the Cert first and then throw a response if it's bad, before even doing
+            // anything like DB connections
+            X509Certificate2 x509 = new X509Certificate2(param.Certficate);
+
+            // Check here that it was successful
+            if (x509 == null)
+            {
+                return new InsertResult("Failed to parse certificate");
+            }
+            else
+            {
+                var db = new MightyOrm(_acvpConnectionString);
+
+                try
+                {
+                    var orgQueryData = db.SingleFromProcedure("val.OrganizationInsert", new
+                    {
+                        Name = param.Person.Organization.Name,
+                        Website = param.Person.Organization.Url,
+                        VoiceNumber = param.Person.Organization.VoiceNumber,
+                        FaxNumber = param.Person.Organization.FaxNumber,
+                        ParentOrganizationID = param.Person.Organization.Parent.ID
+                    });
+
+                    if (orgQueryData == null)
+                    {
+                        return new InsertResult("Failed to insert Organization");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var personQueryData = db.SingleFromProcedure("val.PersonInsert", new
+                            {
+                                Name = param.Person.Name,
+                                OrganizationID = orgQueryData.OrganizationID
+                            });
+                            if (personQueryData == null)
+                            {
+                                return new InsertResult("Failed to insert Person");
+                            }
+                            else
+                            {
+                                var acvpUserQueryData = db.SingleFromProcedure("acvp.AcvpUserInsert", new
+                                {
+                                    PersonID = personQueryData.PersonID,
+                                    CommonName = x509.Subject,
+                                    Certificate = param.Certficate,
+                                    Seed = param.Seed
+                                });
+
+                                return new InsertResult((long)acvpUserQueryData.UserID);
+                            }
+                        }
+                        catch (Exception orgQueryEx)
+                        {
+                            Console.WriteLine(orgQueryEx);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex.Message);
+                    return new InsertResult(ex.Message);
+                }
+                return new InsertResult("Unspecified error in ACVP User creation");
+            }
         }
     }
 }

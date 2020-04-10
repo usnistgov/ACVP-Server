@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ClickableClickModule } from 'angular-clickable-click';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
@@ -84,14 +84,15 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
     WorkflowPersonDeleteComponent,
     WorkflowProductDeleteComponent,
     MessageQueueComponent,
-    TaskQueueComponent
+    TaskQueueComponent,
+    //AdminUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-
+    ClickableClickModule,
     // For NgxFileUpload
     HttpClientModule
   ],
