@@ -19,5 +19,6 @@ namespace ACVPCore.Services
 		List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> GetVectorFileJson(long vectorSetID);
 		Result Archive(long vectorSetID);
 		List<long> GetVectorSetsToArchive();
+		Result RemoveVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
 	}
 }

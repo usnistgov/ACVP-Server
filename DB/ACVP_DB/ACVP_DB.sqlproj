@@ -368,6 +368,7 @@
     <Build Include="common\Stored Procedures\MessageQueueList.sql" />
     <Build Include="common\Stored Procedures\TaskQueueList.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserInsert.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetRemoveJson.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

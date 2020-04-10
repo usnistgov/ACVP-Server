@@ -19,6 +19,7 @@ namespace ACVPCore.Services
 		Result UpdateStatusFromVectorSetsWithVectorSetID(long vectorSetID);
 		PagedEnumerable<TestSessionLite> Get(TestSessionListParameters param);
 		TestSession Get(long testSessionId);
+		long GetTestSessionIDFromVectorSet(long vectorSetID);
 		bool TestSessionExists(long testSessionID);
 		void Expire(int ageInDays);
 	}

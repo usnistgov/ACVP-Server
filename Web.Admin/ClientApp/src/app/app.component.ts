@@ -14,11 +14,11 @@ export class AppComponent {
   constructor(private CurrentUserProviderService: CurrentUserDataProviderService) {
     this.CurrentUserProviderService.getCurrentUserEmail().subscribe(
       data => {
-        console.log('data: ' + data);
+        console.log(`data: ${JSON.stringify(data)}`);
         this.email = data;
       },
       err => { 
-        console.error('Error: ' + err);
+        console.error(`Error: ${JSON.stringify(err)}`);
         this.email = 'Unknown User';
       });
   }

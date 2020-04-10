@@ -148,4 +148,28 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  queueGeneration(vectorSetId: number, testSessionId: number) {
+    console.log(`Resubmitting vector set ${vectorSetId} for generation.`);
+    this.TestSessionService.queueGeneration(vectorSetId).subscribe(
+      null, 
+      err => {
+        console.log(`Failed queueing generation task: ${JSON.stringify(err)}`)
+      }, 
+      () => {
+        this.setSelectedSession(testSessionId);
+      });
+  }
+
+  queueValidation(vectorSetId: number, testSessionId: number) {
+    console.log(`Resubmitting vector set ${vectorSetId} for validation.`);
+    this.TestSessionService.queueValidation(vectorSetId).subscribe(
+      null,
+      err => {
+        console.log(`Failed queueing validation task: ${JSON.stringify(err)}`)
+      }, 
+      () => {
+        this.setSelectedSession(testSessionId);
+    });
+  }
+
 }
