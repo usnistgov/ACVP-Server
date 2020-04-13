@@ -6,7 +6,7 @@ namespace Web.Public.Services
     public interface ITestSessionService
     {
         TestSession GetTestSession(byte[] cert, long id);
-        List<TestSession> GetTestSessionsForUser(byte[] cert);
+        (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(byte[] cert, PagingOptions pagingOptions);
         TestSession CreateTestSession(TestSessionRegistration registration);
     }
 }

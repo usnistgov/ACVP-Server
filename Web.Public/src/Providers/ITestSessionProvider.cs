@@ -6,7 +6,7 @@ namespace Web.Public.Providers
     public interface ITestSessionProvider
     {
         TestSession GetTestSession(long userID, long id);
-        List<TestSession> GetTestSessionsForUser(long userID);
+        List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
     }
 }

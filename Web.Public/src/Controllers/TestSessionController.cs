@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,14 +40,35 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonHttpStatusResult GetTestSessionsForUser()
         {
-            // TODO this needs paging and more data returned from the SP
-            
+            //Try to read limit and offset, if passed in
+            var limit = 0;
+            var offset = 0;
+            if (Request.Query.TryGetValue("limit", out var stringLimit))
+            {
+                int.TryParse(stringLimit.First(), out limit);
+            }
+
+            if (Request.Query.TryGetValue("offset", out var stringOffset))
+            {
+                int.TryParse(stringOffset.First(), out offset);
+            }
+
+            //If limit was not present, or a garbage value, make it a default
+            if (limit <= 0) limit = 20;
+
+            var pagingOptions = new PagingOptions
+            {
+                Limit = limit,
+                Offset = offset
+            };
             
             var cert = HttpContext.Connection.ClientCertificate.RawData;
 
-            var testSessions = _testSessionService.GetTestSessionsForUser(cert);
+            // Note this has permission to change Limit, if 20 is too big for data
+            var (totalRecords, testSessions) = _testSessionService.GetTestSessionList(cert, pagingOptions);
+            var pagedData =  new PagedResponse<TestSession>(totalRecords, testSessions, $"/acvp/v1/testSessions", pagingOptions);
             
-            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSessions));   
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));   
         }
         
         [HttpPost]

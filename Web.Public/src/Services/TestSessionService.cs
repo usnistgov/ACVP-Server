@@ -25,10 +25,25 @@ namespace Web.Public.Services
             return _testSessionProvider.GetTestSession(userID, id);
         }
 
-        public List<TestSession> GetTestSessionsForUser(byte[] cert)
+        public (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(byte[] cert, PagingOptions pagingOptions)
         {
             var userID = _userProvider.GetUserIDFromCertificate(cert);
-            return _testSessionProvider.GetTestSessionsForUser(userID);
+            var testSessionList = _testSessionProvider.GetTestSessionList(userID);
+
+            // If there isn't enough for a full page, return the list
+            if (testSessionList.Count <= pagingOptions.Limit)
+            {
+                pagingOptions.Limit = testSessionList.Count;
+                return (testSessionList.Count, testSessionList);
+            }
+
+            // Fix limit so it doesn't go past the end of the list
+            if (pagingOptions.Offset + pagingOptions.Limit > testSessionList.Count)
+            {
+                pagingOptions.Limit = testSessionList.Count - pagingOptions.Offset;
+            }
+            
+            return (testSessionList.Count, testSessionList.GetRange(pagingOptions.Offset, pagingOptions.Limit));
         }
 
         public TestSession CreateTestSession(TestSessionRegistration registration)

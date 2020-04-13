@@ -64,7 +64,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public List<TestSession> GetTestSessionsForUser(long userID)
+        public List<TestSession> GetTestSessionList(long userID)
         {
             var db = new MightyOrm(_connectionString);
 
@@ -80,7 +80,31 @@ namespace Web.Public.Providers
                     throw new Exception("Unable to get test sessions");
                 }
 
-                return data.Select(tsID => new TestSession {ID = tsID.ID}).ToList();
+                var testSessions = data.Select(tsID => new TestSession
+                {
+                    ID = tsID.ID,
+                    CreatedOn = tsID.CreatedOn,
+                    IsSample = tsID.Sample,
+                    Passed = tsID.Disposition,
+                    Publishable = tsID.Publishable
+                }).ToList();
+
+                foreach (var testSession in testSessions)
+                {
+                    var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
+                    {
+                        TestSessionID = testSession.ID
+                    });
+
+                    if (vsData == null)
+                    {
+                        throw new Exception($"Could not find vector sets for test session: {testSession.ID}");
+                    }
+                    
+                    testSession.VectorSetIDs = vsData.Select(vs => (long)vs.ID).ToList();
+                }
+
+                return testSessions;
             }
             catch (Exception ex)
             {
