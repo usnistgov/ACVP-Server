@@ -10,7 +10,7 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    [Route("acvp/vendors/{vendorId}/addresses")]
+    [Route("acvp/v1/vendors/{vendorId}/addresses")]
     [Authorize]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]

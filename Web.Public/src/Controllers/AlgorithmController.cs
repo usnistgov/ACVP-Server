@@ -7,7 +7,7 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    [Route("acvp/algorithms")]
+    [Route("acvp/v1/algorithms")]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
     public class AlgorithmController : ControllerBase

@@ -11,7 +11,7 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-	[Route("acvp/dependencies")]
+	[Route("acvp/v1/dependencies")]
 	[Authorize]
 	[TypeFilter(typeof(ExceptionFilter))]
 	[ApiController]

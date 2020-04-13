@@ -8,7 +8,7 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    [Route("acvp/requests")]
+    [Route("acvp/v1/requests")]
     [Authorize]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]

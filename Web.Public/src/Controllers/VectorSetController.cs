@@ -6,7 +6,7 @@ using Web.Public.Results;
 
 namespace Web.Public.Controllers
 {
-    [Route("acvp/testSessions/{tsID}/vectorSets")]
+    [Route("acvp/v1/testSessions/{tsID}/vectorSets")]
     [Authorize]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
