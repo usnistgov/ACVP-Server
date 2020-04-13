@@ -10,13 +10,27 @@ namespace Web.Public.Services
     {
         private readonly ITestSessionProvider _testSessionProvider;
         private readonly IVectorSetProvider _vectorSetProvider;
+        private readonly IUserProvider _userProvider;
 
-        public TestSessionService(ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider)
+        public TestSessionService(ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider, IUserProvider userProvider)
         {
             _testSessionProvider = testSessionProvider;
             _vectorSetProvider = vectorSetProvider;
+            _userProvider = userProvider;
         }
-        
+
+        public TestSession GetTestSession(byte[] cert, long id)
+        {
+            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            return _testSessionProvider.GetTestSession(userID, id);
+        }
+
+        public List<TestSession> GetTestSessionsForUser(byte[] cert)
+        {
+            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            return _testSessionProvider.GetTestSessionsForUser(userID);
+        }
+
         public TestSession CreateTestSession(TestSessionRegistration registration)
         {
             // Get an ID for TestSession

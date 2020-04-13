@@ -2,7 +2,6 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
-using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -35,7 +34,14 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonHttpStatusResult GetTestSessionsForUser()
         {
-            throw new NotImplementedException();   
+            // TODO this needs paging and more data returned from the SP
+            
+            
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+
+            var testSessions = _testSessionService.GetTestSessionsForUser(cert);
+            
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSessions));   
         }
         
         [HttpPost]
@@ -59,7 +65,11 @@ namespace Web.Public.Controllers
         [HttpGet("{id}")]
         public JsonHttpStatusResult GetTestSession(int id)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+
+            var testSession = _testSessionService.GetTestSession(cert, id);
+            
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
 
         [HttpPut("{id}")]
