@@ -1,5 +1,7 @@
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Generation;
+using NIST.CVP.Generation.Core;
 using Web.Public.Providers;
 using Web.Public.Services;
 
@@ -50,6 +52,9 @@ namespace Web.Public
             item.AddTransient<IRequestProvider, RequestProvider>();
             item.AddTransient<IRequestService, RequestService>();
 
+            item.AddSingleton<IGenValInvoker, GenValInvoker>();
+            item.AddSingleton<IParameterValidatorService, ParameterValidatorService>();
+            
             item.AddTransient<ITestSessionProvider, TestSessionProvider>();
             item.AddTransient<ITestSessionService, TestSessionService>();
 

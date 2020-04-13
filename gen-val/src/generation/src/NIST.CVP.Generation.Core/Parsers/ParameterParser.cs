@@ -34,7 +34,7 @@ namespace NIST.CVP.Generation.Core.Parsers
             catch (Exception ex)
             {
                 ThisLogger.Error(ex);
-                return new ParseResponse<TParameters>($"Could not parse {nameof(contents)} into {typeof(TParameters)}.");
+                return new ParseResponse<TParameters>(ex.Message);
             }
         }
 

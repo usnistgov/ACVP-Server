@@ -7,7 +7,7 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    [Route("acvp/[controller]")]
+    [Route("acvp/v1/[controller]")]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
     public class LoginController : ControllerBase
@@ -15,12 +15,14 @@ namespace Web.Public.Controllers
         private readonly ITotpService _totpService;
         private readonly IJwtService _jwtService;
         private readonly IJsonWriterService _jsonWriter;
-        
-        public LoginController(ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter)
+        private readonly IJsonReaderService _jsonReader;
+
+        public LoginController(ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter, IJsonReaderService jsonReader)
         {
             _totpService = totpService;
             _jwtService = jwtService;
             _jsonWriter = jsonWriter;
+            _jsonReader = jsonReader;
         }
         
         // TODO is it possible to separate the methods based on the body coming in?
@@ -28,8 +30,11 @@ namespace Web.Public.Controllers
         // RefreshToken includes both TOTP password AND the previous JWT
 
         [HttpPost]
-        public JsonResult Login(JwtRequestObject content)
+        public JsonResult Login()
         {
+            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
+            
             // Grab user from authentication
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             
