@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
 using CVP.DatabaseInterface;
@@ -108,6 +109,50 @@ namespace ACVPCore.Providers
             }
 
             return new Result();
+        }
+
+        public Result CreateUser(string personName, long organizationID, byte[] certificate, string seed)
+        {
+
+            X509Certificate2 x509 = new X509Certificate2(certificate);
+
+            if (x509 == null)
+            {
+                return new InsertResult("Failed to parse certificate");
+            }
+            else
+            {
+                var db = new MightyOrm(_acvpConnectionString);
+                try
+                {
+                    var personQueryData = db.SingleFromProcedure("val.PersonInsert", new
+                    {
+                        Name = personName,
+                        OrganizationID = organizationID
+                    });
+                    if (personQueryData == null)
+                    {
+                        return new InsertResult("Failed to insert Person");
+                    }
+                    else
+                    {
+                        var acvpUserQueryData = db.SingleFromProcedure("acvp.AcvpUserInsert", new
+                        {
+                            PersonID = personQueryData.PersonID,
+                            CommonName = x509.Subject,
+                            Certificate = certificate,
+                            Seed = seed
+                        });
+
+                        return new InsertResult((long)acvpUserQueryData.UserID);
+                    }
+                }
+                catch (Exception orgQueryEx)
+                {
+                    Console.WriteLine(orgQueryEx);
+                }
+                return new InsertResult("Unspecified error in ACVP User creation");
+            }
         }
     }
 }

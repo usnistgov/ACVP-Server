@@ -20,5 +20,6 @@ namespace ACVPCore.Providers
 		Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json);
 		Result Archive(long vectorSetId);
 		List<long> GetVectorSetsToArchive();
+		Result RemoveVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
 	}
 }

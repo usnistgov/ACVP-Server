@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TestSessionList } from '../../models/TestSession/TestSessionList';
-import { TestSession } from '../../models/TestSession/TestSession';
+import { TestSessionList } from '../../models/testSession/TestSessionList';
+import { TestSession } from '../../models/testSession/TestSession';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestSessionProviderService } from '../../services/ajax/testSession/test-session-provider.service';
-import { TestSessionStatus } from '../../models/TestSession/TestSessionStatus';
-import { TestSessionListParameters } from '../../models/TestSession/TestSessionListParameters';
+import { TestSessionStatus } from '../../models/testSession/TestSessionStatus';
+import { TestSessionListParameters } from '../../models/testSession/TestSessionListParameters';
 
 @Component({
   selector: 'app-home',
@@ -146,6 +146,30 @@ export class HomeComponent implements OnInit {
       err => { throw new Error('Test Session ' + sessionId + ' not available') },
       () => { }
     );
+  }
+
+  queueGeneration(vectorSetId: number, testSessionId: number) {
+    console.log(`Resubmitting vector set ${vectorSetId} for generation.`);
+    this.TestSessionService.queueGeneration(vectorSetId).subscribe(
+      null, 
+      err => {
+        console.log(`Failed queueing generation task: ${JSON.stringify(err)}`)
+      }, 
+      () => {
+        this.setSelectedSession(testSessionId);
+      });
+  }
+
+  queueValidation(vectorSetId: number, testSessionId: number) {
+    console.log(`Resubmitting vector set ${vectorSetId} for validation.`);
+    this.TestSessionService.queueValidation(vectorSetId).subscribe(
+      null,
+      err => {
+        console.log(`Failed queueing validation task: ${JSON.stringify(err)}`)
+      }, 
+      () => {
+        this.setSelectedSession(testSessionId);
+    });
   }
 
 }

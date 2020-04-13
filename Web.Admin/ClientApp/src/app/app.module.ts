@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { ClickableClickModule } from 'angular-clickable-click';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +45,9 @@ import { WorkflowPersonDeleteComponent } from './components/workflow/person/dele
 import { WorkflowProductDeleteComponent } from './components/workflow/product/delete/workflow-product-delete.component';
 import { MessageQueueComponent } from './components/messageQueue/message-queue.component';
 import { TaskQueueComponent } from './components/taskQueue/task-queue.component';
+import { AcvpUserComponent } from './components/acvp-user/acvp-user.component';
+import { AcvpUsersComponent } from './components/acvp-users/acvp-users.component';
+import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-new-user/acvp-users-new-user.component';
 
 @NgModule({
   declarations: [
@@ -84,14 +87,18 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
     WorkflowPersonDeleteComponent,
     WorkflowProductDeleteComponent,
     MessageQueueComponent,
-    TaskQueueComponent
+    TaskQueueComponent,
+    AcvpUserComponent,
+    AcvpUsersComponent,
+    AcvpUsersNewUserComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-
+    ClickableClickModule,
     // For NgxFileUpload
     HttpClientModule
   ],

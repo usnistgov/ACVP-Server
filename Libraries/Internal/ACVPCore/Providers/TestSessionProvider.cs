@@ -32,7 +32,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -57,7 +57,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -79,7 +79,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return TestSessionStatus.Unknown;    //Default to true so we don't try do delete when we shouldn't
 			}
 		}
@@ -98,7 +98,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -122,7 +122,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -155,7 +155,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 			}
 
 			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
@@ -192,7 +192,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 				return null;
 			}
 		}
@@ -225,7 +225,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 			}
 
 			return result;
@@ -244,7 +244,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
 		}
@@ -262,7 +262,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return -1;
 			}
 		}
@@ -280,7 +280,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 			}
 		}
 	}

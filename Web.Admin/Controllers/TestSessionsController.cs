@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Enumerables;
 using NIST.CVP.Results;
+using NIST.CVP.TaskQueue;
+using NIST.CVP.TaskQueue.Services;
 
 namespace Web.Admin.Controllers
 {
@@ -17,12 +19,14 @@ namespace Web.Admin.Controllers
 		private readonly ILogger<TestSessionsController> _logger;
 		private readonly ITestSessionService _testSessionService;
 		private readonly IVectorSetService _vectorSetService;
+		private readonly ITaskQueueService _taskQueueService;
 
-		public TestSessionsController(ILogger<TestSessionsController> logger, ITestSessionService testSessionService, IVectorSetService vectorSetService)
+		public TestSessionsController(ILogger<TestSessionsController> logger, ITestSessionService testSessionService, IVectorSetService vectorSetService, ITaskQueueService taskQueueService)
 		{
 			_logger = logger;
 			_testSessionService = testSessionService;
 			_vectorSetService = vectorSetService;
+			_taskQueueService = taskQueueService;
 		}
 
 		[HttpPost]
@@ -38,14 +42,14 @@ namespace Web.Admin.Controllers
 		public ActionResult<TestSession> GetTestSessionDetails(long testSessionId)
 		{
 			var result = _testSessionService.Get(testSessionId);
-
+			
+			if (result == null)
+				return new NotFoundResult();
+			
 			for (int i = 0; i < result.VectorSets.Count; i++)
 			{
 				result.VectorSets[i] = _vectorSetService.GetVectorSet(result.VectorSets[i].Id);
 			}
-
-			if (result == null)
-				return new NotFoundResult();
 
 			return result;
 		}
@@ -94,6 +98,18 @@ namespace Web.Admin.Controllers
 			}
 
 			return new BadRequestResult();
+		}
+
+		[HttpPost("vectorSet/{vectorSetId}/requeue/generation")]
+		public Result RequeueGenerationTask(long vectorSetId)
+		{
+			return _taskQueueService.RequeueGenerationTask(vectorSetId);
+		}
+		
+		[HttpPost("vectorSet/{vectorSetId}/requeue/validation")]
+		public Result RequeueValidationTask(long vectorSetId)
+		{
+			return _taskQueueService.RequeueValidationTask(vectorSetId);
 		}
 	}
 }

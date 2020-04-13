@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { OperatingEnvironment } from '../../../models/operatingEnvironment/operatingEnvironment';
+import { OperatingEnvironment } from '../../../models/operatingEnvironment/OperatingEnvironment';
 import { HttpClient } from '@angular/common/http';
-import { OperatingEnvironmentList } from '../../../models/OperatingEnvironment/OperatingEnvironmentList';
-import { DependencyList } from '../../../models/dependency/dependency-list';
-import { Dependency } from '../../../models/dependency/dependency';
+import { OperatingEnvironmentList } from '../../../models/operatingEnvironment/OperatingEnvironmentList';
+import { DependencyList } from '../../../models/dependency/Dependency-list';
+import { Dependency } from '../../../models/dependency/Dependency';
 import { Result } from '../../../models/responses/Result';
-import { OperatingEnvironmentListParameters } from '../../../models/OperatingEnvironment/OperatingEnvironmentListParameters';
+import { OperatingEnvironmentListParameters } from '../../../models/operatingEnvironment/OperatingEnvironmentListParameters';
 
 @Injectable({
   providedIn: 'root'

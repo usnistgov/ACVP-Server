@@ -343,7 +343,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                                         MacSaltMethods = new[] {MacSaltMethod.Default}
                                     }
                                 },
-                                FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
+                                FixedInfoPattern = "l||uPartyInfo||vPartyInfo"
                             },
                             TwoStepKdf = new TwoStepKdf()
                             {

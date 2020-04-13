@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { PersonList } from '../../models/Person/PersonList';
+import { PersonList } from '../../models/person/PersonList';
 import { PersonProviderService } from '../../services/ajax/person/person-provider.service';
-import { PersonListParameters } from '../../models/Person/PersonListParameters';
+import { PersonListParameters } from '../../models/person/PersonListParameters';
 
 @Component({
   selector: 'app-validation-db-persons',

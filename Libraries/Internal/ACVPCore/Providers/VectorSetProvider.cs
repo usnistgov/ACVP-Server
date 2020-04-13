@@ -4,6 +4,7 @@ using ACVPCore.Models;
 using CVP.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.ExtensionMethods;
 using NIST.CVP.Results;
 
 namespace ACVPCore.Providers
@@ -32,7 +33,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -55,7 +56,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -72,7 +73,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -94,7 +95,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -121,7 +122,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 			}
 
 			return vectorSetIDs;
@@ -156,7 +157,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 				return null;
 			}
 		}
@@ -187,7 +188,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 				return null;
 			}
 		}
@@ -213,7 +214,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, ex.Message);
+				_logger.LogError(ex);
 				return null;
 			}
 		}
@@ -238,7 +239,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 			}
 
 			return vectorSetJson;
@@ -261,7 +262,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 		}
@@ -279,7 +280,7 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -303,10 +304,32 @@ namespace ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 			}
 
 			return vectorSetIDs;
+		}
+
+		public Result RemoveVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.VectorSetRemoveJson",
+					new
+					{
+						vectorSetId,
+						fileTypeId = fileType
+					});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+				return new Result(ex.Message);
+			}
+
+			return new Result();
 		}
 	}
 }

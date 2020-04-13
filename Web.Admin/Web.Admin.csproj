@@ -38,6 +38,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
       <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
@@ -55,6 +60,7 @@
       <None Remove="ClientApp\src\app\models\Organization\OrganizationListParameters.ts" />
       <None Remove="ClientApp\src\app\models\Organization\OrganizationLite.ts" />
       <None Remove="ClientApp\src\app\models\Person\Person.ts" />
+      <None Remove="ClientApp\src\app\models\person\PersonCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonList.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonListParameters.ts" />
       <None Remove="ClientApp\src\app\models\Person\PersonLite.ts" />
@@ -134,6 +140,11 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
@@ -143,6 +154,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\person\PersonCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TaskQueue\Task.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>

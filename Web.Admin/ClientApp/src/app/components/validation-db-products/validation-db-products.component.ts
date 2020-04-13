@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductList } from '../../models/Product/ProductList';
+import { ProductList } from '../../models/product/ProductList';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductProviderService } from '../../services/ajax/product/product-provider.service';
-import { ProductListParameters } from '../../models/Product/ProductListParameters';
+import { ProductListParameters } from '../../models/product/ProductListParameters';
 
 @Component({
   selector: 'app-validation-db-products',

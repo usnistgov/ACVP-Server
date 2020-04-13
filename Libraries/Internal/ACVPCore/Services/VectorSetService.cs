@@ -70,6 +70,24 @@ namespace ACVPCore.Services
 				return null;
 			
 			result.JsonFilesAvailable = _vectorSetProvider.GetVectorSetJsonFilesAvailable(vectorSetId);
+
+			// We can potentially allow the vector set to be resubmitted to the task queue, depending on the nature of the failure (transient or not).
+			if (result.Status == VectorSetStatus.Error || result.Status == VectorSetStatus.Failed)
+			{
+				// Allow for the resubmitting to the task queue a generation task 
+				if (result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Capabilities) &&
+				    !result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Prompt))
+				{
+					result.ResetOption = VectorSetResetOption.ResetToGenerate;
+				}
+				
+				// Allow for the resubmitting to the task queue a validation task
+				if (result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.SubmittedAnswers) &&
+				    !result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Validation))
+				{
+					result.ResetOption = VectorSetResetOption.ResetToValidate;
+				}
+			}
 			
 			return result;
 		}
@@ -84,5 +102,7 @@ namespace ACVPCore.Services
 		public Result Archive(long vectorSetID) => _vectorSetProvider.Archive(vectorSetID);
 
 		public List<long> GetVectorSetsToArchive() => _vectorSetProvider.GetVectorSetsToArchive();
+
+		public Result RemoveVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType) => _vectorSetProvider.RemoveVectorFileJson(vectorSetId, fileType);
 	}
 }
