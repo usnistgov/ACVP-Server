@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Web.Public.Configs;
@@ -65,8 +66,10 @@ namespace Web.Public
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
+        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
         {
+            logger.LogInformation("Startup.Configure");
+            
             _jwtConfig = jwtConfig.Value;
 
             app.UseRouting();

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -36,6 +36,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\gen-val\src\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+      <ProjectReference Include="..\..\gen-val\src\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />

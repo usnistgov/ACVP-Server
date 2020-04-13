@@ -2,6 +2,6 @@ namespace Web.Public.JsonObjects
 {
     public class PasswordObject
     {
-        public string Password { get; set; }
+        public string Totp { get; set; }
     }
 }

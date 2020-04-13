@@ -33,7 +33,7 @@ namespace Web.Public.Controllers
             // Wrap and return to user
             var passwordObject = new PasswordObject
             {
-                Password = result
+                Totp = result
             };
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(passwordObject));
