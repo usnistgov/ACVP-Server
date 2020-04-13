@@ -6,9 +6,6 @@ namespace NIST.CVP.Algorithms.Persisted
 {
 	public class SHA3_384 : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty("digestSize")]
-		public List<string> DigestSize { get; } = new List<string> { "384" };
-
 		[AlgorithmProperty("inBit")]
 		public bool? InBit { get; set; }
 

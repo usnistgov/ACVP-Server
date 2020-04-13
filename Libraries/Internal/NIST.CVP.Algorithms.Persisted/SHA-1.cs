@@ -6,9 +6,6 @@ namespace NIST.CVP.Algorithms.Persisted
 {
 	public class SHA_1 : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty("digestSize")]
-		public List<string> DigestSize { get; } = new List<string> { "160" };
-
 		[AlgorithmProperty("messageLength")]
 		public Domain MessageLength { get; set; }
 

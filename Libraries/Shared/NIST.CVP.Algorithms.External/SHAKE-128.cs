@@ -7,7 +7,7 @@ namespace NIST.CVP.Algorithms.External
 	public class SHAKE_128 : AlgorithmBase, IExternalAlgorithm
 	{
 		[JsonPropertyName("digestSize")]
-		public List<int> DigestSize { get; set; }
+		public List<string> DigestSize { get; set; }
 
 		[JsonPropertyName("inBit")]
 		public bool InBit { get; set; }

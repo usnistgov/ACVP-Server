@@ -6,9 +6,6 @@ namespace NIST.CVP.Algorithms.Persisted
 {
 	public class SHAKE_256 : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty("digestSize")]
-		public List<int> DigestSize { get; set; }
-
 		[AlgorithmProperty("inBit")]
 		public bool InBit { get; set; }
 
@@ -32,7 +29,6 @@ namespace NIST.CVP.Algorithms.Persisted
 
 		public SHAKE_256(External.SHAKE_256 external) : this()
 		{
-			DigestSize = external.DigestSize;
 			InBit = external.InBit;
 			InEmpty = external.InEmpty;
 			Function = external.Function;
