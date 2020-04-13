@@ -50,5 +50,11 @@ namespace Web.Admin.Controllers
         {
             return _adminUserService.SetUserTotpSeed(userId, seed);
         }
+
+        [HttpDelete("{userId}")]
+        public Result DeleteUser(long userId)
+        {
+            return _adminUserService.DeleteUser(userId);
+        }
     }
 }

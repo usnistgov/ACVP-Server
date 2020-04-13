@@ -7,23 +7,45 @@
   <div class="row mt-3">
 
     <div class="col-lg-6">
-      <!-- PErsonal Information Card-->
+      <!-- Personal Information Card-->
       <div class="card">
         <h5 class="card-header">Personal Information</h5>
         <div class="card-body">
           <p class="card-text">
-            <label class="bold-heading">Name</label>&nbsp;&nbsp;{{selectedUser.fullName}}<br />
-            <label class="bold-heading mt-3">Organization</label>&nbsp;&nbsp;{{selectedUser.companyName}}
+            <label class="bold-heading">Name</label>&nbsp;&nbsp;{{selectedUser?.fullName}}<br />
+            <label class="bold-heading mt-3">Organization</label>&nbsp;&nbsp;{{selectedUser?.companyName}}
           </p>
         </div>
       </div> <!-- Close Personal Information Card -->
     </div>
 
+    <div class="col-lg-6">
+      <!-- Seed Card-->
+      <div class="card">
+        <h5 class="card-header">Seed</h5>
+        <div class="card-body">
+          <p class="card-text">
+            {{selectedUser?.seed}}<br />
+          </p>
+        </div>
+      </div> <!-- Close Seed Card -->
+    </div>
+
   </div>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <p>This is a work in progress, please check back later!</p>
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <!-- Seed Card-->
+      <div class="card">
+        <h5 class="card-header">Certificate Information</h5>
+        <div class="card-body">
+          <p class="card-text">
+            <label class="bold-heading">Expires</label>&nbsp;&nbsp;{{selectedUser?.expiresOn}}<br />
+            <label class="bold-heading mt-3">Issuer</label>&nbsp;&nbsp;{{selectedUser?.issuer}}<br />
+            <label class="bold-heading mt-3">Common Name</label>&nbsp;&nbsp;{{selectedUser?.commonName}}
+          </p>
+        </div>
+      </div> <!-- Close Seed Card -->
     </div>
   </div>
 

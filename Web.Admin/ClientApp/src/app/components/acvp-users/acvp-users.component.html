@@ -23,11 +23,11 @@
             </tr>
           </thead>
           <tbody *ngIf="users?.data.length > 0">
-            <tr *ngFor="let user of users?.data" [routerLink]="user.acvpUserId">
-              <td>{{ user.acvpUserId }}</td>
-              <td>{{ user.fullName }}</td>
-              <td>{{ user.companyName }}</td>
-              <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">X</button></td>
+            <tr *ngFor="let user of users?.data">
+              <td [routerLink]="user.acvpUserId">{{ user.acvpUserId }}</td>
+              <td [routerLink]="user.acvpUserId">{{ user.fullName }}</td>
+              <td [routerLink]="user.acvpUserId">{{ user.companyName }}</td>
+              <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="showDeleteConfirmation(user)">X</button></td>
             </tr>
           </tbody>
           <tbody *ngIf="users?.data.length === 0">
@@ -50,5 +50,30 @@
       </div> <!-- Close Pagination Buttons Row -->
     </div>
   </div>
+
+  <div id="DeleteConfirmationModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm <span style="color:red;">Delete</span></h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            Are you sure that you want to <span style="color:red;">DELETE</span> {{selectedDeleteUser?.fullName}} from {{selectedDeleteUser?.companyName}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="deleteUser(selectedDeleteUser.acvpUserId)">Delete</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- This is the new user creation modal.  Since it has several screens and it's own set of organization filters and
+    data, etc. I've moved it into a self-contained compoment of its own -->
   <app-acvp-users-new-user (notifyParentComponent)="onNewUserAdded($event)"></app-acvp-users-new-user>
 </div>

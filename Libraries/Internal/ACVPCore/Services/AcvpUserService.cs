@@ -35,5 +35,9 @@ namespace ACVPCore.Services
         {
             return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate, param.Seed);
         }
+        public Result DeleteUser(long userId)
+        {
+            return _adminUserProvider.DeleteUser(userId);
+        }
     }
 }

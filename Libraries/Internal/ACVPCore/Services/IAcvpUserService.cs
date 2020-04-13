@@ -12,5 +12,6 @@ namespace ACVPCore.Services
         AcvpUser GetUserDetails(long userId);
         Result SetUserTotpSeed(long userId, string seed);
         Result CreateUser(AcvpUserCreateParameters param);
+        Result DeleteUser(long userId);
     }
 }

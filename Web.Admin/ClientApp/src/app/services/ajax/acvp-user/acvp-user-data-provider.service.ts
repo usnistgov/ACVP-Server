@@ -26,4 +26,8 @@ export class AcvpUserDataProviderService {
   createAcvpUser(params: AcvpUserCreateParameters) {
     return this.http.put<Result>(this.apiRoot + '/Users', params);
   }
+
+  deleteAcvpUser(id: number) {
+    return this.http.delete<Result>(this.apiRoot + '/Users/' + id);
+  }
 }

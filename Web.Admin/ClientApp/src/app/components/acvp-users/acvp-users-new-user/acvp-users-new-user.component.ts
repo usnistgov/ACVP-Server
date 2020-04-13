@@ -27,6 +27,16 @@ export class AcvpUsersNewUserComponent implements OnInit {
 
   constructor(private OrganizationService: OrganizationProviderService, private ACVPUserService: AcvpUserDataProviderService) { }
 
+  loadData() {
+    this.OrganizationService.getOrganizations(this.listData).subscribe(
+      data => {
+        this.organizations = data;
+      },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
+  }
+
   getPage(whichPage: string) {
 
     if (whichPage == "first") {

@@ -154,5 +154,24 @@ namespace ACVPCore.Providers
                 return new InsertResult("Unspecified error in ACVP User creation");
             }
         }
+
+        public Result DeleteUser(long userId)
+        {
+            var db = new MightyOrm(_acvpConnectionString);
+
+            try
+            {
+                var data = db.ExecuteProcedure("acvp.AcvpUserDelete", new
+                {
+                    acvpUserId = userId
+                });
+
+                return new Result();
+            }
+            catch (Exception ex)
+            {
+                return new DeleteResult(ex.Message);
+            }
+        }
     }
 }
