@@ -91,6 +91,8 @@ namespace DataMaintainer
 
 				_logger.LogInformation($"Archived vector {vectorSetID}");
 			}
+
+			_logger.LogInformation("Done");
 		}
 
 		private void WriteArchiveFile(long vectorSetID, List<VectorSetJsonEntry> vectorSetData)
