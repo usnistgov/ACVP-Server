@@ -19,6 +19,12 @@ namespace Web.Public.Services
             _userProvider = userProvider;
         }
 
+        public bool IsOwner(byte[] cert, long id)
+        {
+            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            return _testSessionProvider.IsOwner(userID, id);
+        }
+
         public TestSession GetTestSession(byte[] cert, long id)
         {
             var userID = _userProvider.GetUserIDFromCertificate(cert);

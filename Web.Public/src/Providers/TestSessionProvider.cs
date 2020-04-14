@@ -17,6 +17,27 @@ namespace Web.Public.Providers
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
 
+        public bool IsOwner(long userID, long tsID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var result = db.ExecuteProcedure("acvp.TestSessionCheckOwner", new
+                {
+                    TestSessionID = tsID,
+                    UserID = userID
+                });
+
+                return (bool) result.Result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Unable to check ownership");
+                throw;
+            }
+        }
+
         public TestSession GetTestSession(long userID, long id)
         {
             var db = new MightyOrm(_connectionString);

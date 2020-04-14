@@ -5,6 +5,7 @@ namespace Web.Public.Providers
 {
     public interface ITestSessionProvider
     {
+        bool IsOwner(long userID, long tsID);
         TestSession GetTestSession(long userID, long id);
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
