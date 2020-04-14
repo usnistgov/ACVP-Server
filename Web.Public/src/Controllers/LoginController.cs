@@ -1,4 +1,5 @@
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
@@ -36,10 +37,11 @@ namespace Web.Public.Controllers
             var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
             
             // Grab user from authentication
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
+            var certBytes = HttpContext.Connection.ClientCertificate.RawData;
+            var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
             
             // Validate TOTP
-            var result = _totpService.ValidateTotp(cert, content.Password);
+            var result = _totpService.ValidateTotp(certBytes, content.Password);
 
             // If no validation, don't proceed
             if (!result.IsSuccess)
@@ -56,7 +58,7 @@ namespace Web.Public.Controllers
             }
             
             // Either create or refresh the token
-            var tokenResult = content.AccessToken == null ? _jwtService.Create() : _jwtService.Refresh(content.AccessToken);
+            var tokenResult = content.AccessToken == null ? _jwtService.Create(clientCertSubject, null) : _jwtService.Refresh(clientCertSubject, content.AccessToken);
             if (!tokenResult.IsSuccess)
             {
                 var errorObject = new ErrorObject
