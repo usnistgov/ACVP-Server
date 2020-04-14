@@ -11,6 +11,7 @@ namespace ACVPCore.Providers
         AcvpUser GetUserDetails(long userId);
         Result SetUserTotpSeed(long userId, string seed);
         Result CreateUser(string personName, long organizationID, byte[] certificate, string seed);
+        Result SetUserCertificate(long userId, byte[] certificate);
         Result DeleteUser(long userId);
     }
 }

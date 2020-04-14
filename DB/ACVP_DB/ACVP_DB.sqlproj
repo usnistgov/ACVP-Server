@@ -370,6 +370,7 @@
     <Build Include="acvp\Stored Procedures\AcvpUserInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetRemoveJson.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserDelete.sql" />
+    <Build Include="acvp\Stored Procedures\AcvpUserSetCertificate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

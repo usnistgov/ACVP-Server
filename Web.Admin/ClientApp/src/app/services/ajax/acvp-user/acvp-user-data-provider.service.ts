@@ -6,6 +6,7 @@ import { AcvpUser } from '../../../models/AcvpUser/AcvpUser';
 import { AcvpUserCreateParameters } from '../../../models/AcvpUser/AcvpUserCreateParameters';
 import { Result } from '../../../models/responses/Result';
 import { AcvpUserSeedUpdateParameters } from '../../../models/AcvpUser/AcvpUserSeedUpdateParameters';
+import { AcvpUserCertificateUpdateParameters } from '../../../models/AcvpUser/AcvpUserCertificateUpdateParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class AcvpUserDataProviderService {
 
   updateSeed(userId: number, param: AcvpUserSeedUpdateParameters) {
     return this.http.post<Result>(this.apiRoot + '/Users/' +  userId + '/seed', param);
+  }
+
+  updateCertificate(userId: number, param: AcvpUserCertificateUpdateParameters) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' + userId + '/certificate', param);
   }
 }

@@ -111,6 +111,37 @@ namespace ACVPCore.Providers
             return new Result();
         }
 
+        public Result SetUserCertificate(long userId, byte[] certificate)
+        {
+            X509Certificate2 x509 = new X509Certificate2(certificate);
+
+            if (x509 == null)
+            {
+                return new InsertResult("Failed to parse certificate");
+            }
+            else
+            {
+                var db = new MightyOrm(_acvpConnectionString);
+
+                try
+                {
+                    db.ExecuteProcedure("acvp.AcvpUserSetCertificate", new
+                    {
+                        AcvpUserId = userId,
+                        CommonName = x509.Subject,
+                        Certificate = certificate
+                    });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                    return new Result("Failed updating certificate.");
+                }
+            }
+
+            return new Result();
+        }
+
         public Result CreateUser(string personName, long organizationID, byte[] certificate, string seed)
         {
 

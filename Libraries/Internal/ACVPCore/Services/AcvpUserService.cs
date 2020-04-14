@@ -31,6 +31,11 @@ namespace ACVPCore.Services
             return _adminUserProvider.SetUserTotpSeed(userId, param.Seed);
         }
 
+        public Result SetUserCertificate(long userId, AcvpUserCertificateUpdateParameters param)
+        {
+            return _adminUserProvider.SetUserCertificate(userId, param.Certificate);
+        }
+
         public Result CreateUser(AcvpUserCreateParameters param)
         {
             return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate, param.Seed);

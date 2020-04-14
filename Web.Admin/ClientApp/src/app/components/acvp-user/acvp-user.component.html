@@ -20,25 +20,14 @@
     </div>
 
     <div class="col-lg-6">
-      <app-acvp-user-totp-seed [user]="selectedUser" (notifyParentComponent)="onSeedUpdated($event)"></app-acvp-user-totp-seed>
+      <app-acvp-user-totp-seed [user]="selectedUser" (notifyParentComponent)="refreshPageData($event)"></app-acvp-user-totp-seed>
     </div>
 
   </div>
 
   <div class="row mt-3">
     <div class="col-lg-6">
-      <!-- Seed Card-->
-      <div class="card">
-        <h5 class="card-header">Certificate Information</h5>
-        <div class="card-body">
-          <p class="card-text">
-            <label class="bold-heading">Expires</label>&nbsp;&nbsp;{{selectedUser?.expiresOn}}<br />
-            <label class="bold-heading mt-3">Issuer</label>&nbsp;&nbsp;{{selectedUser?.issuer}}<br />
-            <label class="bold-heading mt-3">Common Name</label><br />
-            {{selectedUser?.commonName}}
-          </p>
-        </div>
-      </div> <!-- Close Seed Card -->
+      <app-acvp-user-certificate [user]="selectedUser" (notifyParentComponent)="refreshPageData($event)"></app-acvp-user-certificate>
     </div>
   </div>
 

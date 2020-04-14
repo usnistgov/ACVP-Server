@@ -12,6 +12,7 @@ namespace ACVPCore.Services
         AcvpUser GetUserDetails(long userId);
         Result SetUserTotpSeed(long userId, AcvpUserSeedUpdateParameters param);
         Result CreateUser(AcvpUserCreateParameters param);
+        Result SetUserCertificate(long userId, AcvpUserCertificateUpdateParameters param);
         Result DeleteUser(long userId);
     }
 }
