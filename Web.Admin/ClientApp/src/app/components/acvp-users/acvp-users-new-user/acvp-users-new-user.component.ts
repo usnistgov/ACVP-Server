@@ -7,6 +7,7 @@ import { AcvpUserDataProviderService } from '../../../services/ajax/acvp-user/ac
 import { AcvpUserCreateParameters } from '../../../models/AcvpUser/AcvpUserCreateParameters';
 import { PersonCreateParameters } from '../../../models/person/PersonCreateParameters';
 import { Result } from '../../../models/responses/Result';
+import { ModalService } from '../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-acvp-users-new-user',
@@ -17,18 +18,24 @@ export class AcvpUsersNewUserComponent implements OnInit {
 
   NewUserInputPage: number;
   newUserParams: AcvpUserCreateParameters;
-  listData: OrganizationListParameters;
+  listParams: OrganizationListParameters;
   organizations: OrganizationList;
+  selectedOrganization: Organization;
+
+  // Error message to be used when an error is encountered
+  modalFooterError: string;
+  personNotProvidedFlag: Boolean;
+  certificateNotProvidedFlag: Boolean;
+  seedNotProvidedFlag: Boolean;
 
   // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
   @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
 
-  selectedOrganization: Organization;
-
-  constructor(private OrganizationService: OrganizationProviderService, private ACVPUserService: AcvpUserDataProviderService) { }
+  constructor(private OrganizationService: OrganizationProviderService, private ACVPUserService: AcvpUserDataProviderService, private ModalService: ModalService) { }
 
   loadData() {
-    this.OrganizationService.getOrganizations(this.listData).subscribe(
+    this.listParams.page = 1; // Reset to page one when search term changes
+    this.OrganizationService.getOrganizations(this.listParams).subscribe(
       data => {
         this.organizations = data;
       },
@@ -37,26 +44,47 @@ export class AcvpUsersNewUserComponent implements OnInit {
     );
   }
 
+  closeNewUserModal() {
+    this.ModalService.hideModal('AddUserModal');
+
+    // Reset the data used on that page, so it's clean next time they re-open it
+    this.selectedOrganization = null;
+    this.organizations.currentPage = 1;
+    this.NewUserInputPage = 0;
+    this.modalFooterError = "";
+  }
+
+  moveToNextPage() {
+
+    if (this.selectedOrganization !== null) {
+      this.NewUserInputPage = this.NewUserInputPage + 1;
+      this.modalFooterError = "";
+    }
+    else {
+      this.modalFooterError = "No organization selected.  Please choose an organization";
+    }
+  }
+
   getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.listData.page = 1;
+      this.listParams.page = 1;
     }
     else if (whichPage == "previous") {
-      if (this.listData.page > 1) {
-        this.listData.page = --this.listData.page;
+      if (this.organizations.currentPage > 1) {
+        this.listParams.page = --this.listParams.page;
       }
     }
     else if (whichPage == "next") {
-      if (this.listData.page < this.organizations.totalPages) {
-        this.listData.page = ++this.listData.page;
+      if (this.organizations.currentPage < this.organizations.totalPages) {
+        this.listParams.page = ++this.listParams.page;
       }
     }
     else if (whichPage == "last") {
-      this.listData.page = this.organizations.totalPages;
+      this.listParams.page = this.organizations.totalPages;
     }
 
-    this.OrganizationService.getOrganizations(this.listData).subscribe(
+    this.OrganizationService.getOrganizations(this.listParams).subscribe(
       data => {
         this.organizations = data;
       },
@@ -67,31 +95,60 @@ export class AcvpUsersNewUserComponent implements OnInit {
 
   submitNewUser() {
 
-    // Should do some basic input-validity checks here eventually
+    var submitFlag: Boolean = true;
 
-    // Set the organication ID in the params going out
-    this.newUserParams.person.OrganizationId = this.selectedOrganization.id;
+    this.personNotProvidedFlag = false;
+    this.certificateNotProvidedFlag = false;
+    this.seedNotProvidedFlag = false;
 
-    // Then submit them
-    this.ACVPUserService.createAcvpUser(this.newUserParams).subscribe(
-      data => {
-        this.notifyParentComponent.emit(data);
-      }
-    );
+    console.log(this.newUserParams.person.Name);
+    console.log(this.newUserParams.certificate);
+    console.log(this.newUserParams.seed);
+
+    // Super-basic input-validity checks
+    if (this.newUserParams.person.Name === "" || typeof(this.newUserParams.person.Name) === 'undefined') {
+      this.personNotProvidedFlag = true;
+      submitFlag = false;
+    }
+    if (this.newUserParams.certificate === "" || typeof(this.newUserParams.certificate) === 'undefined') {
+      this.certificateNotProvidedFlag = true;
+      submitFlag = false;
+    }
+    if (this.newUserParams.seed === "" || typeof(this.newUserParams.seed) === 'undefined') {
+      this.seedNotProvidedFlag = true;
+      submitFlag = false;
+    }
+
+    if (submitFlag == true) {
+      // Set the organization ID in the params going out
+      this.newUserParams.person.OrganizationId = this.selectedOrganization.id;
+
+      // Then submit them
+      this.ACVPUserService.createAcvpUser(this.newUserParams).subscribe(
+        data => {
+          this.notifyParentComponent.emit(data);
+        }
+      );
+    }
+    else {
+
+    }
   }
 
   ngOnInit() {
 
-    this.listData = new OrganizationListParameters("","");
-    this.listData.page = 1;
-    this.listData.pageSize = 10;
+    this.listParams = new OrganizationListParameters("","");
+    this.listParams.page = 1;
+    this.listParams.pageSize = 10;
+
+    this.selectedOrganization = null;
 
     this.NewUserInputPage = 0;
 
     this.newUserParams = new AcvpUserCreateParameters();
     this.newUserParams.person = new PersonCreateParameters();
 
-    this.OrganizationService.getOrganizations(this.listData).subscribe(
+    this.OrganizationService.getOrganizations(this.listParams).subscribe(
       data => {
         this.organizations = data;
       }
