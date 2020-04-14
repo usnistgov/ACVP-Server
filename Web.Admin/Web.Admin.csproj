@@ -43,6 +43,7 @@
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserSeedUpdateParameters.ts" />
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
       <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
@@ -145,6 +146,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserSeedUpdateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>

@@ -21,6 +21,12 @@ namespace Web.Admin.Controllers
 			_organizationService = organizationService;
 		}
 
+		[HttpDelete("{organizationId}")]
+		public DeleteResult Delete(long organizationId)
+		{
+			return _organizationService.Delete(organizationId);
+		}
+
 		[HttpGet("{organizationId}")]
 		public Organization Get(long organizationId)
 		{

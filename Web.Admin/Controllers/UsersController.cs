@@ -46,9 +46,9 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost("{userId}/seed")]
-        public Result SetUserTotpSeed(long userId, [FromBody] string seed)
+        public Result SetUserTotpSeed(long userId, [FromBody] AcvpUserSeedUpdateParameters param)
         {
-            return _adminUserService.SetUserTotpSeed(userId, seed);
+            return _adminUserService.SetUserTotpSeed(userId, param);
         }
 
         [HttpDelete("{userId}")]

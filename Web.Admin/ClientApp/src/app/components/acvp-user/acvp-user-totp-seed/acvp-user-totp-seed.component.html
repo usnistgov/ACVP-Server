@@ -1,0 +1,32 @@
+<!-- Seed Card-->
+<div class="card">
+  <h5 class="card-header">Seed</h5>
+  <div class="card-body">
+    <p class="card-text">
+      {{selectedUser?.seed}}<br />
+      (<span class="linkUnderline" (click)="raiseEditSeedModal()">Edit</span>)
+    </p>
+  </div>
+</div> <!-- Close Seed Card -->
+
+<div id="EditSeedModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Seed</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <label class="bold-heading">Seed:</label><input [(ngModel)]="editSeedValue" type="text" class="form-control" placeholder="Empty..." />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submitEditSeedModal()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  </div>

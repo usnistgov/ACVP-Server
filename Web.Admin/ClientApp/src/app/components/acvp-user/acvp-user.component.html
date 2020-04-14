@@ -20,15 +20,7 @@
     </div>
 
     <div class="col-lg-6">
-      <!-- Seed Card-->
-      <div class="card">
-        <h5 class="card-header">Seed</h5>
-        <div class="card-body">
-          <p class="card-text">
-            {{selectedUser?.seed}}<br />
-          </p>
-        </div>
-      </div> <!-- Close Seed Card -->
+      <app-acvp-user-totp-seed [user]="selectedUser" (notifyParentComponent)="onSeedUpdated($event)"></app-acvp-user-totp-seed>
     </div>
 
   </div>

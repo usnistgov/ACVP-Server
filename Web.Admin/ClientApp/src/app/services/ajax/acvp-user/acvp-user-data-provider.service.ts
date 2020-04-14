@@ -5,6 +5,7 @@ import { AcvpUserListParameters } from '../../../models/AcvpUser/AcvpUserListPar
 import { AcvpUser } from '../../../models/AcvpUser/AcvpUser';
 import { AcvpUserCreateParameters } from '../../../models/AcvpUser/AcvpUserCreateParameters';
 import { Result } from '../../../models/responses/Result';
+import { AcvpUserSeedUpdateParameters } from '../../../models/AcvpUser/AcvpUserSeedUpdateParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,9 @@ export class AcvpUserDataProviderService {
 
   deleteAcvpUser(id: number) {
     return this.http.delete<Result>(this.apiRoot + '/Users/' + id);
+  }
+
+  updateSeed(userId: number, param: AcvpUserSeedUpdateParameters) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' +  userId + '/seed', param);
   }
 }

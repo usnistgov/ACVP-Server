@@ -18,6 +18,13 @@ export class AcvpUserComponent implements OnInit {
 
   constructor(private AcvpUserDataService: AcvpUserDataProviderService, private route: ActivatedRoute) { }
 
+  onSeedUpdated() {
+    this.AcvpUserDataService.getAcvpUser(this.selectedUser.acvpUserId).subscribe(
+      data => { this.selectedUser = data; },
+      err => { },
+      () => { });
+  }
+
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.AcvpUserDataService.getAcvpUser(parseInt(params.get("id"))).subscribe(

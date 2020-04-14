@@ -10,3 +10,8 @@ table.center {
 tr[ng-reflect-router-link], tr[data-target] {
   cursor: pointer;
 }
+
+.linkUnderline {
+  color: blue;
+  text-decoration: underline;
+}

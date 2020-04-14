@@ -10,7 +10,7 @@ namespace ACVPCore.Services
     {
         PagedEnumerable<AcvpUserLite> GetUserList(AcvpUserListParameters param);
         AcvpUser GetUserDetails(long userId);
-        Result SetUserTotpSeed(long userId, string seed);
+        Result SetUserTotpSeed(long userId, AcvpUserSeedUpdateParameters param);
         Result CreateUser(AcvpUserCreateParameters param);
         Result DeleteUser(long userId);
     }

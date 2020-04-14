@@ -26,9 +26,9 @@ namespace ACVPCore.Services
             return _adminUserProvider.GetUserDetails(userId);
         }
 
-        public Result SetUserTotpSeed(long userId, string seed)
+        public Result SetUserTotpSeed(long userId, AcvpUserSeedUpdateParameters param)
         {
-            return _adminUserProvider.SetUserTotpSeed(userId, seed);
+            return _adminUserProvider.SetUserTotpSeed(userId, param.Seed);
         }
 
         public Result CreateUser(AcvpUserCreateParameters param)

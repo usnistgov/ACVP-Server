@@ -48,6 +48,7 @@ import { TaskQueueComponent } from './components/taskQueue/task-queue.component'
 import { AcvpUserComponent } from './components/acvp-user/acvp-user.component';
 import { AcvpUsersComponent } from './components/acvp-users/acvp-users.component';
 import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-new-user/acvp-users-new-user.component';
+import { AcvpUserTotpSeedComponent } from './components/acvp-user/acvp-user-totp-seed/acvp-user-totp-seed.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-ne
     TaskQueueComponent,
     AcvpUserComponent,
     AcvpUsersComponent,
-    AcvpUsersNewUserComponent
+    AcvpUsersNewUserComponent,
+    AcvpUserTotpSeedComponent
 
   ],
   imports: [
