@@ -49,7 +49,8 @@ namespace DataMaintainer
 		public void Maintain()
 		{
 			//Expire test sessions older than the configured age
-			_testSessionService.Expire(_ageInDays);
+			//TODO - Do a more complex version of expiration, based on vector set activity and keep-alives, in conjunction with public rewrite
+			//_testSessionService.Expire(_ageInDays);
 
 			//If want to produce archive files, make sure the destination can be reached or exit
 			if (_createArchiveFile && !Directory.Exists(_destinationFolder))
