@@ -12,19 +12,7 @@ namespace Web.Public.Tests
     [TestFixture]
     public class JwtServiceTests
     {
-        private class TestJwtService : JwtService
-        {
-            public TestJwtService(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions) : base(logger, jwtOptions)
-            {
-            }
-
-            public Dictionary<string, string> GetClaims(JwtSecurityToken jwt)
-            {
-                return GetClaimsFromJwt(jwt);
-            }
-        }
-
-        private TestJwtService _jwtService;
+        private IJwtService _jwtService;
         private Mock<ILogger<JwtService>> _logger;
         private Mock<IOptions<JwtConfig>> _jwtConfig;
         private const string MyCertSubject = "This is a legit cert subject";
@@ -43,7 +31,7 @@ namespace Web.Public.Tests
                 ValidWindowMinutes = 30,
                 ValidWindowSeconds = 0
             });
-            _jwtService = new TestJwtService(_logger.Object, _jwtConfig.Object);
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
         }
 
         [Test]
@@ -61,17 +49,17 @@ namespace Web.Public.Tests
             claimsToAdd.Add(kvp.Key, kvp.Value);
             
             var jwt = _jwtService.Create(MyCertSubject, claimsToAdd);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var readJwt = tokenHandler.ReadJwtToken(jwt.Token);
-            var claimsFromJwt = _jwtService.GetClaims(readJwt);
+            var claimsFromJwt = _jwtService.GetClaimsFromJwt(jwt.Token);
             
             Assert.IsTrue(claimsFromJwt.ContainsKey(kvp.Key), "key exists");
             Assert.AreEqual(kvp.Value, claimsFromJwt[kvp.Key]);
         }
 
+        [Test]
         public void ShouldNotValidateWithDifferingSubjectClaims()
         {
-            Assert.Fail();
+            var jwt = _jwtService.Create(MyCertSubject, null);
+            Assert.False(_jwtService.IsTokenValid(MyCertSubject + "doot", jwt.Token, true));
         }
     }
 }

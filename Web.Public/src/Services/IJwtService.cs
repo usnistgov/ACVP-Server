@@ -9,5 +9,6 @@ namespace Web.Public.Services
         TokenResult Create(string clientCertSubject, Dictionary<string, string> claims);
         TokenResult Refresh(string clientCertSubject, string previousToken);
         bool IsTokenValid(string clientCertSubject, string jwtToValidate, bool validateExpiration);
+        Dictionary<string, string> GetClaimsFromJwt(string jwt);
     }
 }

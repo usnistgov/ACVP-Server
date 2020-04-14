@@ -40,10 +40,7 @@ namespace Web.Public.Services
 
         public TokenResult Refresh(string clientCertSubject, string previousToken)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var oldToken = tokenHandler.ReadJwtToken(previousToken);
-
-            var existingClaims = GetClaimsFromJwt(oldToken);
+            var existingClaims = GetClaimsFromJwt(previousToken);
 
             // Build new token
             return CreateToken(clientCertSubject, existingClaims);
@@ -70,8 +67,7 @@ namespace Web.Public.Services
                 return false;
             }
             
-            var readJwt = tokenHandler.ReadJwtToken(jwtToValidate);
-            var claims = GetClaimsFromJwt(readJwt);
+            var claims = GetClaimsFromJwt(jwtToValidate);
 
             if (!claims.ContainsKey(SubjectKey))
             {
@@ -82,6 +78,7 @@ namespace Web.Public.Services
             if (!claims[SubjectKey].Equals(clientCertSubject))
             {
                 _logger.LogWarning($"JWT {jwtToValidate} '{SubjectKey}'s did not match between ClientCert {clientCertSubject} and JWT {claims[SubjectKey]}.");
+                return false;
             }
 
             return true;
@@ -125,10 +122,13 @@ namespace Web.Public.Services
             }
         }
         
-        protected Dictionary<string, string> GetClaimsFromJwt(JwtSecurityToken jwt)
+        public Dictionary<string, string> GetClaimsFromJwt(string jwt)
         {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var parsedJwt = tokenHandler.ReadJwtToken(jwt);
+            
             var existingClaims = new Dictionary<string, string>();
-            foreach (var claim in jwt.Claims)
+            foreach (var claim in parsedJwt.Claims)
             {
                 existingClaims[claim.Type] = claim.Value;
             }
