@@ -56,6 +56,8 @@ namespace Web.Public.Controllers
             {
                 return new JsonHttpStatusResult(null, HttpStatusCode.Forbidden);
             }
+            
+            throw new NotImplementedException();
         }
 
         [HttpDelete("{id}")]

@@ -15,7 +15,7 @@ namespace Web.Public.Services
             _userProvider = userProvider;
         }
 
-        public VectorSet GetPrompt(long vsID)
+        public VectorSet GetPrompt(long tsID, long vsID)
         {
             throw new System.NotImplementedException();
         }
