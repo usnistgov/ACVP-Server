@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -16,6 +17,11 @@ namespace Web.Public.Services
 {
     public class JwtService : IJwtService
     {
+        /// <summary>
+        /// This is a virtual property for testing purposes (testing against expiration scenarios).
+        /// </summary>
+        protected virtual DateTime JwtCreateDateTime => DateTime.Now;
+        
         private const string SubjectKey = "sub";
         
         private readonly ILogger<JwtService> _logger;
@@ -40,10 +46,18 @@ namespace Web.Public.Services
 
         public TokenResult Refresh(string clientCertSubject, string previousToken)
         {
-            var existingClaims = GetClaimsFromJwt(previousToken);
+            // Ensure the token is valid prior to issues a refresh
+            if (IsTokenValid(clientCertSubject, previousToken, false))
+            {
+                var existingClaims = GetClaimsFromJwt(previousToken);
 
-            // Build new token
-            return CreateToken(clientCertSubject, existingClaims);
+                // Build new token
+                return CreateToken(clientCertSubject, existingClaims);
+            }
+
+            var invalidTokenMessage = $"Provided token ({previousToken}) for refresh was invalid from {clientCertSubject}";
+            _logger.LogWarning(invalidTokenMessage);
+            throw new SecurityException(invalidTokenMessage);
         }
 
         public bool IsTokenValid(string clientCertSubject, string jwtToValidate, bool validateExpiration)
@@ -86,7 +100,7 @@ namespace Web.Public.Services
 
         private TokenResult CreateToken(string clientCertSubject, Dictionary<string, string> claims)
         {
-            var timeNow = DateTime.Now;
+            var timeNow = JwtCreateDateTime;
             var tokenHandler = new JwtSecurityTokenHandler();
 
             if (claims == null)
