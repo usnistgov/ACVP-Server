@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -15,7 +16,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
         
         // Was "digestSizes" but client only will send one at a time
         [JsonProperty(PropertyName = "digestSize")]
-        public int[] DigestSizes { get; set; }
+        public List<int> DigestSizes { get; set; }
 
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;

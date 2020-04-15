@@ -2,6 +2,8 @@
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
 {
@@ -18,6 +20,44 @@ namespace NIST.CVP.Generation.SHA2.v1_0
         {
             var errorResults = new List<string>();
 
+            // Implementing "default values" to match registration expectations
+            if (parameters.DigestSizes == null)
+            {
+                parameters.DigestSizes = new List<string>();
+            }
+            if (parameters.DigestSizes.Count == 0)
+            {
+                var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+                switch (algoMode)
+                {
+                    case AlgoMode.SHA1_v1_0:
+                        parameters.DigestSizes.Add("160");
+                        break;
+                    case AlgoMode.SHA2_224_v1_0:
+                        parameters.DigestSizes.Add("224");
+                        break;
+                    case AlgoMode.SHA2_256_v1_0:
+                        parameters.DigestSizes.Add("256");
+                        break;
+                    case AlgoMode.SHA2_384_v1_0:
+                        parameters.DigestSizes.Add("384");
+                        break;
+                    case AlgoMode.SHA2_512_v1_0:
+                        parameters.DigestSizes.Add("512");
+                        break;
+                    case AlgoMode.SHA2_512_224_v1_0:
+                        parameters.DigestSizes.Add("512/224");
+                        break;
+                    case AlgoMode.SHA2_512_256_v1_0:
+                        parameters.DigestSizes.Add("512/256");
+                        break;
+
+                    default:
+                        errorResults.Add("Invalid AlgoMode");
+                        break;
+                }
+            }
+            
             ValidateFunctions(parameters, errorResults);
             ValidateMatching(parameters, errorResults);
 
