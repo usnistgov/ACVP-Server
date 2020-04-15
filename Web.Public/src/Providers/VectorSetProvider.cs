@@ -2,6 +2,7 @@ using System;
 using CVP.DatabaseInterface;
 using Mighty;
 using Serilog;
+using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
@@ -36,6 +37,62 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex, "Error retrieving next VectorSet ID");
+                throw;
+            }
+        }
+
+        public VectorSetStatus CheckStatus(long vsID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var statusData = db.SingleFromProcedure("acvp.VectorSetStatusGet", new
+                {
+                    VsID = vsID
+                });
+
+                if (statusData == null)
+                {
+                    // Vector set does not exist
+                    throw new Exception("Vector set does not exist");
+                }
+
+                return (VectorSetStatus)statusData.Status;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error retrieving VectorSet status: {vsID}");
+                throw;
+            }
+        }
+
+        public VectorSet GetJson(long vsID, JsonFileType fileType)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var jsonData = db.SingleFromProcedure("acvp.VectorSetJsonGet", new
+                {
+                    VsID = vsID,
+                    FileType = fileType
+                });
+
+                if (jsonData == null)
+                {
+                    // Prep for retry
+                    return null;
+                }
+
+                return new VectorSet
+                {
+                    JsonContent = jsonData.Content
+                };
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error retrieving vector set file. VsID: {vsID}, FileType: {fileType}");
                 throw;
             }
         }

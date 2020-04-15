@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Web.Public.ClaimsVerifiers
+{
+    public class VectorSetClaimsVerifier : ClaimsVerifierBase
+    {
+        private readonly long _tsID;
+        private readonly long _vsID;
+        
+        public VectorSetClaimsVerifier(long tsID, long vsID)
+        {
+            _tsID = tsID;
+            _vsID = vsID;
+        }
+        
+        public override bool AreClaimsValid(IDictionary<string, string> claims)
+        {
+            try
+            {
+                var tsIDFromClaims = long.Parse(claims["ts"]);
+                var vsIDListFromClaims = claims["vs"].Split(",").ToList().Select(long.Parse);
+
+                return _tsID == tsIDFromClaims && vsIDListFromClaims.Contains(_vsID);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+}

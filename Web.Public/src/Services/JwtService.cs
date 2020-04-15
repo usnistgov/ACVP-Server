@@ -138,6 +138,12 @@ namespace Web.Public.Services
         
         public Dictionary<string, string> GetClaimsFromJwt(string jwt)
         {
+            // Quick and dirty get rid of bearer if it exists
+            if (jwt.StartsWith("bearer", StringComparison.OrdinalIgnoreCase))
+            {
+                jwt = jwt.Split(" ")[1];
+            }
+            
             var tokenHandler = new JwtSecurityTokenHandler();
             var parsedJwt = tokenHandler.ReadJwtToken(jwt);
             

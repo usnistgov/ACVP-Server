@@ -59,7 +59,7 @@ namespace Web.Public
             item.AddTransient<ITestSessionService, TestSessionService>();
 
             item.AddTransient<IVectorSetProvider, VectorSetProvider>();
-            //item.AddTransient<IVectorSetService, VectorSetService>();
+            item.AddTransient<IVectorSetService, VectorSetService>();
         }
     }
 }

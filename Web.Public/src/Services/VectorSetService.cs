@@ -7,17 +7,43 @@ namespace Web.Public.Services
     public class VectorSetService : IVectorSetService
     {
         private readonly IVectorSetProvider _vectorSetProvider;
-        private readonly IUserProvider _userProvider;
 
-        public VectorSetService(IVectorSetProvider vectorSetProvider, IUserProvider userProvider)
+        public VectorSetService(IVectorSetProvider vectorSetProvider)
         {
             _vectorSetProvider = vectorSetProvider;
-            _userProvider = userProvider;
         }
 
-        public VectorSet GetPrompt(long tsID, long vsID)
+        public VectorSet GetPrompt(long vsID)
         {
-            throw new System.NotImplementedException();
+            return _vectorSetProvider.CheckStatus(vsID) switch
+            {
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                _ => null
+            };
+        }
+
+        public VectorSet GetExpectedResults(long vsID)
+        {
+            // TODO check is sample ?
+            
+            return _vectorSetProvider.CheckStatus(vsID) switch
+            {
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                _ => null
+            };
+        }
+
+        public VectorSet GetValidation(long vsID)
+        {
+            return _vectorSetProvider.CheckStatus(vsID) switch
+            {
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.Validation),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.Validation),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                _ => null
+            };
         }
     }
 }

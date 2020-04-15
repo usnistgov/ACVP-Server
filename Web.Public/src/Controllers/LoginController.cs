@@ -35,7 +35,7 @@ namespace Web.Public.Controllers
         {
             var body = _jsonReader.GetJsonFromBody(Request.Body);
             var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
-            
+
             // Grab user from authentication
             var certBytes = HttpContext.Connection.ClientCertificate.RawData;
             var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
