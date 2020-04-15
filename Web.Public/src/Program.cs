@@ -52,7 +52,6 @@ namespace Web.Public
                     {
                         options.ConfigureHttpsDefaults(configureOptions =>
                         {
-                            configureOptions.ServerCertificate = new X509Certificate2("/Users/ctc/Documents/postman-certs/cceli-localhost.p12", "test");
                             configureOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
                         });
                     });
