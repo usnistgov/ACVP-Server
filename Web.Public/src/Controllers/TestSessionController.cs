@@ -94,7 +94,7 @@ namespace Web.Public.Controllers
             }
             
             // This modifies registration along the way
-            var testSession = _testSessionService.CreateTestSession(registration);
+            var testSession = _testSessionService.CreateTestSession(cert, registration);
 
             // Insert into queue
             _messageService.InsertIntoQueue(APIAction.RegisterTestSession, cert, registration);

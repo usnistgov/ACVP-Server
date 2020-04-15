@@ -33,7 +33,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error("Unable to check ownership");
+                Log.Error(ex, "Unable to check ownership");
                 throw;
             }
         }
