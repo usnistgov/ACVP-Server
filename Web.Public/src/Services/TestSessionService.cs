@@ -60,14 +60,12 @@ namespace Web.Public.Services
         {
             // Get an ID for TestSession
             registration.ID = _testSessionProvider.GetNextTestSessionID();
-            //registration.ID = 0;
             
             // Get IDs for each VectorSet
             foreach (var algo in registration.Algorithms)
             {
                 algo.IsSample = registration.IsSample;
                 algo.VsID = _vectorSetProvider.GetNextVectorSetID(registration.ID, "");
-                //algo.VsID = 0;
             }
 
             var vectorSetIds = registration.Algorithms.Select(vs => vs.VsID).ToList();
