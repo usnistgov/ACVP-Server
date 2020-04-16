@@ -20,14 +20,14 @@
     </div>
 
     <div class="col-lg-6">
-      <app-acvp-user-totp-seed [user]="selectedUser" (notifyParentComponent)="refreshPageData($event)"></app-acvp-user-totp-seed>
+      <app-acvp-user-totp-seed [user]="selectedUser" (notifyParentComponent)="refreshPageData()"></app-acvp-user-totp-seed>
     </div>
 
   </div>
 
   <div class="row mt-3">
     <div class="col-lg-6">
-      <app-acvp-user-certificate [user]="selectedUser" (notifyParentComponent)="refreshPageData($event)"></app-acvp-user-certificate>
+      <app-acvp-user-certificate [user]="selectedUser" (notifyParentComponent)="refreshPageData()"></app-acvp-user-certificate>
     </div>
   </div>
 

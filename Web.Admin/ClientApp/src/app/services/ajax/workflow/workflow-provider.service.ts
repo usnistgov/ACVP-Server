@@ -4,6 +4,7 @@ import { IWorkflowItemPayload } from '../../../models/workflow/IWorkflowItemPayl
 import { WorkflowItemList } from '../../../models/workflow/WorkflowItemList';
 import { HttpClient } from '@angular/common/http';
 import { WorkflowListParameters } from '../../../models/workflow/WorkflowListParameters';
+import { Result } from '../../../models/responses/Result';
 
 @Injectable({
   providedIn: 'root'
@@ -40,11 +41,11 @@ export class WorkflowProviderService {
   }
 
   approveWorkflow(workflowId: number) {
-    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/approve', {});
+    return this.http.post<Result>(this.apiRoot + '/Workflows/' + workflowId + '/approve', {});
   }
 
   rejectWorkflow(workflowId: number) {
-    return this.http.post(this.apiRoot + '/Workflows/' + workflowId + '/reject', {});
+    return this.http.post<Result>(this.apiRoot + '/Workflows/' + workflowId + '/reject', {});
   }
   // End Workflow Calls
 }

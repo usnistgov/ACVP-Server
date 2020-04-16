@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowDeletePayload } from '../../../../models/workflow/WorkflowDeletePayload';
 import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { Person } from '../../../../models/person/Person';
-import { Router } from '@angular/router';
-import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
 
 @Component({
@@ -16,29 +14,7 @@ export class WorkflowPersonDeleteComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowDeletePayload>;
   currentState: Person;
 
-  constructor(private PersonService: PersonProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
-
-  approveWorkflow() {
-    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-  rejectWorkflow() {
-    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-
-  refreshPageData() {
-    this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
-      );
-  }
+  constructor(private PersonService: PersonProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the

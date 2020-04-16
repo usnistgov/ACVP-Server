@@ -31,10 +31,14 @@
         <div class="container">
           <label class="bold-heading">Certificate:</label><br />
           <textarea rows="20" cols="80" [(ngModel)]="editCertificateValue" type="text" class="form-control"></textarea>
+          <file-upload id="myfile"
+                       [showFileNameInput]="true"
+                       (change)="onChangeHandler($event)"
+                       (notifyParentComponent)="onCertificateUploaded($event)"></file-upload>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="submitEditSeedModal()">Submit</button>
+        <button type="button" class="btn btn-primary" (click)="submitEditCertificateModal()">Submit</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

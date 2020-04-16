@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { WorkflowDeletePayload } from '../../../../models/workflow/WorkflowDeletePayload';
 import { OperatingEnvironment } from '../../../../models/operatingEnvironment/OperatingEnvironment';
-import { Router } from '@angular/router';
-import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
@@ -17,35 +15,13 @@ export class WorkflowOeDeleteComponent implements OnInit {
   currentState: OperatingEnvironment;
   objectKeys = Object.keys;
 
-  constructor(private OEService: OperatingEnvironmentProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private OEService: OperatingEnvironmentProviderService) { }
 
   shouldAttributeBeDisplayed(key: string) {
     if (key == "id") {
       return false;
     }
     return true;
-  }
-
-  approveWorkflow() {
-    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-  rejectWorkflow() {
-    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-
-  refreshPageData() {
-    this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
-      );
   }
 
   /*

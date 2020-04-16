@@ -39,6 +39,7 @@
 
     <ItemGroup>
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
@@ -142,6 +143,7 @@
 
     <ItemGroup>
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />

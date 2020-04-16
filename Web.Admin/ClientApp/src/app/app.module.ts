@@ -50,6 +50,9 @@ import { AcvpUsersComponent } from './components/acvp-users/acvp-users.component
 import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-new-user/acvp-users-new-user.component';
 import { AcvpUserTotpSeedComponent } from './components/acvp-user/acvp-user-totp-seed/acvp-user-totp-seed.component';
 import { AcvpUserCertificateComponent } from './components/acvp-user/acvp-user-certificate/acvp-user-certificate.component';
+import { WorkflowActionsComponent } from './components/workflow/workflow/workflow-actions/workflow-actions.component';
+import { FileUploadComponentComponent } from './components/file-upload-component/file-upload-component.component';
+import { FileUploadComponent } from './components/file-upload-module/file-upload-module.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +97,10 @@ import { AcvpUserCertificateComponent } from './components/acvp-user/acvp-user-c
     AcvpUsersComponent,
     AcvpUsersNewUserComponent,
     AcvpUserTotpSeedComponent,
-    AcvpUserCertificateComponent
+    AcvpUserCertificateComponent,
+    WorkflowActionsComponent,
+    FileUploadComponentComponent,
+    FileUploadComponent
 
   ],
   imports: [

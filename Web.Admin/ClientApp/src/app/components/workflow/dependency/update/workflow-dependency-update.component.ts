@@ -2,9 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { WorkflowDependencyUpdatePayload } from '../../../../models/workflow/dependency/WorkflowDependencyUpdatePayload';
 import { Dependency } from '../../../../models/dependency/Dependency';
-import { Router } from '@angular/router';
 import { DependencyDataProviderService } from '../../../../services/ajax/dependency/dependency-data-provider.service';
-import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 
 @Component({
   selector: 'app-workflow-dependency-update',
@@ -17,29 +15,7 @@ export class WorkflowDependencyUpdateComponent implements OnInit {
   currentState: Dependency;
   objectKeys = Object.keys;
 
-  constructor(private DependencyDataService: DependencyDataProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
-
-  approveWorkflow() {
-    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-  rejectWorkflow() {
-    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-
-  refreshPageData() {
-    this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
-      );
-  }
+  constructor(private DependencyDataService: DependencyDataProviderService) { }
 
   isUserDefinedAttribute(key: string) {
     return (key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url' &&
