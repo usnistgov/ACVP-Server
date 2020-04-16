@@ -1,9 +1,11 @@
 using System;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.ClaimsVerifiers;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
+using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
 
@@ -19,18 +21,21 @@ namespace Web.Public.Controllers
         private readonly ITestSessionService _testSessionService;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJsonReaderService _jsonReader;
+        private readonly IMessageService _messageService;
         private readonly IJwtService _jwtService;
 
         public VectorSetController(IVectorSetService vectorSetService, 
             ITestSessionService testSessionService, 
             IJsonWriterService jsonWriter,
             IJsonReaderService jsonReader,
+            IMessageService messageService,
             IJwtService jwtService)
         {
             _vectorSetService = vectorSetService;
             _testSessionService = testSessionService;
             _jsonWriter = jsonWriter;
             _jsonReader = jsonReader;
+            _messageService = messageService;
             _jwtService = jwtService;
         }
         
@@ -73,10 +78,33 @@ namespace Web.Public.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public JsonHttpStatusResult CancelVectorSet(int id)
+        [HttpDelete("{vsID}")]
+        public ActionResult CancelVectorSet(int tsID, int vsID)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+
+            var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
+            if (claimValidator.AreClaimsValid(claims))
+            {
+                // Pass to message queue
+                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, null);
+
+                // Build request object for response
+                var requestObject = new RequestObject
+                {
+                    RequestID = requestID,
+                    Status = RequestStatus.Initial
+                };
+
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         [HttpGet("{vsID}/results")]
