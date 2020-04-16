@@ -221,7 +221,8 @@ namespace LCAVPCore
 			submissionProcessingResult.LabName = LabName;
 			submissionProcessingResult.LabPOC = LabPOC;
 			submissionProcessingResult.LabPOCEmail = LabPOCEmail;
-			submissionProcessingResult.SubmissionID = submissionLogID;
+			submissionProcessingResult.SubmissionLogID = submissionLogID;
+			submissionProcessingResult.SubmissionID = submissionID;
 
 			return submissionProcessingResult;
 		}

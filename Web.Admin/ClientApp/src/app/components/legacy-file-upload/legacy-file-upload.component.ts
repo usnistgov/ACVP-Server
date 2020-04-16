@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
+import { LegacyResult } from '../../models/Legacy/legacyResult';
 
 @Component({
   selector: 'app-legacy-file-upload',
@@ -10,6 +11,7 @@ export class LegacyFileUploadComponent implements OnInit {
 
   public progress: number;
   public message: string;
+  public result: LegacyResult;
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) { }
@@ -18,21 +20,24 @@ export class LegacyFileUploadComponent implements OnInit {
   }
 
   public uploadFile = (files) => {
+    this.message = null;
+    this.progress = 0;
+    this.result = null;
+
     if (files.length === 0) {
-      return;
+      this.message = "No file selected";
     }
 
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
-    this.http.post('/api/Legacy/Upload', formData, { reportProgress: true, observe: 'events' })
+    this.http.post<LegacyResult>('/api/Legacy/Upload', formData, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
+          this.result = event.body;
         }
       });
   } 

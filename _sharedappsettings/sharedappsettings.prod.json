@@ -1,6 +1,6 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Prod" 
+  "EnvironmentConfig": {
+    "Name": "Prod"
   },
 
   "ConnectionStrings": {
@@ -23,16 +23,16 @@
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "172.19.42.155",
-        "NumberOfCores" : 8
+        "HostName": "172.19.42.155",
+        "NumberOfCores": 8
       },
       {
-        "HostName":  "172.19.42.153",
-        "NumberOfCores" : 8
+        "HostName": "172.19.42.153",
+        "NumberOfCores": 8
       },
       {
-        "HostName":  "172.19.42.156",
-        "NumberOfCores" : 8
+        "HostName": "172.19.42.156",
+        "NumberOfCores": 8
       }
     ],
     "OrleansSiloPort": 8000,
@@ -44,5 +44,13 @@
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 500,
     "TimeoutRetryAttempts": 15
-  } 
+  },
+  "EmailConfiguration": {
+    "IsEnabled": true,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
+  }
 }
