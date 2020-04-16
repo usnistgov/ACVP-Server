@@ -51,6 +51,7 @@
       <None Remove="ClientApp\src\app\models\dependency.ts" />
       <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
       <None Remove="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\Legacy\legacyResult.ts" />
       <None Remove="ClientApp\src\app\models\MessageQueue\Message.ts" />
       <None Remove="ClientApp\src\app\models\MessageQueue\MessageQueue.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
@@ -112,6 +113,7 @@
       <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
       <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
       <ProjectReference Include="..\Libraries\Internal\LCAVPCore\LCAVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Email\NIST.CVP.Email.csproj" />
       <ProjectReference Include="..\Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj" />
       <ProjectReference Include="..\Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj" />
       <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
@@ -156,6 +158,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Legacy\LegacyResult.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\person\PersonCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TaskQueue\Task.ts">
         <SubType>Code</SubType>
