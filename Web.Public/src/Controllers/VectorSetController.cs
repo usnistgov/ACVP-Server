@@ -60,11 +60,11 @@ namespace Web.Public.Controllers
                 var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
                 {
-                    return new JsonHttpStatusResult(new RetryObject());
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
                 else
                 {
-                    return new JsonHttpStatusResult(prompt);
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(prompt.Content));
                 }
             }
             else
@@ -91,11 +91,11 @@ namespace Web.Public.Controllers
                 var validation = _vectorSetService.GetValidation(vsID);
                 if (validation == null)
                 {
-                    return new JsonHttpStatusResult(new RetryObject());
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
                 else
                 {
-                    return new JsonHttpStatusResult(validation);
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(validation.Content));
                 }
             }
             else
@@ -136,11 +136,11 @@ namespace Web.Public.Controllers
                 var expectedResults = _vectorSetService.GetExpectedResults(vsID);
                 if (expectedResults == null)
                 {
-                    return new JsonHttpStatusResult(new RetryObject());
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
                 else
                 {
-                    return new JsonHttpStatusResult(expectedResults);
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(expectedResults.Content));
                 }
             }
             else

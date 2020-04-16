@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Web.Public.Models;
 using Web.Public.Providers;
 
@@ -18,7 +17,12 @@ namespace Web.Public.Services
             return _vectorSetProvider.CheckStatus(vsID) switch
             {
                 VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                
                 VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                
                 _ => null
             };
         }
@@ -30,6 +34,10 @@ namespace Web.Public.Services
             return _vectorSetProvider.CheckStatus(vsID) switch
             {
                 VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                
                 VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
                 _ => null
             };

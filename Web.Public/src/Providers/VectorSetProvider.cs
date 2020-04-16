@@ -76,7 +76,7 @@ namespace Web.Public.Providers
                 var jsonData = db.SingleFromProcedure("acvp.VectorSetJsonGet", new
                 {
                     VsID = vsID,
-                    FileType = fileType
+                    FileType = (int)fileType
                 });
 
                 if (jsonData == null)

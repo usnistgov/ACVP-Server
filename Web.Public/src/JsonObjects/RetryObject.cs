@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace Web.Public.JsonObjects
 {
     public class RetryObject
     {
-        public string Retry = "30";
+        [JsonPropertyName("retry")]
+        public int Retry { get; set; } = 30;
     }
 }
