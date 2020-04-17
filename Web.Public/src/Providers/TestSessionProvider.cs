@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CVP.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Results;
 using Serilog;
 using Web.Public.Models;
 
@@ -20,16 +21,20 @@ namespace Web.Public.Providers
         public bool IsOwner(long userID, long tsID)
         {
             var db = new MightyOrm(_connectionString);
-
+            
             try
             {
                 var result = db.ExecuteProcedure("acvp.TestSessionCheckOwner", new
                 {
                     TestSessionID = tsID,
                     UserID = userID
+                },
+                new
+                {
+                    Result = false
                 });
 
-                return (bool) result.Result;
+                return result.Result;
             }
             catch (Exception ex)
             {
@@ -154,6 +159,25 @@ namespace Web.Public.Providers
                 Log.Error(ex, "Error retrieving next TestSession ID");
                 throw;
             }
+        }
+
+        public Result SetTestSessionPublished(long testSessionId)
+        {
+            var db = new MightyOrm(_connectionString);
+        
+            try
+            {
+                db.ExecuteProcedure("acvp.TestSessionSetPublished", new
+                {
+                    testSessionId
+                });
+            }
+            catch (Exception ex)
+            {
+                return new Result(ex.Message);
+            }
+            
+            return new Result();
         }
     }
 }

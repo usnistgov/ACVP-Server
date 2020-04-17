@@ -147,5 +147,16 @@
     <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
     <Build Include="external\Stored Procedures\RequestGetNextID.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserSeedGetByCertificate.sql" />
+    <Build Include="common\Tables\JsonFileType.sql" />
+    <Build Include="acvp\Tables\VectorSetJson.sql" />
+    <Build Include="acvp\Tables\VectorSet.sql" />
+    <Build Include="acvp\Tables\TestSession.sql" />
+    <Build Include="external\Stored Procedures\VectorSetGetNextID.sql" />
+    <Build Include="external\Stored Procedures\TestSessionGetNextID.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetGetFromTestSession.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionSetPublished.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionGet.sql" />
+    <Build Include="acvp\Stored Procedures\TestSessionCheckOwner.sql" />
   </ItemGroup>
 </Project>

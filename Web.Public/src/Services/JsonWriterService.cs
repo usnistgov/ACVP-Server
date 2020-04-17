@@ -16,7 +16,7 @@ namespace Web.Public.Services
             _jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                IgnoreNullValues = true
+                IgnoreNullValues = true,
             };
             
             // This needs to be set via constructor as Converters only has a getter
@@ -56,7 +56,8 @@ namespace Web.Public.Services
             // Must allow null because that's how DELETE requests operate
             return JsonSerializer.Serialize(reqObject, new JsonSerializerOptions
             {
-                IgnoreNullValues = false
+                IgnoreNullValues = false,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             });
         }
     }

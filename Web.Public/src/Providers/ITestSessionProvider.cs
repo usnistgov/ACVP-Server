@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Results;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -9,5 +10,6 @@ namespace Web.Public.Providers
         TestSession GetTestSession(long userID, long id);
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
+        Result SetTestSessionPublished(long testSessionId);
     }
 }

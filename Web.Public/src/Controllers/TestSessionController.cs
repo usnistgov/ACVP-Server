@@ -113,13 +113,42 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{id}")]
-        public JsonHttpStatusResult CertifyTestSession(int id)
+        public JsonHttpStatusResult CertifyTestSession(long id)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+            
+            var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+
+            var testSessionCertifyRequest = _jsonReader.GetObjectFromBodyJson<TestSessionCertify>(jsonBlob);
+            testSessionCertifyRequest.TestSessionId = id;
+            
+            var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, testSessionCertifyRequest, id);
+            if (!certifiable.IsSuccess)
+            {
+                var errorObject = new ErrorObject()
+                {
+                    Error = certifiable.ErrorMessage
+                };
+                
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
+            }
+            
+            var requestId = _messageService.InsertIntoQueue(APIAction.CertifyTestSession, cert, testSessionCertifyRequest);
+
+            _testSessionService.SetTestSessionPublished(id);
+            
+            // Build request object for response
+            var requestObject = new RequestObject
+            {
+                RequestID = requestId,
+                Status = RequestStatus.Initial
+            };
+			
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
         }
 
         [HttpDelete("{id}")]
-        public JsonHttpStatusResult CancelTestSession(int id)
+        public JsonHttpStatusResult CancelTestSession(long id)
         {
             throw new NotImplementedException();
         }

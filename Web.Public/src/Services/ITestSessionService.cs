@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Results;
 using Web.Public.Models;
 
 namespace Web.Public.Services
@@ -9,5 +10,7 @@ namespace Web.Public.Services
         TestSession GetTestSession(byte[] cert, long id);
         (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(byte[] cert, PagingOptions pagingOptions);
         TestSession CreateTestSession(byte[] cert, TestSessionRegistration registration);
+        Result ValidateTestSessionCertifyRequest(byte[] cert, TestSessionCertify certifyRequest, long testSessionId);
+        Result SetTestSessionPublished(long testSessionId);
     }
 }
