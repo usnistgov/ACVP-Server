@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using CVP.DatabaseInterface;
 using Mighty;
 using Serilog;
@@ -85,10 +86,19 @@ namespace Web.Public.Providers
                     return null;
                 }
 
+                // For VECTOR_SET_DATA
+                var contentBytes = (byte[])jsonData.Content;
+                var contentJson = Encoding.UTF8.GetString(contentBytes);
                 return new VectorSet
                 {
-                    JsonContent = jsonData.Content
+                    JsonContent = contentJson
                 };
+
+                // For VectorSetJson
+                //return new VectorSet
+                //{
+                //    JsonContent = jsonData.Content
+                //};
             }
             catch (Exception ex)
             {
