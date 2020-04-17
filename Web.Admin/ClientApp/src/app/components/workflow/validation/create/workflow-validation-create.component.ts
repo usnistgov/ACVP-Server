@@ -12,7 +12,7 @@ import { OperatingEnvironmentProviderService } from '../../../../services/ajax/o
 export class WorkflowValidationCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowValidationCreatePayload>;
-
+  objectKeys = Object.keys;
   constructor(private ProductService: ProductProviderService, private OEService: OperatingEnvironmentProviderService) { }
 
   /*

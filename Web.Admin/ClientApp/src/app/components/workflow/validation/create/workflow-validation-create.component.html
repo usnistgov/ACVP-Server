@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <th>URL</th>
-            <td>{{workflowItem?.payload.product?.link == null ? "No URL" : workflowItem?.payload.product?.link}}</td>
+            <td>{{workflowItem?.payload.product?.url == null ? "No URL" : workflowItem?.payload.product?.url}}</td>
           </tr>
           <tr>
             <th>Description</th>
@@ -44,29 +44,29 @@
             <th style="border:none;">Name</th>
             <td style="border:none;">{{ workflowItem?.payload.oe?.name == null ? '[No Name Provided!]' :  workflowItem?.payload.oe?.name }}</td>
           </tr>
-          <tr>
-            <th>Type</th>
-            <td>{{ workflowItem?.payload.oe?.type == null ? 'N/A' :  workflowItem?.payload.oe?.type }}</td>
-          </tr>
-          <tr>
-            <th>Description</th>
-            <td>{{ workflowItem?.payload.oe?.description == null ? 'N/A' :  workflowItem?.payload.oe?.description }}</td>
+        </table>
+        <table class="table">
+          <tr *ngFor="let dependency of workflowItem?.payload.oe?.dependencies">
+            <td>
+              <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
+              <ul *ngFor="let key of objectKeys(dependency)">
+                <li *ngIf="key != 'id'">
+                  <span style="font-weight:bold;">
+                    {{ key }} :
+                  </span>
+                  <span>
+                    {{ dependency[key] }}
+                  </span>
+                </li>
+              </ul>
+            </td>
           </tr>
         </table>
       </div>
     </div> <!-- Close Dependency Info Card -->
   </div> <!-- Close col-lg-6 -->
 
-  <div class="col-lg-3">
-    <div class="card">
-      <h5 class="card-header">Algorithm Prerequisites</h5>
-      <div class="card-body">
-        Not yet implemented
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div>
-
-  <div class="col-lg-3">
+  <div class="col-lg-6">
     <div class="card">
       <h5 class="card-header">Capabilities</h5>
       <div class="card-body">
