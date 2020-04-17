@@ -18,9 +18,13 @@ export class AcvpUserCertificateComponent implements OnInit {
 
   constructor(private UserService: AcvpUserDataProviderService, private ModalService: ModalService) { }
 
-  onCertificateUploaded(file: string) {
-    console.log(file.split(",")[1]);
+  @Input()
+  set user(user: AcvpUser) {
+    this.selectedUser = user;
   }
+
+  // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
+  @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
 
   raiseEditCertificateModal() {
     this.ModalService.showModal('EditCertificateModal');
@@ -30,53 +34,34 @@ export class AcvpUserCertificateComponent implements OnInit {
     this.ModalService.hideModal('EditCertificateModal');
   }
 
-  onChangeHandler($event) {
-    console.log($event.target.files[0]); // outputs the first file
-  }
+  uploadCertificate = async (file) => {
 
-  submitEditCertificateModal(event) {
-
+    // Create a FileReader instance
     let reader = new FileReader();
-    if (event.target.files && event.target.files.length > 0) {
-      let file = event.target.files[0];
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.form.get('avatar').setValue({
-          filename: file.name,
-          filetype: file.type,
-          //value: reader.result.split(',')[1]
-        })
-      };
-    }
 
-    //console.log("1");
-    //const toBase64 = file => new Promise((resolve, reject) => {
-    //  const reader = new FileReader();
-    //  reader.readAsDataURL(file);
-    //  reader.onload = () => resolve(reader.result);
-    //  reader.onerror = error => reject(error);
-    //});
-    //console.log("2");
-    //const file = document.querySelector('#myfile').attributes;
-    //const result = await toBase64(file).catch(e => Error(e));
-    //if (result instanceof Error) {
-    //  console.log('Error: ', result.message);
-    //  return;
-    //}
-    //console.log("3");
-    //this.UserService.updateCertificate(this.selectedUser.acvpUserId, new AcvpUserCertificateUpdateParameters(this.editCertificateValue)).subscribe(
-    //  data => { console.log("4");this.hideEditCertificateModal(); this.notifyParentComponent.emit(data); });
-  }
+    // Alias "this" so that it can be used in the callback defined next
+    var self = this;
 
-  // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
-  @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
+    // Set the onLoad callback.  This runs when the readDataAsURL completes (it's async)
+    reader.onload = function () {
 
-  @Input()
-  set user(selectedUser: AcvpUser) {
-    this.selectedUser = selectedUser;
-    if (selectedUser) {
-      this.editCertificateValue = selectedUser.certificateBase64;
-    }
+      // Parse the result and split it to get only the Base64 portion
+      let param = new AcvpUserCertificateUpdateParameters(reader.result.toString().split(',')[1]);
+
+      self.UserService.updateCertificate(self.selectedUser.acvpUserId, param)
+        .subscribe(data => {
+
+          // This hides the modal that is part of this component
+          self.hideEditCertificateModal();
+
+          // This notifies the parent, so that the parent can know to refresh itself
+          self.notifyParentComponent.emit(data);
+        }
+      );
+    };
+
+    // Now, execute readDataAsURL, which will eventually fire the callback
+    reader.readAsDataURL(file);
   }
 
   ngOnInit() {

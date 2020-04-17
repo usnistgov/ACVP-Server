@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { OrganizationProviderService } from '../../../services/ajax/organization/organization-provider.service';
 import { OrganizationListParameters } from '../../../models/organization/OrganizationListParameters';
 import { OrganizationList } from '../../../models/organization/OrganizationList';
@@ -30,6 +30,8 @@ export class AcvpUsersNewUserComponent implements OnInit {
 
   // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
   @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
+
+  @ViewChild('certificateInput', { static: false }) certificateInput: ElementRef;
 
   constructor(private OrganizationService: OrganizationProviderService, private ACVPUserService: AcvpUserDataProviderService, private ModalService: ModalService) { }
 
@@ -93,25 +95,16 @@ export class AcvpUsersNewUserComponent implements OnInit {
     );
   };
 
-  submitNewUser() {
+  submitNewUser = async (file) => {
 
     var submitFlag: Boolean = true;
 
     this.personNotProvidedFlag = false;
-    this.certificateNotProvidedFlag = false;
     this.seedNotProvidedFlag = false;
-
-    console.log(this.newUserParams.person.Name);
-    console.log(this.newUserParams.certificate);
-    console.log(this.newUserParams.seed);
 
     // Super-basic input-validity checks
     if (this.newUserParams.person.Name === "" || typeof(this.newUserParams.person.Name) === 'undefined') {
       this.personNotProvidedFlag = true;
-      submitFlag = false;
-    }
-    if (this.newUserParams.certificate === "" || typeof(this.newUserParams.certificate) === 'undefined') {
-      this.certificateNotProvidedFlag = true;
       submitFlag = false;
     }
     if (this.newUserParams.seed === "" || typeof(this.newUserParams.seed) === 'undefined') {
@@ -120,15 +113,33 @@ export class AcvpUsersNewUserComponent implements OnInit {
     }
 
     if (submitFlag == true) {
+
       // Set the organization ID in the params going out
       this.newUserParams.person.OrganizationId = this.selectedOrganization.id;
 
-      // Then submit them
-      this.ACVPUserService.createAcvpUser(this.newUserParams).subscribe(
-        data => {
-          this.notifyParentComponent.emit(data);
-        }
-      );
+      // Parse out the certificate Base64
+      let reader = new FileReader();
+
+      // Alias "this" so that it can be used in the callback defined next
+      var self = this;
+
+      // Define the callback
+      reader.onload = function () {
+
+        // Store the parsed Base64 in the params for submission
+        self.newUserParams.certificate = reader.result.toString().split(',')[1];
+
+        // Then submit them
+        self.ACVPUserService.createAcvpUser(self.newUserParams).subscribe(
+          data => {
+            self.notifyParentComponent.emit(data);
+          }
+        );
+
+      };
+
+      // Fire it all off by parsing the string
+      reader.readAsDataURL(file);
     }
     else {
 

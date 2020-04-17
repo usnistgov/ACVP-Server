@@ -92,9 +92,10 @@
                 <span style="color:red;">{{(personNotProvidedFlag ? "Name Not Provided" : "")}}</span>
               </div>
               <div class="row mt-3">
-                <label class="bold-heading">Certificate</label><br />
-                <textarea [(ngModel)]='newUserParams && newUserParams.certificate' rows="5" cols="60" name="CertificateBox" class="form-control" required></textarea><br />
-                <span style="color:red;">{{(certificateNotProvidedFlag ? "Certificate Not Provided" : "")}}</span>
+                <label class="bold-heading">Certificate</label><br />&nbsp;<br />
+                <input type="file" #certificateInput placeholder="Choose file"><br />
+                <!--<textarea [(ngModel)]='newUserParams && newUserParams.certificate' rows="5" cols="60" name="CertificateBox" class="form-control" required></textarea><br />-->
+                <!--<span style="color:red;">{{(certificateNotProvidedFlag ? "Certificate Not Provided" : "")}}</span>-->
               </div>
               <div class="row mt-3">
                 <label class="bold-heading">Seed</label><input [(ngModel)]="newUserParams && newUserParams.seed" name="SeedBox" type="text" class="form-control" required /><br />
@@ -111,7 +112,9 @@
             <td><span style="color:red;">{{modalFooterError}}</span></td>
             <td align="right">
               <button type="button" class="btn btn-primary mr-2" *ngIf="NewUserInputPage === 0" (click)="moveToNextPage()">Next</button>
-              <button type="button" class="btn btn-primary mr-2" *ngIf="NewUserInputPage === 1" (click)="submitNewUser()">Submit</button>
+              <!-- I have no cluie why this component needs to access the files array through nativelement and why it doesn't when doing precisely
+                   the same thing on Legacy and Acvp-users-new-user.  Anyone with a good explanation is welcome... RLS4 - 4/16/20-->
+              <button type="button" class="btn btn-primary mr-2" (click)="submitNewUser(certificateInput.nativeElement.files[0])" *ngIf="NewUserInputPage === 1" >Submit</button>
               <button type="button" class="btn btn-secondary" (click)="closeNewUserModal()">Close</button>
             </td>
           </tr>
