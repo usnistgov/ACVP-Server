@@ -4,6 +4,7 @@ import { IWorkflowItemPayload } from '../../../../models/workflow/IWorkflowItemP
 import { Result } from '../../../../models/responses/Result';
 import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { Router } from '@angular/router';
+import { ModalService } from '../../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-workflow-actions',
@@ -12,13 +13,23 @@ import { Router } from '@angular/router';
 })
 export class WorkflowActionsComponent implements OnInit {
 
+  errorMessage: string;
+
   workflowItem: WorkflowItemBase<IWorkflowItemPayload>;
 
-  constructor(private workflowService: WorkflowProviderService, private router: Router) { }
+  constructor(private workflowService: WorkflowProviderService, private router: Router, private ModalService: ModalService) { }
 
   approveWorkflow() {
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
+      data => {
+        if (data.isSuccess) {
+          this.refreshPageData();
+        }
+        else {
+          this.errorMessage = data.errorMessage;
+          this.ModalService.showModal('WFApprovalErrorMOdal');
+        }
+      },
       err => { },
       () => { }
     );

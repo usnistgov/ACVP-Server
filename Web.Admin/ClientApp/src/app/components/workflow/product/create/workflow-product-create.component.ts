@@ -29,18 +29,19 @@ export class WorkflowProductCreateComponent implements OnInit {
       err => { },
       () => { }
     );
-
-    for (let i = 0; i < this.workflowItem.payload.contacts.length; i++) {
-      this.PersonService.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
-        data => {
-          let contact = new WorkflowCreateProductPayloadContact();
-          contact.person = JSON.parse(JSON.stringify(data));
-          contact.orderIndex = i;
-          this.workflowItem.payload.contacts[i] = contact;
-        },
-        err => { },
-        () => { }
-      );
+    if (this.workflowItem.payload.contacts !== null) {
+      for (let i = 0; i < this.workflowItem.payload.contacts.length; i++) {
+        this.PersonService.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
+          data => {
+            let contact = new WorkflowCreateProductPayloadContact();
+            contact.person = JSON.parse(JSON.stringify(data));
+            contact.orderIndex = i;
+            this.workflowItem.payload.contacts[i] = contact;
+          },
+          err => { },
+          () => { }
+        );
+      }
     }
 
   }
