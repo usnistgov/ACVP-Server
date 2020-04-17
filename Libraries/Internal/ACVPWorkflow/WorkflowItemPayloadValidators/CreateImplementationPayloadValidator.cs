@@ -59,7 +59,7 @@ namespace ACVPWorkflow.WorkflowItemPayloadValidators
 			}			
 
 			//Verify that each of the contacts exists
-			foreach (long personID in payload.ContactsObjectThatNeedsToGoAway.Select(x => x.Person.ID))
+			foreach (long personID in payload.ContactsObjectThatNeedsToGoAway?.Select(x => x.Person.ID))
 			{
 				if (!_personService.PersonExists(personID))
 				{
