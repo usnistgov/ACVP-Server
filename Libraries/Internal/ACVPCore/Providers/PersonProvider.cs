@@ -228,7 +228,7 @@ namespace ACVPCore.Providers
 
 		public Result Update(long personID, string name, long? organizationID, bool nameUpdated, bool organizationIDUpdated)
 		{
-			if (string.IsNullOrWhiteSpace(name)) return new Result("Invalid name value");
+			if (nameUpdated && string.IsNullOrWhiteSpace(name)) return new Result("Invalid name value");
 
 			var db = new MightyOrm(_acvpConnectionString);
 
