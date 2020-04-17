@@ -56,14 +56,17 @@ namespace ACVPWorkflow.WorkflowItemPayloadValidators
 				{
 					throw new BusinessRuleException($"Address {addressID} is not an address of the referenced organization {organizationID}");
 				}
-			}			
+			}
 
 			//Verify that each of the contacts exists
-			foreach (long personID in payload.ContactsObjectThatNeedsToGoAway?.Select(x => x.Person.ID))
+			if (payload.ContactsObjectThatNeedsToGoAway != null)
 			{
-				if (!_personService.PersonExists(personID))
+				foreach (long personID in payload.ContactsObjectThatNeedsToGoAway.Select(x => x.Person.ID))
 				{
-					throw new ResourceDoesNotExistException($"Person {personID} does not exist");
+					if (!_personService.PersonExists(personID))
+					{
+						throw new ResourceDoesNotExistException($"Person {personID} does not exist");
+					}
 				}
 			}
 
