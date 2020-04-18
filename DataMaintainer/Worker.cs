@@ -20,6 +20,7 @@ namespace DataMaintainer
 		private readonly string _destinationFolder;
 		private readonly int _ageInDays;
 		private readonly bool _createArchiveFile;
+		private readonly bool _expirationEnabled;
 
 		public Worker(ILogger<Worker> logger, IVectorSetService vectorSetService, ITestSessionService testSessionService, IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
 		{
@@ -30,6 +31,7 @@ namespace DataMaintainer
 			_destinationFolder = configuration.GetValue<string>("DataMaintainer:DestinationFolder");
 			_ageInDays = configuration.GetValue<int>("DataMaintainer:AgeInDays");
 			_createArchiveFile = configuration.GetValue<bool>("DataMaintainer:CreateArchiveFile");
+			_expirationEnabled = configuration.GetValue<bool>("DataMaintainer:ExpirationEnabled");
 		}
 
 		public Task StartAsync(CancellationToken cancellationToken)
@@ -50,7 +52,10 @@ namespace DataMaintainer
 		{
 			//Expire test sessions older than the configured age
 			//TODO - Do a more complex version of expiration, based on vector set activity and keep-alives, in conjunction with public rewrite
-			//_testSessionService.Expire(_ageInDays);
+			if (_expirationEnabled)
+			{
+				_testSessionService.Expire(_ageInDays);
+			}
 
 			//If want to produce archive files, make sure the destination can be reached or exit
 			if (_createArchiveFile && !Directory.Exists(_destinationFolder))
