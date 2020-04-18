@@ -47,7 +47,14 @@ namespace ACVPCore.Services
 				List<PropertyTreeValidationNode> fromModel = GetPropertyTreeFromModel(persistedAlgorithmType, 0, null);
 
 				//Get the algorithm ID
-				long algorithmID = _algorithmService.LookupAlgorithm(algorithm.Name, algorithm.Mode, algorithm.Revision).AlgorithmID;
+				AlgorithmLookup algorithmLookup = _algorithmService.LookupAlgorithm(algorithm.Name, algorithm.Mode, algorithm.Revision);
+				if (algorithmLookup == null)
+				{
+					errors.Add($"{algorithm.Name}|{algorithm.Mode}|{algorithm.Revision} does not exist in database");
+					continue;
+				}
+
+				long algorithmID = algorithmLookup.AlgorithmID;
 
 				//Get all the properties for this algorithm from the database
 				List<PropertyTreeValidationNode> fromDatabase = _propertyProvider.GetPropertyTreeValidationNodes(algorithmID);

@@ -21,7 +21,7 @@ namespace ACVPCore.Services
 
 		public long GetAlgorithmID(string name, string mode) => _algorithmProvider.GetAlgorithmID(name, mode);
 
-		public AlgorithmLookup LookupAlgorithm(string name, string mode, string revision) => (AlgorithmLookup)_algorithms[$"{name}|{mode}|{revision}"];
+		public AlgorithmLookup LookupAlgorithm(string name, string mode, string revision) =>_algorithms.TryGetValue($"{name}|{mode}|{revision}", out AlgorithmLookup algorithmLookup) ? algorithmLookup : null;
 
 		public List<AlgorithmLookup> LookupAlgorithms(string name, string mode)
 		{
