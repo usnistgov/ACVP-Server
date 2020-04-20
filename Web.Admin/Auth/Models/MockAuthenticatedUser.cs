@@ -44,10 +44,11 @@ namespace Web.Admin.Auth.Models
                 throw new ArgumentException($"{nameof(_ssoConfig.UseSso)} should not be true when working with a mock authentication handler.");
             }
 
-            if (!_validEnvironmentsForMockAuthentication.Contains(_webHostEnvironment.EnvironmentName, StringComparer.OrdinalIgnoreCase))
-            {
-                throw new InvalidOperationException($"Attempted to use mock authentication in an environment ({_webHostEnvironment.EnvironmentName}) that is not allowed.");
-            }
+            // TODO uncomment this once SSO is figured out
+            // if (!_validEnvironmentsForMockAuthentication.Contains(_webHostEnvironment.EnvironmentName, StringComparer.OrdinalIgnoreCase))
+            // {
+            //     throw new InvalidOperationException($"Attempted to use mock authentication in an environment ({_webHostEnvironment.EnvironmentName}) that is not allowed.");
+            // }
             
             var claims = new[] 
             {
