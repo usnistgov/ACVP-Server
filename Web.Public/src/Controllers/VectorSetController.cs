@@ -2,7 +2,9 @@ using System;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Web.Public.ClaimsVerifiers;
+using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -23,13 +25,15 @@ namespace Web.Public.Controllers
         private readonly IJsonReaderService _jsonReader;
         private readonly IMessageService _messageService;
         private readonly IJwtService _jwtService;
+        private readonly VectorSetConfig _vectorSetConfig;
 
         public VectorSetController(IVectorSetService vectorSetService, 
             ITestSessionService testSessionService, 
             IJsonWriterService jsonWriter,
             IJsonReaderService jsonReader,
             IMessageService messageService,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IOptions<VectorSetConfig> vectorSetConfig)
         {
             _vectorSetService = vectorSetService;
             _testSessionService = testSessionService;
@@ -37,6 +41,7 @@ namespace Web.Public.Controllers
             _jsonReader = jsonReader;
             _messageService = messageService;
             _jwtService = jwtService;
+            _vectorSetConfig = vectorSetConfig.Value;
         }
         
         [HttpGet]
@@ -159,6 +164,11 @@ namespace Web.Public.Controllers
         [HttpPut("{vsID}/results")]
         public ActionResult UpdateResults(int tsID, int vsID)
         {
+            if (!_vectorSetConfig.AllowResubmission)
+            {
+                return new NotFoundResult();
+            }
+            
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);

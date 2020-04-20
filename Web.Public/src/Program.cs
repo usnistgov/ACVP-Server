@@ -44,6 +44,7 @@ namespace Web.Public
                     services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
                     services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                     services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
+                    services.Configure<VectorSetConfig>(hostContext.Configuration.GetSection("VectorSet"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

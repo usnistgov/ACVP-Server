@@ -3,7 +3,9 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Web.Public.ClaimsVerifiers;
+using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -24,14 +26,16 @@ namespace Web.Public.Controllers
         private readonly IJsonReaderService _jsonReader;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJwtService _jwtService;
-
+        private readonly VectorSetConfig _vectorSetConfig;
+        
         public TestSessionController(
             IParameterValidatorService parameterValidatorService,
             ITestSessionService testSessionService, 
             IMessageService messageService, 
             IJsonReaderService jsonReader,
             IJsonWriterService jsonWriter,
-            IJwtService jwtService)
+            IJwtService jwtService,
+            IOptions<VectorSetConfig> vectorSetConfig)
         {
             _parameterValidatorService = parameterValidatorService;
             _testSessionService = testSessionService;
@@ -39,6 +43,7 @@ namespace Web.Public.Controllers
             _jsonReader = jsonReader;
             _jsonWriter = jsonWriter;
             _jwtService = jwtService;
+            _vectorSetConfig = vectorSetConfig.Value;
         }
         
         [HttpGet]
@@ -84,6 +89,15 @@ namespace Web.Public.Controllers
             var body = _jsonReader.GetJsonFromBody(Request.Body);
             var registration = _jsonReader.GetObjectFromBodyJson<TestSessionRegistration>(body);
 
+            if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
+            {
+                var errorObject = new ErrorObject
+                {
+                    Error = "IsSample not supported"
+                };
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
+            }
+            
             // Validate registrations and return at that point if any failures occur.
             var parameterValidateResult = _parameterValidatorService.Validate(registration);
             if (!parameterValidateResult.IsSuccess)
