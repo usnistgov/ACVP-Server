@@ -35,6 +35,11 @@ namespace NIST.CVP.Crypto.Oracle
                 {
                     result = await GetRsaPrimes(param);
                 }
+                catch (RsaPrimeGenException e)
+                {
+                    _logger.Warn(e, $"Failure on RSA key gen guard");
+                    throw;
+                }
                 catch (Exception e)
                 {
                     _logger.Warn(e, $"Failure on RSA key gen: {e.StackTrace}");

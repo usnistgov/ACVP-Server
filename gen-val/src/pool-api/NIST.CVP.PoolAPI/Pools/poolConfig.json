@@ -6819,7 +6819,7 @@
         "Modulus": 1024,
         "PrimeTest": "2powSecStr",
         "KeyFormat": "standard",
-        "Standard": "FIPS186-5",
+        "Standard": "FIPS186-4",
         "PMod8": 0,
         "QMod8": 0
       }
@@ -6838,7 +6838,7 @@
         "Modulus": 1024,
         "PrimeTest": "2pow100",
         "KeyFormat": "standard",
-        "Standard": "FIPS186-5",
+        "Standard": "FIPS186-4",
         "PMod8": 0,
         "QMod8": 0
       }
