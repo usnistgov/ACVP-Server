@@ -37,6 +37,10 @@ export class AcvpUserDataProviderService {
     return this.http.post<Result>(this.apiRoot + '/Users/' +  userId + '/seed', param);
   }
 
+  refreshSeed(userId: number) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' + userId + '/seed/refresh', {});
+  }
+
   updateCertificate(userId: number, param: AcvpUserCertificateUpdateParameters) {
     return this.http.post<Result>(this.apiRoot + '/Users/' + userId + '/certificate', param);
   }

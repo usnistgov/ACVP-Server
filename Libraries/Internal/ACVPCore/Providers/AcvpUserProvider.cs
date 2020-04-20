@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using ACVPCore.Models;
 using ACVPCore.Models.Parameters;
@@ -142,9 +143,19 @@ namespace ACVPCore.Providers
             return new Result();
         }
 
-        public Result CreateUser(string personName, long organizationID, byte[] certificate, string seed)
+        public Result CreateUser(string personName, long organizationID, byte[] certificate)
         {
+            string base64Seed;
+            // Based on the note about IDisposable interface in the docs, this is the recommended usage to ensure the
+            // CSP is disposed of properly
+            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+            {
+                byte[] seed = new byte[48];
+                rngCsp.GetBytes(seed); 
+                base64Seed = Convert.ToBase64String(seed, 0, seed.Length);
+            }
 
+            // Parse out the certificate provided
             X509Certificate2 x509 = new X509Certificate2(certificate);
 
             if (x509 == null)
@@ -172,7 +183,7 @@ namespace ACVPCore.Providers
                             PersonID = personQueryData.PersonID,
                             CommonName = x509.Subject,
                             Certificate = certificate,
-                            Seed = seed
+                            Seed = base64Seed
                         });
 
                         return new InsertResult((long)acvpUserQueryData.UserID);
@@ -185,7 +196,6 @@ namespace ACVPCore.Providers
                 return new InsertResult("Unspecified error in ACVP User creation");
             }
         }
-
         public Result DeleteUser(long userId)
         {
             var db = new MightyOrm(_acvpConnectionString);

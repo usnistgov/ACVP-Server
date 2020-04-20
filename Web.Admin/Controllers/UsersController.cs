@@ -51,6 +51,12 @@ namespace Web.Admin.Controllers
             return _adminUserService.SetUserTotpSeed(userId, param);
         }
 
+        [HttpPost("{userId}/seed/refresh")]
+        public Result RefreshTotpSeed(long userId)
+        {
+            return _adminUserService.RefreshTotpSeed(userId);
+        }
+
         [HttpPost("{userId}/certificate")]
         public Result SetUserCertificate(long userId, [FromBody] AcvpUserCertificateUpdateParameters param)
         {

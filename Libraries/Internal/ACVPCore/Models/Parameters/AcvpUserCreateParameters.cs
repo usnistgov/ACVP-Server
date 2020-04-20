@@ -8,6 +8,5 @@ namespace ACVPCore.Models.Parameters
     {
         public PersonCreateParameters Person { get; set; }
         public byte[] Certificate { get; set; }
-        public string Seed { get; set; }
     }
 }

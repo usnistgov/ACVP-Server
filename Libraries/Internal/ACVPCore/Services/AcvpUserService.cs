@@ -3,7 +3,8 @@ using ACVPCore.Models.Parameters;
 using ACVPCore.Providers;
 using NIST.CVP.Enumerables;
 using NIST.CVP.Results;
-
+using System;
+using System.Security.Cryptography;
 
 namespace ACVPCore.Services
 {
@@ -31,6 +32,21 @@ namespace ACVPCore.Services
             return _adminUserProvider.SetUserTotpSeed(userId, param.Seed);
         }
 
+        public Result RefreshTotpSeed(long userId)
+        {
+            string base64Seed;
+            // Based on the note about IDisposable interface in the docs, this is the recommended usage to ensure the
+            // CSP is disposed of properly
+            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+            {
+                byte[] seed = new byte[48];
+                rngCsp.GetBytes(seed);
+                base64Seed = Convert.ToBase64String(seed, 0, seed.Length);
+            }
+
+            return _adminUserProvider.SetUserTotpSeed(userId, base64Seed);
+        }
+
         public Result SetUserCertificate(long userId, AcvpUserCertificateUpdateParameters param)
         {
             return _adminUserProvider.SetUserCertificate(userId, param.Certificate);
@@ -38,7 +54,7 @@ namespace ACVPCore.Services
 
         public Result CreateUser(AcvpUserCreateParameters param)
         {
-            return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate, param.Seed);
+            return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate);
         }
         public Result DeleteUser(long userId)
         {

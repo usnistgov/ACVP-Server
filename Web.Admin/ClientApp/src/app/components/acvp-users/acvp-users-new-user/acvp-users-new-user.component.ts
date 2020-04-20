@@ -26,7 +26,6 @@ export class AcvpUsersNewUserComponent implements OnInit {
   modalFooterError: string;
   personNotProvidedFlag: Boolean;
   certificateNotProvidedFlag: Boolean;
-  seedNotProvidedFlag: Boolean;
 
   // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
   @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
@@ -100,15 +99,10 @@ export class AcvpUsersNewUserComponent implements OnInit {
     var submitFlag: Boolean = true;
 
     this.personNotProvidedFlag = false;
-    this.seedNotProvidedFlag = false;
 
     // Super-basic input-validity checks
     if (this.newUserParams.person.Name === "" || typeof(this.newUserParams.person.Name) === 'undefined') {
       this.personNotProvidedFlag = true;
-      submitFlag = false;
-    }
-    if (this.newUserParams.seed === "" || typeof(this.newUserParams.seed) === 'undefined') {
-      this.seedNotProvidedFlag = true;
       submitFlag = false;
     }
 
@@ -142,7 +136,7 @@ export class AcvpUsersNewUserComponent implements OnInit {
       reader.readAsDataURL(file);
     }
     else {
-
+      // Display message accordingly
     }
   }
 
