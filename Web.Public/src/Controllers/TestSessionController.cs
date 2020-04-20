@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.Public.ClaimsVerifiers;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -22,19 +23,22 @@ namespace Web.Public.Controllers
         private readonly IMessageService _messageService;
         private readonly IJsonReaderService _jsonReader;
         private readonly IJsonWriterService _jsonWriter;
+        private readonly IJwtService _jwtService;
 
         public TestSessionController(
             IParameterValidatorService parameterValidatorService,
             ITestSessionService testSessionService, 
             IMessageService messageService, 
             IJsonReaderService jsonReader,
-            IJsonWriterService jsonWriter)
+            IJsonWriterService jsonWriter,
+            IJwtService jwtService)
         {
             _parameterValidatorService = parameterValidatorService;
             _testSessionService = testSessionService;
             _messageService = messageService;
             _jsonReader = jsonReader;
             _jsonWriter = jsonWriter;
+            _jwtService = jwtService;
         }
         
         [HttpGet]
@@ -148,9 +152,31 @@ namespace Web.Public.Controllers
         }
 
         [HttpDelete("{id}")]
-        public JsonHttpStatusResult CancelTestSession(long id)
+        public ActionResult CancelTestSession(long id)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+
+            var claimValidator = new TestSessionClaimsVerifier(id);
+            if (!claimValidator.AreClaimsValid(claims))
+            {
+                return new ForbidResult();
+            }
+
+            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, new TestSessionCancel()
+            {
+                TestSessionId = id
+            });
+            
+            var requestObject = new RequestObject
+            {
+                RequestID = requestId,
+                Status = RequestStatus.Initial
+            };
+
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
         }
     }
 }

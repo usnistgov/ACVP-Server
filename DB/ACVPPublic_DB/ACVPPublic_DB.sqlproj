@@ -158,5 +158,8 @@
     <Build Include="acvp\Stored Procedures\TestSessionSetPublished.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionCheckOwner.sql" />
+    <Build Include="acvp\Tables\Request.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetStatusGet.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
   </ItemGroup>
 </Project>

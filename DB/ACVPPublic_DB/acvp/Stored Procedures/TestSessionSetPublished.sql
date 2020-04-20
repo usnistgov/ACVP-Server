@@ -6,7 +6,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-    UPDATE	acvp.TestSession
+    UPDATE	acvp.TEST_SESSION
+	--UPDATE	acvp.TestSession
 	SET		published = 1
 	WHERE	id = @testSessionid
 

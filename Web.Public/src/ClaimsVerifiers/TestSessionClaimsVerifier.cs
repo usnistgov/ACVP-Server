@@ -1,27 +1,29 @@
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Web.Public.ClaimsVerifiers
 {
-    public class TestSessionClaimsVerifier : ClaimsVerifierBase
-    {
-        private readonly long _tsID;
+	public class TestSessionClaimsVerifier : ClaimsVerifierBase
+	{
+		private readonly long _tsId;
 
-        public TestSessionClaimsVerifier(long tsID)
-        {
-            _tsID = tsID;
-        }
-        
-        public override bool AreClaimsValid(IDictionary<string, string> claims)
-        {
-            try
-            {
-                var tsIDFromClaims = long.Parse(claims["ts"]);
-                return _tsID == tsIDFromClaims;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-    }
+		public TestSessionClaimsVerifier(long tsId)
+		{
+			_tsId = tsId;
+		}
+
+		public override bool AreClaimsValid(IDictionary<string, string> claims)
+		{
+			try
+			{
+				var tsIdFromClaims = JsonSerializer.Deserialize<long>(claims["ts"]);
+				
+				return _tsId == tsIdFromClaims;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+	}
 }
