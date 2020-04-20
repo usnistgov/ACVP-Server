@@ -100,7 +100,16 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
                 }
                 else
                 {
-                    PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExpValue.ToPositiveBigInteger(), errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExpValue
+                            .ToPositiveBigInteger());
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                 }
             }
 
