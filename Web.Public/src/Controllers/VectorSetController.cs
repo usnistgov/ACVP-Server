@@ -132,16 +132,52 @@ namespace Web.Public.Controllers
             }
         }
 
-        [HttpPost("{id}/results")]
-        public JsonHttpStatusResult PostResults(int id)
+        [HttpPost("{vsID}/results")]
+        public ActionResult PostResults(int tsID, int vsID)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+            
+            // Parse registrations
+            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var submittedResults = _jsonReader.GetObjectFromBodyJson<VectorSetResult>(body);
+
+            // Validate registrations and return at that point if any failures occur.
+            var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
+            if (claimValidator.AreClaimsValid(claims))
+            {
+                _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, cert, submittedResults);
+                return new AcceptedResult();
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
-        [HttpPut("{id}/results")]
-        public JsonHttpStatusResult UpdateResults(int id)
+        [HttpPut("{vsID}/results")]
+        public ActionResult UpdateResults(int tsID, int vsID)
         {
-            throw new NotImplementedException();
+            var cert = HttpContext.Connection.ClientCertificate.RawData;
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+            
+            // Parse registrations
+            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var submittedResults = _jsonReader.GetObjectFromBodyJson<VectorSetResult>(body);
+
+            // Validate registrations and return at that point if any failures occur.
+            var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
+            if (claimValidator.AreClaimsValid(claims))
+            {
+                _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, cert, submittedResults);
+                return new AcceptedResult();
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         [HttpGet("{vsID}/expected")]

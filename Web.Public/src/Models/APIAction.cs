@@ -22,6 +22,7 @@ namespace Web.Public.Models
         CancelTestSession = 17,
         CertifyTestSession = 18,
         SubmitVectorSetResults = 19,
-        CancelVectorSet = 20
+        CancelVectorSet = 20,
+        ResubmitVectorSetResults = 21
     }
 }
