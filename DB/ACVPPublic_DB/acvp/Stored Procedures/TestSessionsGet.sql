@@ -10,6 +10,7 @@ SELECT id AS ID
     ,published AS Published
     ,[sample] AS [Sample]
     ,publishable AS Publishable
-FROM [acvp].[TestSession]
+--FROM [acvp].[TestSession]
+FROM [acvp].[TEST_SESSION]
 WHERE user_id = @UserID
 ORDER BY created_on
