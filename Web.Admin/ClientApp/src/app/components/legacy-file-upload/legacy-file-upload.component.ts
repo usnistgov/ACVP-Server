@@ -12,6 +12,8 @@ export class LegacyFileUploadComponent implements OnInit {
   public progress: number;
   public message: string;
   public result: LegacyResult;
+  public fileName: string;
+  public uploadEnabled: boolean = true;
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) { }
@@ -20,6 +22,7 @@ export class LegacyFileUploadComponent implements OnInit {
   }
 
   public uploadFile = (files) => {
+    this.uploadEnabled = false;
     this.message = null;
     this.progress = 0;
     this.result = null;
@@ -29,6 +32,7 @@ export class LegacyFileUploadComponent implements OnInit {
     }
 
     let fileToUpload = <File>files[0];
+    this.fileName = fileToUpload.name;
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
@@ -38,6 +42,7 @@ export class LegacyFileUploadComponent implements OnInit {
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
           this.result = event.body;
+          this.uploadEnabled = true;
         }
       });
   } 

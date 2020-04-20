@@ -8,12 +8,12 @@
     <div class="col-lg-12">
       <div class="center">
         <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
-        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button><br /><br />
+        <button type="button" [disabled]="!uploadEnabled" class="btn btn-success" (click)="file.click()">Upload File</button><br /><br />
         <span class="upload" *ngIf="message">
           {{message}}
         </span>
         <span class="upload" *ngIf="progress > 0">
-          {{progress}}% uploaded<br />
+          {{fileName}} {{progress}}% uploaded<br />
         </span>
         <span class="upload" *ngIf="progress === 100">
           Processing file...<br /><br />

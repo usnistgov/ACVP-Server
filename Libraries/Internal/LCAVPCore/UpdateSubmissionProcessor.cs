@@ -408,7 +408,7 @@ namespace LCAVPCore
 					//Handle any "In this same implementation" prereqs
 					registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
 
-					if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+					if ((bool)(registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites)?.Any(x => x.IsUnprocessedSubmission)))
 					{
 						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
