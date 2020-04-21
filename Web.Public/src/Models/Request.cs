@@ -1,3 +1,5 @@
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+
 namespace Web.Public.Models
 {
     public class Request

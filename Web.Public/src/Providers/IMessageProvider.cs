@@ -1,4 +1,4 @@
-using Web.Public.Models;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 
 namespace Web.Public.Providers
 {
