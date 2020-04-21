@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c0df1c41-7741-4069-b5cb-554db1d3fb7d",
+		"_postman_id": "c18ee289-0397-4783-969b-3ba8e5d3c883",
 		"name": "PublicAlgo_v1.0",
 		"description": "Initial ACVP E2E Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -37,13 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -89,13 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -153,13 +149,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/algorithms",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/algorithms",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -216,13 +210,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{algo_url}}",
+					"raw": "https://{{env}}.{{baseurl}}{{algo_url}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{algo_url}}"
+						"{{baseurl}}{{algo_url}}"
 					]
 				},
 				"description": "Vector Request"

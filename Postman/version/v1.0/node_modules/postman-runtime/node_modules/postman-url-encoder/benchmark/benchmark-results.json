@@ -1,0 +1,537 @@
+{
+  "suites": [
+    {
+      "name": "encodeHost()",
+      "scenarios": [
+        {
+          "name": "with host as array",
+          "executions": 1000000,
+          "time": 935.362306,
+          "error": 0.1841179633343218
+        },
+        {
+          "name": "with host as string",
+          "executions": 1000000,
+          "time": 684.037793,
+          "error": 0.40793014402133837
+        },
+        {
+          "name": "with unicode host",
+          "executions": 1000000,
+          "time": 2526.019601,
+          "error": 0.29109432516342687
+        },
+        {
+          "name": "with punycode encoded host",
+          "executions": 1000000,
+          "time": 2365.063669,
+          "error": 0.282200168184247
+        }
+      ]
+    },
+    {
+      "name": "encodePath()",
+      "scenarios": [
+        {
+          "name": "with path as array",
+          "executions": 1000000,
+          "time": 662.941649,
+          "error": 0.8528124010121696
+        },
+        {
+          "name": "with path as string",
+          "executions": 1000000,
+          "time": 534.63313,
+          "error": 1.668329680171048
+        },
+        {
+          "name": "with unicode path",
+          "executions": 1000000,
+          "time": 4578.710687,
+          "error": 0.23740044139136682
+        },
+        {
+          "name": "with encoded path",
+          "executions": 1000000,
+          "time": 1064.077984,
+          "error": 1.31398946971089
+        },
+        {
+          "name": "with long path",
+          "executions": 1000000,
+          "time": 1548.615023,
+          "error": 1.1025676927710277
+        }
+      ]
+    },
+    {
+      "name": "encodeQueryParams()",
+      "scenarios": [
+        {
+          "name": "with query as array",
+          "executions": 1000000,
+          "time": 2323.185684,
+          "error": 0.499424173464478
+        },
+        {
+          "name": "with query as object",
+          "executions": 1000000,
+          "time": 3039.060777,
+          "error": 0.2986402335224421
+        },
+        {
+          "name": "with multi value query object",
+          "executions": 902887,
+          "time": 5537.788305734826,
+          "error": 0.26873379332193653
+        },
+        {
+          "name": "with long multivalue array",
+          "executions": 379409,
+          "time": 13178.38140898081,
+          "error": 1.64889809932371
+        }
+      ]
+    },
+    {
+      "name": "percentEncode()",
+      "scenarios": [
+        {
+          "name": "with ASCII string",
+          "executions": 1000000,
+          "time": 1413.315979,
+          "error": 1.236799066873049
+        },
+        {
+          "name": "with encoded string",
+          "executions": 1000000,
+          "time": 1394.366411,
+          "error": 6.180912864973289
+        },
+        {
+          "name": "with unicode string",
+          "executions": 166620,
+          "time": 30008.292011763293,
+          "error": 4.419789196963656
+        },
+        {
+          "name": "with custom encode set",
+          "executions": 894873,
+          "time": 5587.628564053223,
+          "error": 4.532274817384392
+        }
+      ]
+    },
+    {
+      "name": "encodeQueryString()",
+      "scenarios": [
+        {
+          "name": "with query as array",
+          "executions": 1000000,
+          "time": 1827.313672,
+          "error": 3.5217432112810827
+        },
+        {
+          "name": "with query as object",
+          "executions": 1000000,
+          "time": 1585.620451,
+          "error": 1.909866151048118
+        },
+        {
+          "name": "with multi value query object",
+          "executions": 1000000,
+          "time": 920.787209,
+          "error": 0.9228290128685156
+        },
+        {
+          "name": "with long multivalue array",
+          "executions": 1000000,
+          "time": 1794.383917,
+          "error": 5.026705526334491
+        }
+      ]
+    },
+    {
+      "name": "toNodeUrl()",
+      "scenarios": [
+        {
+          "name": "with full URL",
+          "executions": 161703,
+          "time": 30920.812897719894,
+          "error": 2.8285766436997597
+        },
+        {
+          "name": "with capitalized protocol",
+          "executions": 481440,
+          "time": 10385.504029577933,
+          "error": 2.2664371793536278
+        },
+        {
+          "name": "with capitalized domain",
+          "executions": 520531,
+          "time": 9605.55909638427,
+          "error": 2.414664006151201
+        },
+        {
+          "name": "with unicode domain",
+          "executions": 353393,
+          "time": 14154.95081113661,
+          "error": 3.145047375438516
+        },
+        {
+          "name": "with punycode encoded domain",
+          "executions": 390067,
+          "time": 12818.290757741619,
+          "error": 2.678167891521834
+        },
+        {
+          "name": "with invalid encoded domain",
+          "executions": 450857,
+          "time": 11089.969007911599,
+          "error": 0.9613928045441708
+        },
+        {
+          "name": "with IPv4 address in domain",
+          "executions": 436148,
+          "time": 11463.989443950219,
+          "error": 1.882718263685955
+        },
+        {
+          "name": "with IPv6 address in domain",
+          "executions": 601064,
+          "time": 8318.574007094086,
+          "error": 0.2283183545572432
+        },
+        {
+          "name": "with IP address shorthand",
+          "executions": 603617,
+          "time": 8283.395200930392,
+          "error": 0.18295799412542949
+        },
+        {
+          "name": "with IP address shorthand and port",
+          "executions": 505917,
+          "time": 9883.03774729847,
+          "error": 0.7751220996891942
+        },
+        {
+          "name": "with IP address shorthand without protocol",
+          "executions": 534085,
+          "time": 9361.799986893471,
+          "error": 0.32915958796928974
+        },
+        {
+          "name": "with IP address shorthand and port without protocol",
+          "executions": 493310,
+          "time": 10135.611066063935,
+          "error": 0.5783500226856173
+        },
+        {
+          "name": "with unicode path",
+          "executions": 276737,
+          "time": 18067.67413103416,
+          "error": 1.3609641025220653
+        },
+        {
+          "name": "with reserved characters in path",
+          "executions": 315927,
+          "time": 15826.412421223891,
+          "error": 1.8695088753472278
+        },
+        {
+          "name": "with encoded characters in path",
+          "executions": 421084,
+          "time": 11874.095296900381,
+          "error": 0.8544508648834
+        },
+        {
+          "name": "with unicode query params",
+          "executions": 219047,
+          "time": 22826.123644697258,
+          "error": 0.4454934669992424
+        },
+        {
+          "name": "with leading and trailing white spaces in query params",
+          "executions": 175662,
+          "time": 28463.62970363539,
+          "error": 2.81977790648005
+        },
+        {
+          "name": "with '+' in query param",
+          "executions": 270196,
+          "time": 18505.086152274645,
+          "error": 2.2442818436163123
+        },
+        {
+          "name": "with reserved characters in query params",
+          "executions": 226131,
+          "time": 22110.980670496305,
+          "error": 2.143452852602673
+        },
+        {
+          "name": "with encoded characters in query params",
+          "executions": 276177,
+          "time": 18104.282228425975,
+          "error": 1.0939429409306722
+        },
+        {
+          "name": "with unicode auth",
+          "executions": 250512,
+          "time": 19959.06076754806,
+          "error": 0.3125071941103624
+        },
+        {
+          "name": "with auth without password",
+          "executions": 415165,
+          "time": 12043.384280948538,
+          "error": 0.9278825771040028
+        },
+        {
+          "name": "with auth without username",
+          "executions": 386825,
+          "time": 12925.74214955083,
+          "error": 0.8866639812610281
+        },
+        {
+          "name": "with reserved characters in auth",
+          "executions": 350654,
+          "time": 14259.040949197784,
+          "error": 1.0901978536152124
+        },
+        {
+          "name": "with encoded characters in auth",
+          "executions": 450274,
+          "time": 11104.330907403048,
+          "error": 0.4004605434869151
+        },
+        {
+          "name": "with unicode hash",
+          "executions": 317838,
+          "time": 15731.27361423115,
+          "error": 0.597552397645022
+        },
+        {
+          "name": "with reserved characters in hash",
+          "executions": 440710,
+          "time": 11345.32516167094,
+          "error": 0.7206550990854931
+        },
+        {
+          "name": "with encoded characters in hash",
+          "executions": 506571,
+          "time": 9870.280406892618,
+          "error": 0.46029093204141397
+        },
+        {
+          "name": "with leading and trailing white spaces in hash",
+          "executions": 434762,
+          "time": 11500.534340627746,
+          "error": 0.30755028665756207
+        },
+        {
+          "name": "with very long path",
+          "executions": 346481,
+          "time": 14430.791420020145,
+          "error": 0.3197620351320367
+        },
+        {
+          "name": "with large number of query params",
+          "executions": 94578,
+          "time": 52866.21586415445,
+          "error": 4.211659284908879
+        }
+      ]
+    },
+    {
+      "name": "toLegacyNodeUrl()",
+      "scenarios": [
+        {
+          "name": "with full URL",
+          "executions": 413542,
+          "time": 12090.654068994201,
+          "error": 1.4841823457092869
+        },
+        {
+          "name": "with capitalized protocol",
+          "executions": 1000000,
+          "time": 1460.053621,
+          "error": 2.541313312868197
+        },
+        {
+          "name": "with capitalized domain",
+          "executions": 1000000,
+          "time": 612.195577,
+          "error": 1.7029198706800763
+        },
+        {
+          "name": "with unicode domain",
+          "executions": 1000000,
+          "time": 736.915005,
+          "error": 0.836430164225616
+        },
+        {
+          "name": "with punycode encoded domain",
+          "executions": 1000000,
+          "time": 1301.769018,
+          "error": 0.40686101971465916
+        },
+        {
+          "name": "with invalid encoded domain",
+          "executions": 1000000,
+          "time": 1079.234607,
+          "error": 4.474030167596574
+        },
+        {
+          "name": "with IPv4 address in domain",
+          "executions": 1000000,
+          "time": 1698.179803,
+          "error": 0.8473357314361694
+        },
+        {
+          "name": "with IPv6 address in domain",
+          "executions": 1000000,
+          "time": 986.870981,
+          "error": 1.1874604954559156
+        },
+        {
+          "name": "with IP address shorthand",
+          "executions": 1000000,
+          "time": 1111.504036,
+          "error": 0.34519219820072294
+        },
+        {
+          "name": "with IP address shorthand and port",
+          "executions": 1000000,
+          "time": 1411.027207,
+          "error": 0.41527573087526154
+        },
+        {
+          "name": "with IP address shorthand without protocol",
+          "executions": 1000000,
+          "time": 619.748178,
+          "error": 0.4410565715030507
+        },
+        {
+          "name": "with IP address shorthand and port without protocol",
+          "executions": 1000000,
+          "time": 1330.258348,
+          "error": 1.1032357802467754
+        },
+        {
+          "name": "with unicode path",
+          "executions": 1000000,
+          "time": 1471.490379,
+          "error": 0.17466603288397245
+        },
+        {
+          "name": "with reserved characters in path",
+          "executions": 1000000,
+          "time": 2416.29933,
+          "error": 0.6072642862883781
+        },
+        {
+          "name": "with encoded characters in path",
+          "executions": 1000000,
+          "time": 1655.813173,
+          "error": 0.21674863537652006
+        },
+        {
+          "name": "with unicode query params",
+          "executions": 458748,
+          "time": 10899.21456442317,
+          "error": 0.30053779260445873
+        },
+        {
+          "name": "with leading and trailing white spaces in query params",
+          "executions": 564878,
+          "time": 8866.290788453436,
+          "error": 0.8350387106459882
+        },
+        {
+          "name": "with '+' in query param",
+          "executions": 616116,
+          "time": 8115.34995358017,
+          "error": 0.8986529978245185
+        },
+        {
+          "name": "with reserved characters in query params",
+          "executions": 568786,
+          "time": 8790.637477012444,
+          "error": 1.231557685467344
+        },
+        {
+          "name": "with encoded characters in query params",
+          "executions": 650757,
+          "time": 7683.351489111911,
+          "error": 0.22631219897366842
+        },
+        {
+          "name": "with unicode auth",
+          "executions": 1000000,
+          "time": 1839.1841,
+          "error": 0.37665997657220773
+        },
+        {
+          "name": "with auth without password",
+          "executions": 1000000,
+          "time": 1158.356024,
+          "error": 0.4126667435742297
+        },
+        {
+          "name": "with auth without username",
+          "executions": 1000000,
+          "time": 2400.161433,
+          "error": 0.3937476142960326
+        },
+        {
+          "name": "with reserved characters in auth",
+          "executions": 1000000,
+          "time": 4671.722677,
+          "error": 1.720875744171694
+        },
+        {
+          "name": "with encoded characters in auth",
+          "executions": 1000000,
+          "time": 2755.581411,
+          "error": 0.20317486989331765
+        },
+        {
+          "name": "with unicode hash",
+          "executions": 1000000,
+          "time": 1321.523204,
+          "error": 0.18418702086602984
+        },
+        {
+          "name": "with reserved characters in hash",
+          "executions": 1000000,
+          "time": 1640.95474,
+          "error": 0.39346481312589593
+        },
+        {
+          "name": "with encoded characters in hash",
+          "executions": 1000000,
+          "time": 1611.678414,
+          "error": 0.678564537221767
+        },
+        {
+          "name": "with leading and trailing white spaces in hash",
+          "executions": 1000000,
+          "time": 1599.11065,
+          "error": 0.5711204063256818
+        },
+        {
+          "name": "with very long path",
+          "executions": 871775,
+          "time": 5735.4226641048435,
+          "error": 0.14835109143434255
+        },
+        {
+          "name": "with large number of query params",
+          "executions": 350143,
+          "time": 14279.844414996158,
+          "error": 0.21299592757768637
+        }
+      ]
+    }
+  ]
+}

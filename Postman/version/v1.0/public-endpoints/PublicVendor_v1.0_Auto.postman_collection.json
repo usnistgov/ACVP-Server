@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5203c20f-f6ef-4cf3-890e-ed0201381aac",
+		"_postman_id": "db0849af-e537-4b61-b559-1f7a8a55fda0",
 		"name": "PublicVendor_v1.0_Auto",
 		"description": "Initial ACVP E2E Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -37,13 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -89,13 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -147,13 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 042120\",\n    \"website\": \"www.acme0421.acme\",\n    \"emails\": [\n      \"inquiry@acme0421.acme\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"301-555-1234\",\n        \"type\": \"voice\"\n      }\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0421 Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -214,13 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{baseurl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -263,13 +255,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{baseurl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -322,13 +312,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?offset=10955&limit=20",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?offset=10955&limit=20",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -396,13 +384,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -470,13 +456,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?website[0]=start:www.acme",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?website[0]=start:www.acme",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -540,13 +524,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?email[0]=end:acme",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?email[0]=end:acme",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -610,13 +592,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -674,13 +654,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"name\": \"DMC Test Generic Update\",\r\n    \"website\": \"www.acmegenericupdate.acme\",\r\n    \"emails\": [\r\n      \"inquiry@acmegenericupdate.acme\"\r\n    ],\r\n    \"phoneNumbers\" : [{\r\n             \"number\" : \"301-666-0401\",\r\n             \"type\" : \"voice\"\r\n         }],\r\n    \"addresses\": [\r\n      {\r\n        \"street1\": \"1000 Updated Main Street\",\r\n        \"locality\": \"Updated Leland\",\r\n        \"region\": \"North Carolina\",\r\n        \"country\": \"USA\",\r\n        \"postalCode\": \"28451\"\r\n      }\r\n    ]\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{baseurl}}{{vendurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -736,13 +714,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{baseurl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -784,13 +760,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{baseurl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -836,13 +810,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{baseurl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"

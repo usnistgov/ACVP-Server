@@ -1,242 +1,248 @@
-var url = require('url'),
+/**
+ * Implementation of the WHATWG URL Standard.
+ *
+ * @example
+ * const urlEncoder = require('postman-url-encoder')
+ *
+ * // Encoding URL string to Node.js compatible Url object
+ * urlEncoder.toNodeUrl('郵便屋さん.com/foo&bar/{baz}?q=("foo")#`hash`')
+ *
+ * // Encoding URI component
+ * urlEncoder.encode('qüêry štrìng')
+ *
+ * // Encoding query string object
+ * urlEncoder.encodeQueryString({ q1: 'foo', q2: ['bãr', 'baž'] })
+ *
+ * @module postman-url-encoder
+ * @see {@link https://url.spec.whatwg.org}
+ */
 
-    /**
-     * @private
-     * @const
-     * @type {String}
-     */
+const sdk = require('postman-collection'),
+    querystring = require('querystring'),
+
+    legacy = require('./legacy'),
+    encoder = require('./encoder'),
+    QUERY_ENCODE_SET = require('./encoder/encode-set').QUERY_ENCODE_SET,
+
     E = '',
-
-    /**
-     * @private
-     * @const
-     * @type {String}
-     */
-    QUERY_SEPARATOR = '?',
-
-    /**
-     * @private
-     * @const
-     * @type {String}
-     */
-    AMPERSAND = '&',
-
-    /**
-     * @private
-     * @const
-     * @type {String}
-     */
-    EQUALS = '=',
-
-    /**
-     * @private
-     * @const
-     * @type {String}
-     */
-    PERCENT = '%',
-
-    /**
-     * @private
-     * @const
-     * @type {string}
-     */
-    ZERO = '0',
-
-    /**
-     * @private
-     * @const
-     * @type {string}
-     */
+    COLON = ':',
     STRING = 'string',
+    OBJECT = 'object',
+    FUNCTION = 'function',
+    DOUBLE_SLASH = '//',
+    DEFAULT_PROTOCOL = 'http',
 
-    parseQueryString,
-    stringifyQueryParams,
-    encoder;
+    QUERY_SEPARATOR = '?',
+    SEARCH_SEPARATOR = '#',
+    PROTOCOL_SEPARATOR = '://',
+    AUTH_CREDENTIALS_SEPARATOR = '@',
+
+    /**
+     * Protocols that always contain a // bit.
+     *
+     * @private
+     * @see {@link https://github.com/nodejs/node/blob/v10.17.0/lib/url.js#L91}
+     */
+    SLASHED_PROTOCOLS = {
+        'file:': true,
+        'ftp:': true,
+        'gopher:': true,
+        'http:': true,
+        'https:': true,
+        'ws:': true,
+        'wss:': true
+    };
 
 /**
- * Parses a query string into an array, preserving parameter values
- * Note: This function is temporary. It will be removed once we implement our own encoding
- *       instead of url.parse().
+ * Percent-encode the given string using QUERY_ENCODE_SET.
  *
- * @param string
- * @returns {*}
+ * @deprecated since version 2.0, use {@link encodeQueryParam} instead.
+ *
+ * @example
+ * // returns 'foo%20%22%23%26%27%3C%3D%3E%20bar'
+ * encode('foo "#&\'<=> bar')
+ *
+ * // returns ''
+ * encode(['foobar'])
+ *
+ * @param {String} value String to percent-encode
+ * @returns {String} Percent-encoded string
  */
-parseQueryString = function (string) {
-    var parts;
+function encode (value) {
+    return encoder.percentEncode(value, QUERY_ENCODE_SET);
+}
 
-    if (typeof string === STRING) {
-        parts = string.split(AMPERSAND);
-
-        return parts.map(function (param, idx) {
-            if (param === E && idx !== (parts.length - 1)) {
-                return { key: null, value: null };
-            }
-
-            var index = (typeof param === STRING) ? param.indexOf(EQUALS) : -1,
-                paramObj = {};
-
-            // this means that there was no value for this key (not even blank, so we store this info) and the value is set
-            // to null
-            if (index < 0) {
-                paramObj.key = param.substr(0, param.length);
-                paramObj.value = null;
-            } else {
-                paramObj.key = param.substr(0, index);
-                paramObj.value = param.substr(index + 1);
-            }
-
-            return paramObj;
-        });
+/**
+ * Percent-encode the URL query string or x-www-form-urlencoded body object
+ * according to RFC3986.
+ *
+ * @example
+ * // returns 'q1=foo&q2=bar&q2=baz'
+ * encodeQueryString({ q1: 'foo', q2: ['bar', 'baz'] })
+ *
+ * @param {Object} query Object representing query or urlencoded body
+ * @returns {String} Percent-encoded string
+ */
+function encodeQueryString (query) {
+    if (!(query && typeof query === OBJECT)) {
+        return E;
     }
 
-    return [];
-};
+    // rely upon faster querystring module
+    query = querystring.stringify(query);
+
+    // encode characters not encoded by querystring.stringify() according to RFC3986.
+    return query.replace(/[!'()*]/g, function (c) {
+        return encoder.percentEncodeCharCode(c.charCodeAt(0));
+    });
+}
 
 /**
- * Stringifies a query string, from an array of parameters
- * Note: This function is temporary. It will be removed once we implement our own encoding
- *       instead of url.parse().
+ * Converts PostmanUrl / URL string into Node.js compatible Url object.
  *
- * @param parameters
- * @returns {string}
+ * @example <caption>Using URL string</caption>
+ * toNodeUrl('郵便屋さん.com/foo&bar/{baz}?q=("foo")#`hash`')
+ * // returns
+ * // {
+ * //     protocol: 'http:',
+ * //     slashes: true,
+ * //     auth: null,
+ * //     host: 'xn--48jwgn17gdel797d.com',
+ * //     port: null,
+ * //     hostname: 'xn--48jwgn17gdel797d.com',
+ * //     hash: '#%60hash%60',
+ * //     search: '?q=(%22foo%22)',
+ * //     query: 'q=(%22foo%22)',
+ * //     pathname: '/foo&bar/%7Bbaz%7D',
+ * //     path: '/foo&bar/%7Bbaz%7D?q=(%22foo%22)',
+ * //     href: 'http://xn--48jwgn17gdel797d.com/foo&bar/%7Bbaz%7D?q=(%22foo%22)#%60hash%60'
+ * //  }
+ *
+ * @example <caption>Using PostmanUrl instance</caption>
+ * toNodeUrl(new sdk.Url({
+ *     host: 'example.com',
+ *     query: [{ key: 'foo', value: 'bar & baz' }]
+ * }))
+ *
+ * @param {PostmanUrl|String} url
+ * @returns {Url}
  */
-stringifyQueryParams = function (parameters) {
-    return parameters ? parameters.map(function (param) {
-            var key = param.key;
-            var value = param.value;
+function toNodeUrl (url) {
+    var nodeUrl = {
+        protocol: null,
+        slashes: null,
+        auth: null,
+        host: null,
+        port: null,
+        hostname: null,
+        hash: null,
+        search: null,
+        query: null,
+        pathname: null,
+        path: null,
+        href: E
+    };
 
-            if (value === undefined) {
-                return E;
-            }
+    // convert URL string to PostmanUrl
+    if (typeof url === STRING) {
+        url = new sdk.Url(url);
+    }
 
-            if (key === null) {
-                key = E;
-            }
+    // bail out if given url is not a PostmanUrl instance
+    if (!sdk.Url.isUrl(url)) {
+        return nodeUrl;
+    }
 
-            if (value === null) {
-                return encoder.encode(key);
-            }
+    // #protocol
+    nodeUrl.protocol = (typeof url.protocol === STRING) ?
+        url.protocol.replace(PROTOCOL_SEPARATOR, E).toLowerCase() :
+        DEFAULT_PROTOCOL;
+    nodeUrl.protocol += COLON;
 
-            return encoder.encode(key) + EQUALS + encoder.encode(value);
-        }).join(AMPERSAND) : E;
-};
+    // #slashes
+    nodeUrl.slashes = SLASHED_PROTOCOLS[nodeUrl.protocol] || false;
 
-encoder = {
+    // #href = protocol://
+    nodeUrl.href = nodeUrl.protocol + DOUBLE_SLASH;
 
-    /**
-     * Percent encode a character with given code.
-     *
-     * @param {Number} c - character code of the character to encode
-     * @returns {String} - percent encoding of given character
-     */
-    percentEncode: function(c) {
-        var hex = c.toString(16).toUpperCase();
-        (hex.length === 1) && (hex = ZERO + hex);
-        return PERCENT + hex;
-    },
-
-    /**
-     * Checks if character at given index in the buffer is already percent encoded or not.
-     *
-     * @param {Buffer} buffer
-     * @param {Number} i
-     * @returns {Boolean}
-     */
-    isPreEncoded: function(buffer, i) {
-        // If it is % check next two bytes for percent encode characters
-        // looking for pattern %00 - %FF
-        return (buffer[i] === 0x25 &&
-            (encoder.isPreEncodedCharacter(buffer[i + 1]) &&
-            encoder.isPreEncodedCharacter(buffer[i + 2]))
-          );
-    },
-
-    /**
-     * Checks if character with given code is valid hexadecimal digit or not.
-     *
-     * @param {Number} byte
-     * @returns {Boolean}
-     */
-    isPreEncodedCharacter: function(byte) {
-        return (byte >= 0x30 && byte <= 0x39) ||  // 0-9
-           (byte >= 0x41 && byte <= 0x46) ||  // A-F
-           (byte >= 0x61 && byte <= 0x66);     // a-f
-    },
-
-    /**
-     * Checks whether given character should be percent encoded or not for fixture.
-     *
-     * @param {Number} byte
-     * @returns {Boolean}
-     */
-    charactersToPercentEncode: function(byte) {
-        return (byte < 0x23 || byte > 0x7E || // Below # and after ~
-            byte === 0x3C || byte === 0x3E || // > and <
-            byte === 0x28 || byte === 0x29 || // ( and )
-            byte === 0x25 || // %
-            byte === 0x27 || // '
-            byte === 0x2A    // *
-        );
-    },
-
-    /**
-     * Percent encode a query string according to RFC 3986.
-     * Note: This function is supposed to be used on top of node's inbuilt url encoding
-     *       to solve issue https://github.com/nodejs/node/issues/8321
-     *
-     * @param {String} value
-     * @returns {String}
-     */
-    encode: function (value) {
-        if (!value) { return E; }
-
-        var buffer = Buffer.from(value),
-            ret = E,
-            i,
-            ii;
-
-        for (i = 0, ii = buffer.length; i < ii; ++i) {
-
-            if (encoder.charactersToPercentEncode(buffer[i]) && !encoder.isPreEncoded(buffer, i)) {
-                ret += encoder.percentEncode(buffer[i]);
-            }
-            else {
-                ret += String.fromCodePoint(buffer[i]);  // Only works in ES6 (available in Node v4+)
-            }
+    // #auth
+    if (url.auth) {
+        if (typeof url.auth.user === STRING) {
+            nodeUrl.auth = encoder.encodeUserInfo(url.auth.user);
+        }
+        if (typeof url.auth.password === STRING) {
+            !nodeUrl.auth && (nodeUrl.auth = E);
+            nodeUrl.auth += COLON + encoder.encodeUserInfo(url.auth.password);
         }
 
-        return ret;
-    },
-
-    /**
-     * Converts URL string into Node's Url object with encoded values
-     *
-     * @param {String} url
-     * @returns {Url}
-     */
-    toNodeUrl: function (urlString) {
-        var parsed = url.parse(urlString),
-            rawQs = parsed.query,
-            qs,
-            search,
-            path,
-            str;
-
-        if (!(rawQs && rawQs.length)) { return parsed; }
-
-        qs = stringifyQueryParams(parseQueryString(rawQs));
-        search = QUERY_SEPARATOR + qs;
-        path = parsed.pathname + search;
-
-        parsed.query = qs;
-        parsed.search = search;
-        parsed.path = path;
-
-        str = url.format(parsed);
-
-        // Parse again, because Node does not guarantee consistency of properties
-        return url.parse(str);
+        // #href = protocol://user:password@
+        nodeUrl.auth && (nodeUrl.href += nodeUrl.auth + AUTH_CREDENTIALS_SEPARATOR);
     }
-};
 
-module.exports = encoder;
+    // #host, #hostname
+    nodeUrl.host = nodeUrl.hostname = encoder.encodeHost(url.getHost()).toLowerCase();
+
+    // #href = protocol://user:password@host.name
+    nodeUrl.href += nodeUrl.hostname;
+
+    // @todo Add helper in SDK to normalize port
+    if (typeof (url.port && url.port.toString) === FUNCTION) {
+        // #port
+        nodeUrl.port = url.port.toString();
+
+        // #host = (#hostname):(#port)
+        nodeUrl.host = nodeUrl.hostname + COLON + nodeUrl.port;
+
+        // #href = protocol://user:password@host.name:port
+        nodeUrl.href += COLON + nodeUrl.port;
+    }
+
+    // #path, #pathname
+    nodeUrl.path = nodeUrl.pathname = encoder.encodePath(url.getPath());
+
+    // #href = protocol://user:password@host.name:port/p/a/t/h
+    nodeUrl.href += nodeUrl.pathname;
+
+    if (url.query.count()) {
+        // #query
+        nodeUrl.query = encoder.encodeQueryParams(url.query.all());
+
+        // #search
+        nodeUrl.search = QUERY_SEPARATOR + nodeUrl.query;
+
+        // #path = (#pathname)?(#search)
+        nodeUrl.path = nodeUrl.pathname + nodeUrl.search;
+
+        // #href = protocol://user:password@host.name:port/p/a/t/h?q=query
+        nodeUrl.href += nodeUrl.search;
+    }
+
+    if (url.hash) {
+        // #hash
+        nodeUrl.hash = SEARCH_SEPARATOR + encoder.encodeFragment(url.hash);
+
+        // #href = protocol://user:password@host.name:port/p/a/t/h?q=query#hash
+        nodeUrl.href += nodeUrl.hash;
+    }
+
+    return nodeUrl;
+}
+
+/**
+ * Converts URL string into Node.js compatible Url object using the v1 encoder.
+ *
+ * @deprecated since version 2.0
+ *
+ * @param {String} url URL string
+ * @returns {Url} Node.js compatible Url object
+ */
+function toLegacyNodeUrl (url) {
+    return legacy.toNodeUrl(url);
+}
+
+module.exports = {
+    encode,
+    toNodeUrl,
+    toLegacyNodeUrl,
+    encodeQueryString
+};

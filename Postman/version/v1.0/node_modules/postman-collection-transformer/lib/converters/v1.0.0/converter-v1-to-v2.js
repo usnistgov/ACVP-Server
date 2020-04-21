@@ -115,11 +115,10 @@ _.assign(Builders.prototype, {
             pathVariables = [],
             traversedVars = {},
             queryParamAltered,
-            traversedQueryParams = {},
             parsed = util.urlparse(requestV1.url),
             retainEmpty = this.options.retainEmptyValues;
 
-        // Merge query params
+        // add query params
         _.forEach(requestV1.queryParams, function (queryParam) {
             (queryParam.enabled === false) && (queryParam.disabled = true);
 
@@ -130,23 +129,23 @@ _.assign(Builders.prototype, {
             if (_.has(queryParam, 'equals')) {
                 if (queryParam.equals) {
                     (queryParam.value === null) && (queryParam.value = '');
-                    queryParamAltered = true;
                 }
                 else {
                     // = is not appended when the value is null
-                    (queryParam.value === '') && (queryParam.value = null);
-                    queryParamAltered = true;
+                    queryParam.value = null;
                 }
+
+                queryParamAltered = true;
                 delete queryParam.equals;
             }
-
             queryParams.push(queryParam);
-            traversedQueryParams[queryParam.key] = true;
         });
-        // parsed query params are taken from the url, so no descriptions are available from them
-        _.forEach(parsed.query, function (queryParam) {
-            !traversedQueryParams[queryParam.key] && queryParams.push(queryParam);
-        });
+
+        // only add query params from URL if not given explicitly
+        if (!_.size(queryParams)) {
+            // parsed query params are taken from the url, so no descriptions are available from them
+            queryParams = parsed.query;
+        }
 
         // Merge path variables
         _.forEach(requestV1.pathVariableData, function (pathVariable) {
