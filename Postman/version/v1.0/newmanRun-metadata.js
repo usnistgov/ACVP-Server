@@ -15,7 +15,6 @@ var exports = module.exports = {};
 exports.runNewmanTest = function (collection_path, crt_path, key_path, environment, reporters) {
     const fs = require('fs'),
         newman = require('newman');
-    let results = [];
 
     return newman.run({
         reporters: reporters,
@@ -25,12 +24,5 @@ exports.runNewmanTest = function (collection_path, crt_path, key_path, environme
         sslClientCert: crt_path,
         sslClientKey: key_path,
         bail: true
-    })
-    .on('request', function (err, args) {
-        // here, args.response represents the entire response object
-        var rawBody = args.response.stream, // this is a buffer
-             body = rawBody.toString(); // stringified JSON
-
-        results.push(JSON.parse(body)); // this is just to aggregate all responses into one object
     });
 };
