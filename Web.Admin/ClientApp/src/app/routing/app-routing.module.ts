@@ -28,6 +28,11 @@ import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
     path: 'home',
     component: HomeComponent,
     canActivate: [DisclaimerRouteGuard]
