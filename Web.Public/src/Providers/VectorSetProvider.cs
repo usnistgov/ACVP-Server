@@ -2,8 +2,10 @@ using System;
 using System.Text;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Serilog;
 using Web.Public.Models;
+using VectorSetStatus = Web.Public.Models.VectorSetStatus;
 
 namespace Web.Public.Providers
 {
@@ -68,7 +70,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public VectorSet GetJson(long vsID, JsonFileType fileType)
+        public VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType)
         {
             var db = new MightyOrm(_connectionString);
 

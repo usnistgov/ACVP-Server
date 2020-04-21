@@ -1,5 +1,7 @@
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.Models;
 using Web.Public.Providers;
+using VectorSetStatus = Web.Public.Models.VectorSetStatus;
 
 namespace Web.Public.Services
 {
@@ -16,12 +18,12 @@ namespace Web.Public.Services
         {
             return _vectorSetProvider.CheckStatus(vsID) switch
             {
-                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
-                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, JsonFileType.Prompt),
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
                 
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
                 
                 _ => null
             };
@@ -33,12 +35,12 @@ namespace Web.Public.Services
             
             return _vectorSetProvider.CheckStatus(vsID) switch
             {
-                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
-                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, JsonFileType.ExpectedResults),
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
                 
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
                 _ => null
             };
         }
@@ -47,9 +49,9 @@ namespace Web.Public.Services
         {
             return _vectorSetProvider.CheckStatus(vsID) switch
             {
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, JsonFileType.Validation),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, JsonFileType.Validation),
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, JsonFileType.Error),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
                 _ => null
             };
         }
