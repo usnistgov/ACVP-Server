@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
 using Web.Public.Providers;
 

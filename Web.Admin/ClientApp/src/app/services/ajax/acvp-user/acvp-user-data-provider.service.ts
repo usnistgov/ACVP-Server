@@ -5,6 +5,8 @@ import { AcvpUserListParameters } from '../../../models/AcvpUser/AcvpUserListPar
 import { AcvpUser } from '../../../models/AcvpUser/AcvpUser';
 import { AcvpUserCreateParameters } from '../../../models/AcvpUser/AcvpUserCreateParameters';
 import { Result } from '../../../models/responses/Result';
+import { AcvpUserSeedUpdateParameters } from '../../../models/AcvpUser/AcvpUserSeedUpdateParameters';
+import { AcvpUserCertificateUpdateParameters } from '../../../models/AcvpUser/AcvpUserCertificateUpdateParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +27,21 @@ export class AcvpUserDataProviderService {
 
   createAcvpUser(params: AcvpUserCreateParameters) {
     return this.http.put<Result>(this.apiRoot + '/Users', params);
+  }
+
+  deleteAcvpUser(id: number) {
+    return this.http.delete<Result>(this.apiRoot + '/Users/' + id);
+  }
+
+  updateSeed(userId: number, param: AcvpUserSeedUpdateParameters) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' +  userId + '/seed', param);
+  }
+
+  refreshSeed(userId: number) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' + userId + '/seed/refresh', {});
+  }
+
+  updateCertificate(userId: number, param: AcvpUserCertificateUpdateParameters) {
+    return this.http.post<Result>(this.apiRoot + '/Users/' + userId + '/certificate', param);
   }
 }

@@ -35,7 +35,15 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
                 else
                 {
-                    PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger(), errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger());
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                 }
             }
             
@@ -64,7 +72,15 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
 
                 foreach (var capability in algSpec.Capabilities)
                 {
-                    PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(capability.Modulo, errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(capability.Modulo);
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                     
                     if (algSpec.RandPQ == PrimeGenModes.RandomProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
                     {

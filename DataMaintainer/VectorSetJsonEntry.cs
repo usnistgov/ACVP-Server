@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json;
-using ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 
 namespace DataMaintainer
 {

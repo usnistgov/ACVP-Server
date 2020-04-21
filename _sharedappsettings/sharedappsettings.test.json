@@ -1,6 +1,6 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Test" 
+  "EnvironmentConfig": {
+    "Name": "Test"
   },
 
   "ConnectionStrings": {
@@ -25,22 +25,30 @@
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "172.18.42.165",
-        "NumberOfCores" : 4
+        "HostName": "172.18.42.165",
+        "NumberOfCores": 4
       },
       {
-        "HostName":  "172.18.42.153",
-        "NumberOfCores" : 4
+        "HostName": "172.18.42.153",
+        "NumberOfCores": 4
       }
     ],
     "OrleansSiloPort": 8000,
     "OrleansGatewayPort": 30000,
-    "ClusterId":  "cryptoDist-test",
+    "ClusterId": "cryptoDist-test",
     "MinimumLogLevel": "Warning",
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 4,
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
-  } 
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
+  }
 }

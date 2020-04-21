@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { WorkflowPersonCreatePayload } from '../../../../models/workflow/person/WorkflowPersonCreatePayload';
-import { Router } from '@angular/router';
 import { Organization } from '../../../../models/organization/Organization';
-import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 
 @Component({
@@ -16,29 +14,7 @@ export class WorkflowPersonCreateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowPersonCreatePayload>;
   organization: Organization;
 
-  constructor(private OrganizationService: OrganizationProviderService, private workflowService: WorkflowProviderService, private router: Router) { }
-
-  approveWorkflow() {
-    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-  rejectWorkflow() {
-    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-
-  refreshPageData() {
-    this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
-      );
-  }
+  constructor(private OrganizationService: OrganizationProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the

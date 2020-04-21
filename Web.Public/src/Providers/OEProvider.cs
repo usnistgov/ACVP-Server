@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using Serilog;

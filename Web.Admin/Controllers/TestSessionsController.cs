@@ -1,14 +1,15 @@
 using System;
-using ACVPCore;
-using ACVPCore.Models;
-using ACVPCore.Models.Parameters;
-using ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Enumerables;
-using NIST.CVP.Results;
-using NIST.CVP.TaskQueue;
-using NIST.CVP.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace Web.Admin.Controllers
 {

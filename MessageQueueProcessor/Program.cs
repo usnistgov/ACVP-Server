@@ -1,13 +1,13 @@
 using System;
-using ACVPCore;
-using ACVPWorkflow;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.MessageQueue;
-using NIST.CVP.TaskQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue;
 using Serilog;
 
 namespace MessageQueueProcessor

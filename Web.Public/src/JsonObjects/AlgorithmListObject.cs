@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NIST.CVP.Algorithms.External;
+using NIST.CVP.Libraries.Shared.Algorithms.External;
 
 namespace Web.Public.JsonObjects
 {

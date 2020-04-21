@@ -38,6 +38,8 @@ namespace NIST.CVP.TaskQueueProcessor
         
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Log.Information("Starting Task Queue Processor");
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 await _semaphore.WaitAsync(stoppingToken);

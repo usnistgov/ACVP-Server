@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Results;
 using Serilog;
 using Web.Public.Models;
 

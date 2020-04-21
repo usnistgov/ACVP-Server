@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
 
 namespace Web.Public.Services

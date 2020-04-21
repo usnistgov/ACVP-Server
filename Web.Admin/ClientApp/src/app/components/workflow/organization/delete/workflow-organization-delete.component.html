@@ -22,19 +22,7 @@
   </div> <!-- Close col-lg-6 -->
 
   <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Available Actions</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
-          </tr>
-          <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Available Actions Card -->
+    <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
   </div> <!-- Close col-lg-6 -->
 </div>
 

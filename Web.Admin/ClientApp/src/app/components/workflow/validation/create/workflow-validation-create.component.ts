@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { WorkflowValidationCreatePayload } from '../../../../models/workflow/validation/WorkflowValidationCreatePayload';
-import { Router } from '@angular/router';
-import { WorkflowProviderService } from '../../../../services/ajax/workflow/workflow-provider.service';
+import { ProductProviderService } from '../../../../services/ajax/product/product-provider.service';
+import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
 
 @Component({
   selector: 'app-workflow-validation-create',
@@ -12,30 +12,8 @@ import { WorkflowProviderService } from '../../../../services/ajax/workflow/work
 export class WorkflowValidationCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowValidationCreatePayload>;
-
-  constructor(private workflowService: WorkflowProviderService, private router: Router) { }
-
-  approveWorkflow() {
-    this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-  rejectWorkflow() {
-    this.workflowService.rejectWorkflow(this.workflowItem.workflowItemID).subscribe(
-      data => { this.refreshPageData(); },
-      err => { },
-      () => { }
-    );
-  }
-
-  refreshPageData() {
-    this.router.navigateByUrl('/', { skipLocationChange: true })
-      .then(() =>
-        this.router.navigate(['workflow/' + this.workflowItem.workflowItemID])
-      );
-  }
+  objectKeys = Object.keys;
+  constructor(private ProductService: ProductProviderService, private OEService: OperatingEnvironmentProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the
@@ -44,6 +22,22 @@ export class WorkflowValidationCreateComponent implements OnInit {
   @Input()
   set wfItem(item: WorkflowItemBase<WorkflowValidationCreatePayload>) {
     this.workflowItem = item;
+
+    let productId: number = parseInt(this.workflowItem.payload.productUrl.split('/')[this.workflowItem.payload.productUrl.split('/').length - 1]);
+    let OEId: number = parseInt(this.workflowItem.payload.oeUrl.split('/')[this.workflowItem.payload.oeUrl.split('/').length - 1]);
+
+    this.ProductService.getProduct(productId).subscribe(
+      data => {
+        this.workflowItem.payload.product = data;
+        console.log(this.workflowItem);
+      }
+    );
+
+    this.OEService.getOE(OEId).subscribe(
+      data => {
+        this.workflowItem.payload.oe = data;
+      }
+    );
   }
 
   ngOnInit() {

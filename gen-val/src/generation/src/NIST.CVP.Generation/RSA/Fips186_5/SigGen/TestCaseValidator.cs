@@ -69,7 +69,15 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
                 errors.Add("N provided was not the correct size");
             }
 
-            PrimeGeneratorGuard.AgainstInvalidPublicExponent(key.PubKey.E, errors);
+            // TODO clean up try-catch
+            try
+            {
+                PrimeGeneratorGuard.AgainstInvalidPublicExponent(key.PubKey.E);
+            }
+            catch (RsaPrimeGenException e)
+            {
+                errors.Add(e.Message);
+            }
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)

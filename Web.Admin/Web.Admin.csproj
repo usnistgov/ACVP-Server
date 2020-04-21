@@ -38,11 +38,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\DisclaimerRouteGuard.module.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
+      <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserSeedUpdateParameters.ts" />
       <None Remove="ClientApp\src\app\models\Address\Address.ts" />
       <None Remove="ClientApp\src\app\models\Address\AddressCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\dependency-list.ts" />
@@ -50,6 +53,7 @@
       <None Remove="ClientApp\src\app\models\dependency.ts" />
       <None Remove="ClientApp\src\app\models\dependency\attribute.ts" />
       <None Remove="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <None Remove="ClientApp\src\app\models\Legacy\legacyResult.ts" />
       <None Remove="ClientApp\src\app\models\MessageQueue\Message.ts" />
       <None Remove="ClientApp\src\app\models\MessageQueue\MessageQueue.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentList.ts" />
@@ -107,14 +111,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
-      <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
       <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
-      <ProjectReference Include="..\Libraries\Internal\LCAVPCore\LCAVPCore.csproj" />
-      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj" />
-      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj" />
-      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
-      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.Email\NIST.CVP.Libraries.Internal.Email.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.LCAVPCore\NIST.CVP.Libraries.Internal.LCAVPCore.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.MessageQueue\NIST.CVP.Libraries.Internal.MessageQueue.csproj" />
+      <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.TaskQueue\NIST.CVP.Libraries.Internal.TaskQueue.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />
+      <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj" />
     </ItemGroup>
 
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->
@@ -140,11 +147,14 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\routing\disclaimer-route-guard.module.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserList.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserListParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserLite.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserSeedUpdateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\Address\AddressCreateParameters.ts">
         <SubType>Code</SubType>
       </TypeScriptCompile>
@@ -154,6 +164,7 @@
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency-lite.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\dependency.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\dependency\DependencyListParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\Legacy\LegacyResult.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\person\PersonCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\TaskQueue\Task.ts">
         <SubType>Code</SubType>

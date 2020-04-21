@@ -36,31 +36,19 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
         public PrimeGeneratorResult GeneratePrimesFips186_2(PrimeGeneratorParameters param)
         {
-            var errors = new List<string>();
-            
-            PrimeGeneratorGuard.AgainstInvalidModulusFips186_2(param.Modulus, errors);
-            PrimeGeneratorGuard.AgainstInvalidPublicExponentFips186_2(param.PublicE, errors);
-            
-            if (errors.Any())
-            {
-                return new PrimeGeneratorResult(string.Join(".", errors));
-            }
-            
+            // Rethrow on exception
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_2(param.Modulus);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponentFips186_2(param.PublicE);
+
             return GeneratePrimes(param);
         }
 
         public PrimeGeneratorResult GeneratePrimesFips186_4(PrimeGeneratorParameters param)
         {
-            var errors = new List<string>();
-            
-            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus, errors);
-            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
-            
-            if (errors.Any())
-            {
-                return new PrimeGeneratorResult(string.Join(".", errors));
-            }
-            
+            // Rethrow on exception
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE);
+
             return GeneratePrimes(param);
         }
 
@@ -71,18 +59,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
 
             _performAShift = param.A != default(int);
             _performBShift = param.B != default(int);
-
-            var errors = new List<string>();
             
-            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus, errors);
-            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
-            PrimeGeneratorGuard.AgainstInvalidAB(param.A, errors);
-            PrimeGeneratorGuard.AgainstInvalidAB(param.B, errors);
-            
-            if (errors.Any())
-            {
-                return new PrimeGeneratorResult(string.Join(".", errors));
-            }
+            // Rethrow on exception
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE);
+            PrimeGeneratorGuard.AgainstInvalidAB(param.A);
+            PrimeGeneratorGuard.AgainstInvalidAB(param.B);
             
             return GeneratePrimes(param);
         }

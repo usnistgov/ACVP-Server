@@ -1,16 +1,16 @@
-using ACVPCore.Models;
-using ACVPCore.Models.Parameters;
-using ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using NIST.CVP.Enumerables;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
 using System;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace Web.Admin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : BaseAuthorizedController
+    public class UsersController : ControllerBase
     {
         private readonly IAcvpUserService _adminUserService;
 
@@ -46,9 +46,27 @@ namespace Web.Admin.Controllers
         }
 
         [HttpPost("{userId}/seed")]
-        public Result SetUserTotpSeed(long userId, [FromBody] string seed)
+        public Result SetUserTotpSeed(long userId, [FromBody] AcvpUserSeedUpdateParameters param)
         {
-            return _adminUserService.SetUserTotpSeed(userId, seed);
+            return _adminUserService.SetUserTotpSeed(userId, param);
+        }
+
+        [HttpPost("{userId}/seed/refresh")]
+        public Result RefreshTotpSeed(long userId)
+        {
+            return _adminUserService.RefreshTotpSeed(userId);
+        }
+
+        [HttpPost("{userId}/certificate")]
+        public Result SetUserCertificate(long userId, [FromBody] AcvpUserCertificateUpdateParameters param)
+        {
+            return _adminUserService.SetUserCertificate(userId, param);
+        }
+
+        [HttpDelete("{userId}")]
+        public Result DeleteUser(long userId)
+        {
+            return _adminUserService.DeleteUser(userId);
         }
     }
 }
