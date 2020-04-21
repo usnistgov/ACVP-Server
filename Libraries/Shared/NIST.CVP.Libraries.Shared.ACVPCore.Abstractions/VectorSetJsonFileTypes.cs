@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace NIST.CVP.Libraries.Internal.ACVPCore
+namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions
 {
     public enum VectorSetJsonFileTypes
     {

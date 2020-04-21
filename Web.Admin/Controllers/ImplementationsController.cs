@@ -1,8 +1,9 @@
 ﻿using NIST.CVP.Libraries.Internal.ACVPCore;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
 

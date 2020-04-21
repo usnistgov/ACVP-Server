@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {

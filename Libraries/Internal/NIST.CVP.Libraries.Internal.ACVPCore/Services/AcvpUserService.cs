@@ -2,9 +2,9 @@ using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
 using System;
 using System.Security.Cryptography;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 {

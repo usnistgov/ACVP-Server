@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.Libraries.Shared.Enumerables;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
-using NIST.CVP.Libraries.Internal.ACVPCore.Results;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services

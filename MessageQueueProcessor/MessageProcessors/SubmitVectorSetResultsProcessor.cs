@@ -6,6 +6,7 @@ using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
 using NIST.CVP.Libraries.Shared.Results;
 using NIST.CVP.Libraries.Internal.TaskQueue;
 using NIST.CVP.Libraries.Internal.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 
 namespace MessageQueueProcessor.MessageProcessors
 {

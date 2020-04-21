@@ -7,6 +7,7 @@ using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Internal.LCAVPCore.Registration;
 using NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 
 namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 {

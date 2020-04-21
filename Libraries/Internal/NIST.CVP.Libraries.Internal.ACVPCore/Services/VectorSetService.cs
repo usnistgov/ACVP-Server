@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 
 

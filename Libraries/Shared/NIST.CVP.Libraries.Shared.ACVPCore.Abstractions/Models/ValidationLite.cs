@@ -1,6 +1,6 @@
 using System;
 
-namespace NIST.CVP.Libraries.Internal.ACVPCore.Models
+namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
 {
     public class ValidationLite
     {

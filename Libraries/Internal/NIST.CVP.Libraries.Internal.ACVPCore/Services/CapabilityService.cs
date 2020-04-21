@@ -5,8 +5,8 @@ using System.Reflection;
 using System.Text.Json;
 using NIST.CVP.Libraries.Shared.Algorithms.DataTypes;
 using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services

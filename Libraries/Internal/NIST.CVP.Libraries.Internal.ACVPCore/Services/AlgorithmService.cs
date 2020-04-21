@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 {

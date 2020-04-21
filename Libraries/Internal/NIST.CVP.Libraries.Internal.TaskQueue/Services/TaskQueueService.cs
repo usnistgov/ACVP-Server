@@ -2,6 +2,7 @@
 using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.TaskQueue.Providers;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.TaskQueue.Services

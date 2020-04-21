@@ -2,9 +2,9 @@
 using NIST.CVP.Libraries.Shared.Results;
 
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
-using NIST.CVP.Libraries.Internal.ACVPCore.Results;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 {

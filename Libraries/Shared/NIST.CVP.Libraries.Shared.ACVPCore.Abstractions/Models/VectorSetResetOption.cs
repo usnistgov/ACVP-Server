@@ -1,4 +1,4 @@
-namespace NIST.CVP.Libraries.Internal.ACVPCore.Models
+namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
 {
 	/// <summary>
 	/// Enum used to provide options to reset a vector sets status so it can be resubmitted to the task queue.

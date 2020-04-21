@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters
+﻿namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters
 {
     /// <summary>
     /// Provides searching and paging capabilities when pulling a organization list.

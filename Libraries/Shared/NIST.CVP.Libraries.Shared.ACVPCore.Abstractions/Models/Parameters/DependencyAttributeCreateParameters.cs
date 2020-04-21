@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters
+﻿namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters
 {
 	public class DependencyAttributeCreateParameters
 	{

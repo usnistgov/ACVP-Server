@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Libraries.Shared.Results;
 
-namespace NIST.CVP.Libraries.Internal.ACVPCore.Results
+namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results
 {
 	public class OrganizationResult : InsertResult
 	{

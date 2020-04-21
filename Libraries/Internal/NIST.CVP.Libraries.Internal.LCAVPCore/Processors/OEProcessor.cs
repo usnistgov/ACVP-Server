@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Results;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.LCAVPCore.Registration;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 {

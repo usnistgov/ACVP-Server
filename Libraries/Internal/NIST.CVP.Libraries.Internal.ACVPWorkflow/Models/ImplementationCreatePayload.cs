@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using NIST.CVP.Libraries.Internal.ACVPCore;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Models
 {

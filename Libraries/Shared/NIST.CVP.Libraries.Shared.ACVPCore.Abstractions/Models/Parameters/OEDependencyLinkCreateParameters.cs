@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters
+﻿namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters
 {
     public class OEDependencyLinkCreateParameters
     {

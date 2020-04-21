@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Exceptions;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 {

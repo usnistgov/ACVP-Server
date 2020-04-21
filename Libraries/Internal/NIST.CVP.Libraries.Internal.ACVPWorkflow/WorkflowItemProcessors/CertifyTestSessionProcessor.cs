@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Libraries.Internal.ACVPCore;
-using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
-using NIST.CVP.Libraries.Internal.ACVPCore.Results;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Algorithms.External;
 using NIST.CVP.Libraries.Shared.Results;
 
