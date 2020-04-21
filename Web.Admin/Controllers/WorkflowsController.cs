@@ -1,10 +1,10 @@
-using ACVPWorkflow.Models;
-using ACVPWorkflow.Models.Parameters;
-using ACVPWorkflow.Services;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models.Parameters;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Enumerables;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace Web.Admin.Controllers
 {

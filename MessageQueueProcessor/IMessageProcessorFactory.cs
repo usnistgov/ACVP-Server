@@ -1,4 +1,4 @@
-﻿using ACVPWorkflow;
+﻿using NIST.CVP.Libraries.Internal.ACVPWorkflow;
 using MessageQueueProcessor.MessageProcessors;
 
 namespace MessageQueueProcessor

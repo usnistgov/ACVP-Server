@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
-using ACVPCore.Services;
-using LCAVPCore;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.LCAVPCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using NIST.CVP.Email;
+using NIST.CVP.Libraries.Internal.Email;
 
 namespace Web.Admin.Controllers
 {

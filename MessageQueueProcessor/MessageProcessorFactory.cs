@@ -1,9 +1,9 @@
-﻿using ACVPCore.Services;
-using ACVPWorkflow;
-using ACVPWorkflow.Services;
+﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using MessageQueueProcessor.MessageProcessors;
 using Microsoft.Extensions.Options;
-using NIST.CVP.TaskQueue.Services;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 
 namespace MessageQueueProcessor
 {

@@ -1,5 +1,5 @@
-﻿using NIST.CVP.MessageQueue;
-using NIST.CVP.Results;
+﻿using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {

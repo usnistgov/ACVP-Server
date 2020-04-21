@@ -1,6 +1,6 @@
 ﻿using System;
-using ACVPCore;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

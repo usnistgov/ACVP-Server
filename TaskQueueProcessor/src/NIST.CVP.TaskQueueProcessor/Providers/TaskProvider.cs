@@ -1,5 +1,5 @@
 using System;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;

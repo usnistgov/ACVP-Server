@@ -1,7 +1,7 @@
-﻿using ACVPCore.Models;
-using ACVPCore.Models.Parameters;
-using NIST.CVP.Results;
-using ACVPCore.Services;
+﻿using NIST.CVP.Libraries.Internal.ACVPCore.Models;
+using NIST.CVP.Libraries.Internal.ACVPCore.Models.Parameters;
+using NIST.CVP.Libraries.Shared.Results;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Admin.Controllers
