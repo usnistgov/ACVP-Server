@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
