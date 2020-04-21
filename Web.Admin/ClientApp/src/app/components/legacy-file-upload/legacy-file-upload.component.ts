@@ -29,10 +29,32 @@ export class LegacyFileUploadComponent implements OnInit {
 
     if (files.length === 0) {
       this.message = "No file selected";
+      this.uploadEnabled = true;
+      return;
+    }
+
+    if (files.length > 1) {
+      this.message = "Only a single file may be uploaded";
+      this.uploadEnabled = true;
+      return;
     }
 
     let fileToUpload = <File>files[0];
     this.fileName = fileToUpload.name;
+
+    if (!this.fileName.endsWith(".zip")) {
+      this.message = "File must be a zip file";
+      this.uploadEnabled = true;
+      return;
+    }
+
+    if (fileToUpload.size > 536870912) {
+      this.message = "Files larger than 500MB cannot be uploaded";
+      this.uploadEnabled = true;
+      return;
+    }
+
+
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
 
