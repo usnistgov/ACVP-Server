@@ -1,5 +1,6 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPWorkflow.Exceptions;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
+﻿using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Exceptions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 {

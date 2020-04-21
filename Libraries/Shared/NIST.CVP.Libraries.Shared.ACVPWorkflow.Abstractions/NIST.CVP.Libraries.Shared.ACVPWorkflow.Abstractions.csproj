@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="System.Text.Json" Version="$(NuGetVersionSystemTextJson)" />
+    </ItemGroup>
+    
+    <ItemGroup>
         <ProjectReference Include="..\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
     </ItemGroup>
 

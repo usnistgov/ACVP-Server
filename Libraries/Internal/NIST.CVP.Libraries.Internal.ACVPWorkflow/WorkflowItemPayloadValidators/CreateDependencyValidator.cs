@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
+﻿using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 {

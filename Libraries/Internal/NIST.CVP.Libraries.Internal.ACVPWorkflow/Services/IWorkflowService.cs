@@ -1,7 +1,8 @@
-﻿using NIST.CVP.Libraries.Shared.Enumerables;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models.Parameters;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Results;
+﻿using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Services

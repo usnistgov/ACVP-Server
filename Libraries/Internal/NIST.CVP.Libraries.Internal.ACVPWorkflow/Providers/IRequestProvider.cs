@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPWorkflow.Results;
+﻿using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 {

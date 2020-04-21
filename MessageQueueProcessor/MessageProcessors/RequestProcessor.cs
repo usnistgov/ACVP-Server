@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Models;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
 using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
