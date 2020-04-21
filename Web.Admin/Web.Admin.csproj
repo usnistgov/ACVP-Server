@@ -38,6 +38,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\DisclaimerRouteGuard.module.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />
@@ -144,6 +145,7 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\routing\disclaimer-route-guard.module.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCreateParameters.ts" />

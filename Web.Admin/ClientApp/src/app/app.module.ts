@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { ClickableClickModule } from 'angular-clickable-click';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { CurrentUserComponent } from './components/currentUser/currentUser.component';
+import { CookieService } from 'ngx-cookie-service';
 
 // These two additional ones are for the ngx-file-upload library used for LCAVP uploads.  However, the HTTP
 // one may be necessary once implementing AJAX shortly
@@ -51,6 +52,8 @@ import { AcvpUsersNewUserComponent } from './components/acvp-users/acvp-users-ne
 import { AcvpUserTotpSeedComponent } from './components/acvp-user/acvp-user-totp-seed/acvp-user-totp-seed.component';
 import { AcvpUserCertificateComponent } from './components/acvp-user/acvp-user-certificate/acvp-user-certificate.component';
 import { WorkflowActionsComponent } from './components/workflow/workflow/workflow-actions/workflow-actions.component';
+import { DisclaimerComponent } from './disclaimer/disclaimer.component';
+import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,8 @@ import { WorkflowActionsComponent } from './components/workflow/workflow/workflo
     AcvpUsersNewUserComponent,
     AcvpUserTotpSeedComponent,
     AcvpUserCertificateComponent,
-    WorkflowActionsComponent
+    WorkflowActionsComponent,
+    DisclaimerComponent
 
   ],
   imports: [
@@ -106,9 +110,10 @@ import { WorkflowActionsComponent } from './components/workflow/workflow/workflo
     BrowserAnimationsModule,
     ClickableClickModule,
     // For NgxFileUpload
-    HttpClientModule
+    HttpClientModule,
+    DisclaimerRouteGuard
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
