@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
     <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj" />
     <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
     <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />

@@ -12,6 +12,7 @@
 	<ItemGroup>
     <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
     <ProjectReference Include="..\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -29,6 +29,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />

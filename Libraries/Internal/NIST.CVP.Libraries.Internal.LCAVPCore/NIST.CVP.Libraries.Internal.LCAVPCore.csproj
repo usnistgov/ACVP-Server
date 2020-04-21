@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
     <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj" />
     <ProjectReference Include="..\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
   </ItemGroup>

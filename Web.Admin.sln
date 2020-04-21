@@ -35,7 +35,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Results", "Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj", "{3A624193-21E8-4A5D-BA06-0F6F1C93930E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.Email", "Libraries\Internal\NIST.CVP.Libraries.Internal.Email\NIST.CVP.Libraries.Internal.Email.csproj", "{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{97CC2B82-20E6-4298-BED4-A5D041F55AD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj", "{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,10 +107,14 @@ Global
 		{3A624193-21E8-4A5D-BA06-0F6F1C93930E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A624193-21E8-4A5D-BA06-0F6F1C93930E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A624193-21E8-4A5D-BA06-0F6F1C93930E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97CC2B82-20E6-4298-BED4-A5D041F55AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97CC2B82-20E6-4298-BED4-A5D041F55AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97CC2B82-20E6-4298-BED4-A5D041F55AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97CC2B82-20E6-4298-BED4-A5D041F55AD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +135,8 @@ Global
 		{DBE31D34-B567-4225-B037-311B7A68F020} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 		{6F68C878-D54D-49F0-B921-9F85DE52F695} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 		{3A624193-21E8-4A5D-BA06-0F6F1C93930E} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
-		{F69EEA3C-CCE6-42E9-8683-2F81C9BDD750} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
+		{97CC2B82-20E6-4298-BED4-A5D041F55AD8} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
+		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62FAAA27-3B74-423C-8F94-862D2C191282}
