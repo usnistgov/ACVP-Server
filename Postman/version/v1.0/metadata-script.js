@@ -10,4 +10,4 @@ var collection_path = process.argv[2],
     environment = process.argv[5];
 
 var newmanRun = require('./newmanRun-metadata');
-newmanRun.runNewmanTest(collection_path, crt_path, key_path, environment, ['teamcity', 'json']);
+newmanRun.runNewmanTest(collection_path, crt_path, key_path, environment, ['teamcity', 'json', 'html']);
