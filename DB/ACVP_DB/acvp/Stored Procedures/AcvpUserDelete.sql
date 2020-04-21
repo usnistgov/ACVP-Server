@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [acvp].[AcvpUserDelete]
+
+	@AcvpUserId BIGINT = NULL
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM ACVP_USER
+	WHERE ACVP_USER.id = @AcvpUserId
+
+END

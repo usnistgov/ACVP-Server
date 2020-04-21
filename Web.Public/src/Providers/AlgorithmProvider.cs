@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Algorithms.External;
-using NIST.CVP.ExtensionMethods;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Algorithms.External;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Options;
 using Mighty;
 using Serilog;

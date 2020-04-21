@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Capabilities\**" />
+    <EmbeddedResource Remove="Models\Capabilities\**" />
+    <None Remove="Models\Capabilities\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(NuGetVersionMicrosoftExtensionsLoggingAbstractions)" />
+    <PackageReference Include="Mighty" Version="$(NuGetVersionMighty)" />
+    <PackageReference Include="Otp.NET" Version="1.2.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
+    <PackageReference Include="System.Text.Json" Version="$(NuGetVersionSystemTextJson)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj" />
+    <ProjectReference Include="..\..\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj" />
+    <ProjectReference Include="..\NIST.CVP.Libraries.Internal.Algorithms.Persisted\NIST.CVP.Libraries.Internal.Algorithms.Persisted.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+<div class="card">
+  <h5 class="card-header">Available Actions</h5>
+  <div class="card-body">
+    <table class="table" *ngIf="workflowItem?.status === 'Pending'">
+      <tr>
+        <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+      </tr>
+      <tr>
+        <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+      </tr>
+    </table>
+    <div style="text-align:center;" *ngIf="workflowItem?.status !== 'Pending'">
+      No available actions
+    </div>
+  </div>
+</div> <!-- Close Dependency Info Card -->
+
+<div id="WFApprovalErrorMOdal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><span style="color:red;">Approval Error!</span></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <label class="bold-heading">Error:</label><br />
+          {{errorMessage}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

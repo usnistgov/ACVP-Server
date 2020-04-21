@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
 import { AcvpUserCreateParameters } from '../../models/AcvpUser/AcvpUserCreateParameters';
 import { PersonCreateParameters } from '../../models/person/PersonCreateParameters';
+import { Result } from '../../models/responses/Result';
+import { AcvpUser } from '../../models/AcvpUser/AcvpUser';
 
 @Component({
   selector: 'app-acvp-users',
@@ -18,10 +20,17 @@ export class AcvpUsersComponent implements OnInit {
   listData: AcvpUserListParameters;
   newUserParams: AcvpUserCreateParameters;
 
+  selectedDeleteUser: AcvpUser;
+
   constructor(private AcvpUserDataService: AcvpUserDataProviderService, private router: Router, private ModalSvc: ModalService) { }
 
   showNewUserDialog() {
     this.ModalSvc.showModal('AddUserModal');
+  }
+
+  showDeleteConfirmation(selectedDeleteUser: AcvpUser) {
+    this.selectedDeleteUser = selectedDeleteUser;
+    this.ModalSvc.showModal('DeleteConfirmationModal');
   }
 
   getPage(whichPage: string) {
@@ -62,23 +71,41 @@ export class AcvpUsersComponent implements OnInit {
         this.ModalSvc.hideModal('NewUserModalOne');
 
         // Refresh the listing page
-        this.ngOnInit();
+        this.loadData();
       },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
   }
 
-  onNewUserAdded(message: Event) {
+  // This function is used as the handler for when the AddNewUser child component
+  // emits the event to let this parent component know it's done
+  onNewUserAdded(result: Result) {
 
     this.ModalSvc.hideModal('AddUserModal');
-    console.log("Here we are");
     // Refresh the page
-    this.ngOnInit();
+    //this.ngOnInit();
+
+    // Navigate to the new user's page
+    this.router.navigate(['/acvpUsers/' + result.id]);
   }
 
-  deleteUser(userId: number) {
-    // Stub for now
+  deleteUser(id: number) {
+    this.AcvpUserDataService.deleteAcvpUser(id).subscribe(
+      data => {
+        this.AcvpUserDataService.getAcvpUsers(this.listData).subscribe(
+          data => {
+            this.loadData();
+            this.ModalSvc.hideModal('DeleteConfirmationModal');
+          });
+      });
+  }
+
+  loadData() {
+    this.AcvpUserDataService.getAcvpUsers(this.listData).subscribe(
+      data => {
+        this.users = data;
+      });
   }
 
   ngOnInit() {
@@ -90,10 +117,7 @@ export class AcvpUsersComponent implements OnInit {
     this.newUserParams = new AcvpUserCreateParameters();
     this.newUserParams.person = new PersonCreateParameters();
 
-    this.AcvpUserDataService.getAcvpUsers(this.listData).subscribe(
-      data => {
-        this.users = data;
-      });
+    this.loadData();
   };
 
 }

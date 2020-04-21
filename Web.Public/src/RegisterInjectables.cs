@@ -1,4 +1,4 @@
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Generation;
 using NIST.CVP.Generation.Core;

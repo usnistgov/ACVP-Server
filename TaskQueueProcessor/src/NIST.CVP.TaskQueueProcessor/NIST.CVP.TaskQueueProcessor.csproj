@@ -29,8 +29,9 @@
       <ProjectReference Include="..\..\..\gen-val\src\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
       <ProjectReference Include="..\..\..\gen-val\src\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
       <ProjectReference Include="..\..\..\gen-val\src\orleans\src\NIST.CVP.Orleans.Grains\NIST.CVP.Orleans.Grains.csproj" />
-      <ProjectReference Include="..\..\..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
-      <ProjectReference Include="..\..\..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+      <ProjectReference Include="..\..\..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
+      <ProjectReference Include="..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+      <ProjectReference Include="..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
     </ItemGroup>
 
     <!-- vvv App settings linking, directory changes depending on build environment vvv -->

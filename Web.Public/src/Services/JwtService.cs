@@ -4,12 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NIST.CVP.ExtensionMethods;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Configs;
 using Web.Public.Results;
 

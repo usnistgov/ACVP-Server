@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [acvp].[AcvpUserInsert]
 
 	 @PersonId int
-	,@CommonName varchar
+	,@CommonName varchar(max)
 	,@Certificate varbinary(max)
 	,@Seed nvarchar(64)
 

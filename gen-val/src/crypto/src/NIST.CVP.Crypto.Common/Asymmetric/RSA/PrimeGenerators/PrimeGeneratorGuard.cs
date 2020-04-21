@@ -15,7 +15,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
         public static BigInteger MaxValidE = NumberTheory.Pow2(256);
         public static int[] ValidAB = {1, 3, 5, 7};
         
-        public static void AgainstInvalidAB(int ab, List<string> errors)
+        public static void AgainstInvalidAB(int ab)
         {
             if (!ValidAB.Contains(ab) && ab != default(int))
             {
@@ -23,22 +23,22 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             }
         }
         
-        public static void AgainstInvalidModulusFips186_2(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_2(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_2, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_2, modulus);
         }
         
-        public static void AgainstInvalidModulusFips186_4(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_4(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_4, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_4, modulus);
         }
 
-        public static void AgainstInvalidModulusFips186_5(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_5(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_5, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_5, modulus);
         }
 
-        private static void AgainstInvalidModulus(IEnumerable<int> validModulus, int modulus, ICollection<string> errors)
+        private static void AgainstInvalidModulus(IEnumerable<int> validModulus, int modulus)
         {
             if (!validModulus.Contains(modulus))
             {
@@ -46,7 +46,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             }
         }
 
-        public static void AgainstInvalidPublicExponent(BigInteger e, List<string> errors)
+        public static void AgainstInvalidPublicExponent(BigInteger e)
         {
             if (e <=  MinValidE || e >= MaxValidE || e.IsEven)
             {
@@ -54,7 +54,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             }
         }
         
-        public static void AgainstInvalidPublicExponentFips186_2(BigInteger e, List<string> errors)
+        public static void AgainstInvalidPublicExponentFips186_2(BigInteger e)
         {
             // TODO check these requirements for e
             if (e != 3 && e != 17 && e != 65537)
@@ -63,7 +63,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             }
         }
 
-        public static void AgainstInvalidSeed(int modulus, BitString seed, List<string> errors)
+        public static void AgainstInvalidSeed(int modulus, BitString seed)
         {
             // If not a valid modulus, don't look up the security strength
             if (!(ValidModulusFips186_2.Contains(modulus) || ValidModulusFips186_4.Contains(modulus) ||
@@ -78,7 +78,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             }
         }
 
-        public static void AgainstInvalidBitlens(int modulus, int[] bitlens, List<string> errors)
+        public static void AgainstInvalidBitlens(int modulus, int[] bitlens)
         {
             if (bitlens == null)
             {

@@ -1,6 +1,6 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Local" 
+  "EnvironmentConfig": {
+    "Name": "Local"
   },
 
   "ConnectionStrings": {
@@ -23,8 +23,8 @@
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "localhost",
-        "NumberOfCores" : 4
+        "HostName": "localhost",
+        "NumberOfCores": 4
       }
     ],
     "OrleansSiloPort": 8000,
@@ -36,5 +36,13 @@
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
-  } 
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
+  }
 }

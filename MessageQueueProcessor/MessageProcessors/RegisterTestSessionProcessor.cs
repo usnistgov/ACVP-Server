@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
-using ACVPCore.Services;
-using NIST.CVP.MessageQueue;
-using NIST.CVP.MessageQueue.MessagePayloads;
-using NIST.CVP.Results;
-using NIST.CVP.TaskQueue;
-using NIST.CVP.TaskQueue.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
+using NIST.CVP.Libraries.Shared.Results;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 
 namespace MessageQueueProcessor.MessageProcessors
 {

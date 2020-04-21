@@ -19,12 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\Internal\ACVPCore\ACVPCore.csproj" />
-    <ProjectReference Include="..\Libraries\Internal\ACVPWorkflow\ACVPWorkflow.csproj" />
-    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.MessageQueue\NIST.CVP.MessageQueue.csproj" />
-    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.TaskQueue\NIST.CVP.TaskQueue.csproj" />
-    <ProjectReference Include="..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.MessageQueue\NIST.CVP.Libraries.Internal.MessageQueue.csproj" />
     <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.TaskQueue\NIST.CVP.Libraries.Internal.TaskQueue.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
   </ItemGroup>
 
   <!-- vvv App settings linking, directory changes depending on build environment vvv -->

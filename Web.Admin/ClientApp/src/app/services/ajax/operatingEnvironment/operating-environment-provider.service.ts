@@ -68,7 +68,7 @@ export class OperatingEnvironmentProviderService {
   }
 
   createDependency(dependency: Dependency) {
-    return this.http.post<Result>(this.apiRoot + '/Dependencies', dependency);
+    return this.http.post<Result>(this.apiRoot + '/Dependencies/create', dependency);
   }
   // END Operating Environment (OE) -related calls
 }

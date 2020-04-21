@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="$(NuGetVersionMicrosoftExtensionsLoggingAbstractions)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NuGetVersionMicrosoftExtensionsDependencyInjections)" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="$(NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions)" />
+  </ItemGroup>
+
+</Project>

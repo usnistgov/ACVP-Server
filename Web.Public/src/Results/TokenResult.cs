@@ -1,5 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace Web.Public.Results
 {

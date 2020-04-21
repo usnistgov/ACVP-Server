@@ -36,5 +36,13 @@
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
   }
 }

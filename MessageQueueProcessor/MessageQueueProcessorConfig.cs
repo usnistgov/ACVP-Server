@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using ACVPWorkflow;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 
 namespace MessageQueueProcessor
 {
