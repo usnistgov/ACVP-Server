@@ -5,6 +5,7 @@ namespace ACVPWorkflow.Models
 	public class WorkflowItem
 	{
 		public long WorkflowItemID { get; set; }
+		public long RequestId { get; set; }
 		public APIAction APIAction { get; set; }
 
 		[JsonConverter(typeof(WorkflowItemPayloadConverter))]

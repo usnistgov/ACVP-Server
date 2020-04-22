@@ -7,11 +7,13 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-    SELECT	 id AS Id
-			,APIActionID AS APIActionId
+    SELECT	 w.id AS Id
+			,w.w.APIActionID AS APIActionId
 			,json_blob AS JsonBlob
-			,[status] AS [Status]
-	FROM	val.WORKFLOW
-	WHERE	id = @WorkflowItemId
+			,w.[status] AS [Status]
+			,r.id as RequestId
+	FROM	val.WORKFLOW w
+	INNER	JOIN acvp.REQUEST r on w.id = r.workflow_id
+	WHERE	w.id = @WorkflowItemId
 
 END

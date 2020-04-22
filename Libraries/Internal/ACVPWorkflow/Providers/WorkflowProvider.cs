@@ -150,6 +150,7 @@ namespace ACVPWorkflow.Providers
 				
 				return new WorkflowItem()
 				{
+					RequestId = data.RequestId,
 					APIAction = (APIAction)data.APIActionId,
 					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
 					WorkflowItemID = workflowItemId,

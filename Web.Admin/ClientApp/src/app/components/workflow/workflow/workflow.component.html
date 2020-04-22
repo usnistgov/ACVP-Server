@@ -4,7 +4,7 @@
       <tr>
         <td width="80%">
           <h2>
-            Workflow {{ workflowItem?.workflowItemID}} -
+            Workflow {{ workflowItem?.requestId}} -
             <span *ngIf="workflowItem?.status == 'Pending'" style="color:#dba100;">{{ workflowItem?.status }}</span>
             <span *ngIf="workflowItem?.status == 'Incomplete'" style="color:#dba100;">{{ workflowItem?.status }}</span>
             <span *ngIf="workflowItem?.status == 'Approved'" style="color:#028a00;">{{ workflowItem?.status }}</span>
