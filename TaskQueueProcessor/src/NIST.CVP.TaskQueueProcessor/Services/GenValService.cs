@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using ACVPCore.Services;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -29,11 +29,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Libraries\Shared\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
-      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Algorithms.External\NIST.CVP.Algorithms.External.csproj" />
-      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Enumerables\NIST.CVP.Enumerables.csproj" />
-      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.ExtensionMethods\NIST.CVP.ExtensionMethods.csproj" />
-      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Results\NIST.CVP.Results.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj" />
     </ItemGroup>
     
 </Project>

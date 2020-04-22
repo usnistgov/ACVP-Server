@@ -1,13 +1,13 @@
-using ACVPCore;
-using ACVPWorkflow;
-using CVP.DatabaseInterface;
-using LCAVPCore;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.LCAVPCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NIST.CVP.Email;
-using NIST.CVP.MessageQueue;
-using NIST.CVP.TaskQueue;
+using NIST.CVP.Libraries.Internal.Email;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue;
 using Web.Admin.Auth.Models;
 
 namespace Web.Admin

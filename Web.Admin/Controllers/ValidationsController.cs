@@ -1,8 +1,8 @@
-using ACVPCore.Models;
-using ACVPCore.Models.Parameters;
-using ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
-using NIST.CVP.Enumerables;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.Enumerables;
 
 namespace Web.Admin.Controllers
 {
