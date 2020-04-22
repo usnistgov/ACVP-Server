@@ -176,6 +176,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				{
 					Created = data.created,
 					ProductName = data.productName,
+					ImplementationID = data.productId,
 					ValidationId = data.validationId,
 					ValidationLabel = data.validationLabel,
 					Updated = data.updated,

@@ -38,6 +38,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Remove="ClientApp\src\app\models\Organization\Class.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
       <None Remove="ClientApp\src\app\DisclaimerRouteGuard.module.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
       <None Remove="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />
@@ -60,6 +64,7 @@
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentListParameters.ts" />
       <None Remove="ClientApp\src\app\models\OperatingEnvironment\OperatingEnvironmentLite.ts" />
       <None Remove="ClientApp\src\app\models\Organization\Organization.ts" />
+      <None Remove="ClientApp\src\app\models\organization\OrganizationCreateParameters.ts" />
       <None Remove="ClientApp\src\app\models\Organization\OrganizationList.ts" />
       <None Remove="ClientApp\src\app\models\Organization\OrganizationListParameters.ts" />
       <None Remove="ClientApp\src\app\models\Organization\OrganizationLite.ts" />
@@ -147,6 +152,7 @@
 
 
     <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\models\organization\OrganizationCreateParameters.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\routing\disclaimer-route-guard.module.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />

@@ -1695,6 +1695,76 @@ describe('v2.0.0 to v1.0.0', function () {
         });
     });
 
+    describe('URL', function () {
+        it('should handle query params in string URL properly', function () {
+            transformer.convertSingle({
+                _postman_id: '9d123ce5-314a-40cd-9852-6a8569513f4e',
+                request: {
+                    url: 'http://postman-echo.com/path?foo=bar&baz&alpha=&=&&beta'
+                },
+                response: []
+            }, options, function (err, result) {
+                expect(err).not.to.be.ok;
+                expect(JSON.parse(JSON.stringify(result))).to.eql({
+                    id: '9d123ce5-314a-40cd-9852-6a8569513f4e',
+                    pathVariableData: [],
+                    responses: [],
+                    headerData: [],
+                    headers: '',
+                    url: 'http://postman-echo.com/path?foo=bar&baz&alpha=&=&&beta',
+                    queryParams: [
+                        { key: 'foo', value: 'bar' },
+                        { key: 'baz', value: null },
+                        { key: 'alpha', value: '' },
+                        { key: '', value: '' },
+                        { key: null, value: null },
+                        { key: 'beta', value: null }
+                    ]
+                });
+            });
+        });
+
+        it('should handle query params in URL object properly', function () {
+            transformer.convertSingle({
+                _postman_id: '9d123ce5-314a-40cd-9852-6a8569513f4e',
+                request: {
+                    url: {
+                        protocol: 'http',
+                        host: ['postman-echo', 'com'],
+                        path: ['path'],
+                        query: [
+                            { key: 'foo', value: 'bar' },
+                            { key: 'baz', value: null },
+                            { key: 'alpha', value: '' },
+                            { key: '', value: '' },
+                            { key: null, value: null },
+                            { key: 'beta', value: null }
+                        ]
+                    }
+                },
+                response: []
+            }, options, function (err, result) {
+                expect(err).not.to.be.ok;
+                expect(JSON.parse(JSON.stringify(result))).to.eql({
+                    id: '9d123ce5-314a-40cd-9852-6a8569513f4e',
+                    pathVariableData: [],
+                    responses: [],
+                    headerData: [],
+                    headers: '',
+                    url: 'http://postman-echo.com/path?foo=bar&baz&alpha=&=&&beta',
+                    queryParams: [
+                        { key: 'foo', value: 'bar' },
+                        { key: 'baz', value: null },
+                        { key: 'alpha', value: '' },
+                        { key: '', value: '' },
+                        { key: null, value: null },
+                        { key: 'beta', value: null }
+                    ]
+                });
+            });
+        });
+    });
+
     describe('nested entities', function () {
         it('should be handled correctly in v2 -> v1 conversions', function (done) {
             var fixture = require('../fixtures/nested-entities');

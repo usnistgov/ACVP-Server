@@ -3097,7 +3097,7 @@ describe('v1.0.0 to v2.0.0', function () {
             transformer.convertSingle({
                 id: '0628a95f-c283-94e2-fa9f-53477775692f',
                 name: 'A world of foo!',
-                url: 'https://postman-echo.com/get?alpha&beta&gamma&delta=&epsilon=&gamma=',
+                url: 'https://postman-echo.com/get?alpha&beta&gamma&delta=&epsilon=&gamma=&=&&=&',
                 collectionId: '03cf74df-32de-af8b-7db8-855b51b05e50',
                 queryParams: [
                     { key: 'alpha', value: null, equals: false },
@@ -3105,7 +3105,11 @@ describe('v1.0.0 to v2.0.0', function () {
                     { key: 'gamma', value: null },
                     { key: 'delta', value: '', equals: false },
                     { key: 'epsilon', value: '', equals: true },
-                    { key: 'gamma', value: '' }
+                    { key: 'gamma', value: '' },
+                    { key: '', value: '', equals: true },
+                    { key: '', value: '', equals: false },
+                    { key: null, value: null, equals: true },
+                    { key: null, value: null, equals: false }
                 ]
             }, options, function (err, result) {
                 expect(err).to.not.be.ok;
@@ -3115,7 +3119,7 @@ describe('v1.0.0 to v2.0.0', function () {
                     request: {
                         header: [],
                         url: {
-                            raw: 'https://postman-echo.com/get?alpha&beta=&gamma&delta&epsilon=&gamma=',
+                            raw: 'https://postman-echo.com/get?alpha&beta=&gamma&delta&epsilon=&gamma=&=&&=&',
                             protocol: 'https',
                             host: ['postman-echo', 'com'],
                             path: ['get'],
@@ -3125,7 +3129,11 @@ describe('v1.0.0 to v2.0.0', function () {
                                 { key: 'gamma', value: null },
                                 { key: 'delta', value: null },
                                 { key: 'epsilon', value: '' },
-                                { key: 'gamma', value: '' }
+                                { key: 'gamma', value: '' },
+                                { key: '', value: '' },
+                                { key: '', value: null },
+                                { key: null, value: '' },
+                                { key: null, value: null }
                             ]
                         }
                     },
@@ -3144,14 +3152,18 @@ describe('v1.0.0 to v2.0.0', function () {
                         id: 'ef90671a-ab14-16f5-0a57-41b32fc2a36f',
                         name: 'GET request',
                         method: 'GET',
-                        url: 'https://postman-echo.com/get?alpha&beta&gamma&delta=&epsilon=&gamma=',
+                        url: 'https://postman-echo.com/get?alpha&beta&gamma&delta&epsilon=&gamma=&=&&=&',
                         queryParams: [
                             { key: 'alpha', value: null, equals: false },
                             { key: 'beta', value: null, equals: true },
                             { key: 'gamma', value: null },
                             { key: 'delta', value: '', equals: false },
                             { key: 'epsilon', value: '', equals: true },
-                            { key: 'gamma', value: '' }
+                            { key: 'gamma', value: '' },
+                            { key: '', value: '', equals: true },
+                            { key: '', value: '', equals: false },
+                            { key: null, value: null, equals: true },
+                            { key: null, value: null, equals: false }
                         ],
                         collectionId: '03cf74df-32de-af8b-7db8-855b51b05e50'
                     }
@@ -3181,9 +3193,13 @@ describe('v1.0.0 to v2.0.0', function () {
                                         { key: 'gamma', value: null },
                                         { key: 'delta', value: null },
                                         { key: 'epsilon', value: '' },
-                                        { key: 'gamma', value: '' }
+                                        { key: 'gamma', value: '' },
+                                        { key: '', value: '' },
+                                        { key: '', value: null },
+                                        { key: null, value: '' },
+                                        { key: null, value: null }
                                     ],
-                                    raw: 'https://postman-echo.com/get?alpha&beta=&gamma&delta&epsilon=&gamma='
+                                    raw: 'https://postman-echo.com/get?alpha&beta=&gamma&delta&epsilon=&gamma=&=&&=&'
                                 }
                             },
                             response: []
@@ -3280,6 +3296,68 @@ describe('v1.0.0 to v2.0.0', function () {
                     },
                     responseTime: 412,
                     status: 'OK'
+                });
+            });
+        });
+
+        it('should ignore params from URL if given explicitly', function () {
+            transformer.convertSingle({
+                id: '0628a95f-c283-94e2-fa9f-53477775692f',
+                name: 'A world of foo!',
+                url: 'https://postman-echo.com/get?foo=bar',
+                collectionId: '03cf74df-32de-af8b-7db8-855b51b05e50',
+                queryParams: [
+                    { key: 'alpha', value: 'beta' }
+                ]
+            }, options, function (err, result) {
+                expect(err).to.not.be.ok;
+                expect(JSON.parse(JSON.stringify(result))).to.eql({
+                    _postman_id: '0628a95f-c283-94e2-fa9f-53477775692f',
+                    name: 'A world of foo!',
+                    request: {
+                        header: [],
+                        url: {
+                            raw: 'https://postman-echo.com/get?foo=bar',
+                            protocol: 'https',
+                            host: ['postman-echo', 'com'],
+                            path: ['get'],
+                            query: [
+                                { key: 'alpha', value: 'beta' }
+                            ]
+                        }
+                    },
+                    response: []
+                });
+            });
+        });
+
+        it('should return params from URL if not given explicitly', function () {
+            transformer.convertSingle({
+                id: '0628a95f-c283-94e2-fa9f-53477775692f',
+                name: 'A world of foo!',
+                url: 'https://postman-echo.com/get?foo=bar&baz=&&alpha',
+                collectionId: '03cf74df-32de-af8b-7db8-855b51b05e50'
+            }, options, function (err, result) {
+                expect(err).to.not.be.ok;
+                expect(JSON.parse(JSON.stringify(result))).to.eql({
+                    _postman_id: '0628a95f-c283-94e2-fa9f-53477775692f',
+                    name: 'A world of foo!',
+                    request: {
+                        header: [],
+                        url: {
+                            raw: 'https://postman-echo.com/get?foo=bar&baz=&&alpha',
+                            protocol: 'https',
+                            host: ['postman-echo', 'com'],
+                            path: ['get'],
+                            query: [
+                                { key: 'foo', value: 'bar' },
+                                { key: 'baz', value: '' },
+                                { key: null, value: null },
+                                { key: 'alpha', value: null }
+                            ]
+                        }
+                    },
+                    response: []
                 });
             });
         });

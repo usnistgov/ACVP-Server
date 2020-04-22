@@ -1642,6 +1642,145 @@ describe('v1.0.0 normalization', function () {
         });
     });
 
+    describe('null events', function () {
+        it('should retain null events', function (done) {
+            transformer.normalize({
+                id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                name: 'null-events',
+                order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                events: null,
+                requests: [{
+                    id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                    events: null,
+                    url: 'https://postman-echo.com/post',
+                    method: 'POST',
+                    collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                }]
+            }, options, function (err, converted) {
+                expect(err).to.not.be.ok;
+
+                // remove `undefined` properties for testing
+                converted = JSON.parse(JSON.stringify(converted));
+
+                expect(converted).to.eql({
+                    id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                    name: 'null-events',
+                    order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                    events: null,
+                    requests: [{
+                        id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                        events: null,
+                        url: 'https://postman-echo.com/post',
+                        method: 'POST',
+                        collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                    }]
+                });
+                done();
+            });
+        });
+
+        it('should drop undefined events', function (done) {
+            transformer.normalize({
+                id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                name: 'null-events',
+                order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                events: undefined,
+                requests: [{
+                    id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                    events: undefined,
+                    preRequestScript: undefined,
+                    test: undefined,
+                    url: 'https://postman-echo.com/post',
+                    method: 'POST',
+                    collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                }]
+            }, options, function (err, converted) {
+                expect(err).to.not.be.ok;
+
+                // remove `undefined` properties for testing
+                converted = JSON.parse(JSON.stringify(converted));
+
+                expect(converted).to.eql({
+                    id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                    name: 'null-events',
+                    order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                    requests: [{
+                        id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                        url: 'https://postman-echo.com/post',
+                        method: 'POST',
+                        collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                    }]
+                });
+                done();
+            });
+        });
+
+        it('should retain null preRequestScript and test', function (done) {
+            transformer.normalize({
+                id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                name: 'null-preRequestScript-test',
+                order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                requests: [{
+                    preRequestScript: null,
+                    test: null,
+                    id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                    url: 'https://postman-echo.com/post',
+                    method: 'POST',
+                    collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                }]
+            }, options, function (err, converted) {
+                expect(err).to.not.be.ok;
+
+                // remove `undefined` properties for testing
+                converted = JSON.parse(JSON.stringify(converted));
+
+                expect(converted).to.eql({
+                    id: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2',
+                    name: 'null-preRequestScript-test',
+                    order: ['4f65e265-dd38-0a67-71a5-d9dd50fa37a1'],
+                    requests: [{
+                        preRequestScript: null,
+                        test: null,
+                        id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                        url: 'https://postman-echo.com/post',
+                        method: 'POST',
+                        collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                    }]
+                });
+                done();
+            });
+        });
+
+        it('should retain null events with normalizeSingle', function (done) {
+            transformer.normalizeSingle({
+                id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                events: null,
+                preRequestScript: null,
+                test: null,
+                url: 'https://postman-echo.com/get',
+                method: 'GET',
+                collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+            }, options, function (err, converted) {
+                expect(err).to.not.be.ok;
+
+                // remove `undefined` properties for testing
+                converted = JSON.parse(JSON.stringify(converted));
+
+                expect(converted).to.eql({
+                    id: '4f65e265-dd38-0a67-71a5-d9dd50fa37a1',
+                    events: null,
+                    preRequestScript: null,
+                    test: null,
+                    url: 'https://postman-echo.com/get',
+                    method: 'GET',
+                    collectionId: '84b2b626-d3a6-0f31-c7a0-47733c01d0c2'
+                });
+
+                done();
+            });
+        });
+    });
+
     describe('protocolProfileBehavior', function () {
         describe('normalize', function () {
             it('should handle protocolProfileBehavior property at request level', function (done) {
