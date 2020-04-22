@@ -21,6 +21,10 @@ export class ValidationDbOeComponent implements OnInit {
   newDependency = new Dependency(0, "", "", "", new Array<Attribute>());
   updateStatusFlag = "none";
 
+  noDependencyProvidedFlag = false;
+  noTypeProvidedFlag = false;
+  noDescriptionProvidedFlag = false;
+
   dependencyListPageData = { resultsPerPage : 10, pageNumber : 1 };
 
   constructor(private oeps: OperatingEnvironmentProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
@@ -33,10 +37,26 @@ export class ValidationDbOeComponent implements OnInit {
   }
 
   createAndAddDependency() {
-    this.oeps.createDependency(this.newDependency).subscribe(
-      data => { this.addDependency(data.id); this.newDependency = new Dependency(0, "", "", "", new Array<Attribute>()); },
-      err => { },
-      () => { });
+
+    this.noDependencyProvidedFlag = false;
+    this.noTypeProvidedFlag = false;
+    this.noDescriptionProvidedFlag = false;
+
+    if (this.newDependency.name === "" || this.newDependency.name === null) {
+      this.noDependencyProvidedFlag = true;
+    }
+    if (this.newDependency.type === "" || this.newDependency.type === null) {
+      this.noTypeProvidedFlag = true;
+    }
+    if (this.newDependency.description === "" || this.newDependency.description === null) {
+      this.noDescriptionProvidedFlag = true;
+    }
+    if (!this.noDependencyProvidedFlag && !this.noTypeProvidedFlag && !this.noDescriptionProvidedFlag) {
+      this.oeps.createDependency(this.newDependency).subscribe(
+        data => { this.addDependency(data.id); this.newDependency = new Dependency(0, "", "", "", new Array<Attribute>()); },
+        err => { },
+        () => { });
+    }
   }
 
   deleteDependency(dependencyId:number) {

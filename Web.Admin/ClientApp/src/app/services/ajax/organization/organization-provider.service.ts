@@ -4,6 +4,8 @@ import { Organization } from '../../../models/organization/Organization';
 import { OrganizationList } from '../../../models/organization/OrganizationList';
 import { AddressCreateParameters } from '../../../models/address/AddressCreateParameters';
 import { OrganizationListParameters } from '../../../models/organization/OrganizationListParameters';
+import { Result } from '../../../models/responses/Result';
+import { OrganizationCreateParameters } from '../../../models/organization/OrganizationCreateParameters';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +41,10 @@ export class OrganizationProviderService {
 
   addNewAddress(parameters: AddressCreateParameters) {
     return this.http.post(this.apiRoot + '/Addresses/', parameters);
+  }
+
+  createNewOrganization(parameters: OrganizationCreateParameters) {
+    return this.http.put<Result>(this.apiRoot + '/organizations', parameters);
   }
 
   deleteAddressFromOrganization(index: number, organizationID: number) {

@@ -3,6 +3,8 @@ import { OrganizationList } from '../../models/organization/OrganizationList';
 import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
 import { OrganizationListParameters } from '../../models/organization/OrganizationListParameters';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalService } from '../../services/modal/modal.service';
+import { Result } from '../../models/responses/Result';
 
 @Component({
   selector: 'app-validation-db-organizations',
@@ -14,7 +16,11 @@ export class ValidationDbOrganizationsComponent implements OnInit {
   listData: OrganizationListParameters;
   organizations: OrganizationList;
 
-  constructor(private OrganizationService: OrganizationProviderService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private OrganizationService: OrganizationProviderService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
+
+  raiseNewOrgModal() {
+    this.modalService.showModal('CreateOrganizationModal');
+  }
 
   loadData() {
 
@@ -53,6 +59,11 @@ export class ValidationDbOrganizationsComponent implements OnInit {
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
+  }
+
+  navigateToNewOrg(newOrgResult: Result) {
+    this.modalService.hideModal('CreateOrganizationModal');
+    this.router.navigate(['validation-db/organizations/' + newOrgResult.id], {});
   }
 
   ngOnInit() {

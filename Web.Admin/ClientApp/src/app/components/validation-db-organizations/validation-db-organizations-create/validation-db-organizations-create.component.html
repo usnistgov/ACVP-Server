@@ -1,0 +1,26 @@
+<div id="CreateOrganizationModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create Organization</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
+          <label class="bold-heading">Name</label><input [(ngModel)]="dataModelName" type="text" class="form-control" />
+          <p style="color:red;" *ngIf="noNameErrorFlag">No name provided</p>
+          <label class="bold-heading mt-3">URL</label><input [(ngModel)]="dataModelUrl" type="text" class="form-control" />
+          <label class="bold-heading mt-3">Voice Number</label><input [(ngModel)]="dataModelVoiceNumber" type="text" class="form-control" placeholder="Empty..." />
+          <label class="bold-heading mt-3">Fax Number</label><input [(ngModel)]="dataModelNameFaxNumber" type="text" class="form-control" placeholder="Empty..." />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submitNewOrgModal()">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
