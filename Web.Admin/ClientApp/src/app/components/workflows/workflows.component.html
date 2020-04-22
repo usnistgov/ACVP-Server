@@ -14,7 +14,6 @@
           <br /> <!-- Just for spacing -->
           <label class="bold-heading">API Action</label><br />
           <select class="form-control" #APIActionList (change)="setAPIAction(APIActionList.value)">
-            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
             <option (click)="setAPIAction('All')" value="All">All</option>
             <option *ngFor="let apiAction of APIAction.values()" (click)="setAPIAction(apiAction)" value="{{apiAction}}">
               {{apiAction}}
@@ -23,8 +22,6 @@
           <br />
           <label class="bold-heading">Status</label><br />
           <select class="form-control" #statusList (change)="setStatus(statusList.value)">
-            <!--[(ngModel)]="selectedAPIAction" (ngModelChange)="updateFilters()"-->
-            <option (click)="setStatus('All')" value="All">All</option>
             <option *ngFor="let status of WorkflowStatus.values()" (click)="setStatus(status)" value="{{status}}">
               {{status}}
             </option>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkflowItemList } from '../../models/workflow/WorkflowItemList';
 import { APIAction } from '../../models/workflow/APIAction.enum';
@@ -85,12 +85,15 @@ export class WorkflowsComponent implements OnInit {
     );
   }
 
+  @ViewChild('myDiv', { read: false, static: false }) myDiv: ElementRef;
   ngOnInit() {
     this.listData = new WorkflowListParameters("", "", "", "");
     this.workflowItems = new WorkflowItemList();
 
     this.listData.pageSize = 10;
     this.listData.page = 1;
+    this.listData.Status = "Pending";
+    
 
     // Check if the page param is set.  If so, store it in the "currentPage"...
     if (this.route.snapshot.queryParamMap.get('page')) {
