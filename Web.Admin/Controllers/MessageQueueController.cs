@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using NIST.CVP.Enumerables;
-using NIST.CVP.ExtensionMethods;
-using NIST.CVP.MessageQueue;
-using NIST.CVP.MessageQueue.Services;
-using NIST.CVP.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue.Services;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace Web.Admin.Controllers
 {

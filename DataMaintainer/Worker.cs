@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

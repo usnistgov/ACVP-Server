@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NIST.CVP.Enumerables;
-using NIST.CVP.ExtensionMethods;
-using NIST.CVP.Results;
-using NIST.CVP.TaskQueue;
-using NIST.CVP.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
+using NIST.CVP.Libraries.Shared.Results;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 
 namespace Web.Admin.Controllers
 {
