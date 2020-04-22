@@ -3,10 +3,24 @@
   <div class="card-body">
     <table class="table" *ngIf="workflowItem?.status === 'Pending'">
       <tr>
-        <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()">&#10004; Approve</button></td>
+        <td style="border:none;text-align:center;">
+          <button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()" [disabled]="approvalStatusFlag === 'processing'">&#10004; Approve</button>
+        </td>
       </tr>
       <tr>
-        <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()">&#10006; Reject</button></td>
+        <td style="border:none;text-align:center;">
+          <button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()" [disabled]="approvalStatusFlag === 'processing'">&#10006; Reject</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div *ngIf="approvalStatusFlag === 'processing'">
+            <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
+          </div>
+          <div *ngIf="approvalStatusFlag === 'successful'">
+            <div class="text-success" style="float:left;">√</div><span style="margin-left:10px;">Success!</span>
+          </div>
+        </td>
       </tr>
     </table>
     <div style="text-align:center;" *ngIf="workflowItem?.status !== 'Pending'">

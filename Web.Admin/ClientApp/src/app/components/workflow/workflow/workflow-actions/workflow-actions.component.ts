@@ -14,18 +14,24 @@ import { ModalService } from '../../../../services/modal/modal.service';
 export class WorkflowActionsComponent implements OnInit {
 
   errorMessage: string;
+  approvalStatusFlag = "";
 
   workflowItem: WorkflowItemBase<IWorkflowItemPayload>;
 
   constructor(private workflowService: WorkflowProviderService, private router: Router, private ModalService: ModalService) { }
 
   approveWorkflow() {
+
+    this.approvalStatusFlag = "processing";
+
     this.workflowService.approveWorkflow(this.workflowItem.workflowItemID).subscribe(
       data => {
         if (data.isSuccess) {
+          this.approvalStatusFlag = "success";
           this.refreshPageData();
         }
         else {
+          this.approvalStatusFlag = "";
           this.errorMessage = data.errorMessage;
           this.ModalService.showModal('WFApprovalErrorMOdal');
         }
