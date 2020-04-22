@@ -37,14 +37,21 @@
             <td>
               <span class="bold-heading">{{ dependency?.isInlineCreate ? 'New Dependency' : dependency.id + ' - ' + dependency.name  }}</span>
               <ul *ngFor="let key of objectKeys(dependency)">
-                  <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
-                    <span style="font-weight:bold;">
-                      {{ key }} : 
-                    </span>
-                    <span>
-                      {{ dependency[key] }}
-                    </span>
-                  </li>
+                <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
+                  <span style="font-weight:bold;">
+                    {{ key }} :
+                  </span>
+                  <span *ngIf="key !== 'attributes'">
+                    {{ dependency[key] }}
+                  </span>
+                  <div *ngIf="key === 'attributes'">
+                    <ul>
+                      <li *ngFor="let attribute of dependency[key]">
+                        {{attribute.name}}: {{attribute.value}}
+                      </li>
+                    </ul>
+                  </div>
+                </li>
               </ul>
             </td>
           </tr>
