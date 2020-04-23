@@ -46,17 +46,27 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public JsonHttpStatusResult GetVectorSets(int tsID)
+        public ActionResult GetVectorSets(int tsID)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-            var testSessions = _testSessionService.GetTestSession(cert, tsID);
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+
+            var claimValidator = new TestSessionClaimsVerifier(tsID);
+            if (claimValidator.AreClaimsValid(claims))
+            {            
+                var testSessions = _testSessionService.GetTestSession(tsID);
             
-            var vectorSetUrls = new VectorSetUrlObject
+                var vectorSetUrls = new VectorSetUrlObject
+                {
+                    VectorSetURLs = testSessions.VectorSetURLs
+                };
+            
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(vectorSetUrls));
+            }
+            else
             {
-                VectorSetURLs = testSessions.VectorSetURLs
-            };
-            
-            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(vectorSetUrls));
+                return new ForbidResult();
+            }
         }
 
         [HttpGet("{vsID}")]
@@ -198,20 +208,19 @@ namespace Web.Public.Controllers
         [HttpGet("{vsID}/expected")]
         public ActionResult GetExpectedResults(int tsID, int vsID)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
-            // If the session isn't a sample, then the expected results are not generated
-            var testSessions = _testSessionService.GetTestSession(cert, tsID);
-            if (!testSessions.IsSample)
-            {
-                return new NotFoundResult();
-            }
-            
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                // If the session isn't a sample, then the expected results are not generated
+                var testSessions = _testSessionService.GetTestSession(tsID);
+                if (!testSessions.IsSample)
+                {
+                    return new NotFoundResult();
+                }
+                
                 var expectedResults = _vectorSetService.GetExpectedResults(vsID);
                 if (expectedResults == null)
                 {

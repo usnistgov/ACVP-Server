@@ -6,10 +6,19 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
 	public class CancelTestSessionPayloadValidator : IWorkflowItemValidator
 	{
+		private readonly ITestSessionService _testSessionService;
+
+		public CancelTestSessionPayloadValidator(ITestSessionService testSessionService)
+		{
+			_testSessionService = testSessionService;
+		}
+		
 		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
-			// TODO can you cancel something that has already been published?
 			var payload = (CancelPayload) workflowItemPayload;
+
+			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
+			// TODO need published status on testSession here
 
 			// Check that the test session exists is done by JWT claims
 			return new PayloadValidationResult(new List<string>());
