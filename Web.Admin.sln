@@ -13,31 +13,35 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "gen-val\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Math", "gen-val\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{D8AAD82E-3C86-4533-A813-6877A1E07668}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.ACVPCore", "Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj", "{EA222CB7-056E-4C04-8E0E-D6137763BE22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.ACVPCore", "Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj", "{EA222CB7-056E-4C04-8E0E-D6137763BE22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.ACVPWorkflow", "Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj", "{24E9E7C2-BE4E-4516-B060-4560395C13EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.ACVPWorkflow", "Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj", "{24E9E7C2-BE4E-4516-B060-4560395C13EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.DatabaseInterface", "Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj", "{32F9E17F-7B7C-4D86-9078-62C0F1DF0704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.DatabaseInterface", "Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj", "{32F9E17F-7B7C-4D86-9078-62C0F1DF0704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.LCAVPCore", "Libraries\Internal\NIST.CVP.Libraries.Internal.LCAVPCore\NIST.CVP.Libraries.Internal.LCAVPCore.csproj", "{F0E01CD6-6945-498E-A5D0-5E35D8BA95FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.LCAVPCore", "Libraries\Internal\NIST.CVP.Libraries.Internal.LCAVPCore\NIST.CVP.Libraries.Internal.LCAVPCore.csproj", "{F0E01CD6-6945-498E-A5D0-5E35D8BA95FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Algorithms.DataTypes", "Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj", "{8D7B8546-C139-4821-8AAE-9D6BFE76C211}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.Algorithms.DataTypes", "Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj", "{8D7B8546-C139-4821-8AAE-9D6BFE76C211}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Algorithms.External", "Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj", "{434A5455-6C89-42FF-BA33-BE2E888E8497}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.Algorithms.External", "Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj", "{434A5455-6C89-42FF-BA33-BE2E888E8497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Enumerables", "Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj", "{F4423E21-79BC-400D-8BAD-F0CA9363784F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.Enumerables", "Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj", "{F4423E21-79BC-400D-8BAD-F0CA9363784F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ExtensionMethods", "Libraries\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj", "{8D224015-355F-4BEA-86D7-91386DC35979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.ExtensionMethods", "Libraries\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj", "{8D224015-355F-4BEA-86D7-91386DC35979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.Email", "Libraries\Internal\NIST.CVP.Libraries.Internal.Email\NIST.CVP.Libraries.Internal.Email.csproj", "{DBE31D34-B567-4225-B037-311B7A68F020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.Email", "Libraries\Internal\NIST.CVP.Libraries.Internal.Email\NIST.CVP.Libraries.Internal.Email.csproj", "{DBE31D34-B567-4225-B037-311B7A68F020}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.MessageQueue", "Libraries\Internal\NIST.CVP.Libraries.Internal.MessageQueue\NIST.CVP.Libraries.Internal.MessageQueue.csproj", "{6F68C878-D54D-49F0-B921-9F85DE52F695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.MessageQueue", "Libraries\Internal\NIST.CVP.Libraries.Internal.MessageQueue\NIST.CVP.Libraries.Internal.MessageQueue.csproj", "{6F68C878-D54D-49F0-B921-9F85DE52F695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Results", "Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj", "{3A624193-21E8-4A5D-BA06-0F6F1C93930E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.Results", "Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj", "{3A624193-21E8-4A5D-BA06-0F6F1C93930E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{97CC2B82-20E6-4298-BED4-A5D041F55AD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{97CC2B82-20E6-4298-BED4-A5D041F55AD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj", "{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions", "Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj", "{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.TaskQueue", "Libraries\Internal\NIST.CVP.Libraries.Internal.TaskQueue\NIST.CVP.Libraries.Internal.TaskQueue.csproj", "{2808890E-8796-4C45-96C6-14787FADCBD4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.Algorithms.Persisted", "Libraries\Internal\NIST.CVP.Libraries.Internal.Algorithms.Persisted\NIST.CVP.Libraries.Internal.Algorithms.Persisted.csproj", "{15782DD1-6A49-43CA-9431-A064A453EC63}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +119,14 @@ Global
 		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2808890E-8796-4C45-96C6-14787FADCBD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2808890E-8796-4C45-96C6-14787FADCBD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2808890E-8796-4C45-96C6-14787FADCBD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2808890E-8796-4C45-96C6-14787FADCBD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15782DD1-6A49-43CA-9431-A064A453EC63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15782DD1-6A49-43CA-9431-A064A453EC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15782DD1-6A49-43CA-9431-A064A453EC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15782DD1-6A49-43CA-9431-A064A453EC63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +149,8 @@ Global
 		{3A624193-21E8-4A5D-BA06-0F6F1C93930E} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 		{97CC2B82-20E6-4298-BED4-A5D041F55AD8} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 		{B60ADBD3-8AA7-40F6-9382-23DC897B4F1D} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
+		{2808890E-8796-4C45-96C6-14787FADCBD4} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
+		{15782DD1-6A49-43CA-9431-A064A453EC63} = {F32DC574-41E3-4BE2-A3C7-E65756AFCAEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62FAAA27-3B74-423C-8F94-862D2C191282}
