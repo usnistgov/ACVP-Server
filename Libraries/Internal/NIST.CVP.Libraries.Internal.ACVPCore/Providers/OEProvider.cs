@@ -8,6 +8,7 @@ using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
+using System.Linq;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -277,6 +278,21 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 
 			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
+		}
+
+		public List<OperatingEnvironmentLite> GetOEsOnValidation(long validationID)
+		{
+			var db = new MightyOrm<OperatingEnvironmentLite>(_acvpConnectionString);
+
+			try
+			{
+				return db.QueryFromProcedure("val.OEsForValidationGet", inParams: new { ValidationId = validationID }).ToList();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
 		}
 	}
 }

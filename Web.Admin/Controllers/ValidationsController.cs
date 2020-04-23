@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 
 namespace Web.Admin.Controllers
 {
@@ -11,10 +12,12 @@ namespace Web.Admin.Controllers
     public class ValidationsController : ControllerBase
     {
         private readonly IValidationService _validationService;
+        private readonly IOEService _oeService;
 
-        public ValidationsController(IValidationService validationService)
+        public ValidationsController(IValidationService validationService, IOEService oeService)
         {
             _validationService = validationService;
+            _oeService = oeService;
         }
         
         [HttpPost]
@@ -36,5 +39,11 @@ namespace Web.Admin.Controllers
 
 			return result;
 		}
+
+        [HttpGet("{validationID}/oes")]
+        public ActionResult<WrappedEnumerable<OperatingEnvironmentLite>> GetOEsOnValidation(long validationID)
+        {
+            return _oeService.GetOEsOnValidation(validationID).ToWrappedEnumerable();
+        }
 	}
 }
