@@ -11,7 +11,19 @@ namespace Web.Public.Tests
     [TestFixture]
     public class JsonServiceTests
     {
+        private Mock<IWorkflowItemPayloadValidator> _mockWorkflowItemPayloadValidator = new Mock<IWorkflowItemPayloadValidator>();
         private Mock<IWorkflowItemPayloadValidatorFactory> _mockWorkflowItemPayloadValidatorFactory = new Mock<IWorkflowItemPayloadValidatorFactory>();
+
+        [SetUp]
+        public void Setup()
+        {
+            _mockWorkflowItemPayloadValidator
+                .Setup(s => s.Validate(It.IsAny<IWorkflowItemPayload>()))
+                .Returns(true);
+            _mockWorkflowItemPayloadValidatorFactory
+                .Setup(s => s.GetWorkflowItemPayloadValidator(It.IsAny<APIAction>()))
+                .Returns(_mockWorkflowItemPayloadValidator.Object);
+        }
         
         [Test]
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\"}]")]

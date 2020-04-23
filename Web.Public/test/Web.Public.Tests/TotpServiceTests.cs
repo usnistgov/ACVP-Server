@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using Moq;
+using NIST.CVP.Common.ExtensionMethods;
 using NUnit.Framework;
 using Web.Public.Configs;
 using Web.Public.Providers;
@@ -68,8 +69,7 @@ namespace Web.Public.Tests
         public void ShouldRejectRandomTotpPassword()
         {
             var totp = _totpService.GenerateTotp(_dummyCert);
-            var totpAsInt = int.Parse(totp);
-            var randomTotp = (totpAsInt + 1).ToString();
+            var randomTotp = new string(totp.ToCharArray().ToList().Shuffle().ToArray());
             
             Assert.AreEqual(_options.Value.Digits, randomTotp.Length, "random totp length");
 
