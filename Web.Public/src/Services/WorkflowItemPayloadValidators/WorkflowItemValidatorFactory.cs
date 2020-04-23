@@ -3,14 +3,14 @@ using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 
 namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
-	public class WorkflowItemPayloadValidatorFactory : IWorkflowItemValidatorFactory
+	public class WorkflowItemValidatorFactory : IWorkflowItemValidatorFactory
 	{
 		private readonly IDependencyService _dependencyService;
 		private readonly IAddressService _addressService;
 		private readonly IOrganizationService _organizationService;
 		private readonly IPersonService _personService;
 
-		public WorkflowItemPayloadValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;

@@ -30,7 +30,7 @@ namespace Web.Public.Providers
 
                 if (addressData == null)
                 {
-                    throw new Exception("Unable to find address");
+                    return null;
                 }
                 
                 var result = new Address

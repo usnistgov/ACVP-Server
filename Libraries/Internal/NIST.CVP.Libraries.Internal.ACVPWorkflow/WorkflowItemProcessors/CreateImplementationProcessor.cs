@@ -36,6 +36,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			ImplementationCreatePayload payload = (ImplementationCreatePayload)workflowItem.Payload;
 
 			//Do most of the conversion to a parameters object...
+			var organizationId = BasePayload.ParseIDFromURL(payload.VendorURL);
+			
 			ImplementationCreateParameters parameters = new ImplementationCreateParameters
 			{
 				Name = payload.Name,
@@ -43,11 +45,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 				Type = ParseImplementationType(payload.Type),
 				Version = payload.Version,
 				Website = payload.Website,
-				//OrganizationID = ParseIDFromURL(VendorURL),			//return to this in the future
-				OrganizationID = payload.VendorObjectThatNeedsToGoAway.ID,
-				AddressID = GetAddressID(payload.AddressURL, payload.VendorObjectThatNeedsToGoAway.ID),
-				//ContactIDs = ContactURLs?.Select(x => ParseIDFromURL(x)).ToList(),		//return to this in the future
-				ContactIDs = payload.ContactsObjectThatNeedsToGoAway?.OrderBy(x => x.OrderIndex).Select(x => x.Person.ID).ToList(),
+				OrganizationID = organizationId,
+				AddressID = GetAddressID(payload.AddressURL, organizationId),
+				ContactIDs = payload.ContactURLs?.Select(x => BasePayload.ParseIDFromURL(x)).ToList(),
 				IsITAR = false      //TODO - Do something for ITARs. For now, assuming nothing is ITAR
 			};
 

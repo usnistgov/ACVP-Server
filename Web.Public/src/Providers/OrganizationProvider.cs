@@ -30,6 +30,9 @@ namespace Web.Public.Providers
 					OrganizationID = organizationID
 				});
 
+				if (orgData == null)
+					return null;
+				
 				var result = new Organization
 				{
 					ID = orgData.Id,
@@ -99,7 +102,32 @@ namespace Web.Public.Providers
 			catch (Exception ex)
 			{
 				_logger.LogError("Unable to get organization", ex);
-				throw;
+				return null;
+			}
+		}
+
+		public bool Exists(long id)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.OrganizationExists",
+					new
+					{
+						organizationId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to validate existence of organization.", e);
+				return false;
 			}
 		}
 
