@@ -1,11 +1,10 @@
-using System;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
-using Web.Public.Exceptions;
+using Web.Public.Results;
 
 namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
-	public class DependencyUpdatePayloadValidator : IWorkflowItemPayloadValidator
+	public class DependencyUpdatePayloadValidator : IWorkflowItemValidator
 	{
 		private readonly IDependencyService _dependencyService;
 
@@ -14,21 +13,22 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_dependencyService = dependencyService;
 		}
 		
-		public bool Validate(IWorkflowItemPayload workflowItemPayload)
+		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
 			var item = (DependencyUpdatePayload) workflowItemPayload;
-
+			var errors = new List<string>();
+			
 			if (_dependencyService.GetDependency(item.ID) == null)
 			{
-				throw new JsonReaderException("Dependency does not exist.");
+				errors.Add("Dependency does not exist.");
 			}
 			
 			if (item.NameUpdated && string.IsNullOrEmpty(item.Name))
 			{
-				throw new JsonReaderException("dependency.name cannot be updated to an empty or null value.");
+				errors.Add("dependency.name cannot be updated to an empty or null value.");
 			}
-			
-			return true;
+
+			return new PayloadValidationResult(errors);
 		}
 	}
 }

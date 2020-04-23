@@ -8,16 +8,17 @@ using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Serilog;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Services
 {
     public class JsonReaderService : IJsonReaderService
     {
-        private readonly IWorkflowItemPayloadValidatorFactory _workflowItemPayloadValidatorFactory;
+        private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
 
-        public JsonReaderService(IWorkflowItemPayloadValidatorFactory workflowItemPayloadValidatorFactory)
+        public JsonReaderService(IWorkflowItemValidatorFactory workflowItemValidatorFactory)
         {
-            _workflowItemPayloadValidatorFactory = workflowItemPayloadValidatorFactory;
+            _workflowItemValidatorFactory = workflowItemValidatorFactory;
         }
         
         public T GetObjectFromBodyJson<T>(string jsonBody) where T : IJsonObject
@@ -78,9 +79,14 @@ namespace Web.Public.Services
 
                 // Extract and verify object info
                 var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
-                
-                var validator = _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(apiAction);
-                validator.Validate(extractedObject);
+
+                var validator = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction);
+                var validationResult = validator.Validate(extractedObject);
+
+                if (!validationResult.IsSuccess)
+                {
+                    throw new JsonReaderException($"Errors parsing body object. {string.Join(";", validationResult.Errors)}");
+                }
 
                 return extractedObject;
             }

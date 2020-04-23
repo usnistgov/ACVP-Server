@@ -4,25 +4,27 @@ using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using NUnit.Framework;
 using Web.Public.Models;
+using Web.Public.Results;
 using Web.Public.Services;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Tests
 {
     [TestFixture]
     public class JsonServiceTests
     {
-        private Mock<IWorkflowItemPayloadValidator> _mockWorkflowItemPayloadValidator = new Mock<IWorkflowItemPayloadValidator>();
-        private Mock<IWorkflowItemPayloadValidatorFactory> _mockWorkflowItemPayloadValidatorFactory = new Mock<IWorkflowItemPayloadValidatorFactory>();
+        private Mock<IWorkflowItemValidator> _mockWorkflowItemValidator = new Mock<IWorkflowItemValidator>();
+        private Mock<IWorkflowItemValidatorFactory> _mockWorkflowItemValidatorFactory = new Mock<IWorkflowItemValidatorFactory>();
 
         [SetUp]
         public void Setup()
         {
-            _mockWorkflowItemPayloadValidator
+            _mockWorkflowItemValidator
                 .Setup(s => s.Validate(It.IsAny<IWorkflowItemPayload>()))
-                .Returns(true);
-            _mockWorkflowItemPayloadValidatorFactory
+                .Returns(new PayloadValidationResult(null));
+            _mockWorkflowItemValidatorFactory
                 .Setup(s => s.GetWorkflowItemPayloadValidator(It.IsAny<APIAction>()))
-                .Returns(_mockWorkflowItemPayloadValidator.Object);
+                .Returns(_mockWorkflowItemValidator.Object);
         }
         
         [Test]
@@ -30,7 +32,7 @@ namespace Web.Public.Tests
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\", \"phoneNumbers\": [{\"number\": \"555-555-0001\", \"type\": \"phone\"}, {\"number\": \"555-555-0002\", \"type\": \"fax\"}]}]")]
         public void ShouldDeserializeOrganizationObjects(string json)
         {
-            var jsonParser = new JsonReaderService(_mockWorkflowItemPayloadValidatorFactory.Object);
+            var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
             try
             {
                 jsonParser.GetWorkflowObjectFromBodyJson<OrganizationCreatePayload>(json, APIAction.CreateVendor);

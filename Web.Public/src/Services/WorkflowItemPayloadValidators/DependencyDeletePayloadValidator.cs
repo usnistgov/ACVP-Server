@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using Web.Public.Results;
 
 namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
-	public class DependencyDeletePayloadValidator : IWorkflowItemPayloadValidator
+	public class DependencyDeletePayloadValidator : IWorkflowItemValidator
 	{
 		private readonly IDependencyService _dependencyService;
 
@@ -13,16 +15,17 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_dependencyService = dependencyService;
 		}
 
-		public bool Validate(IWorkflowItemPayload workflowItemPayload)
+		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
 			var item = (DeletePayload) workflowItemPayload;
+			var errors = new List<string>();
 
 			if (_dependencyService.GetDependency(item.ID) == null)
 			{
-				throw new JsonReaderException("Dependency does not exist.");
+				errors.Add("Dependency does not exist.");
 			}
 
-			return true;
+			return new PayloadValidationResult(errors);
 		}
 	}
 }

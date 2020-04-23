@@ -1,21 +1,22 @@
-using System.Text.Json;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using Web.Public.Results;
 
 namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
-	public class DependencyCreatePayloadValidator : IWorkflowItemPayloadValidator
+	public class DependencyCreatePayloadValidator : IWorkflowItemValidator
 	{
-		public bool Validate(IWorkflowItemPayload workflowItemPayload)
+		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
 			var item = (DependencyCreatePayload) workflowItemPayload;
+			var errors = new List<string>();
 
 			if (string.IsNullOrEmpty(item.Name))
 			{
-				throw new JsonException("dependency.name must be provided.");
+				errors.Add("dependency.name must be provided.");
 			}
 			
-			return true;
+			return new PayloadValidationResult(errors);
 		}
 	}
 }

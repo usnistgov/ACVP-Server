@@ -2,9 +2,9 @@ using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
 
 namespace Web.Public.Services.WorkflowItemPayloadValidators
 {
-	public class WorkflowItemPayloadValidatorFactory : IWorkflowItemPayloadValidatorFactory
+	public class WorkflowItemPayloadValidatorFactory : IWorkflowItemValidatorFactory
 	{
-		public IWorkflowItemPayloadValidator GetWorkflowItemPayloadValidator(APIAction action)
+		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
 		{
 			throw new System.NotImplementedException();
 		}
