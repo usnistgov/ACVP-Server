@@ -92,7 +92,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			AlgorithmPropertyType.CompositeArray => 1,
 			AlgorithmPropertyType.LongArray => 1,
 			AlgorithmPropertyType.NumberArray => 1,
-			AlgorithmPropertyType.RangeArray => 3,     //The O in AO:R beats the A, apparently
+			AlgorithmPropertyType.RangeArray => 1,
 			AlgorithmPropertyType.StringArray => 1,
 			AlgorithmPropertyType.Boolean => 0,
 			AlgorithmPropertyType.Composite => 2,
