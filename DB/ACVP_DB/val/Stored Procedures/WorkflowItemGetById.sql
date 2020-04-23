@@ -8,7 +8,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     SELECT	 w.id AS Id
-			,w.w.APIActionID AS APIActionId
+			,w.APIActionID AS APIActionId
 			,json_blob AS JsonBlob
 			,w.[status] AS [Status]
 			,r.id as RequestId
