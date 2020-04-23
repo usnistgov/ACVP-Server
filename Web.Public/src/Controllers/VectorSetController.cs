@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
@@ -95,7 +96,11 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, null);
+                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, new CancelPayload
+                {
+                    VectorSetID = vsID,
+                    TestSessionID = tsID
+                });
 
                 // Build request object for response
                 var requestObject = new RequestObject

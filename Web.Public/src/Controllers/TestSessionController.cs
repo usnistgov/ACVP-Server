@@ -181,9 +181,9 @@ namespace Web.Public.Controllers
                 return new ForbidResult();
             }
 
-            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, new TestSessionCancel()
+            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, new CancelPayload
             {
-                TestSessionId = id
+                TestSessionID = id
             });
             
             var requestObject = new RequestObject

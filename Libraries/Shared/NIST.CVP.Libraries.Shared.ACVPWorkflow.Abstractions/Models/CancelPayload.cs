@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads
+namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 {
 	public class CancelPayload
 	{
