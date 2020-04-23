@@ -26,6 +26,8 @@
               {{status}}
             </option>
           </select>
+          <br />
+          <button class="btn btn-primary" (click)="raiseMultiApprovalConfirmation()">Multi-Approve</button>
         </div>
       </div>
     </div>
@@ -41,6 +43,7 @@
         <table class="table table-hover">
           <thead class="thead-light">
             <tr>
+              <th><input type="checkbox" (click)="checkAllBoxes()" /></th>
               <th>ID</th>
               <th>Submitter</th>
               <th>Action</th>
@@ -50,7 +53,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let workflowItem of workflowItems?.data" [routerLink]="workflowItem.workflowItemId">
+            <!-- We didn't use routerLink here because this way it keeps the routerLink from overriding the checkbox (which ist he defualt)
+                 See further comments in TS code -->
+            <tr *ngFor="let workflowItem of workflowItems?.data;let i = index" (click)="routeToIndividualWorkflowPage(workflowItem.workflowItemId)">
+              <td><input type="checkbox" *ngIf="workflowItem.status === 'Pending'" [(ngModel)]="workflowItem.multiSelected" (click)="checkBoxClick($event, i)" /></td>
               <td>{{ workflowItem.submissionId }}</td>
               <td>{{ workflowItem.submitter }}</td>
 
@@ -158,7 +164,7 @@
 
                 <ng-container *ngSwitchCase="'CancelVectorSet'">
                   <td>Cencel</td>
-                  <td>Vector Se</td>
+                  <td>Vector Set</td>
                 </ng-container>
 
               </ng-container>
@@ -184,6 +190,186 @@
         </table>
       </div> <!-- Close Pagination Buttons Row -->
 
+    </div>
+  </div>
+</div>
+
+<div id="MultiApproveModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          {{multiApproveModalTitle}}
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <table class="table mt-3">
+            <tr>
+              <th>ID</th>
+              <th>Submitter</th>
+              <th>Action</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+            <tr *ngFor="let selectedItem of this.workflowItems?.data?.filter(isMultiSelected)">
+              <td>{{selectedItem.submissionId}}</td>
+              <td>{{ selectedItem.submitter }}</td>
+
+              <ng-container [ngSwitch]="selectedItem.apiAction">
+
+                <ng-container *ngSwitchCase="'Unknown'">
+                  <td>Unknown</td>
+                  <td>Unknown</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateDependency'">
+                  <td>Create</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateDependency'">
+                  <td>Update</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteDependency'">
+                  <td>Delete</td>
+                  <td>Dependency</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateImplementation'">
+                  <td>Create</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateImplementation'">
+                  <td>Update</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteImplementation'">
+                  <td>Delete</td>
+                  <td>Implementation</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateOE'">
+                  <td>Create</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateOE'">
+                  <td>Update</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteOE'">
+                  <td>Delete</td>
+                  <td>OE</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreatePerson'">
+                  <td>Create</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdatePerson'">
+                  <td>Update</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeletePerson'">
+                  <td>Delete</td>
+                  <td>Person</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CreateVendor'">
+                  <td>Create</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'UpdateVendor'">
+                  <td>Update</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'DeleteVendor'">
+                  <td>Delete</td>
+                  <td>Vendor</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'RegisterTestSession'">
+                  <td>Register</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CancelTestSession'">
+                  <td>Cencel</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CertifyTestSession'">
+                  <td>Certify</td>
+                  <td>Test Session</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'SubmitVectorSetResults'">
+                  <td>Submit</td>
+                  <td>Vector Set</td>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'CancelVectorSet'">
+                  <td>Cencel</td>
+                  <td>Vector Set</td>
+                </ng-container>
+
+              </ng-container>
+
+              <td>
+                <div *ngIf="selectedItem.multiSelectSubmissionStatus === 'processing'">
+                  <div class="spinner-border spinner-border-sm text-warning"></div><span style="margin-left:10px;">Processing...</span>
+                </div>
+                <div *ngIf="selectedItem.multiSelectSubmissionStatus === 'successful'">
+                  <div class="text-success" style="float:left;">√</div><span style="margin-left:10px;">Success!</span>
+                </div>
+                <div *ngIf="selectedItem.multiSelectSubmissionStatus === 'error'">
+                  <div class="text-danger" style="float:left;">&#9888;</div><span style="margin-left:10px;">Error!</span><br />
+                  <span class="linkUnderline" (click)="raiseMultiApprovalErrorMessage(selectedItem.multiApproveErrorReviewMessage)">View Error</span>
+                </div>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submitMultiApprove()">Confirm</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeMultiApproveModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="MultiApproveErrorReview" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Error Review</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          {{multiApproveErrorReviewMessage}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>

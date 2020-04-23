@@ -5,6 +5,8 @@ import { APIAction } from '../../models/workflow/APIAction.enum';
 import { WorkflowProviderService } from '../../services/ajax/workflow/workflow-provider.service';
 import { WorkflowStatus } from '../../models/workflow/WorkflowStatus.enum';
 import { WorkflowListParameters } from '../../models/workflow/WorkflowListParameters';
+import { WorkflowItemLite } from '../../models/workflow/WorkflowItemLite';
+import { ModalService } from '../../services/modal/modal.service';
 
 @Component({
   selector: 'app-workflows',
@@ -20,7 +22,98 @@ export class WorkflowsComponent implements OnInit {
   selectedAPIAction: string;
   selectedStatus: string;
 
-  constructor(private workflowService: WorkflowProviderService, private router: Router, private route: ActivatedRoute) { }
+  checkAllBoxesFlag = false;
+  multiApproveModalTitle = "Are you sure that you want to approve all these items?";
+  multiApproveErrorReviewMessage = "";
+
+  constructor(private workflowService: WorkflowProviderService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
+
+  /**
+   * These two functions, routeToIndividualWorkflowPage and checkBoxClick, are required because we can't use
+   * routerLinkn ont he HTML if we want to have the checkboxes AND the clickable rows.  This way, the checkBoxClick
+   * can cancel the propagation of the routeToIndividualWorkflow event.  Keeps the routerLink from overriding the checkbox
+   * https://stackblitz.com/edit/angular-pqna6e?file=app%2Fapp.component.html
+   */
+  routeToIndividualWorkflowPage(pageNum: number) {
+    this.router.navigate(['workflow/', pageNum]);
+  }
+
+  checkBoxClick(event, num) {
+    this.workflowItems.data[num].multiSelected = true;
+    event.stopPropagation();
+  }
+
+  submitMultiApprove() {
+
+    var self = this;
+
+    this.multiApproveModalTitle = "Approving selected items...";
+
+    this.workflowItems.data.filter(self.isMultiSelected).forEach(function (item, index, array) {
+      // Set the item's display to "processing" before issuing the AJAX call
+      item.multiSelectSubmissionStatus = "processing";
+
+      // Submit the AJAX call
+      self.workflowService.approveWorkflow(item.workflowItemId)
+        .subscribe(data => {
+
+          if (data.isSuccess) {
+            item.multiSelectSubmissionStatus = "successful";
+          }
+          else {
+            item.multiSelectSubmissionStatus = "error";
+            item.multiApproveErrorReviewMessage = data.errorMessage;
+          }
+
+          if (array.filter(self.isApprovalComplete).length > 0) {
+            self.multiApproveModalTitle = "All Approvals Complete";
+          }
+        }
+      );
+    });
+  }
+
+  raiseMultiApprovalConfirmation() { this.modalService.showModal('MultiApproveModal'); }
+  raiseMultiApprovalErrorMessage(errorMessage: string) {
+    this.multiApproveErrorReviewMessage = errorMessage;
+    this.modalService.showModal('MultiApproveErrorReview');
+  }
+
+  closeMultiApproveModal() {
+    this.loadData();
+    this.modalService.hideModal('MultiApproveModal');
+    this.multiApproveModalTitle = "Are you sure that you want to approve all these items?";
+  }
+
+  // Small utility function used in a filter
+  isMultiSelected(element: WorkflowItemLite, index, array) {
+    if (element.multiSelected) { return true; }
+    return false;
+  }
+  isApprovalComplete(element: WorkflowItemLite, index, array) {
+    if (element.multiSelectSubmissionStatus === "successful" ||
+      element.multiSelectSubmissionStatus === "error") { return true; }
+    return false;
+  }
+
+  // The handler used to handle the "selectAll" checkbox
+  checkAllBoxes() {
+    if (this.checkAllBoxesFlag == false) {
+      this.workflowItems.data.forEach(function (item, index, array) {
+        if (item.status === "Pending") {
+          item.multiSelected = true;
+        }
+      });
+    }
+    else {
+      this.workflowItems.data.forEach(function (item, index, array) {
+        if (item.status === "Pending") {
+          item.multiSelected = false;
+        }
+      });
+    }
+    this.checkAllBoxesFlag = !this.checkAllBoxesFlag;
+  }
 
   setStatus(input: string) {
     if (input === "All") { this.listData.Status = ""; }
@@ -32,6 +125,10 @@ export class WorkflowsComponent implements OnInit {
     if (input === "All") { this.listData.APIActionID = ""; }
     else { this.listData.APIActionID = input; }
     this.loadData();
+  }
+
+  initializeMultiSelectFields() {
+    this.workflowItems.data.forEach(function (item, index, array) { item.multiSelected = false; item.multiSelectSubmissionStatus = "unsubmitted"; });
   }
 
   loadData() {
@@ -99,7 +196,7 @@ export class WorkflowsComponent implements OnInit {
     }
 
     this.workflowService.getWorkflows(this.listData).subscribe(
-      data => { this.workflowItems = data; },
+      data => { this.workflowItems = data; this.initializeMultiSelectFields(); },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
