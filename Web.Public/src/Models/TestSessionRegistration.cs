@@ -17,7 +17,14 @@ namespace Web.Public.Models
         
         public List<string> ValidateObject()
         {
-            return new List<string>();
+            var errors = new List<string>();
+
+            if (Algorithms == null || Algorithms.Count == 0)
+            {
+                errors.Add("No algorithms provided.");
+            }
+
+            return errors;
         }
     }
 }

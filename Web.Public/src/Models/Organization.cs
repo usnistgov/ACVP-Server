@@ -6,7 +6,7 @@ using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
-	public class Organization : IJsonObject
+	public class Organization
 	{
 		[JsonIgnore]
 		public long ID { get; set; }

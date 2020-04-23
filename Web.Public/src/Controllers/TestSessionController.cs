@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
@@ -138,8 +139,8 @@ namespace Web.Public.Controllers
             
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 
-            var testSessionCertifyRequest = _jsonReader.GetObjectFromBodyJson<TestSessionCertify>(jsonBlob);
-            testSessionCertifyRequest.TestSessionId = id;
+            var testSessionCertifyRequest = _jsonReader.GetWorkflowObjectFromBodyJson<CertifyTestSessionPayload>(jsonBlob, APIAction.CertifyTestSession);
+            testSessionCertifyRequest.TestSessionID = id;
             
             var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, testSessionCertifyRequest, id);
             if (!certifiable.IsSuccess)

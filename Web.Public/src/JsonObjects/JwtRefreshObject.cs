@@ -12,7 +12,14 @@ namespace Web.Public.JsonObjects
 
         public List<string> ValidateObject()
         {
-            return new List<string>();
+            var errors = new List<string>();
+            
+            if (string.IsNullOrEmpty(Password))
+            {
+                errors.Add($"{nameof(JwtRequestObject)}.{nameof(Password)} is required.");
+            }
+
+            return errors;
         }
     }
 }

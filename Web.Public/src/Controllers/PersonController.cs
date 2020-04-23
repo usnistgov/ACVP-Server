@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -52,7 +53,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+			var person = _jsonReader.GetWorkflowObjectFromBodyJson<PersonCreatePayload>(jsonBlob, APIAction.CreatePerson);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreatePerson, certRawData, person);
@@ -77,7 +78,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+			var person = _jsonReader.GetWorkflowObjectFromBodyJson<PersonUpdatePayload>(jsonBlob, APIAction.UpdatePerson);
 
 			person.ID = id;
 			
@@ -104,7 +105,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetObjectFromBodyJson<Person>(jsonBlob);
+			var person = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeletePerson);
 
 			person.ID = id;
 			

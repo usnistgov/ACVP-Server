@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -52,7 +53,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
+			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<OrganizationCreatePayload>(jsonBlob, APIAction.CreateVendor);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
@@ -77,7 +78,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
+			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<OrganizationUpdatePayload>(jsonBlob, APIAction.UpdateVendor);
 			
 			// Give object the necessary ID
 			organization.ID = id;
@@ -105,7 +106,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetObjectFromBodyJson<Organization>(jsonBlob);
+			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteVendor);
 			
 			// Give object the necessary ID
 			organization.ID = id;

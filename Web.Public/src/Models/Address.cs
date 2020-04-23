@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
-	public class Address : IJsonObject
+	public class Address
 	{
 		[JsonIgnore]
 		public long ID { get; set; }

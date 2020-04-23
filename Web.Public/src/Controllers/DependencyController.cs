@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
@@ -51,7 +52,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DependencyCreatePayload>(jsonBlob, APIAction.CreateDependency);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateDependency, certRawData, dependency);
@@ -76,7 +77,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DependencyUpdatePayload>(jsonBlob, APIAction.UpdateDependency);
 
 			dependency.ID = id;
 			
@@ -103,7 +104,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetObjectFromBodyJson<Dependency>(jsonBlob);
+			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteDependency);
 
 			dependency.ID = id;
 			

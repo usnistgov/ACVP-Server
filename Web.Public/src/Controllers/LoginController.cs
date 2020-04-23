@@ -57,11 +57,9 @@ namespace Web.Public.Controllers
                         errorObject),
                     HttpStatusCode.Forbidden);
             }
-
-            var claims = new Dictionary<string, string> {{"ts", "40671"}, {"vs", "[57, 58, 59, 60]"}};
-
+            
             // Either create or refresh the token
-            var tokenResult = content.AccessToken == null ? _jwtService.Create(clientCertSubject, claims) : _jwtService.Refresh(clientCertSubject, content.AccessToken);
+            var tokenResult = content.AccessToken == null ? _jwtService.Create(clientCertSubject, null) : _jwtService.Refresh(clientCertSubject, content.AccessToken);
             if (!tokenResult.IsSuccess)
             {
                 var errorObject = new ErrorObject

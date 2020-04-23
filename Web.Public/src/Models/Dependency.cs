@@ -5,7 +5,7 @@ using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
-	public class Dependency : IJsonObject
+	public class Dependency
 	{
 		[JsonIgnore]
 		public long ID { get; set; }

@@ -9,10 +9,10 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 		[JsonPropertyName("testSessionId")]
 		public long TestSessionID { get; set; }
 
-		[JsonPropertyName("productUrl")]
+		[JsonPropertyName("moduleUrl")]
 		public string ImplementationURL { get; set; }
 
-		[JsonPropertyName("product")]
+		[JsonPropertyName("module")]
 		public ImplementationCreatePayload ImplementationToCreate { get; set; }
 
 		[JsonPropertyName("oeUrl")]
@@ -21,9 +21,8 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 		[JsonPropertyName("oe")]
 		public OECreatePayload OEToCreate { get; set; }
 
-		[JsonPropertyName("certification")]
-		public PointlessWrapper ContainerForPrereqs { get; set; }       //TODO kill this thing when we redo the public side, this message is stupid
-
+		[JsonPropertyName("algorithmPrerequisites")]
+		public List<AlgorithmPrerequisite> AlgorithmPrerequisites { get; set; }
 
 		public CertifyTestSessionParameters ToCertifyTestSessionParameters()
 		{
@@ -36,9 +35,9 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 			};
 
 			//Translate the prereqs. This is kind of a mess because the prereqs as implemented in the Java public stuff doesn't make much sense. It only allows things like C:123, A:456, and AES:789 as the "validationId"
-			if (ContainerForPrereqs != null)
+			if (AlgorithmPrerequisites != null)
 			{
-				foreach (var payloadAlgorithmPrerequisites in ContainerForPrereqs.AlgorithmPrerequisites)
+				foreach (var payloadAlgorithmPrerequisites in AlgorithmPrerequisites)
 				{
 					var algorithmPrerequisites = new CertifyTestSessionParameters.AlgorithmPrerequisites
 					{
@@ -67,13 +66,6 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 			return certifyTestSessionParameters;
 		}
 
-
-		public class PointlessWrapper
-		{
-			[JsonPropertyName("algorithmPrerequisites")]
-			public List<AlgorithmPrerequisite> AlgorithmPrerequisites { get; set; }
-		}
-
 		public class AlgorithmPrerequisite
 		{
 			[JsonPropertyName("algorithm")]
@@ -95,6 +87,4 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 			public string ValidationID { get; set; }
 		}
 	}
-
-
 }

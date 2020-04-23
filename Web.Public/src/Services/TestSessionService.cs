@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
 using Web.Public.Providers;
@@ -90,8 +91,9 @@ namespace Web.Public.Services
             };
         }
 
-        public Result ValidateTestSessionCertifyRequest(byte[] cert, TestSessionCertify certifyRequest, long testSessionId)
+        public Result ValidateTestSessionCertifyRequest(byte[] cert, CertifyTestSessionPayload certifyRequest, long testSessionId)
         {
+            // TODO this method may not be needed depending on if I can do more validation from the IWorkflowPayload validation perspective.
             // TODO Test session must have valid OE and module, though they should be done when deserializing?
 
             // Test session request must be from session owner
