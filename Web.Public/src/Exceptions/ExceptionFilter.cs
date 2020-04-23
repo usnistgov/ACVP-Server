@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
@@ -37,7 +38,8 @@ namespace Web.Public.Exceptions
         {
             return new ErrorObject
             {
-                Error = ex.Message
+                Error = "Invalid JSON provided",
+                Context = ex.Errors
             };
         }
     }

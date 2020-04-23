@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,7 +44,7 @@ namespace Web.Public.Services
                 var errorList = extractedObject.ValidateObject();
                 if (errorList.Any())
                 {
-                    throw new JsonReaderException($"Errors parsing body object. {string.Join(";", errorList)}");
+                    throw new JsonReaderException(errorList);
                 }
 
                 return extractedObject;
@@ -85,7 +84,7 @@ namespace Web.Public.Services
 
                 if (!validationResult.IsSuccess)
                 {
-                    throw new JsonReaderException($"Errors parsing body object. {string.Join(";", validationResult.Errors)}");
+                    throw new JsonReaderException(validationResult.Errors);
                 }
 
                 return extractedObject;
