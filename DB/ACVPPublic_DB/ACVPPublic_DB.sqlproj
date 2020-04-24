@@ -162,5 +162,8 @@
     <Build Include="acvp\Stored Procedures\VectorSetStatusGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationExists.sql" />
+    <Build Include="val\Stored Procedures\PersonExists.sql" />
+    <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
+    <Build Include="val\Stored Procedures\ImplementationExists.sql" />
   </ItemGroup>
 </Project>
