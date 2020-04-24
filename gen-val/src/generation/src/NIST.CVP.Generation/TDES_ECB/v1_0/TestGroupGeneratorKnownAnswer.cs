@@ -22,6 +22,7 @@ namespace NIST.CVP.Generation.TDES_ECB.v1_0
                     {
                         Function = function,
                         InternalTestType = katTest,
+                        KeyingOption = 1,
                         TestType = TEST_TYPE
                     };
 
