@@ -46,6 +46,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("ACVP-TDES-OFB", null, "1.0") => JsonSerializer.Deserialize<TDES_OFB>(algorithmRegistration),
 				("ACVP-TDES-OFBI", null, "1.0") => JsonSerializer.Deserialize<TDES_OFBI>(algorithmRegistration),
 				("CMAC-AES", null, "1.0") => JsonSerializer.Deserialize<AES_CMAC>(algorithmRegistration),
+				("CMAC-TDES", null, "1.0") => JsonSerializer.Deserialize<TDES_CMAC>(algorithmRegistration),
 				("ctrDRBG", null, "1.0") => JsonSerializer.Deserialize<CounterDRBG>(algorithmRegistration),
 				("CSHAKE-128", null, "1.0") => JsonSerializer.Deserialize<CSHAKE_128>(algorithmRegistration),
 				("CSHAKE-256", null, "1.0") => JsonSerializer.Deserialize<CSHAKE_256>(algorithmRegistration),
