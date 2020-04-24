@@ -70,7 +70,11 @@
     <div class="card">
       <h5 class="card-header">Capabilities</h5>
       <div class="card-body">
-        Not yet implemented
+        <table class="table">
+          <tr *ngFor="let vectorSet of workflowItem?.payload?.testSession?.vectorSets">
+            <th>{{vectorSet.algorithm}}</th>
+          </tr>
+        </table>
       </div>
     </div> <!-- Close Dependency Info Card -->
   </div>
