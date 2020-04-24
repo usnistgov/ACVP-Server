@@ -27,7 +27,7 @@ namespace Web.Admin.Controllers
             _mailer = mailer;
         }
 
-        [HttpPost("Upload"), DisableRequestSizeLimit]
+        [HttpPost("Upload"), DisableRequestSizeLimit, RequestFormLimits(MultipartBodyLengthLimit = 536870912)]
         public ActionResult<SubmissionProcessingResult> Upload()
         {
             try
