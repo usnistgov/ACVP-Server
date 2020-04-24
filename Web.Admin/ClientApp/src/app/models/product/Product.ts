@@ -8,6 +8,7 @@ export class Product {
   name: string;
   url: string;
   type: string;
+  link: string;
   version: string;
   description: string;
   itar: boolean;
