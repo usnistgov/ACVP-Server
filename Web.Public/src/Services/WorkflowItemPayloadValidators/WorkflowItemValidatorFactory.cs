@@ -10,14 +10,16 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly IOrganizationService _organizationService;
 		private readonly IPersonService _personService;
 		private readonly ITestSessionService _testSessionService;
+		private readonly IImplementationService _implementationService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
 			_organizationService = organizationService;
 			_personService = personService;
 			_testSessionService = testSessionService;
+			_implementationService = implementationService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
@@ -30,12 +32,12 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.CreatePerson => new PersonCreatePayloadValidator(),
 				APIAction.CreateVendor => new VendorCreatePayloadValidator(),
 				APIAction.DeleteDependency => new DependencyDeletePayloadValidator(_dependencyService),
-				APIAction.DeleteImplementation => new ImplementationDeletePayloadValidator(),
+				APIAction.DeleteImplementation => new ImplementationDeletePayloadValidator(_implementationService),
 				APIAction.DeleteOE => new OperatingEnvironmentDeletePayloadValidator(),
 				APIAction.DeletePerson => new PersonDeletePayloadValidator(),
 				APIAction.DeleteVendor => new VendorDeletePayloadValidator(),
 				APIAction.UpdateDependency => new DependencyUpdatePayloadValidator(_dependencyService),
-				APIAction.UpdateImplementation => new ImplementationUpdatePayloadValidator(),
+				APIAction.UpdateImplementation => new ImplementationUpdatePayloadValidator(_implementationService, _addressService, _organizationService, _personService),
 				APIAction.UpdateOE => new OperatingEnvironmentUpdatePayloadValidator(),
 				APIAction.UpdatePerson => new PersonUpdatePayloadValidator(),
 				APIAction.UpdateVendor => new VendorUpdatePayloadValidator(),

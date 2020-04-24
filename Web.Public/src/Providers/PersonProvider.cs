@@ -77,6 +77,31 @@ namespace Web.Public.Providers
 			}
 		}
 		
+		public bool Exists(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.PersonExists",
+					new
+					{
+						personId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to validate existence of person.", e);
+				return false;
+			}
+		}
+		
 		public (long TotalCount, List<Person> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
 		{
 			var db = new MightyOrm(_acvpPublicConnectionString);

@@ -6,6 +6,8 @@ namespace Web.Public.Services
 	public interface IImplementationService
 	{
 		Implementation GetImplementation(long id);
+		bool Exists(long id);
+		bool IsUsed(long id);
 		(long TotalCount, List<Implementation> Implementations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
 	}
 }

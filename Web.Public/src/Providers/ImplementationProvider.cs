@@ -34,7 +34,7 @@ namespace Web.Public.Providers
 
 				if (data == null)
 				{
-					throw new Exception($"Unable to find implementation: {id}");
+					return null;
 				}
 				
 				var result = new Implementation
@@ -69,6 +69,56 @@ namespace Web.Public.Providers
 			{
 				Log.Error(ex, "Error on Implementation GET");
 				throw;
+			}
+		}
+
+		public bool Exists(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.ImplementationExists",
+					new
+					{
+						implementationId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to validate existence of implementation.", e);
+				return false;
+			}
+		}
+		
+		public bool IsUsed(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.ImplementationIsUsed",
+					new
+					{
+						implementationId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to determine if implementation in use.", e);
+				return false;
 			}
 		}
 
