@@ -13,6 +13,7 @@ using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -29,6 +30,7 @@ namespace Web.Public.Controllers
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJwtService _jwtService;
         private readonly VectorSetConfig _vectorSetConfig;
+        private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
         
         public TestSessionController(
             IParameterValidatorService parameterValidatorService,
@@ -37,6 +39,7 @@ namespace Web.Public.Controllers
             IJsonReaderService jsonReader,
             IJsonWriterService jsonWriter,
             IJwtService jwtService,
+            IWorkflowItemValidatorFactory workflowItemValidatorFactory,
             IOptions<VectorSetConfig> vectorSetConfig)
         {
             _parameterValidatorService = parameterValidatorService;
@@ -45,6 +48,7 @@ namespace Web.Public.Controllers
             _jsonReader = jsonReader;
             _jsonWriter = jsonWriter;
             _jwtService = jwtService;
+            _workflowItemValidatorFactory = workflowItemValidatorFactory;
             _vectorSetConfig = vectorSetConfig.Value;
         }
         
@@ -146,11 +150,18 @@ namespace Web.Public.Controllers
             
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 
-            var testSessionCertifyRequest = _jsonReader.GetWorkflowItemPayloadFromBodyJson<CertifyTestSessionPayload>(
-                jsonBlob, APIAction.CertifyTestSession, payload => payload.TestSessionID = id);
+            // Convert and validate
+            var apiAction = APIAction.CertifyTestSession;
+            var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<CertifyTestSessionPayload>(jsonBlob, apiAction);
+            payload.TestSessionID = id;
+            var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+            if (!validation.IsSuccess)
+            {
+                throw new JsonReaderException(validation.Errors);
+            }
             
             // TODO this can probably be removed due to the validator that (will) exist in the deserialization process
-            var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, testSessionCertifyRequest, id);
+            var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, payload, id);
             if (!certifiable.IsSuccess)
             {
                 var errorObject = new ErrorObject()
@@ -161,7 +172,7 @@ namespace Web.Public.Controllers
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
             }
             
-            var requestId = _messageService.InsertIntoQueue(APIAction.CertifyTestSession, cert, testSessionCertifyRequest);
+            var requestId = _messageService.InsertIntoQueue(apiAction, cert, payload);
 
             _testSessionService.SetTestSessionPublished(id);
             

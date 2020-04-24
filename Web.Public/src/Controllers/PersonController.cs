@@ -10,6 +10,7 @@ using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -23,6 +24,7 @@ namespace Web.Public.Controllers
 		private readonly IMessageService _messageService;
 		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
+		private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("fullName", false, new List<string> { "eq", "start", "end", "contains" }),
@@ -35,12 +37,14 @@ namespace Web.Public.Controllers
 			IPersonService personService,
 			IMessageService messageService,
 			IJsonReaderService jsonReader,
-			IJsonWriterService jsonWriter)
+			IJsonWriterService jsonWriter,
+			IWorkflowItemValidatorFactory workflowItemValidatorFactory)
 		{
 			_personService = personService;
 			_messageService = messageService;
 			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
+			_workflowItemValidatorFactory = workflowItemValidatorFactory;
 		}
 
 		[HttpPost]
@@ -52,11 +56,17 @@ namespace Web.Public.Controllers
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
-			// Convert to Person
-			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonCreatePayload>(jsonBlob, APIAction.CreatePerson);
+			// Convert and validate
+			var apiAction = APIAction.CreatePerson;
+			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonCreatePayload>(jsonBlob, apiAction);
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.CreatePerson, certRawData, person);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -77,14 +87,18 @@ namespace Web.Public.Controllers
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
-			// Convert to Person
-			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonUpdatePayload>(
-				jsonBlob, APIAction.UpdatePerson, payload => payload.ID = id);
+			// Convert and validate
+			var apiAction = APIAction.UpdatePerson;
+			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonUpdatePayload>(jsonBlob, apiAction);
+			payload.ID = id;
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 
-			person.ID = id;
-			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.UpdatePerson, certRawData, person);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -102,16 +116,20 @@ namespace Web.Public.Controllers
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
 
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var apiAction = APIAction.DeletePerson;
+			var payload = new DeletePayload()
+			{
+				ID = id
+			};
 			
-			// Convert to Person
-			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeletePerson);
-
-			person.ID = id;
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.DeletePerson, certRawData, person);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

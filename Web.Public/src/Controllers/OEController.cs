@@ -10,6 +10,7 @@ using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -23,6 +24,7 @@ namespace Web.Public.Controllers
 		private readonly IMessageService _messageService;
 		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
+		private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("name", false, new List<string> { "eq", "start", "end", "contains" })
@@ -32,12 +34,14 @@ namespace Web.Public.Controllers
 			IOEService oeService,
 			IMessageService messageService,
 			IJsonReaderService jsonReader,
-			IJsonWriterService jsonWriter)
+			IJsonWriterService jsonWriter,
+			IWorkflowItemValidatorFactory workflowItemValidatorFactory)
 		{
 			_oeService = oeService;
 			_messageService = messageService;
 			_jsonReader = jsonReader;
 			_jsonWriter = jsonWriter;
+			_workflowItemValidatorFactory = workflowItemValidatorFactory;
 		}
 		
 		[HttpPost]
@@ -49,11 +53,17 @@ namespace Web.Public.Controllers
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
-			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OECreatePayload>(jsonBlob, APIAction.CreateOE);
+			// Convert and validate
+			var apiAction = APIAction.CreateOE;
+			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OECreatePayload>(jsonBlob, apiAction);
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.CreateOE, certRawData, oe);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -74,12 +84,18 @@ namespace Web.Public.Controllers
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
-			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OEUpdatePayload>(
-				jsonBlob, APIAction.UpdateOE, payload => payload.ID = id);
+			// Convert and validate
+			var apiAction = APIAction.UpdateOE;
+			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OEUpdatePayload>(jsonBlob, apiAction);
+			payload.ID = id;
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateOE, certRawData, oe);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -96,17 +112,21 @@ namespace Web.Public.Controllers
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
-			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteOE);
-
-			oe.ID = id;
+			var apiAction = APIAction.DeleteOE;
+			var payload = new DeletePayload()
+			{
+				ID = id
+			};
+			
+			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			if (!validation.IsSuccess)
+			{
+				throw new JsonReaderException(validation.Errors);
+			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(APIAction.DeleteOE, certRawData, oe);
+			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

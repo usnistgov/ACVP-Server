@@ -24,10 +24,9 @@ namespace Web.Public.Services
         /// </summary>
         /// <param name="jsonBody">The JSON to parse.</param>
         /// <param name="apiAction">The type of workflow item to create.</param>
-        /// <param name="postDeserializationAction">The action to take on the deserialized object, like setting an ID.  Can be null.</param>
         /// <typeparam name="T">The <see cref="IWorkflowItemPayload"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        T GetWorkflowItemPayloadFromBodyJson<T>(string jsonBody, APIAction apiAction, Action<T> postDeserializationAction = null) where T : IWorkflowItemPayload;
+        T GetWorkflowItemPayloadFromBodyJson<T>(string jsonBody, APIAction apiAction) where T : IWorkflowItemPayload;
         string GetJsonFromBody(Stream body);
     }
 }
