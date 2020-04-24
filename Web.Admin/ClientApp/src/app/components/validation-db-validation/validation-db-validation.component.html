@@ -16,7 +16,7 @@
           <p class="card-text">
             <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
             <label class="bold-heading">Implementation Name</label><br />
-            <a routerLink= "/validation-db/products/{{selectedValidation?.implementationID}}">{{selectedValidation?.productName}}</a>
+            <a routerLink="/validation-db/products/{{selectedValidation?.implementationID}}">{{selectedValidation?.productName}}</a>
             <br /><br />
             <label class="bold-heading">Created</label><br />
             {{selectedValidation?.created}}
@@ -54,6 +54,18 @@
           <br /><br />
           <label class="bold-heading">Fax Number</label><br />
           {{((organization?.faxNumber !== "" && organization?.faxNumber !== null) ? organization?.faxNumber : "N/A")}}
+        </div>
+      </div> <!-- Close Product Information Card -->
+    </div>
+
+    <div class="col-lg-6">
+      <!-- Product Information Card-->
+      <div class="card">
+        <div class="card-header">
+          <h5>OE Information</h5>
+        </div>
+        <div class="card-body">
+          <a [attr.href]="'/api/validations/' + selectedValidation?.validationId + '/oes'" [attr.target]="'_blank'">Download Raw OE Data</a>
         </div>
       </div> <!-- Close Product Information Card -->
     </div>
