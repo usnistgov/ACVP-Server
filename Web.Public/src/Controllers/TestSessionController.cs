@@ -123,7 +123,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonHttpStatusResult GetTestSession(long id)
+        public ActionResult GetTestSession(long id)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);

@@ -46,7 +46,7 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public JsonHttpStatusResult GetVectorSets(long tsID)
+        public ActionResult GetVectorSets(long tsID)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);

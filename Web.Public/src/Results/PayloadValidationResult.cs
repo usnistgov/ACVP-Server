@@ -6,7 +6,7 @@ namespace Web.Public.Results
 	public class PayloadValidationResult
 	{
 		public List<string> Errors { get; }
-		public bool IsSuccess => !Errors.Any();
+		public bool IsSuccess => Errors == null || !Errors.Any();
 
 		public PayloadValidationResult(List<string> errors)
 		{
