@@ -53,7 +53,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<OrganizationCreatePayload>(jsonBlob, APIAction.CreateVendor);
+			var organization = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OrganizationCreatePayload>(jsonBlob, APIAction.CreateVendor);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateVendor, certRawData, organization);
@@ -69,7 +69,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateVendor(int id)
+		public JsonHttpStatusResult UpdateVendor(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -78,7 +78,8 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<OrganizationUpdatePayload>(jsonBlob, APIAction.UpdateVendor);
+			var organization = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OrganizationUpdatePayload>(
+					jsonBlob, APIAction.UpdateVendor, payload => payload.ID = id);
 			
 			// Give object the necessary ID
 			organization.ID = id;
@@ -97,7 +98,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteVendor(int id)
+		public JsonHttpStatusResult DeleteVendor(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -106,7 +107,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Organization
-			var organization = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteVendor);
+			var organization = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteVendor);
 			
 			// Give object the necessary ID
 			organization.ID = id;

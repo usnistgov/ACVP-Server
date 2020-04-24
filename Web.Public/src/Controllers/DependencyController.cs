@@ -52,7 +52,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DependencyCreatePayload>(jsonBlob, APIAction.CreateDependency);
+			var dependency = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DependencyCreatePayload>(jsonBlob, APIAction.CreateDependency);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateDependency, certRawData, dependency);
@@ -68,7 +68,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateDependency(int id)
+		public JsonHttpStatusResult UpdateDependency(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -77,9 +77,9 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DependencyUpdatePayload>(jsonBlob, APIAction.UpdateDependency);
-
-			dependency.ID = id;
+			var dependency = 
+				_jsonReader.GetWorkflowItemPayloadFromBodyJson<DependencyUpdatePayload>(
+					jsonBlob, APIAction.UpdateDependency, payload => payload.ID = id );
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateDependency, certRawData, dependency);
@@ -95,7 +95,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteDependency(int id)
+		public JsonHttpStatusResult DeleteDependency(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -104,7 +104,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var dependency = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteDependency);
+			var dependency = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteDependency);
 
 			dependency.ID = id;
 			
@@ -122,7 +122,7 @@ namespace Web.Public.Controllers
 		}
 		
 		[HttpGet("{id}")]
-		public JsonHttpStatusResult GetDependency(int id)
+		public JsonHttpStatusResult GetDependency(long id)
 		{
 			var dependency = _dependencyService.GetDependency(id);
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(dependency));

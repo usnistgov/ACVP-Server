@@ -55,7 +55,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var implementation = _jsonReader.GetWorkflowObjectFromBodyJson<ImplementationCreatePayload>(jsonBlob, APIAction.CreateImplementation);
+			var implementation = _jsonReader.GetWorkflowItemPayloadFromBodyJson<ImplementationCreatePayload>(jsonBlob, APIAction.CreateImplementation);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateImplementation, certRawData, implementation);
@@ -71,7 +71,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateImplementation(int id)
+		public JsonHttpStatusResult UpdateImplementation(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -80,9 +80,9 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var implementation = _jsonReader.GetWorkflowObjectFromBodyJson<ImplementationUpdatePayload>(jsonBlob, APIAction.UpdateImplementation);
-
-			implementation.ID = id;
+			var implementation =
+				_jsonReader.GetWorkflowItemPayloadFromBodyJson<ImplementationUpdatePayload>(
+					jsonBlob, APIAction.UpdateImplementation, payload => payload.ID = id);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateImplementation, certRawData, implementation);
@@ -98,7 +98,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteImplementation(int id)
+		public JsonHttpStatusResult DeleteImplementation(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -107,7 +107,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var implementation = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteImplementation);
+			var implementation = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteImplementation);
 
 			implementation.ID = id;
 			
@@ -125,7 +125,7 @@ namespace Web.Public.Controllers
 		}
 		
 		[HttpGet("{id}")]
-		public JsonHttpStatusResult GetImplementation(int id)
+		public JsonHttpStatusResult GetImplementation(long id)
 		{
 			var result = _implementationService.GetImplementation(id);
 			if (result == null)

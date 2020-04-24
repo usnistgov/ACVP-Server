@@ -53,7 +53,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetWorkflowObjectFromBodyJson<PersonCreatePayload>(jsonBlob, APIAction.CreatePerson);
+			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonCreatePayload>(jsonBlob, APIAction.CreatePerson);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreatePerson, certRawData, person);
@@ -69,7 +69,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdatePerson(int id)
+		public JsonHttpStatusResult UpdatePerson(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -78,7 +78,8 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetWorkflowObjectFromBodyJson<PersonUpdatePayload>(jsonBlob, APIAction.UpdatePerson);
+			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<PersonUpdatePayload>(
+				jsonBlob, APIAction.UpdatePerson, payload => payload.ID = id);
 
 			person.ID = id;
 			
@@ -105,7 +106,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Person
-			var person = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeletePerson);
+			var person = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeletePerson);
 
 			person.ID = id;
 			

@@ -50,7 +50,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowObjectFromBodyJson<OECreatePayload>(jsonBlob, APIAction.CreateOE);
+			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OECreatePayload>(jsonBlob, APIAction.CreateOE);
 			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.CreateOE, certRawData, oe);
@@ -66,7 +66,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateOE(int id)
+		public JsonHttpStatusResult UpdateOE(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -75,10 +75,9 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowObjectFromBodyJson<OEUpdatePayload>(jsonBlob, APIAction.UpdateOE);
+			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<OEUpdatePayload>(
+				jsonBlob, APIAction.UpdateOE, payload => payload.ID = id);
 
-			oe.ID = id;
-			
 			// Pass to message queue
 			var requestID = _messageService.InsertIntoQueue(APIAction.UpdateOE, certRawData, oe);
 			
@@ -93,7 +92,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteOE(int id)
+		public JsonHttpStatusResult DeleteOE(long id)
 		{
 			// Get user cert
 			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
@@ -102,7 +101,7 @@ namespace Web.Public.Controllers
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
 			// Convert to Dependency
-			var oe = _jsonReader.GetWorkflowObjectFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteOE);
+			var oe = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DeletePayload>(jsonBlob, APIAction.DeleteOE);
 
 			oe.ID = id;
 			
@@ -120,7 +119,7 @@ namespace Web.Public.Controllers
 		}
 		
 		[HttpGet("{id}")]
-		public JsonHttpStatusResult GetOE(int id)
+		public JsonHttpStatusResult GetOE(long id)
 		{
 			var oe = _oeService.GetOE(id);
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(oe));

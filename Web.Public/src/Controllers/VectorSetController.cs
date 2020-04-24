@@ -46,7 +46,7 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public JsonHttpStatusResult GetVectorSets(int tsID)
+        public JsonHttpStatusResult GetVectorSets(long tsID)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             var testSessions = _testSessionService.GetTestSession(cert, tsID);
@@ -60,7 +60,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}")]
-        public ActionResult GetPrompt(int tsID, int vsID)
+        public ActionResult GetPrompt(long tsID, long vsID)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -85,7 +85,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpDelete("{vsID}")]
-        public ActionResult CancelVectorSet(int tsID, int vsID)
+        public ActionResult CancelVectorSet(long tsID, long vsID)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
 
@@ -118,7 +118,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}/results")]
-        public ActionResult GetValidationResults(int tsID, int vsID)
+        public ActionResult GetValidationResults(long tsID, long vsID)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -143,7 +143,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPost("{vsID}/results")]
-        public ActionResult PostResults(int tsID, int vsID)
+        public ActionResult PostResults(long tsID, long vsID)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];
@@ -167,7 +167,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{vsID}/results")]
-        public ActionResult UpdateResults(int tsID, int vsID)
+        public ActionResult UpdateResults(long tsID, long vsID)
         {
             if (!_vectorSetConfig.AllowResubmission)
             {
@@ -196,7 +196,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}/expected")]
-        public ActionResult GetExpectedResults(int tsID, int vsID)
+        public ActionResult GetExpectedResults(long tsID, long vsID)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];

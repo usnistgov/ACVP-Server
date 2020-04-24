@@ -28,7 +28,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonHttpStatusResult GetAddress(int vendorId, int id)
+        public JsonHttpStatusResult GetAddress(long vendorId, long id)
         {
             var address = _addressService.Get(vendorId, id);
             if (address == null)
@@ -45,7 +45,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet]
-        public JsonHttpStatusResult GetAddressList(int vendorId)
+        public JsonHttpStatusResult GetAddressList(long vendorId)
         {
             //Try to read limit and offset, if passed in
             var limit = 0;

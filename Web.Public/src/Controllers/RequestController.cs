@@ -36,7 +36,7 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet("{id}")]
-        public JsonHttpStatusResult GetRequest(int id)
+        public JsonHttpStatusResult GetRequest(long id)
         {
             // TODO should these endpoints be concerned about userID? 
 

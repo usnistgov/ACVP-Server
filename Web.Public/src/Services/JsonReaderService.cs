@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -56,7 +57,7 @@ namespace Web.Public.Services
             }
         }
 
-        public T GetWorkflowObjectFromBodyJson<T>(string jsonBody, APIAction apiAction)
+        public T GetWorkflowItemPayloadFromBodyJson<T>(string jsonBody, APIAction apiAction, Action<T> postDeserializationAction = null)
             where T : IWorkflowItemPayload
         {
             try
@@ -78,6 +79,9 @@ namespace Web.Public.Services
 
                 // Extract and verify object info
                 var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
+
+                // Perform any action on the deserialized object if one exists.
+                postDeserializationAction?.Invoke(extractedObject);
 
                 var validator = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction);
                 var validationResult = validator.Validate(extractedObject);

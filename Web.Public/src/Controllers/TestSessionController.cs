@@ -123,7 +123,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonHttpStatusResult GetTestSession(int id)
+        public JsonHttpStatusResult GetTestSession(long id)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
 
@@ -139,9 +139,10 @@ namespace Web.Public.Controllers
             
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 
-            var testSessionCertifyRequest = _jsonReader.GetWorkflowObjectFromBodyJson<CertifyTestSessionPayload>(jsonBlob, APIAction.CertifyTestSession);
-            testSessionCertifyRequest.TestSessionID = id;
+            var testSessionCertifyRequest = _jsonReader.GetWorkflowItemPayloadFromBodyJson<CertifyTestSessionPayload>(
+                jsonBlob, APIAction.CertifyTestSession, payload => payload.TestSessionID = id);
             
+            // TODO this can probably be removed due to the validator that (will) exist in the deserialization process
             var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, testSessionCertifyRequest, id);
             if (!certifiable.IsSuccess)
             {
