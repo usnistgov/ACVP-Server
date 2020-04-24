@@ -9,20 +9,22 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly IAddressService _addressService;
 		private readonly IOrganizationService _organizationService;
 		private readonly IPersonService _personService;
+		private readonly ITestSessionService _testSessionService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
 			_organizationService = organizationService;
 			_personService = personService;
+			_testSessionService = testSessionService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
 		{
 			return action switch
 			{
-				APIAction.CreateDependency => (IWorkflowItemValidator) new DependencyCreatePayloadValidator(),
+				APIAction.CreateDependency => new DependencyCreatePayloadValidator(),
 				APIAction.CreateImplementation => new ImplementationCreatePayloadValidator(_addressService, _organizationService, _personService),
 				APIAction.CreateOE => new OperatingEnvironmentCreatePayloadValidator(),
 				APIAction.CreatePerson => new PersonCreatePayloadValidator(),
@@ -39,7 +41,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.UpdateVendor => new VendorUpdatePayloadValidator(),
 				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(),
 				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(),
-				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(),
+				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(),
 				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(),
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsPayloadValidator(),

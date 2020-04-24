@@ -125,9 +125,16 @@ namespace Web.Public.Controllers
         [HttpGet("{id}")]
         public JsonHttpStatusResult GetTestSession(long id)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-
-            var testSession = _testSessionService.GetTestSession(cert, id);
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+            
+            var claimValidator = new TestSessionClaimsVerifier(id);
+            if (!claimValidator.AreClaimsValid(claims))
+            {
+                return new ForbidResult();
+            }
+            
+            var testSession = _testSessionService.GetTestSession(id);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }

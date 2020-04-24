@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 {
-	public class CancelPayload
+	public class CancelPayload : IWorkflowItemPayload
 	{
 		[JsonPropertyName("tsId")]
 		public long TestSessionID { get; set; }

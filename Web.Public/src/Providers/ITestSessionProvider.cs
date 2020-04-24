@@ -7,7 +7,7 @@ namespace Web.Public.Providers
     public interface ITestSessionProvider
     {
         bool IsOwner(long userID, long tsID);
-        TestSession GetTestSession(long userID, long id);
+        TestSession GetTestSession(long id);
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
         Result SetTestSessionPublished(long testSessionId);

@@ -43,7 +43,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public TestSession GetTestSession(long userID, long id)
+        public TestSession GetTestSession(long id)
         {
             var db = new MightyOrm(_connectionString);
 
@@ -51,7 +51,6 @@ namespace Web.Public.Providers
             {
                 var data = db.SingleFromProcedure("acvp.TestSessionGet", new
                 {
-                    UserID = userID,
                     ID = id
                 });
 
@@ -85,7 +84,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error retrieving TestSession: {id} for user: {userID}");
+                Log.Error(ex, $"Error retrieving TestSession: {id}");
                 throw;
             }
         }

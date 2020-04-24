@@ -31,12 +31,8 @@ namespace Web.Public.Services
             return _testSessionProvider.IsOwner(userID, id);
         }
 
-        public TestSession GetTestSession(byte[] cert, long id)
-        {
-            var userID = _userProvider.GetUserIDFromCertificate(cert);
-            return _testSessionProvider.GetTestSession(userID, id);
-        }
-
+        public TestSession GetTestSession(long id) => _testSessionProvider.GetTestSession(id);
+        
         public (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(byte[] cert, PagingOptions pagingOptions)
         {
             var userID = _userProvider.GetUserIDFromCertificate(cert);
@@ -102,7 +98,7 @@ namespace Web.Public.Services
                 return new Result("Certify request must be submitted by the test session owner");
             }
             
-            var testSession = GetTestSession(cert, testSessionId);
+            var testSession = GetTestSession(testSessionId);
             
             // Test session must not be sample
             if (testSession.IsSample)
