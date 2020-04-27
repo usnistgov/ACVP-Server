@@ -37,13 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -89,13 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -147,13 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -214,13 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{baseurl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -262,13 +254,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{baseurl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -321,13 +311,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?offset=23000&limit=20",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?offset=23000&limit=20",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -394,13 +382,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?name[0]=contains:DMC",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -463,13 +449,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?type[0]=eq:software",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?type[0]=eq:software",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -532,13 +516,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?description[0]=start:Testing",
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?description[0]=start:Testing",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{baseurl}}"
 					],
 					"path": [
 						"acvp",
@@ -596,13 +578,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Updated Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 Updated cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{baseurl}}{{depurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -658,13 +638,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{baseurl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -706,13 +684,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{baseurl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -759,13 +735,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{baseurl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -821,13 +795,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{baseurl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -872,13 +844,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
 						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{baseurl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
