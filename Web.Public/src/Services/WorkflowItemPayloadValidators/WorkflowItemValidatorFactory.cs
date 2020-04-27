@@ -14,7 +14,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly IParameterValidatorService _parameterValidatorService;
 		private readonly IOEService _oeService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IOEService oeService, IParameterValidatorService parameterValidatorService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IParameterValidatorService parameterValidatorService, IOEService oeService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
@@ -24,6 +24,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_implementationService = implementationService;
 			_parameterValidatorService = parameterValidatorService;
 			_oeService = oeService;
+			_parameterValidatorService = parameterValidatorService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
