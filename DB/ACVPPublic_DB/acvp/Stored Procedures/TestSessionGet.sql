@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [acvp].[TestSessionGet]
     @UserID BIGINT,
     @ID BIGINT
-    
+	
 AS
 
 SELECT id AS ID
@@ -14,3 +14,4 @@ SELECT id AS ID
 --FROM [acvp].[TestSession]
 FROM [acvp].[TEST_SESSION]
 WHERE user_id = @UserID AND @ID = id
+ORDER BY created_on

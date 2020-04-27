@@ -12,8 +12,9 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly ITestSessionService _testSessionService;
 		private readonly IImplementationService _implementationService;
 		private readonly IParameterValidatorService _parameterValidatorService;
+		private readonly IOEService _oeService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IParameterValidatorService parameterValidatorService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IOEService oeService, IParameterValidatorService parameterValidatorService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
@@ -22,6 +23,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_testSessionService = testSessionService;
 			_implementationService = implementationService;
 			_parameterValidatorService = parameterValidatorService;
+			_oeService = oeService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
@@ -35,12 +37,12 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.CreateVendor => new VendorCreatePayloadValidator(),
 				APIAction.DeleteDependency => new DependencyDeletePayloadValidator(_dependencyService),
 				APIAction.DeleteImplementation => new ImplementationDeletePayloadValidator(_implementationService),
-				APIAction.DeleteOE => new OperatingEnvironmentDeletePayloadValidator(),
+				APIAction.DeleteOE => new OperatingEnvironmentDeletePayloadValidator(_oeService),
 				APIAction.DeletePerson => new PersonDeletePayloadValidator(),
 				APIAction.DeleteVendor => new VendorDeletePayloadValidator(),
 				APIAction.UpdateDependency => new DependencyUpdatePayloadValidator(_dependencyService),
 				APIAction.UpdateImplementation => new ImplementationUpdatePayloadValidator(_implementationService, _addressService, _organizationService, _personService),
-				APIAction.UpdateOE => new OperatingEnvironmentUpdatePayloadValidator(),
+				APIAction.UpdateOE => new OperatingEnvironmentUpdatePayloadValidator(this, _dependencyService),
 				APIAction.UpdatePerson => new PersonUpdatePayloadValidator(),
 				APIAction.UpdateVendor => new VendorUpdatePayloadValidator(),
 				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(_parameterValidatorService),

@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [val].[OEGet]
+    @OEID BIGINT
+	
+AS
+
+SELECT [name] as [Name]
+FROM [val].[VALIDATION_OE]
+WHERE id = @OEID
