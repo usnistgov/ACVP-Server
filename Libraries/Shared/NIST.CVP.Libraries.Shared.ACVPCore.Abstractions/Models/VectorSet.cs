@@ -4,7 +4,7 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
 {
     public class VectorSet : VectorSetLite
     {
-        public List<VectorSetJsonFileTypes> JsonFilesAvailable { get; set; } = new List<VectorSetJsonFileTypes>();
+        public List<VectorSetJsonFile> JsonFilesAvailable { get; set; } = new List<VectorSetJsonFile>();
         public VectorSetResetOption ResetOption { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
@@ -75,16 +76,17 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			// We can potentially allow the vector set to be resubmitted to the task queue, depending on the nature of the failure (transient or not).
 			if (result.Status == VectorSetStatus.Error || result.Status == VectorSetStatus.Failed)
 			{
+
 				// Allow for the resubmitting to the task queue a generation task 
-				if (result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Capabilities) &&
-				    !result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Prompt))
+				if (result.JsonFilesAvailable.Select(i => i.Type).Contains(VectorSetJsonFileTypes.Capabilities) &&
+				    !result.JsonFilesAvailable.Select(i => i.Type).Contains(VectorSetJsonFileTypes.Prompt))
 				{
 					result.ResetOption = VectorSetResetOption.ResetToGenerate;
 				}
 				
 				// Allow for the resubmitting to the task queue a validation task
-				if (result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.SubmittedAnswers) &&
-				    !result.JsonFilesAvailable.Contains(VectorSetJsonFileTypes.Validation))
+				if (result.JsonFilesAvailable.Select(i => i.Type).Contains(VectorSetJsonFileTypes.SubmittedAnswers) &&
+				    !result.JsonFilesAvailable.Select(i => i.Type).Contains(VectorSetJsonFileTypes.Validation))
 				{
 					result.ResetOption = VectorSetResetOption.ResetToValidate;
 				}
