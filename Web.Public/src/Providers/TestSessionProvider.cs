@@ -65,7 +65,8 @@ namespace Web.Public.Providers
                     CreatedOn = data.CreatedOn,
                     IsSample = data.Sample,
                     Passed = data.Disposition,
-                    Publishable = data.Publishable
+                    Publishable = data.Publishable,
+                    Published = data.Published
                 };
 
                 var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new

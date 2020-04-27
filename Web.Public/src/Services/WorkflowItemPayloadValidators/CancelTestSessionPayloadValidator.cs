@@ -16,12 +16,16 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
 			var payload = (CancelPayload) workflowItemPayload;
-
+			var errors = new List<string>();
+			
 			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
-			// TODO need published status on testSession here
+			if (testSession.Published)
+			{
+				errors.Add("testSession has already been published");
+			}
 
 			// Check that the test session exists is done by JWT claims
-			return new PayloadValidationResult(new List<string>());
+			return new PayloadValidationResult(errors);
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace Web.Public.Models
         [JsonPropertyName("vectorSetUrls")]
         public List<string> VectorSetURLs => VectorSetIDs.Select(vsId => $"/acvp/v1/testSessions/{ID}/vectorSets/{vsId}").ToList();
         public bool Publishable { get; set; }
+        public bool Published { get; set; }
         public bool Passed { get; set; }
         public bool IsSample { get; set; }
         public string AccessToken { get; set; }
