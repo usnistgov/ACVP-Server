@@ -54,6 +54,7 @@ import { AcvpUserCertificateComponent } from './components/acvp-user/acvp-user-c
 import { WorkflowActionsComponent } from './components/workflow/workflow/workflow-actions/workflow-actions.component';
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
+import { ValidationDbOrganizationsCreateComponent } from './components/validation-db-organizations/validation-db-organizations-create/validation-db-organizations-create.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
     AcvpUserTotpSeedComponent,
     AcvpUserCertificateComponent,
     WorkflowActionsComponent,
-    DisclaimerComponent
+    DisclaimerComponent,
+    ValidationDbOrganizationsCreateComponent
 
   ],
   imports: [

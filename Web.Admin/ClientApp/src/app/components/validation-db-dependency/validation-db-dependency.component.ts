@@ -15,15 +15,30 @@ export class ValidationDbDependencyComponent implements OnInit {
   referenceCopyDependency: Dependency;
   newAttribute = new Attribute("", "");
 
+  noNameProvidedFlag = false;
+  noValueProvidedFlag = false;
+
   updateStatusFlag = "none";
 
   constructor(private dds: DependencyDataProviderService, private route: ActivatedRoute) { }
 
   addAttribute(name: string, value: string) {
-    this.dds.addAttribute(this.selectedDependency.id, new Attribute(name, value)).subscribe(
-      data => { this.refreshPageData(); this.newAttribute.name = ""; this.newAttribute.value = "";},
-      err => { console.log("Attribute addition failed"); },
-      () => {});
+
+    this.noNameProvidedFlag = false;
+    this.noValueProvidedFlag = false;
+
+    if (name == "" || name == null) {
+      this.noNameProvidedFlag = true;
+    }
+    if (value == "" || name == null) {
+      this.noValueProvidedFlag = true;
+    }
+    if (!this.noNameProvidedFlag && !this.noValueProvidedFlag) {
+      this.dds.addAttribute(this.selectedDependency.id, new Attribute(name, value)).subscribe(
+        data => { this.refreshPageData(); this.newAttribute.name = ""; this.newAttribute.value = ""; },
+        err => { console.log("Attribute addition failed"); },
+        () => { });
+    }
   }
 
   deleteAttribute(attributeId: number) {

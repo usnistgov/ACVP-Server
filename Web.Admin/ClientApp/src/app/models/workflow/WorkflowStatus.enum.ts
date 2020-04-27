@@ -2,7 +2,8 @@ export enum WorkflowStatus {
   Pending = 'Pending',
   Incomplete = 'Incomplete',
   Approved = 'Approved',
-  Rejected = 'Rejected'
+  Rejected = 'Rejected',
+  All = 'All'
 }
 
 // This portion is sued to enable us to iterate over the values in the HTML to create the workflow

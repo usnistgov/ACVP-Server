@@ -6,5 +6,5 @@ export class Validation {
   validationLabel: string;
   productName: string;
   created: Date;
-
+  implementationID: number;
 }

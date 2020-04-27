@@ -22,7 +22,12 @@
 
     <div class="col-lg-10">
       <div class="row mt-3">
-        <h2>Validation DB - Organizations</h2>
+        <table style="width:100%">
+          <tr>
+            <td style="width:80%"><h2>Validation DB - Organizations</h2></td>
+            <td align="right"><button (click)="raiseNewOrgModal()" class="btn btn-primary"><span class="bold-heading">Add +</span></button></td>
+          </tr>
+        </table>
       </div>
 
       <!-- Main Table Row -->
@@ -62,3 +67,5 @@
     </div>
   </div>
 </div>
+
+<app-validation-db-organizations-create (notifyParentComponent)="navigateToNewOrg($event)"></app-validation-db-organizations-create>

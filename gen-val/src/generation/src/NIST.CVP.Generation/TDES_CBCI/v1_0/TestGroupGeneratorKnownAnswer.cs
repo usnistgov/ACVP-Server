@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.TDES_CBCI.v1_0
                     var tg = new TestGroup()
                     {
                         Function = function,
-                        KeyingOption = 3,
+                        KeyingOption = 1,
                         InternalTestType = katTest
                     };
 

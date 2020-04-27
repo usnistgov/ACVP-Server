@@ -23,21 +23,26 @@ export class WorkflowValidationCreateComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowValidationCreatePayload>) {
     this.workflowItem = item;
 
-    let productId: number = parseInt(this.workflowItem.payload.productUrl.split('/')[this.workflowItem.payload.productUrl.split('/').length - 1]);
-    let OEId: number = parseInt(this.workflowItem.payload.oeUrl.split('/')[this.workflowItem.payload.oeUrl.split('/').length - 1]);
+    if (this.workflowItem.payload.productUrl !== null) {
+      let productId: number = parseInt(this.workflowItem.payload.productUrl.split('/')[this.workflowItem.payload.productUrl.split('/').length - 1]);
 
-    this.ProductService.getProduct(productId).subscribe(
-      data => {
-        this.workflowItem.payload.product = data;
-        console.log(this.workflowItem);
-      }
-    );
+      this.ProductService.getProduct(productId).subscribe(
+        data => {
+          this.workflowItem.payload.product = data;
+          console.log(this.workflowItem);
+        }
+      );
+    }
 
-    this.OEService.getOE(OEId).subscribe(
-      data => {
-        this.workflowItem.payload.oe = data;
-      }
-    );
+    if (this.workflowItem.payload.productUrl !== null) {
+      let OEId: number = parseInt(this.workflowItem.payload.oeUrl.split('/')[this.workflowItem.payload.oeUrl.split('/').length - 1]);
+
+      this.OEService.getOE(OEId).subscribe(
+        data => {
+          this.workflowItem.payload.oe = data;
+        }
+      );
+    }
   }
 
   ngOnInit() {

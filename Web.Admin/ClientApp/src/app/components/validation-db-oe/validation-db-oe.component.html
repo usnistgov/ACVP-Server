@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row mt-3">
     <div class="col-lg-12">
-      <h2>#{{ selectedOE?.id }} - {{ selectedOE?.name }}</h2>
+      <h2>{{ selectedOE?.name }} (ID {{ selectedOE?.id }})</h2>
     </div>
   </div>
   <div class="row mt-3">
@@ -57,9 +57,18 @@
               </tr>
               <tr>
                 <td></td>
-                <td><input class="form-control" type="text" [(ngModel)]="newDependency.name" /></td>
-                <td><input class="form-control" type="text" [(ngModel)]="newDependency.type" /></td>
-                <td><textarea class="form-control" type="text" [(ngModel)]="newDependency.description"></textarea></td>
+                <td>
+                  <input class="form-control" type="text" [(ngModel)]="newDependency.name" />
+                  <p style="color:red" *ngIf="noDependencyProvidedFlag">No name provided</p>
+                </td>
+                <td>
+                  <input class="form-control" type="text" [(ngModel)]="newDependency.type" />
+                  <p style="color:red" *ngIf="noTypeProvidedFlag">No type provided</p>
+                </td>
+                <td>
+                  <textarea class="form-control" type="text" [(ngModel)]="newDependency.description"></textarea>
+                  <p style="color:red" *ngIf="noDescriptionProvidedFlag">No description provided</p>
+                </td>
                 <td><button class="btn btn-primary btn-sm bold-heading" (click)="createAndAddDependency()">+</button></td>
               </tr>
             </tbody>

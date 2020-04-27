@@ -122,6 +122,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.TDES_CFBP1 x => new TDES_CFBP1(x),
 				External.TDES_CFBP64 x => new TDES_CFBP64(x),
 				External.TDES_CFBP8 x => new TDES_CFBP8(x),
+				External.TDES_CMAC x => new TDES_CMAC(x),
 				External.TDES_CTR x => new TDES_CTR(x),
 				External.TDES_ECB x => new TDES_ECB(x),
 				External.TDES_KW x => new TDES_KW(x),

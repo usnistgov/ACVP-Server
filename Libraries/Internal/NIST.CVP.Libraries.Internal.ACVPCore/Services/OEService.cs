@@ -125,5 +125,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		{
 			return _oeProvider.DeleteDependencyLink(oeID, dependencyID);
 		}
+
+		public List<OperatingEnvironmentLite> GetOEsOnValidation(long validationID) => _oeProvider.GetOEsOnValidation(validationID);
 	}
 }

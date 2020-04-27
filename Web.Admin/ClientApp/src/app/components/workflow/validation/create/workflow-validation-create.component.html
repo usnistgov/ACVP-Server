@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <th>URL</th>
-            <td>{{workflowItem?.payload.product?.url == null ? "No URL" : workflowItem?.payload.product?.url}}</td>
+            <td>{{workflowItem?.payload.product?.link == null ? "No URL" : workflowItem?.payload.product?.link}}</td>
           </tr>
           <tr>
             <th>Description</th>
@@ -50,7 +50,7 @@
             <td>
               <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
               <ul *ngFor="let key of objectKeys(dependency)">
-                <li *ngIf="key != 'id'">
+                <li *ngIf="key != 'id' && key != 'url'">
                   <span style="font-weight:bold;">
                     {{ key }} :
                   </span>

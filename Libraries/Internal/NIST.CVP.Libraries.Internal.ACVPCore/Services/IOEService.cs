@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Enumerables;
@@ -17,5 +18,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		PagedEnumerable<OperatingEnvironmentLite> Get(OeListParameters param);
 		Result AddDependencyLink(long oeID, long dependencyID);
 		Result RemoveDependencyLink(long oeID, long dependencyID);
+		List<OperatingEnvironmentLite> GetOEsOnValidation(long validationID);
 	}
 }

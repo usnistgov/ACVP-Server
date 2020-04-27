@@ -6,5 +6,6 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
     {
         public DateTime Updated { get; set; }
         public long VendorId { get; set; }
+        public long ImplementationID { get; set; }
     }
 }

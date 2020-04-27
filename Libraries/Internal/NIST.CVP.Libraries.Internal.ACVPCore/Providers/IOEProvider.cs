@@ -20,5 +20,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		bool OEExists(long oeID);
 		OperatingEnvironment Get(long oeID);
 		PagedEnumerable<OperatingEnvironmentLite> Get(OeListParameters param);
+		List<OperatingEnvironmentLite> GetOEsOnValidation(long validationID);
 	}
 }

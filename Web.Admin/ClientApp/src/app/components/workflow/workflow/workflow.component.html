@@ -1,13 +1,20 @@
 <div class="container">
   <div class="row mt-3">
-    <h2>
-      Workflow {{ workflowItem?.workflowItemID}} -
-      <span *ngIf="workflowItem?.status == 'Pending'" style="color:#dba100;">{{ workflowItem?.status }}</span>
-      <span *ngIf="workflowItem?.status == 'Incomplete'" style="color:#dba100;">{{ workflowItem?.status }}</span>
-      <span *ngIf="workflowItem?.status == 'Approved'" style="color:#028a00;">{{ workflowItem?.status }}</span>
-      <span *ngIf="workflowItem?.status == 'Rejected'" style="color:#8a0000;">{{ workflowItem?.status }}</span>
-      <span *ngIf="workflowItem?.apiAction.includes('Delete')" style="color:red;"> [DELETE]</span>
-    </h2>
+    <table style="width:100%">
+      <tr>
+        <td width="80%">
+          <h2>
+            Workflow {{ workflowItem?.requestId}} -
+            <span *ngIf="workflowItem?.status == 'Pending'" style="color:#dba100;">{{ workflowItem?.status }}</span>
+            <span *ngIf="workflowItem?.status == 'Incomplete'" style="color:#dba100;">{{ workflowItem?.status }}</span>
+            <span *ngIf="workflowItem?.status == 'Approved'" style="color:#028a00;">{{ workflowItem?.status }}</span>
+            <span *ngIf="workflowItem?.status == 'Rejected'" style="color:#8a0000;">{{ workflowItem?.status }}</span>
+            <span *ngIf="workflowItem?.apiAction.includes('Delete')" style="color:red;"> [DELETE]</span>
+          </h2>
+        </td>
+        <td align="right">(<span (click)="showRawModal()" class="linkUnderline">View Raw</span>)</td>
+      </tr>
+    </table>
   </div>
 
   <app-workflow-dependency-create *ngIf="workflowItem?.apiAction === 'CreateDependency'" [wfItem]="workflowItem"></app-workflow-dependency-create>
@@ -28,4 +35,25 @@
   <app-workflow-organization-delete *ngIf="workflowItem?.apiAction === 'DeleteVendor'" [wfItem]="workflowItem"></app-workflow-organization-delete>
   <app-workflow-person-delete *ngIf="workflowItem?.apiAction === 'DeletePerson'" [wfItem]="workflowItem"></app-workflow-person-delete>
   <app-workflow-product-delete *ngIf="workflowItem?.apiAction === 'DeleteImplementation'" [wfItem]="workflowItem"></app-workflow-product-delete>
+</div>
+
+<div id="RawModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Raw JSON</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <textarea [(ngModel)]='RawStringFormatted' class="form-control" rows="25" cols="100"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

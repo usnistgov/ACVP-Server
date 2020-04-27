@@ -1,0 +1,45 @@
+2.0.0:
+  date: 2020-02-06
+  new features:
+    - Implementation of the WHATWG URL Standard
+    - Introduces new `/encoder` module with various encoding helpers
+    - Method `toNodeUrl()` now follows the WHATWG URL standard for encoding
+  breaking changes:
+    - Renamed legacy `toNodeUrl()` method to `toLegacyNodeUrl()`
+    - |
+      Changed `encode()` function to encode SPACE, ("), (#), (&), ('), (<),
+      (=), and (>). In previous versions, it was encoding SPACE, (!), ("), ((),
+      ()), (<), (>), (%), ('), and (*).
+    - Deprecated `toLegacyNodeUrl()` in favor of `toNodeUrl()`
+    - Deprecated `encode()` in favor of `encodeQueryParam()`
+    - |
+      Dropped support for following methods:
+        -> percentEncode()
+        -> isPreEncoded()
+        -> isPreEncodedCharacter()
+        -> charactersToPercentEncode()
+  chores:
+    - Updated dependencies
+    - Update license from MIT to Apache-2.0
+
+1.0.3:
+  date: 2019-10-16
+  chores:
+    - Updated dependencies
+
+1.0.2:
+  date: 2019-04-08
+  new features:
+    - >-
+      Added `toNodeUrl()` function to convert a string URL into Node's URL type
+      object
+
+1.0.1:
+  date: 2017-02-01
+  chore:
+    - Updated package.json
+
+1.0.0:
+  date: 2017-02-01
+  initial release:
+    - Initial Release

@@ -11,7 +11,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 
 		public TDES_CMAC()
 		{
-			Name = "TDES-CMAC";
+			Name = "CMAC-TDES";
 			Revision = "1.0";
 		}
 
