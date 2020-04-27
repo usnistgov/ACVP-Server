@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Web.Public.Models
+namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 {
-    public class VectorSetRegistration
+    public class VectorSetRegisterPayload : IWorkflowItemPayload
     {
         [JsonPropertyName("algorithm")]
         public string Algorithm { get; set; }
@@ -17,8 +16,6 @@ namespace Web.Public.Models
         public bool IsSample { get; set; }
         
         public long VsID { get; set; }
-        
-        [JsonExtensionData]
-        public IDictionary<string, object> Properties { get; set; }
+
     }
 }

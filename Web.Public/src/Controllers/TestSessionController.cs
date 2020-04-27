@@ -87,36 +87,26 @@ namespace Web.Public.Controllers
         }
         
         [HttpPost]
-        public JsonHttpStatusResult CreateTestSession()
+        public ActionResult CreateTestSession()
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var registration = _jsonReader.GetObjectFromBodyJson<TestSessionRegistration>(body);
+            var registration = _jsonReader.GetWorkflowItemPayloadFromBodyJson<TestSessionRegisterPayload>(body, APIAction.RegisterTestSession);
 
             if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
             {
-                var errorObject = new ErrorObject
-                {
-                    Error = "IsSample not supported"
-                };
-                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
+                return new NotFoundResult();
             }
             
-            // Validate registrations and return at that point if any failures occur.
-            var parameterValidateResult = _parameterValidatorService.Validate(registration);
-            if (!parameterValidateResult.IsSuccess)
+            // Convert and validate
+            var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.RegisterTestSession).Validate(registration);
+            if (!validation.IsSuccess)
             {
-                var errorObject = new ErrorObject
-                {
-                    Error = $"One or more errors encountered when validating capabilities.",
-                    Context = parameterValidateResult.ValidationErrors
-                };
-                
-                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
+                throw new JsonReaderException(validation.Errors);
             }
-            
+
             // This modifies registration along the way
             var testSession = _testSessionService.CreateTestSession(cert, registration);
 

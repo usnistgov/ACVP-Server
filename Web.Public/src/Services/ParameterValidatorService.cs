@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.Models;
 
 namespace Web.Public.Services
@@ -25,9 +27,9 @@ namespace Web.Public.Services
 			_jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 		}
 		
-		public ParameterValidationResult Validate(TestSessionRegistration registration)
+		public ParameterValidationResult Validate(TestSessionRegisterPayload registration)
 		{
-			var errors = new Dictionary<string, List<string>>();
+			var errors = new List<string>();
 			
 			for (var i = 0; i < registration.Algorithms.Count; i++)
 			{
@@ -38,7 +40,8 @@ namespace Web.Public.Services
 
 				if (!result.Success)
 				{
-					errors.Add($"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}", result.ErrorMessage);
+					var algoMode = $"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}";
+					errors.AddRange(result.ErrorMessage.Select(error => $"{algoMode}: {error}"));
 				}
 			}
 			
