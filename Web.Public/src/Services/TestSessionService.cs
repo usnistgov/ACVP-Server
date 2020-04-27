@@ -87,42 +87,6 @@ namespace Web.Public.Services
             };
         }
 
-        public Result ValidateTestSessionCertifyRequest(byte[] cert, CertifyTestSessionPayload certifyRequest, long testSessionId)
-        {
-            // TODO this method may not be needed depending on if I can do more validation from the IWorkflowPayload validation perspective.
-            // TODO Test session must have valid OE and module, though they should be done when deserializing?
-
-            // Test session request must be from session owner
-            if (!IsOwner(cert, testSessionId))
-            {
-                return new Result("Certify request must be submitted by the test session owner");
-            }
-            
-            var testSession = GetTestSession(testSessionId);
-            
-            // Test session must not be sample
-            if (testSession.IsSample)
-            {
-                return new Result("Sample test sessions may not be certified");
-            }
-
-            // TODO what makes a test session not publishable?
-            if (!testSession.Publishable)
-            {
-                return new Result("Test session not publishable");
-            }
-            
-            // Test session must be passing
-            if (!testSession.Passed)
-            {
-                return new Result("Test session must be in a passed state to be certified");
-            }
-            
-            // TODO prerequisites
-            
-            return new Result();
-        }
-
         public Result SetTestSessionPublished(long testSessionId) => _testSessionProvider.SetTestSessionPublished(testSessionId);
     }
 }

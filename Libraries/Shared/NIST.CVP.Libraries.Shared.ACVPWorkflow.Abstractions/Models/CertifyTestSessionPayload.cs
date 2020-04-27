@@ -6,6 +6,9 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 {
 	public class CertifyTestSessionPayload : BasePayload, IWorkflowItemPayload
 	{
+		[JsonIgnore]
+		public byte[] UserCertificate { get; set; }
+		
 		[JsonPropertyName("testSessionId")]
 		public long TestSessionID { get; set; }
 

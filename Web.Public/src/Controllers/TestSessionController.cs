@@ -153,24 +153,13 @@ namespace Web.Public.Controllers
             var apiAction = APIAction.CertifyTestSession;
             var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<CertifyTestSessionPayload>(jsonBlob, apiAction);
             payload.TestSessionID = id;
+            payload.UserCertificate = cert;
             var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)
             {
                 throw new JsonReaderException(validation.Errors);
             }
-            
-            // TODO this can probably be removed due to the validator that (will) exist in the deserialization process
-            var certifiable = _testSessionService.ValidateTestSessionCertifyRequest(cert, payload, id);
-            if (!certifiable.IsSuccess)
-            {
-                var errorObject = new ErrorObject()
-                {
-                    Error = certifiable.ErrorMessage
-                };
-                
-                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.BadRequest);
-            }
-            
+
             var requestId = _messageService.InsertIntoQueue(apiAction, cert, payload);
 
             // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards

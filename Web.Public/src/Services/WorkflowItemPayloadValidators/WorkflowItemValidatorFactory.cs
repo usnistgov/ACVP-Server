@@ -44,7 +44,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.UpdatePerson => new PersonUpdatePayloadValidator(),
 				APIAction.UpdateVendor => new VendorUpdatePayloadValidator(),
 				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(),
-				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(),
+				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
 				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(),
