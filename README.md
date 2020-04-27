@@ -12,6 +12,12 @@ Grab a back-up of the database (.bak) and do a restore via Azure Data Studio or 
 
 Change `appsettings.local.json` with your specific password.
 
+Having trouble w/ docker on windows? if `docker pull hello-world` is returning "error during connect", the daemon may not be running properly, this command for some reason fixes it:
+
+```cmd
+MOFCOMP %SYSTEMROOT%\System32\WindowsVirtualization.V2.mof
+```
+
 Sym Links
 Symbolic links are used to mirror the `Directory.build.props` file from `/_config` to -> `/`.  It's contained with `/config` for team city build purposes, but needs to be at `/` for local purposes.
 
