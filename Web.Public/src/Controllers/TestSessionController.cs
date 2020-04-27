@@ -144,16 +144,23 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{id}")]
-        public JsonHttpStatusResult CertifyTestSession(long id)
+        public ActionResult CertifyTestSession(long id)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 
+            var claimValidator = new TestSessionClaimsVerifier(id);
+            if (!claimValidator.AreClaimsValid(claims))
+            {
+                return new ForbidResult();
+            }
+            
             // Convert and validate
             var apiAction = APIAction.CertifyTestSession;
             var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<CertifyTestSessionPayload>(jsonBlob, apiAction);
             payload.TestSessionID = id;
-            payload.UserCertificate = cert;
             var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)
             {

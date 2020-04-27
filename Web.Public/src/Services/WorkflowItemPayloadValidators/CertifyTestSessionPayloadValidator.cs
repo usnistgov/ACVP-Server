@@ -19,10 +19,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			var errors = new List<string>();
 
 			// Test session request must be from session owner
-			if (!_testSessionService.IsOwner(payload.UserCertificate, payload.TestSessionID))
-			{
-				errors.Add("Certify request must be submitted by the test session owner");
-			}
+			// Done by claims in controller
             
 			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
             
