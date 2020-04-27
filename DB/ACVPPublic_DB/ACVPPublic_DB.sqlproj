@@ -177,5 +177,7 @@
     <Build Include="val\Stored Procedures\DependenciesForOEGet.sql" />
     <Build Include="acvp\Stored Procedures\RequestGetFromUser.sql" />
     <Build Include="acvp\Stored Procedures\RequestGet.sql" />
+    <Build Include="val\Stored Procedures\OEIsUsed.sql" />
+    <Build Include="val\Stored Procedures\OEExists.sql" />
   </ItemGroup>
 </Project>

@@ -9,10 +9,9 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 	public class OEUpdatePayload : BasePayload, IWorkflowItemPayload
 	{
 		private string _name;
-		//private List<string> _dependencyUrls;							//bring back after rewrite
-		//private List<DependencyCreatePayload> _dependenciesToCreate;	//bring back after rewrite
-		private List<Dependency> _dependencies;						//kill after rewrite
-
+		private List<string> _dependencyUrls;							//bring back after rewrite
+		private List<DependencyCreatePayload> _dependenciesToCreate;	//bring back after rewrite
+		
 		[JsonPropertyName("id")]
 		public long ID { get; set; }
 
@@ -31,45 +30,24 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 			}
 		}
 
-		//Bring these back when we make the message payload look like what gets sent to us
-		//[JsonPropertyName("dependencyUrls")]
-		//public List<string> DependencyURLs
-		//{
-		//	get => _dependencyUrls;
-		//	set
-		//	{
-		//		_dependencyUrls = value;
-		//		DependenciesUpdated = true;
-		//	}
-		//}
-
-		//[JsonPropertyName("dependencies")]
-		//public List<DependencyCreatePayload> DependenciesToCreate
-		//{
-		//	get => _dependenciesToCreate;
-		//	set
-		//	{
-		//		_dependenciesToCreate = value;
-		//		DependenciesUpdated = true;
-		//	}
-		//}
-
-		//This is a temporary, not for deserialization, property that will go away when we change the messages and can go back to the above
-		public List<DependencyCreatePayload> DependenciesToCreate => Dependencies?.Where(x => x.IsInlineCreate).Select(x => new DependencyCreatePayload
+		[JsonPropertyName("dependencyUrls")]
+		public List<string> DependencyURLs
 		{
-			Type = x.Type,
-			Name = x.Name,
-			Description = x.Description,
-			Attributes = x.Attributes
-		}).ToList();
-
-		[JsonPropertyName("dependencies")]
-		public List<Dependency> Dependencies
-		{
-			get => _dependencies;
+			get => _dependencyUrls;
 			set
 			{
-				_dependencies = value;
+				_dependencyUrls = value;
+				DependenciesUpdated = true;
+			}
+		}
+
+		[JsonPropertyName("dependencies")]
+		public List<DependencyCreatePayload> DependenciesToCreate
+		{
+			get => _dependenciesToCreate;
+			set
+			{
+				_dependenciesToCreate = value;
 				DependenciesUpdated = true;
 			}
 		}
@@ -81,36 +59,9 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 		{
 			ID = ID,
 			Name = Name,
-			//DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),			//return to this when we rewrite public
-			DependencyIDs = Dependencies?.Where(x => !x.IsInlineCreate).Select(x => x.ID).ToList(),
+			DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),
 			NameUpdated = NameUpdated,
 			DependenciesUpdated = DependenciesUpdated
 		};
-
-
-		//This exists only to deal with the way the messages are implemented in Java, will go away when we rewrite
-		public class Dependency
-		{
-			public bool IsInlineCreate => ID == -1;
-
-			[JsonPropertyName("id")]
-			public long ID { get; set; }
-
-			[JsonPropertyName("url")]
-			public string URL { get; set; }
-
-			[JsonPropertyName("type")]
-			public string Type { get; set; }
-
-			[JsonPropertyName("name")]
-			public string Name { get; set; }
-
-			[JsonPropertyName("description")]
-			public string Description { get; set; }
-
-			//Since the dependency attributes do not have standard names, and are just key/value pair items, use the JsonExtensionData thing to capture all of the attribute data
-			[JsonExtensionData]
-			public Dictionary<string, JsonElement> Attributes { get; set; }
-		}
 	}
 }

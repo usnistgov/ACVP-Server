@@ -64,6 +64,56 @@ namespace Web.Public.Providers
 			}
 		}
 
+		public bool Exists(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.OEExists",
+					new
+					{
+						oeId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to validate existence of OE.", e);
+				return false;
+			}
+		}
+
+		public bool IsUsed(long id)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.OEIsUsed",
+					new
+					{
+						oeId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to determine if OE in use.", e);
+				return false;
+			}
+		}
+
 		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
 		{
 			var db = new MightyOrm(_acvpPublicConnectionString);
