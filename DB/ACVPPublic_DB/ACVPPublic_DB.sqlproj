@@ -166,5 +166,16 @@
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="val\Stored Procedures\ImplementationExists.sql" />
     <Build Include="val\Stored Procedures\DependencyExists.sql" />
+    <Build Include="val\Stored Procedures\PersonsForImplementationGet.sql" />
+    <Build Include="val\Stored Procedures\PersonPhonesGet.sql" />
+    <Build Include="val\Stored Procedures\PersonGet.sql" />
+    <Build Include="val\Stored Procedures\PersonEmailsGet.sql" />
+    <Build Include="val\Stored Procedures\OEGet.sql" />
+    <Build Include="val\Stored Procedures\ImplementationGet.sql" />
+    <Build Include="val\Stored Procedures\DependencyGet.sql" />
+    <Build Include="val\Stored Procedures\DependencyAttributeGet.sql" />
+    <Build Include="val\Stored Procedures\DependenciesForOEGet.sql" />
+    <Build Include="acvp\Stored Procedures\RequestGetFromUser.sql" />
+    <Build Include="acvp\Stored Procedures\RequestGet.sql" />
   </ItemGroup>
 </Project>
