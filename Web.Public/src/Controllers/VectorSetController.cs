@@ -11,6 +11,7 @@ using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
+using Web.Public.Services.WorkflowItemPayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -26,6 +27,7 @@ namespace Web.Public.Controllers
         private readonly IJsonReaderService _jsonReader;
         private readonly IMessageService _messageService;
         private readonly IJwtService _jwtService;
+        private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
         private readonly VectorSetConfig _vectorSetConfig;
 
         public VectorSetController(IVectorSetService vectorSetService, 
@@ -34,6 +36,7 @@ namespace Web.Public.Controllers
             IJsonReaderService jsonReader,
             IMessageService messageService,
             IJwtService jwtService,
+            IWorkflowItemValidatorFactory workflowItemValidatorFactory,
             IOptions<VectorSetConfig> vectorSetConfig)
         {
             _vectorSetService = vectorSetService;
@@ -42,6 +45,7 @@ namespace Web.Public.Controllers
             _jsonReader = jsonReader;
             _messageService = messageService;
             _jwtService = jwtService;
+            _workflowItemValidatorFactory = workflowItemValidatorFactory;
             _vectorSetConfig = vectorSetConfig.Value;
         }
         
@@ -98,19 +102,22 @@ namespace Web.Public.Controllers
         public ActionResult CancelVectorSet(long tsID, long vsID)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
-
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, new CancelPayload
+                // Convert and validate
+                var payload = new CancelPayload {TestSessionID = tsID, VectorSetID = vsID};
+                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CancelVectorSet).Validate(payload);
+                if (!validation.IsSuccess)
                 {
-                    VectorSetID = vsID,
-                    TestSessionID = tsID
-                });
+                    throw new JsonReaderException(validation.Errors);
+                }
+                
+                // Pass to message queue
+                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, payload);
 
                 // Build request object for response
                 var requestObject = new RequestObject

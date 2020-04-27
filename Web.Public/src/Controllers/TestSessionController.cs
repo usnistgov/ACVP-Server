@@ -147,7 +147,6 @@ namespace Web.Public.Controllers
         public JsonHttpStatusResult CertifyTestSession(long id)
         {
             var cert = HttpContext.Connection.ClientCertificate.RawData;
-            
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 
             // Convert and validate
@@ -174,6 +173,7 @@ namespace Web.Public.Controllers
             
             var requestId = _messageService.InsertIntoQueue(apiAction, cert, payload);
 
+            // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards
             _testSessionService.SetTestSessionPublished(id);
             
             // Build request object for response
@@ -200,11 +200,15 @@ namespace Web.Public.Controllers
                 return new ForbidResult();
             }
 
-            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, new CancelPayload
+            // Convert and validate
+            var payload = new CancelPayload {TestSessionID = id};
+            var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CancelTestSession).Validate(payload);
+            if (!validation.IsSuccess)
             {
-                TestSessionID = id
-            });
+                throw new JsonReaderException(validation.Errors);
+            }
             
+            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, payload);
             var requestObject = new RequestObject
             {
                 RequestID = requestId,

@@ -11,8 +11,9 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly IPersonService _personService;
 		private readonly ITestSessionService _testSessionService;
 		private readonly IImplementationService _implementationService;
+		private readonly IVectorSetService _vectorSetService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IVectorSetService vectorSetService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
@@ -20,6 +21,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_personService = personService;
 			_testSessionService = testSessionService;
 			_implementationService = implementationService;
+			_vectorSetService = vectorSetService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
@@ -45,7 +47,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
-				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(_vectorSetService),
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsPayloadValidator(),
 				_ => throw new ArgumentException($"Invalid {nameof(action)}: {action}")
 			};

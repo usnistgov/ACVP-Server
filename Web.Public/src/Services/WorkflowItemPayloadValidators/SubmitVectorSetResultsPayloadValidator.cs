@@ -7,6 +7,12 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 	{
 		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
+			// Check nothing has been submitted yet
+			
+			// Check prompt exists
+			
+			// Check no error
+			
 			throw new System.NotImplementedException();
 		}
 	}
