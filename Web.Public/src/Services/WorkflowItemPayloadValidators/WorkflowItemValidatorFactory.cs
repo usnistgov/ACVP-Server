@@ -24,7 +24,6 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_implementationService = implementationService;
 			_parameterValidatorService = parameterValidatorService;
 			_oeService = oeService;
-			_parameterValidatorService = parameterValidatorService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
