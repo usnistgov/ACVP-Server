@@ -47,7 +47,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
-				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(_vectorSetService),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(),
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsPayloadValidator(),
 				_ => throw new ArgumentException($"Invalid {nameof(action)}: {action}")
 			};

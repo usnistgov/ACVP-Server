@@ -168,12 +168,19 @@ namespace Web.Public.Controllers
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetObjectFromBodyJson<VectorSetResult>(body);
+            var submittedResults = _jsonReader.GetWorkflowItemPayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
 
             // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                // Convert and validate
+                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
+                if (!validation.IsSuccess)
+                {
+                    throw new JsonReaderException(validation.Errors);
+                }
+                
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, cert, submittedResults);
                 return new AcceptedResult();
             }
@@ -197,12 +204,19 @@ namespace Web.Public.Controllers
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetObjectFromBodyJson<VectorSetResult>(body);
+            var submittedResults = _jsonReader.GetWorkflowItemPayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
 
             // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                // Convert and validate
+                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
+                if (!validation.IsSuccess)
+                {
+                    throw new JsonReaderException(validation.Errors);
+                }
+                
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, cert, submittedResults);
                 return new AcceptedResult();
             }

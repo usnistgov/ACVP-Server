@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
 using Web.Public.Results;
 
@@ -7,13 +8,21 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 	{
 		public PayloadValidationResult Validate(IWorkflowItemPayload workflowItemPayload)
 		{
-			// Check nothing has been submitted yet
-			
-			// Check prompt exists
-			
-			// Check no error
-			
-			throw new System.NotImplementedException();
+			var payload = (VectorSetSubmissionPayload) workflowItemPayload;
+			var errors = new List<string>();
+
+			if (string.IsNullOrWhiteSpace(payload.Algorithm))
+			{
+				errors.Add("algorithm not provided");
+			}
+
+			if (string.IsNullOrWhiteSpace(payload.Revision))
+			{
+				errors.Add("revision not provided");
+			}
+
+			// Environment check done by controller
+			return new PayloadValidationResult(errors);
 		}
 	}
 }
