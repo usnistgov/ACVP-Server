@@ -54,7 +54,7 @@ namespace Web.Public.Services
             return (testSessionList.Count, testSessionList.GetRange(pagingOptions.Offset, pagingOptions.Limit));
         }
 
-        public TestSession CreateTestSession(byte[] cert, TestSessionRegistration registration)
+        public TestSession CreateTestSession(byte[] cert, TestSessionRegisterPayload registration)
         {
             // Get an ID for TestSession
             registration.ID = _testSessionProvider.GetNextTestSessionID();
@@ -67,10 +67,12 @@ namespace Web.Public.Services
             }
 
             var vectorSetIds = registration.Algorithms.Select(vs => vs.VsID).ToList();
-            
-            Dictionary<string, string> claims = new Dictionary<string, string>();
-            claims.Add("tsId", JsonSerializer.Serialize(registration.ID));
-            claims.Add("vsId", JsonSerializer.Serialize(vectorSetIds));
+
+            var claims = new Dictionary<string, string>
+            {
+                {"tsId", JsonSerializer.Serialize(registration.ID)},
+                {"vsId", JsonSerializer.Serialize(vectorSetIds)}
+            };
             var jwt = _jwtService.Create(new X509Certificate2(cert).Subject, claims);
             var testSessionJwt = jwt.Token;
             

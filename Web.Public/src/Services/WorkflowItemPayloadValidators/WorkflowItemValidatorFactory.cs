@@ -11,9 +11,9 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		private readonly IPersonService _personService;
 		private readonly ITestSessionService _testSessionService;
 		private readonly IImplementationService _implementationService;
-		private readonly IVectorSetService _vectorSetService;
+		private readonly IParameterValidatorService _parameterValidatorService;
 
-		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IVectorSetService vectorSetService)
+		public WorkflowItemValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IParameterValidatorService parameterValidatorService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
@@ -21,7 +21,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			_personService = personService;
 			_testSessionService = testSessionService;
 			_implementationService = implementationService;
-			_vectorSetService = vectorSetService;
+			_parameterValidatorService = parameterValidatorService;
 		}
 		
 		public IWorkflowItemValidator GetWorkflowItemPayloadValidator(APIAction action)
@@ -43,7 +43,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 				APIAction.UpdateOE => new OperatingEnvironmentUpdatePayloadValidator(),
 				APIAction.UpdatePerson => new PersonUpdatePayloadValidator(),
 				APIAction.UpdateVendor => new VendorUpdatePayloadValidator(),
-				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(),
+				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(_parameterValidatorService),
 				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
