@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using External = NIST.CVP.Libraries.Shared.Algorithms.External;
 
 namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 {
@@ -16,11 +15,6 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 			Name = "RSA";
 			Mode = "keyGen";
 			Revision = "186-2";
-		}
-
-		public RSAKeyGen186_2(External.RSAKeyGen186_2 external) : this()
-		{
-			//External doesn't use either of the properties...
 		}
 	}	
 }
