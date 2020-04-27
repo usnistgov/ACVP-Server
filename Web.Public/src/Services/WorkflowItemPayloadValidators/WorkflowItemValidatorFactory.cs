@@ -28,7 +28,7 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 			{
 				APIAction.CreateDependency => new DependencyCreatePayloadValidator(),
 				APIAction.CreateImplementation => new ImplementationCreatePayloadValidator(_addressService, _organizationService, _personService),
-				APIAction.CreateOE => new OperatingEnvironmentCreatePayloadValidator(),
+				APIAction.CreateOE => new OperatingEnvironmentCreatePayloadValidator(this, _dependencyService),
 				APIAction.CreatePerson => new PersonCreatePayloadValidator(),
 				APIAction.CreateVendor => new VendorCreatePayloadValidator(),
 				APIAction.DeleteDependency => new DependencyDeletePayloadValidator(_dependencyService),

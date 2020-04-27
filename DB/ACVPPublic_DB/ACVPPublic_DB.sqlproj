@@ -165,5 +165,6 @@
     <Build Include="val\Stored Procedures\PersonExists.sql" />
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="val\Stored Procedures\ImplementationExists.sql" />
+    <Build Include="val\Stored Procedures\DependencyExists.sql" />
   </ItemGroup>
 </Project>

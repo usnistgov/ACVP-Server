@@ -15,6 +15,8 @@ namespace Web.Public.Services
 
 		public Dependency GetDependency(long id) => _dependencyProvider.GetDependency(id);
 
+		public bool Exists(long id) => _dependencyProvider.Exists(id);
+
 		public (long TotalCount, List<Dependency> Dependencys) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _dependencyProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}
