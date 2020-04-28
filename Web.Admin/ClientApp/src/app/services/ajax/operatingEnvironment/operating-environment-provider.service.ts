@@ -56,7 +56,7 @@ export class OperatingEnvironmentProviderService {
   }
 
   getDependency(id: number) {
-    return this.http.get<Dependency>(this.apiRoot + '/Dependency/' + id);
+    return this.http.get<Dependency>(this.apiRoot + '/Dependencies/' + id);
   };
 
   removeDependencyFromOE(dependencyId: number, OEID: number) {
