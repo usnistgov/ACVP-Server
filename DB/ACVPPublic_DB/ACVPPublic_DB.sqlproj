@@ -179,5 +179,6 @@
     <Build Include="acvp\Stored Procedures\RequestGet.sql" />
     <Build Include="val\Stored Procedures\OEIsUsed.sql" />
     <Build Include="val\Stored Procedures\OEExists.sql" />
+    <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
   </ItemGroup>
 </Project>

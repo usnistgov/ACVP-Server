@@ -8,6 +8,8 @@ namespace Web.Public.Services
         Organization Get(long organizationID);
 
         bool Exists(long organizationID);
+
+        bool IsUsed(long organizationID);
         //PagedResponse<Organization> GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
         (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
     }

@@ -17,6 +17,8 @@ namespace Web.Public.Services
 
 		public bool Exists(long organizationID) => _organizationProvider.Exists(organizationID);
 
+		public bool IsUsed(long organizationID) => _organizationProvider.IsUsed(organizationID);
+
 		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _organizationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}

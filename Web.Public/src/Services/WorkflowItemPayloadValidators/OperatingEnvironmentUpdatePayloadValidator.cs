@@ -8,11 +8,13 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 	public class OperatingEnvironmentUpdatePayloadValidator : IWorkflowItemValidator
 	{
 		private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
+		private readonly IOEService _oeService;
 		private readonly IDependencyService _dependencyService;
-
-		public OperatingEnvironmentUpdatePayloadValidator(IWorkflowItemValidatorFactory workflowItemValidatorFactory, IDependencyService dependencyService)
+		
+		public OperatingEnvironmentUpdatePayloadValidator(IWorkflowItemValidatorFactory workflowItemValidatorFactory, IOEService oeService, IDependencyService dependencyService)
 		{
 			_workflowItemValidatorFactory = workflowItemValidatorFactory;
+			_oeService = oeService;
 			_dependencyService = dependencyService;
 		}
 		
@@ -20,6 +22,11 @@ namespace Web.Public.Services.WorkflowItemPayloadValidators
 		{
 			var item = (OEUpdatePayload) workflowItemPayload;
 			var errors = new List<string>();
+
+			if (!_oeService.Exists(item.ID))
+			{
+				errors.Add("oes.id is not valid.");
+			}
 
 			if (item.NameUpdated && string.IsNullOrEmpty(item.Name))
 			{

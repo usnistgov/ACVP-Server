@@ -130,6 +130,31 @@ namespace Web.Public.Providers
 				return false;
 			}
 		}
+		
+		public bool IsUsed(long id)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("val.OrganizationIsUsed",
+					new
+					{
+						organizationId = id
+					},
+					new
+					{
+						exists = false
+					});
+
+				return data.exists;
+			}
+			catch (Exception e)
+			{
+				_logger.LogError("Unable to determine if organization in use.", e);
+				return false;
+			}
+		}
 
 		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
 		{
