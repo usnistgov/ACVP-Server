@@ -68,13 +68,13 @@ namespace NIST.CVP.Crypto.Common.Symmetric.TDES
                 var key1 = random800_90.GetRandomBitString(64);
                 var key2 = random800_90.GetRandomBitString(64);
                 var key3 = random800_90.GetRandomBitString(64);
-                return key1.ConcatenateBits(key2).ConcatenateBits(key3);
+                return key1.ConcatenateBits(key2).ConcatenateBits(key3).ToOddParityBitString();
             }
             else if (keyingOption == 2)
             {
                 var key1 = random800_90.GetRandomBitString(64);
                 var key2 = random800_90.GetRandomBitString(64);
-                return key1.ConcatenateBits(key2).ConcatenateBits(key1);
+                return key1.ConcatenateBits(key2).ConcatenateBits(key1).ToOddParityBitString();
             }
             else
             {
