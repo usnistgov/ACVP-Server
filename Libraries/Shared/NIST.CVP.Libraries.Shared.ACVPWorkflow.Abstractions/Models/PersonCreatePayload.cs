@@ -16,7 +16,7 @@ namespace NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models
 		[JsonPropertyName("fullName")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("organizationUrl")]
+		[JsonPropertyName("vendorUrl")]
 		public string OrganizationURL { get; set; }
 
 		[JsonPropertyName("emails")]
