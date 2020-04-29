@@ -3,20 +3,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Serilog;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
-using Web.Public.Services.WorkflowItemPayloadValidators;
+using Web.Public.Services.MessagePayloadValidators;
 
 namespace Web.Public.Services
 {
     public class JsonReaderService : IJsonReaderService
     {
-        private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
+        private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
 
-        public JsonReaderService(IWorkflowItemValidatorFactory workflowItemValidatorFactory)
+        public JsonReaderService(IMessagePayloadValidatorFactory workflowItemValidatorFactory)
         {
             _workflowItemValidatorFactory = workflowItemValidatorFactory;
         }
@@ -57,8 +57,8 @@ namespace Web.Public.Services
             }
         }
 
-        public T GetWorkflowItemPayloadFromBodyJson<T>(string jsonBody, APIAction apiAction)
-            where T : IWorkflowItemPayload
+        public T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction)
+            where T : IMessagePayload
         {
             try
             {
@@ -79,14 +79,6 @@ namespace Web.Public.Services
 
                 // Extract and verify object info
                 var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
-
-                var validator = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction);
-                var validationResult = validator.Validate(extractedObject);
-
-                if (!validationResult.IsSuccess)
-                {
-                    throw new JsonReaderException(validationResult.Errors);
-                }
 
                 return extractedObject;
             }

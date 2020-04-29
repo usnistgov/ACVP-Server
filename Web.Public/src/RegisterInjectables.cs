@@ -2,10 +2,10 @@ using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.DependencyInjection;
 using NIST.CVP.Generation;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Web.Public.Providers;
 using Web.Public.Services;
-using Web.Public.Services.WorkflowItemPayloadValidators;
+using Web.Public.Services.MessagePayloadValidators;
 
 namespace Web.Public
 {
@@ -63,7 +63,7 @@ namespace Web.Public
             item.AddTransient<IVectorSetProvider, VectorSetProvider>();
             item.AddTransient<IVectorSetService, VectorSetService>();
 
-            item.AddSingleton<IWorkflowItemValidatorFactory, WorkflowItemValidatorFactory>();
+            item.AddSingleton<IMessagePayloadValidatorFactory, MessagePayloadValidatorFactory>();
         }
     }
 }

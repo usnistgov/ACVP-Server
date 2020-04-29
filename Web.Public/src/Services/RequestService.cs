@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Web.Public.Models;
 using Web.Public.Providers;
 using Request = Web.Public.Models.Request;

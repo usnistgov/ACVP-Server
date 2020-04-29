@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Libraries.Internal.ACVPWorkflow;
 using MessageQueueProcessor.MessageProcessors;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace MessageQueueProcessor
 {

@@ -1,4 +1,4 @@
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Web.Public.Providers;
 
 namespace Web.Public.Services

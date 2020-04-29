@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.JsonObjects;
 
 namespace Web.Public.Services
@@ -24,9 +24,9 @@ namespace Web.Public.Services
         /// </summary>
         /// <param name="jsonBody">The JSON to parse.</param>
         /// <param name="apiAction">The type of workflow item to create.</param>
-        /// <typeparam name="T">The <see cref="IWorkflowItemPayload"/> to parse and return.</typeparam>
+        /// <typeparam name="T">The <see cref="IMessagePayload"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        T GetWorkflowItemPayloadFromBodyJson<T>(string jsonBody, APIAction apiAction) where T : IWorkflowItemPayload;
+        T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction) where T : IMessagePayload;
         string GetJsonFromBody(Stream body);
     }
 }

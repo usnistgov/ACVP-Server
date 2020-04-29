@@ -7,9 +7,9 @@ using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
 using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors

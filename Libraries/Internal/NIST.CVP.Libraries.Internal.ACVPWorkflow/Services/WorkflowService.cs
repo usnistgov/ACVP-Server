@@ -3,11 +3,11 @@ using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Exceptions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models.Parameters;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Exceptions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Services

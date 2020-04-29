@@ -1,0 +1,9 @@
+using System;
+
+namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Exceptions
+{
+    public class NotPendingApprovalException : Exception
+    {
+        public NotPendingApprovalException(string message) : base(message) { }
+    }
+}

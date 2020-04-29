@@ -2,8 +2,8 @@
 using System;
 using System.Text.Json;
 using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.MessageQueue
 {

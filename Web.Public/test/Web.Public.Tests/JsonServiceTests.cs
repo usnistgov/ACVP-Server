@@ -1,20 +1,20 @@
 using System;
 using Moq;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NUnit.Framework;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
-using Web.Public.Services.WorkflowItemPayloadValidators;
+using Web.Public.Services.MessagePayloadValidators;
 
 namespace Web.Public.Tests
 {
     [TestFixture]
     public class JsonServiceTests
     {
-        private Mock<IWorkflowItemValidator> _mockWorkflowItemValidator = new Mock<IWorkflowItemValidator>();
-        private Mock<IWorkflowItemValidatorFactory> _mockWorkflowItemValidatorFactory = new Mock<IWorkflowItemValidatorFactory>();
+        private Mock<IMessagePayloadValidator> _mockWorkflowItemValidator = new Mock<IMessagePayloadValidator>();
+        private Mock<IMessagePayloadValidatorFactory> _mockWorkflowItemValidatorFactory = new Mock<IMessagePayloadValidatorFactory>();
 
         [SetUp]
         public void Setup()
@@ -23,7 +23,7 @@ namespace Web.Public.Tests
                 .Setup(s => s.Validate(It.IsAny<IWorkflowItemPayload>()))
                 .Returns(new PayloadValidationResult(null));
             _mockWorkflowItemValidatorFactory
-                .Setup(s => s.GetWorkflowItemPayloadValidator(It.IsAny<APIAction>()))
+                .Setup(s => s.GetMessagePayloadValidator(It.IsAny<APIAction>()))
                 .Returns(_mockWorkflowItemValidator.Object);
         }
         
@@ -35,7 +35,7 @@ namespace Web.Public.Tests
             var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
             try
             {
-                jsonParser.GetWorkflowItemPayloadFromBodyJson<OrganizationCreatePayload>(json, APIAction.CreateVendor);
+                jsonParser.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(json, APIAction.CreateVendor);
             }
             catch (Exception ex)
             {

@@ -2,8 +2,8 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
@@ -11,7 +11,7 @@ using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
-using Web.Public.Services.WorkflowItemPayloadValidators;
+using Web.Public.Services.MessagePayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -27,7 +27,7 @@ namespace Web.Public.Controllers
         private readonly IJsonReaderService _jsonReader;
         private readonly IMessageService _messageService;
         private readonly IJwtService _jwtService;
-        private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
+        private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
         private readonly VectorSetConfig _vectorSetConfig;
 
         public VectorSetController(IVectorSetService vectorSetService, 
@@ -36,7 +36,7 @@ namespace Web.Public.Controllers
             IJsonReaderService jsonReader,
             IMessageService messageService,
             IJwtService jwtService,
-            IWorkflowItemValidatorFactory workflowItemValidatorFactory,
+            IMessagePayloadValidatorFactory workflowItemValidatorFactory,
             IOptions<VectorSetConfig> vectorSetConfig)
         {
             _vectorSetService = vectorSetService;
@@ -110,7 +110,7 @@ namespace Web.Public.Controllers
             {
                 // Convert and validate
                 var payload = new CancelPayload {TestSessionID = tsID, VectorSetID = vsID};
-                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CancelVectorSet).Validate(payload);
+                var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.CancelVectorSet).Validate(payload);
                 if (!validation.IsSuccess)
                 {
                     throw new JsonReaderException(validation.Errors);
@@ -168,14 +168,14 @@ namespace Web.Public.Controllers
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetWorkflowItemPayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
+            var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
 
             // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Convert and validate
-                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
+                var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
                     throw new JsonReaderException(validation.Errors);
@@ -204,14 +204,14 @@ namespace Web.Public.Controllers
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetWorkflowItemPayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
+            var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
 
             // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Convert and validate
-                var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
+                var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
                     throw new JsonReaderException(validation.Errors);

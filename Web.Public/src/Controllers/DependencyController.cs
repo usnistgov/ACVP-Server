@@ -3,14 +3,14 @@ using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
-using Web.Public.Services.WorkflowItemPayloadValidators;
+using Web.Public.Services.MessagePayloadValidators;
 
 namespace Web.Public.Controllers
 {
@@ -24,7 +24,7 @@ namespace Web.Public.Controllers
 		private readonly IMessageService _messageService;
 		private readonly IJsonReaderService _jsonReader;
 		private readonly IJsonWriterService _jsonWriter;
-		private readonly IWorkflowItemValidatorFactory _workflowItemValidatorFactory;
+		private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
 		
 		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("name", false, new List<string> { "eq", "start", "end", "contains" }),
@@ -37,7 +37,7 @@ namespace Web.Public.Controllers
 			IMessageService messageService,
 			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter,
-			IWorkflowItemValidatorFactory workflowItemValidatorFactory)
+			IMessagePayloadValidatorFactory workflowItemValidatorFactory)
 		{
 			_dependencyService = dependencyService;
 			_messageService = messageService;
@@ -57,8 +57,8 @@ namespace Web.Public.Controllers
 			
 			// Convert and validate
 			var apiAction = APIAction.CreateDependency;
-			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DependencyCreatePayload>(jsonBlob, apiAction);
-			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyCreatePayload>(jsonBlob, apiAction);
+			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
 				throw new JsonReaderException(validation.Errors);
@@ -88,9 +88,9 @@ namespace Web.Public.Controllers
 			
 			// Convert and validate
 			var apiAction = APIAction.UpdateDependency;
-			var payload = _jsonReader.GetWorkflowItemPayloadFromBodyJson<DependencyUpdatePayload>(jsonBlob, apiAction);
+			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyUpdatePayload>(jsonBlob, apiAction);
 			payload.ID = id;
-			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
 				throw new JsonReaderException(validation.Errors);
@@ -121,7 +121,7 @@ namespace Web.Public.Controllers
 				ID = id
 			};
 			
-			var validation = _workflowItemValidatorFactory.GetWorkflowItemPayloadValidator(apiAction).Validate(payload);
+			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
 				throw new JsonReaderException(validation.Errors);
