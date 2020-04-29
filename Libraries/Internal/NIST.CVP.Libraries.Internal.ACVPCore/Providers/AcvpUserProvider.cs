@@ -48,6 +48,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
                     });
                 
                 result = dbData.Data;
+
                 totalRecords = dbData.ResultsExpando.totalRecords;
             }
             catch (Exception ex)
@@ -116,34 +117,41 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
         {
             X509Certificate2 x509 = new X509Certificate2(certificate);
 
-            if (x509 == null)
+            if (DateTime.TryParse(x509.GetExpirationDateString(), out var expiresOn))
             {
-                return new InsertResult("Failed to parse certificate");
+                if (x509 == null)
+                {
+                    return new InsertResult("Failed to parse certificate");
+                }
+                else
+                {
+                    var db = new MightyOrm(_acvpConnectionString);
+
+                    try
+                    {
+                        db.ExecuteProcedure("acvp.AcvpUserSetCertificate", new
+                        {
+                            AcvpUserId = userId,
+                            CommonName = x509.Subject,
+                            Certificate = certificate,
+                            ExpiresOn = expiresOn
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ex.Message);
+                        return new Result("Failed updating certificate.");
+                    }
+                }
             }
             else
             {
-                var db = new MightyOrm(_acvpConnectionString);
-
-                try
-                {
-                    db.ExecuteProcedure("acvp.AcvpUserSetCertificate", new
-                    {
-                        AcvpUserId = userId,
-                        CommonName = x509.Subject,
-                        Certificate = certificate
-                    });
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, ex.Message);
-                    return new Result("Failed updating certificate.");
-                }
+                return new Result("Error parsing expiration date");
             }
-
             return new Result();
         }
 
-        public Result CreateUser(string personName, long organizationID, byte[] certificate)
+        public Result CreateUser(string personName, long organizationID, byte[] certificate, string[] personEmails)
         {
             string base64Seed;
             // Based on the note about IDisposable interface in the docs, this is the recommended usage to ensure the
@@ -157,44 +165,63 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
             // Parse out the certificate provided
             X509Certificate2 x509 = new X509Certificate2(certificate);
-
-            if (x509 == null)
+            
+            if (x509 != null)
             {
-                return new InsertResult("Failed to parse certificate");
+                if (DateTime.TryParse(x509.GetExpirationDateString(), out var expiresOn)) 
+                {
+                    var db = new MightyOrm(_acvpConnectionString);
+                    try
+                    {
+                        var personQueryData = db.SingleFromProcedure("val.PersonInsert", new
+                        {
+                            Name = personName,
+                            OrganizationID = organizationID
+                        });
+                        if (personQueryData == null)
+                        {
+                            return new InsertResult("Failed to insert Person");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < personEmails.Length; i++) {
+                                //There is no ID on the record, so don't return anything
+                                db.ExecuteProcedure("val.PersonEmailInsert", inParams: new
+                                {
+                                    PersonID = personQueryData.PersonID,
+                                    EmailAddress = personEmails[i],
+                                    OrderIndex = i
+                                });
+                            }
+
+                            var acvpUserQueryData = db.SingleFromProcedure("acvp.AcvpUserInsert", new
+                            {
+                                PersonID = personQueryData.PersonID,
+                                CommonName = x509.Subject,
+                                Certificate = certificate,
+                                Seed = base64Seed,
+                                ExpiresOn = expiresOn
+                            });
+
+                            return new InsertResult((long)acvpUserQueryData.UserID);
+                        }
+                    }
+                    catch (Exception personQueryEx)
+                    {
+                        Console.WriteLine(personQueryEx);
+                    }
+                    return new InsertResult("Unspecified error in ACVP User creation");
+                }
+                else
+                {
+                    return new InsertResult("Error in extracting certificate expiration date");
+                }
             }
             else
             {
-                var db = new MightyOrm(_acvpConnectionString);
-                try
-                {
-                    var personQueryData = db.SingleFromProcedure("val.PersonInsert", new
-                    {
-                        Name = personName,
-                        OrganizationID = organizationID
-                    });
-                    if (personQueryData == null)
-                    {
-                        return new InsertResult("Failed to insert Person");
-                    }
-                    else
-                    {
-                        var acvpUserQueryData = db.SingleFromProcedure("acvp.AcvpUserInsert", new
-                        {
-                            PersonID = personQueryData.PersonID,
-                            CommonName = x509.Subject,
-                            Certificate = certificate,
-                            Seed = base64Seed
-                        });
-
-                        return new InsertResult((long)acvpUserQueryData.UserID);
-                    }
-                }
-                catch (Exception orgQueryEx)
-                {
-                    Console.WriteLine(orgQueryEx);
-                }
-                return new InsertResult("Unspecified error in ACVP User creation");
+                return new InsertResult("Failed to parse certificate"); 
             }
+            
         }
         public Result DeleteUser(long userId)
         {

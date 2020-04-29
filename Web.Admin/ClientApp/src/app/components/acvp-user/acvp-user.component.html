@@ -9,7 +9,7 @@
     <div class="col-lg-6">
       <!-- Personal Information Card-->
       <div class="card">
-        <h5 class="card-header">Personal Information</h5>
+        <h5 class="card-header">Personal Information (ID: <a class="linkUnderline" [routerLink]="['/validation-db/persons/' + selectedUser?.person?.id]">{{selectedUser?.person?.id}}</a>)</h5>
         <div class="card-body">
           <p class="card-text">
             <label class="bold-heading">Name</label>&nbsp;&nbsp;{{selectedUser?.fullName}}<br />

@@ -1,3 +1,5 @@
+import { Person } from '../person/Person';
+
 export class AcvpUser {
   certificateBase64: string;
   commonName: string;
@@ -6,6 +8,7 @@ export class AcvpUser {
   issuer: string;
   acvpUserId: number;
   personId: number;
+  person: Person;
   fullName: string;
   companyId: number;
   companyName: string;
