@@ -12,13 +12,15 @@ namespace Web.Public.Services
 {
     public class TestSessionService : ITestSessionService
     {
+        private readonly IAlgorithmService _algorithmService;
         private readonly ITestSessionProvider _testSessionProvider;
         private readonly IVectorSetProvider _vectorSetProvider;
         private readonly IUserProvider _userProvider;
         private readonly IJwtService _jwtService;
-
-        public TestSessionService(ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider, IUserProvider userProvider, IJwtService jwtService)
+        
+        public TestSessionService(IAlgorithmService algorithmService, ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider, IUserProvider userProvider, IJwtService jwtService)
         {
+            _algorithmService = algorithmService;
             _testSessionProvider = testSessionProvider;
             _vectorSetProvider = vectorSetProvider;
             _userProvider = userProvider;
@@ -64,6 +66,7 @@ namespace Web.Public.Services
             {
                 algo.IsSample = registration.IsSample;
                 algo.VsID = _vectorSetProvider.GetNextVectorSetID(registration.ID, "");
+                algo.AlgorithmId = _algorithmService.GetAlgorithm(algo.Algorithm, algo.Mode, algo.Revision).AlgorithmId;
             }
 
             var vectorSetIds = registration.Algorithms.Select(vs => vs.VsID).ToList();

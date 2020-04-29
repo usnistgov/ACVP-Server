@@ -67,10 +67,8 @@ namespace Web.Public.Controllers
             
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(vectorSetUrls));
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
 
         [HttpGet("{vsID}")]
@@ -87,15 +85,11 @@ namespace Web.Public.Controllers
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
-                else
-                {
-                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(prompt.Content));
-                }
+                
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(prompt.Content));
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
 
         [HttpDelete("{vsID}")]
@@ -128,10 +122,8 @@ namespace Web.Public.Controllers
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
 
         [HttpGet("{vsID}/results")]
@@ -148,15 +140,11 @@ namespace Web.Public.Controllers
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
-                else
-                {
-                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(validation.Content));
-                }
+                
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(validation.Content));
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
 
         [HttpPost("{vsID}/results")]
@@ -182,12 +170,13 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, cert, submittedResults);
+                
+                // TODO this is not the correct response to successful post of answers
+                // TODO Though is what the spec says, it's not what we currently return :/
                 return new AcceptedResult();
             }
-            else
-            {
-                return new ForbidResult();
-            }
+            return new ForbidResult();
+            
         }
 
         [HttpPut("{vsID}/results")]
@@ -201,6 +190,8 @@ namespace Web.Public.Controllers
             var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
+            
+            // TODO putting of results should only be allowed when the vector set is ready for them (specific status)?
             
             // Parse registrations
             var body = _jsonReader.GetJsonFromBody(Request.Body);
@@ -218,12 +209,12 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, cert, submittedResults);
+                
+                // TODO this is likely not the correct response to return
                 return new AcceptedResult();
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
 
         [HttpGet("{vsID}/expected")]
@@ -247,15 +238,11 @@ namespace Web.Public.Controllers
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
-                else
-                {
-                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(expectedResults.Content));
-                }
+
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(expectedResults.Content));
             }
-            else
-            {
-                return new ForbidResult();
-            }
+
+            return new ForbidResult();
         }
     }
 }

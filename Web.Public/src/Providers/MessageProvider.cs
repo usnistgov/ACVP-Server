@@ -18,11 +18,16 @@ namespace Web.Public.Providers
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
             _jsonWriter = jsonWriter;
         }
-        
+
+        public void InsertIntoQueue(APIAction apiAction, long userID, object content)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertIntoQueue(APIAction apiAction, long requestID, long userID, object content)
         {
             // Build json message to go into table
-            var requestJson = _jsonWriter.BuildRequestObject(requestID, apiAction, userID, content);
+            var requestJson = _jsonWriter.BuildRequestWorkflowObject(requestID, content);
 
             var db = new MightyOrm(_connectionString);
 
@@ -31,6 +36,7 @@ namespace Web.Public.Providers
                 db.SingleFromProcedure("common.MessageQueueInsert", new
                 {
                     MessageType = apiAction,
+                    userId = userID,
                     Payload = requestJson
                 });
                 Log.Information($"Added requestID: {requestID} to the message queue");

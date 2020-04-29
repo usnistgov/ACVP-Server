@@ -56,5 +56,19 @@ namespace Web.Public.Providers
             var algo = _cachedAlgorithmList.FirstOrDefault(alg => alg.AlgorithmId == id);
             return algo;
         }
+
+        public AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision)
+        {
+            if (!_cachedAlgorithmList.Any())
+            {
+                GetAlgorithmList();
+            }
+
+            return _cachedAlgorithmList
+                .FirstOrDefault(alg =>
+                    algorithmName.Equals(alg.Name, StringComparison.OrdinalIgnoreCase) &&
+                    mode.Equals(alg.Mode, StringComparison.OrdinalIgnoreCase) &&
+                    revision.Equals(alg.Revision, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

@@ -43,18 +43,25 @@ namespace Web.Public.Services
             return JsonSerializer.Deserialize<object>(Encoding.UTF8.GetString(stream.ToArray()), _jsonSerializerOptions);
         }
 
-        public string BuildRequestObject(long requestId, APIAction apiActionId, long userId, object content)
+        public string BuildRequestWorkflowObject(long requestId, object content)
         {
             var reqObject = new MessageObject
             {
                 RequestID = requestId,
-                ApiActionID = apiActionId,
-                UserID = userId,
                 Json = content
             };
 
             // Must allow null because that's how DELETE requests operate
             return JsonSerializer.Serialize(reqObject, new JsonSerializerOptions
+            {
+                IgnoreNullValues = false,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+        }
+
+        public string BuildMessageObject(object content)
+        {
+            return JsonSerializer.Serialize(content, new JsonSerializerOptions
             {
                 IgnoreNullValues = false,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase

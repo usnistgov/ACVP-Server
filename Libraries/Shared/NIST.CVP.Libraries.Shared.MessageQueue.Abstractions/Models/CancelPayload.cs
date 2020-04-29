@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 {
-	public class CancelPayload : IWorkflowItemPayload
+	public class CancelPayload : IMessagePayload
 	{
 		[JsonPropertyName("tsId")]
 		public long TestSessionID { get; set; }

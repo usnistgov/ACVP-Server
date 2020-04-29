@@ -38,7 +38,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			CertifyTestSessionPayload certifyTestSessionPayload = JsonSerializer.Deserialize<CertifyTestSessionPayload>(requestPayload.Json.ToString());
 
 			//Create the workflow item
-			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
+			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), message.UserID);
 
 			//Error if that failed
 			if (!workflowInsertResult.IsSuccess)

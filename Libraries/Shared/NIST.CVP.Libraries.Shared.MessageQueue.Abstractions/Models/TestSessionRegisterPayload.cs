@@ -7,6 +7,9 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
     {
         [JsonPropertyName("tsId")]
         public long ID { get; set; }
+
+        [JsonPropertyName("acvVersion")] 
+        public string AcvVersion { get; set; } = "1.0";
         
         [JsonPropertyName("isSample")]
         public bool IsSample { get; set; }
@@ -17,6 +20,9 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
     
     public class VectorSetRegisterPayload
     {
+        [JsonPropertyName("algorithmId")]
+        public long AlgorithmId { get; set; }
+        
         [JsonPropertyName("algorithm")]
         public string Algorithm { get; set; }
         

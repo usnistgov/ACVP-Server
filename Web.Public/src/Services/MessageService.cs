@@ -16,11 +16,20 @@ namespace Web.Public.Services
         
         public long InsertIntoQueue(APIAction apiAction, byte[] userCert, object content)
         {
-            var requestID = _messageProvider.GetNextRequestID();
             var userID = _userProvider.GetUserIDFromCertificate(userCert);
-            _messageProvider.InsertIntoQueue(apiAction, requestID, userID, content);
 
-            return requestID;
+            // We only need to wrap a with a request id wrapper in cases where the action being taken leads to a workflow.
+            if (content.GetType().IsAssignableFrom(typeof(IWorkflowItemPayload)))
+            {
+                var requestID = _messageProvider.GetNextRequestID();
+                _messageProvider.InsertIntoQueue(apiAction, requestID, userID, content);
+
+                return requestID;                
+            }
+            
+            // Messages that don't lead to workflow items don't get a request id.
+            _messageProvider.InsertIntoQueue(apiAction, userID, content);
+            return 0;
         }
     }
 }

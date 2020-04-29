@@ -32,7 +32,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);
 
 			//Create the workflow item
-			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
+			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.GetRawText(), message.UserID);
 
 			if (!workflowInsertResult.IsSuccess)
 			{

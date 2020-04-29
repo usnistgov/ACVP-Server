@@ -16,5 +16,7 @@ namespace Web.Public.Services
         public IEnumerable<AlgorithmBase> GetAlgorithmList() => _algoProvider.GetAlgorithmList();
 
         public AlgorithmBase GetAlgorithm(int id) => _algoProvider.GetAlgorithm(id);
+
+        public AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision) => _algoProvider.GetAlgorithm(algorithmName, mode, revision);
     }
 }
