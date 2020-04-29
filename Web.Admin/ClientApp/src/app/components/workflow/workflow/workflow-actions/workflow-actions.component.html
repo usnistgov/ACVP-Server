@@ -4,12 +4,12 @@
     <table class="table" *ngIf="workflowItem?.status === 'Pending'">
       <tr>
         <td style="border:none;text-align:center;">
-          <button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()" [disabled]="approvalStatusFlag === 'processing'">&#10004; Approve</button>
+          <button class="btn btn-primary" style="width:80%;" (click)="approveWorkflow()" [attr.disabled]="approvalStatusFlag === 'processing' ? true : null">&#10004; Approve</button>
         </td>
       </tr>
       <tr>
         <td style="border:none;text-align:center;">
-          <button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()" [disabled]="approvalStatusFlag === 'processing'">&#10006; Reject</button>
+          <button class="btn btn-danger" style="width:80%;" (click)="rejectWorkflow()" [attr.disabled]="approvalStatusFlag === 'processing' ? true : null">&#10006; Reject</button>
         </td>
       </tr>
       <tr>

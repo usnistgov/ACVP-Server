@@ -3,6 +3,7 @@ import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
 import { WorkflowValidationCreatePayload } from '../../../../models/workflow/validation/WorkflowValidationCreatePayload';
 import { ProductProviderService } from '../../../../services/ajax/product/product-provider.service';
 import { OperatingEnvironmentProviderService } from '../../../../services/ajax/operatingEnvironment/operating-environment-provider.service';
+import { TestSessionProviderService } from '../../../../services/ajax/testSession/test-session-provider.service';
 
 @Component({
   selector: 'app-workflow-validation-create',
@@ -13,7 +14,7 @@ export class WorkflowValidationCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowValidationCreatePayload>;
   objectKeys = Object.keys;
-  constructor(private ProductService: ProductProviderService, private OEService: OperatingEnvironmentProviderService) { }
+  constructor(private ProductService: ProductProviderService, private OEService: OperatingEnvironmentProviderService, private testSessionService: TestSessionProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the
@@ -43,6 +44,13 @@ export class WorkflowValidationCreateComponent implements OnInit {
         }
       );
     }
+
+    this.testSessionService.getTestSession(this.workflowItem.payload.testSessionId)
+      .subscribe(
+        data => {
+          this.workflowItem.payload.testSession = data;
+        }
+      );
   }
 
   ngOnInit() {

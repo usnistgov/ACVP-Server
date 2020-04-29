@@ -163,7 +163,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 		}
 
-		public List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId)
+		public List<VectorSetJsonFile> GetVectorSetJsonFilesAvailable(long vectorSetId)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -177,12 +177,17 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					});
 
 				if (queryResult == null)
-					return new List<VectorSetJsonFileTypes>();
+					return new List<VectorSetJsonFile>();
 
-				List<VectorSetJsonFileTypes> result = new List<VectorSetJsonFileTypes>();
+				List<VectorSetJsonFile> result = new List<VectorSetJsonFile>();
 				foreach (var item in queryResult)
 				{
-					result.Add(Enum.Parse<VectorSetJsonFileTypes>(item.fileType, true));
+					VectorSetJsonFile tmpFile = new VectorSetJsonFile
+					{
+						Type = Enum.Parse<VectorSetJsonFileTypes>(item.fileType, true),
+						CreatedOn = item.createdOn
+					};
+					result.Add(tmpFile);
 				}
 
 				return result;

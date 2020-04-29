@@ -1,0 +1,1083 @@
+{
+	"info": {
+		"_postman_id": "784c98db-04d4-48ce-b22d-c2b512dd0b98",
+		"name": "PublicModule_v1.0_AutoTC",
+		"description": "Initial ACVP E2E Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5851a189-710c-4b4e-bc24-22fbb618e6e9",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"TOTP Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"totp\");",
+							"});",
+							"pm.environment.set(\"totp_token\", jsonData[1].totp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"totp"
+					]
+				},
+				"description": "TOTP Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf2494eb-7afc-426c-845b-94be62f59f98",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"access_token\", jsonData[1].accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"login"
+					]
+				},
+				"description": "LOGIN Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REGISTER Module",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21309ae1-10d5-42ed-9ff8-5c623f8887ea",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"/acvp/v1/vendors/11184\",\n    \"contactUrls\": [\"/acvp/v1/persons/14955\"],\n    \"website\": \"www.usa.nc.cp0423.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Run 0423.\"\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Request Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ce0e6c2-236b-445c-9a70-80387df8cbf4",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"reqstat\", jsonData[1].status);",
+							"var reqstatus = pm.environment.get(\"reqstat\");",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status\")}, 20000)}",
+							"else {pm.environment.set(\"modurl\", jsonData[1].approvedUrl);}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b79c7664-20c2-4cb3-b210-0c8a782c392f",
+						"exec": [
+							"pm.environment.set(\"reqstat\", \"initial\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{requrl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Info_ModuleXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fca91314-d9f7-4866-ac16-1a34435cdd52",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Module Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/modules\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{modurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c1f29e0e-6f46-4a55-aab5-00011450cd4b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Module Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/modules\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3986e925-7324-459e-9330-18933665522e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?offset=10780&limit=20",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "10780"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Name Contains Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a9611658-a9f2-4ab5-8999-16c1ba1a0118",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "923056d8-35b9-4cfe-b96a-75094fb0c977",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?name[0]=contains:DMC",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "name[0]",
+							"value": "contains:DMC"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Version Equal Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c22619a9-8a91-443f-81fd-d564d282a846",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cd59c2d5-5dee-462f-ab30-4f957aeba814",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?version[0]=eq:3.1A",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "version[0]",
+							"value": "eq:3.1A"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Website End Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8150799b-438e-4be7-b8c0-cda006601d4f",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1ab0ce3-9091-4b6d-b408-431bd4f06f28",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?website[0]=end:23.com",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "website[0]",
+							"value": "end:23.com"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Descr Start Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "35316cf0-4d1a-45a7-97a3-c1b906313894",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c5217e99-74dd-44fd-90d1-0e20056a8b99",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?description[0]=start:DMC",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "description[0]",
+							"value": "start:DMC"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Type Equal Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7afc0a56-8111-4e25-b730-b64f5ec861b2",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "904f3ad1-82f3-484c-b89e-e6b937a8af54",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?type[0]=eq:Firmware",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "type[0]",
+							"value": "eq:Firmware"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module VendorID GT Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f637fd48-9888-4778-8299-87dda79ee9d1",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Total Count Chk\", function () {",
+							"    pm.expect(jsonData[1].totalCount).to.gte(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "106deacd-8678-4a9b-a5c6-aa5341f2af6b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?vendorId[0]=gt:11170",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"modules"
+					],
+					"query": [
+						{
+							"key": "vendorId[0]",
+							"value": "gt:11170"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE ModuleXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4dd6a071-0da9-4083-a106-a7d8045deaec",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 Updated ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"/acvp/v1/vendors/11184\",\n    \"contactUrls\": [\"/acvp/v1/persons/14955\"],\n    \"website\": \"www.usa.nc.cp0423_updated.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Updated Run 0423.\"\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{modurl}}"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Request Status2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f589af1e-1e9f-44b7-b3d0-c5cda499097d",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"reqstat\", jsonData[1].status);",
+							"var reqstatus = pm.environment.get(\"reqstat\");",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status2\")}, 20000)}",
+							"else {pm.environment.set(\"modurl\", jsonData[1].approvedUrl);}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "85b8a7a5-4d6e-4014-b539-00057337557d",
+						"exec": [
+							"pm.environment.set(\"reqstat\", \"initial\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{requrl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Info_ModuleXYZ2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a473d92-e335-4e18-b23c-7d60a1ef28e4",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Module Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/modules\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{modurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ModuleXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "88801bbe-bbc3-45d8-9c00-43e16de171df",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{modurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Request Status3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7cbe428-20ed-421c-9b65-c46817d15134",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"reqstat\", jsonData[1].status);",
+							"var reqstatus = pm.environment.get(\"reqstat\");",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status3\")}, 20000)}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "168c2c72-164a-4eca-b46c-91bd761c84d7",
+						"exec": [
+							"pm.environment.set(\"reqstat\", \"initial\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{requrl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Module Info_ModuleXYZ3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea9afddb-7b95-4f64-9685-7677b7dded8c",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"1.0\");",
+							"});",
+							"pm.test(\"Error Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"error\");",
+							"});",
+							"pm.test(\"Module Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/modules\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access_token}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"protocol": "https",
+					"host": [
+						"{{env}}",
+						"{{baseurl}}{{modurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0395230a-99b8-4b8c-b13d-3a53956aa3bf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "793352de-e840-4516-8ea9-ea37ed16c8e4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

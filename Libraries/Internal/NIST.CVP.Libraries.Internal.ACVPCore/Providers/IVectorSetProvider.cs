@@ -15,7 +15,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		Result Insert(long vectorSetID, long testSessionID, string generatorVersion, long algorithmID);
 		List<(long ID, long AlgorithmID, VectorSetStatus Status, string ErrorMessage)> GetVectorSetIDsForTestSession(long testSessionID);
 		VectorSet GetVectorSet(long vectorSetId);
-		List<VectorSetJsonFileTypes> GetVectorSetJsonFilesAvailable(long vectorSetId);
+		List<VectorSetJsonFile> GetVectorSetJsonFilesAvailable(long vectorSetId);
 		string GetVectorFileJson(long vectorSetId, VectorSetJsonFileTypes fileType);
 		List<(VectorSetJsonFileTypes FileType, string Content, DateTime CreatedOn)> GetVectorFileJson(long vectorSetID);
 		Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json);

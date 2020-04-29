@@ -43,11 +43,11 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody *ngIf="selectedDependency">
+            <tbody>
               <!-- This is only here to avoid getting a few "not defined" errors before the AJAX returns -->
-              <tr *ngFor="let attribute of referenceCopyDependency.attributes">
-                <td>{{ attribute.name }}</td>
-                <td>{{ attribute.value }}</td>
+              <tr *ngFor="let attribute of referenceCopyDependency?.attributes">
+                <td>{{ attribute.name == "" || attribute.name == null ? "(Empty Name)" : attribute.name }}</td>
+                <td>{{ attribute.value == "" || attribute.value == null ? "(Empty Value)" : attribute.value }}</td>
                 <td><button class="btn btn-primary btn-sm bold-heading" (click)="deleteAttribute(attribute.id)">x</button></td>
               </tr>
               <tr>
