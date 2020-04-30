@@ -20,6 +20,12 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
     
     public class VectorSetRegisterPayload
     {
+        [JsonPropertyName(("vsId"))]
+        public long VsID { get; set; }
+        
+        [JsonPropertyName("isSample")]
+        public bool IsSample { get; set; }
+        
         [JsonPropertyName("algorithmId")]
         public long AlgorithmId { get; set; }
         
@@ -31,12 +37,6 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
         
         [JsonPropertyName("revision")]
         public string Revision { get; set; }
-        
-        [JsonPropertyName("isSample")]
-        public bool IsSample { get; set; }
-        
-        [JsonPropertyName(("vsId"))]
-        public long VsID { get; set; }
         
         [JsonExtensionData]
         public IDictionary<string, object> Properties { get; set; }
