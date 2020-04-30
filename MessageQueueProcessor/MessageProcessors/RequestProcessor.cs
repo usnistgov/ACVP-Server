@@ -25,8 +25,7 @@ namespace MessageQueueProcessor.MessageProcessors
 
 		public Result Process(Message message)
 		{
-			//Grab the action since it takes a little thinking to get it, and may use multiple times. In the future the message will contain this natively
-			APIAction apiAction = message.Action;
+			APIAction apiAction = message.MessageType;
 
 			//Deserialize the request payload
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);

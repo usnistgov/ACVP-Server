@@ -43,7 +43,7 @@ namespace MessageQueueProcessor
 					_messageQueueService.UpdateMessageStatus(message.ID, MessageStatus.Processing);
 
 					//Get the processor for this message - might not have one
-					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.Action);
+					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.MessageType);
 
 					//Process message or error
 					if (messageProcessor == null)
@@ -65,7 +65,7 @@ namespace MessageQueueProcessor
 							_messageQueueService.DeleteMessage(message.ID);
 
 							//Log it
-							_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+							_logger.LogInformation($"Processed {message.MessageType.ToString()} message {message.ID}");
 						}
 						else
 						{
@@ -73,7 +73,7 @@ namespace MessageQueueProcessor
 							_messageQueueService.UpdateMessageStatus(message.ID, MessageStatus.Error);
 
 							//Log it
-							_logger.LogError($"Error processing {message.Action.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
+							_logger.LogError($"Error processing {message.MessageType.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
 						}
 					}
 

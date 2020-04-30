@@ -10,7 +10,7 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue
 	public class Message
 	{
 		public Guid ID { get; set; }
-		public APIAction Action { get; set; }
+		public APIAction MessageType { get; set; }
 		public long UserID { get; set; }
 		public string Payload { get; set; }
 	}
