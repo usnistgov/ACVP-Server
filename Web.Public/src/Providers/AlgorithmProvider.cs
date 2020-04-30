@@ -59,16 +59,20 @@ namespace Web.Public.Providers
 
         public AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision)
         {
+            var algo = new AlgorithmBase()
+            {
+                Name = algorithmName,
+                Mode = mode,
+                Revision = revision
+            };
+            
             if (!_cachedAlgorithmList.Any())
             {
                 GetAlgorithmList();
             }
 
             return _cachedAlgorithmList
-                .FirstOrDefault(alg =>
-                    algorithmName.Equals(alg.Name, StringComparison.OrdinalIgnoreCase) &&
-                    mode.Equals(alg.Mode, StringComparison.OrdinalIgnoreCase) &&
-                    revision.Equals(alg.Revision, StringComparison.OrdinalIgnoreCase));
+                .FirstOrDefault(alg => alg.FullAlgoName.Equals(algo.FullAlgoName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

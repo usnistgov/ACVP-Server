@@ -26,8 +26,7 @@ namespace Web.Public.Providers
             {
                 var nextID = db.SingleFromProcedure("external.VectorSetGetNextID", new
                 {
-                    TestSessionID = tsID,
-                    Token = token
+                    TestSessionID = tsID
                 });
 
                 if (nextID == null)

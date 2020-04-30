@@ -21,7 +21,26 @@ namespace Web.Public.Providers
 
         public void InsertIntoQueue(APIAction apiAction, long userID, object content)
         {
-            throw new NotImplementedException();
+            // Build json message to go into table
+            var json = _jsonWriter.BuildMessageObject(content);
+
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                db.SingleFromProcedure("common.MessageQueueInsert", new
+                {
+                    MessageType = apiAction,
+                    userId = userID,
+                    Payload = json
+                });
+                Log.Information($"Added message to the message queue");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Unable to insert message into message queue: {json}", ex);
+                throw;
+            }
         }
 
         public void InsertIntoQueue(APIAction apiAction, long requestID, long userID, object content)
