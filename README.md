@@ -33,7 +33,7 @@ MOFCOMP %SYSTEMROOT%\System32\WindowsVirtualization.V2.mof
 Sym Links
 Symbolic links are used to mirror the `Directory.build.props` file from `/_config` to -> `/`.  It's contained with `/config` for team city build purposes, but needs to be at `/` for local purposes.
 
-The following bash commands from `/` will create the needed sym links:
+The following bash commands from the project root will create the needed sym links:
 
 ```
 rm Directory.Build.props
