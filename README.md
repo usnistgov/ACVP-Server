@@ -37,7 +37,5 @@ The following bash commands from `/` will create the needed sym links:
 
 ```
 rm Directory.Build.props
-rm Directory.Packages.props
 ln -s ./_config/Directory.Build.props
-ln -s ./_config/Directory.Packages.props
 ```
