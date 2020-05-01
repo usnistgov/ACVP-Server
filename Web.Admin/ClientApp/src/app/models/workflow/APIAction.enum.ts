@@ -1,4 +1,5 @@
 export enum APIAction {
+  All = '',
   Unknown = 'Unknown',
   CreateDependency = 'CreateDependency',
   UpdateDependency = 'UpdateDependency',

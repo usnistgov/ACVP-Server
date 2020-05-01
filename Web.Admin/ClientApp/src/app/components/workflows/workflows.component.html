@@ -13,16 +13,15 @@
           <input type="text" class="form-control" [(ngModel)]="listData.RequestId" (ngModelChange)="loadData()" placeholder="Request Id" />
           <br /> <!-- Just for spacing -->
           <label class="bold-heading">API Action</label><br />
-          <select class="form-control" #APIActionList (change)="setAPIAction(APIActionList.value)">
-            <option (click)="setAPIAction('All')" value="All">All</option>
-            <option *ngFor="let apiAction of APIAction.values()" (click)="setAPIAction(apiAction)" value="{{apiAction}}">
+          <select class="form-control" #apiActionList [(ngModel)]="listData.APIActionID" (change)="loadData()">
+            <option *ngFor="let apiAction of APIAction.values()" [ngValue]="apiAction">
               {{apiAction}}
             </option>
           </select>
           <br />
           <label class="bold-heading">Status</label><br />
-          <select class="form-control" #statusList (change)="setStatus(statusList.value)">
-            <option *ngFor="let status of WorkflowStatus.values()" (click)="setStatus(status)" value="{{status}}">
+          <select class="form-control" #statusList [(ngModel)]="listData.Status" (change)="loadData()">
+            <option *ngFor="let status of WorkflowStatus.values()" [ngValue]="status">
               {{status}}
             </option>
           </select>
