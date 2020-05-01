@@ -4,4 +4,5 @@ export class AcvpUserLite {
   fullName: string;
   companyId: number;
   companyName: string;
+  expiresOn: Date;
 }

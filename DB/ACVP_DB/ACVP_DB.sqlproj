@@ -323,7 +323,7 @@
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetGet.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetGetJsonFIleTypes.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetGetJsonFileTypes.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsGetByTestSessionId.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUsersGet.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserSetSeed.sql" />

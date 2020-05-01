@@ -54,7 +54,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 
         public Result CreateUser(AcvpUserCreateParameters param)
         {
-            return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate);
+            return _adminUserProvider.CreateUser(param.Person.Name, param.Person.OrganizationID, param.Certificate, param.Person.EmailAddresses.ToArray());
         }
         public Result DeleteUser(long userId)
         {

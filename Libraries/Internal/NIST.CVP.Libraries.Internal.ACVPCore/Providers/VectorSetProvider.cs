@@ -170,7 +170,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			try
 			{
 				var queryResult = db.QueryFromProcedure(
-					"acvp.VectorSetGetJsonFIleTypes",
+					"acvp.VectorSetGetJsonFileTypes",
 					new
 					{
 						vectorSetId

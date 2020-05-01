@@ -1,7 +1,7 @@
 <div class="row mt-3">
   <div class="col-lg-6">
     <div class="card">
-      <h5 class="card-header">Delete Person</h5>
+      <h5 class="card-header">Delete Person (ID: <a class="linkUnderline" [routerLink]="['/validation-db/persons/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
       <div class="card-body">
         <table class="table">
           <tr>

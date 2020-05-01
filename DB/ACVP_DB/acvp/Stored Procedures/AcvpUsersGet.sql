@@ -27,6 +27,7 @@ BEGIN
 			, p.full_name AS fullName
 			, o.[name] AS companyName
 			, o.id AS companyId
+			, au.expiresOn
 	FROM	acvp.ACVP_USER au
 	INNER	JOIN val.PERSON p ON au.person_id = p.id
 	INNER	JOIN val.ORGANIZATION o ON p.org_id = o.id
@@ -35,7 +36,7 @@ BEGIN
 		AND (@PersonId IS NULL OR p.id = @PersonId)
 		AND (@CompanyName IS NULL OR o.[name] LIKE '%' + @CompanyName + '%')
 		AND (@PersonName IS NULL OR p.full_name LIKE '%' + @PersonName + '%')
-	ORDER BY au.id
+	ORDER BY au.expiresOn
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 

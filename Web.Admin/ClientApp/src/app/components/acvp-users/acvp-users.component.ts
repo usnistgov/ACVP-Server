@@ -20,6 +20,11 @@ export class AcvpUsersComponent implements OnInit {
   listData: AcvpUserListParameters;
   newUserParams: AcvpUserCreateParameters;
 
+  // Some basic objects to use for showing and calculating elapsed certs
+  todayDate = Date.now();
+  dateMachine = new Date(Date.now());
+  twoMonthsInFutureDate = this.dateMachine.setDate(this.dateMachine.getDate() + 60);
+
   selectedDeleteUser: AcvpUser;
 
   constructor(private AcvpUserDataService: AcvpUserDataProviderService, private router: Router, private ModalSvc: ModalService) { }
@@ -54,7 +59,13 @@ export class AcvpUsersComponent implements OnInit {
 
     this.AcvpUserDataService.getAcvpUsers(this.listData).subscribe(
       data => {
+
         this.users = data;
+
+        this.users.data.forEach(function (item, index, array) {
+          item.expiresOn = new Date(item.expiresOn);
+        });
+
         this.router.navigate([], {
           queryParams: { page: this.listData.page },
           queryParamsHandling: 'merge'
@@ -102,9 +113,15 @@ export class AcvpUsersComponent implements OnInit {
   }
 
   loadData() {
+    var self = this;
     this.AcvpUserDataService.getAcvpUsers(this.listData).subscribe(
       data => {
         this.users = data;
+        this.users.data.forEach(function (item, index, array) {
+          // Not sure why, but apparently we have to parse these dates from Strings into Date objects
+          // if we want to use them as such.  I would've thought they'd be parsed as Dates since that's their type...
+          item.expiresOn = new Date(item.expiresOn);
+        });
       });
   }
 

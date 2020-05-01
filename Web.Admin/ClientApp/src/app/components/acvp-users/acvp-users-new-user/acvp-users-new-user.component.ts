@@ -27,6 +27,9 @@ export class AcvpUsersNewUserComponent implements OnInit {
   personNotProvidedFlag: Boolean;
   certificateNotProvidedFlag: Boolean;
 
+  // Model variable for storing the content of the view input for adding new emails to the new user
+  newEmailBox = "";
+
   // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/
   @Output() notifyParentComponent: EventEmitter<Result> = new EventEmitter<Result>();
 
@@ -45,14 +48,25 @@ export class AcvpUsersNewUserComponent implements OnInit {
     );
   }
 
+  addEmailToNewUserEmailsList() {
+    this.newUserParams.person.EmailAddresses.push(this.newEmailBox.toString());
+    this.newEmailBox = "";
+  }
+
   closeNewUserModal() {
     this.ModalService.hideModal('AddUserModal');
 
     // Reset the data used on that page, so it's clean next time they re-open it
     this.selectedOrganization = null;
+
     this.organizations.currentPage = 1;
     this.NewUserInputPage = 0;
     this.modalFooterError = "";
+    this.newEmailBox = "";
+
+    this.newUserParams = new AcvpUserCreateParameters();
+    this.newUserParams.person = new PersonCreateParameters();
+    this.newUserParams.person.EmailAddresses = [];
   }
 
   moveToNextPage() {
@@ -152,6 +166,7 @@ export class AcvpUsersNewUserComponent implements OnInit {
 
     this.newUserParams = new AcvpUserCreateParameters();
     this.newUserParams.person = new PersonCreateParameters();
+    this.newUserParams.person.EmailAddresses = [];
 
     this.OrganizationService.getOrganizations(this.listParams).subscribe(
       data => {
