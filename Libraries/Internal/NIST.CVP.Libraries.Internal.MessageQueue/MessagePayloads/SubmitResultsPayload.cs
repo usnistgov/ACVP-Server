@@ -11,7 +11,7 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads
 		[JsonPropertyName("algorithmId")]
 		public long AlgorithmID { get; set; }
 
-		[JsonPropertyName("response")]
+		[JsonPropertyName("testGroups")]
 		public JsonElement Results { get; set; }
 	}
 }

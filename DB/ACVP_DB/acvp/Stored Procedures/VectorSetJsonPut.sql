@@ -35,10 +35,6 @@ if (@JsonFileType = 'prompt'
     (
          @VsId
         ,CURRENT_TIMESTAMP
-        ,CASE @JsonFileType
-            WHEN 'prompt' THEN 0
-            WHEN 'validation' THEN 1
-            ELSE 2
-            END
+        ,@JsonFileTypeId
         ,CAST(@Content AS varbinary(MAX))
     )

@@ -173,7 +173,7 @@ namespace Web.Public.Controllers
                 
                 // TODO this is not the correct response to successful post of answers
                 // TODO Though is what the spec says, it's not what we currently return :/
-                return new AcceptedResult();
+                return new OkResult();
             }
             return new ForbidResult();
             

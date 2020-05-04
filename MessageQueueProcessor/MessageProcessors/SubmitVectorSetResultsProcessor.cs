@@ -32,7 +32,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			if (result.IsSuccess)
 			{
 				//Update the submitted results
-				result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, submitResultsPayload.Results.GetRawText());
+				result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, JsonSerializer.Serialize(submitResultsPayload));
 
 				if (result.IsSuccess)
 				{
