@@ -115,18 +115,6 @@ export class WorkflowsComponent implements OnInit {
     this.checkAllBoxesFlag = !this.checkAllBoxesFlag;
   }
 
-  setStatus(input: string) {
-    if (input === "All") { this.listData.Status = ""; }
-    else { this.listData.Status = input; }
-    this.loadData();
-  }
-
-  setAPIAction(input: string) {
-    if (input === "All") { this.listData.APIActionID = ""; }
-    else { this.listData.APIActionID = input; }
-    this.loadData();
-  }
-
   initializeMultiSelectFields() {
     this.workflowItems.data.forEach(function (item, index, array) { item.multiSelected = false; item.multiSelectSubmissionStatus = "unsubmitted"; });
   }
@@ -189,10 +177,21 @@ export class WorkflowsComponent implements OnInit {
     this.listData.pageSize = 10;
     this.listData.page = 1;
     this.listData.Status = "Pending";
+    this.listData.APIActionID = "All";
     
     // Check if the page param is set.  If so, store it in the "currentPage"...
     if (this.route.snapshot.queryParamMap.get('page')) {
       this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('Status')) {
+      this.listData.Status = this.route.snapshot.queryParamMap.get('Status');
+    }
+    if (this.route.snapshot.queryParamMap.get('APIActionID')) {
+      this.listData.APIActionID = this.route.snapshot.queryParamMap.get('APIActionID');
+    }
+    if (this.route.snapshot.queryParamMap.get('RequestId')) {
+      this.listData.RequestId = this.route.snapshot.queryParamMap.get('RequestId');
     }
 
     this.workflowService.getWorkflows(this.listData).subscribe(

@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Organization } from '../../models/organization/Organization';
 import { ActivatedRoute } from '@angular/router';
-import { ModalService } from '../../services/modal/modal.service';
-import { AddressCreateParameters } from '../../models/address/AddressCreateParameters';
-import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
 import { AcvpUser } from '../../models/AcvpUser/AcvpUser';
 import { AcvpUserDataProviderService } from '../../services/ajax/acvp-user/acvp-user-data-provider.service';
 
@@ -20,7 +16,12 @@ export class AcvpUserComponent implements OnInit {
 
   refreshPageData() {
     this.AcvpUserDataService.getAcvpUser(this.selectedUser.acvpUserId).subscribe(
-      data => { this.selectedUser = data; },
+      data => {
+        this.selectedUser = data;
+
+        // The ORM doesn't convert these, so we have to do it.  Not sure why.
+        this.selectedUser.expiresOn = new Date(this.selectedUser.expiresOn);
+      },
       err => { },
       () => { });
   }
@@ -28,7 +29,12 @@ export class AcvpUserComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.AcvpUserDataService.getAcvpUser(parseInt(params.get("id"))).subscribe(
-        data => { this.selectedUser = JSON.parse(JSON.stringify(data)); },
+        data => {
+          this.selectedUser = JSON.parse(JSON.stringify(data));
+
+          // The ORM doesn't convert these, so we have to do it.  Not sure why.
+          this.selectedUser.expiresOn = new Date(this.selectedUser.expiresOn);
+        },
         err => { },
         () => { })
     });

@@ -4,13 +4,21 @@
     <table width="100%">
       <tr>
         <td><h5>Certificate Information</h5></td>
-        <td align="right"><span class="linkUnderline" (click)="raiseEditCertificateModal()">Edit</span></td>
+        <td align="right"><!--<span class="linkUnderline" (click)="raiseEditCertificateModal()">Edit</span>--></td>
       </tr>
     </table>
   </div>
   <div class="card-body">
     <p class="card-text">
-      <label class="bold-heading">Expires</label>&nbsp;&nbsp;{{selectedUser?.expiresOn}}<br />
+      <label class="bold-heading">Expires</label>&nbsp;&nbsp;
+      <span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() > twoMonthsInFutureDate" style="color:green;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() > todayDate && selectedUser?.expiresOn.getTime() < twoMonthsInFutureDate" style="color:darkorange;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() < todayDate" style="color:darkred;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+      </span><!--
+      <span>
+        (<a [href]="emailBody" class="linkUnderline">Generate Reminder Email</a>)
+      </span>--><br />
       <label class="bold-heading mt-3">Issuer</label>&nbsp;&nbsp;{{selectedUser?.issuer}}<br />
       <label class="bold-heading mt-3">Common Name</label><br />
       {{selectedUser?.commonName}}

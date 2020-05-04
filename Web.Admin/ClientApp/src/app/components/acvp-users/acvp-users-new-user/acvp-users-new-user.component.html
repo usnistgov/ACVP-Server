@@ -86,16 +86,30 @@
             <div class="row">
               <label class="bold-heading">Selected Lab:</label>&nbsp;&nbsp;{{selectedOrganization?.name}}
             </div>
-            <form>
-              <div class="row mt-3">
-                <label class="bold-heading">Person Name</label><input [(ngModel)]="newUserParams && newUserParams.person.Name" type="text" name="NameBox" class="form-control" required /><br />
-                <span style="color:red;">{{(personNotProvidedFlag ? "Name Not Provided" : "")}}</span>
+            <div class="row mt-3">
+              <label class="bold-heading">Person Name</label><input [(ngModel)]="newUserParams && newUserParams.person.Name" type="text" name="NameBox" class="form-control" required /><br />
+              <span style="color:red;">{{(personNotProvidedFlag ? "Name Not Provided" : "")}}</span>
+            </div>
+            <div class="row mt-3">
+              <label class="bold-heading">Person Emails</label>
+            </div>
+            <div class="row">
+              <ul *ngIf="newUserParams?.person?.EmailAddresses.length > 0">
+                <li *ngFor="let email of newUserParams?.person?.EmailAddresses">{{email}}</li>
+              </ul>
+              <p *ngIf="newUserParams?.person?.EmailAddresses.length == 0">No emails defined yet</p>
+              <div class="input-group mb-3">
+                <input type="text" [(ngModel)]="newEmailBox" class="form-control" />
+                <div class="input-group-append">
+                  <button class="btn btn-primary bold-heading" (click)="addEmailToNewUserEmailsList()">+</button><br />
+                </div>
               </div>
-              <div class="row mt-3">
-                <label class="bold-heading">Certificate</label><br />&nbsp;<br />
-                <input type="file" #certificateInput placeholder="Choose file"><br />
-              </div>
-            </form>
+              <span style="color:red;">{{(personNotProvidedFlag ? "Name Not Provided" : "")}}</span>
+            </div>
+            <div class="row mt-3">
+              <label class="bold-heading">Certificate</label><br />&nbsp;<br />
+              <input type="file" #certificateInput placeholder="Choose file"><br />
+            </div>
           </div>
 
         </div>
@@ -108,7 +122,7 @@
               <button type="button" class="btn btn-primary mr-2" *ngIf="NewUserInputPage === 0" (click)="moveToNextPage()">Next</button>
               <!-- I have no clue why this component needs to access the files array through nativeelement and why it doesn't when doing precisely
                    the same thing on Legacy and Acvp-users-new-user.  Anyone with a good explanation is welcome... RLS4 - 4/16/20-->
-              <button type="button" class="btn btn-primary mr-2" (click)="submitNewUser(certificateInput.nativeElement.files[0])" *ngIf="NewUserInputPage === 1" >Submit</button>
+              <button type="button" class="btn btn-primary mr-2" (click)="submitNewUser(certificateInput.nativeElement.files[0])" *ngIf="NewUserInputPage === 1">Submit</button>
               <button type="button" class="btn btn-secondary" (click)="closeNewUserModal()">Close</button>
             </td>
           </tr>

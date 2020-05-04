@@ -5,6 +5,9 @@ import { AcvpUserDataProviderService } from '../../../services/ajax/acvp-user/ac
 import { Result } from '../../../models/responses/Result';
 import { AcvpUserCertificateUpdateParameters } from '../../../models/AcvpUser/AcvpUserCertificateUpdateParameters';
 import { FormGroup } from '@angular/forms';
+import { PersonProviderService } from '../../../services/ajax/person/person-provider.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-acvp-user-certificate',
@@ -16,11 +19,71 @@ export class AcvpUserCertificateComponent implements OnInit {
   selectedUser: AcvpUser;
   editCertificateValue: string = '';
 
-  constructor(private UserService: AcvpUserDataProviderService, private ModalService: ModalService) { }
+  // Some basic objects to use for showing and calculating elapsed certs
+  todayDate = Date.now();
+  dateMachine = new Date(Date.now());
+  twoMonthsInFutureDate = this.dateMachine.setDate(this.dateMachine.getDate() + 60);
+
+  emailBody: string;
+
+  constructor(private UserService: AcvpUserDataProviderService,
+    private ModalService: ModalService,
+    private PersonService: PersonProviderService,
+    private location: Location) { }
 
   @Input()
   set user(user: AcvpUser) {
-    this.selectedUser = user;
+    if (typeof user !== "undefined") {
+      this.selectedUser = user;
+      this.PersonService.getPerson(user.personId).subscribe(
+        data => {
+          this.selectedUser.person = data;
+          this.generateEmailBody();
+        }
+      );
+    }
+  }
+
+  generateEmailBody() {
+
+    // Assemble the emails to send to
+    var emailAddresses = "";
+    for (let i = 0; i < this.selectedUser.person.emailAddresses.length; i++) {
+      emailAddresses = emailAddresses + this.selectedUser.person.emailAddresses[i] + ";";
+    }
+
+    var environment = "";
+    var envEmailContact = "";
+
+    // Assemble the environment name
+    if (window.location.href.includes('admin.acvts.nist.gov')) {
+      environment = "Production";
+      envEmailContact = "acvts-prod@nist.gov";
+    } else if (window.location.href.includes('admin.demo.acvts.nist.gov')) {
+      environment = "Demo";
+      envEmailContact = "acvts-demo@nist.gov";
+    } else if (window.location.href.includes('admin.test.acvts.nist.gov')) {
+      environment = "Test";
+      envEmailContact = "acvts-test@nist.gov";
+    } else if (window.location.href.includes('admin.dev.acvts.nist.gov')) {
+      environment = "Development";
+      envEmailContact = "acvts-dev@nist.gov";
+    } else if (window.location.href.includes('localhost') || window.location.href.includes('127.0.0.1')) {
+      environment = "Local";
+      envEmailContact = "acvts-local@nist.gov";
+    }
+
+    this.emailBody = "" +
+      "mailto:" + emailAddresses +
+      "&subject=ACVTS " + environment + " Environment Credential Expiration Reminder" +
+      "&body=" + this.selectedUser.fullName + ",\r\n\r\n" +
+      "This is a reminder that your credential to the ACVTS " + environment +
+      " Environment is at or near expiration.\r\n\r\n" +
+      "The expiration date is: " + this.selectedUser.expiresOn + "\r\n\r\n" +
+      "Please contact " + envEmailContact + " for instructions on submitting a new CSR\r\n\r\n" +
+      "Thank you,\r\nACVTS Administration Team";
+
+    this.emailBody = encodeURI(this.emailBody);
   }
 
   // https://www.themarketingtechnologist.co/building-nested-components-in-angular-2/

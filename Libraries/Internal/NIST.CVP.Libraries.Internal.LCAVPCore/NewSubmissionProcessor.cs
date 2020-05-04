@@ -92,11 +92,11 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 
 			//Add any errors found when building the algorithm objects
-			processingResult.Errors.AddRange(registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Algorithm.Errors));
+			processingResult.Errors.AddRange(PotentialScenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Algorithm.Errors));
 
 			//Do the lookups on any prereqs that reference submission IDs - and mark as unresolved if dependent submission has not been approved
 			bool havePendingPrereq = false;
-			foreach (var scenario in registration.Scenarios)
+			foreach (var scenario in PotentialScenarios)
 			{
 				foreach (var algorithm in scenario.Algorithms)
 				{
@@ -122,7 +122,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			//If there are any prereqs that reference submission IDs that have not been approved, throw an error
 			if (havePendingPrereq)
 			{
-				string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+				string submissions = string.Join(", ", PotentialScenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 				processingResult.Errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
 			}
 

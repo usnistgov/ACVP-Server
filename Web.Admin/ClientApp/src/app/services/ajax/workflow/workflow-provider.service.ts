@@ -23,9 +23,7 @@ export class WorkflowProviderService {
   getWorkflows(params: WorkflowListParameters) {
 
     if (params.RequestId === "") { params.RequestId = null; }
-    if (params.APIActionID === "") { params.APIActionID = null; }
     if (params.WorkflowItemId === "") { params.WorkflowItemId = null; }
-    if (params.Status === "") { params.Status = null; }
 
     // Build the request body
     var slightlyReformatted = {
@@ -36,6 +34,11 @@ export class WorkflowProviderService {
       "WorkflowItemID": parseInt(params.WorkflowItemId),
       "Status": params.Status
     };
+
+    // These must be done after copying into a fresh varaiable, otherwise, the pass-byreference ends up biting us and
+    // causing the workflow page boxes to be empty after use
+    if (slightlyReformatted.APIActionID === "All") { slightlyReformatted.APIActionID = null; }
+    if (slightlyReformatted.Status === "All") { slightlyReformatted.Status = null; }
 
     return this.http.post<WorkflowItemList>(this.apiRoot + '/Workflows', slightlyReformatted);
   }

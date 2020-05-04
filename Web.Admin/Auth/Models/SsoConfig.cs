@@ -17,8 +17,12 @@ namespace Web.Admin.Auth.Models
         /// </summary>
         public string AdfsMetadata { get; set; }
         /// <summary>
-        /// The application root url.
+        /// The application identifier (generally the url).
         /// </summary>
         public string WtRealm { get; set; }
+        /// <summary>
+        /// The ws federation passive endpoint.
+        /// </summary>
+        public string WReply { get; set; }
     }
 }

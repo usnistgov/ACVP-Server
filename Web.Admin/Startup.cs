@@ -70,6 +70,7 @@ namespace Web.Admin
                     .AddWsFederation(options =>
                     {
                         options.Wtrealm = ssoConfig.WtRealm;
+                        options.Wreply = ssoConfig.WReply;
                         options.MetadataAddress = ssoConfig.AdfsMetadata;
                         options.Events.OnAuthenticationFailed += context =>
                         {
