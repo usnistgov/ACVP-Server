@@ -100,7 +100,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				foreach (var algorithm in scenario.Algorithms)
 				{
-					foreach (var prereq in algorithm.Prerequisites.Where(x => !string.IsNullOrEmpty(x.SubmissionID)))
+					foreach (var prereq in algorithm.Prerequisites?.Where(x => !string.IsNullOrEmpty(x.SubmissionID)) ?? new List<Prerequisite>())
 					{
 						//Look it up
 						long validationID = _dataProvider.GetValidationIDForSubmissionID(prereq.SubmissionID);
