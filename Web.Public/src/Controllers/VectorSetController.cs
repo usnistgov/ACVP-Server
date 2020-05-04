@@ -170,10 +170,8 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, cert, submittedResults);
-                
-                // TODO this is not the correct response to successful post of answers
-                // TODO Though is what the spec says, it's not what we currently return :/
-                return new OkResult();
+
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
             return new ForbidResult();
             
