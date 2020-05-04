@@ -18,8 +18,8 @@ namespace Web.Public.ClaimsVerifiers
         {
             try
             {
-                var tsIDFromClaims = long.Parse(claims["ts"]);
-                var vsIDListFromClaims = claims["vs"].Trim(new [] {'[', ']'}).Split(",").Select(long.Parse).ToList();
+                var tsIDFromClaims = long.Parse(claims["tsId"]);
+                var vsIDListFromClaims = claims["vsId"].Trim(new [] {'[', ']'}).Split(",").Select(long.Parse).ToList();
 
                 return _tsID == tsIDFromClaims && vsIDListFromClaims.Contains(_vsID);
             }

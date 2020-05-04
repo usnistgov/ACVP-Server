@@ -57,7 +57,7 @@ namespace Web.Public.Providers
                 if (statusData == null)
                 {
                     // Vector set does not exist
-                    throw new Exception("Vector set does not exist");
+                    return VectorSetStatus.Initial;
                 }
 
                 return (VectorSetStatus)statusData.Status;

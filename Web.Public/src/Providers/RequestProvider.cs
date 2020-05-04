@@ -19,7 +19,7 @@ namespace Web.Public.Providers
 
         public Request GetRequest(long id)
         {
-            var db = new MightyOrm(_connectionString);
+            var db = new MightyOrm<Request>(_connectionString);
 
             try
             {
@@ -28,25 +28,12 @@ namespace Web.Public.Providers
                     RequestID = id
                 });
 
-                if (requestData == null)
-                {
-                    throw new Exception($"Unable to find request with id: {id}");
-                }
-                
-                var result = new Request
-                {
-                    RequestID = id,
-                    Status = requestData.Status,
-                    ApprovedID = requestData.ApprovedID,
-                    APIAction = requestData.APIActionID
-                };
-
-                return result;
+                return requestData;
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error getting request");
-                throw;
+                return null;
             }
         }
 
