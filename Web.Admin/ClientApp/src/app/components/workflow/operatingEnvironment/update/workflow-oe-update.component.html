@@ -1,109 +1,119 @@
-<div class="row mt-3">
-  <div class="col-lg-9">
-    <div class="card">
-      <h5 class="card-header">Update OE (ID: <a class="linkUnderline" [routerLink]="['/validation-db/operatingEnvironments/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;"></th>
-            <th style="border:none;">Existing</th>
-            <th style="border:none;">Update</th>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
-            <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty Name)" : workflowItem?.payload.name }}</td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-9">
+      <div class="card">
+        <h5 class="card-header">Update OE (ID: <a class="linkUnderline" [routerLink]="['/validation-db/operatingEnvironments/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;"></th>
+              <th style="border:none;">Existing</th>
+              <th style="border:none;">Update</th>
+            </tr>
+            <tr>
+              <th>Name</th>
+              <td>{{ currentState?.name == "" || currentState?.name == null ? "(Empty)" : currentState?.name }}</td>
+              <td>{{ workflowItem?.payload.name == "" || workflowItem?.payload.name == null ? "(Empty Name)" : workflowItem?.payload.name }}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
 
-  <div class="col-lg-3">
-    <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
-  </div> <!-- Close col-lg-6 -->
+    <div class="col-lg-3">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
+  </div>
+
+  <div class="row mt-3">
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Existing Dependencies</h5>
+        <div class="card-body">
+          <table class="table table-hover">
+            <ng-container *ngFor="let dependency of currentState?.dependencies; let i = index">
+              <tr data-toggle="collapse" [attr.data-target]="'#collapseProposed' + i">
+                <th>{{ dependency.id == -1 ? "NEW" : dependency.id }}</th>
+                <td>{{ dependency.name }}</td>
+              </tr>
+              <tr [attr.id]="'collapseProposed' + i" class="collapse">
+                <td width="20%">
+                </td>
+                <td colspan="5">
+                  <ng-container *ngFor="let key of objectKeys(dependency)">
+                    <table class="table table-sm" *ngIf="shouldAttributeBeDisplayed(key)">
+                      <tr *ngIf="key != 'attributes'">
+                        <th>{{key}}</th>
+                        <td>{{dependency[key]}}</td>
+                      </tr>
+                      <tr *ngIf="key == 'attributes' && dependency[key].length > 0">
+                        <th>{{key}}</th>
+                        <td>
+                          <ul>
+                            <li *ngFor="let attribute of dependency[key]">
+                              {{attribute.name}} - {{attribute.value}}
+                            </li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </table>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Proposed Dependencies</h5>
+        <div class="card-body">
+          <table class="table table-hover">
+            <ng-container *ngFor="let dependency of workflowItem?.payload?.dependencies; let i = index">
+              <tr data-toggle="collapse" [attr.data-target]="'#collapseProposed' + i">
+                <th>{{ dependency.id == -1 ? "NEW" : dependency.id }}</th>
+                <td>{{ dependency.name }}</td>
+              </tr>
+              <tr [attr.id]="'collapseProposed' + i" class="collapse">
+                <td width="20%">
+                </td>
+                <td colspan="5">
+                  <ng-container *ngFor="let key of objectKeys(dependency)">
+                    <table class="table table-sm" *ngIf="shouldAttributeBeDisplayed(key)">
+                      <tr *ngIf="key != 'attributes'">
+                        <th>{{key}}</th>
+                        <td>{{dependency[key]}}</td>
+                      </tr>
+                      <tr *ngIf="key == 'attributes' && dependency[key].length > 0">
+                        <th>{{key}}</th>
+                        <td>
+                          <ul>
+                            <li *ngFor="let attribute of dependency[key]">
+                              {{attribute.name}} - {{attribute.value}}
+                            </li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </table>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+  </div>
 </div>
 
-<div class="row mt-3">
-
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Existing Dependencies</h5>
-      <div class="card-body">
-        <table class="table table-hover">
-          <ng-container *ngFor="let dependency of currentState?.dependencies; let i = index">
-            <tr data-toggle="collapse" [attr.data-target]="'#collapseProposed' + i">
-              <th>{{ dependency.id == -1 ? "NEW" : dependency.id }}</th>
-              <td>{{ dependency.name }}</td>
-            </tr>
-            <tr [attr.id]="'collapseProposed' + i" class="collapse">
-              <td width="20%">
-              </td>
-              <td colspan="5">
-                <ng-container *ngFor="let key of objectKeys(dependency)">
-                  <table class="table table-sm" *ngIf="shouldAttributeBeDisplayed(key)">
-                    <tr *ngIf="key != 'attributes'">
-                      <th>{{key}}</th>
-                      <td>{{dependency[key]}}</td>
-                    </tr>
-                    <tr *ngIf="key == 'attributes' && dependency[key].length > 0">
-                      <th>{{key}}</th>
-                      <td>
-                        <ul>
-                          <li *ngFor="let attribute of dependency[key]">
-                            {{attribute.name}} - {{attribute.value}}
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>
-                  </table>
-                </ng-container>
-              </td>
-            </tr>
-          </ng-container>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Proposed Dependencies</h5>
-      <div class="card-body">
-        <table class="table table-hover">
-          <ng-container *ngFor="let dependency of workflowItem?.payload?.dependencies; let i = index">
-            <tr data-toggle="collapse" [attr.data-target]="'#collapseProposed' + i">
-              <th>{{ dependency.id == -1 ? "NEW" : dependency.id }}</th>
-              <td>{{ dependency.name }}</td>
-            </tr>
-            <tr [attr.id]="'collapseProposed' + i" class="collapse">
-              <td width="20%">
-
-              </td>
-              <td colspan="5">
-                <ng-container *ngFor="let key of objectKeys(dependency)">
-                  <table class="table table-sm" *ngIf="shouldAttributeBeDisplayed(key)">
-                    <tr *ngIf="key != 'attributes'">
-                      <th>{{key}}</th>
-                      <td>{{dependency[key]}}</td>
-                    </tr>
-                    <tr *ngIf="key == 'attributes' && dependency[key].length > 0">
-                      <th>{{key}}</th>
-                      <td>
-                        <ul>
-                          <li *ngFor="let attribute of dependency[key]">
-                            {{attribute.name}} - {{attribute.value}}
-                          </li>
-                        </ul>
-                      </td>
-                    </tr>
-                  </table>
-                </ng-container>
-              </td>
-            </tr>
-          </ng-container>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-</div>
+<div class="col-lg-6" *ngIf="workflowItem.status === 'Approved'">
+  <div class="card">
+    <h5 class="card-header">Update Dependency</h5>
+    <div class="card-body">
+      <a [routerLink]="['/validation-db/operatingEnvironments/', workflowItem.acceptId]">View Resulting Object</a>
+    </div>
+  </div> 
+</div> 

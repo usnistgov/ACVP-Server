@@ -1,82 +1,93 @@
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Certify Test Session</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;">{{workflowItem?.payload.product?.name}}</td>
-          </tr>
-          <tr>
-            <th>Version</th>
-            <td>{{workflowItem?.payload.product?.version == null ? "No Version" : workflowItem?.payload.product?.version}}</td>
-          </tr>
-          <tr>
-            <th>Type</th>
-            <td>{{workflowItem?.payload.product?.type == null ? "No Type" : workflowItem?.payload.product?.type}}</td>
-          </tr>
-          <tr>
-            <th>URL</th>
-            <td>{{workflowItem?.payload.product?.link == null ? "No URL" : workflowItem?.payload.product?.link}}</td>
-          </tr>
-          <tr>
-            <th>Description</th>
-            <td>{{workflowItem?.payload.product?.description == null ? "No Description" : workflowItem?.payload.product?.description}}</td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Product Info Card -->
-  </div> <!-- Close col-lg-6 -->
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Certify Test Session</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{workflowItem?.payload.product?.name}}</td>
+            </tr>
+            <tr>
+              <th>Version</th>
+              <td>{{workflowItem?.payload.product?.version == null ? "No Version" : workflowItem?.payload.product?.version}}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{workflowItem?.payload.product?.type == null ? "No Type" : workflowItem?.payload.product?.type}}</td>
+            </tr>
+            <tr>
+              <th>URL</th>
+              <td>{{workflowItem?.payload.product?.link == null ? "No URL" : workflowItem?.payload.product?.link}}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{{workflowItem?.payload.product?.description == null ? "No Description" : workflowItem?.payload.product?.description}}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Product Info Card -->
+    </div> <!-- Close col-lg-6 -->
 
-  <div class="col-lg-6">
-    <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
-  </div> <!-- Close col-lg-6 -->
-</div>
-
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Operating Environment</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;">{{ workflowItem?.payload.oe?.name == null ? '[No Name Provided!]' :  workflowItem?.payload.oe?.name }}</td>
-          </tr>
-        </table>
-        <table class="table">
-          <tr *ngFor="let dependency of workflowItem?.payload.oe?.dependencies">
-            <td>
-              <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
-              <ul *ngFor="let key of objectKeys(dependency)">
-                <li *ngIf="key != 'id' && key != 'url'">
-                  <span style="font-weight:bold;">
-                    {{ key }} :
-                  </span>
-                  <span>
-                    {{ dependency[key] }}
-                  </span>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Capabilities</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr *ngFor="let vectorSet of workflowItem?.payload?.testSession?.vectorSets">
-            <th>{{vectorSet.algorithm}}</th>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
+    <div class="col-lg-6">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
   </div>
 
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Operating Environment</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{ workflowItem?.payload.oe?.name == null ? '[No Name Provided!]' :  workflowItem?.payload.oe?.name }}</td>
+            </tr>
+          </table>
+          <table class="table">
+            <tr *ngFor="let dependency of workflowItem?.payload.oe?.dependencies">
+              <td>
+                <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
+                <ul *ngFor="let key of objectKeys(dependency)">
+                  <li *ngIf="key != 'id' && key != 'url'">
+                    <span style="font-weight:bold;">
+                      {{ key }} :
+                    </span>
+                    <span>
+                      {{ dependency[key] }}
+                    </span>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Capabilities</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr *ngFor="let vectorSet of workflowItem?.payload?.testSession?.vectorSets">
+              <th>{{vectorSet.algorithm}}</th>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div>
+
+  </div>
+</div>
+
+<div class="col-lg-6" *ngIf="workflowItem.status === 'Approved'">
+  <div class="card">
+    <h5 class="card-header">Certify Test Session</h5>
+    <div class="card-body">
+      <a [routerLink]="['/validation-db/validations/', workflowItem.acceptId]">View Completed Certificate</a>
+    </div>
+  </div>
 </div>

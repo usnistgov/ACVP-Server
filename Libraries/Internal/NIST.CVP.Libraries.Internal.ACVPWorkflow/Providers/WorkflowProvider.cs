@@ -155,7 +155,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 					APIAction = (APIAction)data.APIActionId,
 					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
 					WorkflowItemID = workflowItemId,
-					Status = (WorkflowStatus)data.Status
+					Status = (WorkflowStatus)data.Status,
+					AcceptId = data.AcceptId
 				};
 			}
 			catch (Exception ex)

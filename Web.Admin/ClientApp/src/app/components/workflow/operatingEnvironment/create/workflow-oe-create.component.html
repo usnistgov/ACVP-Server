@@ -1,62 +1,73 @@
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Create New OE</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;">{{ workflowItem?.payload.name == null ? '[No Name Provided!]' :  workflowItem?.payload.name }}</td>
-          </tr>
-          <tr>
-            <th>Type</th>
-            <td>{{ workflowItem?.payload.type == null ? 'N/A' :  workflowItem?.payload.type }}</td>
-          </tr>
-          <tr>
-            <th>Description</th>
-            <td>{{ workflowItem?.payload.description == null ? 'N/A' :  workflowItem?.payload.description }}</td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Create New OE</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{ workflowItem?.payload.name == null ? '[No Name Provided!]' :  workflowItem?.payload.name }}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{ workflowItem?.payload.type == null ? 'N/A' :  workflowItem?.payload.type }}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{{ workflowItem?.payload.description == null ? 'N/A' :  workflowItem?.payload.description }}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
 
-  <div class="col-lg-6">
-    <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
-  </div> <!-- Close col-lg-6 -->
+    <div class="col-lg-6">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Dependency Information</h5>
+        <div class="card-body">
+
+          <table class="table">
+            <tr *ngFor="let dependency of workflowItem?.payload?.dependencies">
+              <td>
+                <span class="bold-heading">{{ dependency?.isInlineCreate ? 'New Dependency' : dependency.id + ' - ' + dependency.name  }}</span>
+                <ul *ngFor="let key of objectKeys(dependency)">
+                  <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
+                    <span style="font-weight:bold;">
+                      {{ key }} :
+                    </span>
+                    <span *ngIf="key !== 'attributes'">
+                      {{ dependency[key] }}
+                    </span>
+                    <div *ngIf="key === 'attributes'">
+                      <ul>
+                        <li *ngFor="let attribute of dependency[key]">
+                          {{attribute.name}}: {{attribute.value}}
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+  </div>
 </div>
 
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Dependency Information</h5>
-      <div class="card-body">
-
-        <table class="table">
-          <tr *ngFor="let dependency of workflowItem?.payload?.dependencies">
-            <td>
-              <span class="bold-heading">{{ dependency?.isInlineCreate ? 'New Dependency' : dependency.id + ' - ' + dependency.name  }}</span>
-              <ul *ngFor="let key of objectKeys(dependency)">
-                <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
-                  <span style="font-weight:bold;">
-                    {{ key }} :
-                  </span>
-                  <span *ngIf="key !== 'attributes'">
-                    {{ dependency[key] }}
-                  </span>
-                  <div *ngIf="key === 'attributes'">
-                    <ul>
-                      <li *ngFor="let attribute of dependency[key]">
-                        {{attribute.name}}: {{attribute.value}}
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-</div>
+<div class="col-lg-6" *ngIf="workflowItem.status === 'Approved'">
+  <div class="card">
+    <h5 class="card-header">Create New OE</h5>
+    <div class="card-body">
+      <a [routerLink]="['/validation-db/operatingEnvironments/', workflowItem.acceptId]">View Resulting Object</a>
+    </div>
+  </div> <!-- Close Dependency Info Card -->
+</div> <!-- Close col-lg-6 -->
