@@ -494,13 +494,14 @@
 					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [{{algorithms}}]\n\t}\n]"
 				},
 				"url": {
-					"raw": "{{https}}{{publicApiRootUrl}}/acvp/{{register}}",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
 					"host": [
 						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
-						"{{register}}"
+						"v1",
+						"testSessions"
 					]
 				}
 			},
