@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace Web.Public.Models
@@ -13,7 +14,12 @@ namespace Web.Public.Models
         [JsonIgnore]
         public APIAction APIAction { get; set; }
         
+        [JsonIgnore]
         public RequestStatus Status { get; set; }
+
+        [JsonPropertyName("status")] 
+        public string StatusString => EnumHelpers.GetEnumDescriptionFromEnum(Status);
+        
         [JsonPropertyName("approvedUrl")]
         public string ApprovedURL { get; set; }
     }

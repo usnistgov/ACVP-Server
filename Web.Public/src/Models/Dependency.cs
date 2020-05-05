@@ -14,7 +14,7 @@ namespace Web.Public.Models
 		public string URL => $"/acvp/v1/dependencies/{ID}";
 
 		[JsonPropertyName("type")]
-		public string Type { get; set; }
+		public string DependencyType { get; set; }
 
 		[JsonPropertyName("name")]
 		public string Name { get; set; }

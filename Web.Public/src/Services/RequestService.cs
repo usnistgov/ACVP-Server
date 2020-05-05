@@ -62,7 +62,7 @@ namespace Web.Public.Services
         private string BuildApprovedURL(long approvedID, APIAction apiAction)
         {
             // TODO make sure DELETE uses the same URL ? 
-            var baseURL = "/acvp/v1/";
+            var baseURL = "/acvp/v1";
             
             return apiAction switch
             {

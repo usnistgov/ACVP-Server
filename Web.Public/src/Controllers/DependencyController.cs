@@ -144,6 +144,15 @@ namespace Web.Public.Controllers
 		public JsonHttpStatusResult GetDependency(long id)
 		{
 			var dependency = _dependencyService.GetDependency(id);
+
+			if (dependency == null)
+			{
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+				{
+					Error = Request.HttpContext.Request.Path
+				}), HttpStatusCode.NotFound);
+			}
+			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(dependency));
 		}
 

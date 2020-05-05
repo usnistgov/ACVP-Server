@@ -33,7 +33,7 @@ namespace Web.Public.Providers
 
 				if (data == null)
 				{
-					throw new Exception($"Unable to find dependency with id: {id}");
+					return null;
 				}
 				
 				var result = new Dependency
@@ -41,7 +41,7 @@ namespace Web.Public.Providers
 					ID = id,
 					Description = data.Description,
 					Name = data.Name,
-					Type = data.Type
+					DependencyType = data.DependencyType
 				};
 
 				var dataAttributes = db.QueryFromProcedure("val.DependencyAttributeGet", new
@@ -140,7 +140,7 @@ namespace Web.Public.Providers
 					dependencies.Add(new Dependency
 					{
 						ID = rawDependency.Id,
-						Type = rawDependency.DependencyType,
+						DependencyType = rawDependency.DependencyType,
 						Name = rawDependency.Name,
 						Description = rawDependency.Description,
 						Attributes = attributes.Count > 0 ? attributes : null

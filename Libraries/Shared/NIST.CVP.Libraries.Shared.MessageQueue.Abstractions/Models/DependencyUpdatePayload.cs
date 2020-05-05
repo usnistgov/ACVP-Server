@@ -71,16 +71,16 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 
 
 
-		//[JsonIgnore]
+		[JsonPropertyName("typeUpdated")]
 		public bool TypeUpdated { get; private set; } = false;
 
-		//[JsonIgnore]
+		[JsonPropertyName("nameUpdated")]
 		public bool NameUpdated { get; private set; } = false;
 
-		//[JsonIgnore]
+		[JsonPropertyName("descriptionUpdated")]
 		public bool DescriptionUpdated { get; private set; } = false;
 
-		//[JsonIgnore]
+		[JsonPropertyName("attributesUpdated")]
 		public bool AttributesUpdated { get; private set; } = false;
 
 
