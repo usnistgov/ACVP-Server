@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c18ee289-0397-4783-969b-3ba8e5d3c883",
+		"_postman_id": "93fb07d7-28ad-438a-9b26-7146a803a6f6",
 		"name": "PublicAlgo_v1.0",
 		"description": "Initial ACVP E2E Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a575bd91-e4d7-4c86-afc5-34ac0a075833",
+						"id": "b4c7aa55-0645-4e33-bfee-43887e9d9d84",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -37,11 +37,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -58,7 +57,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e2e8d825-f9c7-4284-b790-4e683fc47aab",
+						"id": "5f3acd01-f9de-4c8d-b2d8-71a6b638f8ed",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -87,11 +86,10 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -109,7 +107,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c45fa7ea-3601-464e-b345-3c6fe104cb0b",
+						"id": "ca6ccc92-1fb7-47ec-945b-49b75c36ea53",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -129,7 +127,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2ea46ee7-dc08-4f17-8667-7e280d9a6b5b",
+						"id": "aeb690e8-ec5f-4969-8369-f847ec68a80d",
 						"exec": [
 							""
 						],
@@ -149,11 +147,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/algorithms",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/algorithms",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -171,7 +168,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5d44d7a3-80b6-4cf8-b530-d9843e8aab63",
+						"id": "4bf814a9-8a63-4cb3-a956-460ee74058ce",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -190,7 +187,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2ea46ee7-dc08-4f17-8667-7e280d9a6b5b",
+						"id": "c4d82561-ad69-45e2-861f-fa0d28e681c7",
 						"exec": [
 							""
 						],
@@ -210,11 +207,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{algo_url}}",
+					"raw": "https://{{publicApiRootUrl}}{{algo_url}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{algo_url}}"
+						"{{publicApiRootUrl}}{{algo_url}}"
 					]
 				},
 				"description": "Vector Request"
@@ -226,7 +222,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "c856decc-c3ef-4289-aef8-191c27be4dbb",
+				"id": "561dcf1f-89b4-40c2-b64e-eebfc177731a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -236,7 +232,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "87493567-f0bc-4230-b194-ed28fc9fd9c7",
+				"id": "1b906239-0534-46c9-9b80-e5af9ac8517d",
 				"type": "text/javascript",
 				"exec": [
 					""
