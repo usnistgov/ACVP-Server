@@ -4,10 +4,11 @@ AS
 
 SET NOCOUNT ON
 
-SELECT id AS ID
-    ,APIActionID AS APIActionID
-    ,[Status] AS [Status]
-    ,AcceptID AS AcceptID
+SELECT RequestID
+    ,APIAction
+    ,[Status]
+    ,ApprovedID
+	,Created
 FROM [acvp].[Request]
 WHERE UserID = @UserID
-ORDER BY CreatedOn
+ORDER BY Created

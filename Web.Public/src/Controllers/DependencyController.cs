@@ -74,7 +74,7 @@ namespace Web.Public.Controllers
 				Status = RequestStatus.Initial
 			};
 			
-			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));
 		}
 
 		[HttpPut("{id}")]
@@ -106,7 +106,7 @@ namespace Web.Public.Controllers
 				Status = RequestStatus.Initial
 			};
 			
-			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));
 		}
 
 		[HttpDelete("{id}")]
@@ -137,7 +137,7 @@ namespace Web.Public.Controllers
 				Status = RequestStatus.Initial
 			};
 			
-			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject), HttpStatusCode.Accepted);
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));
 		}
 		
 		[HttpGet("{id}")]

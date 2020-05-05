@@ -20,6 +20,22 @@ namespace Web.Public.Services
         {
             var request = _requestProvider.GetRequest(id);
 
+            // If the request is null, check the "external" table as the request may not be replicated to retrieve the "initial" state.
+            if (request == null)
+            {
+                var requestInitialized = _requestProvider.CheckRequestInitialized(id);
+                if (requestInitialized)
+                {
+                    return new Request()
+                    {
+                        Status = RequestStatus.Initial,
+                        RequestID = id
+                    };
+                }
+                
+                return null;
+            }
+            
             if (request.Status == RequestStatus.Approved)
             {
                 request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);

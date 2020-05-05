@@ -8,7 +8,7 @@ namespace Web.Public.JsonObjects
         [JsonIgnore]
         public long RequestID { get; set; }
         
-        public string URL => $"acvp/v1/requests/{RequestID}";
+        public string URL => $"/acvp/v1/requests/{RequestID}";
         public RequestStatus Status { get; set; }
     }
 }

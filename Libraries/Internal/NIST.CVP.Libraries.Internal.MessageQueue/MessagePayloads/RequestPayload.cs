@@ -7,7 +7,7 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads
 {
 	public class RequestPayload
 	{
-		[JsonPropertyName("id")]
+		[JsonPropertyName("requestId")]
 		public long RequestID { get; set; }
 
 		[JsonPropertyName("json")]

@@ -37,6 +37,31 @@ namespace Web.Public.Providers
             }
         }
 
+        public bool CheckRequestInitialized(long id)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var data = db.ExecuteProcedure("external.RequestExists",
+                    new
+                    {
+                        requestId = id
+                    },
+                    new
+                    {
+                        exists = false
+                    });
+
+                return data.exists;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Unable to validate existence of request.", e);
+                return false;
+            }
+        }
+
         public List<Request> GetAllRequestsForUser(long userID)
         {
             var db = new MightyOrm(_connectionString);
