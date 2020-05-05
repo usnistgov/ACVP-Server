@@ -1,53 +1,66 @@
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Delete OE (ID: <a class="linkUnderline" [routerLink]="['/validation-db/operatingEnvironments/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;">{{ currentState?.name == null ? '[No Name Provided!]' :  currentState?.name }}</td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Delete OE (ID: <a class="linkUnderline" [routerLink]="['/validation-db/operatingEnvironments/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{ currentState?.name == null ? '[No Name Provided!]' :  currentState?.name }}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
 
-  <div class="col-lg-6">
-    <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
-  </div> <!-- Close col-lg-6 -->
+    <div class="col-lg-6">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Dependency Information</h5>
+        <div class="card-body">
+
+          <table class="table">
+            <tr *ngFor="let dependency of currentState?.dependencies">
+              <td>
+                <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
+                <ul *ngFor="let key of objectKeys(dependency)">
+                  <li *ngIf="key != 'id'">
+                    <span style="font-weight:bold;">
+                      {{ key }} :
+                    </span>
+                    <span *ngIf="key !== 'attributes'">
+                      {{ dependency[key] }}
+                    </span>
+                    <div *ngIf="key === 'attributes'">
+                      <ul>
+                        <li *ngFor="let attribute of dependency[key]">
+                          {{attribute.name}}: {{attribute.value}}
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+  </div>
 </div>
 
-<div class="row mt-3">
+<div *ngIf="workflowItem.status === 'Approved'">
   <div class="col-lg-6">
     <div class="card">
-      <h5 class="card-header">Dependency Information</h5>
+      <h5 class="card-header">Delete OE</h5>
       <div class="card-body">
-
-        <table class="table">
-          <tr *ngFor="let dependency of currentState?.dependencies">
-            <td>
-              <span class="bold-heading">{{ dependency.name === null ||  dependency.name === "" ? "(Empty)" : dependency.name }} (ID: <a [routerLink]="['/validation-db/dependencies/' + dependency.id]">{{dependency.id}}</a>)</span>
-              <ul *ngFor="let key of objectKeys(dependency)">
-                <li *ngIf="key != 'id'">
-                  <span style="font-weight:bold;">
-                    {{ key }} :
-                  </span>
-                  <span *ngIf="key !== 'attributes'">
-                    {{ dependency[key] }}
-                  </span>
-                  <div *ngIf="key === 'attributes'">
-                    <ul>
-                      <li *ngFor="let attribute of dependency[key]">
-                        {{attribute.name}}: {{attribute.value}}
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </table>
+        <label class="bold-heading">ID: </label>{{workflowItem?.payload.id}}
       </div>
     </div> <!-- Close Dependency Info Card -->
   </div> <!-- Close col-lg-6 -->

@@ -37,11 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -87,11 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -143,11 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"Test DMC0428 Inline Ubuntu Linux 3.1 on AMD 6272 Opteron Processor with Acme package installed\",\n    \"dependencies\": [\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 A1\",\n        \"description\": \"Testing0428 A1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oa1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 B1\",\n        \"description\": \"Testing0428 B1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:ob1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 C1\",\n        \"description\": \"Testing0428 C1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oc1:ubuntu:linux:4.3\"\n      }\n    ],\n    \"dependencyUrls\": [\n      \"/acvp/v1/dependencies/23059\",\n      \"/acvp/v1/dependencies/23060\",\n      \"/acvp/v1/dependencies/23066\"\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/oes",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -208,11 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -254,11 +254,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{oesurl}}"
+						
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -311,11 +311,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/oes?offset=23000&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?offset=23000&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -382,11 +382,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/oes?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -449,11 +449,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/oes?name[0]=start:Test",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?name[0]=start:Test",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -511,11 +511,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"Test DMC0428 UPDATED Inline Ubuntu Linux 3.1 on AMD 6272 Opteron Processor with Acme package installed\",\n    \"dependencies\": [\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 A1\",\n        \"description\": \"Testing0428 A1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oa1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 B1\",\n        \"description\": \"Testing0428 B1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:ob1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 C1\",\n        \"description\": \"Testing0428 C1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oc1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 D1\",\n        \"description\": \"Testing0428 D1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:od1:ubuntu:linux:4.3\"\n      }\n    ],\n    \"dependencyUrls\": [\n      \"/acvp/v1/dependencies/23059\",\n      \"/acvp/v1/dependencies/23060\"\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{oesurl}}"
+						
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -571,11 +571,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -617,11 +617,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{oesurl}}"
+						
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -668,11 +668,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{oesurl}}"
+						
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -728,11 +728,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -777,11 +777,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{oesurl}}"
+						
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"

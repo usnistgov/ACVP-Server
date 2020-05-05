@@ -37,11 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -87,11 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -143,11 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"/acvp/v1/vendors/11184\",\n    \"contactUrls\": [\"/acvp/v1/persons/14955\"],\n    \"website\": \"www.usa.nc.cp0423.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Run 0423.\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -208,11 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -254,11 +254,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{modurl}}"
+						
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -311,11 +311,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?offset=10780&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?offset=10780&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -382,11 +382,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -449,11 +449,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?version[0]=eq:3.1A",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?version[0]=eq:3.1A",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -516,11 +516,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?website[0]=end:23.com",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?website[0]=end:23.com",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -583,11 +583,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?description[0]=start:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?description[0]=start:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -650,11 +650,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?type[0]=eq:Firmware",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?type[0]=eq:Firmware",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -717,11 +717,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/modules?vendorId[0]=gt:11170",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?vendorId[0]=gt:11170",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -779,11 +779,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 Updated ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"/acvp/v1/vendors/11184\",\n    \"contactUrls\": [\"/acvp/v1/persons/14955\"],\n    \"website\": \"www.usa.nc.cp0423_updated.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Updated Run 0423.\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{modurl}}"
+						
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -839,11 +839,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -885,11 +885,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{modurl}}"
+						
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -936,11 +936,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{modurl}}"
+						
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -996,11 +996,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -1045,11 +1045,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{modurl}}"
+						
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"

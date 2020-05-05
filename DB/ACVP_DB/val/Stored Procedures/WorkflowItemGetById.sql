@@ -12,6 +12,7 @@ BEGIN
 			,json_blob AS JsonBlob
 			,w.[status] AS [Status]
 			,r.id as RequestId
+			,w.accept_id as AcceptId
 	FROM	val.WORKFLOW w
 	INNER	JOIN acvp.REQUEST r on w.id = r.workflow_id
 	WHERE	w.id = @WorkflowItemId
