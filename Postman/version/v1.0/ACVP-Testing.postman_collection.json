@@ -307,6 +307,7 @@
 							"    ",
 							"    pm.environment.set(\"prev_step\", \"Get Answers\");",
 							"    pm.environment.set(\"algorithm\", jsonData[1].algorithm);",
+							"    pm.environment.set(\"revision\", jsonData[1].revision);",
 							"    ",
 							"    if (jsonData[1].mode) {",
 							"        pm.environment.set(\"mode\", jsonData[1].mode);",
@@ -494,13 +495,14 @@
 					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [{{algorithms}}]\n\t}\n]"
 				},
 				"url": {
-					"raw": "{{https}}{{publicApiRootUrl}}/acvp/{{register}}",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
 					"host": [
 						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
-						"{{register}}"
+						"v1",
+						"testSessions"
 					]
 				}
 			},
@@ -661,7 +663,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"revision\": \"{{revision}}\",\n    \"testGroups\": {{test_results}}\n  }\n]"
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
