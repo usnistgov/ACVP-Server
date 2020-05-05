@@ -37,11 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -87,11 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -143,11 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 042120\",\n    \"website\": \"www.acme0421.acme\",\n    \"emails\": [\n      \"inquiry@acme0421.acme\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"301-555-1234\",\n        \"type\": \"voice\"\n      }\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0421 Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -208,11 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -255,11 +255,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{vendurl}}"
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -312,11 +312,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?offset=10955&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?offset=10955&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -384,11 +384,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -456,11 +456,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?website[0]=start:www.acme",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?website[0]=start:www.acme",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -524,11 +524,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?email[0]=end:acme",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?email[0]=end:acme",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -592,11 +592,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -654,11 +654,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"name\": \"DMC Test Generic Update\",\r\n    \"website\": \"www.acmegenericupdate.acme\",\r\n    \"emails\": [\r\n      \"inquiry@acmegenericupdate.acme\"\r\n    ],\r\n    \"phoneNumbers\" : [{\r\n             \"number\" : \"301-666-0401\",\r\n             \"type\" : \"voice\"\r\n         }],\r\n    \"addresses\": [\r\n      {\r\n        \"street1\": \"1000 Updated Main Street\",\r\n        \"locality\": \"Updated Leland\",\r\n        \"region\": \"North Carolina\",\r\n        \"country\": \"USA\",\r\n        \"postalCode\": \"28451\"\r\n      }\r\n    ]\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{vendurl}}"
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -714,11 +714,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -760,11 +760,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{vendurl}}"
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -810,11 +810,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{vendurl}}"
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"

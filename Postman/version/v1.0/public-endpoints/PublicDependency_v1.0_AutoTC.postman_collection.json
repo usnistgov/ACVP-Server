@@ -37,11 +37,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -87,11 +87,11 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -143,11 +143,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -208,11 +208,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -254,11 +254,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{depurl}}"
+						
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -311,11 +311,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?offset=23000&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?offset=23000&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -382,11 +382,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -449,11 +449,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?type[0]=eq:software",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?type[0]=eq:software",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -516,11 +516,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}/acvp/v1/dependencies?description[0]=start:Testing",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?description[0]=start:Testing",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}"
+						
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -578,11 +578,11 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Updated Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 Updated cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{depurl}}"
+						
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -638,11 +638,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -684,11 +684,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{depurl}}"
+						
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -735,11 +735,11 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{depurl}}"
+						
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -795,11 +795,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{requrl}}"
+						
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -844,11 +844,11 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.{{baseurl}}{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"{{baseurl}}{{depurl}}"
+						
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
