@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "063ab44c-00e4-48e9-b362-017d42f1478f",
+		"_postman_id": "16ddf362-b312-445b-a3f6-e4f2bec92625",
 		"name": "PublicIntegrated_v1.0_AutoTC",
 		"description": "Initial ACVP E2E Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6e9e64b8-09e6-4c0c-8e94-16cebb6dfcce",
+						"id": "9891de7b-97e8-418d-a05b-018234690d3e",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -37,13 +37,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/totp",
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -60,7 +57,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "836863a8-57bf-465a-ae37-e7f7fa3537a3",
+						"id": "086c75a2-68b3-4d94-8208-2085cf1889f9",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -89,13 +86,10 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp_token}}\"\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/login",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -113,7 +107,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "66122b8e-83b7-406c-b6e7-7aa079fdec11",
+						"id": "a0ece5d8-c306-4775-b1af-c4a035e72405",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -147,13 +141,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 042120\",\n    \"website\": \"www.acme0421.acme\",\n    \"emails\": [\n      \"inquiry@acme0421.acme\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"301-555-1234\",\n        \"type\": \"voice\"\n      }\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0421 Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -171,7 +162,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9dc4c0d8-7463-4809-b534-bb481f363461",
+						"id": "b0018621-b554-4590-a075-657693cffc34",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -194,7 +185,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "4e91622a-67e2-4179-9c4a-ebe4ad6fe477",
+						"id": "c9af0083-44c4-46a0-8a8b-924b4c72b11c",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -214,13 +205,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -233,7 +221,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "95aa47c9-997a-4955-b828-e63df062123d",
+						"id": "ba1095be-ac2b-4110-ab1b-0b4dcb271690",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -263,13 +251,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -282,7 +267,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f03e8e5f-947c-49ef-8744-24105a335da3",
+						"id": "974747fe-a771-4f04-84f8-beb4fc6c4281",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -302,7 +287,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8cb4e308-7fdc-492c-954b-f238822b6711",
+						"id": "530f87d4-5928-456f-a2e3-a85d9981debb",
 						"exec": [
 							""
 						],
@@ -322,13 +307,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?offset=500&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?offset=500&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -356,7 +338,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "45c26563-a90f-4b47-afad-1a5264e753c0",
+						"id": "5e4737a7-a81d-4bb1-9720-c08815da2c2b",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -376,7 +358,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2394e836-37c0-4e8c-b2e4-644f6701fd40",
+						"id": "c401c887-10aa-49e7-bf50-a92132b6a590",
 						"exec": [
 							""
 						],
@@ -396,13 +378,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -430,7 +409,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8356294d-2a11-422e-8b86-52f5b0693c43",
+						"id": "fd034010-a65e-4a1c-be9b-add5a599cd18",
 						"exec": [
 							""
 						],
@@ -440,7 +419,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b5f52366-e701-4515-8478-903a14515614",
+						"id": "95026a81-85cc-4ef9-af63-7607f28df82b",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -470,13 +449,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?website[0]=start:www.acme",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?website[0]=start:www.acme",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -500,7 +476,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c67452e4-6baa-4bc5-a2df-9a38e8034d03",
+						"id": "49d3ac52-b803-48e0-a036-941ba2910d2a",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -520,7 +496,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "ffb030ab-d7b4-4e5c-ae33-68d812d41da3",
+						"id": "3a4d8557-6ccc-4d22-b114-311dde0fc240",
 						"exec": [
 							""
 						],
@@ -540,13 +516,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?email[0]=end:acme",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?email[0]=end:acme",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -570,7 +543,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "13317ce4-970c-4d54-8f0d-40674606e431",
+						"id": "f5fd89f8-2c0f-43ee-812c-06c2ddb35ea3",
 						"exec": [
 							""
 						],
@@ -580,7 +553,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "05f871ad-2c18-4388-b3c5-a36ef3367b60",
+						"id": "ab8b0945-1fe1-4c8a-88e4-6cb5bb2a236f",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -610,13 +583,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -640,7 +610,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bbf1c77e-cd61-4c30-93cb-8b887e84341c",
+						"id": "930a8110-720b-4723-a455-2506b68d4471",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -674,13 +644,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"fullName\": \"Dave0422 Chod0422\",\n    \"vendorUrl\": \"{{vendurl}}\",\n    \"emails\": [\n      \"dmc0422@test.com\",\n      \"dmcxx0422@test.com\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"555-998-0422\",\n        \"type\": \"fax\"\n      },\n      {\n        \"number\": \"555-999-0422\",\n        \"type\": \"voice\"\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -698,7 +665,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1cd28cdf-db7b-402e-be16-7068515633d1",
+						"id": "12fe1fb7-0f45-4d01-a235-7ad805d1d62b",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -721,7 +688,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d7ea60fc-8604-4dcd-9dfb-9e84342afda7",
+						"id": "c76b5e75-76d9-4ff6-98e9-c2fbcc2bfaa4",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -741,13 +708,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -760,7 +724,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2fb03f13-6bc2-49c1-bf54-6ed0dd949e84",
+						"id": "12703c5f-b3f5-4c10-b825-fb75e7a359df",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -789,13 +753,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{perurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{perurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{perurl}}"
+						"{{publicApiRootUrl}}{{perurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -808,7 +769,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "50cc41dc-96a9-4cc7-9136-9bb8203b0a86",
+						"id": "18bf45b9-dbb4-4bdc-a845-b302f375e0c3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -837,13 +798,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}/contacts",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}/contacts",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					],
 					"path": [
 						"contacts"
@@ -859,7 +817,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7c5f0dd1-d863-486f-ad6c-4d2c3f019263",
+						"id": "b785e618-82ab-4079-8c05-862829154750",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -879,7 +837,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "08a9e854-a41a-4664-b0f4-011003953791",
+						"id": "f14c13ae-624f-4853-8eb2-3ac41c8a4496",
 						"exec": [
 							"pm.environment.set(\"retry\", 0);"
 						],
@@ -899,13 +857,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons?offset=500&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons?offset=500&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -933,7 +888,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a3c17208-4a3c-42e7-9743-06f2ddbe2508",
+						"id": "96660bd5-e4e4-4648-b67b-1b3eb0a48e65",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -953,7 +908,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6c9e4ce2-b2fa-4e0c-9e18-295e5a9f1e41",
+						"id": "6ca5f409-e8ee-4ab5-98d1-3dc0ae7a5df3",
 						"exec": [
 							""
 						],
@@ -973,13 +928,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons?fullName[0]=start:Dave",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons?fullName[0]=start:Dave",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1003,7 +955,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "886953b3-188d-4dca-98a1-76765d7d51ac",
+						"id": "89d6f0f0-e388-416a-9ae8-7ef03ac5c9b7",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1023,7 +975,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8a8cc907-2b0e-418b-812e-1ba4d5031e4f",
+						"id": "eaf01d97-cbd3-45b5-9f6f-81f22c9873a0",
 						"exec": [
 							""
 						],
@@ -1043,13 +995,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons?email[0]=end:test.com",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons?email[0]=end:test.com",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1073,7 +1022,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ea9e2389-d694-4b4f-b2b8-bd7aeda739fd",
+						"id": "b1f75a76-0f56-411e-b23d-0bbef4e80d08",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1093,7 +1042,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "80197958-7bed-4eaf-aa92-a388cdbf667f",
+						"id": "0caec3e1-f0d7-4df1-8693-bd80d53a0120",
 						"exec": [
 							""
 						],
@@ -1113,13 +1062,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons?phoneNumber[0]=contains:555",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons?phoneNumber[0]=contains:555",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1143,7 +1089,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "861e8abe-54ce-41eb-8f8a-293f14951b47",
+						"id": "958e5430-e9e5-4a3b-8aec-2a2a0d2a12a4",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1163,7 +1109,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "74df58e1-e6fe-4b91-9f79-ed901f9e2486",
+						"id": "ae9541c6-2ad6-4b5a-ba8a-79f1e798186c",
 						"exec": [
 							""
 						],
@@ -1183,13 +1129,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/persons?vendorId[0]=eq:11184",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/persons?vendorId[0]=eq:11184",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1213,7 +1156,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0eade5aa-4e08-480c-9c0d-d69911ec41c3",
+						"id": "677dcdda-8dec-4acf-af38-37a533c9c909",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1247,13 +1190,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"{{vendurl}}\",\n    \"contactUrls\": [\"{{perurl}}\"],\n    \"website\": \"www.usa.nc.cp0423.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Run 0423.\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1271,7 +1211,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eafc3cc9-cfb2-4e20-a5ce-8036499a2a98",
+						"id": "8b01bca1-be89-421c-a073-a8fb33795d3d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1294,7 +1234,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8f408664-ac48-4d39-9e8e-29823972a576",
+						"id": "2031986e-764f-4708-a3a0-460d50462539",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -1314,13 +1254,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -1333,7 +1270,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "0a0dbc0d-ea16-4d80-9e55-47d5feee48e7",
+						"id": "a1d00399-9f43-45cd-85ee-f4ff227e55fe",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1362,13 +1299,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{modurl}}"
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -1381,7 +1315,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3d8d924a-d5b6-4292-83ef-a9b3d8a8ef96",
+						"id": "cf703306-c044-4b4a-aa74-9165c066dcca",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1401,7 +1335,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "bd34baa4-e016-430c-938c-0b40a7dba32c",
+						"id": "c87f3f53-3d6e-4323-9cf0-eb8247b4ee56",
 						"exec": [
 							""
 						],
@@ -1421,13 +1355,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?offset=500&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?offset=500&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1455,7 +1386,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5f680b5e-33a4-4802-84ab-85202588a18f",
+						"id": "dd4c774a-0509-4302-aab6-decb701017a6",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1474,7 +1405,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "339b8f8f-11ae-40b3-8af6-b94479d2c924",
+						"id": "c868e821-f917-4cc0-9234-6b959fd030db",
 						"exec": [
 							""
 						],
@@ -1494,13 +1425,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1524,7 +1452,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bed09a2c-5680-4ce0-b8ec-56b9de99c738",
+						"id": "2c934f6c-1e97-41b9-afc7-123d596b6071",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1543,7 +1471,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "542bab1f-8993-4525-9a50-e492a35f3603",
+						"id": "f5468de5-6a4b-4c13-b438-94cfd3fa27f6",
 						"exec": [
 							""
 						],
@@ -1563,13 +1491,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?version[0]=eq:3.1A",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?version[0]=eq:3.1A",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1593,7 +1518,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bfacf3f4-83f7-40a0-837d-953131b2a7d5",
+						"id": "99032d4f-353c-41cb-8f2f-a8792328deb8",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1612,7 +1537,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "fe4e17a2-a8dd-4307-a77d-92a6e5dab31b",
+						"id": "8d773649-9a63-4654-8748-c9d39d5173e1",
 						"exec": [
 							""
 						],
@@ -1632,13 +1557,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?website[0]=end:23.com",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?website[0]=end:23.com",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1662,7 +1584,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4c278652-9ffc-423a-8cf1-768632c77b17",
+						"id": "9436b0cf-4b0e-40f1-8846-2fb4dd45260d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1681,7 +1603,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d51cc9fe-517c-4bf3-88e6-303c9d28e762",
+						"id": "97e7e106-a5eb-4cbc-850a-c6dce6e21dcd",
 						"exec": [
 							""
 						],
@@ -1701,13 +1623,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?description[0]=start:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?description[0]=start:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1731,7 +1650,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5267e5d2-0d13-45f8-944c-8339c291c2a4",
+						"id": "ed8bd388-68ef-47ab-a580-6113c573a5a4",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1750,7 +1669,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9b7fb7f8-ade9-4805-97ee-58b8865bd12d",
+						"id": "f26ad962-4544-4878-849e-824a134565dc",
 						"exec": [
 							""
 						],
@@ -1770,13 +1689,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?type[0]=eq:Firmware",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?type[0]=eq:Firmware",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1800,7 +1716,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "28f69a3c-6c92-4b69-b797-86eb22216f91",
+						"id": "11518939-2f4a-4367-82d1-e067fe5a71ee",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1819,7 +1735,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c859173f-ee3b-48fb-89e7-ae7e8204022d",
+						"id": "95af13f9-dca3-4081-915e-f1ed7952cf93",
 						"exec": [
 							""
 						],
@@ -1839,13 +1755,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/modules?vendorId[0]=gt:1000",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/modules?vendorId[0]=gt:1000",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1869,7 +1782,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1416b7ac-8d1a-456c-b75b-6e1c2cda9638",
+						"id": "dd2ba15d-f1d7-4fcd-bf80-496006552de6",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1903,13 +1816,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -1927,7 +1837,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "173ee442-8498-46a2-bd98-f9da6a683d23",
+						"id": "921f2a78-0cdf-4dc0-ae8f-b0025f45002e",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -1950,7 +1860,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "78242937-7dd9-43df-bdfc-885c3d642587",
+						"id": "935b1b80-5812-4161-a419-708eadaf173e",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -1970,13 +1880,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -1989,7 +1896,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2c3b56e7-5614-4694-bfb5-c2c70b8e91b9",
+						"id": "d5dab1e8-3be5-4075-a870-75a9706d1376",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2018,13 +1925,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -2037,7 +1941,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "69818f56-e067-40f0-ba85-64aa62cfb27e",
+						"id": "2a105987-35f7-4f07-8b3d-8ae0dc42f0c0",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2057,7 +1961,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1d52e15e-8fec-46b2-a236-e4b882ccc6df",
+						"id": "7c61950b-86b8-4bc0-a432-085c3e1b8cba",
 						"exec": [
 							""
 						],
@@ -2077,13 +1981,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?offset=500&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?offset=500&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2111,7 +2012,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dd884a4e-e620-4f24-9d01-811e246717d9",
+						"id": "d0ea6928-b03b-4e69-8c7d-f659e900c5a5",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2130,7 +2031,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5f382ee5-a387-4319-81b2-311fa741825a",
+						"id": "929bd80b-c33a-47b4-97ed-ecac5c584f95",
 						"exec": [
 							""
 						],
@@ -2150,13 +2051,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2180,7 +2078,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b712ae01-c46c-4aac-b2d6-9dcd7c4f2713",
+						"id": "c6089ebd-eaf7-4bac-903a-cf4f8be3181f",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2199,7 +2097,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "9c9e823f-39fc-42a6-b72d-2361c8d87946",
+						"id": "227c8b87-c620-4d24-ba0a-ef10f211d15f",
 						"exec": [
 							""
 						],
@@ -2219,13 +2117,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?type[0]=eq:software",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?type[0]=eq:software",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2249,7 +2144,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "33130a6f-a3f7-41eb-9563-1a103c4139a7",
+						"id": "510023fb-0f20-44fa-966e-b4848332d376",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2268,7 +2163,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "739c3725-70d8-473b-a615-d74acd768b98",
+						"id": "b5e99512-5ab5-424b-8314-471c66d0dd6a",
 						"exec": [
 							""
 						],
@@ -2288,13 +2183,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/dependencies?description[0]=start:Testing",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/dependencies?description[0]=start:Testing",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2318,7 +2210,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "934b2db3-b510-439e-8ceb-716a589a3d6e",
+						"id": "540cc5a9-8b5e-4a7c-a341-e4b706155da5",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2352,13 +2244,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"Test DMC0428 Inline Ubuntu Linux 3.1 on AMD 6272 Opteron Processor with Acme package installed\",\n    \"dependencies\": [\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 A1\",\n        \"description\": \"Testing0428 A1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oa1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 B1\",\n        \"description\": \"Testing0428 B1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:ob1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 C1\",\n        \"description\": \"Testing0428 C1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oc1:ubuntu:linux:4.3\"\n      }\n    ],\n    \"dependencyUrls\": [\n      \"{{depurl}}\"\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/oes",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2376,7 +2265,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2c1efa4d-e509-4a55-85e3-f3e3c9441fd1",
+						"id": "6cbd6891-662a-4cc2-b8ca-9db124a24362",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2399,7 +2288,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "71cbf3c7-fec2-4130-8de4-b7b9e678062c",
+						"id": "064a60a1-3c1e-4d6a-b6a9-25a583e8659c",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -2419,13 +2308,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -2438,7 +2324,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e103feb4-6626-426e-8d46-1f7ab7084d78",
+						"id": "c77e610c-8d88-41d0-8901-c1e240e6e07c",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2467,13 +2353,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{oesurl}}"
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -2486,7 +2369,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "71e1efed-379a-404f-a430-f709247d197b",
+						"id": "eda9654d-7d71-4c2a-9f32-4c10aa3b2bc2",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2506,7 +2389,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c720850f-b3eb-4472-8a12-51ef3e68cb49",
+						"id": "a17bfdf6-7608-4861-83e7-08325e915a93",
 						"exec": [
 							""
 						],
@@ -2526,13 +2409,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/oes?offset=1000&limit=20",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?offset=1000&limit=20",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2560,7 +2440,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "de12d0ce-31ab-42a0-9c2a-7f095ed8f197",
+						"id": "06ad4fec-58a8-4f14-9234-f01c1c9184ac",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2579,7 +2459,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f93d7688-aec0-4d3b-ab8f-4cc5308acd66",
+						"id": "46542655-b704-4d47-9610-c8117659c950",
 						"exec": [
 							""
 						],
@@ -2599,13 +2479,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/oes?name[0]=contains:DMC",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?name[0]=contains:DMC",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2629,7 +2506,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a1564809-e9c0-4070-a528-28b7ad1e3484",
+						"id": "3884bfa7-805f-4764-8c89-07df55f910fc",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2648,7 +2525,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c5e3b2b6-9e9d-4868-9be5-73f7d9828121",
+						"id": "68d3c2cb-61a9-4da4-941b-f544d47885d3",
 						"exec": [
 							""
 						],
@@ -2668,13 +2545,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov/acvp/v1/oes?name[0]=start:Test",
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/oes?name[0]=start:Test",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov"
+						"{{publicApiRootUrl}}"
 					],
 					"path": [
 						"acvp",
@@ -2698,7 +2572,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8c326d2c-e173-4e0f-bfe4-507d7c275290",
+						"id": "fc9aace5-ffee-44f1-b059-0c5d503ceb63",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2732,13 +2606,10 @@
 					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"name\": \"DMC Test Generic Update\",\r\n    \"website\": \"www.acmegenericupdate.acme\",\r\n    \"emails\": [\r\n      \"inquiry@acmegenericupdate.acme\"\r\n    ],\r\n    \"phoneNumbers\" : [{\r\n             \"number\" : \"301-666-0401\",\r\n             \"type\" : \"voice\"\r\n         }],\r\n    \"addresses\": [\r\n      {\r\n        \"street1\": \"1000 Updated Main Street\",\r\n        \"locality\": \"Updated Leland\",\r\n        \"region\": \"North Carolina\",\r\n        \"country\": \"USA\",\r\n        \"postalCode\": \"28451\"\r\n      }\r\n    ]\r\n  }\r\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -2751,7 +2622,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "674e03a4-3f08-40db-b332-e2df1b3c50f0",
+						"id": "086b7008-8de7-4024-929c-bdfa9389017c",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2774,7 +2645,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "25b356d2-8a12-4601-9320-02f3d604ea47",
+						"id": "4f9c2ecc-4d2e-4ebf-94e5-b68e0c1beb56",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -2794,13 +2665,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -2813,7 +2681,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "dc8bcc6a-9423-4e73-80b0-c604d3fa72b0",
+						"id": "cb731a8b-f943-4afe-b2ac-7bed4744de9a",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2842,13 +2710,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -2861,7 +2726,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ef93f5c7-57ed-488a-b946-8026cb2de57a",
+						"id": "b1c38ee6-8422-4f4d-a731-cc332debc168",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2895,13 +2760,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"fullName\": \"DaveGenericUp ChodGenericUp\",\n    \"vendorUrl\": \"/acvp/v1/vendors/11184\",\n    \"emails\": [\n      \"dmc0422up@test.com\",\n      \"dmcxx0422up@test.com\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"555-330-7777\",\n        \"type\": \"fax\"\n      },\n      {\n        \"number\": \"555-331-7777\",\n        \"type\": \"voice\"\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{perurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{perurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{perurl}}"
+						"{{publicApiRootUrl}}{{perurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -2914,7 +2776,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d576e5cd-02b8-431d-8f2f-72c11427fefa",
+						"id": "bfcb48d8-a5b9-4bfb-991c-52c01215a1e4",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -2937,7 +2799,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "66401be0-7f0f-4f9d-8733-038050dc88a7",
+						"id": "89310a1e-f739-4ce4-b901-1c4d7cccb30c",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -2957,13 +2819,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -2976,7 +2835,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d13dddcf-8b0b-46ed-80e2-50eef8542a9d",
+						"id": "ccd29bf4-0a36-465b-a67e-b15979aeea94",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3005,13 +2864,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{perurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{perurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{perurl}}"
+						"{{publicApiRootUrl}}{{perurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3024,7 +2880,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "af16b482-1211-460a-858d-f8a1a2e62f1d",
+						"id": "422e32f0-d00a-4062-a658-169a76038cf0",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3058,13 +2914,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 0423 Updated ACV Test Module\",\n    \"version\": \"3.1A\",\n    \"type\": \"Firmware\",\n    \"vendorUrl\": \"{{vendurl}}\",\n    \"contactUrls\": [\"{{perurl}\"],\n    \"website\": \"www.usa.nc.cp0423_updated.com\",\n    \"description\": \"DMC ACME test module with more bells and whistles.  Updated Run 0423.\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{modurl}}"
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -3077,7 +2930,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5dce96dd-aedc-4201-9192-1b32d7da4edd",
+						"id": "949cdfed-e4aa-4b96-a3e5-152281550150",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3100,7 +2953,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "1d1c3f03-8885-4358-b1ea-0a57146a4c17",
+						"id": "7369fd5a-89a3-40f0-8fd7-8c6b3451e2fe",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3120,13 +2973,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3139,7 +2989,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f6d928cb-960d-496c-8a01-f37fdf419abc",
+						"id": "b7a97670-1073-42c8-8cc1-7dfb5360b137",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3168,13 +3018,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{modurl}}"
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3187,7 +3034,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eef8d37a-3019-4d36-a8c3-c112a7d24681",
+						"id": "cc415ea3-caa8-43c8-882e-796392e349ee",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3221,13 +3068,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"type\": \"software\",\n    \"name\": \"Updated Linux 3.1 DMC0427 Extra\",\n    \"description\": \"Testing0427 Updated cpe-2.3:o:ubuntu:linux:04.27\"\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -3240,7 +3084,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "22587ba2-17b8-4e74-9459-b69b32358fc3",
+						"id": "d1d615d8-8c5a-4a9e-8cce-f4698cce84b8",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3263,7 +3107,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "11290092-4a5e-4d4b-8815-f7707a093682",
+						"id": "680bf02f-9118-43f2-a411-9d46a552dced",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3283,13 +3127,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3302,7 +3143,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "cb4809a1-db2a-4f5e-a9c3-0852dd7935dc",
+						"id": "4390cfed-f1d3-48a0-84bd-6d11d97f2018",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3331,13 +3172,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3350,7 +3188,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "27dfd8e3-065d-4fc2-b63f-f4dc3d3693af",
+						"id": "83554b3d-7224-464f-8659-11df6f01b81d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3384,13 +3222,10 @@
 					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"Test DMC0428 UPDATED Inline Ubuntu Linux 3.1 on AMD 6272 Opteron Processor with Acme package installed\",\n    \"dependencies\": [\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 A1\",\n        \"description\": \"Testing0428 A1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oa1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 B1\",\n        \"description\": \"Testing0428 B1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:ob1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 C1\",\n        \"description\": \"Testing0428 C1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:oc1:ubuntu:linux:4.3\"\n      },\n      {\n        \"type\": \"software\",\n        \"name\": \"Linux 4.3 DMC0428 D1\",\n        \"description\": \"Testing0428 D1 cpe-2.3:o:ubuntu:linux:4.3\",\n        \"cpe\": \"cpe-2.3:od1:ubuntu:linux:4.3\"\n      }\n    ],\n    \"dependencyUrls\": [\n      \"/acvp/v1/dependencies/23059\",\n      \"/acvp/v1/dependencies/23060\"\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{oesurl}}"
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "REGISTER Request to Test Env"
@@ -3403,7 +3238,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a3753975-7872-4f26-bcda-cb7d523ee031",
+						"id": "d3d5f04d-3106-4886-9e88-ea37d652cf18",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3426,7 +3261,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "cb3e6282-d972-437f-8240-110cec155831",
+						"id": "5a691023-d73c-40de-8642-496ca98a01d4",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3446,13 +3281,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3465,7 +3297,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "247c658d-7751-47c2-b98b-04c7ff4d7100",
+						"id": "6d6988a8-f24a-4766-ad1e-3f9cc3e15415",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3494,13 +3326,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{oesurl}}"
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3513,7 +3342,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "514c142b-ba3a-4dfe-a60b-04e718120ee9",
+						"id": "71c8805d-6d50-4a44-bb1b-44cce4144072",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3547,13 +3376,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{oesurl}}"
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3566,7 +3392,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "39cefa62-4cd5-41d7-89d1-da490977b072",
+						"id": "e1b60b53-9c45-4844-845c-e9d8dd7650bb",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3589,7 +3415,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "998836a6-752d-4d1e-b20a-ed4c4f883669",
+						"id": "e095a6fd-4946-4b12-a696-8041b62a8eac",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3609,13 +3435,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3628,7 +3451,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d0fd1600-5ff4-47f0-908e-558157819641",
+						"id": "0490fccd-0ee6-4948-9730-ed58545f1876",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 404\", function () {",
@@ -3660,13 +3483,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{oesurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{oesurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{oesurl}}"
+						"{{publicApiRootUrl}}{{oesurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3679,7 +3499,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "4b7cfde5-80f9-4a2e-bb8a-861b9421800c",
+						"id": "ba7ab19a-c9e3-4f33-b6b4-0f66383da0a8",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3713,13 +3533,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3732,7 +3549,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "639c05dc-c567-4698-bada-24872b33bacb",
+						"id": "a10e7d27-6bf2-47d4-bcec-b600c7cf36f4",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3755,7 +3572,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "5e5ebeec-93e3-46f9-a105-b7be436d14ee",
+						"id": "564cdc90-8f31-4142-b381-9a640640d68b",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3775,13 +3592,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3794,7 +3608,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b4e2e29f-48bf-47fc-b639-02f826276070",
+						"id": "35eb4169-9d9b-4df2-8af4-be8f52891f39",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 404\", function () {",
@@ -3826,13 +3640,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{depurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{depurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{depurl}}"
+						"{{publicApiRootUrl}}{{depurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3845,7 +3656,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "065f6866-3f6f-469b-8948-a699de1f5cb1",
+						"id": "d0af8964-2e6b-490a-9447-0f7b689a63b9",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3879,13 +3690,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{modurl}}"
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -3898,7 +3706,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fea77da3-4047-4af6-ae61-68c5e53f4a93",
+						"id": "675e3888-43ee-4777-83c9-dd38793a271e",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -3921,7 +3729,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b0c19488-73bb-494d-a13c-6e38a5f55e0d",
+						"id": "dfb173d0-1a87-4fe9-9a14-8ff673c12255",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -3941,13 +3749,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -3960,7 +3765,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "30804e7b-27d4-40d5-a9cd-b0e0f4e6b490",
+						"id": "dd5836ba-d995-48ec-83a9-43ea131a7042",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 404\", function () {",
@@ -3992,13 +3797,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{modurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{modurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{modurl}}"
+						"{{publicApiRootUrl}}{{modurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -4011,7 +3813,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "271f1a24-f1c1-4795-a597-6b7238991aed",
+						"id": "4cfc15cc-8aac-44f8-bd2d-86feaa636a4d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -4045,13 +3847,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{perurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{perurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{perurl}}"
+						"{{publicApiRootUrl}}{{perurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -4064,7 +3863,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "52c9d148-e41c-4949-b4ea-2fc4cf810571",
+						"id": "134d0c66-fda9-4b3d-b45a-10bf97c103f5",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -4087,7 +3886,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "0059e027-6f9c-4677-b3be-254b5eae6ccc",
+						"id": "9225c077-3550-4bb0-bf1e-3041376caff5",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -4107,13 +3906,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -4126,7 +3922,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c7cbdfa9-a229-45a8-aae4-937338cc3f5f",
+						"id": "79c82a84-55d1-45f1-836b-46129b792d03",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 404\", function () {",
@@ -4158,13 +3954,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{perurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{perurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{perurl}}"
+						"{{publicApiRootUrl}}{{perurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -4177,7 +3970,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5b954a64-2a0d-490d-8ab8-e07249b36935",
+						"id": "cadc4975-1fd2-4dc9-8ac8-72404b9bf93d",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -4211,13 +4004,10 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -4230,7 +4020,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "109804b6-3e26-4c47-826c-2ac9794e4105",
+						"id": "8476d829-eea9-4287-8a4c-00258b2b2fb3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -4253,7 +4043,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "183ae2c9-f256-4e5d-8704-14a73c1e5951",
+						"id": "bc60d3b1-cf71-41f2-bcb0-9555d385e56e",
 						"exec": [
 							"pm.environment.set(\"reqstat\", \"initial\");"
 						],
@@ -4273,13 +4063,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{requrl}}",
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{requrl}}"
+						"{{publicApiRootUrl}}{{requrl}}"
 					]
 				},
 				"description": "Vector Request to Test Env"
@@ -4292,7 +4079,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7ca6f1e7-aac7-47da-a233-8edaaf652fdc",
+						"id": "72809eb1-eedf-4c90-9c34-83859c018051",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 404\", function () {",
@@ -4324,13 +4111,10 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{env}}.acvts.nist.gov{{vendurl}}",
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
 					"protocol": "https",
 					"host": [
-						"{{env}}",
-						"acvts",
-						"nist",
-						"gov{{vendurl}}"
+						"{{publicApiRootUrl}}{{vendurl}}"
 					]
 				},
 				"description": "Answer Request to Test Env"
@@ -4342,7 +4126,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "533d50a6-ab0b-4083-9d34-34e65a7bdd1a",
+				"id": "aa215e26-763c-4b50-b4d4-1fb30bf8128e",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -4352,7 +4136,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1f42e410-3d1c-4e49-93fd-9bcf462faf06",
+				"id": "7f9ceb7f-76bc-4d97-88f9-824487e79096",
 				"type": "text/javascript",
 				"exec": [
 					""
