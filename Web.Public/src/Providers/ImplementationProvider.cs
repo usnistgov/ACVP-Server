@@ -41,7 +41,7 @@ namespace Web.Public.Providers
 				{
 					ID = id,
 					Name = data.ImplementationName,
-					TypeString = data.ImplementationType,
+					Type = (ImplementationType)data.ImplementationType,
 					Version = data.ImplementationVersion,
 					Description = data.ImplementationDescription,
 					Website = data.Website,

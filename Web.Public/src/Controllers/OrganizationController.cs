@@ -26,9 +26,15 @@ namespace Web.Public.Controllers
 		private readonly IJsonWriterService _jsonWriter;
 		private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
 		
-		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
+		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalOrganizationPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
 			("name", false, new List<string> { "eq", "start", "end", "contains" }),
 			("website", false, new List<string> { "eq", "start", "end", "contains" }),
+			("email", false, new List<string> { "eq", "start", "end", "contains" }),
+			("phoneNumber", false, new List<string> { "eq", "start", "end", "contains" })
+		};
+		
+		private readonly List<(string Property, bool IsNumeric, List<string> Operators)> _legalContactPropertyDefinitions = new List<(string Property, bool IsNumeric, List<string> Operators)> { 
+			("fullName", false, new List<string> { "eq", "start", "end", "contains" }),
 			("email", false, new List<string> { "eq", "start", "end", "contains" }),
 			("phoneNumber", false, new List<string> { "eq", "start", "end", "contains" })
 		};
@@ -159,6 +165,53 @@ namespace Web.Public.Controllers
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));
 		}
 
+		[HttpGet("{id}/contacts")]
+		public JsonHttpStatusResult GetFilteredVendorContacts(long id)
+		{
+			//Try to read limit and offset, if passed in
+			var limit = 0;
+			var offset = 0;
+			if (Request.Query.TryGetValue("limit", out var stringLimit))
+			{
+				int.TryParse(stringLimit.First(), out limit);
+			}
+
+			if (Request.Query.TryGetValue("offset", out var stringOffset))
+			{
+				int.TryParse(stringOffset.First(), out offset);
+			}
+
+			//If limit was not present, or a garbage value, make it a default
+			if (limit <= 0) limit = 20;
+
+			//Build the querystring that excluded limit and offset
+			var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
+
+			//Try to build a filter string from those parameters
+			var filter = FilterStringService.BuildFilterString(filterString, _legalContactPropertyDefinitions);
+
+			if (filter.IsValid)
+			{
+				var pagingOptions = new PagingOptions
+				{
+					Limit = limit,
+					Offset = offset
+				};
+
+				var data = _organizationService.GetContactFilteredList(id, filter.FilterString, pagingOptions, filter.OrDelimiter, filter.AndDelimiter);
+				var pagedData =  new PagedResponse<Person>(data.TotalCount, data.Contacts, $"/acvp/v1/vendors/{id}/contacts", pagingOptions, filterString);
+				
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));
+			}
+
+			var error = new ErrorObject
+			{
+				Error = $"Invalid filter applied: {filterString}"
+			};
+			
+			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);
+		}
+
 		[HttpGet]
 		public JsonHttpStatusResult GetFilteredVendorList()
 		{
@@ -182,7 +235,7 @@ namespace Web.Public.Controllers
 			var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
 
 			//Try to build a filter string from those parameters
-			var filter = FilterStringService.BuildFilterString(filterString, _legalPropertyDefinitions);
+			var filter = FilterStringService.BuildFilterString(filterString, _legalOrganizationPropertyDefinitions);
 
 			if (filter.IsValid)
 			{

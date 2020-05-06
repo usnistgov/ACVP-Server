@@ -29,7 +29,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 			}
 		}
 
-		[JsonPropertyName("organizationUrl")]
+		[JsonPropertyName("vendorUrl")]
 		public string OrganizationURL
 		{
 			get => _organizationURL;

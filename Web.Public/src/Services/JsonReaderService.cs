@@ -60,11 +60,18 @@ namespace Web.Public.Services
         public T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction)
             where T : IMessagePayload
         {
+            object[] jsonObjects;
             try
             {
-                // Unwrap the array
-                var jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
-                
+                jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
+            }
+            catch (Exception e)
+            {
+                throw new JsonReaderException($"Unable to parse payload into a valid json object. {e.Message}");
+            }
+            
+            try
+            {
                 if (jsonObjects.Length != 2)
                 {
                     throw new JsonReaderException("Unable to deserialize body into two objects");
@@ -76,7 +83,7 @@ namespace Web.Public.Services
                 {
                     throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
                 }
-
+                
                 // Extract and verify object info
                 var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
 
@@ -84,7 +91,7 @@ namespace Web.Public.Services
             }
             catch (JsonReaderException ex)
             {
-                Log.Error("Error parsing JSON", ex);
+                Log.Error("Error parsing JSON", ex.Message);
                 throw;
             }
         }

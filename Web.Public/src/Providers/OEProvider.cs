@@ -38,6 +38,7 @@ namespace Web.Public.Providers
 				
 				var result = new OperatingEnvironment
 				{
+					ID = id,
 					Name = data.Name
 				};
 

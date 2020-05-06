@@ -21,5 +21,8 @@ namespace Web.Public.Services
 
 		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
 			=> _organizationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+
+		public (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationId, string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
+			=> _organizationProvider.GetContactFilteredList(organizationId, filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
 	}
 }

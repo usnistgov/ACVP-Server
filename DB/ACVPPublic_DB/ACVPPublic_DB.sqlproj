@@ -181,5 +181,6 @@
     <Build Include="val\Stored Procedures\OEExists.sql" />
     <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
     <Build Include="external\Stored Procedures\RequestExists.sql" />
+    <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
   </ItemGroup>
 </Project>

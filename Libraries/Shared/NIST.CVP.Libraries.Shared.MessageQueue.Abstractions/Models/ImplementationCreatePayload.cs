@@ -26,7 +26,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 		[JsonPropertyName("version")]
 		public string Version { get; set; }
 
-		[JsonPropertyName("link")]      //website in the public json...
+		[JsonPropertyName("website")]      //website in the public json...
 		public string Website { get; set; }
 
 		[JsonPropertyName("vendorUrl")]

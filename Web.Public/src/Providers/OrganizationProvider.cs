@@ -256,5 +256,88 @@ namespace Web.Public.Providers
 				throw;
 			}
 		}
+
+		public (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationId, string filter, long offset, long limit, string orDelimiter, string andDelimiter)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryMultipleFromProcedure("val.OrganizationContactsFilteredListGet", inParams: new
+				{
+					OrganizationId = organizationId, 
+					Filter = filter,
+					Limit = limit,
+					Offset = offset,
+					ORdelimiter = orDelimiter,
+					ANDdelimiter = andDelimiter
+				});
+
+				//Create the objects to hold the final data
+				long totalRecords;
+				var contacts = new List<Person>();
+
+				//Get the enumerator to manually iterate over the results
+				using var enumerator = data.GetEnumerator();
+
+				//Move to the first result set, the total records
+				enumerator.MoveNext();
+				var resultSet = enumerator.Current;
+
+				totalRecords = resultSet.First().TotalRecords;
+
+				//Move to the second result set, the Contacts
+				enumerator.MoveNext();
+				resultSet = enumerator.Current;
+
+				var rawPersons = resultSet.Select(x => (x.PersonId, x.FullName)).ToList();
+
+				//Move to the third result set, the emails
+				enumerator.MoveNext();
+				resultSet = enumerator.Current;
+
+				var rawEmailAddresses = resultSet.Select(x => (x.PersonId, x.OrderIndex, x.EmailAddress)).ToList();
+
+				//Move to the fourth result set, the phone numbers
+				enumerator.MoveNext();
+				resultSet = enumerator.Current;
+
+				var rawPhone = resultSet.Select(x => (x.PersonId, x.OrderIndex, x.PhoneNumber, x.PhoneNumberType)).ToList();
+
+				//Build the list of organization objects
+				foreach (var rawPerson in rawPersons.OrderBy(x => x.PersonId))
+				{
+					var org = new Person
+					{
+						ID = rawPerson.PersonId,
+						Name = rawPerson.FullName,
+						Emails = rawEmailAddresses
+							.Where(x => x.PersonId == rawPerson.PersonId)
+							.OrderBy(x => x.OrderIndex)
+							.Select(x => (string)x.EmailAddress)
+							.ToList(),
+						PhoneNumbers = rawPhone
+							.Where(x => x.PersonId == rawPerson.PersonId)
+							.OrderBy(x => x.OrderIndex)
+							.Select(x => new PhoneNumber()
+							{
+								Number = x.PhoneNumber,
+								Type = x.PhoneNumberType
+							})
+							.ToList()
+					};
+
+					//Finally add it to the collection
+					contacts.Add(org);
+				}
+
+				return (totalRecords, contacts);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError("Unable to get person list", ex);
+				throw;
+			}
+		}
 	}
 }

@@ -31,6 +31,11 @@ namespace Web.Public.Providers
 					PersonID = id
 				});
 
+				if (data == null)
+				{
+					return null;
+				}
+				
 				var result = new Person
 				{
 					ID = id,

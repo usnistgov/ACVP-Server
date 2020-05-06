@@ -93,12 +93,12 @@ ELSE
 									WHEN @PropertyName = 'vendorId' AND @Operator = 'ge' AND org_id >= CAST(@Value as bigint) THEN 1
 									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address = @Value) THEN 1
 									WHEN @PropertyName = 'email' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value + '%') THEN 1
-									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE @Value + '%') THEN 1
-									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value) THEN 1
+									WHEN @PropertyName = 'email' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE @Value + '%') THEN 1
+									WHEN @PropertyName = 'email' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value) THEN 1
 									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number = @Value) THEN 1
 									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value + '%') THEN 1
-									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE @Value + '%') THEN 1
-									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value) THEN 1
+									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE @Value + '%') THEN 1
+									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value) THEN 1
 									ELSE 0
 								  END
 					END
@@ -124,12 +124,12 @@ ELSE
 										WHEN @PropertyName = 'vendorId' AND @Operator = 'ge' AND org_id >= CAST(@Value as bigint) THEN 1
 										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address = @Value) THEN 1
 										WHEN @PropertyName = 'email' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value + '%') THEN 1
-										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE @Value + '%') THEN 1
-										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value) THEN 1
+										WHEN @PropertyName = 'email' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE @Value + '%') THEN 1
+										WHEN @PropertyName = 'email' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address LIKE '%' + @Value) THEN 1
 										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number = @Value) THEN 1
 										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value + '%') THEN 1
-										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE @Value + '%') THEN 1
-										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value) THEN 1
+										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE @Value + '%') THEN 1
+										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.PERSON_PHONE E WHERE E.person_id = P.id AND E.phone_number LIKE '%' + @Value) THEN 1
 										ELSE 0
 									  END
 						) 

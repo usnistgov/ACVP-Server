@@ -78,8 +78,9 @@ ELSE
 					BEGIN
 						-- Simply insert all the matching IDs into the table
 						INSERT INTO @ANDMatchingIDs (id)
-						SELECT id
-						FROM val.PRODUCT_INFORMATION
+						SELECT p.id
+						FROM val.PRODUCT_INFORMATION P
+						INNER JOIN ref.MODULE_TYPE m ON P.module_type = m.id
 						WHERE 1 = CASE
 									WHEN @PropertyName = 'name' AND @Operator = 'eq' AND module_name = @Value THEN 1
 									WHEN @PropertyName = 'name' AND @Operator = 'contains' AND module_name LIKE '%' + @Value + '%' THEN 1
@@ -97,8 +98,8 @@ ELSE
 									WHEN @PropertyName = 'description' AND @Operator = 'contains' AND [implementation_description] LIKE '%' + @Value + '%' THEN 1
 									WHEN @PropertyName = 'description' AND @Operator = 'start' AND [implementation_description] LIKE @Value + '%' THEN 1
 									WHEN @PropertyName = 'description' AND @Operator = 'end' AND [implementation_description] LIKE '%' + @Value THEN 1
-									WHEN @PropertyName = 'type' AND @Operator = 'eq' AND module_type = CAST(@Value AS int) THEN 1
-									WHEN @PropertyName = 'type' AND @Operator = 'ne' AND module_type <> CAST(@Value AS int) THEN 1
+									WHEN @PropertyName = 'type' AND @Operator = 'eq' AND m.[name] = @Value THEN 1
+									WHEN @PropertyName = 'type' AND @Operator = 'ne' AND m.[name] <> @Value THEN 1
 									WHEN @PropertyName = 'vendorId' AND @Operator = 'eq' AND vendor_id = CAST(@Value as bigint) THEN 1
 									WHEN @PropertyName = 'vendorId' AND @Operator = 'ne' AND vendor_id <> CAST(@Value as bigint) THEN 1
 									WHEN @PropertyName = 'vendorId' AND @Operator = 'lt' AND vendor_id < CAST(@Value as bigint) THEN 1
@@ -117,6 +118,7 @@ ELSE
 							FROM val.PRODUCT_INFORMATION P
 								INNER JOIN
 								@ANDMatchingIDs X ON X.id = P.id
+								INNER JOIN ref.MODULE_TYPE m ON P.module_type = m.id
 							WHERE 1 = CASE
 										WHEN @PropertyName = 'name' AND @Operator = 'eq' AND module_name = @Value THEN 1
 										WHEN @PropertyName = 'name' AND @Operator = 'contains' AND module_name LIKE '%' + @Value + '%' THEN 1
@@ -134,8 +136,8 @@ ELSE
 										WHEN @PropertyName = 'description' AND @Operator = 'contains' AND [implementation_description] LIKE '%' + @Value + '%' THEN 1
 										WHEN @PropertyName = 'description' AND @Operator = 'start' AND [implementation_description] LIKE @Value + '%' THEN 1
 										WHEN @PropertyName = 'description' AND @Operator = 'end' AND [implementation_description] LIKE '%' + @Value THEN 1
-										WHEN @PropertyName = 'type' AND @Operator = 'eq' AND module_type = CAST(@Value AS int) THEN 1
-										WHEN @PropertyName = 'type' AND @Operator = 'ne' AND module_type <> CAST(@Value AS int) THEN 1
+										WHEN @PropertyName = 'type' AND @Operator = 'eq' AND m.[name] = @Value THEN 1
+										WHEN @PropertyName = 'type' AND @Operator = 'ne' AND m.[name] <> @Value THEN 1
 										WHEN @PropertyName = 'vendorId' AND @Operator = 'eq' AND vendor_id = CAST(@Value as bigint) THEN 1
 										WHEN @PropertyName = 'vendorId' AND @Operator = 'ne' AND vendor_id <> CAST(@Value as bigint) THEN 1
 										WHEN @PropertyName = 'vendorId' AND @Operator = 'lt' AND vendor_id < CAST(@Value as bigint) THEN 1
