@@ -40,12 +40,12 @@ namespace Web.Public.Services.MessagePayloadValidators
 			{
 				for (var i = 0; i < item.Addresses.Count; i++)
 				{
-					var addressId = BasePayload.ParseIDFromURL(item.Addresses[i].URL);
+					var addressId = BasePayload.ParseNullableIDFromURL(item.Addresses[i].URL);
 
 					// if not a new address, validate it exists
-					if (addressId != -1)
+					if (addressId != null)
 					{
-						if (_addressService.Get(item.ID, addressId) == null)
+						if (_addressService.Get(item.ID, addressId.Value) == null)
 						{
 							errors.Add($"vendor.addresses[{i}] {item.Addresses[i].URL} is invalid.");
 						}

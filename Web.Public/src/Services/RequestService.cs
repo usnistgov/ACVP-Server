@@ -70,9 +70,9 @@ namespace Web.Public.Services
                 APIAction.UpdateDependency => $"{baseURL}/dependencies/{approvedID}",
                 APIAction.DeleteDependency => $"{baseURL}/dependencies/{approvedID}",
                 
-                APIAction.CreateImplementation => $"{baseURL}/implementations/{approvedID}",
-                APIAction.UpdateImplementation => $"{baseURL}/implementations/{approvedID}",
-                APIAction.DeleteImplementation => $"{baseURL}/implementations/{approvedID}",
+                APIAction.CreateImplementation => $"{baseURL}/modules/{approvedID}",
+                APIAction.UpdateImplementation => $"{baseURL}/modules/{approvedID}",
+                APIAction.DeleteImplementation => $"{baseURL}/modules/{approvedID}",
                 
                 APIAction.CreateOE => $"{baseURL}/oes/{approvedID}",
                 APIAction.UpdateOE => $"{baseURL}/oes/{approvedID}",
@@ -82,9 +82,9 @@ namespace Web.Public.Services
                 APIAction.UpdatePerson => $"{baseURL}/persons/{approvedID}",
                 APIAction.DeletePerson => $"{baseURL}/persons/{approvedID}",
                 
-                APIAction.CreateVendor => $"{baseURL}/organizations/{approvedID}",
-                APIAction.UpdateVendor => $"{baseURL}/organizations/{approvedID}",
-                APIAction.DeleteVendor => $"{baseURL}/organizations/{approvedID}",
+                APIAction.CreateVendor => $"{baseURL}/vendors/{approvedID}",
+                APIAction.UpdateVendor => $"{baseURL}/vendors/{approvedID}",
+                APIAction.DeleteVendor => $"{baseURL}/vendors/{approvedID}",
                 
                 APIAction.RegisterTestSession => "",
                 APIAction.CancelTestSession => "",
