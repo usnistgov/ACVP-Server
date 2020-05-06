@@ -191,7 +191,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.Componen
 				ResponderNonceLength = x.ResponderNonceLength.ToCoreDomain(),
 				DiffieHellmanSharedSecretLength = x.DHSharedSecretLength.ToCoreDomain(),
 				HashAlgorithms = x.HashAlgorithms,
-				PresharedKeyLength = x.PresharedKeyLength.ToCoreDomain()
+				PresharedKeyLength = x.PresharedKeyLength?.ToCoreDomain()
 			}).ToList()
 		};
 	}
