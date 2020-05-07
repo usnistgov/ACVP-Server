@@ -5,3 +5,8 @@ AS
 SELECT validation_oe_id, dependency_id
 FROM val.VALIDATION_OE_DEPENDENCY_LINK
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_VALIDATION_OE_DEPENDENCY_LINK]
+    ON [csrc].[VALIDATION_OE_DEPENDENCY_LINK]([validation_oe_id] ASC, [dependency_id] ASC);
+

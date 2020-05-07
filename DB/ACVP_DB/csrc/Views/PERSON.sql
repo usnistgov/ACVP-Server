@@ -7,3 +7,8 @@ AS
 SELECT id, full_name, org_id
 FROM val.PERSON
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_PERSON]
+    ON [csrc].[PERSON]([id] ASC);
+
