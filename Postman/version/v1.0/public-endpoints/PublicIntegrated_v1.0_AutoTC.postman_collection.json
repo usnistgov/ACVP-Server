@@ -4043,7 +4043,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status11\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status15\")}, 20000)}",
 							""
 						],
 						"type": "text/javascript"
