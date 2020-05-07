@@ -7,4 +7,5 @@ export class WorkflowItemBase<PayloadType> {
   apiAction: APIAction;
   payload: PayloadType;
   status: WorkflowStatus;
+  acceptId: number
 }
