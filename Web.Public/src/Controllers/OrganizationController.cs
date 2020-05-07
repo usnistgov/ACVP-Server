@@ -153,13 +153,11 @@ namespace Web.Public.Controllers
 			var result = _organizationService.Get(id);
 			if (result == null)
 			{
-				return new JsonHttpStatusResult(
-					_jsonWriter.BuildVersionedObject(
-						new ErrorObject
-						{
-							Error = $"Unable to find organization with id: {id}"
-						}),
-					HttpStatusCode.NotFound);
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+				{
+					Error = Request.HttpContext.Request.Path,
+					Context = $"Unable to find vendor with id {id}."
+				}), HttpStatusCode.NotFound);
 			}
 			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));

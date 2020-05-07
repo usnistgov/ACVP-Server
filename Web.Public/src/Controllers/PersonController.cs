@@ -148,13 +148,11 @@ namespace Web.Public.Controllers
 			var result = _personService.Get(id);
 			if (result == null)
 			{
-				return new JsonHttpStatusResult(
-					_jsonWriter.BuildVersionedObject(
-						new ErrorObject
-						{
-							Error = $"Unable to find person with id: {id}"
-						}),
-					HttpStatusCode.NotFound);
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+				{
+					Error = Request.HttpContext.Request.Path,
+					Context = $"Unable to find person with id {id}."
+				}), HttpStatusCode.NotFound);
 			}
 			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));

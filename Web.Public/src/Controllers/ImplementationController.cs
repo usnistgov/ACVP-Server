@@ -149,13 +149,11 @@ namespace Web.Public.Controllers
 			var result = _implementationService.GetImplementation(id);
 			if (result == null)
 			{
-				return new JsonHttpStatusResult(
-					_jsonWriter.BuildVersionedObject(
-						new ErrorObject
-						{
-							Error = $"Unable to find implementation with id: {id}"
-						}),
-					HttpStatusCode.NotFound);
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+				{
+					Error = Request.HttpContext.Request.Path,
+					Context = $"Unable to find module with id {id}."
+				}), HttpStatusCode.NotFound);
 			}
 			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(result));

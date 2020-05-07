@@ -33,7 +33,7 @@ namespace Web.Public.Providers
 
 				if (data == null)
 				{
-					throw new Exception($"Unable to find OE with id: {id}");
+					return null;
 				}
 				
 				var result = new OperatingEnvironment
@@ -60,8 +60,8 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Unable to find OE");
-				throw;
+				Log.Error(ex, $"Unable to find OE w/ ID {id}");
+				return null;
 			}
 		}
 

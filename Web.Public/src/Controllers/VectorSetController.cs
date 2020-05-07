@@ -58,11 +58,20 @@ namespace Web.Public.Controllers
             var claimValidator = new TestSessionClaimsVerifier(tsID);
             if (claimValidator.AreClaimsValid(claims))
             {            
-                var testSessions = _testSessionService.GetTestSession(tsID);
+                var testSession = _testSessionService.GetTestSession(tsID);
             
+                if (testSession == null)
+                {
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                    {
+                        Error = Request.HttpContext.Request.Path,
+                        Context = $"Unable to find test session with id {tsID}."
+                    }), HttpStatusCode.NotFound);
+                }
+                
                 var vectorSetUrls = new VectorSetUrlObject
                 {
-                    VectorSetURLs = testSessions.VectorSetURLs
+                    VectorSetURLs = testSession.VectorSetURLs
                 };
             
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(vectorSetUrls));

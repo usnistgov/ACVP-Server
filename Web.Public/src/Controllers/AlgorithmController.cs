@@ -36,6 +36,15 @@ namespace Web.Public.Controllers
             var algo = _algoService.GetAlgorithm(id);
             if (algo == null)
             {
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                {
+                    Error = Request.HttpContext.Request.Path,
+                    Context = $"Unable to find algorithm id: {id}."
+                }), HttpStatusCode.NotFound);
+            }
+            
+            if (algo == null)
+            {
                 return new JsonHttpStatusResult(
                     _jsonWriter.BuildVersionedObject(
                     new ErrorObject

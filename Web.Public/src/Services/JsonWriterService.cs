@@ -51,21 +51,12 @@ namespace Web.Public.Services
                 Json = content
             };
 
-            // Must allow null because that's how DELETE requests operate
-            return JsonSerializer.Serialize(reqObject, new JsonSerializerOptions
-            {
-                IgnoreNullValues = false,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return JsonSerializer.Serialize(reqObject, _jsonSerializerOptions);
         }
 
         public string BuildMessageObject(object content)
         {
-            return JsonSerializer.Serialize(content, new JsonSerializerOptions
-            {
-                IgnoreNullValues = false,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            return JsonSerializer.Serialize(content, _jsonSerializerOptions);
         }
     }
 }

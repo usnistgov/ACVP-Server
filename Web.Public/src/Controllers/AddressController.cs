@@ -33,12 +33,11 @@ namespace Web.Public.Controllers
             var address = _addressService.Get(vendorId, id);
             if (address == null)
             {
-                var errorObject = new ErrorObject
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
                 {
-                    Error = $"Unable to find address id: {id} under organization id: {vendorId}"
-                };
-                
-                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(errorObject), HttpStatusCode.NotFound);
+                    Error = Request.HttpContext.Request.Path,
+                    Context = $"Unable to find address id: {id} under vendor id: {vendorId}."
+                }), HttpStatusCode.NotFound);
             }
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(address));

@@ -128,6 +128,14 @@ namespace Web.Public.Controllers
             }
             
             var testSession = _testSessionService.GetTestSession(id);
+            if (testSession == null)
+            {
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                {
+                    Error = Request.HttpContext.Request.Path,
+                    Context = $"Unable to find test session with id {id}."
+                }), HttpStatusCode.NotFound);
+            }
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }

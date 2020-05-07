@@ -3313,10 +3313,10 @@
 							"pm.test(\"OE Chk\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/oes\");",
 							"});",
-							"pm.environment.set(\"dep1url\", jsonData[1].dependencies[1].url);",
-							"pm.environment.set(\"dep2url\", jsonData[1].dependencies[2].url);",
-							"pm.environment.set(\"dep3url\", jsonData[1].dependencies[3].url);",
-							"pm.environment.set(\"dep4url\", jsonData[1].dependencies[4].url);"
+							"pm.environment.set(\"dep1url\", jsonData[1].dependencyUrls[1]);",
+							"pm.environment.set(\"dep2url\", jsonData[1].dependencyUrls[2]);",
+							"pm.environment.set(\"dep3url\", jsonData[1].dependencyUrls[3]);",
+							"pm.environment.set(\"dep4url\", jsonData[1].dependencyUrls[4]);"
 						],
 						"type": "text/javascript"
 					}
@@ -3474,10 +3474,7 @@
 							"pm.test(\"OE Chk\", function () {",
 							"    pm.expect(pm.response.text()).to.include(\"/v1/oes\");",
 							"});",
-							"pm.environment.set(\"dep1url\", jsonData[1].dependencies[1].url);",
-							"pm.environment.set(\"dep2url\", jsonData[1].dependencies[2].url);",
-							"pm.environment.set(\"dep3url\", jsonData[1].dependencies[3].url);",
-							"pm.environment.set(\"dep4url\", jsonData[1].dependencies[4].url);"
+							""
 						],
 						"type": "text/javascript"
 					}

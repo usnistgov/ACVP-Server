@@ -142,6 +142,15 @@ namespace Web.Public.Controllers
 		public JsonHttpStatusResult GetOE(long id)
 		{
 			var oe = _oeService.GetOE(id);
+			if (oe == null)
+			{
+				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+				{
+					Error = Request.HttpContext.Request.Path,
+					Context = $"Unable to find OE with id {id}."
+				}), HttpStatusCode.NotFound);
+			}
+			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(oe));
 		}
 

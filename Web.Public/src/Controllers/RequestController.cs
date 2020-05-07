@@ -1,7 +1,9 @@
 using System;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
+using Web.Public.JsonObjects;
 using Web.Public.Providers;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -41,6 +43,15 @@ namespace Web.Public.Controllers
             // TODO should these endpoints be concerned about userID? 
 
             var request = _requestService.GetRequest(id);
+            if (request == null)
+            {
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                {
+                    Error = Request.HttpContext.Request.Path,
+                    Context = $"Unable to find request with id {id}."
+                }), HttpStatusCode.NotFound);
+            }
+            
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(request));
         }
     }
