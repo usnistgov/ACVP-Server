@@ -15,3 +15,10 @@ SELECT	request.id AS RequestID
 FROM acvp.REQUEST request
 	INNER JOIN val.WORKFLOW workflow ON workflow.id = request.workflow_id
 
+GO
+
+CREATE UNIQUE CLUSTERED INDEX [PK_ACVP_REQUEST_WORKFLOW] ON [acvp].[REQUEST_WORKFLOW]
+(
+	[RequestID] ASC
+)
+GO
