@@ -1,14 +1,19 @@
+using System;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Orleans.Runtime;
+using Serilog;
 using Web.Public.Configs;
 
 namespace Web.Public
@@ -30,13 +35,24 @@ namespace Web.Public
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCertificate(options =>
                 {
                     options.AllowedCertificateTypes = CertificateTypes.All;
+                    options.ValidateCertificateUse = false;
+                    options.Events = new CertificateAuthenticationEvents()
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+                            
+                            logger.LogError(context.Exception, "Failed auth.");
+
+                            return Task.CompletedTask;
+                        } 
+                    };
                 })
                 .AddJwtBearer(options =>
                 {

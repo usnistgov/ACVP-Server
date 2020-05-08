@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
@@ -12,6 +15,7 @@ namespace Web.Public.Controllers
     [Route("acvp/v1/[controller]")]
     [TypeFilter(typeof(ExceptionFilter))]
     [ApiController]
+    [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
     public class LoginController : ControllerBase
     {
         private readonly ITotpService _totpService;

@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
@@ -9,6 +11,7 @@ namespace Web.Public.Controllers
     // TODO Excluded from Prod, only used by developers
     [Route("acvp/[controller]")]
     [TypeFilter(typeof(ExceptionFilter))]
+    [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
     [ApiController]
     public class TotpController : ControllerBase
     {
