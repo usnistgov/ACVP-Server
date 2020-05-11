@@ -82,7 +82,6 @@
     <Build Include="acvp\Tables\ACVP_USER.sql" />
     <Build Include="acvp\Tables\ACVP_USER_ROLE.sql" />
     <Build Include="acvp\Tables\REQUEST_ACTION.sql" />
-    <Build Include="acvp\Tables\REQUEST_WORKFLOW.sql" />
     <Build Include="acvp\Tables\TEST_SESSION.sql" />
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
     <Build Include="acvp\Tables\VECTOR_SET_DATA.sql" />
@@ -182,5 +181,6 @@
     <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
     <Build Include="external\Stored Procedures\RequestExists.sql" />
     <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
+    <Build Include="ref\Tables\MODULE_TYPE.sql" />
   </ItemGroup>
 </Project>
