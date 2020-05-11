@@ -49,7 +49,7 @@ namespace MessageQueueProcessor
 				APIAction.CancelVectorSet => new CancelVectorSetProcessor(_vectorSetService),
 				APIAction.CancelTestSession => new CancelTestSessionProcessor(_testSessionService),
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService),
-				APIAction.ResubmitVectorSetResults => new ReubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _messageQueueProcessorConfig),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _messageQueueProcessorConfig),
 				APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_testSessionService, _workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
 				_ => null
 			};

@@ -9,13 +9,13 @@ using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
-	public class ReubmitVectorSetResultsProcessor : IMessageProcessor
+	public class ResubmitVectorSetResultsProcessor : IMessageProcessor
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
 		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public ReubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, MessageQueueProcessorConfig messageQueueProcessorConfig)
+		public ResubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_vectorSetService = vectorSetService;
 			_taskQueueService = taskQueueService;
