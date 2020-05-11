@@ -14,6 +14,6 @@ namespace Web.Public.Services
         /// <param name="userCert">The user's certificate.</param>
         /// <param name="content">The object to place into the message queue.</param>
         /// <returns>The request ID, if applicable.  Only applicable when message leads to a workflow item.</returns>
-        long InsertIntoQueue(APIAction apiAction, byte[] userCert, object content);
+        long InsertIntoQueue(APIAction apiAction, string userCertSubject, object content);
     }
 }

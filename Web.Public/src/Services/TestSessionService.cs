@@ -27,17 +27,17 @@ namespace Web.Public.Services
             _jwtService = jwtService;
         }
 
-        public bool IsOwner(byte[] cert, long id)
+        public bool IsOwner(string userCertSubject, long id)
         {
-            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            var userID = _userProvider.GetUserIDFromCertificateSubject(userCertSubject);
             return _testSessionProvider.IsOwner(userID, id);
         }
 
         public TestSession GetTestSession(long id) => _testSessionProvider.GetTestSession(id);
         
-        public (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(byte[] cert, PagingOptions pagingOptions)
+        public (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(string userCertSubject, PagingOptions pagingOptions)
         {
-            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            var userID = _userProvider.GetUserIDFromCertificateSubject(userCertSubject);
             var testSessionList = _testSessionProvider.GetTestSessionList(userID);
 
             // If there isn't enough for a full page, return the list
@@ -56,7 +56,7 @@ namespace Web.Public.Services
             return (testSessionList.Count, testSessionList.GetRange(pagingOptions.Offset, pagingOptions.Limit));
         }
 
-        public TestSession CreateTestSession(byte[] cert, TestSessionRegisterPayload registration)
+        public TestSession CreateTestSession(string userCertSubject, TestSessionRegisterPayload registration)
         {
             // Get an ID for TestSession
             registration.ID = _testSessionProvider.GetNextTestSessionID();
@@ -76,7 +76,7 @@ namespace Web.Public.Services
                 {"tsId", JsonSerializer.Serialize(registration.ID)},
                 {"vsId", JsonSerializer.Serialize(vectorSetIds)}
             };
-            var jwt = _jwtService.Create(new X509Certificate2(cert).Subject, claims);
+            var jwt = _jwtService.Create(userCertSubject, claims);
             var testSessionJwt = jwt.Token;
             
             return new TestSession

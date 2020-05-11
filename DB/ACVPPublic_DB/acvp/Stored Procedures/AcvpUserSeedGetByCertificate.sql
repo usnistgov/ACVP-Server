@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [acvp].[AcvpUserSeedGetByCertificate]
-    @CertificateRawData VARBINARY(MAX)
+    @Subject NVARCHAR(2048)
 	
 AS
 
 SELECT seed
 FROM [acvp].[ACVP_USER] au
-WHERE au.certificate = @CertificateRawData
+WHERE au.common_name = @Subject

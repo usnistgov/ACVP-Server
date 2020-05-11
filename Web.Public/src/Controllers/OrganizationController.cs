@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -15,10 +14,7 @@ using Web.Public.Services.MessagePayloadValidators;
 namespace Web.Public.Controllers
 {
 	[Route("acvp/v1/vendors")]
-	[Authorize]
-	[TypeFilter(typeof(ExceptionFilter))]
-	[ApiController]
-	public class OrganizationController : ControllerBase
+	public class OrganizationController : JwtAuthControllerBase
 	{
 		private readonly IOrganizationService _organizationService;
 		private readonly IMessageService _messageService;
@@ -40,11 +36,13 @@ namespace Web.Public.Controllers
 		};
 
 		public OrganizationController(
+			IJwtService jwtService,
 			IOrganizationService organizationService, 
 			IMessageService messageService, 
 			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter,
 			IMessagePayloadValidatorFactory workflowItemValidatorFactory)
+			: base (jwtService)
 		{
 			_organizationService = organizationService;
 			_messageService = messageService;
@@ -56,9 +54,6 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public JsonHttpStatusResult CreateVendor()
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
@@ -72,7 +67,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -87,9 +82,6 @@ namespace Web.Public.Controllers
 		[HttpPut("{id}")]
 		public JsonHttpStatusResult UpdateVendor(long id)
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
@@ -104,7 +96,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -119,9 +111,6 @@ namespace Web.Public.Controllers
 		[HttpDelete("{id}")]
 		public JsonHttpStatusResult DeleteVendor(long id)
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			var apiAction = APIAction.DeleteVendor;
 			var payload = new DeletePayload()
 			{
@@ -135,7 +124,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

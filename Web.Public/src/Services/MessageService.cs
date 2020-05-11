@@ -14,9 +14,9 @@ namespace Web.Public.Services
             _userProvider = userProvider;
         }
         
-        public long InsertIntoQueue(APIAction apiAction, byte[] userCert, object content)
+        public long InsertIntoQueue(APIAction apiAction, string userCertSubject, object content)
         {
-            var userID = _userProvider.GetUserIDFromCertificate(userCert);
+            var userID = _userProvider.GetUserIDFromCertificateSubject(userCertSubject);
 
             // We only need to wrap a with a request id wrapper in cases where the action being taken leads to a workflow.
             if (content is IWorkflowItemPayload)

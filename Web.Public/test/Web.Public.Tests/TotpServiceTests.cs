@@ -17,18 +17,18 @@ namespace Web.Public.Tests
         private ITotpService _totpService;
         private TotpConfig _totpConfig;
         private OptionsWrapper<TotpConfig> _options;
-        private byte[] _dummyCert;
+        private string _dummyCertSubject;
 
         [SetUp]
         public void SetUp()
         {
             _totpProvider = new Mock<ITotpProvider>();
             _totpProvider
-                .Setup(s => s.GetSeedFromUserCertificate(It.IsAny<byte[]>()))
+                .Setup(s => s.GetSeedFromUserCertificateSubject(It.IsAny<string>()))
                 .Returns(new byte[] {1});
 
             _totpProvider
-                .Setup(s => s.GetUsedWindowFromUserCertificate(It.IsAny<byte[]>()))
+                .Setup(s => s.GetUsedWindowFromUserCertificateSubject(It.IsAny<string>()))
                 .Returns(1);
             
             _totpConfig = new TotpConfig
@@ -41,7 +41,7 @@ namespace Web.Public.Tests
             
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
 
-            _dummyCert = new byte[] {0, 1, 2, 3};
+            _dummyCertSubject = string.Empty;
             
             _totpService = new TotpService(_totpProvider.Object, _options);
         }
@@ -49,7 +49,7 @@ namespace Web.Public.Tests
         [Test]
         public void ShouldGenerateValidTotpPasswords()
         {
-            var totp = _totpService.GenerateTotp(_dummyCert);
+            var totp = _totpService.GenerateTotp(_dummyCertSubject);
             
             Assert.AreEqual(_options.Value.Digits, totp.Length, "totp password length");
             Assert.IsTrue(totp.All(char.IsDigit), "totp all digits");
@@ -59,8 +59,8 @@ namespace Web.Public.Tests
         public void ShouldValidateNewlyGeneratedTotpPassword()
         {
             // RFC specification allows verifier to check back 1 time window for verification based on network travel time
-            var totp = _totpService.GenerateTotp(_dummyCert);
-            var result = _totpService.ValidateTotp(_dummyCert, totp);
+            var totp = _totpService.GenerateTotp(_dummyCertSubject);
+            var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
             
             Assert.IsTrue(result.IsSuccess);
         }
@@ -68,12 +68,12 @@ namespace Web.Public.Tests
         [Test]
         public void ShouldRejectRandomTotpPassword()
         {
-            var totp = _totpService.GenerateTotp(_dummyCert);
+            var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var randomTotp = new string(totp.ToCharArray().ToList().Shuffle().ToArray());
             
             Assert.AreEqual(_options.Value.Digits, randomTotp.Length, "random totp length");
 
-            var result = _totpService.ValidateTotp(_dummyCert, randomTotp);
+            var result = _totpService.ValidateTotp(_dummyCertSubject, randomTotp);
             
             Assert.IsFalse(result.IsSuccess, "success check");
         }
@@ -82,9 +82,9 @@ namespace Web.Public.Tests
         public void ShouldGenerateSameTotpPasswordForSameTimeWindow()
         {
             // Need to generate 3 values in the small chance that the time step occurs between the first and second value
-            var totp1 = _totpService.GenerateTotp(_dummyCert);
-            var totp2 = _totpService.GenerateTotp(_dummyCert);
-            var totp3 = _totpService.GenerateTotp(_dummyCert);
+            var totp1 = _totpService.GenerateTotp(_dummyCertSubject);
+            var totp2 = _totpService.GenerateTotp(_dummyCertSubject);
+            var totp3 = _totpService.GenerateTotp(_dummyCertSubject);
             
             Assert.IsTrue(totp1.Equals(totp2) || totp2.Equals(totp3));
         }
@@ -97,15 +97,15 @@ namespace Web.Public.Tests
             var expectedWindow = CalculateTimeStepFromTimestamp(DateTime.Now);
             
             _totpProvider
-                .Setup(s => s.GetUsedWindowFromUserCertificate(It.IsAny<byte[]>()))
+                .Setup(s => s.GetUsedWindowFromUserCertificateSubject(It.IsAny<string>()))
                 .Returns(expectedWindow);
 
             _totpConfig.EnforceUniqueness = uniquenessRequired;
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
             
             _totpService = new TotpService(_totpProvider.Object, _options);
-            var totp = _totpService.GenerateTotp(_dummyCert);
-            var result = _totpService.ValidateTotp(_dummyCert, totp);
+            var totp = _totpService.GenerateTotp(_dummyCertSubject);
+            var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
 
             Assert.AreEqual(uniquenessRequired, !result.IsSuccess);
         }
@@ -120,8 +120,8 @@ namespace Web.Public.Tests
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
             _totpService = new TotpService(_totpProvider.Object, _options);
 
-            Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCert), "generate totp");
-            Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCert, "dummy password"), "validate totp");
+            Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCertSubject), "generate totp");
+            Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCertSubject, "dummy password"), "validate totp");
         }
         
         // Grabbed from OtpNet (TOTP library) to compute the expected timeWindow based on current time

@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -18,33 +16,29 @@ using Web.Public.Services.MessagePayloadValidators;
 namespace Web.Public.Controllers
 {
     [Route("acvp/v1/testSessions")]
-    [Authorize]
-    [TypeFilter(typeof(ExceptionFilter))]
-    [ApiController]
-    public class TestSessionController : ControllerBase
+    public class TestSessionController : JwtAuthControllerBase
     {
         private readonly ITestSessionService _testSessionService;
         private readonly IMessageService _messageService;
         private readonly IJsonReaderService _jsonReader;
         private readonly IJsonWriterService _jsonWriter;
-        private readonly IJwtService _jwtService;
         private readonly VectorSetConfig _vectorSetConfig;
         private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
         
         public TestSessionController(
+            IJwtService jwtService,
             ITestSessionService testSessionService, 
             IMessageService messageService, 
             IJsonReaderService jsonReader,
             IJsonWriterService jsonWriter,
-            IJwtService jwtService,
             IMessagePayloadValidatorFactory workflowItemValidatorFactory,
             IOptions<VectorSetConfig> vectorSetConfig)
+            : base (jwtService)
         {
             _testSessionService = testSessionService;
             _messageService = messageService;
             _jsonReader = jsonReader;
             _jsonWriter = jsonWriter;
-            _jwtService = jwtService;
             _workflowItemValidatorFactory = workflowItemValidatorFactory;
             _vectorSetConfig = vectorSetConfig.Value;
         }
@@ -77,7 +71,7 @@ namespace Web.Public.Controllers
             var cert = HttpContext.Connection.ClientCertificate.RawData;
 
             // Note this has permission to change Limit, if 20 is too big for data
-            var (totalRecords, testSessions) = _testSessionService.GetTestSessionList(cert, pagingOptions);
+            var (totalRecords, testSessions) = _testSessionService.GetTestSessionList(GetCertSubjectFromJwt(), pagingOptions);
             var pagedData =  new PagedResponse<TestSession>(totalRecords, testSessions, $"/acvp/v1/testSessions", pagingOptions);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));   
@@ -86,8 +80,8 @@ namespace Web.Public.Controllers
         [HttpPost]
         public ActionResult CreateTestSession()
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-
+            var certSubject = GetCertSubjectFromJwt();
+            
             var apiAction = APIAction.RegisterTestSession;
             
             // Parse registrations
@@ -107,10 +101,10 @@ namespace Web.Public.Controllers
             }
 
             // This modifies registration along the way
-            var testSession = _testSessionService.CreateTestSession(cert, registration);
+            var testSession = _testSessionService.CreateTestSession(certSubject, registration);
 
             // Insert into queue
-            _messageService.InsertIntoQueue(apiAction, cert, registration);
+            _messageService.InsertIntoQueue(apiAction, certSubject, registration);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
@@ -118,7 +112,7 @@ namespace Web.Public.Controllers
         [HttpGet("{id}")]
         public ActionResult GetTestSession(long id)
         {
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
             
             var claimValidator = new TestSessionClaimsVerifier(id);
@@ -143,7 +137,6 @@ namespace Web.Public.Controllers
         [HttpPut("{id}")]
         public ActionResult CertifyTestSession(long id)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
             var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
@@ -164,7 +157,7 @@ namespace Web.Public.Controllers
                 throw new JsonReaderException(validation.Errors);
             }
 
-            var requestId = _messageService.InsertIntoQueue(apiAction, cert, payload);
+            var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 
             // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards
             _testSessionService.SetTestSessionPublished(id);
@@ -182,8 +175,6 @@ namespace Web.Public.Controllers
         [HttpDelete("{id}")]
         public ActionResult CancelTestSession(long id)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
@@ -201,7 +192,7 @@ namespace Web.Public.Controllers
                 throw new JsonReaderException(validation.Errors);
             }
             
-            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, cert, payload);
+            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
             var requestObject = new RequestObject
             {
                 RequestID = requestId,

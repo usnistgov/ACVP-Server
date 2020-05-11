@@ -14,7 +14,7 @@ namespace Web.Public.Providers
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
-        public long GetUserIDFromCertificate(byte[] certRawData)
+        public long GetUserIDFromCertificateSubject(string userCertSubject)
         {
             var db = new MightyOrm(_connectionString);
             
@@ -22,7 +22,7 @@ namespace Web.Public.Providers
             {
                 var data = db.SingleFromProcedure("acvp.AcvpUserGetByCertificate", new
                 {
-                    CertificateRawData = certRawData
+                    Subject = userCertSubject
                 });
 
                 if (data == null)

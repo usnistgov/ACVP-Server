@@ -1,8 +1,5 @@
-using System;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Providers;
 using Web.Public.Results;
@@ -11,16 +8,18 @@ using Web.Public.Services;
 namespace Web.Public.Controllers
 {
     [Route("acvp/v1/requests")]
-    [Authorize]
-    [TypeFilter(typeof(ExceptionFilter))]
-    [ApiController]
-    public class RequestController : ControllerBase
+    public class RequestController : JwtAuthControllerBase
     {
         private readonly IRequestService _requestService;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IUserProvider _userProvider;
 
-        public RequestController(IRequestService requestService, IJsonWriterService jsonWriter, IUserProvider userProvider)
+        public RequestController(
+            IJwtService jwtService, 
+            IRequestService requestService, 
+            IJsonWriterService jsonWriter, 
+            IUserProvider userProvider)
+            : base (jwtService)
         {
             _requestService = requestService;
             _jsonWriter = jsonWriter;
@@ -30,8 +29,7 @@ namespace Web.Public.Controllers
         [HttpGet]
         public JsonHttpStatusResult GetAllRequests()
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-            var userID = _userProvider.GetUserIDFromCertificate(cert);
+            var userID = _userProvider.GetUserIDFromCertificateSubject(GetCertSubjectFromJwt());
 
             var requests = _requestService.GetAllRequestsForUser(userID);
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requests));

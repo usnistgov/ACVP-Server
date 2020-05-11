@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -16,35 +15,32 @@ using Web.Public.Services.MessagePayloadValidators;
 namespace Web.Public.Controllers
 {
     [Route("acvp/v1/testSessions/{tsID}/vectorSets")]
-    [Authorize]
-    [TypeFilter(typeof(ExceptionFilter))]
-    [ApiController]
-    public class VectorSetController : ControllerBase
+    public class VectorSetController : JwtAuthControllerBase
     {
         private readonly IVectorSetService _vectorSetService;
         private readonly ITestSessionService _testSessionService;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJsonReaderService _jsonReader;
         private readonly IMessageService _messageService;
-        private readonly IJwtService _jwtService;
         private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
         private readonly VectorSetConfig _vectorSetConfig;
 
-        public VectorSetController(IVectorSetService vectorSetService, 
+        public VectorSetController(
+            IJwtService jwtService,
+            IVectorSetService vectorSetService, 
             ITestSessionService testSessionService, 
             IJsonWriterService jsonWriter,
             IJsonReaderService jsonReader,
             IMessageService messageService,
-            IJwtService jwtService,
             IMessagePayloadValidatorFactory workflowItemValidatorFactory,
             IOptions<VectorSetConfig> vectorSetConfig)
+            : base (jwtService)
         {
             _vectorSetService = vectorSetService;
             _testSessionService = testSessionService;
             _jsonWriter = jsonWriter;
             _jsonReader = jsonReader;
             _messageService = messageService;
-            _jwtService = jwtService;
             _workflowItemValidatorFactory = workflowItemValidatorFactory;
             _vectorSetConfig = vectorSetConfig.Value;
         }
@@ -52,7 +48,7 @@ namespace Web.Public.Controllers
         [HttpGet]
         public ActionResult GetVectorSets(long tsID)
         {
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new TestSessionClaimsVerifier(tsID);
@@ -83,7 +79,7 @@ namespace Web.Public.Controllers
         [HttpGet("{vsID}")]
         public ActionResult GetPrompt(long tsID, long vsID)
         {
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
@@ -104,8 +100,7 @@ namespace Web.Public.Controllers
         [HttpDelete("{vsID}")]
         public ActionResult CancelVectorSet(long tsID, long vsID)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
@@ -120,7 +115,7 @@ namespace Web.Public.Controllers
                 }
                 
                 // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, cert, payload);
+                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
 
                 // Build request object for response
                 var requestObject = new RequestObject
@@ -138,7 +133,7 @@ namespace Web.Public.Controllers
         [HttpGet("{vsID}/results")]
         public ActionResult GetValidationResults(long tsID, long vsID)
         {
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
@@ -159,8 +154,7 @@ namespace Web.Public.Controllers
         [HttpPost("{vsID}/results")]
         public ActionResult PostResults(long tsID, long vsID)
         {
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
             
             // Parse registrations
@@ -178,7 +172,7 @@ namespace Web.Public.Controllers
                     throw new JsonReaderException(validation.Errors);
                 }
                 
-                _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, cert, submittedResults);
+                _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
@@ -194,8 +188,7 @@ namespace Web.Public.Controllers
                 return new NotFoundResult();
             }
             
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
             
             // TODO putting of results should only be allowed when the vector set is ready for them (specific status)?
@@ -215,7 +208,7 @@ namespace Web.Public.Controllers
                     throw new JsonReaderException(validation.Errors);
                 }
                 
-                _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, cert, submittedResults);
+                _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
                 
                 // TODO this is likely not the correct response to return
                 return new AcceptedResult();
@@ -227,7 +220,7 @@ namespace Web.Public.Controllers
         [HttpGet("{vsID}/expected")]
         public ActionResult GetExpectedResults(long tsID, long vsID)
         {
-            var jwt = Request.Headers["Authorization"];
+            var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
 
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);

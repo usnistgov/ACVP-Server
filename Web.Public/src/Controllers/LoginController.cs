@@ -42,11 +42,10 @@ namespace Web.Public.Controllers
             var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
 
             // Grab user from authentication
-            var certBytes = HttpContext.Connection.ClientCertificate.RawData;
             var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
             
             // Validate TOTP
-            var result = _totpService.ValidateTotp(certBytes, content.Password);
+            var result = _totpService.ValidateTotp(clientCertSubject, content.Password);
 
             // If no validation, don't proceed
             if (!result.IsSuccess)

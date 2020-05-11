@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -15,10 +15,7 @@ using Web.Public.Services.MessagePayloadValidators;
 namespace Web.Public.Controllers
 {
 	[Route("acvp/v1/dependencies")]
-	[Authorize]
-	[TypeFilter(typeof(ExceptionFilter))]
-	[ApiController]
-	public class DependencyController : ControllerBase
+	public class DependencyController : JwtAuthControllerBase
 	{
 		private readonly IDependencyService _dependencyService;
 		private readonly IMessageService _messageService;
@@ -33,11 +30,13 @@ namespace Web.Public.Controllers
 		};
 
 		public DependencyController(
+			IJwtService jwtService,
 			IDependencyService dependencyService,
 			IMessageService messageService,
 			IJsonReaderService jsonReader,
 			IJsonWriterService jsonWriter,
-			IMessagePayloadValidatorFactory workflowItemValidatorFactory)
+			IMessagePayloadValidatorFactory workflowItemValidatorFactory) 
+			: base(jwtService)
 		{
 			_dependencyService = dependencyService;
 			_messageService = messageService;
@@ -49,9 +48,6 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public JsonHttpStatusResult CreateDependency()
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
@@ -65,7 +61,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -80,9 +76,6 @@ namespace Web.Public.Controllers
 		[HttpPut("{id}")]
 		public JsonHttpStatusResult UpdateDependency(long id)
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			// Get raw JSON
 			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
 			
@@ -97,7 +90,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -112,9 +105,6 @@ namespace Web.Public.Controllers
 		[HttpDelete("{id}")]
 		public JsonHttpStatusResult DeleteDependency(long id)
 		{
-			// Get user cert
-			var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
-
 			var apiAction = APIAction.DeleteDependency;
 			var payload = new DeletePayload()
 			{
@@ -128,7 +118,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, certRawData, payload);
+			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

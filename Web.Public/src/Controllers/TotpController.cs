@@ -28,10 +28,10 @@ namespace Web.Public.Controllers
         public JsonHttpStatusResult GetTotp()
         {
             // Use authentication to identify user
-            var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+            var certSubject = Request.HttpContext.Connection.ClientCertificate.Subject;
             
             // Compute Totp
-            var result = _totpService.GenerateTotp(certRawData);
+            var result = _totpService.GenerateTotp(certSubject);
 
             // Wrap and return to user
             var passwordObject = new PasswordObject
