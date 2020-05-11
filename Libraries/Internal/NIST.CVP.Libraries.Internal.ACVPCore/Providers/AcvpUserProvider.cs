@@ -133,7 +133,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
                         {
                             AcvpUserId = userId,
                             CommonName = x509.Subject,
-                            Certificate = certificate,
+                            Certificate = x509.RawData,
                             ExpiresOn = expiresOn
                         });
                     }
@@ -198,7 +198,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
                             {
                                 PersonID = personQueryData.PersonID,
                                 CommonName = x509.Subject,
-                                Certificate = certificate,
+                                Certificate = x509.RawData,
                                 Seed = base64Seed,
                                 ExpiresOn = expiresOn
                             });
