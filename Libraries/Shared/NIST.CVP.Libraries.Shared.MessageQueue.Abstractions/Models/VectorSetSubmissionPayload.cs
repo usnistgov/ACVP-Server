@@ -15,7 +15,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
         public string Revision { get; set; }
         
         [JsonPropertyName("vsId")]
-        public long VsID { get; set; }
+        public long VectorSetID { get; set; }
         
         [JsonExtensionData]
         public IDictionary<string, object> Properties { get; set; }

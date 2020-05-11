@@ -9,23 +9,30 @@ using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
-	public class SubmitVectorSetResultsProcessor : IMessageProcessor
+	public class ReubmitVectorSetResultsProcessor : IMessageProcessor
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
+		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public SubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService)
+		public ReubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_vectorSetService = vectorSetService;
 			_taskQueueService = taskQueueService;
+			_messageQueueProcessorConfig = messageQueueProcessorConfig;
 		}
 
 		public Result Process(Message message)
 		{
+			if (!_messageQueueProcessorConfig.AllowResubmission)
+			{
+				return new Result("Resubmission of vector set results not permitted");
+			}
+
 			//Get the payload so we can get what we need
 			VectorSetSubmissionPayload submitResultsPayload = JsonSerializer.Deserialize<VectorSetSubmissionPayload>(message.Payload);
 
-			//Check the status of the vector set, make sure it is processed
+			//Check the status of the vector set, make sure it is failed
 			var vectorSet = _vectorSetService.GetVectorSet(submitResultsPayload.VectorSetID);
 
 			if (vectorSet == null)
@@ -33,9 +40,9 @@ namespace MessageQueueProcessor.MessageProcessors
 				return new Result("Vector set does not exist");
 			}
 
-			if (vectorSet.Status != VectorSetStatus.Processed)
+			if (vectorSet.Status != VectorSetStatus.Failed)
 			{
-				return new Result("Vector set must be in Processed status to submit results");
+				return new Result("Vector set must be in Failed status to resubmit results");
 			}
 
 			//Update the vector set status to show we've received their results
@@ -43,16 +50,22 @@ namespace MessageQueueProcessor.MessageProcessors
 
 			if (result.IsSuccess)
 			{
-				//Update the submitted results
-				result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, JsonSerializer.Serialize(submitResultsPayload));
+				//Delete the submitted results
+				result = _vectorSetService.RemoveVectorFileJson(submitResultsPayload.VectorSetID, VectorSetJsonFileTypes.SubmittedAnswers);
 
 				if (result.IsSuccess)
 				{
-					//Add to the task queue
-					result = _taskQueueService.AddValidationTask(new ValidationTask
+					//Insert the new results
+					result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, JsonSerializer.Serialize(submitResultsPayload));
+
+					if (result.IsSuccess)
 					{
-						VectorSetID = submitResultsPayload.VectorSetID
-					});
+						//Add to the task queue
+						result = _taskQueueService.AddValidationTask(new ValidationTask
+						{
+							VectorSetID = submitResultsPayload.VectorSetID
+						});
+					}
 				}
 
 				if (!result.IsSuccess)
