@@ -35,7 +35,7 @@ export class WorkflowValidationCreateComponent implements OnInit {
       );
     }
 
-    if (this.workflowItem.payload.productUrl !== null) {
+    if (this.workflowItem.payload.oeUrl !== null) {
       let OEId: number = parseInt(this.workflowItem.payload.oeUrl.split('/')[this.workflowItem.payload.oeUrl.split('/').length - 1]);
 
       this.OEService.getOE(OEId).subscribe(

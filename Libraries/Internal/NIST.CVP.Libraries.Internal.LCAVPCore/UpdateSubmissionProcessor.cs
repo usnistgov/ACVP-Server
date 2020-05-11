@@ -505,7 +505,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 					if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Any(x => x.IsUnprocessedSubmission))
 					{
-						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
+						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID).Distinct());
 						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
 					}
 

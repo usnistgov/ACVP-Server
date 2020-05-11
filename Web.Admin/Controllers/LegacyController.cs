@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
-using NIST.CVP.Libraries.Internal.ACVPCore.Services;
-using NIST.CVP.Libraries.Internal.LCAVPCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.Email;
+using NIST.CVP.Libraries.Internal.LCAVPCore;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 
 namespace Web.Admin.Controllers
 {
@@ -14,13 +16,15 @@ namespace Web.Admin.Controllers
     [ApiController]
     public class LegacyController : ControllerBase
     {
+        private readonly ILogger<LegacyController> _logger;
         private readonly ILCAVPSubmissionProcessor _lcavpSubmissionProcessor;
         private readonly IPropertyService _propertyService;
         private readonly IMailer _mailer;
         private readonly string _uploadPath;
 
-        public LegacyController(ILCAVPSubmissionProcessor lcavpSubmissionProcessor, IConfiguration configuration, IPropertyService propertyService, IMailer mailer)
+        public LegacyController(ILogger<LegacyController> logger, ILCAVPSubmissionProcessor lcavpSubmissionProcessor, IConfiguration configuration, IPropertyService propertyService, IMailer mailer)
         {
+            _logger = logger;
             _lcavpSubmissionProcessor = lcavpSubmissionProcessor;
             _uploadPath = configuration.GetValue<string>("LCAVP:UploadPath");
             _propertyService = propertyService;
@@ -69,7 +73,7 @@ namespace Web.Admin.Controllers
             }
             catch (Exception ex)
             {
-                var doingThisToAvoidTheWarningThatIsTreatedLikeAnError = ex;
+                _logger.LogError(ex);
                 return new BadRequestResult();
             }
         }

@@ -11,6 +11,6 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 		[JsonConverter(typeof(WorkflowItemPayloadConverter))]
 		public IWorkflowItemPayload Payload { get; set; }
 		public WorkflowStatus Status { get; set; }
-		public long AcceptId { get; set; }
+		public long? AcceptId { get; set; }
 	}
 }
