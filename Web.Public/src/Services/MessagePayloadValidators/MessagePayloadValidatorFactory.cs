@@ -13,8 +13,9 @@ namespace Web.Public.Services.MessagePayloadValidators
 		private readonly IImplementationService _implementationService;
 		private readonly IParameterValidatorService _parameterValidatorService;
 		private readonly IOEService _oeService;
+		private readonly IVectorSetService _vectorSetService;
 
-		public MessagePayloadValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IParameterValidatorService parameterValidatorService, IOEService oeService)
+		public MessagePayloadValidatorFactory(IDependencyService dependencyService, IAddressService addressService, IOrganizationService organizationService, IPersonService personService, ITestSessionService testSessionService, IImplementationService implementationService, IParameterValidatorService parameterValidatorService, IOEService oeService, IVectorSetService vectorSetService)
 		{
 			_dependencyService = dependencyService;
 			_addressService = addressService;
@@ -24,6 +25,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 			_implementationService = implementationService;
 			_parameterValidatorService = parameterValidatorService;
 			_oeService = oeService;
+			_vectorSetService = vectorSetService;
 		}
 		
 		public IMessagePayloadValidator GetMessagePayloadValidator(APIAction action)
@@ -49,8 +51,8 @@ namespace Web.Public.Services.MessagePayloadValidators
 				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
-				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(),
-				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsPayloadValidator(),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(_vectorSetService),
+				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsPayloadValidator(_vectorSetService),
 				_ => throw new ArgumentException($"Invalid {nameof(action)}: {action}")
 			};
 		}

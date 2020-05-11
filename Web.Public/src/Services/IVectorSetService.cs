@@ -7,5 +7,6 @@ namespace Web.Public.Services
         VectorSet GetPrompt(long vsID);
         VectorSet GetExpectedResults(long vsID);
         VectorSet GetValidation(long vsID);
+        VectorSetStatus GetStatus(long vectorSetID);
     }
 }

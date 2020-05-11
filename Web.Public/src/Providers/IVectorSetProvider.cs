@@ -8,6 +8,6 @@ namespace Web.Public.Providers
     {
         long GetNextVectorSetID(long tsID, string token);
         VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType);
-        VectorSetStatus CheckStatus(long vsID);
+        VectorSetStatus GetStatus(long vsID);
     }
 }

@@ -154,17 +154,17 @@ namespace Web.Public.Controllers
         [HttpPost("{vsID}/results")]
         public ActionResult PostResults(long tsID, long vsID)
         {
+            //Validate claim
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
-            
-            // Parse registrations
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
-
-            // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
+
             if (claimValidator.AreClaimsValid(claims))
             {
+                // Parse request
+                var body = _jsonReader.GetJsonFromBody(Request.Body);
+                var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
+
                 // Convert and validate
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
@@ -176,6 +176,7 @@ namespace Web.Public.Controllers
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
+
             return new ForbidResult();
             
         }
@@ -183,24 +184,23 @@ namespace Web.Public.Controllers
         [HttpPut("{vsID}/results")]
         public ActionResult UpdateResults(long tsID, long vsID)
         {
+            //Check that resubmissions are allowed in this environment
             if (!_vectorSetConfig.AllowResubmission)
             {
                 return new NotFoundResult();
             }
             
+            //Validate claim
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
-            
-            // TODO putting of results should only be allowed when the vector set is ready for them (specific status)?
-            
-            // Parse registrations
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
-
-            // Validate registrations and return at that point if any failures occur.
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
+
             if (claimValidator.AreClaimsValid(claims))
             {
+                // Parse request
+                var body = _jsonReader.GetJsonFromBody(Request.Body);
+                var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
+
                 // Convert and validate
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)

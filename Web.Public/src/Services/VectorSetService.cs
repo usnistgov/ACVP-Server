@@ -16,7 +16,7 @@ namespace Web.Public.Services
 
         public VectorSet GetPrompt(long vsID)
         {
-            return _vectorSetProvider.CheckStatus(vsID) switch
+            return GetStatus(vsID) switch
             {
                 VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
                 VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
@@ -33,7 +33,7 @@ namespace Web.Public.Services
         {
             // TODO check is sample ?
             
-            return _vectorSetProvider.CheckStatus(vsID) switch
+            return GetStatus(vsID) switch
             {
                 VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
                 VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
@@ -47,7 +47,7 @@ namespace Web.Public.Services
 
         public VectorSet GetValidation(long vsID)
         {
-            return _vectorSetProvider.CheckStatus(vsID) switch
+            return GetStatus(vsID) switch
             {
                 VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
                 VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
@@ -55,5 +55,7 @@ namespace Web.Public.Services
                 _ => null
             };
         }
+
+        public VectorSetStatus GetStatus(long vectorSetID) => _vectorSetProvider.GetStatus(vectorSetID);
     }
 }

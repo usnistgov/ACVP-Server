@@ -43,7 +43,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public VectorSetStatus CheckStatus(long vsID)
+        public VectorSetStatus GetStatus(long vsID)
         {
             var db = new MightyOrm(_connectionString);
 
