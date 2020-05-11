@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace Web.Public
                 {
                     options.AllowedCertificateTypes = CertificateTypes.All;
                     options.ValidateCertificateUse = false;
+                    options.RevocationMode = X509RevocationMode.NoCheck;
                     options.Events = new CertificateAuthenticationEvents()
                     {
                         OnAuthenticationFailed = context =>
