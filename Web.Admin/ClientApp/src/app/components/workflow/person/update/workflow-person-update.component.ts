@@ -31,7 +31,7 @@ export class WorkflowPersonUpdateComponent implements OnInit {
     // if they changing orgs
     if (this.workflowItem.payload.organizationURLUpdated) {
 
-      let splitsArr = this.workflowItem.payload.organizationUrl.split('/');
+      let splitsArr = this.workflowItem.payload.vendorUrl.split('/');
 
       this.OrganizationService.getOrganization(parseInt(splitsArr[splitsArr.length-1])).subscribe(
         data => {

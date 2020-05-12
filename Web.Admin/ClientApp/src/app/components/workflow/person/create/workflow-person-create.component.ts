@@ -25,7 +25,7 @@ export class WorkflowPersonCreateComponent implements OnInit {
     this.workflowItem = item;
 
     // Get the organization data in order to populate the organization field
-    const splitString = this.workflowItem.payload.organizationUrl.split('/');
+    const splitString = this.workflowItem.payload.vendorUrl.split('/');
     this.OrganizationService.getOrganization(parseInt(splitString[splitString.length - 1])).subscribe(
       data => { this.organization = data; },
       err => { },

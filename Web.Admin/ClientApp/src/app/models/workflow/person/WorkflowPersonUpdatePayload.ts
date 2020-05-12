@@ -5,7 +5,7 @@ export class WorkflowPersonUpdatePayload {
   id: number;
   url: string;
   fullName: string;
-  organizationUrl: string;
+  vendorUrl: string;
   emails: string[];
   phoneNumbers: PersonPhone[];
 
