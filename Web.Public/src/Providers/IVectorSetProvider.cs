@@ -1,6 +1,5 @@
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.Models;
-using VectorSetStatus = Web.Public.Models.VectorSetStatus;
 
 namespace Web.Public.Providers
 {

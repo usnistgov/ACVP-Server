@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Results;
@@ -30,7 +31,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 			}
 
 			//Vector set must be in Failed status
-			if (_vectorSetService.GetStatus(payload.VectorSetID) != Models.VectorSetStatus.Failed)
+			if (_vectorSetService.GetStatus(payload.VectorSetID) != VectorSetStatus.Failed)
 			{
 				errors.Add("Vector set not in Failed status");
 			}

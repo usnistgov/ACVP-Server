@@ -1,11 +1,9 @@
 using System;
-using System.Text;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Serilog;
 using Web.Public.Models;
-using VectorSetStatus = Web.Public.Models.VectorSetStatus;
 
 namespace Web.Public.Providers
 {

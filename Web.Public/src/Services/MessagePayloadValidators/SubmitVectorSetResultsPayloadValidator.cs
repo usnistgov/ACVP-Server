@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Results;
@@ -30,7 +31,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 			}
 
 			//Vector set must be in Processed status
-			if (_vectorSetService.GetStatus(payload.VectorSetID) != Models.VectorSetStatus.Processed)
+			if (_vectorSetService.GetStatus(payload.VectorSetID) != VectorSetStatus.Processed)
 			{
 				errors.Add("Vector set not in Processed status");
 			}
