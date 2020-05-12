@@ -113,9 +113,7 @@
     <Build Include="val\Tables\WORKFLOW_ACTION.sql" />
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
     <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
-    <Build Include="acvp\Tables\VECTOR_SET_DATA.sql" />
     <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
-    <Build Include="acvp\Tables\VECTOR_SET_EXPECTED_RESULTS.sql" />
     <Build Include="common\Tables\ADMIN_PERMISSION.sql" />
     <Build Include="common\Tables\ADMIN_PERMISSION_ROLE.sql" />
     <Build Include="common\Tables\ADMIN_ROLE.sql" />
@@ -188,11 +186,7 @@
     <Build Include="csrc\Views\VALIDATION_SOURCE.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
-    <Build Include="acvp\Stored Procedures\spSetVectorSetData.sql">
-      <AnsiNulls>Off</AnsiNulls>
-    </Build>
     <Build Include="acvp\Stored Procedures\VectorSetArchive.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetDataForVectorSetGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
@@ -372,6 +366,7 @@
     <Build Include="acvp\Stored Procedures\AcvpUserSetCertificate.sql" />
     <Build Include="val\Stored Procedures\PersonGetPhones.sql" />
     <Build Include="val\Stored Procedures\OEsForValidationGet.sql" />
+    <Build Include="acvp\Views\FilteredVectorSetJson.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

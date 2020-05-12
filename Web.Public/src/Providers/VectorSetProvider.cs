@@ -87,19 +87,10 @@ namespace Web.Public.Providers
                     return null;
                 }
 
-                // For VECTOR_SET_DATA
-                var contentBytes = (byte[])jsonData.Content;
-                var contentJson = Encoding.UTF8.GetString(contentBytes);
                 return new VectorSet
                 {
-                    JsonContent = contentJson
+                    JsonContent = jsonData.Content
                 };
-
-                // For VectorSetJson
-                //return new VectorSet
-                //{
-                //    JsonContent = jsonData.Content
-                //};
             }
             catch (Exception ex)
             {
