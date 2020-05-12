@@ -38,6 +38,11 @@ const routes: Routes = [
     canActivate: [DisclaimerRouteGuard]
   },
   {
+    path: 'home/:id',
+    component: HomeComponent,
+    canActivate: [DisclaimerRouteGuard]
+  },
+  {
     path: 'disclaimer',
     component: DisclaimerComponent
   },

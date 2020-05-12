@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { TestSessionList } from '../../models/testSession/TestSessionList';
 import { TestSession } from '../../models/testSession/TestSession';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,7 +23,10 @@ export class HomeComponent implements OnInit {
   selectedTestSessionStatus: string;
   TestSessionStatus = TestSessionStatus;
 
-  constructor(private TestSessionService: TestSessionProviderService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private TestSessionService: TestSessionProviderService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private location: Location) { }
 
   getPage(whichPage: string) {
 
@@ -129,6 +133,12 @@ export class HomeComponent implements OnInit {
       this.sessions.currentPage = parseInt(this.route.snapshot.queryParamMap.get('page'));
     }
 
+    this.route.paramMap.subscribe(params => {
+      if (params.get("id") !== null) {
+        this.setSelectedSession(parseInt(params.get("id")));
+      }
+    });
+
     // ... Then make the initial data request accordingly
     this.TestSessionService.getTestSessions(this.listData).subscribe(
       data => { this.sessions = data; },
@@ -142,6 +152,9 @@ export class HomeComponent implements OnInit {
     this.TestSessionService.getTestSession(sessionId).subscribe(
       data => {
         this.selectedSession = data;
+
+        // The reason for using this is that it allows changing the url without reloading the route
+        this.location.go('/home/' + this.selectedSession.testSessionId);
       },
       err => { throw new Error('Test Session ' + sessionId + ' not available') },
       () => { }
