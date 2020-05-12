@@ -7,23 +7,23 @@
           <table class="table">
             <tr>
               <th style="border:none;">Name</th>
-              <td style="border:none;">{{workflowItem?.payload.product?.name}}</td>
+              <td style="border:none;">{{workflowItem?.payload.module?.name}}</td>
             </tr>
             <tr>
               <th>Version</th>
-              <td>{{workflowItem?.payload.product?.version == null ? "No Version" : workflowItem?.payload.product?.version}}</td>
+              <td>{{workflowItem?.payload.module?.version == null ? "No Version" : workflowItem?.payload.module?.version}}</td>
             </tr>
             <tr>
               <th>Type</th>
-              <td>{{workflowItem?.payload.product?.type == null ? "No Type" : workflowItem?.payload.product?.type}}</td>
+              <td>{{workflowItem?.payload.module?.type == null ? "No Type" : workflowItem?.payload.module?.type}}</td>
             </tr>
             <tr>
               <th>URL</th>
-              <td>{{workflowItem?.payload.product?.link == null ? "No URL" : workflowItem?.payload.product?.link}}</td>
+              <td>{{workflowItem?.payload.module?.link == null ? "No URL" : workflowItem?.payload.module?.link}}</td>
             </tr>
             <tr>
               <th>Description</th>
-              <td>{{workflowItem?.payload.product?.description == null ? "No Description" : workflowItem?.payload.product?.description}}</td>
+              <td>{{workflowItem?.payload.module?.description == null ? "No Description" : workflowItem?.payload.module?.description}}</td>
             </tr>
           </table>
         </div>

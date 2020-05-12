@@ -24,12 +24,12 @@ export class WorkflowValidationCreateComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowValidationCreatePayload>) {
     this.workflowItem = item;
 
-    if (this.workflowItem.payload.productUrl !== null) {
-      let productId: number = parseInt(this.workflowItem.payload.productUrl.split('/')[this.workflowItem.payload.productUrl.split('/').length - 1]);
+    if (this.workflowItem.payload.moduleUrl !== null) {
+      let productId: number = parseInt(this.workflowItem.payload.moduleUrl.split('/')[this.workflowItem.payload.moduleUrl.split('/').length - 1]);
 
       this.ProductService.getProduct(productId).subscribe(
         data => {
-          this.workflowItem.payload.product = data;
+          this.workflowItem.payload.module = data;
           console.log(this.workflowItem);
         }
       );
