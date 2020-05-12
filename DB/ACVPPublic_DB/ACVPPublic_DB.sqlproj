@@ -84,7 +84,6 @@
     <Build Include="acvp\Tables\REQUEST_ACTION.sql" />
     <Build Include="acvp\Tables\TEST_SESSION.sql" />
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
-    <Build Include="acvp\Tables\VECTOR_SET_DATA.sql" />
     <Build Include="common\Tables\APPLICATION_PROPERTIES.sql" />
     <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
     <Build Include="external\Tables\REQUEST.sql" />
