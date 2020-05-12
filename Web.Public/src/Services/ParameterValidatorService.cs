@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.Core.Exceptions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Models;
 
@@ -34,14 +36,25 @@ namespace Web.Public.Services
 			for (var i = 0; i < registration.Algorithms.Count; i++)
 			{
 				var currentAlgo = registration.Algorithms[i];
+				var algoModeConcat = $"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}";
+				
 				var json = JsonSerializer.Serialize(currentAlgo, _jsonSerializerOptions);
-				var result =
-					_genValInvoker.CheckParameters(new ParameterCheckRequest(json));
 
+				ParameterCheckResponse result = null;
+				try
+				{
+					result =
+						_genValInvoker.CheckParameters(new ParameterCheckRequest(json));
+				}
+				catch (AlgoModeRevisionException e)
+				{
+					errors.Add($"Error on algorithm index {i}: {e.Message}");
+					continue;
+				}
+				
 				if (!result.Success)
 				{
-					var algoMode = $"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}";
-					errors.AddRange(result.ErrorMessage.Select(error => $"{algoMode}: {error}"));
+					errors.AddRange(result.ErrorMessage.Select(error => $"{algoModeConcat}: {error}"));
 				}
 			}
 			

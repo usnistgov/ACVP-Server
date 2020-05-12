@@ -67,8 +67,6 @@ namespace Web.Public.Controllers
                 Limit = limit,
                 Offset = offset
             };
-            
-            var cert = HttpContext.Connection.ClientCertificate.RawData;
 
             // Note this has permission to change Limit, if 20 is too big for data
             var (totalRecords, testSessions) = _testSessionService.GetTestSessionList(GetCertSubjectFromJwt(), pagingOptions);
