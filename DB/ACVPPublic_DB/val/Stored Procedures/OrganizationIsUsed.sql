@@ -17,5 +17,5 @@ SET @isUsed =
 					WHERE org_id = @OrganizationID) THEN 1
 		WHEN EXISTS(SELECT NULL
 					FROM val.ORGANIZATION
-					WHERE parent_organization_id = @OrganizationID) THEN 1
+					WHERE parent_organization_id = @OrganizationId) THEN 1
 		ELSE 0 END

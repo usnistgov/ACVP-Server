@@ -5,6 +5,6 @@ AS
 
 SET NOCOUNT ON
 
-SELECT content AS Content
+SELECT Content
 FROM [acvp].[VectorSetJson]
 WHERE VsId = @VsID AND FileType = @FileType

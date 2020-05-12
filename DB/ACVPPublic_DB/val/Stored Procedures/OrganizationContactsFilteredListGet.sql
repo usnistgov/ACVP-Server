@@ -21,7 +21,7 @@ IF (@Filter IS NULL)
 		-- No filter simply means all are potentially returned
 		INSERT	INTO @MatchingIDs (id)
 		SELECT	id
-		FROM	val.Person p
+		FROM	val.PERSON p
 		WHERE	p.org_id = @OrganizationId
 	END
 ELSE
@@ -81,7 +81,7 @@ ELSE
 						-- Simply insert all the matching IDs into the table
 						INSERT INTO @ANDMatchingIDs (id)
 						SELECT id
-						FROM val.person p
+						FROM val.PERSON p
 						WHERE p.org_id = @organizationId
 							AND 1 = CASE
 									WHEN @PropertyName = 'fullName' AND @Operator = 'eq' AND full_name = @Value THEN 1
