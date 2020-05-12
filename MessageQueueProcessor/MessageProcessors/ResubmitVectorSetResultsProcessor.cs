@@ -50,10 +50,10 @@ namespace MessageQueueProcessor.MessageProcessors
 
 			if (result.IsSuccess)
 			{
-				//Delete the submitted results
-				result = _vectorSetService.RemoveVectorFileJson(submitResultsPayload.VectorSetID, VectorSetJsonFileTypes.SubmittedAnswers);
-
-				if (result.IsSuccess)
+				//Delete the submitted answers, validation results, and errors, but only continue if all successful
+				if (_vectorSetService.RemoveVectorFileJson(submitResultsPayload.VectorSetID, VectorSetJsonFileTypes.SubmittedAnswers).IsSuccess
+					&& _vectorSetService.RemoveVectorFileJson(submitResultsPayload.VectorSetID, VectorSetJsonFileTypes.Validation).IsSuccess
+					&&_vectorSetService.RemoveVectorFileJson(submitResultsPayload.VectorSetID, VectorSetJsonFileTypes.Error).IsSuccess)
 				{
 					//Insert the new results
 					result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, JsonSerializer.Serialize(submitResultsPayload));
