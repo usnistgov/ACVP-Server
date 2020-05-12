@@ -97,20 +97,21 @@ namespace Web.Public.Providers
             }
         }
         
-        public void PrepareVectorSetForAnswerResubmit(long vsID)
+        public void SetStatus(long vsID, VectorSetStatus status)
         {
             var db = new MightyOrm(_connectionString);
 
             try
             {
-                db.ExecuteProcedure("acvp.VectorSetPrepareForAnswerResubmit", new
+                db.ExecuteProcedure("acvp.VectorSetStatusSet", new
                 {
-                    VectorSetID = vsID
+                    VectorSetID = vsID,
+                    Status = (int)status
                 });
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error preparing vector set {vsID} for answer resubmit");
+                Log.Error(ex, $"Error setting vector set status {vsID}");
                 throw;
             }
         }

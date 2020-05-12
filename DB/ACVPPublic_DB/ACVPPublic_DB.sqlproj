@@ -181,6 +181,7 @@
     <Build Include="external\Stored Procedures\RequestExists.sql" />
     <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
     <Build Include="ref\Tables\MODULE_TYPE.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetPrepareForAnswerResubmit.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="acvp\Stored Procedures\VectorSetStatusSet.sql" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.ClaimsVerifiers;
@@ -139,6 +140,12 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
+                if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
+                {
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                }
+                
                 var validation = _vectorSetService.GetValidation(vsID);
                 if (validation == null)
                 {
@@ -173,6 +180,7 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
+                _vectorSetService.SetStatus(vsID, VectorSetStatus.KATReceived);
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
@@ -209,7 +217,7 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
-                _vectorSetService.PrepareVectorSetForAnswerResubmit(vsID);
+                _vectorSetService.SetStatus(vsID, VectorSetStatus.ResubmitAnswers);
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }

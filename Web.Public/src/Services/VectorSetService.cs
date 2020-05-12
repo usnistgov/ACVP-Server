@@ -57,6 +57,6 @@ namespace Web.Public.Services
 
         public VectorSetStatus GetStatus(long vectorSetID) => _vectorSetProvider.GetStatus(vectorSetID);
 
-        public void PrepareVectorSetForAnswerResubmit(long vectorSetID) => _vectorSetProvider.PrepareVectorSetForAnswerResubmit(vectorSetID);
+        public void SetStatus(long vectorSetID, VectorSetStatus status) => _vectorSetProvider.SetStatus(vectorSetID, status);
     }
 }
