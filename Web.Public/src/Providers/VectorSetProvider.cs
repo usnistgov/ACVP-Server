@@ -98,5 +98,23 @@ namespace Web.Public.Providers
                 throw;
             }
         }
+        
+        public void PrepareVectorSetForAnswerResubmit(long vsID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                db.ExecuteProcedure("acvp.VectorSetPrepareForAnswerResubmit", new
+                {
+                    VectorSetID = vsID
+                });
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, $"Error preparing vector set {vsID} for answer resubmit");
+                throw;
+            }
+        }
     }
 }

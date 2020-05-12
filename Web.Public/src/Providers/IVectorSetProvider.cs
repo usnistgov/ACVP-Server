@@ -9,5 +9,6 @@ namespace Web.Public.Providers
         long GetNextVectorSetID(long tsID, string token);
         VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType);
         VectorSetStatus GetStatus(long vsID);
+        void PrepareVectorSetForAnswerResubmit(long vsID);
     }
 }

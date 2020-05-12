@@ -8,5 +8,6 @@ namespace Web.Public.Services
         VectorSet GetExpectedResults(long vsID);
         VectorSet GetValidation(long vsID);
         VectorSetStatus GetStatus(long vectorSetID);
+        void PrepareVectorSetForAnswerResubmit(long vectorSetID);
     }
 }

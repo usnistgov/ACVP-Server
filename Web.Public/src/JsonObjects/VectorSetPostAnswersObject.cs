@@ -13,6 +13,6 @@ namespace Web.Public.JsonObjects
 			_vsId = vsId;
 		}
 
-		[JsonPropertyName("url")] public string Url => $"/acvp/v1/testSessions/{_tsId}/vectorSets/{_vsId}";
+		[JsonPropertyName("url")] public string Url => $"/acvp/v1/testSessions/{_tsId}/vectorSets/{_vsId}/results";
 	}
 }

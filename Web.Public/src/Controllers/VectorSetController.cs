@@ -209,9 +209,9 @@ namespace Web.Public.Controllers
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
-                
-                // TODO this is likely not the correct response to return
-                return new AcceptedResult();
+                _vectorSetService.PrepareVectorSetForAnswerResubmit(vsID);
+
+                return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
 
             return new ForbidResult();
