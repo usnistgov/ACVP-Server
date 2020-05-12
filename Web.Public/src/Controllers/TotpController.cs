@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
@@ -8,7 +10,6 @@ using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    // TODO Excluded from Prod, only used by developers
     [Route("acvp/[controller]")]
     [TypeFilter(typeof(ExceptionFilter))]
     [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
@@ -17,16 +18,23 @@ namespace Web.Public.Controllers
     {
         private readonly ITotpService _totpService;
         private readonly IJsonWriterService _jsonWriter;
-        
-        public TotpController(ITotpService totpService, IJsonWriterService jsonWriter)
+        private readonly TotpConfig _totpConfig;
+
+        public TotpController(ITotpService totpService, IJsonWriterService jsonWriter, IOptions<TotpConfig> totpConfig)
         {
             _totpService = totpService;
             _jsonWriter = jsonWriter;
+            _totpConfig = totpConfig.Value;
         }
         
         [HttpGet]
-        public JsonHttpStatusResult GetTotp()
+        public ActionResult GetTotp()
         {
+            if (!_totpConfig.IncludeTotpControllerAccess)
+            {
+                return new NotFoundResult();
+            }
+            
             // Use authentication to identify user
             var certSubject = Request.HttpContext.Connection.ClientCertificate.Subject;
             
