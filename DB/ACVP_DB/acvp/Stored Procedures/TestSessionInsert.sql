@@ -4,12 +4,11 @@
 	,@ACVVersionID int
 	,@Generator nvarchar(32)
 	,@IsSample bit
-	,@Publishable bit
 	,@UserID bigint
 
 AS
 
 SET NOCOUNT ON
 
-INSERT INTO acvp.TEST_SESSION (id, acv_version_id, generator, [sample], publishable, TestSessionStatusId, [user_id], created_on)
-VALUES (@TestSessionID, @ACVVersionID, @Generator, @IsSample, @Publishable, 2, @UserID, CURRENT_TIMESTAMP)
+INSERT INTO acvp.TEST_SESSION (id, acv_version_id, generator, [sample], TestSessionStatusId, [user_id], created_on)
+VALUES (@TestSessionID, @ACVVersionID, @Generator, @IsSample, 2, @UserID, CURRENT_TIMESTAMP)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Results;
@@ -29,15 +30,9 @@ namespace Web.Public.Services.MessagePayloadValidators
 			{
 				errors.Add("Sample test sessions may not be certified");
 			}
-
-			// TODO what makes a test session not publishable?
-			if (!testSession.Publishable)
-			{
-				errors.Add("Test session not publishable");
-			}
             
-			// Test session must be passing
-			if (!testSession.Passed)
+			// Test session status must be passed
+			if (testSession.Status != TestSessionStatus.Passed)
 			{
 				errors.Add("Test session must be in a passed state to be certified");
 			}

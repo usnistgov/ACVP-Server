@@ -140,7 +140,7 @@ namespace Web.Public.Providers
 				var data = db.ExecuteProcedure("val.OrganizationIsUsed",
 					new
 					{
-						organizationId = id
+						OrganizationId = id
 					},
 					new
 					{

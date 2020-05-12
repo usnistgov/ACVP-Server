@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
@@ -87,8 +88,7 @@ namespace Web.Public.Services
                 AccessToken = testSessionJwt,
                 CreatedOn = DateTime.Now,
                 ExpiresOn = DateTime.Now,
-                Passed = false,
-                Publishable = false
+                Status = TestSessionStatus.Unknown  //This is goofy, but there's no need for the status at this point anyway
             };
         }
 

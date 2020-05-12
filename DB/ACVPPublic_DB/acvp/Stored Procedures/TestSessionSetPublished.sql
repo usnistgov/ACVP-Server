@@ -8,7 +8,7 @@ BEGIN
 
     UPDATE	acvp.TEST_SESSION
 	--UPDATE	acvp.TestSession
-	SET		published = 1
+	SET		TestSessionStatusId = 6
 	WHERE	id = @testSessionid
 
 END

@@ -355,7 +355,6 @@
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionIdGet.sql" />
-    <Build Include="acvp\Stored Procedures\TestSessionStatusUpdateForJava.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGetAll.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsExpire.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />

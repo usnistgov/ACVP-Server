@@ -5,11 +5,8 @@ AS
 
 SELECT id AS ID
     ,created_on as CreatedOn
-    ,isNull(disposition, 0) as Disposition
-    ,passed_date as PassedDate
-    ,published as Published
     ,[sample] as [Sample]
-    ,publishable as Publishable
+    ,TestSessionStatusId
 --FROM [acvp].[TestSession]
 FROM [acvp].[TEST_SESSION]
 WHERE @ID = id

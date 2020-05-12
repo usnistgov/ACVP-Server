@@ -9,6 +9,6 @@ SET NOCOUNT ON
 
 SET @exists = CASE WHEN EXISTS (
 	SELECT	1
-	FROM	[external].[Request] r
+	FROM	[external].[REQUEST] r
 	WHERE	r.id = @requestId
 ) THEN 1 ELSE 0 END

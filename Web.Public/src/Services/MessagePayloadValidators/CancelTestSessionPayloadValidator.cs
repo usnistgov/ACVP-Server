@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Results;
@@ -20,7 +21,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 			var errors = new List<string>();
 			
 			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
-			if (testSession.Published)
+			if (testSession.Status == TestSessionStatus.Published)
 			{
 				errors.Add("testSession has already been published");
 			}

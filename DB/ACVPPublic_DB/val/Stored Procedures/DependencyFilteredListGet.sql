@@ -31,7 +31,7 @@ ELSE
 		DECLARE @ORs TABLE (id int, clause nvarchar(1000))
 
 		INSERT into @ORs (id, clause)
-		SELECT ValueID, value FROM dbo.DelimitedListToTable(@Filter, @ORdelimiter)
+		SELECT ValueID, Value FROM dbo.DelimitedListToTable(@Filter, @ORdelimiter)
 
 
 		DECLARE @OrClause varchar(1000)

@@ -1,8 +1,7 @@
 ﻿using System;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
@@ -18,7 +17,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 			_logger = logger;
 		}
 
-		public KillThisResult Create(long requestID, RequestAction action, long workflowID, long userID)
+		public KillThisResult Create(long requestID, long workflowID, long userID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -27,7 +26,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 				db.ExecuteProcedure("acvp.RequestInsert", inParams: new
 				{
 					RequestID = requestID,
-					ActionID = action,
 					WorkflowID = workflowID,
 					UserID = userID
 				});

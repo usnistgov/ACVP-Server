@@ -13,6 +13,6 @@ SET NOCOUNT ON
 OPEN SYMMETRIC KEY ACVPKey DECRYPTION BY CERTIFICATE ACVPKeyProtectionCert;
 
 INSERT INTO common.MESSAGE_QUEUE (message_type, message_payload, created_on, userId)
-VALUES (@MessageType, dbo.EncryptNVarchar(Key_Guid('ACVPKey'), @Payload), CURRENT_TIMESTAMP, @userId)
+VALUES (@MessageType, dbo.EncryptNvarchar(Key_Guid('ACVPKey'), @Payload), CURRENT_TIMESTAMP, @userId)
 
 CLOSE SYMMETRIC KEY ACVPKey

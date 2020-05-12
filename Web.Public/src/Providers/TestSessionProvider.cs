@@ -6,6 +6,7 @@ using Mighty;
 using NIST.CVP.Libraries.Shared.Results;
 using Serilog;
 using Web.Public.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 
 namespace Web.Public.Providers
 {
@@ -64,9 +65,7 @@ namespace Web.Public.Providers
                     ID = id,
                     CreatedOn = data.CreatedOn,
                     IsSample = data.Sample,
-                    Passed = data.Disposition,
-                    Publishable = data.Publishable,
-                    Published = data.Published
+                    Status = (TestSessionStatus)data.TestSessionStatusId,
                 };
 
                 var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
@@ -106,13 +105,12 @@ namespace Web.Public.Providers
                     throw new Exception("Unable to get test sessions");
                 }
 
-                var testSessions = data.Select(tsID => new TestSession
+                var testSessions = data.Select(ts => new TestSession
                 {
-                    ID = tsID.ID,
-                    CreatedOn = tsID.CreatedOn,
-                    IsSample = tsID.Sample,
-                    Passed = tsID.Disposition,
-                    Publishable = tsID.Publishable
+                    ID = ts.ID,
+                    CreatedOn = ts.CreatedOn,
+                    IsSample = ts.Sample,
+                    Status = (TestSessionStatus)ts.TestSessionStatusId
                 }).ToList();
 
                 foreach (var testSession in testSessions)

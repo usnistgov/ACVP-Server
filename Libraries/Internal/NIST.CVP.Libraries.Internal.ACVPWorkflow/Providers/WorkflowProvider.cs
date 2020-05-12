@@ -26,7 +26,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
 		}
 
-		public WorkflowInsertResult Insert(APIAction apiAction, WorkflowItemType workflowItemType, RequestAction action, long userID, string json, string labName, string contact, string email)
+		public WorkflowInsertResult Insert(APIAction apiAction, long userID, string json, string labName, string contact, string email)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -35,8 +35,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 				var data = db.SingleFromProcedure("val.WorkflowInsert", inParams: new
 				{
 					APIActionID = apiAction,
-					WorkflowItemType = workflowItemType,
-					Action = action,
 					Status = WorkflowStatus.Pending,
 					LabName = labName,
 					LabContactName = contact,

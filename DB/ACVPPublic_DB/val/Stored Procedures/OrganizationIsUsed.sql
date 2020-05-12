@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [val].[OrganizationIsUsed]
 
-	@organizationId BIGINT,
+	@OrganizationId BIGINT,
 	@isUsed BIT OUTPUT
 
 AS
