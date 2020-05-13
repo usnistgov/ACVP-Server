@@ -29,7 +29,7 @@ namespace Web.Public.Exceptions
                 }
             };
 
-            _logger.LogError(context.Exception, $"Exception Handled. {context.Exception.Message}");
+            _logger.LogError(context.Exception, $"Exception Handled.");
             
             context.ExceptionHandled = true;
             context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.InternalServerError);
