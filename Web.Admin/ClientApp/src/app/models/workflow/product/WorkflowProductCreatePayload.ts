@@ -9,10 +9,12 @@ export class WorkflowProductCreatePayload {
   description: string;
   type: string;
   version: string;
-  link: string;
-  addressUrl: null;
+  website: string;
   address: Address;
+  addressUrl: string;
   vendor: Organization;
+  vendorUrl: string;
   contacts: WorkflowCreateProductPayloadContact[];
+  contactUrls: string[];
   
 }

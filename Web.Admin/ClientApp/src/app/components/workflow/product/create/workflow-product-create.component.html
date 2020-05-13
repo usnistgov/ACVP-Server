@@ -19,7 +19,7 @@
             </tr>
             <tr>
               <th>URL</th>
-              <td>{{workflowItem?.payload.link == null ? "No URL" : workflowItem?.payload.link}}</td>
+              <td>{{workflowItem?.payload.website == null ? "No URL" : workflowItem?.payload.website}}</td>
             </tr>
             <tr>
               <th>Description</th>
@@ -40,7 +40,7 @@
       <div class="card">
         <h5 class="card-header">Vendor Information</h5>
         <div class="card-body">
-          <a [routerLink]="['/validation-db/organizations/' + workflowItem.payload.vendor.id]">{{ workflowItem.payload.vendor.id }} - {{ workflowItem.payload.vendor.name }}</a>
+          <a [routerLink]="['/validation-db/organizations/' + workflowItem.payload.vendor?.id]">{{ workflowItem.payload.vendor?.id }} - {{ workflowItem.payload.vendor?.name }}</a>
         </div>
       </div> <!-- Close Phone Info Card -->
     </div> <!-- Close col-lg-6 -->

@@ -14,7 +14,8 @@ export class WorkflowProductCreateComponent implements OnInit {
 
   workflowItem: WorkflowItemBase<WorkflowProductCreatePayload>;
 
-  constructor(private PersonService: PersonProviderService, private OrganizationService: OrganizationProviderService) { }
+  constructor(private PersonService: PersonProviderService,
+    private OrganizationService: OrganizationProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the
@@ -24,14 +25,27 @@ export class WorkflowProductCreateComponent implements OnInit {
   set wfItem(item: WorkflowItemBase<WorkflowProductCreatePayload>) {
     this.workflowItem = item;
 
-    this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
-      data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
-      err => { },
-      () => { }
-    );
-    if (this.workflowItem.payload.contacts !== null) {
-      for (let i = 0; i < this.workflowItem.payload.contacts.length; i++) {
-        this.PersonService.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
+    if (this.workflowItem.payload.vendorUrl !== null) {
+      let vendorID = parseInt(this.workflowItem.payload.vendorUrl.split('/')[this.workflowItem.payload.vendorUrl.split('/').length - 1]);
+      this.OrganizationService.getOrganization(vendorID).subscribe(
+        data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
+        err => { },
+        () => { }
+      );
+    }
+
+    // Intialize the contacts array, otherwise it's null
+    this.workflowItem.payload.contacts = [];
+
+    // Now, loop through the URLs in the list and GET each one, storing it in the newly-minted list
+    if (this.workflowItem.payload.contactUrls !== null) {
+      for (let i = 0; i < this.workflowItem.payload.contactUrls.length; i++) {
+
+        // Parse out the person id
+        let personId = parseInt(this.workflowItem.payload.contactUrls[i].split("/")[this.workflowItem.payload.contactUrls[i].split("/").length - 1]);
+
+        // Now GET the person record
+        this.PersonService.getPerson(personId).subscribe(
           data => {
             let contact = new WorkflowCreateProductPayloadContact();
             contact.person = JSON.parse(JSON.stringify(data));
@@ -40,6 +54,17 @@ export class WorkflowProductCreateComponent implements OnInit {
           },
           err => { },
           () => { }
+        );
+      }
+
+      if (this.workflowItem.payload.addressUrl !== null && this.workflowItem.payload.addressUrl !== "") {
+
+        let addressId = parseInt(this.workflowItem.payload.addressUrl.split("/")[this.workflowItem.payload.addressUrl.split("/").length - 1]);
+
+        this.PersonService.getAddress(addressId).subscribe(
+          data => {
+            this.workflowItem.payload.address = data;
+          }
         );
       }
     }
