@@ -16,7 +16,6 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
-
         public override string Algorithm { get; } = "TupleHash-128";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.TupleHash_128_v1_0;
