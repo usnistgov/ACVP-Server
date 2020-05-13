@@ -1,7 +1,6 @@
-using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Serilog;
+using Microsoft.Extensions.Logging;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -10,10 +9,12 @@ namespace Web.Public.Exceptions
 {
     public class ExceptionFilter : IExceptionFilter
     {
+        private readonly ILogger<ExceptionFilter> _logger;
         private readonly IJsonWriterService _jsonWriter;
         
-        public ExceptionFilter(IJsonWriterService jsonWriter)
+        public ExceptionFilter(ILogger<ExceptionFilter> logger, IJsonWriterService jsonWriter)
         {
+            _logger = logger;
             _jsonWriter = jsonWriter;
         }
         
@@ -28,7 +29,7 @@ namespace Web.Public.Exceptions
                 }
             };
 
-            Log.Error(context.Exception, "EXCEPTION HANDLED");
+            _logger.LogError(context.Exception, $"Exception Handled. {context.Exception.Message}");
             
             context.ExceptionHandled = true;
             context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.InternalServerError);
