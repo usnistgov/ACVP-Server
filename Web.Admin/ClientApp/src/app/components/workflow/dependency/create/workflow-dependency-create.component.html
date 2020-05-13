@@ -32,16 +32,17 @@
       <div class="card">
         <h5 class="card-header">(Optional) User-Defined Attributes</h5>
         <div class="card-body">
-          <table class="table">
-            <tr *ngFor="let key of objectKeys(workflowItem.payload)">
-              <th style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
+          <table class="table" *ngIf="filterKeys().length > 0">
+            <tr *ngFor="let key of filterKeys()">
+              <th style="border:none;">
                 {{ key }}
               </th>
-              <td style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
+              <td style="border:none;">
                 {{ workflowItem.payload[key] }}
               </td>
             </tr>
           </table>
+          <span *ngIf="filterKeys().length === 0">No user-defined attributes</span>
         </div>
       </div> <!-- Close Dependency Info Card -->
     </div> <!-- Close col-lg-6 -->
