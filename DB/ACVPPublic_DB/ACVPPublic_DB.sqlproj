@@ -84,7 +84,6 @@
     <Build Include="acvp\Tables\REQUEST_ACTION.sql" />
     <Build Include="acvp\Tables\TEST_SESSION.sql" />
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
-    <Build Include="common\Tables\APPLICATION_PROPERTIES.sql" />
     <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
     <Build Include="external\Tables\REQUEST.sql" />
     <Build Include="external\Tables\TEST_SESSION.sql" />
@@ -106,8 +105,6 @@
     <Build Include="val\Tables\PERSON_NOTE.sql" />
     <Build Include="val\Tables\PERSON_PHONE.sql" />
     <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
-    <Build Include="val\Tables\SUBMISSION.sql" />
-    <Build Include="val\Tables\SUBMISSION_STATUS.sql" />
     <Build Include="val\Tables\VALIDATION_CAPABILITY.sql" />
     <Build Include="val\Tables\VALIDATION_CONTACT.sql" />
     <Build Include="val\Tables\VALIDATION_NOTE.sql" />
