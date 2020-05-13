@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.TaskQueue.Providers;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
@@ -20,9 +22,9 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 			_vectorSetService = vectorSetService;
 		}
 
-		public Result AddGenerationTask(GenerationTask task) => _taskQueueProvider.Insert(TaskType.Generation, task.VectorSetID, task.IsSample);
+		public Result AddGenerationTask(GenerationTask task) => _taskQueueProvider.Insert(TaskType.Generation, task.VectorSetID, task.IsSample, false);
 
-		public Result AddValidationTask(ValidationTask task) => _taskQueueProvider.Insert(TaskType.Validation, task.VectorSetID, false);
+		public Result AddValidationTask(ValidationTask task) => _taskQueueProvider.Insert(TaskType.Validation, task.VectorSetID, false, task.ShowExpected);
 		public Result RequeueGenerationTask(long vectorSetId)
 		{
 			var testSessionId = _testSessionService.GetTestSessionIDFromVectorSet(vectorSetId);
@@ -34,7 +36,6 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 				VectorSetID = vectorSetId
 			};
 			
-			
 			_vectorSetService.UpdateStatus(task.VectorSetID, VectorSetStatus.Initial);
 			_vectorSetService.RemoveVectorFileJson(task.VectorSetID, VectorSetJsonFileTypes.Error);
 			_testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(task.VectorSetID);
@@ -44,9 +45,13 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 
 		public Result RequeueValidationTask(long vectorSetId)
 		{
+			var originalJson = _vectorSetService.GetVectorFileJson(vectorSetId, VectorSetJsonFileTypes.SubmittedAnswers);
+			var projectedObject = JsonSerializer.Deserialize<VectorSetSubmissionPayload>(originalJson);
+			
 			var task = new ValidationTask()
 			{
-				VectorSetID = vectorSetId
+				VectorSetID = vectorSetId,
+				ShowExpected = projectedObject.ShowExpected
 			};
 			
 			_vectorSetService.UpdateStatus(task.VectorSetID, VectorSetStatus.Processed);

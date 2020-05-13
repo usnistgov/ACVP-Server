@@ -51,7 +51,8 @@ namespace MessageQueueProcessor.MessageProcessors
 					//Add to the task queue
 					result = _taskQueueService.AddValidationTask(new ValidationTask
 					{
-						VectorSetID = submitResultsPayload.VectorSetID
+						VectorSetID = submitResultsPayload.VectorSetID,
+						ShowExpected = submitResultsPayload.ShowExpected
 					});
 				}
 

@@ -19,7 +19,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 			_logger = logger;
 		}
 
-		public Result Insert(TaskType type, long vectorSetID, bool isSample)
+		public Result Insert(TaskType type, long vectorSetID, bool isSample, bool showExpected)
 		{
 			//Map the type in the task queue record with something easier to work with
 			string taskType = type switch
@@ -43,7 +43,8 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 				{
 					TaskType = taskType,
 					VectorSetId = vectorSetID,
-					IsSample = isSample
+					IsSample = isSample,
+					ShowExpected = showExpected
 				});
 			}
 			catch (Exception ex)
