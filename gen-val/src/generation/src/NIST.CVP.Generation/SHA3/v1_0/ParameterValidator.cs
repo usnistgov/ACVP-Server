@@ -105,17 +105,18 @@ namespace NIST.CVP.Generation.SHA3.v1_0
 
         private void ValidateOutputLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
-            if (parameters.OutputLength.DomainSegments.Count() != 1)
+            if (parameters.OutputLength == null)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
-            }
-            errorResults.AddIfNotNullOrEmpty(segmentCheck);
-            if (!string.IsNullOrEmpty(segmentCheck))
-            {
+                errorResults.Add("outputLen was null and is required.");
                 return;
             }
-
+            
+            if (parameters.OutputLength.DomainSegments.Count() != 1)
+            {
+                errorResults.Add("outputLen must have exactly one segment in the domain.");
+                return;
+            }
+            
             var fullDomain = parameters.OutputLength.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
