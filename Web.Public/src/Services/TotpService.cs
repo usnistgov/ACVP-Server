@@ -27,7 +27,17 @@ namespace Web.Public.Services
 
         public Result ValidateTotp(string userCertSubject, string password)
         {
+            if (string.IsNullOrEmpty(password))
+            {
+                return new Result("TOTP not provided.");
+            }
+
             var seed = _totpProvider.GetSeedFromUserCertificateSubject(userCertSubject);
+
+            if (seed == null)
+            {
+                return new Result("TOTP failed to verify");
+            }
             
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow, VerificationWindow.RfcSpecifiedNetworkDelay);

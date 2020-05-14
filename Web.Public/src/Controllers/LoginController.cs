@@ -62,7 +62,7 @@ namespace Web.Public.Controllers
             }
             
             // Either create or refresh the token
-            var tokenResult = content.AccessToken == null ? _jwtService.Create(clientCertSubject, null) : _jwtService.Refresh(clientCertSubject, content.AccessToken);
+            var tokenResult = string.IsNullOrEmpty(content.AccessToken) ? _jwtService.Create(clientCertSubject, null) : _jwtService.Refresh(clientCertSubject, content.AccessToken);
             if (!tokenResult.IsSuccess)
             {
                 var errorObject = new ErrorObject
