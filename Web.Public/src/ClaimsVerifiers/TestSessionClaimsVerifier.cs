@@ -16,7 +16,7 @@ namespace Web.Public.ClaimsVerifiers
 		{
 			try
 			{
-				var tsIdFromClaims = JsonSerializer.Deserialize<long>(claims["ts"]);
+				var tsIdFromClaims = JsonSerializer.Deserialize<long>(claims["tsId"]);
 				
 				return _tsId == tsIdFromClaims;
 			}
