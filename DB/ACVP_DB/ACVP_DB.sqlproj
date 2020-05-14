@@ -97,11 +97,8 @@
     <Build Include="acvp\Tables\ACVP_USER_ROLE.sql" />
     <Build Include="val\Tables\VALIDATION_PREREQUISITE.sql" />
     <Build Include="val\Tables\VALIDATION_RECORD.sql" />
-    <Build Include="acvp\Tables\ALGORITHM_EXECUTABLE.sql" />
-    <Build Include="acvp\Tables\METADATA.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO_ALGORITHM.sql" />
-    <Build Include="acvp\Tables\PRODUCT_CAPABILITY.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO_OE_LINK.sql" />
     <Build Include="acvp\Tables\REQUEST.sql" />
     <Build Include="val\Tables\VALIDATION_SOURCE.sql" />
@@ -112,13 +109,6 @@
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
     <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
     <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
-    <Build Include="common\Tables\ADMIN_PERMISSION.sql" />
-    <Build Include="common\Tables\ADMIN_PERMISSION_ROLE.sql" />
-    <Build Include="common\Tables\ADMIN_ROLE.sql" />
-    <Build Include="common\Tables\ADMIN_USER.sql" />
-    <Build Include="common\Tables\ADMIN_USER_ROLE.sql" />
-    <Build Include="common\Tables\EVENT_LOG.sql" />
-    <Build Include="common\Tables\EVENT_LOG_TYPE.sql" />
     <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
     <Build Include="common\Tables\TASK_QUEUE.sql" />
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
@@ -275,7 +265,6 @@
     <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="acvp\Tables\APIActions.sql" />
-    <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
