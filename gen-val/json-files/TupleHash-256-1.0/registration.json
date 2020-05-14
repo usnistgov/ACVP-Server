@@ -1,7 +1,7 @@
 {
   "vsId": 0,
-  "algorithm": "TupleHash",
-  "mode": "256",
+  "algorithm": "TupleHash-256",
+  "mode": "",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],

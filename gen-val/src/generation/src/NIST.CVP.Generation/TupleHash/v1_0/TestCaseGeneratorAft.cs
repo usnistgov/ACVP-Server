@@ -115,6 +115,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 {
                     Tuple = oracleResult.Tuple,
                     Digest = oracleResult.Digest,
+                    DigestLength = oracleResult.Digest.BitLength,
                     Customization = oracleResult.Customization,
                     CustomizationHex = oracleResult.CustomizationHex
                 });
