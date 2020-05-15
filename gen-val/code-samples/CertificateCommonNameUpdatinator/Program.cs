@@ -4,6 +4,7 @@ using CertificateCommonNameUpdatinator.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
@@ -29,6 +30,8 @@ namespace CertificateCommonNameUpdatinator
 
 		private static ServiceProvider Bootstrap()
 		{
+			var directoryConfig = EntryPointConfigHelper.GetRootDirectory();
+			
 			string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 			if (string.IsNullOrWhiteSpace(env))
 			{
@@ -39,7 +42,7 @@ namespace CertificateCommonNameUpdatinator
 			Console.WriteLine($"Bootstrapping application using environment {env}");
 
 			var builder = new ConfigurationBuilder()
-				.SetBasePath(Directory.GetCurrentDirectory())
+				.SetBasePath(directoryConfig)
 				.AddJsonFile($"sharedappsettings.json", optional: false, reloadOnChange: false)
 				.AddJsonFile($"sharedappsettings.{env}.json", optional: false, reloadOnChange: false);
 

@@ -15,6 +15,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\..\..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
+      <ProjectReference Include="..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="$(ASPNETCORE_ENVIRONMENT) != 'tc'">

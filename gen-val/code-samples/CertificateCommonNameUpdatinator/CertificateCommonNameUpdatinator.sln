@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common", "..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{40625122-C1E0-413F-936B-11936F4C878E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +28,14 @@ Global
 		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
 		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{40625122-C1E0-413F-936B-11936F4C878E} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
 	EndGlobalSection
 EndGlobal
