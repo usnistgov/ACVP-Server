@@ -78,7 +78,7 @@ namespace Web.Public.Controllers
 
             return new JsonHttpStatusResult(
                 _jsonWriter.BuildVersionedObject(
-                    new JwtObject
+                    new LoginObject
                     {
                         AccessToken = tokenResult.Token
                     }));
