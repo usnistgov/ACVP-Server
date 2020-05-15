@@ -70,26 +70,10 @@ namespace DataMaintainer
 			//Loop through and archive them
 			foreach (long vectorSetID in vectorSetIDs)
 			{
-				//Get all the VectorSetJson data for this vector set
-				List<VectorSetJsonEntry> archiveData = new List<VectorSetJsonEntry>();
-
-				var vectorSetJsonData = _vectorSetService.GetVectorFileJson(vectorSetID);
-
-				foreach (var (FileType, Content, CreatedOn) in vectorSetJsonData)
+				//If configured to write archive files, do so
+				if (_createArchiveFile)
 				{
-					archiveData.Add(new VectorSetJsonEntry
-					{
-						VectorSetID = vectorSetID,
-						FileType = FileType,
-						Content = JsonSerializer.Deserialize<JsonElement>(Content),
-						CreatedOn = CreatedOn
-					});
-				}
-
-				//Write the data to the archive file
-				if (archiveData.Count > 0 && _createArchiveFile)
-				{
-					WriteArchiveFile(vectorSetID, archiveData);
+					CreateArchiveFile(vectorSetID);
 				}
 
 				//Clean up the database
@@ -99,6 +83,31 @@ namespace DataMaintainer
 			}
 
 			_logger.LogInformation("Done");
+		}
+
+		private void CreateArchiveFile(long vectorSetID)
+		{
+			List<VectorSetJsonEntry> archiveData = new List<VectorSetJsonEntry>();
+
+			//Get all the VectorSetJson data for this vector set, turn them into VectorSetJsonEntry records
+			var vectorSetJsonData = _vectorSetService.GetVectorFileJson(vectorSetID);
+
+			foreach (var (FileType, Content, CreatedOn) in vectorSetJsonData)
+			{
+				archiveData.Add(new VectorSetJsonEntry
+				{
+					VectorSetID = vectorSetID,
+					FileType = FileType,
+					Content = JsonSerializer.Deserialize<JsonElement>(Content),
+					CreatedOn = CreatedOn
+				});
+			}
+
+			//Write the data to the archive file
+			if (archiveData.Count > 0)
+			{
+				WriteArchiveFile(vectorSetID, archiveData);
+			}
 		}
 
 		private void WriteArchiveFile(long vectorSetID, List<VectorSetJsonEntry> vectorSetData)
