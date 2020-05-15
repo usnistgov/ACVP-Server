@@ -5,8 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { AboutComponent } from './components/about/about.component';
 import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -61,8 +59,6 @@ import { TestsessionComponent } from './components/testsessions/testsession/test
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
     CurrentUserComponent,
     LegacyFileUploadComponent,
     ValidationDbValidationComponent,

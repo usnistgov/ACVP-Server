@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from '../components/home/home.component';
 import { LegacyFileUploadComponent } from '../components/legacy-file-upload/legacy-file-upload.component';
 import { ValidationDbValidationsComponent } from '../components/validation-db-validations/validation-db-validations.component';
 import { ValidationDbDependenciesComponent } from '../components/validation-db-dependencies/validation-db-dependencies.component';
@@ -43,16 +42,6 @@ const routes: Routes = [
     component: TestsessionsComponent,
     canActivate: [DisclaimerRouteGuard]
   },
-  //{
-  //  path: 'home',
-  //  component: HomeComponent,
-  //  canActivate: [DisclaimerRouteGuard]
-  //},
-  //{
-  //  path: 'home/:id',
-  //  component: HomeComponent,
-  //  canActivate: [DisclaimerRouteGuard]
-  //},
   {
     path: 'disclaimer',
     component: DisclaimerComponent
