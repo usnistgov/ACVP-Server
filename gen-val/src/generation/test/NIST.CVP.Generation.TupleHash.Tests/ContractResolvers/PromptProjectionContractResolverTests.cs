@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
         [Test]
         [TestCase("tuplehash", "aft", true)]
         [TestCase("tuplehash", "aft", false)]
-        [TestCase("tuplehash", "mct", true)]
+        //[TestCase("tuplehash", "mct", true)] MCT only does ASCII customization strings
         [TestCase("tuplehash", "mct", false)]
         public void ShouldSerializeCaseProperties(string function, string testType, bool hexCustomization)
         {
@@ -80,32 +80,22 @@ namespace NIST.CVP.Generation.TupleHash.Tests.ContractResolvers
             Assert.AreEqual(tc.Tuple, newTc.Tuple, nameof(newTc.Tuple));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
 
-            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
-
-            Assert.AreNotEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
-
-            if (testType == "aft")
+            if (tg.HexCustomization)
             {
-                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
-                if (hexCustomization)
-                {
-                    Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
-                else
-                {
-                    Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
+                Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }
             else
             {
-                Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
+                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }
+            
+            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+            Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
 
+            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
             Assert.IsTrue(regex.Matches(json).Count == 0);
