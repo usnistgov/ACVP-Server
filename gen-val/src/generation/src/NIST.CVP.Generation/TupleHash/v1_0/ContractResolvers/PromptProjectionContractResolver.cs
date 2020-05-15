@@ -49,17 +49,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (testGroup.HexCustomization)
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    }
-                    return false;
+                    return !testGroup.HexCustomization;
                 };
             }
 
@@ -71,11 +61,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
 
                     if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
                     {
-                        if (testGroup.HexCustomization)
-                        {
-                            return true;
-                        }
-                        return false;
+                        return testGroup.HexCustomization;
                     }
                     return false;
                 };

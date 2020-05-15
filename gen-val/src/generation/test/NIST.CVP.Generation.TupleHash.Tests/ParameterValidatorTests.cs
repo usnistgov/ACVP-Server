@@ -1,4 +1,6 @@
-﻿using NIST.CVP.Generation.TupleHash.v1_0;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Generation.TupleHash.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -137,7 +139,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private int[] _digestSize;
+            private List<int> _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
             private bool[] _xof;
@@ -146,7 +148,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             public ParameterBuilder()
             {
                 _algorithm = "tuplehash-128";
-                _digestSize = new[] { 128 };
+                _digestSize = new List<int> { 128 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _messageLength = new MathDomain();
@@ -163,7 +165,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
 
             public ParameterBuilder WithDigestSizes(int[] values)
             {
-                _digestSize = values;
+                _digestSize = values.ToList();
                 return this;
             }
 

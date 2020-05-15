@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "TupleHash",
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new List<int> { 128, 256 },
                 MessageLength = minMaxMsg,
                 IsSample = false,
                 OutputLength = minMax,
