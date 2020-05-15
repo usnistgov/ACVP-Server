@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.SHA3.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA3",
-                DigestSizes = new [] {224, 256, 384, 512},
+                DigestSizes = new List<int>() {224, 256, 384, 512},
                 BitOrientedInput = true,
                 IncludeNull = true,
                 IsSample = false
@@ -31,7 +32,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHAKE",
-                DigestSizes = new [] {128, 256},
+                DigestSizes = new List<int>() {128, 256},
                 BitOrientedInput = true,
                 BitOrientedOutput = false,
                 IncludeNull = true,

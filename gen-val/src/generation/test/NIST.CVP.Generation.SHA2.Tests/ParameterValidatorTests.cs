@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.SHA2.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.SHA2.v1_0;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -38,18 +39,17 @@ namespace NIST.CVP.Generation.SHA2.Tests
 
         [Test]
         [TestCase("null", new object[] { null })]
-        [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { "notValid" })]
-        [TestCase("Partially valid", new object[] { "224", "notValid" })]
+        [TestCase("Partially valid", new object[] { "512t256", "notValid" })]
         [TestCase("Partially valid with null", new object[] { "512t256", null })]
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
-            var strDigs = digestSize.Select(v => (string)v).ToArray();
+            var strDigs = digestSize.Select(v => (string)v).ToList();
 
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("SHA2")
+                    .WithAlgorithm("SHA2-512/256")
                     .WithDigestSizes(strDigs)
                     .Build()
             );
@@ -64,7 +64,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHA1")
-                    .WithDigestSizes(new[] { "256" })
+                    .WithDigestSizes(new List<string>() { "256" })
                     .Build()
             );
 
@@ -78,7 +78,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHA2")
-                    .WithDigestSizes(new[] { "160" })
+                    .WithDigestSizes(new List<string>() { "160" })
                     .Build()
             );
 
@@ -101,13 +101,13 @@ namespace NIST.CVP.Generation.SHA2.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private string[] _digestSizes;
+            private List<string> _digestSizes;
             private MathDomain _messageLength;
 
             public ParameterBuilder()
             {
                 _algorithm = "SHA2-224";
-                _digestSizes = new[] { "224", "256" };
+                _digestSizes = new List<string>() { "224", "256" };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535));
             }
 
@@ -117,7 +117,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return this;
             }
 
-            public ParameterBuilder WithDigestSizes(string[] value)
+            public ParameterBuilder WithDigestSizes(List<string> value)
             {
                 _digestSizes = value;
                 return this;
@@ -134,6 +134,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    Revision = "1.0",
                     DigestSizes = _digestSizes,
                     MessageLength = _messageLength
                 };
