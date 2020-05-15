@@ -17,7 +17,7 @@ BEGIN
 	DECLARE @EncryptedChunks TABLE (id int identity, Content varbinary(8000))
 	
 	SET @MaxChunkLength = 3900					-- Break the text into chunks less than 8000 characters, plus need some room for extra data the encrypt adds, plus nvarchar uses by 2 bytes per character
-	SET @TotalLength = DATALENGTH(@value)
+	SET @TotalLength = DATALENGTH(@Value)
 	SET @CurrentPosition = 1
 
 	WHILE @CurrentPosition <= @TotalLength

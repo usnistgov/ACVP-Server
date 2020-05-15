@@ -35,15 +35,16 @@ namespace Web.Public
                     builder
                         //.AddJsonFile($"{directoryConfig}sharedappsettings.json", false, false)
                         //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", false, false)
-                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false);
-                        //.AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
+                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.RegisterAcvpAdminServices();
+                    services.RegisterAcvpPublicServices();
                     services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
                     services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                     services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
+                    services.Configure<VectorSetConfig>(hostContext.Configuration.GetSection("VectorSet"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
@@ -52,7 +53,6 @@ namespace Web.Public
                     {
                         options.ConfigureHttpsDefaults(configureOptions =>
                         {
-                            configureOptions.ServerCertificate = new X509Certificate2("/Users/ctc/Documents/postman-certs/cceli-localhost.p12", "test");
                             configureOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
                         });
                     });

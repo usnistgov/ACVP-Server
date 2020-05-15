@@ -1,12 +1,20 @@
+using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Orleans.Runtime;
+using Serilog;
 using Web.Public.Configs;
 
 namespace Web.Public
@@ -28,13 +36,25 @@ namespace Web.Public
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CertificateAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCertificate(options =>
                 {
                     options.AllowedCertificateTypes = CertificateTypes.All;
+                    options.ValidateCertificateUse = false;
+                    options.RevocationMode = X509RevocationMode.NoCheck;
+                    options.Events = new CertificateAuthenticationEvents()
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+                            
+                            logger.LogError(context.Exception, "Failed auth.");
+
+                            return Task.CompletedTask;
+                        } 
+                    };
                 })
                 .AddJwtBearer(options =>
                 {
@@ -51,21 +71,25 @@ namespace Web.Public
                         SaveSigninToken = true
                     };
                 });
-            
+
             services
                 .AddControllersWithViews()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.WriteIndented = true;
                     options.JsonSerializerOptions.IgnoreNullValues = true;
+                    options.JsonSerializerOptions.AllowTrailingCommas = false;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
+        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
         {
-            _jwtConfig = jwtConfig.Value;
+            logger.LogInformation("Startup.Configure");
             
+            _jwtConfig = jwtConfig.Value;
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

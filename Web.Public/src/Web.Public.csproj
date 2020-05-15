@@ -1,40 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
+      <Compile Remove="logs\**" />
+      <Content Remove="logs\**" />
+      <EmbeddedResource Remove="logs\**" />
+      <None Remove="logs\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="$(NuGetVersionMicrosoftAspNetCore)" />
         <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="3.1.1" />
-        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-        <PackageReference Include="Mighty" Version="3.1.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+        <PackageReference Include="Mighty" Version="$(NuGetVersionMighty)" />
         <PackageReference Include="Otp.NET" Version="1.2.2" />
-        <PackageReference Include="Serilog" Version="2.9.0" />
-        <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
-        <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
+        <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
+        <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
+        <PackageReference Include="Serilog.Sinks.File" Version="$(NuGetVersionSerilogSinksFile)" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="$(NuGetVersionSerilogSinksConsole)" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="logs" />
       <Folder Include="Properties" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\gen-val\src\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj" />
+      <ProjectReference Include="..\..\gen-val\src\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
-      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions\NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj" />
+      <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.csproj" />
       <ProjectReference Include="..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj" />
     </ItemGroup>
     

@@ -12,7 +12,9 @@ export class WorkflowProductUpdatePayload {
   link: string;
   addressUrl: null;
   address: Address;
+  vendorUrl: string;
   vendor: Organization;
+  contactUrls: string[];
   contacts: WorkflowCreateProductPayloadContact[];
 
   nameUpdated: boolean;

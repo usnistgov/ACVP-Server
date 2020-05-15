@@ -40,7 +40,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return new Result();
 		}
 
-		public Result Insert(long testSessionId, int acvVersionID, string generator, bool isSample, bool publishable, long userID)
+		public Result Insert(long testSessionId, int acvVersionID, string generator, bool isSample, long userID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -52,7 +52,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					ACVVersionID = acvVersionID,
 					Generator = generator,
 					IsSample = isSample,
-					Publishable = publishable,
 					UserID = userID
 				});
 			}
@@ -95,30 +94,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				{
 					TestSessionId = testSessionID,
 					TestSessionStatusId = testSessionStatus
-				});
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex);
-				return new Result(ex.Message);
-			}
-
-			return new Result();
-		}
-
-		public Result UpdateStatusFieldsForJava(long testSessionID, DateTime? passedDate, bool? disposition, bool? publishable, bool? published)
-		{
-			var db = new MightyOrm(_acvpConnectionString);
-
-			try
-			{
-				db.ExecuteProcedure("acvp.TestSessionStatusUpdateForJava", inParams: new
-				{
-					TestSessionId = testSessionID,
-					PassedDate = passedDate,
-					Disposition = disposition,
-					Publishable = publishable,
-					Published = published
 				});
 			}
 			catch (Exception ex)
@@ -182,9 +157,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				{
 					TestSessionId = testSessionId,
 					Created = testSessionData.created_on,
-					Publishable = testSessionData.publishable,
-					Published = testSessionData.published,
-					PassedOn = testSessionData.passed_date,
+					Status = (TestSessionStatus)testSessionData.TestSessionStatusId,
 					IsSample = testSessionData.sample,
 					UserID = testSessionData.UserId,
 					UserName = testSessionData.UserName,

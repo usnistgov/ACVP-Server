@@ -1,12 +1,11 @@
 ﻿using System.Text.Json;
-using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
-using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
-using NIST.CVP.Libraries.Shared.Results;
 using NIST.CVP.Libraries.Internal.TaskQueue;
 using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
@@ -24,7 +23,20 @@ namespace MessageQueueProcessor.MessageProcessors
 		public Result Process(Message message)
 		{
 			//Get the payload so we can get what we need
-			SubmitResultsPayload submitResultsPayload = JsonSerializer.Deserialize<SubmitResultsPayload>(message.Payload);
+			VectorSetSubmissionPayload submitResultsPayload = JsonSerializer.Deserialize<VectorSetSubmissionPayload>(message.Payload);
+
+			//Check the status of the vector set, make sure it is processed
+			var vectorSet = _vectorSetService.GetVectorSet(submitResultsPayload.VectorSetID);
+
+			if (vectorSet == null)
+			{
+				return new Result("Vector set does not exist");
+			}
+
+			if (vectorSet.Status != VectorSetStatus.Processed)
+			{
+				return new Result("Vector set must be in Processed status to submit results");
+			}
 
 			//Update the vector set status to show we've received their results
 			Result result = _vectorSetService.UpdateStatus(submitResultsPayload.VectorSetID, VectorSetStatus.KATReceived);
@@ -32,14 +44,15 @@ namespace MessageQueueProcessor.MessageProcessors
 			if (result.IsSuccess)
 			{
 				//Update the submitted results
-				result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, submitResultsPayload.Results.GetRawText());
+				result = _vectorSetService.InsertSubmittedAnswers(submitResultsPayload.VectorSetID, JsonSerializer.Serialize(submitResultsPayload));
 
 				if (result.IsSuccess)
 				{
 					//Add to the task queue
 					result = _taskQueueService.AddValidationTask(new ValidationTask
 					{
-						VectorSetID = submitResultsPayload.VectorSetID
+						VectorSetID = submitResultsPayload.VectorSetID,
+						ShowExpected = submitResultsPayload.ShowExpected
 					});
 				}
 

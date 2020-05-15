@@ -1,4 +1,5 @@
 import { PagedEnumerable } from '../responses/PagedEnumerable';
+import { TestSessionStatus } from './TestSessionStatus';
 
 export class TestSessionListParameters extends PagedEnumerable {
   TestSessionId: string;

@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Configs;
 using Web.Public.Results;
 
@@ -12,52 +16,111 @@ namespace Web.Public.Services
 {
     public class JwtService : IJwtService
     {
+        /// <summary>
+        /// This is a virtual property for testing purposes (testing against expiration scenarios).
+        /// </summary>
+        protected virtual DateTime JwtCreateDateTime => DateTime.Now;
+        
+        private const string SubjectKey = "sub";
+        
+        private readonly ILogger<JwtService> _logger;
         private readonly TimeSpan _defaultWindow;
+        private readonly SecurityKey _securityKey;
         private readonly SigningCredentials _signingCredentials;
         private readonly JwtConfig _jwtOptions;
         
-        public JwtService(IOptions<JwtConfig> jwtOptions)
+        public JwtService(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions)
         {
+            _logger = logger;
             _jwtOptions = jwtOptions.Value;
-            _signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtOptions.SecretKey)), _jwtOptions.SignatureScheme);
+            _securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtOptions.SecretKey));
+            _signingCredentials = new SigningCredentials(_securityKey, _jwtOptions.SignatureScheme);
             _defaultWindow = new TimeSpan(_jwtOptions.ValidWindowHours, _jwtOptions.ValidWindowMinutes, _jwtOptions.ValidWindowSeconds);
         }
-        
-        public TokenResult Create()
+
+        public TokenResult Create(string clientCertSubject, Dictionary<string, string> claims)
         {
-            return CreateToken();
+            return CreateToken(clientCertSubject, claims);
         }
 
-        // TODO needs testing, no claims are available to add yet because no other resources exist
-        // TODO Should use validate/create not something new
-        public TokenResult Refresh(string previousToken)
+        public TokenResult Refresh(string clientCertSubject, string previousToken)
+        {
+            // Ensure the token is valid prior to issues a refresh
+            if (IsTokenValid(clientCertSubject, previousToken, false))
+            {
+                var existingClaims = GetClaimsFromJwt(previousToken);
+
+                // Build new token
+                return CreateToken(clientCertSubject, existingClaims);
+            }
+
+            var invalidTokenMessage = $"Provided token ({previousToken}) for refresh was invalid from {clientCertSubject}";
+            _logger.LogWarning(invalidTokenMessage);
+            throw new SecurityException(invalidTokenMessage);
+        }
+
+        public bool IsTokenValid(string clientCertSubject, string jwtToValidate, bool validateExpiration)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var oldToken = tokenHandler.ReadJwtToken(previousToken);
-
-            // Transfer old claims
-            var existingClaims = new Dictionary<string, object>();
-            foreach (var claim in oldToken.Claims)
+            
+            try
             {
-                existingClaims[claim.Type] = claim.Value;
+                tokenHandler.ValidateToken(jwtToValidate, new TokenValidationParameters()
+                {
+                    ValidateActor = false,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateLifetime = validateExpiration,
+                    IssuerSigningKey = _securityKey
+                }, out _);
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation(e, $"Jwt {jwtToValidate} did not validate from {clientCertSubject}");
+                return false;
             }
             
-            // Build new token
-            return CreateToken(existingClaims);
+            var claims = GetClaimsFromJwt(jwtToValidate);
+
+            if (!claims.ContainsKey(SubjectKey))
+            {
+                _logger.LogWarning($"JWT {jwtToValidate} did not contain required claim '{SubjectKey}' from {clientCertSubject}.");
+                return false;
+            }
+
+            if (!claims[SubjectKey].Equals(clientCertSubject))
+            {
+                _logger.LogWarning($"JWT {jwtToValidate} '{SubjectKey}'s did not match between ClientCert {clientCertSubject} and JWT {claims[SubjectKey]}.");
+                return false;
+            }
+
+            return true;
         }
 
-        private TokenResult CreateToken(IDictionary<string, object> claims = null)
+        private TokenResult CreateToken(string clientCertSubject, Dictionary<string, string> claims)
         {
-            var timeNow = DateTime.Now;
+            var timeNow = JwtCreateDateTime;
             var tokenHandler = new JwtSecurityTokenHandler();
+
+            if (claims == null)
+            {
+                claims = new Dictionary<string, string>();
+            }
+
+            if (!claims.ContainsKey(SubjectKey))
+            {
+                claims.Add(SubjectKey, clientCertSubject);
+            }
             
+            var jwtClaims = claims.Select(s => new Claim(s.Key, s.Value)).ToArray();
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 NotBefore = timeNow,
                 Expires = timeNow + _defaultWindow,
                 Issuer = _jwtOptions.Issuer,
                 SigningCredentials = _signingCredentials,
-                Claims = claims
+                Subject = new ClaimsIdentity(jwtClaims),
             };
 
             try
@@ -67,14 +130,29 @@ namespace Web.Public.Services
             }
             catch (Exception ex)
             {
-                Log.Error(ex.StackTrace);
+                _logger.LogError(ex);
                 return new TokenResult("Unable to create JWT");
             }
         }
-
-        public TokenResult AddClaims()
+        
+        public Dictionary<string, string> GetClaimsFromJwt(string jwt)
         {
-            return new TokenResult("Unable to add claims to JWT");
+            // Quick and dirty get rid of bearer if it exists
+            if (jwt.StartsWith("bearer", StringComparison.OrdinalIgnoreCase))
+            {
+                jwt = jwt.Split(" ")[1];
+            }
+            
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var parsedJwt = tokenHandler.ReadJwtToken(jwt);
+            
+            var existingClaims = new Dictionary<string, string>();
+            foreach (var claim in parsedJwt.Claims)
+            {
+                existingClaims[claim.Type] = claim.Value;
+            }
+
+            return existingClaims;
         }
     }
 }

@@ -8,9 +8,7 @@ SET NOCOUNT ON
 
 SELECT	 ts.id
 		,ts.created_on
-		,ts.passed_date
-		,ts.publishable
-		,ts.published
+		,ts.TestSessionStatusId
 		,ts.[sample]
 		,P.id AS UserId
 		,P.full_name AS UserName

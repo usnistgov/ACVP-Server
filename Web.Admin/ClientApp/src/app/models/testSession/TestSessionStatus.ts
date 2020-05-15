@@ -1,4 +1,5 @@
 export enum TestSessionStatus {
+  All = -1,
   Unknown = 0,
   Cancelled = 1,
   PendingEvaluation = 2,

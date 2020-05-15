@@ -4,8 +4,8 @@ using NIST.CVP.Libraries.Internal.ACVPWorkflow;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
 using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
@@ -25,14 +25,13 @@ namespace MessageQueueProcessor.MessageProcessors
 
 		public Result Process(Message message)
 		{
-			//Grab the action since it takes a little thinking to get it, and may use multiple times. In the future the message will contain this natively
-			APIAction apiAction = message.Action;
+			APIAction apiAction = message.MessageType;
 
 			//Deserialize the request payload
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);
 
 			//Create the workflow item
-			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
+			var workflowInsertResult = _workflowService.AddWorkflowItem(apiAction, requestPayload.RequestID, requestPayload.Json.GetRawText(), message.UserID);
 
 			if (!workflowInsertResult.IsSuccess)
 			{

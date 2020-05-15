@@ -8,9 +8,6 @@ export class TestSession {
   userID: number;
   userName: string;
   status: TestSessionStatus;
-  passedOn: Date;
-  publishable: boolean;
-  published: boolean;
   isSample: boolean;
   vectorSets: VectorSet[];
 

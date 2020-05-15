@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
@@ -52,7 +53,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error($"Error on vsId: {generationTask.VsId}");
                 generationTask.Error = response.ErrorMessage;
 
-                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.ERROR, generationTask.Error);
+                // Turn the error into a JSON object
+                var errorJson = JsonSerializer.Serialize(new
+                {
+                    error = response.ErrorMessage
+                });
+                
+                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.ERROR, errorJson);
                 SetStatus(generationTask.VsId, StatusType.ERROR, "");
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
             }
@@ -88,7 +95,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Error($"Error on vsId: {validationTask.VsId}");
                 validationTask.Error = response.ErrorMessage;
                 
-                _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.ERROR, validationTask.Error);
+                // Turn the error into a JSON object
+                var errorJson = JsonSerializer.Serialize(new
+                {
+                    error = response.ErrorMessage
+                });
+                
+                _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.ERROR, errorJson);
                 SetStatus(validationTask.VsId, StatusType.ERROR, "");
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }

@@ -7,3 +7,8 @@ SELECT id, parent_organization_id, name, organization_url, voice_number, fax_num
 FROM val.ORGANIZATION
 
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_ORGANIZATION]
+    ON [csrc].[ORGANIZATION]([id] ASC);
+

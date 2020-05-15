@@ -5,8 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FormsModule } from '@angular/forms'
 import { AppRoutingModule } from './routing/app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { AboutComponent } from './components/about/about.component';
 import { CurrentUserComponent } from './components/currentUser/currentUser.component';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -55,12 +53,12 @@ import { WorkflowActionsComponent } from './components/workflow/workflow/workflo
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
 import { ValidationDbOrganizationsCreateComponent } from './components/validation-db-organizations/validation-db-organizations-create/validation-db-organizations-create.component';
+import { TestsessionsComponent } from './components/testsessions/testsessions.component';
+import { TestsessionComponent } from './components/testsessions/testsession/testsession.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
     CurrentUserComponent,
     LegacyFileUploadComponent,
     ValidationDbValidationComponent,
@@ -102,7 +100,9 @@ import { ValidationDbOrganizationsCreateComponent } from './components/validatio
     AcvpUserCertificateComponent,
     WorkflowActionsComponent,
     DisclaimerComponent,
-    ValidationDbOrganizationsCreateComponent
+    ValidationDbOrganizationsCreateComponent,
+    TestsessionsComponent,
+    TestsessionComponent
 
   ],
   imports: [

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
 
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
         public string[] Conformances { get; set; } = { };
 
         [JsonProperty(PropertyName = "digestSize")]
-        public int[] DigestSizes { get; set; }
+        public List<int> DigestSizes { get; set; }
 
         [JsonProperty(PropertyName = "xof")]
         public bool[] XOF { get; set; }

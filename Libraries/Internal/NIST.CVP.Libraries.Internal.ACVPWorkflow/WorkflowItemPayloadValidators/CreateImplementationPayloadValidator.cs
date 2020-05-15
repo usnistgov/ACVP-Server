@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Exceptions;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Exceptions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 {
@@ -26,7 +26,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 			ImplementationCreatePayload payload = (ImplementationCreatePayload)workflowItemPayload;
 
 			//Verify that the organization exists
-			long organizationID = payload.VendorObjectThatNeedsToGoAway.ID;
+			long organizationID = BasePayload.ParseIDFromURL(payload.VendorURL);
 			if (!_organizationService.OrganizationExists(organizationID))
 			{
 				throw new ResourceDoesNotExistException($"Organization {organizationID} does not exist");
@@ -36,7 +36,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 			if (string.IsNullOrEmpty(payload.AddressURL))
 			{
 				//No address specified so check if the vendor has any
-				if (!_addressService.GetAllForOrganization(payload.VendorObjectThatNeedsToGoAway.ID).Any())
+				if (!_addressService.GetAllForOrganization(organizationID).Any())
 				{
 					throw new ResourceDoesNotExistException("Implementation create payload does not include address, and the referenced vendor has no addresses");
 				}
@@ -60,10 +60,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 			}
 
 			//Verify that each of the contacts exists
-			if (payload.ContactsObjectThatNeedsToGoAway != null)
+			if (payload.ContactURLs != null)
 			{
-				foreach (long personID in payload.ContactsObjectThatNeedsToGoAway.Select(x => x.Person.ID))
+				foreach (var contactUrl in payload.ContactURLs)
 				{
+					var personID = BasePayload.ParseIDFromURL(contactUrl);
 					if (!_personService.PersonExists(personID))
 					{
 						throw new ResourceDoesNotExistException($"Person {personID} does not exist");

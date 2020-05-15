@@ -13,3 +13,8 @@ FROM val.VALIDATION_SCENARIO_OE_LINK L
 	val.PRODUCT_INFORMATION P ON P.id = R.product_information_id
 							AND P.itar = 0
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_VALIDATION_SCENARIO_OE_LINK]
+    ON [csrc].[VALIDATION_SCENARIO_OE_LINK]([scenario_id] ASC, [validation_oe_id] ASC);
+

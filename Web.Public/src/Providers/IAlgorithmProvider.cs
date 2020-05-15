@@ -7,5 +7,6 @@ namespace Web.Public.Providers
     {
         IEnumerable<AlgorithmBase> GetAlgorithmList();
         AlgorithmBase GetAlgorithm(int id);
+        AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision);
     }
 }

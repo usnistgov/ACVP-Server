@@ -2,7 +2,7 @@
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 {

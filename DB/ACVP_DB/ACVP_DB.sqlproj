@@ -85,8 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
-    <Build Include="val\Tables\SUBMISSION.sql" />
-    <Build Include="val\Tables\SUBMISSION_STATUS.sql" />
     <Build Include="val\Tables\VALIDATION_CAPABILITY.sql" />
     <Build Include="val\Tables\VALIDATION_CONTACT.sql" />
     <Build Include="val\Tables\VALIDATION_NOTE.sql" />
@@ -99,11 +97,8 @@
     <Build Include="acvp\Tables\ACVP_USER_ROLE.sql" />
     <Build Include="val\Tables\VALIDATION_PREREQUISITE.sql" />
     <Build Include="val\Tables\VALIDATION_RECORD.sql" />
-    <Build Include="acvp\Tables\ALGORITHM_EXECUTABLE.sql" />
-    <Build Include="acvp\Tables\METADATA.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO_ALGORITHM.sql" />
-    <Build Include="acvp\Tables\PRODUCT_CAPABILITY.sql" />
     <Build Include="val\Tables\VALIDATION_SCENARIO_OE_LINK.sql" />
     <Build Include="acvp\Tables\REQUEST.sql" />
     <Build Include="val\Tables\VALIDATION_SOURCE.sql" />
@@ -113,17 +108,7 @@
     <Build Include="val\Tables\WORKFLOW_ACTION.sql" />
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
     <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
-    <Build Include="acvp\Tables\VECTOR_SET_DATA.sql" />
     <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
-    <Build Include="acvp\Tables\VECTOR_SET_EXPECTED_RESULTS.sql" />
-    <Build Include="common\Tables\ADMIN_PERMISSION.sql" />
-    <Build Include="common\Tables\ADMIN_PERMISSION_ROLE.sql" />
-    <Build Include="common\Tables\ADMIN_ROLE.sql" />
-    <Build Include="common\Tables\ADMIN_USER.sql" />
-    <Build Include="common\Tables\ADMIN_USER_ROLE.sql" />
-    <Build Include="common\Tables\APPLICATION_PROPERTIES.sql" />
-    <Build Include="common\Tables\EVENT_LOG.sql" />
-    <Build Include="common\Tables\EVENT_LOG_TYPE.sql" />
     <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
     <Build Include="common\Tables\TASK_QUEUE.sql" />
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
@@ -188,11 +173,7 @@
     <Build Include="csrc\Views\VALIDATION_SOURCE.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
-    <Build Include="acvp\Stored Procedures\spSetVectorSetData.sql">
-      <AnsiNulls>Off</AnsiNulls>
-    </Build>
     <Build Include="acvp\Stored Procedures\VectorSetArchive.sql" />
-    <Build Include="acvp\Stored Procedures\VectorSetDataForVectorSetGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
@@ -284,7 +265,6 @@
     <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
     <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="acvp\Tables\APIActions.sql" />
-    <Build Include="val\Tables\ValidationApprovalHistory.sql" />
     <Build Include="acvp\Tables\TestSessionStatus.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsGet.sql" />
@@ -355,7 +335,6 @@
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionIdGet.sql" />
-    <Build Include="acvp\Stored Procedures\TestSessionStatusUpdateForJava.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonGetAll.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsExpire.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />
@@ -373,6 +352,7 @@
     <Build Include="acvp\Stored Procedures\AcvpUserSetCertificate.sql" />
     <Build Include="val\Stored Procedures\PersonGetPhones.sql" />
     <Build Include="val\Stored Procedures\OEsForValidationGet.sql" />
+    <Build Include="acvp\Views\FilteredVectorSetJson.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

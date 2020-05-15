@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace MessageQueueProcessor
 {
@@ -8,5 +7,7 @@ namespace MessageQueueProcessor
 	{
 		public int SleepDuration { get; set; }
 		public Dictionary<APIAction, bool> AutoApprove { get; set; }
+		public bool AllowResubmission { get; set; }
+		public bool AllowIsSample { get; set; }
 	}
 }

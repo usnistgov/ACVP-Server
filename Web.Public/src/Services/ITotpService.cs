@@ -4,7 +4,7 @@ namespace Web.Public.Services
 {
     public interface ITotpService
     {
-        string GenerateTotp(byte[] certRawData);
-        Result ValidateTotp(byte[] certRawData, string password);
+        string GenerateTotp(string userCertSubject);
+        Result ValidateTotp(string userCertSubject, string password);
     }
 }

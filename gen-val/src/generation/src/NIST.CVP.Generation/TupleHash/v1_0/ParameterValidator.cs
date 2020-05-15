@@ -2,6 +2,8 @@
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.TupleHash.v1_0
 {
@@ -20,6 +22,29 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         {
             var errorResults = new List<string>();
 
+            // Implementing "default values" to match registration expectations
+            if (parameters.DigestSizes == null)
+            {
+                parameters.DigestSizes = new List<int>();
+            }
+            if (parameters.DigestSizes.Count == 0)
+            {
+                var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+                switch (algoMode)
+                {
+                    case AlgoMode.TupleHash_128_v1_0:
+                        parameters.DigestSizes.Add(128);
+                        break;
+                    case AlgoMode.TupleHash_256_v1_0:
+                        parameters.DigestSizes.Add(256);
+                        break;
+                    
+                    default:
+                        errorResults.Add("Invalid AlgoMode");
+                        break;
+                }
+            }
+            
             ValidateFunctions(parameters, errorResults);
             ValidateOutputLength(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);

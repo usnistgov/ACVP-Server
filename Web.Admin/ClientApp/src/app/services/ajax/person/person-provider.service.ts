@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Person } from '../../../models/person/Person';
 import { PersonList } from '../../../models/person/PersonList';
 import { PersonListParameters } from '../../../models/person/PersonListParameters';
+import { Address } from '../../../models/address/Address';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class PersonProviderService {
 
   updatePerson(person: Person) {
     return this.http.patch(this.apiRoot + '/Persons/' + person.id, person);
+  }
+
+  getAddress(addressId: number) {
+    return this.http.get<Address>(this.apiRoot + '/Addresses/' + addressId);
   }
 
   getPersons(params: PersonListParameters) {

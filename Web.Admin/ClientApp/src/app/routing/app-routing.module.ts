@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from '../components/home/home.component';
 import { LegacyFileUploadComponent } from '../components/legacy-file-upload/legacy-file-upload.component';
 import { ValidationDbValidationsComponent } from '../components/validation-db-validations/validation-db-validations.component';
 import { ValidationDbDependenciesComponent } from '../components/validation-db-dependencies/validation-db-dependencies.component';
@@ -25,16 +24,22 @@ import { AcvpUsersComponent } from '../components/acvp-users/acvp-users.componen
 import { AcvpUserComponent } from '../components/acvp-user/acvp-user.component';
 import { DisclaimerRouteGuard } from './disclaimer-route-guard.module';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
+import { TestsessionsComponent } from '../components/testsessions/testsessions.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'workflow',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: 'testSessions',
+    component: TestsessionsComponent,
+    canActivate: [DisclaimerRouteGuard]
+  },
+  {
+    path: 'testSessions/:id',
+    component: TestsessionsComponent,
     canActivate: [DisclaimerRouteGuard]
   },
   {

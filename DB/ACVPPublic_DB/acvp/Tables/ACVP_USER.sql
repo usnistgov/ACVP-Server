@@ -4,6 +4,9 @@
     [common_name] NVARCHAR (2048) NOT NULL,
     [certificate] VARBINARY (MAX) NULL,
     [seed]        NVARCHAR (64)   NOT NULL,
+    [expiresOn]   DATETIME2 (7)   NULL,
     CONSTRAINT [PK_ACVP_USER] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 

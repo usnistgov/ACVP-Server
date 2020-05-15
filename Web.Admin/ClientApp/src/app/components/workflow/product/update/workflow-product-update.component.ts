@@ -29,31 +29,29 @@ export class WorkflowProductUpdateComponent implements OnInit {
     this.workflowItem = item;
 
     // Get the data for the vendor listed in the WF item
-    this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
-      data => { this.workflowItem.payload.vendor = data; }
-    );
-
-    // Get the data for each contact in the contacts list
-    for (let i = 0; i < this.workflowItem.payload.contacts.length; i++) {
-      this.PersonService.getPerson(this.workflowItem.payload.contacts[i].person.id).subscribe(
-        data => { this.workflowItem.payload.contacts[i].person = data; }
+    if (this.workflowItem.payload.vendorUrl !== null) {
+      let vendorID = parseInt(this.workflowItem.payload.vendorUrl.split('/')[this.workflowItem.payload.vendorUrl.split('/').length - 1]);
+      this.OrganizationService.getOrganization(vendorID).subscribe(
+        data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
+        err => { },
+        () => { }
       );
     }
 
+    // Get the data for each contact in the contacts list
+    if (this.workflowItem.payload.contactUrls !== null){
+      for (let i = 0; i < this.workflowItem.payload.contactUrls.length; i++) {
+        let personID = parseInt(this.workflowItem.payload.contactUrls[i].split('/')[this.workflowItem.payload.contactUrls[i].split('/').length - 1]);
+        this.PersonService.getPerson(personID).subscribe(
+          data => { this.workflowItem.payload.contacts[i].person = data; }
+        );
+      }
+    }
+    
     // Get the current state
     this.ProductService.getProduct(this.workflowItem.payload.id).subscribe(
       data => {
-
         this.currentState = data;
-
-        // Get the data for the vendor listed in the currentState
-        this.OrganizationService.getOrganization(this.workflowItem.payload.vendor.id).subscribe(
-          data => {
-            this.workflowItem.payload.vendor = data;
-            console.log(data);
-          }
-        );
-
       }
     );
 

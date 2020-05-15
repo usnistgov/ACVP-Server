@@ -1,10 +1,9 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
-using MessageQueueProcessor.MessageProcessors;
+﻿using MessageQueueProcessor.MessageProcessors;
 using Microsoft.Extensions.Options;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using NIST.CVP.Libraries.Internal.TaskQueue.Services;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace MessageQueueProcessor
 {
@@ -50,6 +49,7 @@ namespace MessageQueueProcessor
 				APIAction.CancelVectorSet => new CancelVectorSetProcessor(_vectorSetService),
 				APIAction.CancelTestSession => new CancelTestSessionProcessor(_testSessionService),
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _messageQueueProcessorConfig),
 				APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_testSessionService, _workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
 				_ => null
 			};

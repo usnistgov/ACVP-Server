@@ -14,15 +14,15 @@ namespace Web.Public.Providers
             _acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
-        public byte[] GetSeedFromUserCertificate(byte[] certRawData)
+        public byte[] GetSeedFromUserCertificateSubject(string userCertSubject)
         {
             var db = new MightyOrm(_acvpConnectionString);
             
             try
             {
-                var data = db.SingleFromProcedure("acvp.AcvpUserGetByCertificate", new
+                var data = db.SingleFromProcedure("acvp.AcvpUserSeedGetByCertificate", new
                 {
-                    CertificateRawData = certRawData
+                    Subject = userCertSubject
                 });
 
                 if (data == null)
@@ -36,11 +36,11 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 
-        public long GetUsedWindowFromUserCertificate(byte[] userCert)
+        public long GetUsedWindowFromUserCertificateSubject(string userCertSubject)
         {
             var db = new MightyOrm(_acvpConnectionString);
 
@@ -49,7 +49,7 @@ namespace Web.Public.Providers
                 var data = db.SingleFromProcedure("acvp.PreviousComputedWindowByUserGet",
                     new
                     {
-                        CertificateRawData = userCert
+                        Subject = userCertSubject
                     });
 
                 long previousComputedWindow = -1;
@@ -63,11 +63,11 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
 
-        public void SetUsedWindowFromUserCertificate(byte[] userCert, long usedWindow)
+        public void SetUsedWindowFromUserCertificateSubject(string userCertSubject, long usedWindow)
         {
             var db = new MightyOrm(_acvpConnectionString);
 
@@ -76,14 +76,14 @@ namespace Web.Public.Providers
                 // Everything is successful, record the window used
                 db.ExecuteProcedure("acvp.PreviousComputedWindowByUserSet", new
                 {
-                    CertificateRawData = userCert,
+                    Subject = userCertSubject,
                     LastUsedWindow = usedWindow
                 });
             }
             catch (Exception ex)
             {
                 Log.Error(ex.StackTrace);
-                throw ex;
+                throw;
             }
         }
     }

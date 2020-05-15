@@ -18,16 +18,26 @@ namespace Web.Public.Services
             _totpConfig = totpConfig.Value;
         }
         
-        public string GenerateTotp(byte[] certRawData)
+        public string GenerateTotp(string userCertSubject)
         {
-            var seed = _totpProvider.GetSeedFromUserCertificate(certRawData);
+            var seed = _totpProvider.GetSeedFromUserCertificateSubject(userCertSubject);
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             return totp.ComputeTotp(DateTime.Now);
         }
 
-        public Result ValidateTotp(byte[] certRawData, string password)
+        public Result ValidateTotp(string userCertSubject, string password)
         {
-            var seed = _totpProvider.GetSeedFromUserCertificate(certRawData);
+            if (string.IsNullOrEmpty(password))
+            {
+                return new Result("TOTP not provided.");
+            }
+
+            var seed = _totpProvider.GetSeedFromUserCertificateSubject(userCertSubject);
+
+            if (seed == null)
+            {
+                return new Result("TOTP failed to verify");
+            }
             
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow, VerificationWindow.RfcSpecifiedNetworkDelay);
@@ -39,14 +49,14 @@ namespace Web.Public.Services
             }
             
             // If authentication was successful, we need to grab the latest window used and compare for uniqueness
-            var previousWindow = _totpProvider.GetUsedWindowFromUserCertificate(certRawData);
+            var previousWindow = _totpProvider.GetUsedWindowFromUserCertificateSubject(userCertSubject);
 
             if (previousWindow == computedWindow && _totpConfig.EnforceUniqueness)
             {
                 return new Result("TOTP Window has already been used");
             }
             
-            _totpProvider.SetUsedWindowFromUserCertificate(certRawData, previousWindow);
+            _totpProvider.SetUsedWindowFromUserCertificateSubject(userCertSubject, previousWindow);
             return new Result();
         }
 

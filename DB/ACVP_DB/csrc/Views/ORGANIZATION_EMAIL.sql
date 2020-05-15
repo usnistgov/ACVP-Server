@@ -7,3 +7,8 @@ SELECT organization_id, order_index, email_address
 FROM val.ORGANIZATION_EMAIL
 
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_ORGANIZATION_EMAIL]
+    ON [csrc].[ORGANIZATION_EMAIL]([organization_id] ASC, [email_address] ASC);
+

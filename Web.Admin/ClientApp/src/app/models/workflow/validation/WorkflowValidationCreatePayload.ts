@@ -7,8 +7,8 @@ export class WorkflowValidationCreatePayload {
   testSessionId: number;
   testSession: TestSession; // Used only for storing data during two-way data-binding in Angular
 
-  productUrl: string;
-  product: Product;
+  moduleUrl: string;
+  module: Product;
 
   oeUrl: string;
   oe: OperatingEnvironment;

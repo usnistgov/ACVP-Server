@@ -5,6 +5,9 @@
     [algorithm_id]         BIGINT         NOT NULL,
     [status]               INT            NOT NULL,
     [vector_error_message] NVARCHAR (MAX) NULL,
+    [Archived]             BIT            NOT NULL,
     CONSTRAINT [PK_VECTOR_SET] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 

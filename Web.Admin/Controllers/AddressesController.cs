@@ -23,6 +23,11 @@ namespace Web.Admin.Controllers
 			return _addressService.Create(parameters);
 		}
 
+		[HttpGet("{addressId}")]
+		public Address Get(long addressId)
+		{
+			return _addressService.Get(addressId);
+		}
 
 		[HttpPatch("{addressId}")]
 		public Result UpdateAddress(long addressId, Address address)

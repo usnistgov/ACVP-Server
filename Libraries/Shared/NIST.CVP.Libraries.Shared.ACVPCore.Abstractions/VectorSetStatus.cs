@@ -8,6 +8,7 @@
 		Passed = 3,
 		Failed = 4,
 		Cancelled = 5,
+		ResubmitAnswers = 6,
 		Error = -1
 	}
 }

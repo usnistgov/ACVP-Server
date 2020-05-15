@@ -25,7 +25,6 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
         }
         public string CommonName { get; set; }
         public string Seed { get; set; }
-        public DateTime ExpiresOn { get; private set; }
         public string Issuer { get; private set; }
     }
 }

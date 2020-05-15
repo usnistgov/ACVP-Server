@@ -45,6 +45,7 @@ namespace Web.Public.Providers
             }
         }
 
+        // TODO could be improved. not very informative right now
         public AlgorithmBase GetAlgorithm(int id)
         {
             if (!_cachedAlgorithmList.Any())
@@ -54,6 +55,24 @@ namespace Web.Public.Providers
 
             var algo = _cachedAlgorithmList.FirstOrDefault(alg => alg.AlgorithmId == id);
             return algo;
+        }
+
+        public AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision)
+        {
+            var algo = new AlgorithmBase()
+            {
+                Name = algorithmName,
+                Mode = mode,
+                Revision = revision
+            };
+            
+            if (!_cachedAlgorithmList.Any())
+            {
+                GetAlgorithmList();
+            }
+
+            return _cachedAlgorithmList
+                .FirstOrDefault(alg => alg.FullAlgoName.Equals(algo.FullAlgoName, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

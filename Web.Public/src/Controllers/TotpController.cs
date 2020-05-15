@@ -1,38 +1,53 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Web.Public.Configs;
+using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
+using Web.Public.Results;
 using Web.Public.Services;
 
 namespace Web.Public.Controllers
 {
-    // TODO Excluded from Prod, only used by developers
     [Route("acvp/[controller]")]
+    [TypeFilter(typeof(ExceptionFilter))]
+    [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
     [ApiController]
     public class TotpController : ControllerBase
     {
         private readonly ITotpService _totpService;
-        
-        public TotpController(ITotpService totpService)
+        private readonly IJsonWriterService _jsonWriter;
+        private readonly TotpConfig _totpConfig;
+
+        public TotpController(ITotpService totpService, IJsonWriterService jsonWriter, IOptions<TotpConfig> totpConfig)
         {
             _totpService = totpService;
+            _jsonWriter = jsonWriter;
+            _totpConfig = totpConfig.Value;
         }
         
         [HttpGet]
-        public JsonResult GetTotp()
+        public ActionResult GetTotp()
         {
+            if (!_totpConfig.IncludeTotpControllerAccess)
+            {
+                return new NotFoundResult();
+            }
+            
             // Use authentication to identify user
-            var certRawData = Request.HttpContext.Connection.ClientCertificate.RawData;
+            var certSubject = Request.HttpContext.Connection.ClientCertificate.Subject;
             
             // Compute Totp
-            var result = _totpService.GenerateTotp(certRawData);
+            var result = _totpService.GenerateTotp(certSubject);
 
             // Wrap and return to user
-            var returnObject = new PasswordObject
+            var passwordObject = new PasswordObject
             {
-                AcvVersion = "1.0",
-                Password = result
+                Totp = result
             };
-
-            return new JsonResult(returnObject);
+            
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(passwordObject));
         }
     }
 }

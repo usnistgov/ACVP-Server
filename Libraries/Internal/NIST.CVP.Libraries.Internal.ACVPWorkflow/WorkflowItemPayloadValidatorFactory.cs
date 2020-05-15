@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators;
-using NIST.CVP.Libraries.Shared.ACVPWorkflow.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow
 {

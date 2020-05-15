@@ -280,7 +280,7 @@
 			"response": []
 		},
 		{
-			"name": "Get Answers",
+			"name": "Get Expected Answers",
 			"event": [
 				{
 					"listen": "test",
@@ -307,6 +307,7 @@
 							"    ",
 							"    pm.environment.set(\"prev_step\", \"Get Answers\");",
 							"    pm.environment.set(\"algorithm\", jsonData[1].algorithm);",
+							"    pm.environment.set(\"revision\", jsonData[1].revision);",
 							"    ",
 							"    if (jsonData[1].mode) {",
 							"        pm.environment.set(\"mode\", jsonData[1].mode);",
@@ -508,6 +509,87 @@
 			"response": []
 		},
 		{
+			"name": "Register Specific algo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85c7c964-d72d-455a-9c5c-54a53fc557b6",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"Register\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have different access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
+							"    ",
+							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Get Prompt\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "56cf2305-049b-474c-b38c-74379cc08af2",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [\n\t\t\t{\n\t\t\t  \"algorithm\": \"ACVP-AES-CBC\",\n\t\t\t  \"revision\": \"1.0\",\n\t\t\t  \"isSample\": true,\n\t\t\t  \"conformances\": [],\n\t\t\t  \"direction\": [\n\t\t\t    \"encrypt\",\n\t\t\t    \"decrypt\"\n\t\t\t  ],\n\t\t\t  \"keyLen\": [\n\t\t\t    128,\n\t\t\t    192,\n\t\t\t    256\n\t\t\t  ]\n\t\t\t}\n\t\t]\n\t}\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Prompt",
 			"event": [
 				{
@@ -524,8 +606,8 @@
 							"    pm.environment.set(\"next_step\", null);",
 							"}",
 							"else {",
-							"        pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
-							"        ",
+							"    pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
+							"",
 							"    if (jsonData[1].retry) {",
 							"        // If response has retry, repeat this call",
 							"        // The API can only run for 10 seconds maximum",
@@ -533,17 +615,17 @@
 							"        pm.environment.set(\"next_step\", \"Wait\");",
 							"    }",
 							"    else {",
-							"        ",
-							"         pm.test(\"prompt must have vsId\", function () {",
+							"",
+							"        pm.test(\"prompt must have vsId\", function () {",
 							"            pm.expect(jsonData[1]).to.have.property('vsId');",
 							"        });",
-							"        ",
+							"",
 							"        pm.test(\"prompt must have tests\", function () {",
 							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
 							"        });",
-							"        ",
+							"",
 							"        // If response is complete, move on to next call",
-							"        pm.environment.set(\"prev_step\", \"Get Answers\");",
+							"        pm.environment.set(\"prev_step\", \"Get Expected Answers\");",
 							"        pm.environment.set(\"next_step\", \"Wait\");",
 							"    }",
 							"}",
@@ -579,6 +661,57 @@
 						"{{testSession_Id}}",
 						"vectorSets",
 						"{{vs_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Certify Test Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39da7a43-8bf6-4664-a756-96849a30ef05",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"acvVersion\": \"1.0\"},\n    {\n        \"moduleUrl\": \"/acvp/v1/modules/1\",\n        \"oeUrl\": \"/acvp/v1/oes/1\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}"
 					]
 				}
 			},
@@ -662,7 +795,72 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"revision\": \"{{revision}}\",\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc6f04b9-51f9-4a38-ae4f-20ed25a31862",
+						"exec": [
+							"pm.environment.set(\"next_step\", \"Get Disposition\");",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "06631e7a-64de-4a3c-9702-a279b0a36223",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"revision\": \"{{revision}}\",\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",

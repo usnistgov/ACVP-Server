@@ -17,3 +17,8 @@ FROM val.VALIDATION_NOTE N
 	val.PRODUCT_INFORMATION P ON P.id = R.product_information_id
 							AND P.itar = 0
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_VALIDATION_NOTE]
+    ON [csrc].[VALIDATION_NOTE]([id] ASC);
+

@@ -30,11 +30,45 @@
   <div class="row mt-3">
     <div class="col-lg-6">
       <div class="card">
-        <h5 class="card-header">Dependency Information</h5>
+        <h5 class="card-header">Inline (New) Dependencies</h5>
         <div class="card-body">
 
-          <table class="table">
+          <table class="table" *ngIf="workflowItem?.payload?.dependencies.length > 0">
             <tr *ngFor="let dependency of workflowItem?.payload?.dependencies">
+              <td>
+                <span class="bold-heading">{{ dependency.name  }}</span>
+                <ul *ngFor="let key of objectKeys(dependency)">
+                  <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
+                    <span style="font-weight:bold;">
+                      {{ key }} :
+                    </span>
+                    <span *ngIf="key !== 'attributes'">
+                      {{ dependency[key] }}
+                    </span>
+                    <div *ngIf="key === 'attributes'">
+                      <ul>
+                        <li *ngFor="let attribute of dependency[key]">
+                          {{attribute.name}}: {{attribute.value}}
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+          <span *ngIf="workflowItem?.payload?.dependencies.length === 0">No inline dependencies in use</span>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Existing Dependencies</h5>
+        <div class="card-body">
+
+          <table class="table" *ngIf="workflowItem?.payload?.existingDependencies.length > 0">
+            <tr *ngFor="let dependency of workflowItem?.payload?.existingDependencies">
               <td>
                 <span class="bold-heading">{{ dependency?.isInlineCreate ? 'New Dependency' : dependency.id + ' - ' + dependency.name  }}</span>
                 <ul *ngFor="let key of objectKeys(dependency)">
@@ -57,6 +91,7 @@
               </td>
             </tr>
           </table>
+          <span *ngIf="workflowItem?.payload?.existingDependencies.length === 0">No existing dependencies in use</span>
         </div>
       </div> <!-- Close Dependency Info Card -->
     </div> <!-- Close col-lg-6 -->
