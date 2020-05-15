@@ -573,7 +573,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[{\r\n\t\t\"acvVersion\": \"{{acv_version}}\"\r\n\t},\r\n\t{\r\n\t\t\"isSample\": true,\r\n\t\t\"algorithms\": [\r\n\t\t\t{\r\n\t\t\t\t\"algorithm\": \"ACVP-AES-CBC\",\r\n\t\t\t\t\"revision\": \"1.0\",\r\n\t\t\t\t\"direction\": [\r\n\t\t\t\t\t\"encrypt\",\r\n\t\t\t\t\t\"decrypt\"\r\n\t\t\t\t],\r\n\t\t\t\t\"keyLen\": [\r\n\t\t\t\t\t128,\r\n\t\t\t\t\t192,\r\n\t\t\t\t\t256\r\n\t\t\t\t]\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n]"
+					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [\n\t\t\t{\n\t\t\t  \"algorithm\": \"ACVP-AES-CBC\",\n\t\t\t  \"revision\": \"1.0\",\n\t\t\t  \"isSample\": true,\n\t\t\t  \"conformances\": [],\n\t\t\t  \"direction\": [\n\t\t\t    \"encrypt\",\n\t\t\t    \"decrypt\"\n\t\t\t  ],\n\t\t\t  \"keyLen\": [\n\t\t\t    128,\n\t\t\t    192,\n\t\t\t    256\n\t\t\t  ]\n\t\t\t}\n\t\t]\n\t}\n]"
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
@@ -661,6 +661,57 @@
 						"{{testSession_Id}}",
 						"vectorSets",
 						"{{vs_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Certify Test Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39da7a43-8bf6-4664-a756-96849a30ef05",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"acvVersion\": \"1.0\"},\n    {\n        \"moduleUrl\": \"/acvp/v1/modules/1\",\n        \"oeUrl\": \"/acvp/v1/oes/1\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}"
 					]
 				}
 			},
