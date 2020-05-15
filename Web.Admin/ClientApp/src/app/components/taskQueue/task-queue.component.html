@@ -25,7 +25,7 @@
             <tr *ngFor="let task of taskQueue?.data">
               <td>{{ task.id }}</td>
               <td>{{ task.type }}</td>
-              <td>{{ task.vectorSetID }}</td>
+              <td><a [routerLink]="['/testSessions/' + task.testSessionId]">{{ task.vectorSetID }}</a></td>
               <td>{{ task.isSample }}</td>
               <td>{{ task.showExpected }}</td>
               <td>{{ task.status   }}</td>
