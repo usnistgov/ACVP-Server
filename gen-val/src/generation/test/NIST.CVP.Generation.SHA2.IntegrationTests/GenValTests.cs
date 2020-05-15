@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] { "224" },
+                DigestSizes = new List<string>() { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65528, 8)),
                 IsSample = true
             };
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] { "224" },
+                DigestSizes = new List<string>() { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535)),
                 IsSample = false
             };
