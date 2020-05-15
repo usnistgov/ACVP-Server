@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.ParallelHash.v1_0;
@@ -19,7 +20,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             {
                 Algorithm = "ParallelHash",
                 XOF = new[]{true, false},
-                DigestSizes = new int[5],
+                DigestSizes = new int[5].ToList(),
                 HexCustomization = false,
                 MessageLength = new MathDomain(),
                 OutputLength = new MathDomain(),
@@ -39,7 +40,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 Algorithm = "ParallelHash",
                 MessageLength = minMax,
                 XOF = new[]{true, false},
-                DigestSizes = new int[5],
+                DigestSizes = new int[5].ToList(),
                 HexCustomization = false,
                 OutputLength = minMax,
                 IsSample = false

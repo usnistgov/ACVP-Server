@@ -86,6 +86,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                     var iterationResponse = new AlgoArrayResponseWithCustomization() { };
                     iterationResponse.Message = innerMessage;
                     iterationResponse.Customization = customization;
+                    iterationResponse.BlockSize = blockSize;
 
                     for (j = 0; j < 1000; j++)
                     {

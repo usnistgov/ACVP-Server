@@ -35,7 +35,8 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers
             {
                 nameof(TestCase.TestCaseId),
                 nameof(TestCase.Message),
-                nameof(TestCase.MessageLength)
+                nameof(TestCase.MessageLength),
+                nameof(TestCase.BlockSize)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -49,17 +50,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (testGroup.HexCustomization)
-                        {
-                            return false;
-                        }
-
-                        return true;
-                    }
-                    return false;
+                    return !testGroup.HexCustomization;
                 };
             }
 
@@ -68,34 +59,11 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (testGroup.HexCustomization)
-                        {
-                            return true;
-                        }
-                        return false;
-                    }
-                    return false;
+                    return testGroup.HexCustomization;
                 };
             }
 
             if (jsonProperty.UnderlyingName == nameof(TestCase.DigestLength))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                    return false;
-                };
-            }
-
-            if (jsonProperty.UnderlyingName == nameof(TestCase.BlockSize))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {

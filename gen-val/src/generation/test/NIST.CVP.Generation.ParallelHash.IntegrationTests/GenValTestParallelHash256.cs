@@ -8,6 +8,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
 {
@@ -80,7 +81,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 256 },
+                DigestSizes = new[] { 256 }.ToList(),
                 MessageLength = minMax,
                 OutputLength = minMax,
                 XOF = new[] { false },
@@ -103,7 +104,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 256 },
+                DigestSizes = new[] { 256 }.ToList(),
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = new[] { true, false },

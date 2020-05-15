@@ -54,7 +54,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "ParallelHash",
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new[] { 128, 256 }.ToList(),
                 MessageLength = minMax,
                 IsSample = false,
                 OutputLength = minMax,
