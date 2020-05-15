@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { false },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { true, false },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
@@ -106,7 +106,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { true },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
