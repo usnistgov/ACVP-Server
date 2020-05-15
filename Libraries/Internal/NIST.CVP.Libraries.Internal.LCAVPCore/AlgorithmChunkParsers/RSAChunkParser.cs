@@ -75,6 +75,8 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.AlgorithmChunkParsers
 																							"RSA2_ProbRP_Mod3072",
 																							"RSA2_ProbRP_TableC2",
 																							"RSA2_ProbRP_TableC3",
+																							"RSA2_ProbRP_Fixed_e",
+																							"RSA2_ProbRP_Random_e",
 																							"RSA2_ProvRP_Mod2048SHA1",
 																							"RSA2_ProvRP_Mod2048SHA224",
 																							"RSA2_ProvRP_Mod2048SHA256",

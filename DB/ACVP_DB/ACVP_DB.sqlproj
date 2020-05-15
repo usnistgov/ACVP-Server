@@ -177,7 +177,6 @@
     <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
-    <Build Include="lcavp\Stored Procedures\ConfigurationSettingsGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactPersonIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\CValidationRecordIDForModuleGet.sql" />
