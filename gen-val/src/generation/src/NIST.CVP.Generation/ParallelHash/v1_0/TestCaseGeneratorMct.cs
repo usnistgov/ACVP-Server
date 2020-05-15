@@ -34,11 +34,13 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             try
             {
                 var oracleResult = await _oracle.GetParallelHashMctCaseAsync(param);
-
+                
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Message = oracleResult.Seed.Message,
+                    BlockSize = oracleResult.Seed.BlockSize,
                     Customization = oracleResult.Seed.Customization,
+                    CustomizationHex = oracleResult.Seed.CustomizationHex,
                     FunctionName = oracleResult.Seed.FunctionName,
                     ResultsArray = oracleResult.Results.ConvertAll(element => new AlgoArrayResponseWithCustomization { Message = element.Message, Digest = element.Digest, Customization = element.Customization })
                 });

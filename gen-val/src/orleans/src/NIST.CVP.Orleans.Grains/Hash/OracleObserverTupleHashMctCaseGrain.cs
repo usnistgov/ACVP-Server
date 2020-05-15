@@ -52,7 +52,12 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             await Notify(new MctResult<TupleHashResult>
             {
-                Seed = new TupleHashResult { Tuple = tuple, Customization = "", FunctionName = _param.FunctionName },
+                Seed = new TupleHashResult 
+                {
+                    Tuple = tuple, 
+                    Customization = "", 
+                    FunctionName = _param.FunctionName
+                },
                 Results = result.Response.ConvertAll(element =>
                     new TupleHashResult { Tuple = element.Tuple, Digest = element.Digest, Customization = element.Customization })
             });

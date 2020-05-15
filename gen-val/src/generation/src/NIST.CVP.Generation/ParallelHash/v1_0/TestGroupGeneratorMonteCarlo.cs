@@ -23,6 +23,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                         DigestSize = digSize,
                         OutputLength = parameters.OutputLength,
                         TestType = TEST_TYPE,
+                        HexCustomization = parameters.HexCustomization,
                         XOF = xof
                     };
 
