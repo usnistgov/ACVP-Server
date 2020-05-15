@@ -23,9 +23,20 @@ namespace CertificateCommonNameUpdatinator
 		static void Main(string[] args)
 		{
 			var serviceProvider = Bootstrap();
-
+			var logger = serviceProvider.GetService<ILogger<Program>>();
+			
 			var userSubjectService = serviceProvider.GetService<IAcvpUserSubjectService>();
-			userSubjectService.UpdateUserSubjectsFromCertBytes();
+
+			try
+			{
+				userSubjectService.UpdateUserSubjectsFromCertBytes();
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e, e.Message);
+			}
+			
+			serviceProvider.Dispose();
 		}
 
 		private static ServiceProvider Bootstrap()
