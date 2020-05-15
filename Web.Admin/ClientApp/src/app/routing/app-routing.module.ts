@@ -25,23 +25,34 @@ import { AcvpUsersComponent } from '../components/acvp-users/acvp-users.componen
 import { AcvpUserComponent } from '../components/acvp-user/acvp-user.component';
 import { DisclaimerRouteGuard } from './disclaimer-route-guard.module';
 import { DisclaimerComponent } from '../disclaimer/disclaimer.component';
+import { TestsessionsComponent } from '../components/testsessions/testsessions.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'workflow',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: HomeComponent,
+    path: 'testSessions',
+    component: TestsessionsComponent,
     canActivate: [DisclaimerRouteGuard]
   },
   {
-    path: 'home/:id',
-    component: HomeComponent,
+    path: 'testSessions/:id',
+    component: TestsessionsComponent,
     canActivate: [DisclaimerRouteGuard]
   },
+  //{
+  //  path: 'home',
+  //  component: HomeComponent,
+  //  canActivate: [DisclaimerRouteGuard]
+  //},
+  //{
+  //  path: 'home/:id',
+  //  component: HomeComponent,
+  //  canActivate: [DisclaimerRouteGuard]
+  //},
   {
     path: 'disclaimer',
     component: DisclaimerComponent

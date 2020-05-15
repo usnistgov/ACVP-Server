@@ -55,6 +55,8 @@ import { WorkflowActionsComponent } from './components/workflow/workflow/workflo
 import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
 import { ValidationDbOrganizationsCreateComponent } from './components/validation-db-organizations/validation-db-organizations-create/validation-db-organizations-create.component';
+import { TestsessionsComponent } from './components/testsessions/testsessions.component';
+import { TestsessionComponent } from './components/testsessions/testsession/testsession.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +104,9 @@ import { ValidationDbOrganizationsCreateComponent } from './components/validatio
     AcvpUserCertificateComponent,
     WorkflowActionsComponent,
     DisclaimerComponent,
-    ValidationDbOrganizationsCreateComponent
+    ValidationDbOrganizationsCreateComponent,
+    TestsessionsComponent,
+    TestsessionComponent
 
   ],
   imports: [
