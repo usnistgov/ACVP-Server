@@ -70,6 +70,11 @@ namespace NIST.CVP.Generation.KMAC.v1_0
                 errorResults.Add(result);
             }
 
+            if (parameters.XOF == null)
+            {
+                errorResults.Add("XOF must be provided.");
+            }
+            
             if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
                 errorResults.Add("XOF must contain only a single true, a single false, or both");
