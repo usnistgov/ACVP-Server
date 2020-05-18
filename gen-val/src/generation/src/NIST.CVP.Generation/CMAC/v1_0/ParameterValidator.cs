@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation.CMAC.v1_0
                 return new ParameterValidateResponse(errorResults);
             }
 
-            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }

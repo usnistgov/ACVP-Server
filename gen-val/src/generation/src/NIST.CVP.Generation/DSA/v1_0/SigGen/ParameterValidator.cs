@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.DSA.v1_0.SigGen
             var errors = new List<string>();
             var result = "";
 
-            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
                 return new ParameterValidateResponse(errors);
             }
