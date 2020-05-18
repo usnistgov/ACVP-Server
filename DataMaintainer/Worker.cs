@@ -50,8 +50,7 @@ namespace DataMaintainer
 
 		public void Maintain()
 		{
-			//Expire test sessions older than the configured age
-			//TODO - Do a more complex version of expiration, based on vector set activity and keep-alives, in conjunction with public rewrite
+			//Expire test sessions that haven't been touched in the configured number of days
 			if (_expirationEnabled)
 			{
 				_testSessionService.Expire(_ageInDays);
