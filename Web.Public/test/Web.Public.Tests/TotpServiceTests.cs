@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.ExtensionMethods;
@@ -13,6 +14,7 @@ namespace Web.Public.Tests
     [TestFixture]
     public class TotpServiceTests
     {
+        private Mock<ILogger<TotpService>> _logger = new Mock<ILogger<TotpService>>();
         private Mock<ITotpProvider> _totpProvider;
         private ITotpService _totpService;
         private TotpConfig _totpConfig;
@@ -43,7 +45,7 @@ namespace Web.Public.Tests
 
             _dummyCertSubject = string.Empty;
             
-            _totpService = new TotpService(_totpProvider.Object, _options);
+            _totpService = new TotpService(_logger.Object, _totpProvider.Object, _options);
         }
 
         [Test]
@@ -103,7 +105,7 @@ namespace Web.Public.Tests
             _totpConfig.EnforceUniqueness = uniquenessRequired;
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
             
-            _totpService = new TotpService(_totpProvider.Object, _options);
+            _totpService = new TotpService(_logger.Object, _totpProvider.Object, _options);
             var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
 
@@ -118,7 +120,7 @@ namespace Web.Public.Tests
         {
             _totpConfig.Hmac = hmac;
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
-            _totpService = new TotpService(_totpProvider.Object, _options);
+            _totpService = new TotpService(_logger.Object, _totpProvider.Object, _options);
 
             Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCertSubject), "generate totp");
             Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCertSubject, "dummy password"), "validate totp");
