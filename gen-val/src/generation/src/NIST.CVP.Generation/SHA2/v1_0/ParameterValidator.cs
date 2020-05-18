@@ -3,6 +3,7 @@ using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
@@ -110,7 +111,11 @@ namespace NIST.CVP.Generation.SHA2.v1_0
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
             var messageLengths = parameters.MessageLength;
-
+            if(!errorResults.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(messageLengths, "Message Lengths")))
+            {
+                return;
+            }
+            
             // Enforce min/max
             var minMax = messageLengths.GetDomainMinMax();
             if (minMax.Minimum < MIN_MESSAGE_LENGTH)
