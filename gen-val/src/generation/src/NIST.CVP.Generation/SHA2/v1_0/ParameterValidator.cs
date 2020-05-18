@@ -30,7 +30,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
                 var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
                 switch (algoMode)
                 {
-                    case AlgoMode.SHA1_v1_0:
+                    case AlgoMode.SHA_1_v1_0:
                         parameters.DigestSizes.Add("160");
                         break;
                     case AlgoMode.SHA2_224_v1_0:
