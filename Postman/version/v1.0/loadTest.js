@@ -183,7 +183,8 @@ runTestFile = async function(testDirectory, testFile) {
 
             console.log(`Remaining tests to complete: ${totalTestsToRun - totalFailure - totalSuccess}. ` + 
                 `So far ${totalSuccess} tests have passed, ${totalFailure} tests have failed. ` +
-                `Test ${vsId}'s outcome was ${isSuccessful? "SUCCESSFUL" : "NOT SUCCESSFUL"}`
+                `Test ${vsId}'s outcome was ${isSuccessful? "SUCCESSFUL" : "NOT SUCCESSFUL"}. ` + 
+                `${testFile}`
             );
 
             const iterationResult = new LoadTestResult(
