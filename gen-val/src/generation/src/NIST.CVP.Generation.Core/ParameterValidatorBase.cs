@@ -44,6 +44,16 @@ namespace NIST.CVP.Generation.Core
             return null;
         }
 
+        protected string ValidateArrayAtLeastOneItem<T>(IEnumerable<T> supplied, string friendlyName)
+        {
+            if (supplied == null || !supplied.Any())
+            {
+                return $"No {friendlyName} supplied.";
+            }
+
+            return null;
+        }
+        
         protected string ValidateArray<T>(IEnumerable<T> supplied, IEnumerable<T> valid, string friendlyName)
         {
             if (supplied == null || !supplied.Any())
