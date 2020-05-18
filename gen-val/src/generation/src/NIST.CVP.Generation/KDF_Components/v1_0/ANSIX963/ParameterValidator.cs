@@ -34,6 +34,12 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
             result = ValidateArray(parameters.HashAlg, VALID_HASH_ALGS, "Hash Algs");
             errors.AddIfNotNullOrEmpty(result);
 
+            if (parameters.FieldSize == null)
+            {
+                errors.Add("Field Size must be provided.");
+                return new ParameterValidateResponse(errors);
+            }
+            
             if (parameters.FieldSize.Length != 1 && parameters.FieldSize.Length != 2)
             {
                 errors.Add("Must contain 1 or 2 field sizes");
@@ -53,26 +59,6 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
             ValidateDomain(parameters.SharedInfoLength, errors, "SharedInfo", SHARED_INFO_MINIMUM, SHARED_INFO_MAXIMUM);
 
             return new ParameterValidateResponse(errors);
-        }
-
-        private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)
-        {
-            var result = ValidateSegmentCountGreaterThanZero(domain, errorTag);
-            if (!string.IsNullOrEmpty(result))
-            {
-                errors.Add(result);
-                return;
-            }
-
-            if (domain.GetDomainMinMax().Minimum < min)
-            {
-                errors.Add($"Minimum {errorTag} must be greater than or equal to {min}");
-            }
-
-            if (domain.GetDomainMinMax().Maximum > max)
-            {
-                errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
-            }
         }
 
         private void ValidateGroups(int[] fieldSize, string[] hashAlgs, List<string> errors)

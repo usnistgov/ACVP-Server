@@ -159,6 +159,41 @@ namespace NIST.CVP.Generation.Core
 
             return null;
         }
+        
+        /// <summary>
+        /// Validate a domain - not null, contains at least one item, and is within the min/max.
+        ///
+        /// When an issue occurs, add the error message to <see cref="errors"/> and return false; otherwise true.
+        /// </summary>
+        /// <param name="domain">The domain to validate.</param>
+        /// <param name="errors">The List of errors to add to in the event of a validation issue.</param>
+        /// <param name="errorTag">The friend name of the domain being validated.</param>
+        /// <param name="min">The minimum allowed value for the domain.</param>
+        /// <param name="max">The maximum allowed value for the domain.</param>
+        /// <returns></returns>
+        protected bool ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)
+        {
+            var result = ValidateSegmentCountGreaterThanZero(domain, errorTag);
+            if (!string.IsNullOrEmpty(result))
+            {
+                errors.Add(result);
+                return false;
+            }
+
+            if (domain.GetDomainMinMax().Minimum < min)
+            {
+                errors.Add($"Minimum {errorTag} must be greater than or equal to {min}");
+                return false;
+            }
+
+            if (domain.GetDomainMinMax().Maximum > max)
+            {
+                errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
+                return false;
+            }
+
+            return true;
+        }
 
         protected string ValidateMultipleOf(MathDomain supplied, int multiple, string friendlyName)
         {
