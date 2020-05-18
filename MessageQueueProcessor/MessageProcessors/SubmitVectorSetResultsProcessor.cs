@@ -13,11 +13,13 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
+		private readonly ITestSessionService _testSessionService;
 
-		public SubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService)
+		public SubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, ITestSessionService testSessionService)
 		{
 			_vectorSetService = vectorSetService;
 			_taskQueueService = taskQueueService;
+			_testSessionService = testSessionService;
 		}
 
 		public Result Process(Message message)
@@ -37,6 +39,9 @@ namespace MessageQueueProcessor.MessageProcessors
 			{
 				return new Result("Vector set must be in Processed status to submit results");
 			}
+
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(_testSessionService.GetTestSessionIDFromVectorSet(submitResultsPayload.VectorSetID));
 
 			//Update the vector set status to show we've received their results
 			Result result = _vectorSetService.UpdateStatus(submitResultsPayload.VectorSetID, VectorSetStatus.KATReceived);

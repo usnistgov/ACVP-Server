@@ -6,11 +6,11 @@ using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
-	public class CancelTestSessionProcessor : IMessageProcessor
+	public class TestSessionKeepAliveProcessor : IMessageProcessor
 	{
 		private readonly ITestSessionService _testSessionService;
 
-		public CancelTestSessionProcessor(ITestSessionService testSessionService)
+		public TestSessionKeepAliveProcessor(ITestSessionService testSessionService)
 		{
 			_testSessionService = testSessionService;
 		}
@@ -18,13 +18,12 @@ namespace MessageQueueProcessor.MessageProcessors
 		public Result Process(Message message)
 		{
 			//Get the payload so we can get the test session id
-			CancelPayload cancelPayload = JsonSerializer.Deserialize<CancelPayload>(message.Payload);
+			TestSessionKeepAlivePayload testSessionKeepAlivePayload = JsonSerializer.Deserialize<TestSessionKeepAlivePayload>(message.Payload);
 
-			//Update the test session to show it was touched - a little useless, but do it for consistency
-			_testSessionService.KeepAlive(cancelPayload.TestSessionID);
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(testSessionKeepAlivePayload.TestSessionID);
 
-			//Cancel the test session
-			return _testSessionService.Cancel(cancelPayload.TestSessionID);
+			return new Result();
 		}
 	}
 }

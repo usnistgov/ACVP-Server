@@ -257,5 +257,22 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				_logger.LogError(ex);
 			}
 		}
+
+		public void KeepAlive(long testSessionID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("acvp.TestSessionLastTouchedUpdate", inParams: new
+				{
+					TestSessionId = testSessionID
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+		}
 	}
 }

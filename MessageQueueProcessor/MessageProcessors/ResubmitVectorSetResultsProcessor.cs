@@ -13,12 +13,14 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
+		private readonly ITestSessionService _testSessionService;
 		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public ResubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, MessageQueueProcessorConfig messageQueueProcessorConfig)
+		public ResubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, ITestSessionService testSessionService, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_vectorSetService = vectorSetService;
 			_taskQueueService = taskQueueService;
+			_testSessionService = testSessionService;
 			_messageQueueProcessorConfig = messageQueueProcessorConfig;
 		}
 
@@ -44,6 +46,9 @@ namespace MessageQueueProcessor.MessageProcessors
 			{
 				return new Result("Vector set must be in Failed status to resubmit results");
 			}
+
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(_testSessionService.GetTestSessionIDFromVectorSet(submitResultsPayload.VectorSetID));
 
 			//Update the vector set status to show we've received their results
 			Result result = _vectorSetService.UpdateStatus(submitResultsPayload.VectorSetID, VectorSetStatus.KATReceived);
