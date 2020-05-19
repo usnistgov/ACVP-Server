@@ -31,7 +31,7 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId)
+        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, long vsId)
         {
             using (LogContext.PushProperty("VsID", vsId))
             using (LogContext.PushProperty("Application", "Generator"))
@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation
             }
         }
 
-        public async Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId)
+        public async Task<ValidateResponse> ValidateAsync(ValidateRequest request, long vsId)
         {
 
             using (LogContext.PushProperty("VsID", vsId))

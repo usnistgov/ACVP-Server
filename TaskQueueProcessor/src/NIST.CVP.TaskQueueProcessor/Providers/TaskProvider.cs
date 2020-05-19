@@ -33,29 +33,42 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             if (taskRow == null)
                 return null;
             
+            string operation = taskRow.TaskType;
+            long dbId = taskRow.TaskID;
+            long vsId = taskRow.VsId;
+            bool isSample = taskRow.IsSample;
+            bool showExpected = taskRow.ShowExpected;
+            
             // Parse out data into either generation or validation task
-            var executableTask = BuildExecutableTask(taskRow);
             try
             {
-                switch (executableTask)
+                switch (operation)
                 {
-                    case GenerationTask generationTask:
-                        generationTask.Capabilities = _jsonProvider.GetJson(generationTask.VsId, JsonFileTypes.CAPABILITIES);
-                        return generationTask;
-                
-                    case ValidationTask validationTask:
-                        validationTask.SubmittedResults = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.SUBMITTED_RESULTS);
-                        validationTask.InternalProjection = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION);
-                        return validationTask;
-                
+                    case TaskActions.GENERATION:
+                        return new GenerationTask()
+                        {
+                            DbId = dbId,
+                            VsId = vsId,
+                            IsSample = isSample,
+                            Capabilities = _jsonProvider.GetJson(vsId, JsonFileTypes.CAPABILITIES)
+                        };
+                    case TaskActions.VALIDATION:
+                        return new ValidationTask()
+                        {
+                            DbId = dbId, 
+                            VsId = vsId,
+                            Expected = showExpected, 
+                            SubmittedResults = _jsonProvider.GetJson(vsId, JsonFileTypes.SUBMITTED_RESULTS),
+                            InternalProjection = _jsonProvider.GetJson(vsId, JsonFileTypes.INTERNAL_PROJECTION)
+                        };
                     default:
-                        throw new Exception($"Invalid {nameof(executableTask)}");
+                        throw new Exception($"Invalid {nameof(operation)}");
                 }
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Exception encountered on building executable task.  Setting task to an error status.");
-                SetTaskStatus(executableTask.DbId, TaskStatus.Error);
+                SetTaskStatus(dbId, TaskStatus.Error);
                 return null;
             }
         }
@@ -76,30 +89,6 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             {
                 _logger.LogError(e);
             }
-        }
-
-        private ExecutableTask BuildExecutableTask(dynamic data)
-        {
-            string operation = data.TaskType;
-            long dbId = data.TaskID;
-            int vsId = (int)data.VsId;
-            bool isSample = data.IsSample;
-            bool showExpected = data.ShowExpected;
-
-            return operation switch
-            {
-                TaskActions.GENERATION => new GenerationTask
-                {
-                    DbId = dbId, IsSample = isSample, VsId = vsId
-                },
-
-                TaskActions.VALIDATION => new ValidationTask
-                {
-                    DbId = dbId, Expected = showExpected, VsId = vsId
-                },
-
-                _ => throw new Exception($"Unknown task action: {operation}")
-            };
         }
     }
 }
