@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.Results;
 using Microsoft.Extensions.Options;
 using OtpNet;
@@ -9,17 +10,21 @@ namespace Web.Public.Services
 {
     public class TotpService : ITotpService
     {
+        private readonly ILogger<TotpService> _logger;
         private readonly ITotpProvider _totpProvider;
         private readonly TotpConfig _totpConfig;
         
-        public TotpService(ITotpProvider totpProvider, IOptions<TotpConfig> totpConfig)
+        public TotpService(ILogger<TotpService> logger, ITotpProvider totpProvider, IOptions<TotpConfig> totpConfig)
         {
+            _logger = logger;
             _totpProvider = totpProvider;
             _totpConfig = totpConfig.Value;
         }
         
         public string GenerateTotp(string userCertSubject)
         {
+            _logger.LogInformation($@"Attempting to generate TOTP for cert subject: ""{userCertSubject}""");
+            
             var seed = _totpProvider.GetSeedFromUserCertificateSubject(userCertSubject);
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
             return totp.ComputeTotp(DateTime.Now);
@@ -36,6 +41,7 @@ namespace Web.Public.Services
 
             if (seed == null)
             {
+                _logger.LogWarning($@"Failed retrieving seed for cert subject: ""{userCertSubject}""");
                 return new Result("TOTP failed to verify");
             }
             
@@ -45,6 +51,7 @@ namespace Web.Public.Services
             // If they failed authentication, don't bother with anything else
             if (!success)
             {
+                _logger.LogWarning($@"TOTP failed to verify for cert subject: ""{userCertSubject}""");
                 return new Result("TOTP failed to verify");
             }
             
@@ -53,6 +60,7 @@ namespace Web.Public.Services
 
             if (previousWindow == computedWindow && _totpConfig.EnforceUniqueness)
             {
+                _logger.LogWarning($@"TOTP Window has already been used for cert subject: ""{userCertSubject}""");
                 return new Result("TOTP Window has already been used");
             }
             

@@ -177,7 +177,6 @@
     <Build Include="acvp\Stored Procedures\VectorSetsToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
-    <Build Include="lcavp\Stored Procedures\ConfigurationSettingsGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactPersonIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\CValidationRecordIDForModuleGet.sql" />
@@ -353,6 +352,7 @@
     <Build Include="val\Stored Procedures\PersonGetPhones.sql" />
     <Build Include="val\Stored Procedures\OEsForValidationGet.sql" />
     <Build Include="acvp\Views\FilteredVectorSetJson.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueSetStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

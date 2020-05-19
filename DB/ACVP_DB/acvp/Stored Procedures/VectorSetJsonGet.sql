@@ -1,6 +1,6 @@
 ﻿
 CREATE PROCEDURE [acvp].[VectorSetJsonGet]
-    @VsId INT,
+    @VsId BIGINT,
     @JsonFileType VARCHAR(20)
 AS
 

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "93fb07d7-28ad-438a-9b26-7146a803a6f6",
+		"_postman_id": "49a0b5ea-e14c-4565-9897-990bca1df4cc",
 		"name": "PublicAlgo_v1.0",
 		"description": "Initial ACVP E2E Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -12,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b4c7aa55-0645-4e33-bfee-43887e9d9d84",
+						"id": "09b128a1-0b87-444b-ab95-deb8be7e1c75",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -57,7 +57,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5f3acd01-f9de-4c8d-b2d8-71a6b638f8ed",
+						"id": "0fb63159-2c3e-4dcc-b2a2-ea549b610c82",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -107,7 +107,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ca6ccc92-1fb7-47ec-945b-49b75c36ea53",
+						"id": "30ab0f2c-8af3-42b9-83a7-850fc3375c24",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"pm.test(\"Status 200\", function () {",
@@ -116,10 +116,10 @@
 							"pm.test(\"Version Chk\", function () {",
 							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
 							"});",
-							"pm.test(\"Algo ACVP-AES-CBC Chk\", function () {",
-							"    pm.expect(jsonData[1].algorithms[0].name).to.eql(\"ACVP-AES-CBC\");",
+							"pm.test(\"Algo ACVP-AES-GCM Chk\", function () {",
+							"    pm.expect(jsonData[1].algorithmList[0].algorithm).to.eql(\"ACVP-AES-GCM\");",
 							"});",
-							"pm.environment.set(\"algo_url\", jsonData[1].algorithms[2].url);"
+							"pm.environment.set(\"algo_url\", jsonData[1].algorithmList[2].url);"
 						],
 						"type": "text/javascript"
 					}
@@ -127,7 +127,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "aeb690e8-ec5f-4969-8369-f847ec68a80d",
+						"id": "1a1ae7f9-2500-484f-8bf2-f0d36d9372bd",
 						"exec": [
 							""
 						],
@@ -161,68 +161,13 @@
 				"description": "Vector Request"
 			},
 			"response": []
-		},
-		{
-			"name": "REQ Algo 1",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4bf814a9-8a63-4cb3-a956-460ee74058ce",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"pm.test(\"Status 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(\"Version Chk\", function () {",
-							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
-							"});",
-							"pm.test(\"URL Check\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"/acvp/v1/algorithms\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				},
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "c4d82561-ad69-45e2-861f-fa0d28e681c7",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "noauth"
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer {{token1}}"
-					}
-				],
-				"url": {
-					"raw": "https://{{publicApiRootUrl}}{{algo_url}}",
-					"protocol": "https",
-					"host": [
-						"{{publicApiRootUrl}}{{algo_url}}"
-					]
-				},
-				"description": "Vector Request"
-			},
-			"response": []
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "561dcf1f-89b4-40c2-b64e-eebfc177731a",
+				"id": "9e77a19b-43ec-44a4-9561-2063479e98fc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -232,7 +177,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1b906239-0534-46c9-9b80-e5af9ac8517d",
+				"id": "f1eed695-8ffd-41c8-ac31-7cfe33be68a7",
 				"type": "text/javascript",
 				"exec": [
 					""

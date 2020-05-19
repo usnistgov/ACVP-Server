@@ -153,28 +153,48 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			//Can result in multiple registrations depending on what kind of e options are selected
 			List<IAlgorithm> output = new List<IAlgorithm>();
 
-			List<(string Mode, string Value)> eGenVariants = new List<(string Mode, string Value)>();
+			List<(string Mode, string Value, bool IncludeProbRP, bool OnlyProbRP)> eGenVariants = new List<(string Mode, string Value, bool IncludeProbRP, bool OnlyProbRP)>();
+
+			//Probable Random Primes is a special case that does not use the main e options, but its own. As such, need to cover all the other modes with their selected e type, potentially including ProbRP if it matches. If it uses something different, handle separately
+			string probRPMode = options.GetValue("FIPS186_3KeyGen_ProbRP") != "True" ? null : options.GetValue("RSA2_ProbRP_Fixed_e") == "True" ? "fixed" : "random";
+			bool probRPIncludedInOtherInstance = false;
 
 			if (options.GetValue("RSA2_Fixed_e") == "True")
 			{
-				eGenVariants.Add(("fixed", options.GetValue("RSA2_Fixed_e_Value")));
+				if (probRPMode == "fixed")
+				{
+					eGenVariants.Add(("fixed", options.GetValue("RSA2_Fixed_e_Value"), true, false));
+					probRPIncludedInOtherInstance = true;
+				}
+				else
+				{
+					eGenVariants.Add(("fixed", options.GetValue("RSA2_Fixed_e_Value"), false, true));
+				}
 			}
 
 			if (options.GetValue("RSA2_Random_e") == "True")
 			{
-				eGenVariants.Add(("random", null));
+				if (probRPMode == "random")
+				{
+					eGenVariants.Add(("random", null, true, false));
+					probRPIncludedInOtherInstance = true;
+				}
+				else
+				{
+					eGenVariants.Add(("random", null, false, true));
+				}
 			}
 
-			//Special case, where Probable Primes means neither e generation method is selected, which ACVP says is not possible. CAVS apparently assumes random
-			if (options.GetValue("FIPS186_3KeyGen_ProbRP") == "True" && options.GetValue("RSA2_Fixed_e") == "False" && options.GetValue("RSA2_Random_e") == "False")
+			//Special case - if Probable Random Primes was selected, but was not included in one of the instances that covered other modes, then need a special instance for just Probable Random Primes
+			if (probRPMode != null && !probRPIncludedInOtherInstance)
 			{
-				eGenVariants.Add(("random", null));
+				eGenVariants.Add((probRPMode, null, true, true));
 			}
 
 			//Loop through the collection of e related data and generate as many algos as needed
-			foreach (var (Mode, Value) in eGenVariants)
+			foreach (var (Mode, Value, IncludeProbRP, OnlyProbRP) in eGenVariants)
 			{
-				output.Add(new RSAKeyGen(Mode, Value, options, dataProvider));
+				output.Add(new RSAKeyGen(Mode, Value, IncludeProbRP, OnlyProbRP, options, dataProvider));
 			}
 
 			return output;

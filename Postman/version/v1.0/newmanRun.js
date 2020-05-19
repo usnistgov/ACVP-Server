@@ -29,8 +29,8 @@ exports.runNewmanTest = function (registration_path, crt_path, key_path, environ
     })
     .on('request', function (err, args) {
         // here, args.response represents the entire response object
-        var rawBody = args.response.stream, // this is a buffer
-             body = rawBody.toString(); // stringified JSON
+        var rawBody = args.response.stream; // this is a buffer
+        var body = rawBody.toString(); // stringified JSON
 
         results.push(JSON.parse(body)); // this is just to aggregate all responses into one object
     })

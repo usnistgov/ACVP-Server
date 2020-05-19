@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Common;
+﻿using System.Collections.Generic;
+using NIST.CVP.Common;
 using NIST.CVP.Generation.SHA3.v1_0;
 
 
@@ -18,7 +19,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 224 },
+                DigestSizes = new List<int>() { 224 },
                 BitOrientedInput = false,
                 IncludeNull = true,
                 IsSample = true
@@ -34,7 +35,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 224, 256 },
+                DigestSizes = new List<int>() { 224, 256 },
                 BitOrientedInput = true,
                 IncludeNull = true,
                 IsSample = true

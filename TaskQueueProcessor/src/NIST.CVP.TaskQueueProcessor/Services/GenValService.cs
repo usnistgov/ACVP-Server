@@ -107,7 +107,7 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             }
         }
 
-        private void SetStatus(int vsId, StatusType status, string errorMessage)
+        private void SetStatus(long vsId, StatusType status, string errorMessage)
         {
             var acvp = new MightyOrm(_connectionString);
 

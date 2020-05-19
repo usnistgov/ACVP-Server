@@ -66,6 +66,12 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 errorResults.Add(result);
             }
 
+            if (parameters.XOF == null)
+            {
+                errorResults.Add("XOF must be provided.");
+                return;
+            }
+            
             if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
                 errorResults.Add("XOF must contain only a single true, a single false, or both");
@@ -74,10 +80,16 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         private void ValidateOutputLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.OutputLength, "OutputLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.OutputLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "OutputLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
@@ -106,10 +118,16 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.OutputLength, "MessageLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.MessageLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "MessageLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))

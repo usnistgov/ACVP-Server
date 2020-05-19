@@ -32,9 +32,7 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
             var entropyProvider = new EntropyProvider(new Random800_90());
             var subject = new AllProbablePrimesWithConditionsGenerator(entropyProvider, PrimeTestModes.TwoPow100ErrorBound);
 
-            var result = subject.GeneratePrimesFips186_4(param);
-            
-            Assert.IsFalse(result.Success);
+            Assert.Throws<RsaPrimeGenException>(() => subject.GeneratePrimesFips186_4(param));
         }
 
         [Test]

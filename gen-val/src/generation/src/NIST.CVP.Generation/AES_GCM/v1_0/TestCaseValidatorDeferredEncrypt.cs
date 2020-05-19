@@ -54,6 +54,11 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
+            if (suppliedResult.IV == null)
+            {
+                errors.Add($"{nameof(suppliedResult.IV)} was not present in the {nameof(TestCase)}");
+            }
+            
             if (_testGroup.AlgoMode == AlgoMode.AES_GCM_v1_0 && suppliedResult.CipherText == null)
             {
                 errors.Add($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}");

@@ -3,6 +3,7 @@ using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
@@ -30,7 +31,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
                 var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
                 switch (algoMode)
                 {
-                    case AlgoMode.SHA1_v1_0:
+                    case AlgoMode.SHA_1_v1_0:
                         parameters.DigestSizes.Add("160");
                         break;
                     case AlgoMode.SHA2_224_v1_0:
@@ -110,7 +111,11 @@ namespace NIST.CVP.Generation.SHA2.v1_0
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
             var messageLengths = parameters.MessageLength;
-
+            if(errorResults.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(messageLengths, "Message Lengths")))
+            {
+                return;
+            }
+            
             // Enforce min/max
             var minMax = messageLengths.GetDomainMinMax();
             if (minMax.Minimum < MIN_MESSAGE_LENGTH)
