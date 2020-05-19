@@ -54,25 +54,5 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv1
 
             return new ParameterValidateResponse(errors);
         }
-
-        private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)
-        {
-            var result = ValidateSegmentCountGreaterThanZero(domain, errorTag);
-            if (!string.IsNullOrEmpty(result))
-            {
-                errors.Add(result);
-                return;
-            }
-
-            if (domain.GetDomainMinMax().Minimum < min)
-            {
-                errors.Add($"Minimum {errorTag} must be greater than or equal to {min}");
-            }
-
-            if (domain.GetDomainMinMax().Maximum > max)
-            {
-                errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
-            }
-        }
     }
 }

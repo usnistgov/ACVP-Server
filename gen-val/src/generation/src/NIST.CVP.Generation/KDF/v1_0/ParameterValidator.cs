@@ -46,6 +46,11 @@ namespace NIST.CVP.Generation.KDF.v1_0
         {
             var errors = new List<string>();
 
+            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            {
+                return new ParameterValidateResponse(errors);
+            }
+            
             foreach (var capability in parameters.Capabilities)
             {
                 string result;
@@ -60,12 +65,11 @@ namespace NIST.CVP.Generation.KDF.v1_0
 
                 ValidateFixedDataOrder(capability, errors);
 
-                if (!capability.SupportedLengths.DomainSegments.Any())
+                if (!errors.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(capability.SupportedLengths, "Supported Lengths")))
                 {
-                    errors.Add("No supported lengths provided");
                     continue;
                 }
-
+                
                 if (capability.SupportedLengths.GetDomainMinMax().Minimum < MIN_DATA_LENGTH)
                 {
                     errors.Add("Minimum output length must be greater than 0");

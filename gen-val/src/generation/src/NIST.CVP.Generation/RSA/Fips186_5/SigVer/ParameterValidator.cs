@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -19,11 +20,11 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
             var errorResults = new List<string>();
             var result = "";
 
-            if (parameters.Capabilities.Length == 0)
+            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
-
+            
             foreach (var capability in parameters.Capabilities)
             {
                 if (capability.ModuloCapabilities.Length == 0)

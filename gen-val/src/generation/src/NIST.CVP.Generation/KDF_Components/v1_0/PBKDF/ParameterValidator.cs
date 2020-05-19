@@ -38,20 +38,19 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
                 errors.Add("Incorrect mode");
             }
 
-            if (!parameters.Capabilities.Any())
+            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
-                errors.Add("Must have capabilities");
                 return new ParameterValidateResponse(errors);
             }
-
+            
             foreach (var capability in parameters.Capabilities)
             {
                 var results = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
                 errors.AddIfNotNullOrEmpty(results);
 
-                ValidateDomain(capability.KeyLength, MIN_KEY_LEN, MAX_KEY_LEN, errors, "Key Len");
-                ValidateDomain(capability.SaltLength, MIN_SALT_LEN, MAX_SALT_LEN, errors, "Salt Len");
-                ValidateDomain(capability.PasswordLength, MIN_PASS_LEN, MAX_PASS_LEN, errors, "Password Len");
+                ValidateDomain(capability.KeyLength, errors, "Key Len", MIN_KEY_LEN, MAX_KEY_LEN);
+                ValidateDomain(capability.SaltLength, errors, "Salt Len", MIN_SALT_LEN, MAX_SALT_LEN);
+                ValidateDomain(capability.PasswordLength, errors, "Password Len", MIN_PASS_LEN, MAX_PASS_LEN);
 
                 // If the intersection of the FAST and the selected is equal to the selected
                 //     then there are only FAST hash algs present
@@ -61,33 +60,10 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
                         ? MAX_ITR_COUNT_FAST
                         : MAX_ITR_COUNT; 
                 
-                ValidateDomain(capability.IterationCount, MIN_ITR_COUNT, maxItrCount, errors, "Iteration Count");
+                ValidateDomain(capability.IterationCount, errors, "Iteration Count", MIN_ITR_COUNT, maxItrCount);
             }
 
             return new ParameterValidateResponse(errors);
-        }
-
-        private void ValidateDomain(MathDomain domain, int min, int max, List<string> errors, string friendlyName)
-        {
-            // Check there are segments
-            if (!domain.DomainSegments.Any())
-            {
-                errors.Add($"No segments found within {friendlyName}");
-                return;
-            }
-            
-            // Check min and max
-            var minMax = domain.GetDomainMinMax();
-
-            if (minMax.Minimum < min)
-            {
-                errors.Add($"Minimum {friendlyName} provided is below allowed value of {min}");
-            }
-
-            if (minMax.Maximum > max)
-            {
-                errors.Add($"Maximum {friendlyName} provided is above allowed value of {max}");
-            }
         }
     }
 }

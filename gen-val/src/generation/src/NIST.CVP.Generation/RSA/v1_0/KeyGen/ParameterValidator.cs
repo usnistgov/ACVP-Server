@@ -46,22 +46,21 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
             
-            if (!parameters.AlgSpecs.Any())
+            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
-
+            
             foreach (var algSpec in parameters.AlgSpecs)
             {
+                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
+                {
+                    return new ParameterValidateResponse(errorResults);
+                }
+                
                 if (algSpec.RandPQ == PrimeGenFips186_4Modes.Invalid)
                 {
                     errorResults.Add("Invalid or no rand pq");
-                }
-
-                if (algSpec.Capabilities.Length == 0)
-                {
-                    errorResults.Add("No capabilities listed for a KeyGen mode");
-                    continue;
                 }
 
                 if (errorResults.Count > 0)

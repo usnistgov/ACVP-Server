@@ -15,6 +15,12 @@ namespace NIST.CVP.Generation.DRBG.v1_0
             DrbgAttributes attributes = null;
             var errorResults = new List<string>();
 
+            if (parameters.PredResistanceEnabled == null)
+            {
+                errorResults.Add("predResistance array must be provided.");
+                return new ParameterValidateResponse(errorResults);
+            }
+            
             if (parameters.PredResistanceEnabled.Length != 1 && parameters.PredResistanceEnabled.Length != 2)
             {
                 errorResults.Add("predResistance must be a minimal array of booleans");

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
@@ -18,16 +19,15 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
             var errorResults = new List<string>();
             var result = "";
 
-            if (parameters.Capabilities.Length == 0)
+            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
-
+            
             foreach (var capability in parameters.Capabilities)
             {
-                if (capability.ModuloCapabilities.Length == 0)
+                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
                 {
-                    errorResults.Add("No capabilities listed for a SigGen mode");
                     continue;
                 }
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
 
                 foreach (var moduloCap in capability.ModuloCapabilities)
                 {
-                    if (moduloCap.HashPairs.Length == 0)
+                    if (moduloCap.HashPairs == null || moduloCap.HashPairs.Length == 0)
                     {
                         errorResults.Add("No hash/salt pairs listed for a modulus");
                         continue;
@@ -52,9 +52,10 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
 
                     if (capability.SigType == SignatureSchemes.Pss)
                     {
-                        if (moduloCap.MaskFunction.Length == 0)
+                        if (moduloCap.MaskFunction == null || moduloCap.MaskFunction.Length == 0)
                         {
                             errorResults.Add("No mask generation function found");
+                            continue;
                         }
 
                         if (moduloCap.MaskFunction.Contains(PssMaskTypes.None))

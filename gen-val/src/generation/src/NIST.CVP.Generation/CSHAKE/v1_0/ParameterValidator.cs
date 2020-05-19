@@ -69,10 +69,16 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
 
         private void ValidateOutputLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.OutputLength, "OutputLen Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.OutputLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "OutputLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
@@ -101,10 +107,16 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
 
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.MessageLength, "MessageLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.MessageLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "MessageLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))

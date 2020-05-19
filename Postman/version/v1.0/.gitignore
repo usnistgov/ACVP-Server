@@ -1,3 +1,7 @@
 newman-run-report-*.json
 newman-run-report*
 loadTestRuns
+accessToken.json
+output.json
+registration-response.json
+totp.json
