@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.Algorithms.External;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Options;
 using Mighty;
-using Serilog;
 using Web.Public.Configs;
 
 namespace Web.Public.Providers
 {
     public class AlgorithmProvider : IAlgorithmProvider
     {
+        private readonly ILogger<AlgorithmProvider> _logger;
         private readonly string _acvpConnectionString;
         private readonly AlgorithmConfig _options;
         private IEnumerable<AlgorithmBase> _cachedAlgorithmList = new List<AlgorithmBase>();
-
-        public AlgorithmProvider(IConnectionStringFactory connectionStringFactory, IOptions<AlgorithmConfig> options)
+        
+        public AlgorithmProvider(ILogger<AlgorithmProvider> logger, IConnectionStringFactory connectionStringFactory, IOptions<AlgorithmConfig> options)
         {
+            _logger = logger;
             _acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
             _options = options.Value;
         }
@@ -40,8 +42,8 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, ex.Message);
-                throw ex;
+                _logger.LogError(ex);
+                throw;
             }
         }
 
