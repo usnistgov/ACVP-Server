@@ -352,6 +352,7 @@
     <Build Include="val\Stored Procedures\PersonGetPhones.sql" />
     <Build Include="val\Stored Procedures\OEsForValidationGet.sql" />
     <Build Include="acvp\Views\FilteredVectorSetJson.sql" />
+    <Build Include="common\Stored Procedures\TaskQueueSetStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
