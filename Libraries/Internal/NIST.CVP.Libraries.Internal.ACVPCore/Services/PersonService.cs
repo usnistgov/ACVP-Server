@@ -4,6 +4,7 @@ using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.Results;
+using System.Collections.Generic;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 {
@@ -144,5 +145,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		{
 			return _personProvider.Get(param);
 		}
+
+		public List<string> GetEmailAddresses(long personID) => _personProvider.GetEmailAddresses(personID);
 	}
 }

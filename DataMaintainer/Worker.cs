@@ -5,9 +5,11 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace DataMaintainer
 {
@@ -16,20 +18,26 @@ namespace DataMaintainer
 		private readonly ILogger<Worker> _logger;
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITestSessionService _testSessionService;
+		private readonly IPersonService _personService;
 		private readonly IHostApplicationLifetime _hostApplicationLifetime;
+		private readonly IMailer _mailer;
 		private readonly string _destinationFolder;
 		private readonly int _ageInDays;
+		private readonly int _daysBeforeExpirationToWarn;
 		private readonly bool _createArchiveFile;
 		private readonly bool _expirationEnabled;
 
-		public Worker(ILogger<Worker> logger, IVectorSetService vectorSetService, ITestSessionService testSessionService, IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
+		public Worker(ILogger<Worker> logger, IVectorSetService vectorSetService, ITestSessionService testSessionService, IPersonService personService, IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration, IMailer mailer)
 		{
 			_logger = logger;
 			_vectorSetService = vectorSetService;
 			_testSessionService = testSessionService;
+			_personService = personService;
 			_hostApplicationLifetime = hostApplicationLifetime;
+			_mailer = mailer;
 			_destinationFolder = configuration.GetValue<string>("DataMaintainer:DestinationFolder");
 			_ageInDays = configuration.GetValue<int>("DataMaintainer:AgeInDays");
+			_daysBeforeExpirationToWarn = configuration.GetValue<int>("DataMaintainer:DaysBeforeExpirationToWarn");
 			_createArchiveFile = configuration.GetValue<bool>("DataMaintainer:CreateArchiveFile");
 			_expirationEnabled = configuration.GetValue<bool>("DataMaintainer:ExpirationEnabled");
 		}
@@ -53,6 +61,10 @@ namespace DataMaintainer
 			//Expire test sessions that haven't been touched in the configured number of days
 			if (_expirationEnabled)
 			{
+				//Send warning emails
+				SendWarningEmails();
+
+				//Do expiration
 				_testSessionService.Expire(_ageInDays);
 			}
 
@@ -118,6 +130,27 @@ namespace DataMaintainer
 
 			using StreamWriter writer = new StreamWriter(entry.Open());
 			writer.Write(JsonSerializer.Serialize(vectorSetData));
+		}
+
+		private void SendWarningEmails()
+		{
+			//Get the IDs of the test sessions expiring in however many days, and the ID of the person
+			var testSessions = _testSessionService.GetTestSessionsForExpirationWarning(_daysBeforeExpirationToWarn);
+
+			//Group them by the person so we only send each person 1 email
+			var groupedByPerson = testSessions.GroupBy(x => x.PersonID);
+
+			foreach (var person in groupedByPerson)
+			{
+				SendWarningEmailToPerson(person.Key, person.Select(x => x.TestSessionID));
+			}
+		}
+
+		private void SendWarningEmailToPerson(long personID, IEnumerable<long> testSessionIDs)
+		{
+			string subject = "ACVTS Test Session Expiration Warning";
+			string body = $"The following ACVTS Test Sessions will expire in {_daysBeforeExpirationToWarn} days: {string.Join(", ", testSessionIDs)}";
+			_mailer.Send(subject, body, _personService.GetEmailAddresses(personID));
 		}
 	}
 }

@@ -258,6 +258,33 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 		}
 
+		public List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int daysBeforeExpirationToWarn)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<(long TestSessionID, long PersonID)> result = new List<(long TestSessionID, long PersonID)>();
+
+			try
+			{
+				var data = db.QueryFromProcedure("acvp.TestSessionsForExpirationWarningGet", inParams: new
+				{
+					DaysBeforeExpirationToWarn = daysBeforeExpirationToWarn
+				});
+
+				foreach (var row in data)
+				{
+					result.Add((row.TestSessionID, row.PersonID));
+				}
+
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+
+			return result;
+		}
+
 		public void KeepAlive(long testSessionID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

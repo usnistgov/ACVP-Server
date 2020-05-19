@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
@@ -9,6 +10,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 	{
 		Person Get(long personID);
 		PagedEnumerable<PersonLite> Get(PersonListParameters param);
+		List<string> GetEmailAddresses(long personID);
 		Result Delete(long personID);
 		Result DeleteAllEmails(long personID);
 		Result DeleteAllPhoneNumbers(long personID);

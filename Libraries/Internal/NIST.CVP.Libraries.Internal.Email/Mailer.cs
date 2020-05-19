@@ -24,6 +24,11 @@ namespace NIST.CVP.Libraries.Internal.Email
 			return Send(subject, body, _emailConfiguration.DefaultFromAddress, new List<string> { toAddress });
 		}
 
+		public bool Send(string subject, string body, List<string> toAddresses)
+		{
+			return Send(subject, body, _emailConfiguration.DefaultFromAddress, toAddresses);
+		}
+
 		public bool Send(string subject, string body, string fromAddress, List<string> toAddresses = null, List<string> ccAddresses = null, List<string> bccAddresses = null)
 		{
 			return Send(subject, body, null, fromAddress, toAddresses, ccAddresses, bccAddresses);

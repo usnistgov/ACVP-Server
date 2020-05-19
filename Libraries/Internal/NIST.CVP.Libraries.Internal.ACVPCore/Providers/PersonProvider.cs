@@ -8,6 +8,7 @@ using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
+using System.Linq;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -50,17 +51,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				personResult.Organization.FaxNumber = personData.organization_fax;
 
 				// Second section - Personal Email Data, a one-to-many relationship
-				var personEmailData = db.QueryFromProcedure("val.PersonGetEmails", inParams: new
-				{
-					PersonID = personID
-				});
+				personResult.EmailAddresses = GetEmailAddresses(personID);
 
-				foreach (var email in personEmailData) 
-				{ 
-					personResult.EmailAddresses.Add(email.email_address); 
-				}
-
-				// Second section - Personal Phone Data, a one-to-many relationship
+				// Third section - Personal Phone Data, a one-to-many relationship
 				var personPhoneData = db.QueryFromProcedure("val.PersonGetPhones", inParams: new
 				{
 					PersonID = personID
@@ -74,7 +67,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					});
 				}
 
-				// Third Section - PErsonal Notes
+				// Fourth Section - Notes
 				var personNoteData = db.QueryFromProcedure("val.PersonGetNotes", inParams: new
 				{
 					PersonID = personID
@@ -98,6 +91,32 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			return personResult;
 		}
+
+		public List<string> GetEmailAddresses (long personID)
+		{
+			List<string> result = new List<string>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("val.PersonGetEmails", inParams: new
+				{
+					PersonID = personID
+				});
+
+				foreach(var row in data)
+				{
+					result.Add(row.EmailAddress);
+				}	
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+
+			return result;
+		}
+
 		public Result Delete(long personID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);

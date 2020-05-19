@@ -119,6 +119,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 
 		public void Expire(int ageInDays) => _testSessionProvider.Expire(ageInDays);
 
+		public List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int daysBeforeExpirationToWarn) => _testSessionProvider.GetTestSessionsForExpirationWarning(daysBeforeExpirationToWarn);
+
 		public void KeepAlive(long testSessionID) => _testSessionProvider.KeepAlive(testSessionID);
 	}
 }
