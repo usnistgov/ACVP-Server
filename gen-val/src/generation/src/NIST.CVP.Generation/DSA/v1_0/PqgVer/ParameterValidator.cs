@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
@@ -16,6 +17,11 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
             var errors = new List<string>();
             var result = "";
 
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            {
+                return new ParameterValidateResponse(errors);
+            }
+            
             foreach (var capability in parameters.Capabilities)
             {
                 result = ValidateValue(capability.L, VALID_L, "L");
@@ -51,12 +57,6 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer
                 if (!string.IsNullOrEmpty(result))
                 {
                     errors.Add(result);
-                }
-
-                if (capability.HashAlg.Length == 0)
-                {
-                    errors.Add("No hash algorithm found");
-                    continue;
                 }
 
                 result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");

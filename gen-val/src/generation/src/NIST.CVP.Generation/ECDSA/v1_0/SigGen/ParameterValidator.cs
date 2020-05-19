@@ -15,9 +15,9 @@ namespace NIST.CVP.Generation.ECDSA.v1_0.SigGen
             var errors = new List<string>();
             var result = "";
 
-            if (parameters.Capabilities.Length == 0)
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
-                errors.Add("No capabilities found");
+                return new ParameterValidateResponse(errors);
             }
 
             foreach (var capability in parameters.Capabilities)

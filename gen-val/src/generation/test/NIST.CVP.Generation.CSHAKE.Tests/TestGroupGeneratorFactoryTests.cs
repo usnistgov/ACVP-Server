@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "cSHAKE",
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new List<int>() {128, 256},
                 IsSample = false,
                 OutputLength = minMax,
                 MessageLength = minMax

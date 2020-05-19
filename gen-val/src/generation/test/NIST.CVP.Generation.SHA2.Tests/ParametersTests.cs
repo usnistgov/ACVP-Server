@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.SHA2.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.SHA2.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -14,7 +15,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA1",
-                DigestSizes = new [] {"160"},
+                DigestSizes = new List<string>() {"160"},
                 IsSample = false,
                 MessageLength = new MathDomain()
             };
@@ -27,7 +28,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             var parameters = new Parameters
             {
                 Algorithm = "SHA2",
-                DigestSizes = new [] {"224", "256", "384", "512", "512/224", "512/256"},
+                DigestSizes = new List<string>() {"224", "256", "384", "512", "512/224", "512/256"},
                 IsSample = false,
                 MessageLength = new MathDomain()
             };

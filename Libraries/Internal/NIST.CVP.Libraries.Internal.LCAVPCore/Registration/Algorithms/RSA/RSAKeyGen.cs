@@ -22,7 +22,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 		[JsonProperty("capabilities")]
 		public List<Capability> Capabilities { get; private set; } = new List<Capability>();
 
-		public RSAKeyGen(string publicKeyExpoonentType, string fixedEValue, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "keyGen")
+		public RSAKeyGen(string publicKeyExponentType, string fixedEValue, bool IncludeProbRP, bool OnlyProbRP, Dictionary<string, string> options, IDataProvider dataProvider) : base(dataProvider, "RSA", "keyGen")
 		{
 			//Prereqs
 			PreReqs.Add(BuildPrereq("SHS", options.GetValue("FIPS186_3_RSA_Prerequisite_SHA_1")));
@@ -31,28 +31,17 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 			PreReqs.Add(BuildPrereq("DRBG", options.GetValue("FIPS186_3_RSA_Prerequisite_DRBG_1")));
 			PreReqs.Add(BuildPrereq("DRBG", options.GetValue("FIPS186_3_RSA_Prerequisite_DRBG_2")));
 
-			PublicKeyExponentType = publicKeyExpoonentType;
+			PublicKeyExponentType = publicKeyExponentType;
 
 			//Add the value, but strip off any hex prefixes to get it to [0-9a-fA-F]. Not foolproof, but good enough for now
 			FixedPublicKeyExponentValue = fixedEValue?.Replace("0x", "")?.Replace("0X", "")?.Replace("x", "")?.Replace("X", "");
 
-			////Public Key Exponent type & value (if fixed)
-			//if (options.GetValue("RSA2_Fixed_e") == "True")
-			//{
-			//	PublicKeyExponentType = "fixed";
-			//	FixedPublicKeyExponentValue = options.GetValue("RSA2_Fixed_e_Value");
-			//}
-			//else
-			//{
-			//	PublicKeyExponentType = "random";
-			//}
-
-
 			InfoGeneratedByServer = options.GetValue("RSA2_NewFormat") == "True";
 
+			//Due to the weird way that ProbRP has its own public key exponent type, while the other 4 modes share a different one, sometimes we'll be calling this to do just ProbRP and ignore the other selected modes, sometimes we'll be doing all the other modes and ignoring ProbRP, and sometimes doing the other modes and including ProbRP
 
 			//Probable
-			if (options.GetValue("FIPS186_3KeyGen_ProbRP") == "True")
+			if (options.GetValue("FIPS186_3KeyGen_ProbRP") == "True" && IncludeProbRP)
 			{
 				Capability capability = new Capability();
 				capability.RandomPQSection = "B.3.3";
@@ -90,7 +79,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 			}
 
 			//Provable
-			if (options.GetValue("FIPS186_3KeyGen_ProvRP") == "True")
+			if (options.GetValue("FIPS186_3KeyGen_ProvRP") == "True" && !OnlyProbRP)
 			{
 				Capability capability = new Capability();
 				capability.RandomPQSection = "B.3.2";
@@ -139,7 +128,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 			}
 
 			//Provable with Conditions
-			if (options.GetValue("FIPS186_3KeyGen_ProvPC") == "True")
+			if (options.GetValue("FIPS186_3KeyGen_ProvPC") == "True" && !OnlyProbRP)
 			{
 				Capability capability = new Capability();
 				capability.RandomPQSection = "B.3.4";
@@ -187,7 +176,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 			}
 
 			//Probable and Provable with Conditions
-			if (options.GetValue("FIPS186_3KeyGen_BothPC") == "True")
+			if (options.GetValue("FIPS186_3KeyGen_BothPC") == "True" && !OnlyProbRP)
 			{
 				Capability capability = new Capability();
 				capability.RandomPQSection = "B.3.5";
@@ -243,7 +232,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms.RSA
 			}
 
 			//Probable with Conditions
-			if (options.GetValue("FIPS186_3KeyGen_ProbPC") == "True")
+			if (options.GetValue("FIPS186_3KeyGen_ProbPC") == "True" && !OnlyProbRP)
 			{
 				Capability capability = new Capability();
 				capability.RandomPQSection = "B.3.6";

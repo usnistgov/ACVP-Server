@@ -28,8 +28,7 @@ namespace NIST.CVP.Crypto.RSA.Tests.PrimeGenerators
             var sha = new ShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
             var subject = new RandomProvablePrimeGenerator(sha);
 
-            var result = subject.GeneratePrimesFips186_4(param);
-            Assert.IsFalse(result.Success);
+            Assert.Throws<RsaPrimeGenException>(() => subject.GeneratePrimesFips186_4(param));
         }
 
         [Test]

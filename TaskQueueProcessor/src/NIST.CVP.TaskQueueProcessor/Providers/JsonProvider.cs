@@ -15,7 +15,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
         }
         
-        public string GetJson(int vsId, string jsonFileType)
+        public string GetJson(long vsId, string jsonFileType)
         {
             var acvp = new MightyOrm(_connectionString);
 
@@ -36,7 +36,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             }
         }
 
-        public void PutJson(int vsId, string jsonFileType, string json)
+        public void PutJson(long vsId, string jsonFileType, string json)
         {
             var acvp = new MightyOrm(_connectionString);
 

@@ -1,4 +1,6 @@
-﻿using NIST.CVP.Generation.KMAC.v1_0;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KMAC.Tests
@@ -10,7 +12,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
         private MathDomain _macLen;
         private MathDomain _msgLen;
         private bool[] _xof;
-        private int[] _digestSizes;
+        private List<int> _digestSizes;
         private bool _hexCustomization;
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
             _macLen = new MathDomain();
             _macLen = _macLen.AddSegment(new RangeDomainSegment(null, 32, 65536, 8));
             _xof = new[] { true, false };
-            _digestSizes = new int[] { 128, 256 };
+            _digestSizes = new List<int>() {128, 256};
             _hexCustomization = false;
         }
 
@@ -68,7 +70,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
         public ParameterBuilder WithDigestSizes(int[] values)
         {
-            _digestSizes = GetDeepCopy(values);
+            _digestSizes = GetDeepCopy(values).ToList();
             return this;
         }
 

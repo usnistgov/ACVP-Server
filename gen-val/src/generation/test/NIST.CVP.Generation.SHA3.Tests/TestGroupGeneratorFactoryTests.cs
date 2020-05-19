@@ -51,7 +51,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "SHAKE",
-                DigestSizes = new[] {128, 256},
+                DigestSizes = new List<int>() {128, 256},
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,

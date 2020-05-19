@@ -18,12 +18,12 @@ namespace NIST.CVP.Generation.Core
         /// </summary>
         /// <param name="request">The algorithm capabilities json.</param>
         /// <returns></returns>
-        Task<GenerateResponse> GenerateAsync(GenerateRequest request, int vsId);
+        Task<GenerateResponse> GenerateAsync(GenerateRequest request, long vsId);
         /// <summary>
         /// Run the validator given the ACVP internal projection and IUT responses.
         /// </summary>
         /// <param name="request">The ACVP internal projection and IUT json.</param>
         /// <returns></returns>
-        Task<ValidateResponse> ValidateAsync(ValidateRequest request, int vsId);
+        Task<ValidateResponse> ValidateAsync(ValidateRequest request, long vsId);
     }
 }
