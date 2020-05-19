@@ -77,7 +77,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, $"Unable to find person with id {id}");
+				_logger.LogError(ex, $"Unable to find person with id {id}");
 				throw;
 			}
 		}
@@ -102,7 +102,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to validate existence of person.", e);
+				_logger.LogError(e, "Unable to validate existence of person.");
 				return false;
 			}
 		}
@@ -173,7 +173,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get person list", ex);
+				_logger.LogError(ex, "Unable to get person list");
 				throw;
 			}
 		}

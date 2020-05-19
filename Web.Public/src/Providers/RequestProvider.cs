@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
-using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
     public class RequestProvider : IRequestProvider
     {
+        private readonly ILogger<RequestProvider> _logger;
         private readonly string _connectionString;
         
-        public RequestProvider(IConnectionStringFactory connectionStringFactory)
+        public RequestProvider(ILogger<RequestProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
 
@@ -32,7 +34,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error getting request");
+                _logger.LogError(ex, "Error getting request");
                 return null;
             }
         }
@@ -57,7 +59,7 @@ namespace Web.Public.Providers
             }
             catch (Exception e)
             {
-                Log.Error("Unable to validate existence of request.", e);
+                _logger.LogError("Unable to validate existence of request.", e);
                 return false;
             }
         }
@@ -82,7 +84,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error getting requests");
+                _logger.LogError(ex, "Error getting requests");
                 throw;
             }
         }

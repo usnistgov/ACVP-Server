@@ -5,7 +5,6 @@ using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -67,7 +66,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Error on Implementation GET");
+				_logger.LogError(ex, "Error on Implementation GET");
 				throw;
 			}
 		}
@@ -92,7 +91,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to validate existence of implementation.", e);
+				_logger.LogError(e, "Unable to validate existence of implementation.");
 				return false;
 			}
 		}
@@ -117,7 +116,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to determine if implementation in use.", e);
+				_logger.LogError(e, "Unable to determine if implementation in use.");
 				return false;
 			}
 		}
@@ -185,7 +184,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get implementation list", ex);
+				_logger.LogError(ex, "Unable to get implementation list");
 				throw;
 			}
 		}

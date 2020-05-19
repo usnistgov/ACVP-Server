@@ -1,16 +1,18 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
-using Serilog;
 
 namespace Web.Public.Providers
 {
     public class UserProvider : IUserProvider
     {
+        private readonly ILogger<UserProvider> _logger;
         private readonly string _connectionString;
-
-        public UserProvider(IConnectionStringFactory connectionStringFactory)
+        
+        public UserProvider(ILogger<UserProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
@@ -34,7 +36,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.StackTrace);
+                _logger.LogError(ex.StackTrace);
                 throw;
             }
         }

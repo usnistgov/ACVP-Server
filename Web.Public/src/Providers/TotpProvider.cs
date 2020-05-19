@@ -1,16 +1,19 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
-using Serilog;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 
 namespace Web.Public.Providers
 {
     public class TotpProvider : ITotpProvider
     {
+        private ILogger<TotpProvider> _logger;
         private readonly string _acvpConnectionString;
-        
-        public TotpProvider(IConnectionStringFactory connectionStringFactory)
+
+        public TotpProvider(ILogger<TotpProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
@@ -35,7 +38,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.StackTrace);
+                _logger.LogError(ex);
                 throw;
             }
         }
@@ -62,7 +65,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.StackTrace);
+                _logger.LogError(ex);
                 throw;
             }
         }
@@ -82,7 +85,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex.StackTrace);
+                _logger.LogError(ex);
                 throw;
             }
         }

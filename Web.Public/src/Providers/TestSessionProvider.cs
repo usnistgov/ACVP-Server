@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.Results;
-using Serilog;
 using Web.Public.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 
@@ -12,10 +12,12 @@ namespace Web.Public.Providers
 {
     public class TestSessionProvider : ITestSessionProvider
     {
+        private readonly ILogger _logger;
         private readonly string _connectionString;
-
-        public TestSessionProvider(IConnectionStringFactory connectionStringFactory)
+        
+        public TestSessionProvider(ILogger<TestSessionProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
 
@@ -39,7 +41,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Unable to check ownership");
+                _logger.LogError(ex, "Unable to check ownership");
                 throw;
             }
         }
@@ -84,7 +86,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error retrieving TestSession: {id}");
+                _logger.LogError(ex, $"Error retrieving TestSession: {id}");
                 throw;
             }
         }
@@ -132,7 +134,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error retrieving TestSessions for user: {userID}");
+                _logger.LogError(ex, $"Error retrieving TestSessions for user: {userID}");
                 throw;
             }
         }
@@ -154,7 +156,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error retrieving next TestSession ID");
+                _logger.LogError(ex, "Error retrieving next TestSession ID");
                 throw;
             }
         }
