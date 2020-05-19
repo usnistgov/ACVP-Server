@@ -46,14 +46,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
             }
             
-            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }
             
             foreach (var algSpec in parameters.AlgSpecs)
             {
-                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
                 {
                     return new ParameterValidateResponse(errorResults);
                 }

@@ -19,14 +19,14 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigGen
             var errorResults = new List<string>();
             var result = "";
 
-            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }
             
             foreach (var capability in parameters.Capabilities)
             {
-                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
                 {
                     continue;
                 }

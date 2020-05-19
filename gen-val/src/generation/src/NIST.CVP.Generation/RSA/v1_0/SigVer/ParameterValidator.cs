@@ -22,14 +22,14 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
             var errorResults = new List<string>();
             var result = "";
 
-            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }
 
             foreach (var capability in parameters.Capabilities)
             {
-                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
                 {
                     return new ParameterValidateResponse(errorResults);
                 }
@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 
                 foreach (var moduloCap in capability.ModuloCapabilities)
                 {
-                    if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(moduloCap.HashPairs, "hash/salt pairs for modulus")))
+                    if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(moduloCap.HashPairs, "hash/salt pairs for modulus")))
                     {
                         continue;
                     }
