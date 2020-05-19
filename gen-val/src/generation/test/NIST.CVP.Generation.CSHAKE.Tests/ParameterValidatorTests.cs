@@ -193,7 +193,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    DigestSizes = _digestSize,
+                    DigestSizes = _digestSize.ToList(),
                     HexCustomization = _hexCustomization,
                     OutputLength = _outputLength,
                     MessageLength = _messageLength
