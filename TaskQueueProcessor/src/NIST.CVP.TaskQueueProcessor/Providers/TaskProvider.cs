@@ -1,18 +1,25 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
+using GenerationTask = NIST.CVP.TaskQueueProcessor.TaskModels.GenerationTask;
+using ValidationTask = NIST.CVP.TaskQueueProcessor.TaskModels.ValidationTask;
 
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
     public class TaskProvider : ITaskProvider
     {
+        private ILogger<TaskProvider> _logger;
         private readonly string _connectionString;
         private readonly IJsonProvider _jsonProvider;
         
-        public TaskProvider(IConnectionStringFactory connectionStringFactory, IJsonProvider jsonProvider)
+        public TaskProvider(ILogger<TaskProvider> logger, IConnectionStringFactory connectionStringFactory, IJsonProvider jsonProvider)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
             _jsonProvider = jsonProvider;
         }
@@ -28,19 +35,46 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             
             // Parse out data into either generation or validation task
             var executableTask = BuildExecutableTask(taskRow);
-            switch (executableTask)
+            try
             {
-                case GenerationTask generationTask:
-                    generationTask.Capabilities = _jsonProvider.GetJson(generationTask.VsId, JsonFileTypes.CAPABILITIES);
-                    return generationTask;
+                switch (executableTask)
+                {
+                    case GenerationTask generationTask:
+                        generationTask.Capabilities = _jsonProvider.GetJson(generationTask.VsId, JsonFileTypes.CAPABILITIES);
+                        return generationTask;
                 
-                case ValidationTask validationTask:
-                    validationTask.SubmittedResults = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.SUBMITTED_RESULTS);
-                    validationTask.InternalProjection = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION);
-                    return validationTask;
+                    case ValidationTask validationTask:
+                        validationTask.SubmittedResults = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.SUBMITTED_RESULTS);
+                        validationTask.InternalProjection = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION);
+                        return validationTask;
                 
-                default:
-                    throw new Exception();
+                    default:
+                        throw new Exception($"Invalid {nameof(executableTask)}");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception encountered on building executable task.  Setting task to an error status.");
+                SetTaskStatus(executableTask.DbId, TaskStatus.Error);
+                return null;
+            }
+        }
+
+        public void SetTaskStatus(long taskID, TaskStatus status)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                db.ExecuteProcedure("common.TaskQueueSetStatus", new
+                {
+                    TaskID = taskID,
+                    Status = (int)status
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
             }
         }
 
@@ -51,7 +85,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             int vsId = (int)data.VsId;
             bool isSample = data.IsSample;
             bool showExpected = data.ShowExpected;
-            
+
             return operation switch
             {
                 TaskActions.GENERATION => new GenerationTask
