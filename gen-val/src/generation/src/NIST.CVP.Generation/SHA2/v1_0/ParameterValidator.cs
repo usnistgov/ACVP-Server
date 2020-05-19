@@ -111,7 +111,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
             var messageLengths = parameters.MessageLength;
-            if(!errorResults.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(messageLengths, "Message Lengths")))
+            if(errorResults.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(messageLengths, "Message Lengths")))
             {
                 return;
             }

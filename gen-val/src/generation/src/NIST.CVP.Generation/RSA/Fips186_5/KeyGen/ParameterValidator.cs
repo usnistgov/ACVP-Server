@@ -47,7 +47,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
             }
 
-            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }
@@ -59,7 +59,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                     errorResults.Add("Invalid or no rand pq");
                 }
 
-                if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
                 {
                     continue;
                 }

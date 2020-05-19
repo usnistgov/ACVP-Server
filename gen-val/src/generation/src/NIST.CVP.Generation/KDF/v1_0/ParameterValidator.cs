@@ -46,7 +46,7 @@ namespace NIST.CVP.Generation.KDF.v1_0
         {
             var errors = new List<string>();
 
-            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
                 return new ParameterValidateResponse(errors);
             }
@@ -65,8 +65,9 @@ namespace NIST.CVP.Generation.KDF.v1_0
 
                 ValidateFixedDataOrder(capability, errors);
 
-                if (!errors.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(capability.SupportedLengths, "Supported Lengths")))
+                if (errors.AddIfNotNullOrEmpty(ValidateSegmentCountGreaterThanZero(capability.SupportedLengths, "Supported Lengths")))
                 {
+                    errors.Add("No supported lengths provided");
                     continue;
                 }
                 

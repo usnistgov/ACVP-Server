@@ -20,7 +20,7 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.SigVer
             var errorResults = new List<string>();
             var result = "";
 
-            if (!errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
                 return new ParameterValidateResponse(errorResults);
             }

@@ -38,7 +38,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
                 errors.Add("Incorrect mode");
             }
 
-            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
                 return new ParameterValidateResponse(errors);
             }

@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.ECDSA.Fips186_5.SigVer
             var errors = new List<string>();
             var result = "";
 
-            if (!errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
                 return new ParameterValidateResponse(errors);
             }
