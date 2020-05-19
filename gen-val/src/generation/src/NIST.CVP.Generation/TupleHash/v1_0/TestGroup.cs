@@ -26,6 +26,12 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         [JsonIgnore]
         public MathDomain OutputLength { get; set; }
+        
+        [JsonProperty(PropertyName = "minOutLen")]
+        public int MinOutputLength => OutputLength.GetDomainMinMax().Minimum;
+
+        [JsonProperty(PropertyName = "maxOutLen")]
+        public int MaxOutputLength => OutputLength.GetDomainMinMax().Maximum;
 
         [JsonIgnore]
         public MathDomain MessageLength { get; set; }

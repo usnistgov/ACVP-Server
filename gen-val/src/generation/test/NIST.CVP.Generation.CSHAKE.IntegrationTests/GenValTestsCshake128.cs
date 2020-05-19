@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int>() {128},
                 OutputLength = minMax,
                 MessageLength = minMax,
                 IsSample = true
@@ -101,7 +101,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int>() {128},
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
                 IsSample = true

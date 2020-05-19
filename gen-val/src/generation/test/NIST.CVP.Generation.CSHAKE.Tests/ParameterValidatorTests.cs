@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.CSHAKE.v1_0;
+﻿using System.Linq;
+using NIST.CVP.Generation.CSHAKE.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -191,7 +192,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    DigestSizes = _digestSize,
+                    DigestSizes = _digestSize.ToList(),
                     HexCustomization = _hexCustomization,
                     OutputLength = _outputLength,
                     MessageLength = _messageLength

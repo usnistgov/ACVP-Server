@@ -18,7 +18,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var parameters = new Parameters
             {
                 Algorithm = "CSHAKE",
-                DigestSizes = new int[5],
+                DigestSizes = new List<int>(),
                 HexCustomization = false,
                 MessageLength = new MathDomain(),
                 OutputLength = new MathDomain(),
@@ -36,7 +36,7 @@ namespace NIST.CVP.Generation.CSHAKE.Tests
             var parameters = new Parameters
             {
                 Algorithm = "CSHAKE",
-                DigestSizes = new int[5],
+                DigestSizes = new List<int>(),
                 HexCustomization = false,
                 MessageLength = minMax,
                 OutputLength = minMax,
