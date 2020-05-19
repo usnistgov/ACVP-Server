@@ -25,6 +25,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                         OutputLength = parameters.OutputLength.GetDeepCopy(),
                         MessageLength = parameters.MessageLength.GetDeepCopy(),
                         HexCustomization = parameters.HexCustomization,
+                        BlockSize = parameters.BlockSize.GetDeepCopy(),
                         XOF = xof
                     };
 

@@ -18,6 +18,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         private int _minMsgLength = 0;
         private int _maxMsgLength = 65536;
 
+        public static int VALID_MIN_BLOCK_SIZE = 1;
+        public static int VALID_MAX_BLOCK_SIZE = 128;
+
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
@@ -48,7 +51,8 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             ValidateFunctions(parameters, errorResults);
             ValidateOutputLength(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
-
+            ValidateBlockSize(parameters, errorResults);
+            
             return new ParameterValidateResponse(errorResults);
         }
 
@@ -108,6 +112,35 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             }
             var modCheck = ValidateMultipleOf(parameters.OutputLength, bitOriented, "OutputLength Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
+        }
+        
+        private void ValidateBlockSize(Parameters parameters, List<string> errorResults)
+        {
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.BlockSize, "OutputLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
+            if (parameters.BlockSize.DomainSegments.Count() != 1)
+            {
+                segmentCheck = "OutputLength must have exactly one segment in the domain";
+            }
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+
+            var fullDomain = parameters.BlockSize.GetDomainMinMax();
+            var rangeCheck = ValidateRange(
+                new long[] { fullDomain.Minimum, fullDomain.Maximum },
+                VALID_MIN_BLOCK_SIZE,
+                VALID_MAX_BLOCK_SIZE,
+                "BlockSize Range"
+            );
+            errorResults.AddIfNotNullOrEmpty(rangeCheck);
         }
 
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)

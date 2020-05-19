@@ -71,12 +71,27 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
             } while (outputLengths.Count < messageLengths.Count);
             
+            // For every input length, just pick a random block size (min/max always included)
+            var blockSizeAllowed = group.BlockSize.GetDeepCopy();
+            var blockSizeMinMax = blockSizeAllowed.GetDomainMinMax();
+            var blockSizeLengths = new List<int>
+            {
+                blockSizeMinMax.Minimum,
+                blockSizeMinMax.Maximum
+            };
+
+            do
+            {
+                blockSizeLengths.AddRange(blockSizeAllowed.GetValues(x => true, 1, false));
+            } while (blockSizeLengths.Count < messageLengths.Count);
+
             // Shuffle inputs and outputs
             messageLengths = messageLengths.Shuffle();
             outputLengths = outputLengths.Shuffle();
+            blockSizeLengths = blockSizeLengths.Shuffle();
             
             // Pair up input and output
-            if (messageLengths.Count != outputLengths.Count)
+            if (messageLengths.Count != outputLengths.Count || messageLengths.Count != blockSizeLengths.Count)
             {
                 return new GenerateResponse("Unable to pair up input and output lengths");
             }
@@ -84,7 +99,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             for (var i = 0; i < messageLengths.Count; i++)
             {
                 // Customization length will be bits if for hex, or bytes if for ascii
-                _lengths.Add((outputLengths[i], messageLengths[i], _rand.GetRandomInt(0, 129), _rand.GetRandomInt(1, 129)));
+                _lengths.Add((outputLengths[i], messageLengths[i], _rand.GetRandomInt(0, 129), blockSizeLengths[i]));
             }
             
             return new GenerateResponse();
