@@ -15,12 +15,25 @@ namespace NIST.CVP.Generation.TupleHash.v1_0.ContractResolvers
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Function),
                 nameof(TestGroup.HexCustomization),
-                nameof(TestGroup.MessageLength),
-                nameof(TestGroup.OutputLength),
                 nameof(TestGroup.XOF),
                 nameof(TestGroup.Tests),
             };
 
+            var mctProperties = new[]
+            {
+                nameof(TestGroup.MinOutputLength),
+                nameof(TestGroup.MaxOutputLength)
+            };
+
+            if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                    return testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase);
+                };
+            }
+            
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance => true;

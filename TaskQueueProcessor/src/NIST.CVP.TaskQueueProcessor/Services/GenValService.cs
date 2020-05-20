@@ -1,13 +1,10 @@
-using System;
 using System.Text.Json;
 using System.Threading.Tasks;
-using NIST.CVP.Libraries.Internal.ACVPCore.Services;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
-using Mighty;
 using NIST.CVP.Common.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.TaskQueueProcessor.Constants;
-using NIST.CVP.TaskQueueProcessor.Providers;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
 
@@ -16,14 +13,14 @@ namespace NIST.CVP.TaskQueueProcessor.Services
     public class GenValService : IGenValService
     {
         private readonly IGenValInvoker _genValInvoker;
-        private readonly IJsonProvider _jsonProvider;
+        private readonly IVectorSetService _vectorSetService;
         private readonly string _connectionString;
         private readonly ITestSessionService _testSessionService;
         
-        public GenValService(IGenValInvoker genValInvoker, IJsonProvider jsonProvider, ITestSessionService testSessionService, IConnectionStringFactory connectionStringFactory)
+        public GenValService(IGenValInvoker genValInvoker, IVectorSetService vectorSetService, ITestSessionService testSessionService, IConnectionStringFactory connectionStringFactory)
         {
             _genValInvoker = genValInvoker;
-            _jsonProvider = jsonProvider;
+            _vectorSetService = vectorSetService;
             _testSessionService = testSessionService;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
         }
@@ -43,10 +40,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 generationTask.InternalProjection = response.InternalProjection;
                 generationTask.ExpectedResults = response.ResultProjection;
 
-                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.PROMPT, generationTask.Prompt);
-                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION, generationTask.InternalProjection);
-                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.EXPECTED_RESULTS, generationTask.ExpectedResults);
-                SetStatus(generationTask.VsId, StatusType.PROCESSED, "");
+                //Populate VectorSetJson
+                _vectorSetService.InsertVectorSetJson(generationTask.VsId, VectorSetJsonFileTypes.Prompt, generationTask.Prompt);
+                _vectorSetService.InsertVectorSetJson(generationTask.VsId, VectorSetJsonFileTypes.InternalProjection, generationTask.InternalProjection);
+                _vectorSetService.InsertVectorSetJson(generationTask.VsId, VectorSetJsonFileTypes.ExpectedAnswers, generationTask.ExpectedResults);
+
+                //Update the vector set status
+                _vectorSetService.UpdateStatus(generationTask.VsId, VectorSetStatus.Processed);
             }
             else
             {
@@ -58,9 +58,14 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 {
                     error = response.ErrorMessage
                 });
-                
-                _jsonProvider.PutJson(generationTask.VsId, JsonFileTypes.ERROR, errorJson);
-                SetStatus(generationTask.VsId, StatusType.ERROR, "");
+
+                //Populate the Error data in VectorSetJson
+                _vectorSetService.InsertVectorSetJson(generationTask.VsId, VectorSetJsonFileTypes.Error, errorJson);
+
+                //Update the vector set status
+                _vectorSetService.UpdateStatus(generationTask.VsId, VectorSetStatus.Error);
+
+                //Update the test session status
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(generationTask.VsId);
             }
         }
@@ -76,9 +81,14 @@ namespace NIST.CVP.TaskQueueProcessor.Services
             {
                 Log.Information($"Success on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
-                
-                _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
-                SetStatus(validationTask.VsId, StatusType.PASSED, "");
+
+                //Populate the Validation data in VectorSetJson
+                _vectorSetService.InsertVectorSetJson(validationTask.VsId, VectorSetJsonFileTypes.Validation, validationTask.Validation);
+
+                //Update the vector set status
+                _vectorSetService.UpdateStatus(validationTask.VsId, VectorSetStatus.Passed);
+
+                //Update the test session status
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
             else if (response.StatusCode == StatusCode.ValidatorFail)
@@ -86,8 +96,13 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 Log.Information($"Incorrect response on vsId: {validationTask.VsId}");
                 validationTask.Validation = response.ValidationResult;
                 
-                _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.VALIDATION, validationTask.Validation);
-                SetStatus(validationTask.VsId, StatusType.FAILED, "");
+                //Populate the Validation data in VectorSetJson
+                _vectorSetService.InsertVectorSetJson(validationTask.VsId, VectorSetJsonFileTypes.Validation, validationTask.Validation);
+
+                //Update the vector set status
+                _vectorSetService.UpdateStatus(validationTask.VsId, VectorSetStatus.Failed);
+
+                //Update the test session status
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
             }
             else
@@ -100,29 +115,15 @@ namespace NIST.CVP.TaskQueueProcessor.Services
                 {
                     error = response.ErrorMessage
                 });
-                
-                _jsonProvider.PutJson(validationTask.VsId, JsonFileTypes.ERROR, errorJson);
-                SetStatus(validationTask.VsId, StatusType.ERROR, "");
+
+                //Populate the Error data in VectorSetJson
+                _vectorSetService.InsertVectorSetJson(validationTask.VsId, VectorSetJsonFileTypes.Error, errorJson);
+
+                //Update the vector set status
+                _vectorSetService.UpdateStatus(validationTask.VsId, VectorSetStatus.Error);
+
+                //Update the test session status
                 _testSessionService.UpdateStatusFromVectorSetsWithVectorSetID(validationTask.VsId);
-            }
-        }
-
-        private void SetStatus(int vsId, StatusType status, string errorMessage)
-        {
-            var acvp = new MightyOrm(_connectionString);
-
-            try
-            {
-                acvp.ExecuteProcedure(StoredProcedures.SET_STATUS, new
-                {
-                    VectorSetID = vsId,
-                    Status = status,
-                    ErrorMessage = errorMessage
-                });
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, $"Unable to set status: {status} for vsId: {vsId}");
             }
         }
     }

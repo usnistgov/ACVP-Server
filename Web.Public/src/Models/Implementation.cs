@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
@@ -61,7 +60,7 @@ namespace Web.Public.Models
 		public List<long> ContactIDs { get; set; }
 
 		[JsonPropertyName("contactUrls")]
-		public List<string> ContactUrls => ContactIDs.Select(x => $"/acvp/v1/persons/{x}").ToList();
+		public List<string> ContactUrls => ContactIDs?.Select(x => $"/acvp/v1/persons/{x}").ToList();
 
 		[JsonPropertyName("description")]
 		public string Description { get; set; }

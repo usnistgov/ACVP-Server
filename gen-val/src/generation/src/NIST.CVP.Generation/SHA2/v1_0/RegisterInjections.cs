@@ -15,7 +15,6 @@ namespace NIST.CVP.Generation.SHA2.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.SHA1_v1_0,
             AlgoMode.SHA_1_v1_0,
             AlgoMode.SHA2_224_v1_0,
             AlgoMode.SHA2_256_v1_0,

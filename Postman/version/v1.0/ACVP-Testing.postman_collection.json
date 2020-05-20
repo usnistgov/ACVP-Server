@@ -375,18 +375,20 @@
 							"",
 							"if (jsonData[1].retry) {",
 							"    // If response has retry, repeat this call",
-							"    pm.environment.set(\"retry\", 10);",
-							"    pm.environment.set(\"next_step\", \"Wait\");",
+							"    setTimeout(",
+							"            function () {",
+							"                pm.environment.set(\"next_step\", \"Get Disposition\");",
+							"            }, 10000);",
 							"}",
 							"else {",
 							"    pm.test(\"disposition must have vsId\", function () {",
 							"        pm.expect(jsonData[1]).to.have.property('vsId');",
 							"    });",
-							"    ",
+							"",
 							"    pm.test(\"disposition should pass\", function () {",
 							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
 							"    });",
-							"    ",
+							"",
 							"    pm.environment.set(\"next_step\", null);",
 							"}",
 							"",
@@ -447,9 +449,19 @@
 							"        pm.expect(jsonData[1].accessToken);",
 							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
 							"    });",
-							"    ",
-							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
-							"    ",
+							"    pm.test(\"response must have test session id\", function () {",
+							"        pm.expect(jsonData[1].url)",
+							"    });",
+							"    pm.test(\"response must have vector set ids\", function () {",
+							"        pm.expect(jsonData[1].vectorSetUrls)",
+							"    });",
+							"",
+							"    var tsId = jsonData[1].url.split('/').pop().trim();",
+							"    pm.test(\"TsId: \" + tsId, function () {});",
+							"",
+							"",
+							"    pm.environment.set(\"testSession_Id\", tsId);",
+							"",
 							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
 							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
 							"",
@@ -509,7 +521,7 @@
 			"response": []
 		},
 		{
-			"name": "Register Specific algo",
+			"name": "Register Specific algo fast running",
 			"event": [
 				{
 					"listen": "test",
@@ -590,6 +602,87 @@
 			"response": []
 		},
 		{
+			"name": "Register Specific algo long running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19728ef6-f600-43e1-90d7-d71e60109188",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"Register\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have different access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
+							"    ",
+							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Get Prompt\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fbf9c048-6753-4985-93ce-bbd3d8942e2c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n\t\t\"acvVersion\": \"{{acv_version}}\"\r\n\t},\r\n\t{\r\n\t\t\"isSample\": true,\r\n\t\t\"algorithms\": [{\r\n\t\t\t\"algorithm\": \"ACVP-AES-GCM\",\r\n\t\t\t\"revision\": \"1.0\",\r\n\t\t\t\"conformances\": [],\r\n\t\t\t\"direction\": [\r\n\t\t\t\t\"encrypt\",\r\n\t\t\t\t\"decrypt\"\r\n\t\t\t],\r\n\t\t\t\"keyLen\": [\r\n\t\t\t\t128,\r\n\t\t\t\t192,\r\n\t\t\t\t256\r\n\t\t\t],\r\n\t\t\t\"payloadLen\": [\r\n\t\t\t\t0,\r\n\t\t\t\t120,\r\n\t\t\t\t128,\r\n\t\t\t\t4096,\r\n\t\t\t\t10240\r\n\t\t\t],\r\n\t\t\t\"ivLen\": [\r\n\t\t\t\t96,\r\n\t\t\t\t120\r\n\t\t\t],\r\n\t\t\t\"ivGen\": \"external\",\r\n\t\t\t\"ivGenMode\": \"8.2.2\",\r\n\t\t\t\"aadLen\": [\r\n\t\t\t\t0,\r\n\t\t\t\t120\r\n\t\t\t],\r\n\t\t\t\"tagLen\": [\r\n\t\t\t\t32,\r\n\t\t\t\t128\r\n\t\t\t]\r\n\t\t}]\r\n\t}\r\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Prompt",
 			"event": [
 				{
@@ -610,9 +703,9 @@
 							"",
 							"    if (jsonData[1].retry) {",
 							"        // If response has retry, repeat this call",
-							"        // The API can only run for 10 seconds maximum",
-							"        pm.environment.set(\"retry\", 10);",
-							"        pm.environment.set(\"next_step\", \"Wait\");",
+							"        setTimeout(",
+							"            function () { pm.environment.set(\"next_step\", \"Get Prompt\"); ",
+							"            }, 10000);",
 							"    }",
 							"    else {",
 							"",
@@ -625,8 +718,7 @@
 							"        });",
 							"",
 							"        // If response is complete, move on to next call",
-							"        pm.environment.set(\"prev_step\", \"Get Expected Answers\");",
-							"        pm.environment.set(\"next_step\", \"Wait\");",
+							"        pm.environment.set(\"next_step\", \"Get Expected Answers\");",
 							"    }",
 							"}",
 							"",
@@ -712,39 +804,6 @@
 						"v1",
 						"testSessions",
 						"{{testSession_Id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Wait",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8e4d72a8-46ed-485c-815a-1198cf698bf4",
-						"type": "text/javascript",
-						"exec": [
-							"pm.environment.set(\"next_step\", pm.environment.get(\"prev_step\"));",
-							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://postman-echo.com/delay/{{retry}}",
-					"protocol": "https",
-					"host": [
-						"postman-echo",
-						"com"
-					],
-					"path": [
-						"delay",
-						"{{retry}}"
 					]
 				}
 			},

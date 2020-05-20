@@ -1,20 +1,29 @@
 using System;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
+using GenerationTask = NIST.CVP.TaskQueueProcessor.TaskModels.GenerationTask;
+using ValidationTask = NIST.CVP.TaskQueueProcessor.TaskModels.ValidationTask;
 
 namespace NIST.CVP.TaskQueueProcessor.Providers
 {
     public class TaskProvider : ITaskProvider
     {
+        private ILogger<TaskProvider> _logger;
         private readonly string _connectionString;
-        private readonly IJsonProvider _jsonProvider;
+        private readonly IVectorSetService _vectorSetService;
         
-        public TaskProvider(IConnectionStringFactory connectionStringFactory, IJsonProvider jsonProvider)
+        public TaskProvider(ILogger<TaskProvider> logger, IConnectionStringFactory connectionStringFactory, IVectorSetService vectorSetService)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
-            _jsonProvider = jsonProvider;
+            _vectorSetService = vectorSetService;
         }
         
         public ExecutableTask GetTaskFromQueue()
@@ -26,46 +35,62 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             if (taskRow == null)
                 return null;
             
+            string operation = taskRow.TaskType;
+            long dbId = taskRow.TaskID;
+            long vsId = taskRow.VsId;
+            bool isSample = taskRow.IsSample;
+            bool showExpected = taskRow.ShowExpected;
+            
             // Parse out data into either generation or validation task
-            var executableTask = BuildExecutableTask(taskRow);
-            switch (executableTask)
+            try
             {
-                case GenerationTask generationTask:
-                    generationTask.Capabilities = _jsonProvider.GetJson(generationTask.VsId, JsonFileTypes.CAPABILITIES);
-                    return generationTask;
-                
-                case ValidationTask validationTask:
-                    validationTask.SubmittedResults = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.SUBMITTED_RESULTS);
-                    validationTask.InternalProjection = _jsonProvider.GetJson(validationTask.VsId, JsonFileTypes.INTERNAL_PROJECTION);
-                    return validationTask;
-                
-                default:
-                    throw new Exception();
+                switch (operation)
+                {
+                    case TaskActions.GENERATION:
+                        return new GenerationTask()
+                        {
+                            DbId = dbId,
+                            VsId = vsId,
+                            IsSample = isSample,
+                            Capabilities = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.Capabilities)
+                        };
+                    case TaskActions.VALIDATION:
+                        return new ValidationTask()
+                        {
+                            DbId = dbId, 
+                            VsId = vsId,
+                            Expected = showExpected, 
+                            SubmittedResults = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.SubmittedAnswers),
+                            InternalProjection = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.InternalProjection)
+                        };
+                    default:
+                        throw new Exception($"Invalid {nameof(operation)}");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception encountered on building executable task.  Setting task to an error status.");
+                SetTaskStatus(dbId, TaskStatus.Error);
+                return null;
             }
         }
 
-        private ExecutableTask BuildExecutableTask(dynamic data)
+        public void SetTaskStatus(long taskID, TaskStatus status)
         {
-            string operation = data.TaskType;
-            long dbId = data.TaskID;
-            int vsId = (int)data.VsId;
-            bool isSample = data.IsSample;
-            bool showExpected = data.ShowExpected;
-            
-            return operation switch
+            var db = new MightyOrm(_connectionString);
+
+            try
             {
-                TaskActions.GENERATION => new GenerationTask
+                db.ExecuteProcedure("common.TaskQueueSetStatus", new
                 {
-                    DbId = dbId, IsSample = isSample, VsId = vsId
-                },
-
-                TaskActions.VALIDATION => new ValidationTask
-                {
-                    DbId = dbId, Expected = showExpected, VsId = vsId
-                },
-
-                _ => throw new Exception($"Unknown task action: {operation}")
-            };
+                    TaskID = taskID,
+                    Status = (int)status
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e);
+            }
         }
     }
 }

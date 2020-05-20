@@ -50,6 +50,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			return result;
 		}
 
+		public Result InsertVectorSetJson(long vectorSetID, VectorSetJsonFileTypes fileType, string json) => _vectorSetProvider.InsertVectorSetJson(vectorSetID, fileType, json);
+
 		public Result InsertSubmittedAnswers(long vectorSetID, string results)
 		{
 			return _vectorSetProvider.InsertVectorSetJson(vectorSetID, VectorSetJsonFileTypes.SubmittedAnswers, results);

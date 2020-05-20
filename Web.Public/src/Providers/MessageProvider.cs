@@ -1,20 +1,22 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Serilog;
 using Web.Public.Services;
-using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
     public class MessageProvider : IMessageProvider
     {
+        private readonly ILogger<MessageProvider> _logger;
         private readonly string _connectionString;
         private readonly IJsonWriterService _jsonWriter;
         
-        public MessageProvider(IConnectionStringFactory connectionStringFactory, IJsonWriterService jsonWriter)
+        public MessageProvider(ILogger<MessageProvider> logger, IConnectionStringFactory connectionStringFactory, IJsonWriterService jsonWriter)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
             _jsonWriter = jsonWriter;
         }
@@ -38,7 +40,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error($"Unable to insert message into message queue: {json}", ex);
+                _logger.LogError(ex, $"Unable to insert message into message queue: {json}");
                 throw;
             }
         }
@@ -62,7 +64,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error($"Unable to insert message into message queue: {requestJson}", ex);
+                _logger.LogError(ex, $"Unable to insert message into message queue: {requestJson}");
                 throw;
             }
         }
@@ -83,7 +85,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error("Error getting next Request ID", ex);
+                _logger.LogError(ex, "Error getting next Request ID");
                 throw;
             }
         }

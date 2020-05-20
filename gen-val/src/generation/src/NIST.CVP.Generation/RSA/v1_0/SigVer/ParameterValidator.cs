@@ -5,6 +5,7 @@ using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using System.Collections.Generic;
 using System.Numerics;
+using NIST.CVP.Common.ExtensionMethods;
 
 namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 {
@@ -21,17 +22,16 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
             var errorResults = new List<string>();
             var result = "";
 
-            if (parameters.Capabilities.Length == 0)
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
 
             foreach (var capability in parameters.Capabilities)
             {
-                if (capability.ModuloCapabilities.Length == 0)
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(capability.ModuloCapabilities, "properties")))
                 {
-                    errorResults.Add("No capabilities listed for a SigVer mode");
-                    continue;
+                    return new ParameterValidateResponse(errorResults);
                 }
 
                 result = ValidateValue(capability.SigType, VALID_SIG_VER_MODES, "SigVer Modes");
@@ -42,9 +42,8 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 
                 foreach (var moduloCap in capability.ModuloCapabilities)
                 {
-                    if (moduloCap.HashPairs.Length == 0)
+                    if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(moduloCap.HashPairs, "hash/salt pairs for modulus")))
                     {
-                        errorResults.Add("No hash/salt pairs listed for a modulus");
                         continue;
                     }
 
@@ -56,12 +55,6 @@ namespace NIST.CVP.Generation.RSA.v1_0.SigVer
 
                     foreach (var hashPair in moduloCap.HashPairs)
                     {
-                        if (hashPair.HashAlg.Length == 0)
-                        {
-                            errorResults.Add("No hash functions listed within a HashPair");
-                            continue;
-                        }
-
                         result = ValidateValue(hashPair.HashAlg, VALID_HASH_ALGS, "Hash Algorithms");
                         if (!string.IsNullOrEmpty(result))
                         {

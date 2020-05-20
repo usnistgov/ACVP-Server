@@ -9,7 +9,22 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
-            return jsonProperty.ShouldDeserialize = instance => true;
+            var mctProperties = new[]
+            {
+                nameof(TestGroup.MinOutputLength),
+                nameof(TestGroup.MaxOutputLength)
+            };
+
+            if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                    return testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase);
+                };
+            }
+            
+            return jsonProperty.ShouldSerialize = instance => true;
         }
 
         protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)

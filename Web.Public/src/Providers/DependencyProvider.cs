@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
-using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -62,7 +61,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, "Unable to find dependency");
+				_logger.LogError(ex, "Unable to find dependency");
 				throw;
 			}
 		}
@@ -87,7 +86,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to validate existence of dependency.", e);
+				_logger.LogError(e, "Unable to validate existence of dependency.");
 				return false;
 			}
 		}
@@ -151,7 +150,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get dependency list", ex);
+				_logger.LogError(ex, "Unable to get dependency list");
 				throw;
 			}
 		}

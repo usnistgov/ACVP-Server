@@ -101,7 +101,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get organization", ex);
+				_logger.LogError(ex, "Unable to get organization");
 				return null;
 			}
 		}
@@ -126,7 +126,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to validate existence of organization.", e);
+				_logger.LogError(e, "Unable to validate existence of organization.");
 				return false;
 			}
 		}
@@ -151,7 +151,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to determine if organization in use.", e);
+				_logger.LogError(e, "Unable to determine if organization in use.");
 				return false;
 			}
 		}
@@ -252,7 +252,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get organization list", ex);
+				_logger.LogError(ex, "Unable to get organization list");
 				throw;
 			}
 		}
@@ -335,7 +335,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get person list", ex);
+				_logger.LogError(ex, "Unable to get person list");
 				throw;
 			}
 		}

@@ -60,7 +60,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex, $"Unable to find OE w/ ID {id}");
+				_logger.LogError(ex, $"Unable to find OE w/ ID {id}");
 				return null;
 			}
 		}
@@ -85,7 +85,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to validate existence of OE.", e);
+				_logger.LogError(e, "Unable to validate existence of OE.");
 				return false;
 			}
 		}
@@ -110,7 +110,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("Unable to determine if OE in use.", e);
+				_logger.LogError(e, "Unable to determine if OE in use.");
 				return false;
 			}
 		}
@@ -172,7 +172,7 @@ namespace Web.Public.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError("Unable to get OE list", ex);
+				_logger.LogError(ex, "Unable to get OE list");
 				throw;
 			}
 		}

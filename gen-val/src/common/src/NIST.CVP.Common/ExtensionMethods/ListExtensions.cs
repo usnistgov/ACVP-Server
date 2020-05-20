@@ -14,12 +14,16 @@ namespace NIST.CVP.Common.ExtensionMethods
         /// </summary>
         /// <param name="list">The list to (potentially) add the <see cref="itemToAdd"/> too</param>
         /// <param name="itemToAdd">The item that is evaluated for adding to <see cref="list"/></param>
-        public static void AddIfNotNullOrEmpty(this List<string> list, string itemToAdd)
+        /// <returns>True if item added, false otherwise.</returns>
+        public static bool AddIfNotNullOrEmpty(this List<string> list, string itemToAdd)
         {
             if (!string.IsNullOrEmpty(itemToAdd))
             {
                 list.Add(itemToAdd);
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -28,15 +32,17 @@ namespace NIST.CVP.Common.ExtensionMethods
         /// <typeparam name="T">The type contained within the list</typeparam>
         /// <param name="list">The list</param>
         /// <param name="itemToAdd">The item to (potentially) add to the list</param>
-        public static void AddIfNotNull<T>(this List<T> list, T itemToAdd)
+        /// <returns>True if item added, false otherwise.</returns>
+        public static bool AddIfNotNull<T>(this List<T> list, T itemToAdd)
             where T : class 
         {
             if (itemToAdd == null)
             {
-                return;
+                return false;
             }
 
             list.Add(itemToAdd);
+            return true;
         }
 
         /// <summary>
@@ -44,12 +50,16 @@ namespace NIST.CVP.Common.ExtensionMethods
         /// </summary>
         /// <param name="list">The list to (potentially) add the <see cref="itemsToAdd"/> too</param>
         /// <param name="itemsToAdd">The object that is evaluated for adding to <see cref="list"/></param>
-        public static void AddRangeIfNotNullOrEmpty<T>(this List<T> list, IEnumerable<T> itemsToAdd)
+        /// <returns>True if item added, false otherwise.</returns>
+        public static bool AddRangeIfNotNullOrEmpty<T>(this List<T> list, IEnumerable<T> itemsToAdd)
         {
             if (itemsToAdd != null && itemsToAdd.Any())
             {
                 list.AddRange(itemsToAdd);
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>

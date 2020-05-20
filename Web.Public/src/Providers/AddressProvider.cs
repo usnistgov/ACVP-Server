@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
-using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
     public class AddressProvider : IAddressProvider
     {
+        private readonly ILogger<AddressProvider> _logger;
         private readonly string _connectionString;
         
-        public AddressProvider(IConnectionStringFactory connectionStringFactory)
+        public AddressProvider(ILogger<AddressProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
         
@@ -50,7 +52,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error($"Unable to find address: {id}", ex);
+                _logger.LogError(ex, $"Unable to find address: {id}");
                 throw;
             }
         }
@@ -89,7 +91,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error($"Unable to find addresses for organization: {vendorId}", ex);
+                _logger.LogError(ex, $"Unable to find addresses for organization: {vendorId}");
                 throw;
             }
         }

@@ -14,10 +14,12 @@ namespace Web.Public.Services
 	{
 		private readonly IGenValInvoker _genValInvoker;
 		private readonly JsonSerializerOptions _jsonSerializerOptions;
+		private readonly IAlgorithmService _algorithmService;
 
-		public ParameterValidatorService(IGenValInvoker genValInvoker)
+		public ParameterValidatorService(IGenValInvoker genValInvoker, IAlgorithmService algorithmService)
 		{
 			_genValInvoker = genValInvoker;
+			_algorithmService = algorithmService;
 			
 			_jsonSerializerOptions = new JsonSerializerOptions
 			{
@@ -36,7 +38,14 @@ namespace Web.Public.Services
 			for (var i = 0; i < registration.Algorithms.Count; i++)
 			{
 				var currentAlgo = registration.Algorithms[i];
-				var algoModeConcat = $"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}";
+				var algoModeIndexConcat = $"{currentAlgo.Algorithm}{(string.IsNullOrEmpty(currentAlgo.Mode) ? string.Empty : "-" + currentAlgo.Mode)}-{currentAlgo.Revision} - index {i}";
+				var algoObject = _algorithmService.GetAlgorithm(currentAlgo.Algorithm, currentAlgo.Mode, currentAlgo.Revision);
+				
+				if (algoObject == null)
+				{
+					errors.Add($"Unable to map {algoModeIndexConcat} to an internal algorithm id.");
+					continue;
+				}
 				
 				var json = JsonSerializer.Serialize(currentAlgo, _jsonSerializerOptions);
 
@@ -48,13 +57,13 @@ namespace Web.Public.Services
 				}
 				catch (AlgoModeRevisionException e)
 				{
-					errors.Add($"Error on algorithm index {i}: {e.Message}");
+					errors.Add($"Error on {algoModeIndexConcat}: {e.Message}");
 					continue;
 				}
 				
 				if (!result.Success)
 				{
-					errors.AddRange(result.ErrorMessage.Select(error => $"{algoModeConcat}: {error}"));
+					errors.AddRange(result.ErrorMessage.Select(error => $"{algoObject.FullAlgoName}: {error}"));
 				}
 			}
 			

@@ -1,18 +1,20 @@
 using System;
+using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using Serilog;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
     public class VectorSetProvider : IVectorSetProvider
     {
+        private readonly ILogger<VectorSetProvider> _logger;
         private readonly string _connectionString;
         
-        public VectorSetProvider(IConnectionStringFactory connectionStringFactory)
+        public VectorSetProvider(ILogger<VectorSetProvider> logger, IConnectionStringFactory connectionStringFactory)
         {
+            _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
 
@@ -36,7 +38,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error retrieving next VectorSet ID");
+                _logger.LogError(ex, "Error retrieving next VectorSet ID");
                 throw;
             }
         }
@@ -62,7 +64,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error retrieving VectorSet status: {vsID}");
+                _logger.LogError(ex, $"Error retrieving VectorSet status: {vsID}");
                 throw;
             }
         }
@@ -92,7 +94,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error retrieving vector set file. VsID: {vsID}, FileType: {fileType}");
+                _logger.LogError(ex, $"Error retrieving vector set file. VsID: {vsID}, FileType: {fileType}");
                 throw;
             }
         }
@@ -111,7 +113,7 @@ namespace Web.Public.Providers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, $"Error setting vector set status {vsID}");
+                _logger.LogError(ex, $"Error setting vector set status {vsID}");
                 throw;
             }
         }
