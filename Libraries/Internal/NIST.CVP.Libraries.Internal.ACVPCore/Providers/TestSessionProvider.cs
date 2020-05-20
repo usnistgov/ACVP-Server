@@ -258,7 +258,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 		}
 
-		public List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int daysBeforeExpirationToWarn)
+		public List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int ageInDaysForWarning)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -268,7 +268,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			{
 				var data = db.QueryFromProcedure("acvp.TestSessionsForExpirationWarningGet", inParams: new
 				{
-					DaysBeforeExpirationToWarn = daysBeforeExpirationToWarn
+					AgeInDaysForWarning = ageInDaysForWarning
 				});
 
 				foreach (var row in data)
