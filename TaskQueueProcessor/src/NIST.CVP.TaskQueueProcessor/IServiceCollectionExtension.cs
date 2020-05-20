@@ -15,7 +15,6 @@ namespace NIST.CVP.TaskQueueProcessor
             services.AddSingleton<IGenValService, GenValService>();
             services.AddSingleton<ITaskProvider, TaskProvider>();
             services.AddSingleton<IPoolService, PoolService>();
-            services.AddSingleton<IJsonProvider, JsonProvider>();
                     
             services.AddSingleton<ITaskService, TaskService>();
             services.AddSingleton<ICleaningService, CleaningService>();

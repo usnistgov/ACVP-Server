@@ -262,7 +262,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					VsId = vectorSetID,
 					JsonFileType = fileType.ToString(),
 					Content = json
-				});
+				},
+				commandTimeout: 120);
 
 				return new Result();
 			}

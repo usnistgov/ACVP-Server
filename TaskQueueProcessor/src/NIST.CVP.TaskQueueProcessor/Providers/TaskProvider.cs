@@ -1,8 +1,10 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.TaskQueueProcessor.Constants;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
@@ -15,13 +17,13 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
     {
         private ILogger<TaskProvider> _logger;
         private readonly string _connectionString;
-        private readonly IJsonProvider _jsonProvider;
+        private readonly IVectorSetService _vectorSetService;
         
-        public TaskProvider(ILogger<TaskProvider> logger, IConnectionStringFactory connectionStringFactory, IJsonProvider jsonProvider)
+        public TaskProvider(ILogger<TaskProvider> logger, IConnectionStringFactory connectionStringFactory, IVectorSetService vectorSetService)
         {
             _logger = logger;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVP");
-            _jsonProvider = jsonProvider;
+            _vectorSetService = vectorSetService;
         }
         
         public ExecutableTask GetTaskFromQueue()
@@ -50,7 +52,7 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                             DbId = dbId,
                             VsId = vsId,
                             IsSample = isSample,
-                            Capabilities = _jsonProvider.GetJson(vsId, JsonFileTypes.CAPABILITIES)
+                            Capabilities = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.Capabilities)
                         };
                     case TaskActions.VALIDATION:
                         return new ValidationTask()
@@ -58,8 +60,8 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                             DbId = dbId, 
                             VsId = vsId,
                             Expected = showExpected, 
-                            SubmittedResults = _jsonProvider.GetJson(vsId, JsonFileTypes.SUBMITTED_RESULTS),
-                            InternalProjection = _jsonProvider.GetJson(vsId, JsonFileTypes.INTERNAL_PROJECTION)
+                            SubmittedResults = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.SubmittedAnswers),
+                            InternalProjection = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.InternalProjection)
                         };
                     default:
                         throw new Exception($"Invalid {nameof(operation)}");
