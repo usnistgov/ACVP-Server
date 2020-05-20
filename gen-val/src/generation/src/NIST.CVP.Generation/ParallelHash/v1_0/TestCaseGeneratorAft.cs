@@ -67,8 +67,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             // Keep pulling output lengths until we have enough
             do
             {
-                outputLengths.AddRange(outputAllowed.GetValues(x => true, 1, false));
-
+                outputLengths.AddRange(outputAllowed.GetValues(x => true, messageLengths.Count, true));
             } while (outputLengths.Count < messageLengths.Count);
             
             // For every input length, just pick a random block size (min/max always included)
@@ -82,7 +81,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
             do
             {
-                blockSizeLengths.AddRange(blockSizeAllowed.GetValues(x => true, 1, false));
+                blockSizeLengths.AddRange(blockSizeAllowed.GetValues(x => true, messageLengths.Count, true));
             } while (blockSizeLengths.Count < messageLengths.Count);
 
             // Shuffle inputs and outputs

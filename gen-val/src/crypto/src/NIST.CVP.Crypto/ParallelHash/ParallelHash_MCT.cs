@@ -48,7 +48,7 @@ namespace NIST.CVP.Crypto.ParallelHash
          *             Rightmost_Output_bits = rightmost 16 bits of Output[i];
          *             Range = (maxoutbytes – minoutbytes + 1);
          *             Outputlen = minoutbytes + (Rightmost_Output_bits mod Range);
-         *             BlockSize = rightmost 8 bits of Rightmost_Output_bits + 1;
+         *             BlockSize = minBlockSize + (rightmost 8 bits of Rightmost_Output_bits mod blockSizeRange);
          *             Customization = BitsToString(M[i] || Rightmost_Output_bits);
          *         }
          *         Output[j] = Output[1000];
@@ -58,7 +58,7 @@ namespace NIST.CVP.Crypto.ParallelHash
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain domain, bool hexCustomization, bool isSample)
+        public MCTResult<AlgoArrayResponseWithCustomization> MCTHash(HashFunction function, BitString message, MathDomain outputLength, MathDomain blockSizeDomain, bool hexCustomization, bool isSample)
         {
             _hexCustomization = hexCustomization;
             if (isSample)
@@ -69,11 +69,14 @@ namespace NIST.CVP.Crypto.ParallelHash
             var responses = new List<AlgoArrayResponseWithCustomization>();
             var i = 0;
             var j = 0;
-            var min = domain.GetDomainMinMax().Minimum;
-            var max = domain.GetDomainMinMax().Maximum;
+            var min = outputLength.GetDomainMinMax().Minimum;
+            var max = outputLength.GetDomainMinMax().Maximum;
+            var minBlockSize = blockSizeDomain.GetDomainMinMax().Minimum;
+            var maxBlockSize = blockSizeDomain.GetDomainMinMax().Maximum;
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
             var blockSize = 8;
+            var blockSizeRange = (maxBlockSize - minBlockSize) + 1;
             var customization = "";
             var range = (max - min) + 8;
             var innerMessage = message.GetDeepCopy();
@@ -104,7 +107,7 @@ namespace NIST.CVP.Crypto.ParallelHash
                         var rightmostBits = rightmostBitString.Bits;
 
                         outputLen = min + (8 * GetIntFromBits(rightmostBits)) % range;
-                        blockSize = GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits) + 1;
+                        blockSize = minBlockSize + (GetIntFromBits(BitString.Substring(rightmostBitString, 0, 8).Bits) % blockSizeRange);
                         customization = GetStringFromBytes(BitString.ConcatenateBits(innerMessage, leftmostBitString).ToBytes());
 
                         innerMessage = innerDigest.GetDeepCopy();

@@ -28,6 +28,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.XOF),
                 MessageLength = group.DigestSize,
                 OutLens = group.OutputLength.GetDeepCopy(),
+                BlockSizeDomain = group.BlockSize.GetDeepCopy(),
                 IsSample = isSample
             };
 
