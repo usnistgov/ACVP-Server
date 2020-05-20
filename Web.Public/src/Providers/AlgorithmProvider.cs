@@ -73,8 +73,16 @@ namespace Web.Public.Providers
                 GetAlgorithmList();
             }
 
-            return _cachedAlgorithmList
-                .FirstOrDefault(alg => alg.FullAlgoName.Equals(algo.FullAlgoName, StringComparison.OrdinalIgnoreCase));
+            try
+            {
+                return _cachedAlgorithmList
+                    .First(alg => alg.FullAlgoName.Equals(algo.FullAlgoName, StringComparison.OrdinalIgnoreCase));
+            }
+            catch (Exception e)
+            {
+                _logger.LogWarning(e, $"Unable to find algorithm ID for {algo.FullAlgoName}");
+                return null;
+            }
         }
     }
 }
