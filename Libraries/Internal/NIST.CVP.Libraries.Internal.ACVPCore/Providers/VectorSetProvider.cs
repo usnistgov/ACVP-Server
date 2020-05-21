@@ -151,7 +151,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					AlgorithmId = queryResult.algorithmId,
 					GeneratorVersion = queryResult.generatorVersion,
 					Id = queryResult.vectorSetId,
-					Status = (VectorSetStatus)queryResult.status
+					Status = (VectorSetStatus)queryResult.status,
+					TestSessionID = queryResult.testSessionId
 				};
 
 				return result;

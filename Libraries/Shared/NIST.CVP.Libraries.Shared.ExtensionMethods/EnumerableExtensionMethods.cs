@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.Libraries.Shared.Enumerables;
 
 namespace NIST.CVP.Libraries.Shared.ExtensionMethods
@@ -32,5 +33,7 @@ namespace NIST.CVP.Libraries.Shared.ExtensionMethods
         {
             return new PagedEnumerable<T>(items, pageSize, currentPage, totalRecords);
         }
+
+        public static bool In<T>(this T value, params T[] values) => values.Contains(value);
     }
 }

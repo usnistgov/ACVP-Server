@@ -46,10 +46,10 @@ namespace MessageQueueProcessor
 				APIAction.UpdateVendor => new RequestProcessor(_workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
 				APIAction.DeleteVendor => new RequestProcessor(_workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
 				APIAction.RegisterTestSession => new RegisterTestSessionProcessor(_testSessionService, _vectorSetService, _taskQueueService),
-				APIAction.CancelVectorSet => new CancelVectorSetProcessor(_vectorSetService),
+				APIAction.CancelVectorSet => new CancelVectorSetProcessor(_vectorSetService, _testSessionService),
 				APIAction.CancelTestSession => new CancelTestSessionProcessor(_testSessionService),
-				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService),
-				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _messageQueueProcessorConfig),
+				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _testSessionService),
+				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _testSessionService, _messageQueueProcessorConfig),
 				APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_testSessionService, _workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
 				_ => null
 			};

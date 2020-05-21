@@ -160,8 +160,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					Status = (TestSessionStatus)testSessionData.TestSessionStatusId,
 					IsSample = testSessionData.sample,
 					UserID = testSessionData.UserId,
-					UserName = testSessionData.UserName,
-					VectorSets = new List<VectorSet>()
+					UserName = testSessionData.UserName
 				};
 			}
 			catch (Exception ex)
@@ -193,7 +192,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 						Id = vectorSet.id,
 						Status = (VectorSetStatus)vectorSet.status,
 						AlgorithmId = vectorSet.algorithm_id,
-						GeneratorVersion = vectorSet.generator_version
+						GeneratorVersion = vectorSet.generator_version,
+						TestSessionID = testSessionId
 					});
 				}
 			}
