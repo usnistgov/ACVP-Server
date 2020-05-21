@@ -33,7 +33,7 @@ namespace NIST.CVP.Crypto.ParallelHash
          * 
          * Initial Outputlen = (floor(maxoutlen/8) )*8
          * Initial Customization = ""
-         * Initial BlockSize = 8 bytes
+         * Initial BlockSize = min bytes
          * //makes maxoutlen a multiple of 8 and remains within the range specified.
          * 
          * {
@@ -75,7 +75,7 @@ namespace NIST.CVP.Crypto.ParallelHash
             var maxBlockSize = blockSizeDomain.GetDomainMinMax().Maximum;
 
             var outputLen = (int)System.Math.Floor((double)max / 8) * 8;
-            var blockSize = 8;
+            var blockSize = minBlockSize;
             var blockSizeRange = (maxBlockSize - minBlockSize) + 1;
             var customization = "";
             var range = (max - min) + 8;

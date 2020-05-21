@@ -90,7 +90,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             blockSizeLengths = blockSizeLengths.Shuffle();
             
             // Pair up input and output
-            if (messageLengths.Count != outputLengths.Count || messageLengths.Count != blockSizeLengths.Count)
+            if (messageLengths.Count > outputLengths.Count || messageLengths.Count > blockSizeLengths.Count)
             {
                 return new GenerateResponse("Unable to pair up input and output lengths");
             }

@@ -13,6 +13,13 @@
     false
   ],
   "hexCustomization": false,
+  "blockSize": [
+    {
+      "min": 1,
+      "max": 16,
+      "increment": 1
+    }
+  ],
   "outputLen": [
     {
       "min": 256,
