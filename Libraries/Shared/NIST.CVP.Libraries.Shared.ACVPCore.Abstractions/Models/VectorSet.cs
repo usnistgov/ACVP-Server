@@ -6,5 +6,6 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
     {
         public List<VectorSetJsonFile> JsonFilesAvailable { get; set; } = new List<VectorSetJsonFile>();
         public VectorSetResetOption ResetOption { get; set; }
+        public long TestSessionID { get; set; }
     }
 }

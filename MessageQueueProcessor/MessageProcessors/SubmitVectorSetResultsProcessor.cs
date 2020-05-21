@@ -42,6 +42,11 @@ namespace MessageQueueProcessor.MessageProcessors
 
 			//Update the test session to show it was touched
 			_testSessionService.KeepAlive(_testSessionService.GetTestSessionIDFromVectorSet(submitResultsPayload.VectorSetID));
+			
+			if (_testSessionService.GetStatus(vectorSet.TestSessionID) == TestSessionStatus.Expired)
+			{
+				return new Result("Test session that vector set belongs to is Expired");
+			}
 
 			//Update the vector set status to show we've received their results
 			Result result = _vectorSetService.UpdateStatus(submitResultsPayload.VectorSetID, VectorSetStatus.KATReceived);
