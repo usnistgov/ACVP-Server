@@ -16,6 +16,7 @@ namespace MessageQueueProcessor.MessageProcessors
 		public CancelVectorSetProcessor(IVectorSetService vectorSetService, ITestSessionService testSessionService)
 		{
 			_vectorSetService = vectorSetService;
+			_testSessionService = testSessionService;
 		}
 
 		public Result Process(Message message)
