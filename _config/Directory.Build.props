@@ -55,7 +55,7 @@
         <NuGetVersionSerilogSinksFile>4.1.0</NuGetVersionSerilogSinksFile>
         <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
         <NuGetVersionMicrosoftNETCoreTargets>3.1.0</NuGetVersionMicrosoftNETCoreTargets>
-        <NuGetVersionMighty>3.1.1</NuGetVersionMighty>
+        <NuGetVersionMighty>3.1.2</NuGetVersionMighty>
 	<NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>3.1.1</NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>
 	<NuGetVersionMicrosoftExtensionsConfigurationJson>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationJson>
 	<NuGetVersionMicrosoftExtensionsDependencyInjections>3.1.2</NuGetVersionMicrosoftExtensionsDependencyInjections>
