@@ -29,6 +29,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                 MessageLength = group.DigestSize,
                 OutLens = group.OutputLength.GetDeepCopy(),
                 BlockSizeDomain = group.BlockSize.GetDeepCopy(),
+                HexCustomization = group.HexCustomization,
                 IsSample = isSample
             };
 

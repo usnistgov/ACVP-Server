@@ -22,6 +22,12 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         
         [JsonIgnore]
         public MathDomain BlockSize { get; set; }
+
+        [JsonProperty(PropertyName = "minBlockSize")]
+        public int MinBlockSize => BlockSize.GetDomainMinMax().Minimum;
+
+        [JsonProperty(PropertyName = "maxBlockSize")]
+        public int MaxBlockSize => BlockSize.GetDomainMinMax().Maximum;
         
         public bool HexCustomization { get; set; } = false;
 

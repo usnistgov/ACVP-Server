@@ -26,6 +26,7 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 HashFunction = new HashFunction(group.DigestSize, group.DigestSize * 2, group.XOF),
                 InputLengths = group.MessageLength.GetDeepCopy(),
                 OutputLengths = group.OutputLength.GetDeepCopy(),
+                HexCustomization = group.HexCustomization,
                 IsSample = isSample
             };
 

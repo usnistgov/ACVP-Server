@@ -43,7 +43,7 @@ namespace NIST.CVP.Orleans.Grains.Hash
             var initialLength = _param.InputLengths.GetValues(0, 65536, 3).ToList().Shuffle().First();
             var tuple = new List<BitString>() { _rand.GetRandomBitString(initialLength) };
 
-            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutputLengths, _param.IsSample);
+            var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutputLengths, _param.HexCustomization, _param.IsSample);
 
             if (!result.Success)
             {
