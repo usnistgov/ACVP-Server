@@ -69,8 +69,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             // Keep pulling output lengths until we have enough
             do
             {
-                macLengths.AddRange(macAllowed.GetValues(x => true, 1, false));
-
+                macLengths.AddRange(macAllowed.GetValues(x => true, messageLengths.Count, true));
             } while (macLengths.Count < messageLengths.Count);
             #endregion MacLengths
             
@@ -87,8 +86,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             // Keep pulling output lengths until we have enough
             do
             {
-                keyLengths.AddRange(keyAllowed.GetValues(x => true, 1, false));
-
+                keyLengths.AddRange(keyAllowed.GetValues(x => true, messageLengths.Count, true));
             } while (keyLengths.Count < messageLengths.Count);
             #endregion KeyLengths
             
@@ -98,7 +96,7 @@ namespace NIST.CVP.Generation.KMAC.v1_0
             keyLengths = keyLengths.Shuffle();
             
             // Pair up input and output
-            if (messageLengths.Count != macLengths.Count)
+            if (messageLengths.Count > macLengths.Count || messageLengths.Count > keyLengths.Count)
             {
                 return new GenerateResponse("Unable to pair up input and output lengths");
             }
