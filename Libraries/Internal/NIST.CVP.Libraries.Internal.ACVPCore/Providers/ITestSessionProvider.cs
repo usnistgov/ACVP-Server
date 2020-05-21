@@ -20,5 +20,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		long GetTestSessionIDFromVectorSet(long vectorSetID);
 		bool TestSessionExists(long testSessionID);
 		void Expire(int ageInDays);
+		List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int ageInDaysForWarning);
+		void KeepAlive(long testSessionID);
 	}
 }

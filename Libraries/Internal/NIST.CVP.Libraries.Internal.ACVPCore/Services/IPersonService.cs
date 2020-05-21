@@ -1,10 +1,9 @@
-﻿using NIST.CVP.Libraries.Shared.Enumerables;
-using NIST.CVP.Libraries.Shared.Results;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 {
@@ -17,5 +16,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		bool PersonExists(long personID);
 		PersonResult Update(PersonUpdateParameters parameters);
 		PagedEnumerable<PersonLite> Get(PersonListParameters param);
+		List<string> GetEmailAddresses(long personID);
 	}
 }

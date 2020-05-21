@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
@@ -23,5 +24,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		long GetTestSessionIDFromVectorSet(long vectorSetID);
 		bool TestSessionExists(long testSessionID);
 		void Expire(int ageInDays);
+		List<(long TestSessionID, long PersonID)> GetTestSessionsForExpirationWarning(int ageInDaysForWarning);
+		void KeepAlive(long testSessionID);
 	}
 }

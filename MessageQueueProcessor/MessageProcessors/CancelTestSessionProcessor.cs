@@ -22,6 +22,9 @@ namespace MessageQueueProcessor.MessageProcessors
 			//Get the payload so we can get the test session id
 			CancelPayload cancelPayload = JsonSerializer.Deserialize<CancelPayload>(message.Payload);
 
+			//Update the test session to show it was touched - a little useless, but do it for consistency
+			_testSessionService.KeepAlive(cancelPayload.TestSessionID);
+			
 			//Check that the test session is in a status where it can be cancelled
 			if (!_testSessionService.GetStatus(cancelPayload.TestSessionID).In(TestSessionStatus.Failed, TestSessionStatus.Passed, TestSessionStatus.PendingEvaluation))
 			{

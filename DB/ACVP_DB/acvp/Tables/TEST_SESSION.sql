@@ -6,6 +6,7 @@
     [sample]         BIT           DEFAULT ((0)) NOT NULL,
     [user_id]        BIGINT        NULL,
     [TestSessionStatusId] TINYINT NULL, 
+    [LastTouched] DATETIME2 NULL, 
     CONSTRAINT [PK_TEST_SESSION] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_TEST_SESSION_ACV_VERSION_ID] FOREIGN KEY ([acv_version_id]) REFERENCES [ref].[ACV_VERSION] ([id]),
     CONSTRAINT [FK_TEST_SESSION_TestSessionStatusId] FOREIGN KEY ([TestSessionStatusId]) REFERENCES [acvp].[TestSessionStatus] ([TestSessionStatusId])

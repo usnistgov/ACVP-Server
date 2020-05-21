@@ -23,6 +23,7 @@
 		CertifyTestSession = 18,
 		SubmitVectorSetResults = 19,
 		CancelVectorSet = 20,
-        ResubmitVectorSetResults = 21
+        ResubmitVectorSetResults = 21,
+		TestSessionKeepAlive = 22
 	}
 }

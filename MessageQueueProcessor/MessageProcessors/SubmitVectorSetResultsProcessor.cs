@@ -40,6 +40,9 @@ namespace MessageQueueProcessor.MessageProcessors
 				return new Result("Vector set must be in Processed status to submit results");
 			}
 
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(_testSessionService.GetTestSessionIDFromVectorSet(submitResultsPayload.VectorSetID));
+			
 			if (_testSessionService.GetStatus(vectorSet.TestSessionID) == TestSessionStatus.Expired)
 			{
 				return new Result("Test session that vector set belongs to is Expired");

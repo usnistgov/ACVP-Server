@@ -65,7 +65,11 @@ namespace Web.Public.Controllers
                         Context = $"Unable to find test session with id {tsID}."
                     }), HttpStatusCode.NotFound);
                 }
-                
+
+                //Send a TestSessionKeepAlive message
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+
                 var vectorSetUrls = new VectorSetUrlObject
                 {
                     VectorSetURLs = testSession.VectorSetURLs
@@ -86,6 +90,10 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                //Send a TestSessionKeepAlive message
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+
                 var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
                 {
@@ -140,6 +148,10 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                //Send a TestSessionKeepAlive message
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
                 if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
                 {
@@ -234,6 +246,10 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
+                //Send a TestSessionKeepAlive message
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+
                 // If the session isn't a sample, then the expected results are not generated
                 var testSessions = _testSessionService.GetTestSession(tsID);
                 if (!testSessions.IsSample)

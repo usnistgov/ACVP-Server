@@ -21,9 +21,12 @@ namespace MessageQueueProcessor.MessageProcessors
 
 		public Result Process(Message message)
 		{
-			//Get the payload so we can get the test session id
+			//Get the payload so we can get the vector set id
 			CancelPayload cancelPayload = JsonSerializer.Deserialize<CancelPayload>(message.Payload);
 
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(cancelPayload.TestSessionID);
+			
 			if (_vectorSetService.GetVectorSet(cancelPayload.VectorSetID).Status == VectorSetStatus.Cancelled)
 			{
 				return new Result("Vector set not in a valid state for cancellation");

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
-using NIST.CVP.Libraries.Internal.ACVPWorkflow;
 using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
 using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
@@ -36,6 +34,9 @@ namespace MessageQueueProcessor.MessageProcessors
 
 			//Deserialize the JSON into a CertifyTestSessionPayload object
 			CertifyTestSessionPayload certifyTestSessionPayload = JsonSerializer.Deserialize<CertifyTestSessionPayload>(requestPayload.Json.ToString());
+
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(certifyTestSessionPayload.TestSessionID);
 
 			//Create the workflow item
 			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), message.UserID);

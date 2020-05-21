@@ -13,8 +13,8 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITaskQueueService _taskQueueService;
-		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 		private readonly ITestSessionService _testSessionService;
+		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
 		public ResubmitVectorSetResultsProcessor(IVectorSetService vectorSetService, ITaskQueueService taskQueueService, ITestSessionService testSessionService, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
@@ -47,6 +47,9 @@ namespace MessageQueueProcessor.MessageProcessors
 				return new Result("Vector set must be in Failed status to resubmit results");
 			}
 
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(_testSessionService.GetTestSessionIDFromVectorSet(submitResultsPayload.VectorSetID));
+			
 			if (_testSessionService.GetStatus(vectorSet.TestSessionID) == TestSessionStatus.Expired)
 			{
 				return new Result("Test session that vector set belongs to is Expired");

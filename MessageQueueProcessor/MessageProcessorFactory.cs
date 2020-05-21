@@ -51,6 +51,7 @@ namespace MessageQueueProcessor
 				APIAction.SubmitVectorSetResults => new SubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _testSessionService),
 				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsProcessor(_vectorSetService, _taskQueueService, _testSessionService, _messageQueueProcessorConfig),
 				APIAction.CertifyTestSession => new CertifyTestSessionProcessor(_testSessionService, _workflowService, _workflowItemPayloadFactory, _messageQueueProcessorConfig),
+				APIAction.TestSessionKeepAlive => new TestSessionKeepAliveProcessor(_testSessionService),
 				_ => null
 			};
 		}

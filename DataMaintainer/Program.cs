@@ -1,10 +1,11 @@
 ﻿using System;
-using NIST.CVP.Libraries.Internal.ACVPCore;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.Email;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Serilog;
 
 namespace DataMaintainer
@@ -41,9 +42,12 @@ namespace DataMaintainer
 
 				.ConfigureServices((hostContext, services) =>
 				{
+					services.Configure<EmailConfiguration>(hostContext.Configuration.GetSection("EmailConfiguration"));
+
 					//Inject libraries
 					services.InjectACVPCore();
 					services.InjectDatabaseInterface();
+					services.InjectMailer();
 
 					//Inject what actually runs as the hosted service
 					services.AddSingleton<IHostedService, Worker>();
