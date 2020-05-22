@@ -38,7 +38,7 @@ namespace Web.Public.Tests
             _totpConfig = new TotpConfig
             {
                 Digits = 8,
-                EnforceUniqueness = true,
+                EnforceUniqueness = false,
                 Hmac = "SHA256",
                 Step = 30
             };
@@ -66,7 +66,7 @@ namespace Web.Public.Tests
             var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
             
-            Assert.IsTrue(result.IsSuccess);
+            Assert.IsTrue(result.IsSuccess, result.ErrorMessage);
         }
 
         [Test]
@@ -98,11 +98,15 @@ namespace Web.Public.Tests
         [TestCase(false)]
         public void ShouldRelyOnConfigForUniquenessRequirement(bool uniquenessRequired)
         {
-            var expectedWindow = CalculateTimeStepFromTimestamp(DateTime.Now);
+            var expectedTime = CalculateTimeStepFromTimestamp(DateTime.UtcNow);
             
+            _totpProvider = new Mock<ITotpProvider>();
+            _totpProvider
+                .Setup(s => s.GetSeedFromUserCertificateSubject(It.IsAny<string>()))
+                .Returns(new byte[] {1});
             _totpProvider
                 .Setup(s => s.GetUsedWindowFromUserCertificateSubject(It.IsAny<string>()))
-                .Returns(expectedWindow);
+                .Returns(expectedTime);
 
             _totpConfig.EnforceUniqueness = uniquenessRequired;
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
@@ -111,7 +115,7 @@ namespace Web.Public.Tests
             var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
 
-            Assert.AreEqual(uniquenessRequired, !result.IsSuccess);
+            Assert.AreEqual(uniquenessRequired, !result.IsSuccess, result.ErrorMessage);
         }
 
         [Test]
@@ -126,13 +130,6 @@ namespace Web.Public.Tests
 
             Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCertSubject), "generate totp");
             Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCertSubject, "dummy password"), "validate totp");
-        }
-
-        [Test]
-        public void TestGoogleAuthenticator()
-        {
-	        var totp = new Totp(Convert.FromBase64String("YZF2OplkPQ5MzPcyOuzBd7MeyhO3gpiA"), 30, OtpHashMode.Sha1, 6);
-	        Assert.AreEqual("423442", totp.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(1522966271).DateTime));
         }
 
         [Test]
