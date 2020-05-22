@@ -132,7 +132,7 @@ namespace Web.Public.Tests
         public void TestGoogleAuthenticator()
         {
 	        var totp = new Totp(Convert.FromBase64String("YZF2OplkPQ5MzPcyOuzBd7MeyhO3gpiA"), 30, OtpHashMode.Sha1, 6);
-	        Assert.AreEqual("423442", totp.ComputeTotp(new DateTime(1522966271)));
+	        Assert.AreEqual("423442", totp.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(1522966271).DateTime));
         }
 
         [Test]
@@ -195,9 +195,9 @@ namespace Web.Public.Tests
             Assert.Multiple(() =>
             {
                 for (int i = 0; i < testTime.Length; i++) {
-                    Assert.AreEqual(test[i], totp.ComputeTotp(new DateTime(testTime[i])), $"failed SHA1 iteration {i}");
-                    Assert.AreEqual(test32[i], totp32.ComputeTotp(new DateTime(testTime[i])), $"failed SHA256 iteration {i}");
-                    Assert.AreEqual(test64[i], totp64.ComputeTotp(new DateTime(testTime[i])), $"failed SHA512 iteration {i}");
+                    Assert.AreEqual(test[i], totp.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA1 iteration {i}");
+                    Assert.AreEqual(test32[i], totp32.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA256 iteration {i}");
+                    Assert.AreEqual(test64[i], totp64.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA512 iteration {i}");
                 }
             });
         }
