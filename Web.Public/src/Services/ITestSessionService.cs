@@ -12,5 +12,6 @@ namespace Web.Public.Services
         (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(string userCertSubject, PagingOptions pagingOptions);
         TestSession CreateTestSession(string userCertSubject, TestSessionRegisterPayload registration);
         Result SetTestSessionPublished(long testSessionId);
+        TestSessionResults GetTestSessionResults(long id);
     }
 }
