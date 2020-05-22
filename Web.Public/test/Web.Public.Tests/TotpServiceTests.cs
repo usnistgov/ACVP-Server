@@ -136,6 +136,31 @@ namespace Web.Public.Tests
         }
 
         [Test]
+        public void TestKatsFromHotpRfc()
+        {
+            // Test vectors provided from RFC 4226 
+            Hotp hotp = new Hotp(new BitString("3132333435363738393031323334353637383930").ToBytes(), OtpHashMode.Sha1, 6);
+            string[] tests = {
+                "755224",
+                "287082",
+                "359152",
+                "969429",
+                "338314",
+                "254676",
+                "287922",
+                "162583",
+                "399871",
+                "520489",
+            };
+            Assert.Multiple(() =>
+            {
+                for (int i = 0; i < tests.Length; i++) {
+                    Assert.AreEqual(tests[i], hotp.ComputeHOTP(i));
+                }                
+            });
+        }
+        
+        [Test]
         public void TestKatsFromTotpRfc()
         {
             Totp totp = new Totp(new BitString("3132333435363738393031323334353637383930").ToBytes(), 30, OtpHashMode.Sha1, 8);
