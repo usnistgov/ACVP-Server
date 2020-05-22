@@ -4,7 +4,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Math;
 using NUnit.Framework;
+using OtpNet;
 using Web.Public.Configs;
 using Web.Public.Providers;
 using Web.Public.Services;
@@ -36,7 +38,7 @@ namespace Web.Public.Tests
             _totpConfig = new TotpConfig
             {
                 Digits = 8,
-                EnforceUniqueness = true,
+                EnforceUniqueness = false,
                 Hmac = "SHA256",
                 Step = 30
             };
@@ -64,7 +66,7 @@ namespace Web.Public.Tests
             var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
             
-            Assert.IsTrue(result.IsSuccess);
+            Assert.IsTrue(result.IsSuccess, result.ErrorMessage);
         }
 
         [Test]
@@ -96,11 +98,15 @@ namespace Web.Public.Tests
         [TestCase(false)]
         public void ShouldRelyOnConfigForUniquenessRequirement(bool uniquenessRequired)
         {
-            var expectedWindow = CalculateTimeStepFromTimestamp(DateTime.Now);
+            var expectedTime = CalculateTimeStepFromTimestamp(DateTime.UtcNow);
             
+            _totpProvider = new Mock<ITotpProvider>();
+            _totpProvider
+                .Setup(s => s.GetSeedFromUserCertificateSubject(It.IsAny<string>()))
+                .Returns(new byte[] {1});
             _totpProvider
                 .Setup(s => s.GetUsedWindowFromUserCertificateSubject(It.IsAny<string>()))
-                .Returns(expectedWindow);
+                .Returns(expectedTime);
 
             _totpConfig.EnforceUniqueness = uniquenessRequired;
             _options = new OptionsWrapper<TotpConfig>(_totpConfig);
@@ -109,7 +115,7 @@ namespace Web.Public.Tests
             var totp = _totpService.GenerateTotp(_dummyCertSubject);
             var result = _totpService.ValidateTotp(_dummyCertSubject, totp);
 
-            Assert.AreEqual(uniquenessRequired, !result.IsSuccess);
+            Assert.AreEqual(uniquenessRequired, !result.IsSuccess, result.ErrorMessage);
         }
 
         [Test]
@@ -124,6 +130,73 @@ namespace Web.Public.Tests
 
             Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCertSubject), "generate totp");
             Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCertSubject, "dummy password"), "validate totp");
+        }
+
+        [Test]
+        public void TestKatsFromHotpRfc()
+        {
+            // Test vectors provided from RFC 4226 
+            Hotp hotp = new Hotp(new BitString("3132333435363738393031323334353637383930").ToBytes(), OtpHashMode.Sha1, 6);
+            string[] tests = {
+                "755224",
+                "287082",
+                "359152",
+                "969429",
+                "338314",
+                "254676",
+                "287922",
+                "162583",
+                "399871",
+                "520489",
+            };
+            Assert.Multiple(() =>
+            {
+                for (int i = 0; i < tests.Length; i++) {
+                    Assert.AreEqual(tests[i], hotp.ComputeHOTP(i));
+                }                
+            });
+        }
+        
+        [Test]
+        public void TestKatsFromTotpRfc()
+        {
+            Totp totp = new Totp(new BitString("3132333435363738393031323334353637383930").ToBytes(), 30, OtpHashMode.Sha1, 8);
+            Totp totp32 = new Totp(new BitString("3132333435363738393031323334353637383930313233343536373839303132").ToBytes(), 30, OtpHashMode.Sha256, 8);
+            Totp totp64 = new Totp(new BitString("31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334").ToBytes(), 30, OtpHashMode.Sha512, 8);
+
+            long[] testTime = {59L, 1111111109L, 1111111111L, 1234567890L, 2000000000L, 20000000000L};
+            string[] test = {
+                "94287082",
+                "07081804",
+                "14050471",
+                "89005924",
+                "69279037",
+                "65353130"
+            };
+            string[] test32 = {
+                "46119246",
+                "68084774",
+                "67062674",
+                "91819424",
+                "90698825",
+                "77737706"
+            };
+            string[] test64 = {
+                "90693936",
+                "25091201",
+                "99943326",
+                "93441116",
+                "38618901",
+                "47863826"
+            };
+            Assert.Multiple(() =>
+            {
+                for (int i = 0; i < testTime.Length; i++) {
+                    Assert.AreEqual(test[i], totp.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA1 iteration {i}");
+                    Assert.AreEqual(test32[i], totp32.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA256 iteration {i}");
+                    Assert.AreEqual(test64[i], totp64.ComputeTotp(DateTimeOffset.FromUnixTimeSeconds(testTime[i]).DateTime), $"failed SHA512 iteration {i}");
+                }
+            });
         }
         
         // Grabbed from OtpNet (TOTP library) to compute the expected timeWindow based on current time

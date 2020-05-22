@@ -27,7 +27,7 @@ namespace Web.Public.Services
             
             var seed = _totpProvider.GetSeedFromUserCertificateSubject(userCertSubject);
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
-            return totp.ComputeTotp(DateTime.Now);
+            return totp.ComputeTotp();
         }
 
         public Result ValidateTotp(string userCertSubject, string password)
@@ -46,7 +46,7 @@ namespace Web.Public.Services
             }
             
             var totp = new Totp(seed, _totpConfig.Step, StringToHmacMode(_totpConfig.Hmac), _totpConfig.Digits);
-            var success = totp.VerifyTotp(DateTime.Now, password, out var computedWindow, VerificationWindow.RfcSpecifiedNetworkDelay);
+            var success = totp.VerifyTotp(password, out var computedWindow, VerificationWindow.RfcSpecifiedNetworkDelay);
 
             // If they failed authentication, don't bother with anything else
             if (!success)
