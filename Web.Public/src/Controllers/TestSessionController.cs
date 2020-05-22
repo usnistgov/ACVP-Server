@@ -203,5 +203,27 @@ namespace Web.Public.Controllers
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));
         }
+
+        [HttpGet("{id}/results")]
+        public ActionResult GetTestSessionResults(long id)
+        {
+            var jwt = Request.Headers["Authorization"];
+            var claims = _jwtService.GetClaimsFromJwt(jwt);
+
+            var claimValidator = new TestSessionClaimsVerifier(id);
+            if (!claimValidator.AreClaimsValid(claims))
+            {
+                return new ForbidResult();
+            }
+
+            var testSessionResults = _testSessionService.GetTestSessionResults(id);
+
+            if (testSessionResults == null)
+            {
+                return new NotFoundResult();
+            }
+                
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSessionResults));
+        }
     }
 }

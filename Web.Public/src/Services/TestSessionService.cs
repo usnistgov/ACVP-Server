@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
@@ -93,5 +94,27 @@ namespace Web.Public.Services
         }
 
         public Result SetTestSessionPublished(long testSessionId) => _testSessionProvider.SetTestSessionPublished(testSessionId);
+        public TestSessionResults GetTestSessionResults(long id)
+        {
+            var testSession = GetTestSession(id);
+
+            if (testSession == null)
+            {
+                return null;
+            }
+
+            var returnObject = new TestSessionResults()
+            {
+                Status = testSession.Status,
+                Type = new List<VectorSetResultsForTestSession>()
+            };
+            
+            foreach (var vsId in testSession.VectorSetIDs)
+            {
+                returnObject.Type.Add(new VectorSetResultsForTestSession(id, vsId, _vectorSetProvider.GetStatus(vsId)));
+            }
+
+            return returnObject;
+        }
     }
 }
