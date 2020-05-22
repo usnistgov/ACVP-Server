@@ -4,7 +4,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Math;
 using NUnit.Framework;
+using OtpNet;
 using Web.Public.Configs;
 using Web.Public.Providers;
 using Web.Public.Services;
@@ -124,6 +126,55 @@ namespace Web.Public.Tests
 
             Assert.Throws<Exception>(() => _totpService.GenerateTotp(_dummyCertSubject), "generate totp");
             Assert.Throws<Exception>(() => _totpService.ValidateTotp(_dummyCertSubject, "dummy password"), "validate totp");
+        }
+
+        [Test]
+        public void TestGoogleAuthenticator()
+        {
+	        var totp = new Totp(Convert.FromBase64String("YZF2OplkPQ5MzPcyOuzBd7MeyhO3gpiA"), 30, OtpHashMode.Sha1, 6);
+	        Assert.AreEqual("423442", totp.ComputeTotp(new DateTime(1522966271)));
+        }
+
+        [Test]
+        public void TestKatsFromTotpRfc()
+        {
+            Totp totp = new Totp(new BitString("3132333435363738393031323334353637383930").ToBytes(), 30, OtpHashMode.Sha1, 8);
+            Totp totp32 = new Totp(new BitString("3132333435363738393031323334353637383930313233343536373839303132").ToBytes(), 30, OtpHashMode.Sha256, 8);
+            Totp totp64 = new Totp(new BitString("31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839303132333435363738393031323334").ToBytes(), 30, OtpHashMode.Sha512, 8);
+
+            long[] testTime = {59L, 1111111109L, 1111111111L, 1234567890L, 2000000000L, 20000000000L};
+            string[] test = {
+                "94287082",
+                "07081804",
+                "14050471",
+                "89005924",
+                "69279037",
+                "65353130"
+            };
+            string[] test32 = {
+                "46119246",
+                "68084774",
+                "67062674",
+                "91819424",
+                "90698825",
+                "77737706"
+            };
+            string[] test64 = {
+                "90693936",
+                "25091201",
+                "99943326",
+                "93441116",
+                "38618901",
+                "47863826"
+            };
+            Assert.Multiple(() =>
+            {
+                for (int i = 0; i < testTime.Length; i++) {
+                    Assert.AreEqual(test[i], totp.ComputeTotp(new DateTime(testTime[i])), $"failed SHA1 iteration {i}");
+                    Assert.AreEqual(test32[i], totp32.ComputeTotp(new DateTime(testTime[i])), $"failed SHA256 iteration {i}");
+                    Assert.AreEqual(test64[i], totp64.ComputeTotp(new DateTime(testTime[i])), $"failed SHA512 iteration {i}");
+                }
+            });
         }
         
         // Grabbed from OtpNet (TOTP library) to compute the expected timeWindow based on current time
