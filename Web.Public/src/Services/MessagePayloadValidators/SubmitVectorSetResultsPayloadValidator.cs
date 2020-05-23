@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -21,9 +22,11 @@ namespace Web.Public.Services.MessagePayloadValidators
 			var errors = new List<string>();
 
 			//Vector set must be in Processed status
-			if (_vectorSetService.GetStatus(payload.VectorSetID) != VectorSetStatus.Processed)
+			var vsStatus = _vectorSetService.GetStatus(payload.VectorSetID); 
+			if (vsStatus != VectorSetStatus.Processed)
 			{
-				errors.Add("Vector set not in Processed status");
+				errors.Add($"Vector set not in '{EnumHelpers.GetEnumDescriptionFromEnum(VectorSetStatus.Processed)}' status.");
+				errors.Add($"Unable to submit results when vector set in '{EnumHelpers.GetEnumDescriptionFromEnum(vsStatus)}' status.");
 			}
 
 			// Environment check done by controller
