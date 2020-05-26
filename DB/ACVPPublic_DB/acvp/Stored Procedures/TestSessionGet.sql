@@ -7,6 +7,7 @@ SELECT id AS ID
     ,created_on as CreatedOn
     ,[sample] as [Sample]
     ,TestSessionStatusId
+    ,LastTouched
 --FROM [acvp].[TestSession]
 FROM [acvp].[TEST_SESSION]
 WHERE @ID = id
