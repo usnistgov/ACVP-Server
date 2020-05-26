@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.DRBG.Enums;
 using NIST.CVP.Crypto.Common.DRBG.Helpers;
 using NIST.CVP.Generation.Core;
@@ -15,6 +17,9 @@ namespace NIST.CVP.Generation.DRBG.v1_0
             DrbgAttributes attributes = null;
             var errorResults = new List<string>();
 
+            var algoModeRevision =
+                AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+            
             if (parameters.PredResistanceEnabled == null)
             {
                 errorResults.Add("predResistance array must be provided.");
@@ -33,6 +38,13 @@ namespace NIST.CVP.Generation.DRBG.v1_0
 
             foreach (var capability in parameters.Capabilities)
             {
+                if (new[] {AlgoMode.DRBG_Hash_v1_0, AlgoMode.DRBG_HMAC_v1_0}.Contains(algoModeRevision) &&
+                    capability.DerFuncEnabled)
+                {
+                    errorResults.Add("The derFuncEnabled property is not valid for HASH and HMAC DRBG testing.");
+                    continue;
+                }
+                
                 ValidateAndGetOptions(parameters, capability, errorResults, ref attributes);
 
                 // Cannot validate the rest of the parameters as they are dependant on the successful validation of the mechanism and mode.
