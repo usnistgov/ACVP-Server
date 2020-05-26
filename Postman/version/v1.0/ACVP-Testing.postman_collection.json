@@ -430,6 +430,73 @@
 			"response": []
 		},
 		{
+			"name": "Get ts results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a1e3ada-003a-447a-8c0c-e0079e9b35b3",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Disposition\");",
+							"",
+							"if (jsonData[1].retry) {",
+							"    // If response has retry, repeat this call",
+							"    setTimeout(",
+							"        function () {",
+							"            pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"        }, 10000);",
+							"}",
+							"else {",
+							"    pm.test(\"disposition must have vsId\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('vsId');",
+							"    });",
+							"",
+							"    pm.test(\"disposition should pass\", function () {",
+							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
+							"    });",
+							"",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Register",
 			"event": [
 				{
@@ -999,7 +1066,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]",
+					"options": {
+						"raw": {}
+					}
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
