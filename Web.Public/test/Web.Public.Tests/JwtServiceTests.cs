@@ -4,8 +4,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using Web.Public.Configs;
+using Web.Public.Providers;
 using Web.Public.Services;
 
 namespace Web.Public.Tests
@@ -17,7 +17,7 @@ namespace Web.Public.Tests
         {
             protected override DateTime JwtCreateDateTime { get; }
 
-            public JwtServiceVirtualCreationTime(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions, DateTime jwtCreationDateTime) : base(logger, jwtOptions)
+            public JwtServiceVirtualCreationTime(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions, ISecretKvpProvider secretKvpProvider, DateTime jwtCreationDateTime) : base(logger, jwtOptions, secretKvpProvider)
             {
                 JwtCreateDateTime = jwtCreationDateTime;
             }
@@ -26,6 +26,7 @@ namespace Web.Public.Tests
         private IJwtService _jwtService;
         private Mock<ILogger<JwtService>> _logger;
         private Mock<IOptions<JwtConfig>> _jwtConfig;
+        private Mock<ISecretKvpProvider> _secretKeyProvider;
         private const string MyCertSubject = "This is a legit cert subject";
         
         [SetUp]
@@ -36,13 +37,16 @@ namespace Web.Public.Tests
             _jwtConfig.Setup(s => s.Value).Returns(new JwtConfig()
             {
                 Issuer = "My test issuer",
-                SecretKey = "my testing secret key, the good one for testing, we may overwrite the key at some point to make sure the jwt does not validate",
                 FriendlySignatureScheme = "HmacSha256",
                 ValidWindowHours = 0,
                 ValidWindowMinutes = 30,
                 ValidWindowSeconds = 0
             });
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
+            _secretKeyProvider = new Mock<ISecretKvpProvider>();
+            _secretKeyProvider
+                .Setup(s => s.GetValueFromKey(It.IsAny<string>()))
+                .Returns("my testing secret key, the good one for testing, we may overwrite the key at some point to make sure the jwt does not validate");
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
         }
 
         [Test]
@@ -81,13 +85,15 @@ namespace Web.Public.Tests
             _jwtConfig.Setup(s => s.Value).Returns(new JwtConfig()
             {
                 Issuer = "My test issuer",
-                SecretKey = "baby shark doot doot doot doo doo doo, baby shark doot doot doot doo doo doo, baby shark doot doot doot doo doo doo, baby shark!",
                 FriendlySignatureScheme = "HmacSha256",
                 ValidWindowHours = 0,
                 ValidWindowMinutes = 30,
                 ValidWindowSeconds = 0
             });
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
+            _secretKeyProvider
+                .Setup(s => s.GetValueFromKey(It.IsAny<string>()))
+                .Returns("baby shark doot doot doot doo doo doo, baby shark doot doot doot doo doo doo, baby shark doot doot doot doo doo doo, baby shark!");
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
             
             Assert.IsFalse(_jwtService.IsTokenValid(MyCertSubject, jwt.Token, true));
         }
@@ -95,36 +101,36 @@ namespace Web.Public.Tests
         [Test]
         public void ShouldValidateIfJwtExpiredAndIgnoringExpiration()
         {
-            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
+            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
             
             var jwt = _jwtService.Create(MyCertSubject, null);
             
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
-            
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
+
             Assert.True(_jwtService.IsTokenValid(MyCertSubject, jwt.Token, false));
         }
         
         [Test]
         public void ShouldNotValidateIfJwtExpiredAndNotIgnoringExpiration()
         {
-            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
+            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
             
             var jwt = _jwtService.Create(MyCertSubject, null);
             
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
-            
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
+
             Assert.False(_jwtService.IsTokenValid(MyCertSubject, jwt.Token, true));
         }
         
         [Test]
         public void ShouldNotValidateIfJwtExpired()
         {
-            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
+            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
             
             var jwt = _jwtService.Create(MyCertSubject, null);
             
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
-            
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
+
             Assert.False(_jwtService.IsTokenValid(MyCertSubject, jwt.Token, true));
         }
 
@@ -156,11 +162,11 @@ namespace Web.Public.Tests
         [Test]
         public void TokenShouldRefreshEvenWhenExpired()
         {
-            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
+            _jwtService = new JwtServiceVirtualCreationTime(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object, DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)));
             
             var jwt = _jwtService.Create(MyCertSubject, null);
             
-            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object);
+            _jwtService = new JwtService(_logger.Object, _jwtConfig.Object, _secretKeyProvider.Object);
 
             var refreshToken = _jwtService.Refresh(MyCertSubject, jwt.Token);
             
