@@ -107,6 +107,8 @@ namespace Web.Public.Services
 
             var returnObject = new TestSessionResults()
             {
+                CreatedOn = testSession.CreatedOn,
+                ExpiresOn = testSession.ExpiresOn,
                 Status = testSession.Status,
                 Type = new List<VectorSetResultsForTestSession>()
             };

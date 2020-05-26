@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -8,6 +9,10 @@ namespace Web.Public.Models
 	{
 		[JsonIgnore]
 		public TestSessionStatus Status { get; set; }
+		[JsonPropertyName("createdOn")]
+		public DateTime CreatedOn { get; set; }
+		[JsonPropertyName("expiresOn")]
+		public DateTime ExpiresOn { get; set; }
 		[JsonPropertyName("passed")] 
 		public bool Passed => Status == TestSessionStatus.Passed;
 		[JsonPropertyName("results")]
