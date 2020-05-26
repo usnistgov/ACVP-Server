@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +44,7 @@ namespace Web.Public
                     services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
                     services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
                     services.Configure<VectorSetConfig>(hostContext.Configuration.GetSection("VectorSet"));
+                    services.Configure<TestSessionConfig>(hostContext.Configuration.GetSection("TestSession"));
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

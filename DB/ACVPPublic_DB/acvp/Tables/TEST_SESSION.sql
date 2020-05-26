@@ -6,8 +6,11 @@
     [sample]              BIT           NOT NULL,
     [user_id]             BIGINT        NULL,
     [TestSessionStatusId] TINYINT       NULL,
+    [LastTouched]         DATETIME2 (7) NULL,
     CONSTRAINT [PK_TEST_SESSION] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
 
 

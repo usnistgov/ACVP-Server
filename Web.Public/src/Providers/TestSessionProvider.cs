@@ -7,6 +7,8 @@ using Mighty;
 using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using Web.Public.Configs;
+using Microsoft.Extensions.Options;
 
 namespace Web.Public.Providers
 {
@@ -14,10 +16,12 @@ namespace Web.Public.Providers
     {
         private readonly ILogger _logger;
         private readonly string _connectionString;
-        
-        public TestSessionProvider(ILogger<TestSessionProvider> logger, IConnectionStringFactory connectionStringFactory)
+        private readonly TestSessionConfig _testSessionConfig;
+
+        public TestSessionProvider(ILogger<TestSessionProvider> logger, IOptions<TestSessionConfig> testSessionConfig, IConnectionStringFactory connectionStringFactory)
         {
             _logger = logger;
+            _testSessionConfig = testSessionConfig.Value;
             _connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
         }
 
@@ -61,13 +65,14 @@ namespace Web.Public.Providers
                 {
                     throw new Exception("Could not find test session");
                 }
-                
+
                 var testSession = new TestSession
                 {
                     ID = id,
                     CreatedOn = data.CreatedOn,
                     IsSample = data.Sample,
                     Status = (TestSessionStatus)data.TestSessionStatusId,
+                    ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
                 };
 
                 var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
@@ -112,7 +117,8 @@ namespace Web.Public.Providers
                     ID = ts.ID,
                     CreatedOn = ts.CreatedOn,
                     IsSample = ts.Sample,
-                    Status = (TestSessionStatus)ts.TestSessionStatusId
+                    Status = (TestSessionStatus)ts.TestSessionStatusId,
+                    ExpiresOn = ((DateTime)ts.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
                 }).ToList();
 
                 foreach (var testSession in testSessions)
