@@ -6,7 +6,6 @@ namespace Web.Public.Configs
     public class JwtConfig
     {
         public string Issuer { get; set; }
-        public string SecretKey { get; set; }
         public int ValidWindowHours { get; set; }
         public int ValidWindowMinutes { get; set; }
         public int ValidWindowSeconds { get; set; }

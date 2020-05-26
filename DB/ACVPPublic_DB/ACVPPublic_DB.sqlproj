@@ -179,5 +179,9 @@
     <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
     <Build Include="ref\Tables\MODULE_TYPE.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetStatusSet.sql" />
+    <Build Include="external\Tables\SecretKeyValuePairs.sql" />
+    <Build Include="dbo\Functions\DecryptNvarchar.sql" />
+    <Build Include="external\Stored Procedures\SecretKeyValuePairSet.sql" />
+    <Build Include="external\Stored Procedures\SecretKeyValuePairGet.sql" />
   </ItemGroup>
 </Project>

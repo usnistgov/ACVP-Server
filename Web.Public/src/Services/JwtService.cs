@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Configs;
+using Web.Public.Providers;
 using Web.Public.Results;
 
 namespace Web.Public.Services
@@ -29,11 +30,11 @@ namespace Web.Public.Services
         private readonly SigningCredentials _signingCredentials;
         private readonly JwtConfig _jwtOptions;
         
-        public JwtService(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions)
+        public JwtService(ILogger<JwtService> logger, IOptions<JwtConfig> jwtOptions, ISecretKvpProvider secretKvpProvider)
         {
             _logger = logger;
             _jwtOptions = jwtOptions.Value;
-            _securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtOptions.SecretKey));
+            _securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(secretKvpProvider.GetValueFromKey(SecretKvpProvider.JwtSigningKey)));
             _signingCredentials = new SigningCredentials(_securityKey, _jwtOptions.SignatureScheme);
             _defaultWindow = new TimeSpan(_jwtOptions.ValidWindowHours, _jwtOptions.ValidWindowMinutes, _jwtOptions.ValidWindowSeconds);
         }
