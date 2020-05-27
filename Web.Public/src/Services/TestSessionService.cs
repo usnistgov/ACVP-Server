@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
+using Web.Public.Configs;
 using Web.Public.Models;
 using Web.Public.Providers;
 
@@ -18,14 +19,16 @@ namespace Web.Public.Services
         private readonly IVectorSetProvider _vectorSetProvider;
         private readonly IUserProvider _userProvider;
         private readonly IJwtService _jwtService;
-        
-        public TestSessionService(IAlgorithmService algorithmService, ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider, IUserProvider userProvider, IJwtService jwtService)
+        private readonly TestSessionConfig _testSessionConfig;
+
+        public TestSessionService(IAlgorithmService algorithmService, ITestSessionProvider testSessionProvider, IVectorSetProvider vectorSetProvider, IUserProvider userProvider, IJwtService jwtService, IOptions<TestSessionConfig> testSessionConfig)
         {
             _algorithmService = algorithmService;
             _testSessionProvider = testSessionProvider;
             _vectorSetProvider = vectorSetProvider;
             _userProvider = userProvider;
             _jwtService = jwtService;
+            _testSessionConfig = testSessionConfig.Value;
         }
 
         public bool IsOwner(string userCertSubject, long id)
@@ -87,11 +90,33 @@ namespace Web.Public.Services
                 VectorSetIDs = vectorSetIds,
                 AccessToken = testSessionJwt,
                 CreatedOn = DateTime.Now,
-                ExpiresOn = DateTime.Now,
+                ExpiresOn = DateTime.Now.AddDays(_testSessionConfig.TestSessionExpirationAgeInDays),
                 Status = TestSessionStatus.Unknown  //This is goofy, but there's no need for the status at this point anyway
             };
         }
 
         public Result SetTestSessionPublished(long testSessionId) => _testSessionProvider.SetTestSessionPublished(testSessionId);
+        public TestSessionResults GetTestSessionResults(long id)
+        {
+            var testSession = GetTestSession(id);
+
+            if (testSession == null)
+            {
+                return null;
+            }
+
+            var returnObject = new TestSessionResults()
+            {
+                Status = testSession.Status,
+                Type = new List<VectorSetResultsForTestSession>()
+            };
+            
+            foreach (var vsId in testSession.VectorSetIDs)
+            {
+                returnObject.Type.Add(new VectorSetResultsForTestSession(id, vsId, _vectorSetProvider.GetStatus(vsId)));
+            }
+
+            return returnObject;
+        }
     }
 }

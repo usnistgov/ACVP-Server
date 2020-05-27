@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Orleans.Runtime;
 using Serilog;
 using Web.Public.Configs;
+using Web.Public.Providers;
 
 namespace Web.Public
 {
@@ -24,6 +25,7 @@ namespace Web.Public
         public IConfiguration Configuration { get; }
 
         private JwtConfig _jwtConfig;
+        private string _jwtSigningKey;
         
         public Startup(IConfiguration configuration)
         {
@@ -67,7 +69,7 @@ namespace Web.Public
                         ValidateLifetime = true,
                         ValidateTokenReplay = true,
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtConfig.SecretKey)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtSigningKey)),
                         SaveSigninToken = true
                     };
                 });
@@ -84,12 +86,13 @@ namespace Web.Public
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig)
+        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig, ISecretKvpProvider secretKvpProvider)
         {
             logger.LogInformation("Startup.Configure");
             
             _jwtConfig = jwtConfig.Value;
-
+            _jwtSigningKey = secretKvpProvider.GetValueFromKey(SecretKvpProvider.JwtSigningKey);
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

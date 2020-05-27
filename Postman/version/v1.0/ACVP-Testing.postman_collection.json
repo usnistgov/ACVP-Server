@@ -376,9 +376,9 @@
 							"if (jsonData[1].retry) {",
 							"    // If response has retry, repeat this call",
 							"    setTimeout(",
-							"            function () {",
-							"                pm.environment.set(\"next_step\", \"Get Disposition\");",
-							"            }, 10000);",
+							"        function () {",
+							"            pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"        }, 10000);",
 							"}",
 							"else {",
 							"    pm.test(\"disposition must have vsId\", function () {",
@@ -423,6 +423,73 @@
 						"{{testSession_Id}}",
 						"vectorSets",
 						"{{vs_id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get ts results",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a1e3ada-003a-447a-8c0c-e0079e9b35b3",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Disposition\");",
+							"",
+							"if (jsonData[1].retry) {",
+							"    // If response has retry, repeat this call",
+							"    setTimeout(",
+							"        function () {",
+							"            pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"        }, 10000);",
+							"}",
+							"else {",
+							"    pm.test(\"disposition must have vsId\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('vsId');",
+							"    });",
+							"",
+							"    pm.test(\"disposition should pass\", function () {",
+							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
+							"    });",
+							"",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
 						"results"
 					]
 				}
@@ -704,7 +771,8 @@
 							"    if (jsonData[1].retry) {",
 							"        // If response has retry, repeat this call",
 							"        setTimeout(",
-							"            function () { pm.environment.set(\"next_step\", \"Get Prompt\"); ",
+							"            function () {",
+							"                pm.environment.set(\"next_step\", \"TOTP for refresh\");",
 							"            }, 10000);",
 							"    }",
 							"    else {",
@@ -759,6 +827,75 @@
 			"response": []
 		},
 		{
+			"name": "Get Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e98d283f-2fdd-4b3e-9b35-ebf7ce83d74c",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Prompt\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
+							"",
+							"    if (jsonData[1].retry) {",
+							"        // If response has retry, repeat this call",
+							"        setTimeout(",
+							"            function () {",
+							"                pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"            }, 10000);",
+							"    }",
+							"    else {",
+							"",
+							"        pm.test(\"prompt must have vsId\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('vsId');",
+							"        });",
+							"",
+							"        pm.test(\"prompt must have tests\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
+							"        });",
+							"",
+							"        // If response is complete, move on to next call",
+							"        pm.environment.set(\"next_step\", \"Get Expected Answers\");",
+							"    }",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}{{requrl}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}{{requrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Certify Test Session",
 			"event": [
 				{
@@ -766,7 +903,17 @@
 					"script": {
 						"id": "39da7a43-8bf6-4664-a756-96849a30ef05",
 						"exec": [
-							""
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Version Chk\", function () {\r",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");\r",
+							"});\r",
+							"pm.test(\"Request Chk\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");\r",
+							"});\r",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
 						],
 						"type": "text/javascript"
 					}
@@ -854,7 +1001,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"revision\": \"{{revision}}\",\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
@@ -919,7 +1066,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"revision\": \"{{revision}}\",\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]",
+					"options": {
+						"raw": {}
+					}
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",

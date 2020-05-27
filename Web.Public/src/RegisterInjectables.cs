@@ -19,49 +19,51 @@ namespace Web.Public
         {
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             
-            item.AddTransient<ITotpService, TotpService>();
-            item.AddTransient<ITotpProvider, TotpProvider>();
-            item.AddTransient<IJwtService, JwtService>();
+            item.AddSingleton<ISecretKvpProvider, SecretKvpProvider>();
+            
+            item.AddSingleton<ITotpService, TotpService>();
+            item.AddSingleton<ITotpProvider, TotpProvider>();
+            item.AddSingleton<IJwtService, JwtService>();
 
-            item.AddTransient<IJsonWriterService, JsonWriterService>();
-            item.AddTransient<IJsonReaderService, JsonReaderService>();
+            item.AddSingleton<IJsonWriterService, JsonWriterService>();
+            item.AddSingleton<IJsonReaderService, JsonReaderService>();
 
-            item.AddTransient<IUserProvider, UserProvider>();
-            item.AddTransient<IMessageProvider, MessageProvider>();
-            item.AddTransient<IMessageService, MessageService>();
+            item.AddSingleton<IUserProvider, UserProvider>();
+            item.AddSingleton<IMessageProvider, MessageProvider>();
+            item.AddSingleton<IMessageService, MessageService>();
             
-            item.AddTransient<IAlgorithmProvider, AlgorithmProvider>();
-            item.AddTransient<IAlgorithmService, AlgorithmService>();
+            item.AddSingleton<IAlgorithmProvider, AlgorithmProvider>();
+            item.AddSingleton<IAlgorithmService, AlgorithmService>();
 
-            item.AddTransient<IDependencyProvider, DependencyProvider>();
-            item.AddTransient<IDependencyService, DependencyService>();
+            item.AddSingleton<IDependencyProvider, DependencyProvider>();
+            item.AddSingleton<IDependencyService, DependencyService>();
             
-            item.AddTransient<IImplementationProvider, ImplementationProvider>();
-            item.AddTransient<IImplementationService, ImplementationService>();
+            item.AddSingleton<IImplementationProvider, ImplementationProvider>();
+            item.AddSingleton<IImplementationService, ImplementationService>();
             
-            item.AddTransient<IOEProvider, OEProvider>();
-            item.AddTransient<IOEService, OEService>();
+            item.AddSingleton<IOEProvider, OEProvider>();
+            item.AddSingleton<IOEService, OEService>();
             
-            item.AddTransient<IPersonProvider, PersonProvider>();
-            item.AddTransient<IPersonService, PersonService>();
+            item.AddSingleton<IPersonProvider, PersonProvider>();
+            item.AddSingleton<IPersonService, PersonService>();
             
-            item.AddTransient<IOrganizationProvider, OrganizationProvider>();
-            item.AddTransient<IOrganizationService, OrganizationService>();
+            item.AddSingleton<IOrganizationProvider, OrganizationProvider>();
+            item.AddSingleton<IOrganizationService, OrganizationService>();
             
-            item.AddTransient<IAddressProvider, AddressProvider>();
-            item.AddTransient<IAddressService, AddressService>();
+            item.AddSingleton<IAddressProvider, AddressProvider>();
+            item.AddSingleton<IAddressService, AddressService>();
 
-            item.AddTransient<IRequestProvider, RequestProvider>();
-            item.AddTransient<IRequestService, RequestService>();
+            item.AddSingleton<IRequestProvider, RequestProvider>();
+            item.AddSingleton<IRequestService, RequestService>();
 
             item.AddSingleton<IGenValInvoker, GenValInvoker>();
             item.AddSingleton<IParameterValidatorService, ParameterValidatorService>();
             
-            item.AddTransient<ITestSessionProvider, TestSessionProvider>();
-            item.AddTransient<ITestSessionService, TestSessionService>();
+            item.AddSingleton<ITestSessionProvider, TestSessionProvider>();
+            item.AddSingleton<ITestSessionService, TestSessionService>();
 
-            item.AddTransient<IVectorSetProvider, VectorSetProvider>();
-            item.AddTransient<IVectorSetService, VectorSetService>();
+            item.AddSingleton<IVectorSetProvider, VectorSetProvider>();
+            item.AddSingleton<IVectorSetService, VectorSetService>();
 
             item.AddSingleton<IMessagePayloadValidatorFactory, MessagePayloadValidatorFactory>();
         }
