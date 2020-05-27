@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -12,11 +13,13 @@ namespace MessageQueueProcessor.MessageProcessors
 	{
 		private readonly IVectorSetService _vectorSetService;
 		private readonly ITestSessionService _testSessionService;
+		private readonly ITaskQueueService _taskQueueService;
 
-		public CancelVectorSetProcessor(IVectorSetService vectorSetService, ITestSessionService testSessionService)
+		public CancelVectorSetProcessor(IVectorSetService vectorSetService, ITestSessionService testSessionService, ITaskQueueService taskQueueService)
 		{
 			_vectorSetService = vectorSetService;
 			_testSessionService = testSessionService;
+			_taskQueueService = taskQueueService;
 		}
 
 		public Result Process(Message message)
@@ -38,7 +41,15 @@ namespace MessageQueueProcessor.MessageProcessors
 			}
 
 			//Cancel the vector set
-			return _vectorSetService.Cancel(cancelPayload.VectorSetID);
+			var result = _vectorSetService.Cancel(cancelPayload.VectorSetID);
+
+			if (result.IsSuccess)
+			{
+				//Clear any pending tasks in the task queue for this vector set
+				result = _taskQueueService.DeletePendingTasksForVectorSet(cancelPayload.VectorSetID);
+			}
+
+			return result;
 		}
 	}
 }
