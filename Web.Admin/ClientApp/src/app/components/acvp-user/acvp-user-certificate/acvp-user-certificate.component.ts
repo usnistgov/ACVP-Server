@@ -48,6 +48,7 @@ export class AcvpUserCertificateComponent implements OnInit {
 
     // Assemble the emails to send to
     var emailAddresses = "";
+    console.log(this.selectedUser.person.emailAddresses);
     for (let i = 0; i < this.selectedUser.person.emailAddresses.length; i++) {
       emailAddresses = emailAddresses + this.selectedUser.person.emailAddresses[i] + ";";
     }
