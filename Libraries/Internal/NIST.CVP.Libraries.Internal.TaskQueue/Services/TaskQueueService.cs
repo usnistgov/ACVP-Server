@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.TaskQueue.Providers;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -62,6 +61,8 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 		}
 
 		public Result Delete(long taskID) => _taskQueueProvider.Delete(taskID);
+
+		public Result DeletePendingTasksForVectorSet(long vectorSetID) => _taskQueueProvider.DeletePendingTasksForVectorSet(vectorSetID);
 
 		public List<TaskQueueItem> List() => _taskQueueProvider.List();
 

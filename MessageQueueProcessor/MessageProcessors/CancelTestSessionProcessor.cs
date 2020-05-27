@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -11,10 +12,14 @@ namespace MessageQueueProcessor.MessageProcessors
 	public class CancelTestSessionProcessor : IMessageProcessor
 	{
 		private readonly ITestSessionService _testSessionService;
+		private readonly ITaskQueueService _taskQueueService;
+		private readonly IVectorSetService _vectorSetService;
 
-		public CancelTestSessionProcessor(ITestSessionService testSessionService)
+		public CancelTestSessionProcessor(ITestSessionService testSessionService, ITaskQueueService taskQueueService, IVectorSetService vectorSetService)
 		{
 			_testSessionService = testSessionService;
+			_taskQueueService = taskQueueService;
+			_vectorSetService = vectorSetService;
 		}
 
 		public Result Process(Message message)
@@ -32,7 +37,15 @@ namespace MessageQueueProcessor.MessageProcessors
 			}
 
 			//Cancel the test session
-			return _testSessionService.Cancel(cancelPayload.TestSessionID);
+			var result = _testSessionService.Cancel(cancelPayload.TestSessionID);
+
+			if (result.IsSuccess)
+			{
+				//Clear any pending tasks in the task queue for each vector set in this test session
+				_vectorSetService.GetVectorSetsForTestSession(cancelPayload.TestSessionID).ForEach(x => _taskQueueService.DeletePendingTasksForVectorSet(x.ID));
+			}
+
+			return result;
 		}
 	}
 }
