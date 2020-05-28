@@ -7,6 +7,6 @@ namespace Web.Public.Providers
     {
         Request GetRequest(long id);
         bool CheckRequestInitialized(long id);
-        List<Request> GetAllRequestsForUser(long userID);
+        (long TotalCount, List<Request> Requests) GetPagedRequestsForUser(long userID, long offset, long limit);
     }
 }

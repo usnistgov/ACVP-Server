@@ -44,11 +44,11 @@ namespace Web.Public.Services
             return request;
         }
 
-        public List<Request> GetAllRequestsForUser(long userID)
+        public (long TotalCount, List<Request> Requests) GetPagedRequestsForUser(long userID, PagingOptions pagingOptions)
         {
-            var requests = _requestProvider.GetAllRequestsForUser(userID);
+            var result = _requestProvider.GetPagedRequestsForUser(userID, pagingOptions.Offset, pagingOptions.Limit);
 
-            foreach (var request in requests)
+            foreach (var request in result.Requests)
             {
                 if (request.Status == RequestStatus.Approved)
                 {
@@ -56,7 +56,7 @@ namespace Web.Public.Services
                 }
             }
 
-            return requests;
+            return result;
         }
 
         private string BuildApprovedURL(long approvedID, APIAction apiAction)

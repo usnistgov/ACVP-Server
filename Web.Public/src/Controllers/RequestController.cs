@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.JsonObjects;
+using Web.Public.Models;
 using Web.Public.Providers;
 using Web.Public.Results;
 using Web.Public.Services;
@@ -27,12 +29,38 @@ namespace Web.Public.Controllers
         }
         
         [HttpGet]
-        public JsonHttpStatusResult GetAllRequests()
+        public JsonHttpStatusResult GetPagedRequestsForUser()
         {
             var userID = _userProvider.GetUserIDFromCertificateSubject(GetCertSubjectFromJwt());
 
-            var requests = _requestService.GetAllRequestsForUser(userID);
-            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requests));
+            var limit = 0;
+            var offset = 0;
+            if (Request.Query.TryGetValue("limit", out var stringLimit))
+            {
+                int.TryParse(stringLimit.First(), out limit);
+            }
+
+            if (Request.Query.TryGetValue("offset", out var stringOffset))
+            {
+                int.TryParse(stringOffset.First(), out offset);
+            }
+
+            //If limit was not present, or a garbage value, make it a default
+            if (limit <= 0) limit = 20;
+
+            //Build the querystring that excluded limit and offset
+            var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
+            
+            var pagingOptions = new PagingOptions
+            {
+                Limit = limit,
+                Offset = offset
+            };
+            
+            var data = _requestService.GetPagedRequestsForUser(userID, pagingOptions);
+            var pagedData =  new PagedResponse<Request>(data.TotalCount, data.Requests, $"/acvp/v1/requests", pagingOptions);
+				
+            return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));
         }
         
         [HttpGet("{id}")]
