@@ -8,6 +8,7 @@ namespace Web.Public.Providers
     {
         bool IsOwner(long userID, long tsID);
         TestSession GetTestSession(long id);
+        bool IsTestSessionQueued(long id);
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
         Result SetTestSessionPublished(long testSessionId);
