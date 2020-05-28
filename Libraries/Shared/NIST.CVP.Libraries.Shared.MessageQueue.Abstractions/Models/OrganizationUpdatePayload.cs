@@ -31,7 +31,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 			}
 		}
 
-		[JsonPropertyName("link")]
+		[JsonPropertyName("website")]
 		public string Website
 		{
 			get => _website;
