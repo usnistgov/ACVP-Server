@@ -25,14 +25,16 @@ export class WorkflowOeCreateComponent implements OnInit {
     this.workflowItem = item;
 
     this.workflowItem.payload.existingDependencies = [];
-    for (let x = 0; x < this.workflowItem.payload.dependencyUrls.length; x++) {
+    if (this.workflowItem.payload.dependencyUrls) {
+      for (let x = 0; x < this.workflowItem.payload.dependencyUrls.length; x++) {
 
-      // Parse out the id from the provided url
-      let dependencyId = parseInt(this.workflowItem.payload.dependencyUrls[x].split("/")[this.workflowItem.payload.dependencyUrls[x].split("/").length - 1]);
+        // Parse out the id from the provided url
+        let dependencyId = parseInt(this.workflowItem.payload.dependencyUrls[x].split("/")[this.workflowItem.payload.dependencyUrls[x].split("/").length - 1]);
 
-      // Now, GET the actual data
-      this.dependencyService.getDependency(dependencyId).subscribe(
-        data => { this.workflowItem.payload.existingDependencies.push(data); });
+        // Now, GET the actual data
+        this.dependencyService.getDependency(dependencyId).subscribe(
+          data => { this.workflowItem.payload.existingDependencies.push(data); });
+      }
     }
   }
 

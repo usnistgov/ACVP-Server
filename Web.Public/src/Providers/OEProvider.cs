@@ -13,14 +13,16 @@ namespace Web.Public.Providers
 	{
 		private readonly ILogger<OEProvider> _logger;
 		private readonly string _acvpPublicConnectionString;
+		private readonly IDependencyProvider _dependencyProvider;
 
-		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<OEProvider> logger)
+		public OEProvider(IConnectionStringFactory connectionStringFactory, ILogger<OEProvider> logger, IDependencyProvider dependencyProvider)
 		{
 			_logger = logger;
 			_acvpPublicConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+			_dependencyProvider = dependencyProvider;
 		}
 
-		public OperatingEnvironment Get(long id)
+		public OperatingEnvironmentWithDependencies Get(long id)
 		{
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
@@ -36,7 +38,7 @@ namespace Web.Public.Providers
 					return null;
 				}
 				
-				var result = new OperatingEnvironment
+				var result = new OperatingEnvironmentWithDependencies
 				{
 					ID = id,
 					Name = data.Name
@@ -49,10 +51,10 @@ namespace Web.Public.Providers
 
 				if (dependencyData != null)
 				{
-					result.DependencyIDs = new List<long>();
+					result.Dependencies = new List<Dependency>();
 					foreach (var dependency in dependencyData)
 					{
-						result.DependencyIDs.Add(dependency.DependencyID);
+						result.Dependencies.Add(_dependencyProvider.GetDependency(dependency.DependencyID));
 					}
 				}
 
