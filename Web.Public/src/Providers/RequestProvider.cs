@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -64,23 +65,29 @@ namespace Web.Public.Providers
             }
         }
 
-        public List<Request> GetAllRequestsForUser(long userID)
+        public (long TotalCount, List<Request> Requests) GetPagedRequestsForUser(long userID, long offset, long limit)
         {
-            var db = new MightyOrm(_connectionString);
+            var db = new MightyOrm<Request>(_connectionString);
 
             try
             {
-                var requestData = db.QueryFromProcedure("acvp.RequestGetFromUser", new
+                var requestData = db.QueryWithExpando("acvp.RequestGetFromUser", new
                 {
-                    UserID = userID
+                    UserID = userID,
+                    Offset = offset,
+                    Limit = limit
+                },
+                new
+                {
+                   TotalRecords = (long)0 
                 });
 
                 if (requestData == null)
                 {
-                    throw new Exception($"Unable to find requests for user id: {userID}");
+                    return (0, new List<Request>());
                 }
 
-                return requestData.Select(request => new Request {RequestID = request.ID, Status = request.Status, ApprovedID = request.ApprovedID, APIAction = request.APIActionID}).ToList();
+                return (requestData.ResultsExpando.TotalRecords, requestData.Data);
             }
             catch (Exception ex)
             {
