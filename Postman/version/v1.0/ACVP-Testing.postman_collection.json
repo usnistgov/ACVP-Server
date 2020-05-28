@@ -652,7 +652,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [\n\t\t\t{\n\t\t\t  \"algorithm\": \"ACVP-AES-CBC\",\n\t\t\t  \"revision\": \"1.0\",\n\t\t\t  \"isSample\": true,\n\t\t\t  \"conformances\": [],\n\t\t\t  \"direction\": [\n\t\t\t    \"encrypt\",\n\t\t\t    \"decrypt\"\n\t\t\t  ],\n\t\t\t  \"keyLen\": [\n\t\t\t    128,\n\t\t\t    192,\n\t\t\t    256\n\t\t\t  ]\n\t\t\t}\n\t\t]\n\t}\n]"
+					"raw": "[{\r\n\t\t\"acvVersion\": \"{{acv_version}}\"\r\n\t},\r\n\t{\r\n\t\t\"isSample\": true,\r\n\t\t\"algorithms\": [\r\n\t\t\t{\r\n\t\t\t  \"algorithm\": \"ACVP-AES-CBC\",\r\n\t\t\t  \"revision\": \"1.0\",\r\n\t\t\t  \"isSample\": false,\r\n\t\t\t  \"conformances\": [],\r\n\t\t\t  \"direction\": [\r\n\t\t\t    \"encrypt\",\r\n\t\t\t    \"decrypt\"\r\n\t\t\t  ],\r\n\t\t\t  \"keyLen\": [\r\n\t\t\t    128,\r\n\t\t\t    192,\r\n\t\t\t    256\r\n\t\t\t  ]\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n]"
 				},
 				"url": {
 					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
