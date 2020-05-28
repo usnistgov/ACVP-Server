@@ -16,7 +16,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 		[JsonPropertyName("name")]
 		public string Name { get; set; }
 
-		[JsonPropertyName("link")]
+		[JsonPropertyName("website")]
 		public string Website { get; set; }
 
 		[JsonPropertyName("parentUrl")]
