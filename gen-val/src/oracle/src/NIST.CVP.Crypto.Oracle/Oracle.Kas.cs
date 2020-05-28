@@ -422,5 +422,20 @@ namespace NIST.CVP.Crypto.Oracle
                 return await GetSafePrimesKeyVerTestAsync(param);
             }
         }
+
+        public Task<KasSscAftResult> GetKasSscAftTestAsync(KasSscAftParameters param)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Task<KasSscAftDeferredResult> CompleteDeferredKasSscAftTestAsync(KasSscAftDeferredParameters param)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Task<KasSscValResult> GetKasSscValTestAsync(KasSscValParameters param)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

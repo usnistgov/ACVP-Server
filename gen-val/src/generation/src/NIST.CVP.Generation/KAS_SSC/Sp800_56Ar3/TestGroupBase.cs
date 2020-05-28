@@ -19,6 +19,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 		public string TestType { get; set; }
 		public List<TTestCase> Tests { get; set; } = new List<TTestCase>();
 		
+		public bool IsSample { get; set; }
+		
 		public KasDpGeneration DomainParameterGenerationMode { get; set; }
         
 		[JsonIgnore] public virtual IDsaDomainParameters DomainParameters { get; set; }

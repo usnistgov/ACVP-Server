@@ -36,5 +36,9 @@ namespace NIST.CVP.Common.Oracle
         Task<KasEccComponentDeferredResult> CompleteDeferredKasComponentTestAsync(KasEccComponentDeferredParameters param);
 
         Task<SafePrimesKeyVerResult> GetSafePrimesKeyVerTestAsync(SafePrimesKeyVerParameters param);
+
+        Task<KasSscAftResult> GetKasSscAftTestAsync(KasSscAftParameters param);
+        Task<KasSscAftDeferredResult> CompleteDeferredKasSscAftTestAsync(KasSscAftDeferredParameters param);
+        Task<KasSscValResult> GetKasSscValTestAsync(KasSscValParameters param);
     }
 }
