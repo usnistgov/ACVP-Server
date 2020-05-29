@@ -13,7 +13,7 @@ namespace Web.Public.Services
 			_oeProvider = oeProvider;
 		}
 
-		public OperatingEnvironment GetOE(long id) => _oeProvider.Get(id);
+		public OperatingEnvironmentWithDependencies GetOE(long id) => _oeProvider.Get(id);
 		public bool Exists(long id) => _oeProvider.Exists(id);
 
 		public bool IsUsed(long id) => _oeProvider.IsUsed(id);

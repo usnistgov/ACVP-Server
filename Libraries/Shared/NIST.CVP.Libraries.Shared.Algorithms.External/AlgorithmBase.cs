@@ -8,7 +8,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 		[JsonPropertyName("id")]
 		public int AlgorithmId { get; set; }
 		
-		[JsonPropertyName("name")]
+		[JsonPropertyName("algorithm")]
 		public string Name { get; set; }
 
 		[JsonPropertyName("mode")]

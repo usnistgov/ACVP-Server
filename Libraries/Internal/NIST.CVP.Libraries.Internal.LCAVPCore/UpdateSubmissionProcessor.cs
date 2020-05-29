@@ -275,7 +275,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					case "Component":
 						int[] algorithmIDs;
 						//First get one of the algorithms in this validation, that will tell us which subset to get
-						switch (GetAnAlgorithmOnValidation(validationRecordID))
+						switch (_dataProvider.GetAnAlgorithmOnValidation(validationRecordID))
 						{
 							case 69:
 								//ECDSA SigGen - this is the special case
@@ -408,7 +408,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					//Handle any "In this same implementation" prereqs
 					registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
 
-					if ((bool)(registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites)?.Any(x => x.IsUnprocessedSubmission)))
+					if ((bool)(registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>())?.Any(x => x.IsUnprocessedSubmission)))
 					{
 						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
@@ -503,7 +503,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					//Handle any "In this same implementation" prereqs
 					registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
 
-					if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Any(x => x.IsUnprocessedSubmission))
+					if ((bool)registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>())?.Any(x => x.IsUnprocessedSubmission))
 					{
 						string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID).Distinct());
 						errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
@@ -580,7 +580,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 						//Handle any "In this same implementation" prereqs
 						registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
 
-						if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+						if ((bool)registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>()) ?.Any(x => x.IsUnprocessedSubmission))
 						{
 							string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 							errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
@@ -653,7 +653,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 						//Handle any "In this same implementation" prereqs
 						registration.Scenarios = HandlePrereqLookups(registration.Scenarios, moduleID);
 
-						if (registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Any(x => x.IsUnprocessedSubmission))
+						if ((bool)registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites ?? new List<Prerequisite>())?.Any(x => x.IsUnprocessedSubmission))
 						{
 							string submissions = string.Join(", ", registration.Scenarios.SelectMany(x => x.Algorithms).SelectMany(x => x.Prerequisites).Where(x => x.IsUnprocessedSubmission).Select(x => x.SubmissionID));
 							errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
@@ -1067,24 +1067,5 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 			return contacts;
 		}
-
-
-		private long GetAnAlgorithmOnValidation(long validationRecordID)
-		{
-
-			try
-			{
-				var db = new MightyOrm("LCAVP");
-
-				var data = db.Query("EXEC [lcavp].[AlgorithmsOnValidationGet] @0", validationRecordID).FirstOrDefault();
-
-				return (long)data.algorithm_id;
-			}
-			catch
-			{
-				return -1;
-			}
-		}
-
 	}
 }

@@ -59,6 +59,13 @@ namespace Web.Public.Controllers
             
                 if (testSession == null)
                 {
+                    // This can be null in cases where the test session was POSTed but has not yet been replicated to public.
+                    // Check that is not the case
+                    if (_testSessionService.IsTestSessionQueued(tsID))
+                    {
+                        return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                    }
+                    
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
                     {
                         Error = Request.HttpContext.Request.Path,
@@ -124,13 +131,12 @@ namespace Web.Public.Controllers
                 }
                 
                 // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
 
                 // Build request object for response
-                var requestObject = new RequestObject
+                var requestObject = new CancelObject()
                 {
-                    RequestID = requestID,
-                    Status = RequestStatus.Initial
+                    Url = Request.Path.Value
                 };
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));

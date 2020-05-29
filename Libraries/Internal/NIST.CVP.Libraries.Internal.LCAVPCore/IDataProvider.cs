@@ -17,5 +17,6 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 		List<(int OrderIndex, string PhoneNumber, string Type)> GetPhoneNumbersForPerson(int personID);
 		long GetValidationIDForSubmissionID(string submissionID);
 		long GetValidationNumberForValidationID(long validationID);
+		long GetAnAlgorithmOnValidation(long validationRecordID);
 	}
 }

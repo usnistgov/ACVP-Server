@@ -65,11 +65,16 @@ namespace Web.Public.Providers
 
 				if (phoneData != null)
 				{
-					result.PhoneNumbers = new List<PhoneNumber>();
-					
+					var phoneNumbers = new List<PhoneNumber>();
+
 					foreach (var phone in phoneData)
 					{
-						result.PhoneNumbers.Add(new PhoneNumber { Number = phone.PhoneNumber, Type = phone.PhoneType });
+						phoneNumbers.Add(new PhoneNumber { Number = phone.PhoneNumber, Type = phone.PhoneType });
+					}
+
+					if (phoneNumbers.Count > 0)
+					{
+						result.PhoneNumbers = phoneNumbers;
 					}
 				}
 

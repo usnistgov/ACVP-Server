@@ -26,7 +26,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 		public OECreateParameters ToOECreateParameters() => new OECreateParameters
 		{
 			Name = Name,
-			DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),
+			DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)) ?? new List<long>()
 		};
 	}
 }

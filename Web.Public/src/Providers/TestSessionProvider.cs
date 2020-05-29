@@ -63,7 +63,7 @@ namespace Web.Public.Providers
 
                 if (data == null)
                 {
-                    throw new Exception("Could not find test session");
+                    return null;
                 }
 
                 var testSession = new TestSession
@@ -82,7 +82,7 @@ namespace Web.Public.Providers
 
                 if (vsData == null)
                 {
-                    throw new Exception("Could not find vector sets");
+                    return null;
                 }
 
                 testSession.VectorSetIDs = vsData.Select(vs => (long)vs.ID).ToList();
@@ -92,7 +92,37 @@ namespace Web.Public.Providers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error retrieving TestSession: {id}");
-                throw;
+                return null;
+            }
+        }
+
+        public bool IsTestSessionQueued(long id)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var data = db.ExecuteProcedure("[external].[TestSessionCheckIfExists]",
+                    new
+                    {
+                        TestSessionId = id
+                    },
+                    new
+                    {
+                        Exists = false
+                    });
+
+                if (data == null)
+                {
+                    return false;
+                }
+
+                return data.Exists;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving TestSession exists status: {id}");
+                return false;
             }
         }
 

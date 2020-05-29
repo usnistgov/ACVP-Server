@@ -307,28 +307,32 @@ namespace Web.Public.Providers
 				//Build the list of organization objects
 				foreach (var rawPerson in rawPersons.OrderBy(x => x.PersonId))
 				{
-					var org = new Person
+					var emails = rawEmailAddresses
+						.Where(x => x.PersonId == rawPerson.PersonId)
+						.OrderBy(x => x.OrderIndex)
+						.Select(x => (string) x.EmailAddress)
+						.ToList();
+
+					var phoneNumbers = rawPhone
+						.Where(x => x.PersonId == rawPerson.PersonId)
+						.OrderBy(x => x.OrderIndex)
+						.Select(x => new PhoneNumber()
+						{
+							Number = x.PhoneNumber,
+							Type = x.PhoneNumberType
+						})
+						.ToList();
+					
+					var person = new Person
 					{
 						ID = rawPerson.PersonId,
 						Name = rawPerson.FullName,
-						Emails = rawEmailAddresses
-							.Where(x => x.PersonId == rawPerson.PersonId)
-							.OrderBy(x => x.OrderIndex)
-							.Select(x => (string)x.EmailAddress)
-							.ToList(),
-						PhoneNumbers = rawPhone
-							.Where(x => x.PersonId == rawPerson.PersonId)
-							.OrderBy(x => x.OrderIndex)
-							.Select(x => new PhoneNumber()
-							{
-								Number = x.PhoneNumber,
-								Type = x.PhoneNumberType
-							})
-							.ToList()
+						Emails = emails.Count > 0 ? emails : null,
+						PhoneNumbers = phoneNumbers.Count > 0 ? phoneNumbers : null
 					};
 
 					//Finally add it to the collection
-					contacts.Add(org);
+					contacts.Add(person);
 				}
 
 				return (totalRecords, contacts);
