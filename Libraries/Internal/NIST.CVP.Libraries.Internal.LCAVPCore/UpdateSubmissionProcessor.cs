@@ -275,7 +275,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					case "Component":
 						int[] algorithmIDs;
 						//First get one of the algorithms in this validation, that will tell us which subset to get
-						switch (GetAnAlgorithmOnValidation(validationRecordID))
+						switch (_dataProvider.GetAnAlgorithmOnValidation(validationRecordID))
 						{
 							case 69:
 								//ECDSA SigGen - this is the special case
@@ -1067,24 +1067,5 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 			return contacts;
 		}
-
-
-		private long GetAnAlgorithmOnValidation(long validationRecordID)
-		{
-
-			try
-			{
-				var db = new MightyOrm("LCAVP");
-
-				var data = db.Query("EXEC [lcavp].[AlgorithmsOnValidationGet] @0", validationRecordID).FirstOrDefault();
-
-				return (long)data.algorithm_id;
-			}
-			catch
-			{
-				return -1;
-			}
-		}
-
 	}
 }
