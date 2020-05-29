@@ -201,11 +201,10 @@ namespace Web.Public.Controllers
                 throw new JsonReaderException(validation.Errors);
             }
             
-            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
-            var requestObject = new RequestObject
+            _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
+            var requestObject = new CancelObject()
             {
-                RequestID = requestId,
-                Status = RequestStatus.Initial
+                Url = Request.Path.Value
             };
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));

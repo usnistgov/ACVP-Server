@@ -131,13 +131,12 @@ namespace Web.Public.Controllers
                 }
                 
                 // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
 
                 // Build request object for response
-                var requestObject = new RequestObject
+                var requestObject = new CancelObject()
                 {
-                    RequestID = requestID,
-                    Status = RequestStatus.Initial
+                    Url = Request.Path.Value
                 };
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));

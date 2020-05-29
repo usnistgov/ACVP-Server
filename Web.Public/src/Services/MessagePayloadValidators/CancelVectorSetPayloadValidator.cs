@@ -22,6 +22,13 @@ namespace Web.Public.Services.MessagePayloadValidators
 			
 			// Check testSession has not been published yet
 			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
+
+			if (testSession == null)
+			{
+				errors.Add("testSession does not exist or has not yet begun processing.");
+				return new PayloadValidationResult(errors);
+			}
+			
 			if (testSession.Status == TestSessionStatus.Published)
 			{
 				errors.Add("testSession parent of vectorSet has already been published");
