@@ -33,21 +33,23 @@ export class WorkflowOeUpdateComponent implements OnInit {
     this.workflowItem = item;
 
     // Loop through the dependencies listed
-    for (let i = 0; i < this.workflowItem.payload.dependencies.length; i++) {
+    if (this.workflowItem.payload.dependencies !== null) {
+      for (let i = 0; i < this.workflowItem.payload.dependencies.length; i++) {
 
-      // Check each one for whether it's existing (i.e. there's an additional API request reuqired to the API)
-      // Frustratingly, the API still provide the name, type, and description fields on existing ones, but they're always
-      // null, as a result of an issue with the API-side modeling.  Something to fix later on the server-side and then we can remove this block (TODO)
-      if (this.workflowItem.payload.dependencies[i].isInlineCreate == false) {
-        this.OEService.getDependency(this.workflowItem.payload.dependencies[i].id).subscribe(
-          data => {
-            this.workflowItem.payload.dependencies[i] = data;
-            this.workflowItem.payload.dependencies[i].isInlineCreate = false;
-            console.log(data);
-          },
-          err => { },
-          () => { }
-        );
+        // Check each one for whether it's existing (i.e. there's an additional API request reuqired to the API)
+        // Frustratingly, the API still provide the name, type, and description fields on existing ones, but they're always
+        // null, as a result of an issue with the API-side modeling.  Something to fix later on the server-side and then we can remove this block (TODO)
+        if (this.workflowItem.payload.dependencies[i].isInlineCreate == false) {
+          this.OEService.getDependency(this.workflowItem.payload.dependencies[i].id).subscribe(
+            data => {
+              this.workflowItem.payload.dependencies[i] = data;
+              this.workflowItem.payload.dependencies[i].isInlineCreate = false;
+              console.log(data);
+            },
+            err => { },
+            () => { }
+          );
+        }
       }
     }
     
