@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
@@ -59,7 +57,7 @@ namespace NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models
 		{
 			ID = ID,
 			Name = Name,
-			DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)),
+			DependencyIDs = DependencyURLs?.ConvertAll<long>(x => ParseIDFromURL(x)) ?? new List<long>(),
 			NameUpdated = NameUpdated,
 			DependenciesUpdated = DependenciesUpdated
 		};
