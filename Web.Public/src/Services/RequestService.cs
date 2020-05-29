@@ -86,14 +86,14 @@ namespace Web.Public.Services
                 APIAction.UpdateVendor => $"{baseURL}/vendors/{approvedID}",
                 APIAction.DeleteVendor => $"{baseURL}/vendors/{approvedID}",
                 
-                APIAction.RegisterTestSession => "",
-                APIAction.CancelTestSession => "",
-                APIAction.CertifyTestSession => "",
-                APIAction.SubmitVectorSetResults => "",
-                APIAction.CancelVectorSet => "",
+                APIAction.RegisterTestSession => null,
+                APIAction.CancelTestSession => null,
+                APIAction.CertifyTestSession => null,
+                APIAction.SubmitVectorSetResults => null,
+                APIAction.CancelVectorSet => null,
                 
-                APIAction.Unknown => throw new Exception("Unable to find matching action"),
-                _ => throw new Exception("Unable to find matching action")
+                APIAction.Unknown => null,
+                _ => null
             };
         }
     }
