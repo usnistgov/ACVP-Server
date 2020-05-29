@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { HttpEventType, HttpClient } from '@angular/common/http';
+import { LegacyResult } from '../../models/Legacy/legacyResult';
 
 @Component({
   selector: 'app-legacy-file-upload',
@@ -8,60 +9,64 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 })
 export class LegacyFileUploadComponent implements OnInit {
 
-  constructor() { }
+  public progress: number;
+  public message: string;
+  public result: LegacyResult;
+  public fileName: string;
+  public uploadEnabled: boolean = true;
+  @Output() public onUploadFinished = new EventEmitter();
 
-  public files: NgxFileDropEntry[] = [];
+  constructor(private http: HttpClient) { }
 
-  public dropped(files: NgxFileDropEntry[]) {
-    this.files = files;
-    for (const droppedFile of files) {
- 
-      // Is it a file?
-      if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
-        fileEntry.file((file: File) => {
- 
-          // Here you can access the real file
-          console.log(droppedFile.relativePath, file);
- 
-          /*
-          // You could upload it like this:
-          const formData = new FormData()
-          formData.append('logo', file, relativePath)
- 
-          // Headers
-          const headers = new HttpHeaders({
-            'security-token': 'mytoken'
-          })
- 
-          this.http.post('https://mybackend.com/api/upload/sanitize-and-save-logo', formData, { headers: headers, responseType: 'blob' })
-          .subscribe(data => {
-            // Sanitized logo returned from backend
-            // Note 2020/01/09
-            // Look toward the app.component.ts section of this page to see an example of creating a bootstrap-based file upload progress bar 
-            // using the HTTPClient default responses.  Looks pretty simple, really.
-            // https://www.positronx.io/angular-file-upload-with-progress-bar-tutorial/
-          })
-          */
- 
-        });
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = droppedFile.fileEntry as FileSystemDirectoryEntry;
-        console.log(droppedFile.relativePath, fileEntry);
-      }
-    }
-  }
- 
-  public fileOver(event){
-    console.log(event);
-  }
- 
-  public fileLeave(event){
-    console.log(event);
-  }
-  
   ngOnInit() {
   }
+
+  public uploadFile = (files) => {
+    this.uploadEnabled = false;
+    this.message = null;
+    this.progress = 0;
+    this.result = null;
+
+    if (files.length === 0) {
+      this.message = "No file selected";
+      this.uploadEnabled = true;
+      return;
+    }
+
+    if (files.length > 1) {
+      this.message = "Only a single file may be uploaded";
+      this.uploadEnabled = true;
+      return;
+    }
+
+    let fileToUpload = <File>files[0];
+    this.fileName = fileToUpload.name;
+
+    if (!this.fileName.endsWith(".zip")) {
+      this.message = "File must be a zip file";
+      this.uploadEnabled = true;
+      return;
+    }
+
+    if (fileToUpload.size > 536870912) {
+      this.message = "Files larger than 500MB cannot be uploaded";
+      this.uploadEnabled = true;
+      return;
+    }
+
+
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+
+    this.http.post<LegacyResult>('/api/Legacy/Upload', formData, { reportProgress: true, observe: 'events' })
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.result = event.body;
+          this.uploadEnabled = true;
+        }
+      });
+  } 
 
 }

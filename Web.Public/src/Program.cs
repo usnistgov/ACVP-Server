@@ -1,0 +1,65 @@
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using Web.Public.Configs;
+
+namespace Web.Public
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var executingLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var rootDirectory = Path.GetDirectoryName(executingLocation) + Path.DirectorySeparatorChar;
+            CreateHostBuilder(args, rootDirectory).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args, string directoryConfig) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                    if (string.IsNullOrWhiteSpace(env))
+                    {
+                        throw new Exception("ASPNETCORE_ENVIRONMENT env variable not set.");
+                    }
+
+                    context.HostingEnvironment.EnvironmentName = env;
+
+                    builder
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.json", false, false)
+                        //.AddJsonFile($"{directoryConfig}sharedappsettings.{env}.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.json", false, false)
+                        .AddJsonFile($"{directoryConfig}appsettings.{env}.json", false, false);
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.RegisterAcvpPublicServices();
+                    services.Configure<JwtConfig>(hostContext.Configuration.GetSection("Jwt"));
+                    services.Configure<TotpConfig>(hostContext.Configuration.GetSection("Totp"));
+                    services.Configure<AlgorithmConfig>(hostContext.Configuration.GetSection("Algorithm"));
+                    services.Configure<VectorSetConfig>(hostContext.Configuration.GetSection("VectorSet"));
+                    services.Configure<TestSessionConfig>(hostContext.Configuration.GetSection("TestSession"));
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.ConfigureHttpsDefaults(configureOptions =>
+                        {
+                            configureOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                        });
+                    });
+                })
+                .UseSerilog((hostContext, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
+                });
+    }
+}

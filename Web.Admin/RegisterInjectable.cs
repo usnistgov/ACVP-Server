@@ -1,9 +1,13 @@
-using ACVPCore;
-using ACVPWorkflow;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.LCAVPCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NIST.CVP.Libraries.Internal.Email;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue;
 using Web.Admin.Auth.Models;
 
 namespace Web.Admin
@@ -20,9 +24,14 @@ namespace Web.Admin
             item.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             item.Configure<SsoConfig>(configuration.GetSection(nameof(SsoConfig)));
-            
+            item.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
+
             item.InjectACVPCore();
             item.InjectACVPWorkflow();
+            item.InjectLCAVPCore();
+            item.InjectMessageQueue();
+            item.InjectTaskQueue();
+            item.InjectMailer();
         }
     }
 }

@@ -31,12 +31,10 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
                 errors.Add("Incorrect mode");
             }
 
-
-            if (parameters.Capabilities.Length == 0)
+            if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
-                errors.Add("No capabilties provided");
+                return new ParameterValidateResponse(errors);
             }
-
 
             foreach (var capability in parameters.Capabilities)
             {
@@ -57,26 +55,6 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.IKEv2
             }
 
             return new ParameterValidateResponse(errors);
-        }
-
-        private void ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)
-        {
-            var result = ValidateSegmentCountGreaterThanZero(domain, errorTag);
-            if (!string.IsNullOrEmpty(result))
-            {
-                errors.Add(result);
-                return;
-            }
-
-            if (domain.GetDomainMinMax().Minimum < min)
-            {
-                errors.Add($"Minimum {errorTag} must be greater than or equal to {min}");
-            }
-
-            if (domain.GetDomainMinMax().Maximum > max)
-            {
-                errors.Add($"Maximum {errorTag} must be less than or equal to {max}");
-            }
         }
 
         private void ValidateDKM(MathDomain dkm, string[] hashAlgs, List<string> errors, string errorTag)

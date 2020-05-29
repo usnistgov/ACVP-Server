@@ -30,10 +30,11 @@ namespace NIST.CVP.Generation.KAS.Tests
             Directory.Delete(_testPath, true);
         }
 
-        private static object[] _testData = new object[]
+        private static IEnumerable<object[]> _testData = new List<object[]>
         {
             new object[]
             {
+                "test1",
                 new Parameters()
                 {
                     Algorithm = "KAS-FFC",
@@ -73,8 +74,7 @@ namespace NIST.CVP.Generation.KAS.Tests
 
         [Test]
         [TestCaseSource(nameof(_testData))]
-
-        public void ShouldSerializeAndDeserializeIntoSameObject(Parameters parameters)
+        public void ShouldSerializeAndDeserializeIntoSameObject(string testLabel, Parameters parameters)
         {
             var jsonParameterFile = CreateRegistration(_testPath, parameters);
 

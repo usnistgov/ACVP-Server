@@ -1,0 +1,88 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Logging;
+using NIST.CVP.Libraries.Shared.Algorithms.External;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using Microsoft.Extensions.Options;
+using Mighty;
+using Web.Public.Configs;
+
+namespace Web.Public.Providers
+{
+    public class AlgorithmProvider : IAlgorithmProvider
+    {
+        private readonly ILogger<AlgorithmProvider> _logger;
+        private readonly string _acvpConnectionString;
+        private readonly AlgorithmConfig _options;
+        private IEnumerable<AlgorithmBase> _cachedAlgorithmList = new List<AlgorithmBase>();
+        
+        public AlgorithmProvider(ILogger<AlgorithmProvider> logger, IConnectionStringFactory connectionStringFactory, IOptions<AlgorithmConfig> options)
+        {
+            _logger = logger;
+            _acvpConnectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
+            _options = options.Value;
+        }
+        
+        public IEnumerable<AlgorithmBase> GetAlgorithmList()
+        {
+            if (_cachedAlgorithmList.Any() && _options.AllowCaching)
+            {
+                return _cachedAlgorithmList;
+            }
+            
+            var db = new MightyOrm<AlgorithmBase>(_acvpConnectionString);
+
+            try
+            {
+                var algoList = db.QueryWithExpando("ref.AlgorithmsGet");
+                _cachedAlgorithmList = algoList.Data;
+                return _cachedAlgorithmList;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex);
+                throw;
+            }
+        }
+
+        // TODO could be improved. not very informative right now
+        public AlgorithmBase GetAlgorithm(int id)
+        {
+            if (!_cachedAlgorithmList.Any())
+            {
+                GetAlgorithmList();
+            }
+
+            var algo = _cachedAlgorithmList.FirstOrDefault(alg => alg.AlgorithmId == id);
+            return algo;
+        }
+
+        public AlgorithmBase GetAlgorithm(string algorithmName, string mode, string revision)
+        {
+            var algo = new AlgorithmBase()
+            {
+                Name = algorithmName,
+                Mode = mode,
+                Revision = revision
+            };
+            
+            if (!_cachedAlgorithmList.Any())
+            {
+                GetAlgorithmList();
+            }
+
+            try
+            {
+                return _cachedAlgorithmList
+                    .First(alg => alg.FullAlgoName.Equals(algo.FullAlgoName, StringComparison.OrdinalIgnoreCase));
+            }
+            catch (Exception e)
+            {
+                _logger.LogWarning(e, $"Unable to find algorithm ID for {algo.FullAlgoName}");
+                return null;
+            }
+        }
+    }
+}

@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] { "224" },
+                DigestSizes = new List<string>() { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65528, 8)),
                 IsSample = true
             };
@@ -72,7 +72,7 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new[] { "224" },
+                DigestSizes = new List<string>() { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535)),
                 IsSample = false
             };
@@ -85,9 +85,9 @@ namespace NIST.CVP.Generation.SHA2.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+            public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
-                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
+                return new List<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctionalTest()
                 };

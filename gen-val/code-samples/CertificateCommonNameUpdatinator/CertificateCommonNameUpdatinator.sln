@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateCommonNameUpdatinator", "CertificateCommonNameUpdatinator.csproj", "{4BE4DFA4-F876-48AB-ABD7-FD3882304294}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "refs", "refs", "{9F33E76B-653D-499B-85B3-38AF2F38158D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.ACVPCore", "..\..\..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj", "{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common", "..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{40625122-C1E0-413F-936B-11936F4C878E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BE4DFA4-F876-48AB-ABD7-FD3882304294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BE4DFA4-F876-48AB-ABD7-FD3882304294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BE4DFA4-F876-48AB-ABD7-FD3882304294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BE4DFA4-F876-48AB-ABD7-FD3882304294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{40625122-C1E0-413F-936B-11936F4C878E} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+	EndGlobalSection
+EndGlobal

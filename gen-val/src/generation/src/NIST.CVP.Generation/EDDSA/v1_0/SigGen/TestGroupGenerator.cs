@@ -5,11 +5,12 @@ using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private const string TEST_TYPE = "AFT";
 
@@ -20,15 +21,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             _oracle = oracle;
         }
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
-        {
-            var groups = BuildTestGroupsAsync(parameters);
-            groups.Wait();
-
-            return groups.Result;
-        }
-
-        private async Task<IEnumerable<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+        public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
@@ -65,7 +58,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
                     }
                 }
 
-                return testGroups;
+                return testGroups.ToList();
             }
 
             // Generate keys upfront for sample
@@ -114,7 +107,7 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
                 testGroups.Add(group);
             }
 
-            return testGroups;
+            return testGroups.ToList();
         }
     }
 }

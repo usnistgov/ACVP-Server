@@ -1,15 +1,18 @@
-using System;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.WsFederation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Web.Admin.Auth;
 using Web.Admin.Auth.Models;
 
@@ -17,6 +20,8 @@ namespace Web.Admin
 {
     public class Startup
     {
+        private const string AdfsCorsPolicy = "AdfsCorsPolicy";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +32,17 @@ namespace Web.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AdfsCorsPolicy,
+                    builder =>
+                    {
+                        builder
+                            //.WithOrigins("https://sts.nist.gov")
+                            .AllowAnyOrigin();
+                    });
+            });
+            
             ConfigureAuth(services);
             
             services.AddControllersWithViews()
@@ -44,45 +60,49 @@ namespace Web.Admin
 
             if (ssoConfig.UseSso)
             {
+                Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
                 services.AddAuthentication(sharedOptions =>
                     {
-                        sharedOptions.DefaultScheme = WsFederationDefaults.AuthenticationScheme;
+                        sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        sharedOptions.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                         sharedOptions.DefaultChallengeScheme = WsFederationDefaults.AuthenticationScheme;
                     })
                     .AddWsFederation(options =>
                     {
                         options.Wtrealm = ssoConfig.WtRealm;
+                        options.Wreply = ssoConfig.WReply;
                         options.MetadataAddress = ssoConfig.AdfsMetadata;
-                    });
-                    // .AddCookie(options =>
-                    // {
-                    //     options.Cookie.HttpOnly = true;
-                    //     options.Cookie.SameSite = SameSiteMode.Strict;
-                    //     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                    //     options.Cookie.IsEssential = true;
-                    //     options.Events.OnValidatePrincipal = PrincipalValidator.ValidateAsync;
-                    // });
+                        options.Events.OnAuthenticationFailed += context =>
+                        {
+                            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Startup>>();
+                            logger.LogError("Failed auth.");
+                            logger.LogError($"Context Exception {context.Exception}");
+                            logger.LogError($"Context Exception {context.ProtocolMessage}");
+                            
+                            return Task.CompletedTask;
+                        }; 
+                        options.Events.OnSecurityTokenValidated += PrincipalValidator.ValidateAsync;
+                    })
+                    .AddCookie();
             }
             else
             {
                 var mockAuth = "MockAuthentication";
-                services.AddAuthentication(mockAuth)
-                    .AddScheme<AuthenticationSchemeOptions, MockAuthenticatedUser>(mockAuth, null);
-                // .AddCookie(options =>
-                // {
-                //     options.Cookie.HttpOnly = false;
-                //     options.Cookie.SameSite = SameSiteMode.Lax;
-                //     options.Cookie.SecurePolicy = CookieSecurePolicy.None;
-                //     options.Cookie.IsEssential = true;
-                //     options.Events.OnValidatePrincipal = PrincipalValidator.ValidateAsync;
-                // });
+                services.AddAuthentication(options =>
+                    {
+                        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                        options.DefaultAuthenticateScheme = mockAuth;
+                    })
+                    .AddScheme<AuthenticationSchemeOptions, MockAuthenticatedUser>(mockAuth, null)
+                    .AddCookie();
             }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
+            if (env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()) 
+            || env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Dev.ToString()))
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -95,13 +115,12 @@ namespace Web.Admin
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            if (!env.IsEnvironment(NIST.CVP.Common.Enums.Environments.Local.ToString()))
-            {
-                app.UseSpaStaticFiles();
-            }
-
+            app.UseSpaStaticFiles();
+            
             app.UseRouting();
+            
+            app.UseCors(AdfsCorsPolicy);
+            
             app.UseAuthentication();
             app.UseAuthorization();
             
@@ -109,7 +128,8 @@ namespace Web.Admin
             {
                 // Map controller endpoints and make them require authorization by default.
                 // Anonymous controllers are still possible by decorating with attribute [AllowAnonymous]
-                endpoints.MapControllers().RequireAuthorization();
+                //endpoints.MapControllers().RequireAuthorization();
+                endpoints.MapControllers();
             });
 
             app.UseSpa(spa =>

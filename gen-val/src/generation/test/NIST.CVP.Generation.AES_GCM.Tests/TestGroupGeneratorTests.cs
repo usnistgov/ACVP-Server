@@ -3,6 +3,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_GCM.Tests
 {
@@ -29,7 +30,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             new int[] { 0, 128 },
             new int[] { 128 }
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
             string[] mode,
             int[] keyLen,
@@ -61,7 +62,7 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
             };
             int expectedResultCount = aadLen.Length * ivLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

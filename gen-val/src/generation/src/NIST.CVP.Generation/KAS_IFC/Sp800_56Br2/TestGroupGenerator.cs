@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
@@ -20,7 +21,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         private static readonly string[] TestTypes =
         {
@@ -29,13 +30,13 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         };
         private static readonly BigInteger DefaultExponent = BigInteger.Zero; // new BigInteger(65537);
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TestGroup> groups = new List<TestGroup>();
 
             GenerateGroups(parameters.Scheme, parameters, groups);
 
-            return groups;
+            return Task.FromResult(groups);
         }
 
         private void GenerateGroups(Schemes parametersScheme, Parameters param, List<TestGroup> groups)
@@ -63,9 +64,9 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     var keyGenMethods = GetKeyGenMethods(schemeBase);
                     foreach (var keyGenerationMethod in keyGenMethods)
                     {
-                        var exponent = keyGenerationMethod.FixedPublicExponent == 0
+                        var exponent = keyGenerationMethod.PublicExponent == 0
                             ? DefaultExponent
-                            : keyGenerationMethod.FixedPublicExponent;
+                            : keyGenerationMethod.PublicExponent;
 
                         foreach (var modulo in GetModulos(keyGenerationMethod))
                         {
@@ -342,7 +343,17 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                             break;
                     }
 
-                    foreach (var saltMethod in auxFunction.MacSaltMethods.ToList().Shuffle().Take(1))
+                    var saltMethods = new List<MacSaltMethod>();
+                    if (auxFunction.MacSaltMethods != null && auxFunction.MacSaltMethods.Any())
+                    {
+                        saltMethods = auxFunction.MacSaltMethods.ToList().Shuffle().Take(1).ToList();
+                    }
+                    else
+                    {
+                        saltMethods.Add(MacSaltMethod.None);
+                    }
+                    
+                    foreach (var saltMethod in saltMethods)
                     {
                         list.Add(new OneStepConfiguration()
                         {
@@ -360,6 +371,22 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
 
         private AuxFunction[] GetKdfMethodAuxFunctions(OneStepKdf kdfMethod)
         {
+            var sha2 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA2_D224,
+                KasKdfOneStepAuxFunction.SHA2_D256,
+                KasKdfOneStepAuxFunction.SHA2_D384,
+                KasKdfOneStepAuxFunction.SHA2_D512,
+                KasKdfOneStepAuxFunction.SHA2_D512_T224,
+                KasKdfOneStepAuxFunction.SHA2_D512_T256,
+            };
+            var sha3 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA3_D224,
+                KasKdfOneStepAuxFunction.SHA3_D256,
+                KasKdfOneStepAuxFunction.SHA3_D384,
+                KasKdfOneStepAuxFunction.SHA3_D512,
+            };
             var hmacSha2 = new[]
             {
                 KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
@@ -385,6 +412,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
             var registeredMacMethods = kdfMethod.AuxFunctions.ToList().Shuffle();
 
             var chosenAuxFunctions = new List<AuxFunction>();
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha2.Contains(f.AuxFunctionName)));
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => kmac.Contains(f.AuxFunctionName)));

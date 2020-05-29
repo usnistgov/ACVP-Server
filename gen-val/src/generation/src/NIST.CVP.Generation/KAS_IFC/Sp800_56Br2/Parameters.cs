@@ -214,7 +214,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
         /// <summary>
         /// The fixed public exponent (only applicable for rsakpg1*).
         /// </summary>
-        public BigInteger FixedPublicExponent { get; set; }
+        [JsonProperty(PropertyName = "fixedPubExp", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public BigInteger PublicExponent { get; set; }
     }
 
     public class RsaKpg1_basic : KeyGenerationMethodBase

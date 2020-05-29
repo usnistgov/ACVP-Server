@@ -1,6 +1,6 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Demo" 
+  "EnvironmentConfig": {
+    "Name": "Demo"
   },
 
   "ConnectionStrings": {
@@ -15,34 +15,42 @@
     "ShouldRecyclePoolWater": true,
     "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
-    "PoolResultLogLength":  1000 
+    "PoolResultLogLength": 1000,
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "172.18.42.163",
-        "NumberOfCores" : 8
+        "HostName": "172.18.42.163",
+        "NumberOfCores": 8
       },
       {
-        "HostName":  "172.18.42.158",
-        "NumberOfCores" : 8
+        "HostName": "172.18.42.158",
+        "NumberOfCores": 8
       },
       {
-        "HostName":  "172.18.42.164",
-        "NumberOfCores" : 8
+        "HostName": "172.18.42.164",
+        "NumberOfCores": 8
       }
     ],
     "OrleansSiloPort": 8000,
     "OrleansGatewayPort": 30000,
     "ClusterId": "cryptoDist-demo",
     "MinimumLogLevel": "Warning",
-    "UseConsoleLogging": false,
-    "UseFileLogging": true,
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 8,
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 500,
     "TimeoutRetryAttempts": 15
-  } 
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
+  }
 }

@@ -45,9 +45,9 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+            public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
-                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
+                return new List<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctional()
                 };
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int>() {128},
                 MsgLen = minMax,
                 MacLen = minMax,
                 KeyLen = minMax,
@@ -93,7 +93,7 @@ namespace NIST.CVP.Generation.KMAC.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int>() {128},
                 MsgLen = minMaxMsg,
                 MacLen = minMax,
                 KeyLen = minMax,

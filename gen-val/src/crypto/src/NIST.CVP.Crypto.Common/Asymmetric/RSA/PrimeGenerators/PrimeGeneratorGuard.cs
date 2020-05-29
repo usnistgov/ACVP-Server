@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -16,55 +15,55 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
         public static BigInteger MaxValidE = NumberTheory.Pow2(256);
         public static int[] ValidAB = {1, 3, 5, 7};
         
-        public static void AgainstInvalidAB(int ab, List<string> errors)
+        public static void AgainstInvalidAB(int ab)
         {
             if (!ValidAB.Contains(ab) && ab != default(int))
             {
-                errors.Add($"Incorrect {nameof(ab)} value, must be 1, 3, 5, 7, or 0");
+                throw new RsaPrimeGenException($"Incorrect {nameof(ab)} value, must be 1, 3, 5, 7, or 0");
             }
         }
         
-        public static void AgainstInvalidModulusFips186_2(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_2(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_2, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_2, modulus);
         }
         
-        public static void AgainstInvalidModulusFips186_4(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_4(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_4, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_4, modulus);
         }
 
-        public static void AgainstInvalidModulusFips186_5(int modulus, List<string> errors)
+        public static void AgainstInvalidModulusFips186_5(int modulus)
         {
-            AgainstInvalidModulus(ValidModulusFips186_5, modulus, errors);
+            AgainstInvalidModulus(ValidModulusFips186_5, modulus);
         }
 
-        private static void AgainstInvalidModulus(IEnumerable<int> validModulus, int modulus, ICollection<string> errors)
+        private static void AgainstInvalidModulus(IEnumerable<int> validModulus, int modulus)
         {
             if (!validModulus.Contains(modulus))
             {
-                errors.Add($"{nameof(modulus)}: {modulus} is invalid");
+                throw new RsaPrimeGenException($"{nameof(modulus)}: {modulus} is invalid");
             }
         }
 
-        public static void AgainstInvalidPublicExponent(BigInteger e, List<string> errors)
+        public static void AgainstInvalidPublicExponent(BigInteger e)
         {
             if (e <=  MinValidE || e >= MaxValidE || e.IsEven)
             {
-                errors.Add($"Incorrect {nameof(e)}, must be greater than 2^16, less than 2^256, odd");
+                throw new RsaPrimeGenException($"Incorrect {nameof(e)}, must be greater than 2^16, less than 2^256, odd");
             }
         }
         
-        public static void AgainstInvalidPublicExponentFips186_2(BigInteger e, List<string> errors)
+        public static void AgainstInvalidPublicExponentFips186_2(BigInteger e)
         {
             // TODO check these requirements for e
             if (e != 3 && e != 17 && e != 65537)
             {
-                errors.Add($"Incorrect {nameof(e)}, must be 3, 17, 65537");
+                throw new RsaPrimeGenException($"Incorrect {nameof(e)}, must be 3, 17, 65537");
             }
         }
 
-        public static void AgainstInvalidSeed(int modulus, BitString seed, List<string> errors)
+        public static void AgainstInvalidSeed(int modulus, BitString seed)
         {
             // If not a valid modulus, don't look up the security strength
             if (!(ValidModulusFips186_2.Contains(modulus) || ValidModulusFips186_4.Contains(modulus) ||
@@ -75,24 +74,29 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
             
             if (seed.BitLength != 2 * GetSecurityStrengthFromModulus(modulus))
             {
-                errors.Add($"Invalid {nameof(seed)} length");
+                throw new RsaPrimeGenException($"Invalid {nameof(seed)} length");
             }
         }
 
-        public static void AgainstInvalidBitlens(int modulus, int[] bitlens, List<string> errors)
+        public static void AgainstInvalidBitlens(int modulus, int[] bitlens)
         {
             if (bitlens == null)
             {
-                errors.Add($"Invalid {nameof(bitlens)} is null");
-                return;
+                throw new RsaPrimeGenException($"Invalid {nameof(bitlens)} is null");
             }
             
             if (bitlens.Count() != 4)
             {
-                errors.Add($"Invalid {nameof(bitlens)}, must have 4 elements");
+                throw new RsaPrimeGenException($"Invalid {nameof(bitlens)}, must have 4 elements");
             }
 
-            errors.AddRange(from bitlen in bitlens where bitlen <= 0 select $"Invalid {nameof(bitlen)} provided, must be >= 0");
+            foreach (var bitlen in bitlens)
+            {
+                if (bitlen <= 0)
+                {
+                    throw new RsaPrimeGenException($"Invalid {nameof(bitlen)} provided, must be >= 0");
+                }
+            }
         }
         
         // TODO remove this duplicated method, but it is needed because the normal method is within PrimeGeneratorHelper in Crypto, not Common.Crypto
@@ -118,7 +122,7 @@ namespace NIST.CVP.Crypto.Common.Asymmetric.RSA.PrimeGenerators
                     return 128;
                 
                 default:
-                    throw new ArgumentException($"{nameof(modulus)} provided is invalid: {modulus}.");
+                    throw new RsaPrimeGenException($"{nameof(modulus)} provided is invalid: {modulus}.");
             }
         }
     }

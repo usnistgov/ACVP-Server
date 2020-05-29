@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.Algorithms.Persisted.Tests", "NIST.CVP.Libraries.Internal.Algorithms.Persisted.Tests\NIST.CVP.Libraries.Internal.Algorithms.Persisted.Tests.csproj", "{6B36AA3E-CD24-4B22-B874-E8FE425FAB5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Shared.Algorithms.External", "..\..\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj", "{C751540C-666E-4E65-8AAA-41B1F5CBFC26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Libraries.Internal.Algorithms.Persisted", "..\NIST.CVP.Libraries.Internal.Algorithms.Persisted\NIST.CVP.Libraries.Internal.Algorithms.Persisted.csproj", "{B80E8674-124D-4B27-987A-98EF31D7F326}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.Common", "..\..\..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{E2D6AD24-0F72-4032-851D-B97619218BA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B36AA3E-CD24-4B22-B874-E8FE425FAB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B36AA3E-CD24-4B22-B874-E8FE425FAB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B36AA3E-CD24-4B22-B874-E8FE425FAB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B36AA3E-CD24-4B22-B874-E8FE425FAB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C751540C-666E-4E65-8AAA-41B1F5CBFC26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C751540C-666E-4E65-8AAA-41B1F5CBFC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C751540C-666E-4E65-8AAA-41B1F5CBFC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C751540C-666E-4E65-8AAA-41B1F5CBFC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B80E8674-124D-4B27-987A-98EF31D7F326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B80E8674-124D-4B27-987A-98EF31D7F326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B80E8674-124D-4B27-987A-98EF31D7F326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B80E8674-124D-4B27-987A-98EF31D7F326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D6AD24-0F72-4032-851D-B97619218BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D6AD24-0F72-4032-851D-B97619218BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D6AD24-0F72-4032-851D-B97619218BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D6AD24-0F72-4032-851D-B97619218BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F37B1627-DEF8-4308-9D6B-A47C18BFAEDA}
+	EndGlobalSection
+EndGlobal

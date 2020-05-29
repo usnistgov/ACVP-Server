@@ -1,7 +1,9 @@
-﻿using NIST.CVP.Generation.SHA2.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.SHA2.v1_0;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.SHA2.Tests
 {
@@ -14,7 +16,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 0, // 1 * 0
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new string[] { }) // 0
+                    .WithDigestSizes(new List<string>() { }) // 0
                     .WithAlgorithm("SHA2")  // 1
                     .Build()
             },
@@ -22,7 +24,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 2, // 1 * 2
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new string[] { "224", "256" }) // 2
+                    .WithDigestSizes(new List<string>() { "224", "256" }) // 2
                     .WithAlgorithm("SHA2")  // 1
                     .Build()
             },
@@ -30,7 +32,7 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 3, // 1 * 3
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new string[] { "512", "512/224", "512/256" }) // 3
+                    .WithDigestSizes(new List<string>() { "512", "512/224", "512/256" }) // 3
                     .WithAlgorithm("SHA2")  // 1
                     .Build()
             },
@@ -38,17 +40,17 @@ namespace NIST.CVP.Generation.SHA2.Tests
             {
                 6, // 1 * 6
                 new ParameterValidatorTests.ParameterBuilder()
-                    .WithDigestSizes(new string[] { "224", "256", "384", "512", "512/224", "512/256" }) // 6
+                    .WithDigestSizes(new List<string>() { "224", "256", "384", "512", "512/224", "512/256" }) // 6
                     .WithAlgorithm("SHA2")  // 1
                     .Build()
             }
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfModeAndDigestSize(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGeneratorMonteCarloTest();
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }

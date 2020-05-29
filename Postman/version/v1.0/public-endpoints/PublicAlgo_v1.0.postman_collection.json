@@ -1,0 +1,189 @@
+{
+	"info": {
+		"_postman_id": "49a0b5ea-e14c-4565-9897-990bca1df4cc",
+		"name": "PublicAlgo_v1.0",
+		"description": "Initial ACVP E2E Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09b128a1-0b87-444b-ab95-deb8be7e1c75",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"TOTP Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"totp\");",
+							"});",
+							"pm.environment.set(\"totp\", jsonData[1].totp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
+					"protocol": "https",
+					"host": [
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"totp"
+					]
+				},
+				"description": "TOTP Request"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0fb63159-2c3e-4dcc-b2a2-ea549b610c82",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"token1\", jsonData[1].accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
+					"protocol": "https",
+					"host": [
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"login"
+					]
+				},
+				"description": "LOGIN Request"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Algo List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "30ab0f2c-8af3-42b9-83a7-850fc3375c24",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Algo ACVP-AES-GCM Chk\", function () {",
+							"    pm.expect(jsonData[1].algorithmList[0].algorithm).to.eql(\"ACVP-AES-GCM\");",
+							"});",
+							"pm.environment.set(\"algo_url\", jsonData[1].algorithmList[2].url);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1a1ae7f9-2500-484f-8bf2-f0d36d9372bd",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/algorithms",
+					"protocol": "https",
+					"host": [
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"algorithms"
+					]
+				},
+				"description": "Vector Request"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9e77a19b-43ec-44a4-9561-2063479e98fc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f1eed695-8ffd-41c8-ac31-7cfe33be68a7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

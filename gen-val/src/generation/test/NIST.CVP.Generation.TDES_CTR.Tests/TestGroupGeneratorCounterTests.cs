@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TDES_CTR.Tests
 {
@@ -49,11 +50,11 @@ namespace NIST.CVP.Generation.TDES_CTR.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreateATestGroupForEachCombinationOfKeyingOptionAndDirection(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreateATestGroupForEachCombinationOfKeyingOptionAndDirection(int expectedGroupsCreated, Parameters parameters)
         {
             var subject = new TestGroupGeneratorCounter();
 
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }

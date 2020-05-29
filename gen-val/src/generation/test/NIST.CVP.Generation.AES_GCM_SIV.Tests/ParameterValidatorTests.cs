@@ -133,7 +133,6 @@ namespace NIST.CVP.Generation.AES_GCM_SIV.Tests
             private string[] _mode;
             private int[] _keyLen;
             private MathDomain _ptLen;
-            private MathDomain _ivLen;
             private MathDomain _aadLen;
 
             public ParameterBuilder()

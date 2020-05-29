@@ -26,28 +26,28 @@
 
     <!-- NuGet package versions -->
     <PropertyGroup>
-        <NuGetVersionMicrosoftAspNetCore>3.1.0</NuGetVersionMicrosoftAspNetCore>
+        <NuGetVersionMicrosoftAspNetCore>3.1.2</NuGetVersionMicrosoftAspNetCore>
         <NuGetVersionCSharp>4.7.0</NuGetVersionCSharp>
         <NuGetVersionMicrosoftNETTestSdk>16.0.1</NuGetVersionMicrosoftNETTestSdk>
         <NuGetVersiondotnettestnunit>3.4.0-beta-3</NuGetVersiondotnettestnunit>
         <NuGetVersionTeamCityVSTestTestAdapter>1.0.15</NuGetVersionTeamCityVSTestTestAdapter>
         <NuGetVersionMoq>4.10.1</NuGetVersionMoq>
-        <NuGetVersionNLog>4.6.2</NuGetVersionNLog>
+        <NuGetVersionNLog>4.6.8</NuGetVersionNLog>
         <NuGetVersionNUnit>3.11.0</NuGetVersionNUnit>
         <NuGetVersionNUnit3TestAdapter>3.13.0</NuGetVersionNUnit3TestAdapter>
         <NuGetVersionAutofac>4.9.2</NuGetVersionAutofac>
-        <NuGetVersionNewtonsoftJson>12.0.1</NuGetVersionNewtonsoftJson>
+        <NuGetVersionNewtonsoftJson>12.0.3</NuGetVersionNewtonsoftJson>
         <NuGetVersionCommandLineArgumentsParser>3.0.19</NuGetVersionCommandLineArgumentsParser>
-        <NugetVersionMicrosoftOrleansServer>3.0.2</NugetVersionMicrosoftOrleansServer>
-        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.0.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
-        <NugetVersionMicrosoftOrleansClient>3.0.2</NugetVersionMicrosoftOrleansClient>
-        <NugetVersionMicrosoftOrleansCoreAbstractions>3.0.2</NugetVersionMicrosoftOrleansCoreAbstractions>
-        <NugetVersionMicrosoftOrleansClusteringAdoNet>3.0.2</NugetVersionMicrosoftOrleansClusteringAdoNet>
-        <NuGetVersionOrleansDashboard>3.0.7</NuGetVersionOrleansDashboard>
-        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>3.0.2</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
+        <NugetVersionMicrosoftOrleansServer>3.1.2</NugetVersionMicrosoftOrleansServer>
+        <NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>3.1.2</NugetVersionMicrosoftOrleansOrleansCodeGeneratorBuild>
+        <NugetVersionMicrosoftOrleansClient>3.1.2</NugetVersionMicrosoftOrleansClient>
+        <NugetVersionMicrosoftOrleansCoreAbstractions>3.1.2</NugetVersionMicrosoftOrleansCoreAbstractions>
+        <NugetVersionMicrosoftOrleansClusteringAdoNet>3.1.2</NugetVersionMicrosoftOrleansClusteringAdoNet>
+        <NuGetVersionOrleansDashboard>3.0.8</NuGetVersionOrleansDashboard>
+        <NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>3.1.2</NuGetVersionMicrosoftOrleansOrleansTelemetryConsumersCounters>
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
-        <NuGetVersionSystemDataSqlClient>4.7.0</NuGetVersionSystemDataSqlClient>
+        <NuGetVersionSystemDataSqlClient>4.8.1</NuGetVersionSystemDataSqlClient>
         <NuGetVersionSerilog>2.9.0</NuGetVersionSerilog>
         <NuGetVersionSerilogExtensionsHosting>3.0.0</NuGetVersionSerilogExtensionsHosting>
         <NuGetVersionSerilogExtensionsLogging>3.0.1</NuGetVersionSerilogExtensionsLogging>
@@ -55,7 +55,21 @@
         <NuGetVersionSerilogSinksFile>4.1.0</NuGetVersionSerilogSinksFile>
         <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
         <NuGetVersionMicrosoftNETCoreTargets>3.1.0</NuGetVersionMicrosoftNETCoreTargets>
-        <NuGetVersionMighty>3.1.1</NuGetVersionMighty>
+        <NuGetVersionMighty>3.1.2</NuGetVersionMighty>
+	<NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>3.1.1</NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>
+	<NuGetVersionMicrosoftExtensionsConfigurationJson>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationJson>
+	<NuGetVersionMicrosoftExtensionsDependencyInjections>3.1.2</NuGetVersionMicrosoftExtensionsDependencyInjections>
+	<NuGetVersionMicrosoftExtensionsLogging>3.1.2</NuGetVersionMicrosoftExtensionsLogging>
+	<NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>3.1.2</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+	<NuGetVersionMicrosoftExtensionsHttp>3.1.2</NuGetVersionMicrosoftExtensionsHttp>
+	<NuGetVersionMicrosoftExtensionsConfiguration>3.1.2</NuGetVersionMicrosoftExtensionsConfiguration>
+	<NuGetVersionMicrosoftExtensionsConfigurationBinder>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationBinder>
+	<NuGetVersionSystemTextJson>4.7.1</NuGetVersionSystemTextJson>
+	<NuGetVersionMicrosoftExtensionsLoggingAbstractions>3.1.2</NuGetVersionMicrosoftExtensionsLoggingAbstractions>
+	<NuGetVersionSystemComponentModelAnnotations>4.7.0</NuGetVersionSystemComponentModelAnnotations>
+	<NuGetVersionMicrosoftExtensionsHosting>3.1.2</NuGetVersionMicrosoftExtensionsHosting>
+	<NuGetVersionMicrosoftExtensionsHostingWindowsServices>3.1.2</NuGetVersionMicrosoftExtensionsHostingWindowsServices>
+	<NuGetVersionSystemServiceProcessServiceController>4.7.0</NuGetVersionSystemServiceProcessServiceController>
     </PropertyGroup>
 
 </Project>

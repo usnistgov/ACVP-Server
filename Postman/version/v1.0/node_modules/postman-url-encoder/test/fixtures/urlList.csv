@@ -1,0 +1,32 @@
+description,url
+with full URL,http://user:password@example.com:8080/p/a/t/h?q1=v1&q2=v2#hash
+with capitalized protocol,HTTP://example.com
+with capitalized domain,EXAMPLE.COM
+with unicode domain,😎郵便屋さん.com
+with punycode encoded domain,xn--48jwgn17gdel797d.com
+with invalid encoded domain,xn--iñvalid.com
+with IPv4 address in domain,http://192.168.0.1:8080
+with IPv6 address in domain,http://[::1]:8080
+with IP address shorthand,http://0
+with IP address shorthand and port,http://1234:8080
+with IP address shorthand without protocol,127.1
+with IP address shorthand and port without protocol,255.255.255:8080
+with unicode path,example.com/😎/郵/便/屋/さ/ん
+with reserved characters in path,"example.com/p""/a</a>/a`/t{/h}"
+with encoded characters in path,example.com/%2a/%F0%9F%8D%AA
+with unicode query params,example.com?😎=郵便屋さん
+with leading and trailing white spaces in query params,example.com? q1 = v1 & q2 = v2   
+with '+' in query param,example.com?timestamp=2019-12-31T12:19:06+0000
+with reserved characters in query params,"example.com?q""u\e'r<y>=v""a\l'u<e>"
+with encoded characters in query params,example.com?key:%F0%9F%8D%AA=value:%F0%9F%8D%AA
+with unicode auth,😎郵便屋さん:😎郵便屋さん@example.com
+with auth without password,😎@example.com
+with auth without username,http://:🔒@example.com
+with reserved characters in auth,"""<>`{}/;=[\]^|:""<>`{}/;=[\]^|@example.com"
+with encoded characters in auth,usr%F0%9F%8D%AA:pswd%F0%9F%8D%AA@example.com
+with unicode hash,example.com#😎郵便屋さん
+with reserved characters in hash,"example.com#h""a<s>h`"
+with encoded characters in hash,example.com#%F0%9F%8D%AA
+with leading and trailing white spaces in hash,example.com#  hash  
+with very long path,example.com/very/very/very/looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong/path
+with large number of query params,example.com?q1=v1_1&q1=v1_2&q2=v2&q3=v3&q4=v4&q5=v5&q6=v6#q7=v7&q8=v8&q9=v9&q10=v10

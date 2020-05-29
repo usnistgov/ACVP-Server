@@ -2,6 +2,8 @@
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.KMAC.v1_0
 {
@@ -22,6 +24,29 @@ namespace NIST.CVP.Generation.KMAC.v1_0
         {
             List<string> errorResults = new List<string>();
 
+            // Implementing "default values" to match registration expectations
+            if (parameters.DigestSizes == null)
+            {
+                parameters.DigestSizes = new List<int>();
+            }
+            if (parameters.DigestSizes.Count == 0)
+            {
+                var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+                switch (algoMode)
+                {
+                    case AlgoMode.KMAC_128_v1_0:
+                        parameters.DigestSizes.Add(128);
+                        break;
+                    case AlgoMode.KMAC_256_v1_0:
+                        parameters.DigestSizes.Add(256);
+                        break;
+                    
+                    default:
+                        errorResults.Add("Invalid AlgoMode");
+                        break;
+                }
+            }
+            
             ValidateFunctions(parameters, errorResults);
 
             ValidateMsgLen(parameters, errorResults);
@@ -45,6 +70,11 @@ namespace NIST.CVP.Generation.KMAC.v1_0
                 errorResults.Add(result);
             }
 
+            if (parameters.XOF == null)
+            {
+                errorResults.Add("XOF must be provided.");
+            }
+            
             if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
                 errorResults.Add("XOF must contain only a single true, a single false, or both");

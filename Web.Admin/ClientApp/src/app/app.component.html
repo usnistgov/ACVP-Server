@@ -8,16 +8,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
 
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/']" id="navbar_home" role="button">
+            Home
+          </a>
+        </li>
+
         <!-- ACVP Navbar group -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbar_acvp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             ACVP
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_acvp">
-            <a class="dropdown-item" href="#">Users</a>
-            <a class="dropdown-item" href="#">Sessions</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Workflow Items</a>
+            <a class="dropdown-item" [routerLink]="['/acvpUsers']">Users</a>
+            <!--<div class="dropdown-divider"></div>-->
+            <a class="dropdown-item" [routerLink]="['/workflow']">Workflow Items</a>
+            <a class="dropdown-item" [routerLink]="['/testSessions']">Test Sessions</a>
           </div>
         </li>
 
@@ -27,7 +33,8 @@
             Administration
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_administration">
-            <a class="dropdown-item" href="#">Properties</a>
+            <a class="dropdown-item" [routerLink]="['/messageQueue']">Message Queue</a>
+            <a class="dropdown-item" [routerLink]="['/taskQueue']">Task Queue</a>
           </div>
         </li>
 
@@ -38,7 +45,6 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbar_legacy">
             <a class="dropdown-item" [routerLink]="['/legacyFileUpload']">Upload ZIP</a>
-            <a class="dropdown-item" href="#">Review</a>
           </div>
         </li>
 
@@ -50,13 +56,16 @@
           <div class="dropdown-menu" aria-labelledby="navbar_validation_db">
             <a class="dropdown-item" [routerLink]="['/validation-db/validations']">Validations</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Organizations</a>
+            <a class="dropdown-item" [routerLink]="['validation-db/organizations']">Organizations</a>
             <a class="dropdown-item" [routerLink]="['validation-db/persons']">Persons</a>
             <a class="dropdown-item" [routerLink]="['validation-db/products']">Products</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" [routerLink]="['validation-db/operatingEnvironments']">Operating Environments</a>
             <a class="dropdown-item" [routerLink]="['validation-db/dependencies']">Dependencies</a>
           </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/currentUser']">{{ email }}</a>
         </li>
       </ul>
     </div>

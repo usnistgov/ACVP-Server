@@ -16,7 +16,6 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
-
         public override string Algorithm { get; } = "TupleHash-128";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.TupleHash_128_v1_0;
@@ -45,9 +44,9 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+            public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
-                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
+                return new List<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctional()
                 };
@@ -69,7 +68,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int> { 128 },
                 OutputLength = minMax,
                 MessageLength = minMax,
                 XOF = new[] { true, false },
@@ -91,7 +90,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 128 },
+                DigestSizes = new List<int> { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = new[] { true, false },

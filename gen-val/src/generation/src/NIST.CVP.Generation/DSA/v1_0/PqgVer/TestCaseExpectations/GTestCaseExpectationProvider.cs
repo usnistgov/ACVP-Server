@@ -2,6 +2,7 @@
 using NIST.CVP.Common.Oracle.DispositionTypes;
 using NIST.CVP.Generation.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,42 +10,36 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgVer.TestCaseExpectations
 {
     public class GTestCaseExpectationProvider : ITestCaseExpectationProvider<DsaGDisposition>
     {
-        private readonly List<GTestCaseExpectationReason> _expectationReasons;
+        private readonly ConcurrentQueue<GTestCaseExpectationReason> _expectationReasons;
 
         public GTestCaseExpectationProvider(bool isSample = false)
         {
-            _expectationReasons = new List<GTestCaseExpectationReason>();
+            var expectationReasons = new List<GTestCaseExpectationReason>();
 
             // For a sample case, we always want a 'None' and a 'Modify G'
             if (isSample)
             {
-                _expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.None));
-                _expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.ModifyG));
+                expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.None));
+                expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.ModifyG));
             }
             // Otherwise we want everything
             else
             {
-                _expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.None), 2);
-                _expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.ModifyG), 3);
+                expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.None), 2);
+                expectationReasons.Add(new GTestCaseExpectationReason(DsaGDisposition.ModifyG), 3);
             }
 
-            _expectationReasons = _expectationReasons.OrderBy(a => Guid.NewGuid()).ToList();
+            _expectationReasons = new ConcurrentQueue<GTestCaseExpectationReason>(expectationReasons.OrderBy(a => Guid.NewGuid()).ToList());
         }
 
         public ITestCaseExpectationReason<DsaGDisposition> GetRandomReason()
         {
-            if (_expectationReasons.Count == 0)
+            if (_expectationReasons.TryDequeue(out var reason))
             {
-                throw new IndexOutOfRangeException($"No {nameof(GTestCaseExpectationReason)} remaining to pull");
-            }
-
-            lock (_expectationReasons)
-            {
-                var reason = _expectationReasons[0];
-                _expectationReasons.RemoveAt(0);
-
                 return reason;
             }
+            
+            throw new IndexOutOfRangeException($"No {nameof(_expectationReasons)} remaining to pull");
         }
     }
 }

@@ -2,6 +2,8 @@
 using NIST.CVP.Generation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.TupleHash.v1_0
 {
@@ -20,6 +22,29 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
         {
             var errorResults = new List<string>();
 
+            // Implementing "default values" to match registration expectations
+            if (parameters.DigestSizes == null)
+            {
+                parameters.DigestSizes = new List<int>();
+            }
+            if (parameters.DigestSizes.Count == 0)
+            {
+                var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+                switch (algoMode)
+                {
+                    case AlgoMode.TupleHash_128_v1_0:
+                        parameters.DigestSizes.Add(128);
+                        break;
+                    case AlgoMode.TupleHash_256_v1_0:
+                        parameters.DigestSizes.Add(256);
+                        break;
+                    
+                    default:
+                        errorResults.Add("Invalid AlgoMode");
+                        break;
+                }
+            }
+            
             ValidateFunctions(parameters, errorResults);
             ValidateOutputLength(parameters, errorResults);
             ValidateMessageLength(parameters, errorResults);
@@ -41,6 +66,12 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
                 errorResults.Add(result);
             }
 
+            if (parameters.XOF == null)
+            {
+                errorResults.Add("XOF must be provided.");
+                return;
+            }
+            
             if ((parameters.XOF.Length != 1 && parameters.XOF.Length != 2) || parameters.XOF.ToHashSet().Count != parameters.XOF.Length)
             {
                 errorResults.Add("XOF must contain only a single true, a single false, or both");
@@ -49,10 +80,16 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         private void ValidateOutputLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.OutputLength, "OutputLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.OutputLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "OutputLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
@@ -81,10 +118,16 @@ namespace NIST.CVP.Generation.TupleHash.v1_0
 
         private void ValidateMessageLength(Parameters parameters, List<string> errorResults)
         {
-            string segmentCheck = "";
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.OutputLength, "MessageLength Domain");
+            errorResults.AddIfNotNullOrEmpty(segmentCheck);
+            if (!string.IsNullOrEmpty(segmentCheck))
+            {
+                return;
+            }
+            
             if (parameters.MessageLength.DomainSegments.Count() != 1)
             {
-                segmentCheck = "Must have exactly one segment in the domain";
+                segmentCheck = "MessageLength must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))

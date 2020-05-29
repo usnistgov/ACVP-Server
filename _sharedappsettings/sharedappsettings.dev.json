@@ -1,12 +1,16 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Dev" 
+  "EnvironmentConfig": {
+    "Name": "Dev"
   },
 
   "ConnectionStrings": {
     "Acvp": "Server=stvmdevsql03;Database=Acvp;Integrated Security=true;",
     "AcvpPools": "Server=stvmdevsql03;Database=AcvpPools;Integrated Security=true;Max Pool Size=2000;",
     "AcvpOrleans": "Server=stvmdevsql03;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
+  },
+  "TaskQueueProcessorConfig": {
+    "PollDelay": 5,
+    "MaxConcurrency": 32
   },
 
   "PoolConfig": {
@@ -16,30 +20,37 @@
     "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
-    "OverrideMinimumPoolLevel": 1
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "172.17.42.158",
-        "NumberOfCores" : 4
+        "HostName": "172.17.42.158",
+        "NumberOfCores": 4
       },
       {
-        "HostName":  "172.17.42.153",
-        "NumberOfCores" : 4
+        "HostName": "172.17.42.153",
+        "NumberOfCores": 4
       }
     ],
     "OrleansSiloPort": 8000,
     "OrleansGatewayPort": 30000,
     "ClusterId": "cryptoDist-dev",
     "MinimumLogLevel": "Information",
-    "UseConsoleLogging": true,
-    "UseFileLogging": true,
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 4,
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
   }
 }

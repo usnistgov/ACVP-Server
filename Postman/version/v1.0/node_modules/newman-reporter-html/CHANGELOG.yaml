@@ -1,0 +1,29 @@
+1.0.5:
+  date: 2019-12-06
+  chores:
+    - Updated dependencies
+
+1.0.4:
+  date: 2019-10-16
+  chores:
+    - Updated dependencies
+
+1.0.3:
+  date: 2019-05-03
+  chores:
+    - Updated dependencies
+
+1.0.2:
+  date: 2018-09-03
+  fixed bugs:
+    - Fixed exported Newman version
+
+1.0.1:
+  date: 2018-08-09
+  fixed bugs:
+    - Updated Newman peerDependency to 4
+
+1.0.0:
+  date: 2018-08-07
+  initial release:
+    - Initial newman-reporter-html release

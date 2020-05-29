@@ -56,9 +56,9 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
         /// </summary>
         public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
         {
-            public IEnumerable<ITestGroupGenerator<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+            public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
             {
-                return new List<ITestGroupGenerator<Parameters, TestGroup, TestCase>>()
+                return new List<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>()
                 {
                     new TestGroupGeneratorAlgorithmFunctional()
                 };
@@ -80,7 +80,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 256 },
+                DigestSizes = new List<int>() {256},
                 OutputLength = minMax,
                 MessageLength = minMax,
                 IsSample = true
@@ -102,7 +102,7 @@ namespace NIST.CVP.Generation.CSHAKE.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 256 },
+                DigestSizes = new List<int>() {256},
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
                 IsSample = true

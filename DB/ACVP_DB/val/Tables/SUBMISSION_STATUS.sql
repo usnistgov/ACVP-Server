@@ -1,6 +1,0 @@
-﻿CREATE TABLE [val].[SUBMISSION_STATUS] (
-    [id]     INT            NOT NULL,
-    [status] NVARCHAR (256) NULL,
-    CONSTRAINT [PK_SUBMISSION_STATUS] PRIMARY KEY CLUSTERED ([id] ASC)
-);
-

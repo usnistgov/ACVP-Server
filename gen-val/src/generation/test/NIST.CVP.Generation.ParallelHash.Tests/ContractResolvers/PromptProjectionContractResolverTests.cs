@@ -82,33 +82,31 @@ namespace NIST.CVP.Generation.ParallelHash.Tests.ContractResolvers
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
             Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
+            Assert.AreEqual(tc.BlockSize, newTc.BlockSize, nameof(newTc.BlockSize));
 
             Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
 
             Assert.AreNotEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
             Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
 
-            if (testType == "aft")
+            if (hexCustomization)
             {
-                Assert.AreEqual(tc.BlockSize, newTc.BlockSize, nameof(newTc.BlockSize));
-                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
-                if (hexCustomization)
-                {
-                    Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
-                else
-                {
-                    Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                    Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                }
+                Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
             }
             else
             {
-                Assert.AreNotEqual(tc.BlockSize, newTc.BlockSize, nameof(newTc.BlockSize));
-                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
                 Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+            }
+            
+            if (testType == "aft")
+            {
+                Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+            }
+            else
+            {
+                Assert.AreNotEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

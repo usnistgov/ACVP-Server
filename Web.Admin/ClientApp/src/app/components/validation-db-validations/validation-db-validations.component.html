@@ -1,35 +1,74 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="row mt-3">
-                <h3>Filters</h3>
-            </div>
-            <div class="row mt-3">
-                <input type="text" class="form-control">
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-lg-2">
 
-        <div class="col-lg-10">
-            <div class="row mt-3">
-                <h2>ACVP Validation DB</h2>
-            </div>
+      <div class="row mt-3">
+        <h2>&nbsp;</h2>
+      </div>
 
-            <div class="row">
-                <table class="table table-hover">
-                    <thead class="thead-light">
-                        <th>ID</th>                
-                        <th>Product</th> 
-                        <th>Published</th> 
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>A12345</td>
-                            <td>AlphaOne (AlphaOne_DRBG_Crypto) 1.0</td>
-                            <td>12-04-1998 10:23:76</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="row">
+        <div class="container">
+          <h3>Filters</h3>
+          <label class="bold-heading">Name</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.productName" (ngModelChange)="loadData()" placeholder="Name..." />
+          <br />
+          <label class="bold-heading">Cert. #</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.validationLabel" (ngModelChange)="loadData()" placeholder="Type..." />
+          <br />
+          <label class="bold-heading">ID</label><br />
+          <input type="text" class="form-control" [(ngModel)]="listData.validationId" (ngModelChange)="loadData()" placeholder="Description..." />
         </div>
+      </div>
+
     </div>
+
+    <div class="col-lg-10">
+      <div class="row mt-3">
+        <h2>Validation DB - Validations</h2>
+      </div>
+
+      <!-- Main Table Row -->
+      <div class="row">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>ID</th>
+              <th>Certificate #</th>
+              <th>Product</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let validation of validations.data" [routerLink]="validation.validationId" data-toggle="tooltip" data-placement="top" title="{{validation.productName}}">
+              <td>{{ validation.validationId }}</td>
+              <td>{{ (validation.validationLabel === "") ? "---" : validation.validationLabel }}</td>
+              <td>
+                <span *ngIf="(validation.productName === ' ' || validation.productName === null)">---</span>
+                <span *ngIf="(validation.productName !== ' ' && validation.productName !== null)">
+                  {{ validation.productName.substring(0,60) }}
+                  <span *ngIf="validation.productName.length > 55">...</span>
+                </span>
+              </td>
+              <td>{{ (validation.created === "") ? "---" : validation.created }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div><!-- Close Main Table Row -->
+      <!-- Pagination Buttons Row-->
+      <div class="row">
+        <table class="center">
+          <tr>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('previous')">&lt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('next')">&gt;</button></td>
+            <td><button class="btn btn-primary bold-heading" (click)="getPage('last')">&gt;&gt;</button></td>
+          </tr>
+          <tr>
+            <td colspan="4" style="text-align:center;">Page {{ validations?.currentPage }} of {{ validations?.totalPages }}</td>
+          </tr>
+        </table>
+      </div> <!-- Close Pagination Buttons Row -->
+
+    </div>
+  </div>
 </div>

@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.SHA3.IntegrationTests
         [TestCase(5679, 12409, true)]
         public async Task ShouldGenerateSHAKEVOTWithProperSizes(int min, int max, bool bitOriented)
         {
-            var subject = new TestCaseGeneratorVot(new OracleBuilder().Build());
+            var subject = new TestCaseGeneratorVot(new OracleBuilder().Build().GetAwaiter().GetResult());
             var prevCase = 0;
 
             for (var i = 0; i < subject.NumberOfTestCasesToGenerate; i++)

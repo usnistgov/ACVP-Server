@@ -13,11 +13,6 @@ namespace NIST.CVP.Generation.EDDSA.v1_0.SigGen
             var errors = new List<string>();
             var result = "";
 
-            if (parameters.Curve.Length == 0)
-            {
-                errors.Add("No curves found");
-            }
-
             result = ValidateArray(parameters.Curve, VALID_CURVES, "Curves");
             errors.AddIfNotNullOrEmpty(result);
 

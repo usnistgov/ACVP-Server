@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Br2;
-using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
+using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Crypto.Common.KAS;
 using NIST.CVP.Crypto.Common.KAS.Builders;
 using NIST.CVP.Crypto.Common.KAS.Enums;
@@ -121,6 +121,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                     fixedInfoParameter.Label = _param.KdfParameter.Label;
                     fixedInfoParameter.Context = _param.KdfParameter.Context;
                     fixedInfoParameter.AlgorithmId = _param.KdfParameter.AlgorithmId;
+                    fixedInfoParameter.L = _param.L;
                 }
 
                 // KTS fixed info construction
@@ -128,6 +129,10 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Br2
                 {
                     fixedInfoParameter.Encoding = _param.KtsParameter.Encoding;
                     fixedInfoParameter.FixedInfoPattern = _param.KtsParameter.AssociatedDataPattern;
+                    fixedInfoParameter.Label = _param.KtsParameter.Label;
+                    fixedInfoParameter.Context = _param.KtsParameter.Context;
+                    fixedInfoParameter.AlgorithmId = _param.KtsParameter.AlgorithmId;
+                    fixedInfoParameter.L = _param.L;
                 }
 
                 MacParameters macParam = null;

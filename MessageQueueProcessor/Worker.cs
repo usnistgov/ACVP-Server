@@ -2,25 +2,27 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageQueueProcessor.MessageProcessors;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue.Services;
 
 namespace MessageQueueProcessor
 {
 	public class Worker : BackgroundService
 	{
 		private readonly ILogger<Worker> _logger;
-		private readonly IMessageProvider _messageProvider;
+		private readonly IMessageQueueService _messageQueueService;
 		private readonly IMessageProcessorFactory _messageProcessorFactory;
 		private readonly int _sleepDuration;
 
-		public Worker(ILogger<Worker> logger, IMessageProvider messageProvider, IMessageProcessorFactory messageProcessorFactory, IConfiguration configuration)
+		public Worker(ILogger<Worker> logger, IMessageQueueService messageQueueService, IMessageProcessorFactory messageProcessorFactory, IOptions<MessageQueueProcessorConfig> messageQueueProcessorConfig)
 		{
 			_logger = logger;
-			_messageProvider = messageProvider;
+			_messageQueueService = messageQueueService;
 			_messageProcessorFactory = messageProcessorFactory;
-			_sleepDuration = configuration.GetValue<int>("MessageQueueProcessor:SleepDuration");
+			_sleepDuration = messageQueueProcessorConfig.Value.SleepDuration;
 		}
 
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -32,22 +34,22 @@ namespace MessageQueueProcessor
 				_logger.LogDebug($"Worker running at: {DateTimeOffset.Now}");
 
 				//Get the next message from the queue 
-				Message message = _messageProvider.GetNextMessage();
+				Message message = _messageQueueService.GetNextMessage();
 
 				//Loop while we have messages to process and we haven't tried to stop the service
 				while (message != null && !stoppingToken.IsCancellationRequested)
 				{
 					//Update the message status to show we're working on it
-					_messageProvider.UpdateStatus(message.ID, MessageStatus.Processing);
+					_messageQueueService.UpdateMessageStatus(message.ID, MessageStatus.Processing);
 
 					//Get the processor for this message - might not have one
-					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.Action);
+					IMessageProcessor messageProcessor = _messageProcessorFactory.GetMessageProcessor(message.MessageType);
 
 					//Process message or error
 					if (messageProcessor == null)
 					{
 						//Mark it as an error
-						_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
+						_messageQueueService.UpdateMessageStatus(message.ID, MessageStatus.Error);
 
 						//Log it
 						_logger.LogError($"Unable to find processor for message {message.ID}");
@@ -60,24 +62,23 @@ namespace MessageQueueProcessor
 						if (messageProcessingResult.IsSuccess)
 						{
 							//Done with the the message, so delete it
-							_messageProvider.DeleteMessage(message.ID);
+							_messageQueueService.DeleteMessage(message.ID);
 
 							//Log it
-							_logger.LogInformation($"Processed {message.Action.ToString()} message {message.ID}");
+							_logger.LogInformation($"Processed {message.MessageType.ToString()} message {message.ID}");
 						}
 						else
 						{
 							//Mark it as an error
-							_messageProvider.UpdateStatus(message.ID, MessageStatus.Error);
+							_messageQueueService.UpdateMessageStatus(message.ID, MessageStatus.Error);
 
 							//Log it
-							_logger.LogError($"Error processing {message.Action.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
+							_logger.LogError($"Error processing {message.MessageType.ToString()} message {message.ID} : {messageProcessingResult.ErrorMessage}");
 						}
-
 					}
 
 					//Get the next message
-					message = _messageProvider.GetNextMessage();
+					message = _messageQueueService.GetNextMessage();
 				}
 
 				//Go to sleep for a while before checking for new messages

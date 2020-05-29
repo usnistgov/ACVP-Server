@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.SHA2.v1_0
 {
-    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGeneratorAlgorithmFunctionalTest : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string TEST_TYPE = "AFT";
 
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
             foreach (var digestSize in parameters.DigestSizes)
@@ -23,7 +25,7 @@ namespace NIST.CVP.Generation.SHA2.v1_0
                 testGroups.Add(testGroup);
             }
 
-            return testGroups;
+            return Task.FromResult(testGroups);
         }
     }
 }

@@ -9,7 +9,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
 {
-    public class TestCaseGeneratorG : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorG : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -20,13 +20,17 @@ namespace NIST.CVP.Generation.DSA.v1_0.PqgGen
             _oracle = oracle;
         }
 
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
             if (isSample)
             {
                 NumberOfTestCasesToGenerate = 2;
             }
-
+            return new GenerateResponse();
+        }
+        
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
+        {
             var param = new DsaDomainParametersParameters
             {
                 PQGenMode = PrimeGenMode.Probable,

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
-import { WorkflowItemBase } from '../../../models/Workflow/WorkflowItemBase';
-import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayload';
+import { WorkflowItemBase } from '../../../models/workflow/WorkflowItemBase';
+import { IWorkflowItemPayload } from '../../../models/workflow/IWorkflowItemPayload';
+import { WorkflowProviderService } from '../../../services/ajax/workflow/workflow-provider.service';
+import { ModalService } from '../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-workflow',
@@ -11,14 +12,20 @@ import { IWorkflowItemPayload } from '../../../models/Workflow/IWorkflowItemPayl
 })
 export class WorkflowComponent implements OnInit {
 
+  RawStringFormatted: string;
+
   workflowItem: WorkflowItemBase<IWorkflowItemPayload>;
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute) { }
+  constructor(private workflowService: WorkflowProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
+
+  showRawModal() {
+    this.modalService.showModal('RawModal');
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getWorkflow(parseInt(params.get("id"))).subscribe(
-        data => { this.workflowItem = data; console.log(this.workflowItem); },
+      this.workflowService.getWorkflow(parseInt(params.get("id"))).subscribe(
+        data => { this.workflowItem = data; this.RawStringFormatted = JSON.stringify(this.workflowItem, null, 4); },
         err => { },
         () => { })
     });

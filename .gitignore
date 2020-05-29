@@ -34,6 +34,7 @@ __pycache__
 [Tt]humbs.db 
 tempIntegrationTests 
 temp_IntegrationTests
+temp_integrationTests
 *.dll
 LoggingTests
 orleans-master

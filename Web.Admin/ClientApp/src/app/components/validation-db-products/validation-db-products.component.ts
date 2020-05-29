@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service';
-import { Product } from '../../models/Product/Product';
+import { ProductList } from '../../models/product/ProductList';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductProviderService } from '../../services/ajax/product/product-provider.service';
+import { ProductListParameters } from '../../models/product/ProductListParameters';
 
 @Component({
   selector: 'app-validation-db-products',
@@ -9,15 +11,73 @@ import { Product } from '../../models/Product/Product';
 })
 export class ValidationDbProductsComponent implements OnInit {
 
-  products: Product[];
+  listData: ProductListParameters;
+  products: ProductList;
 
-  pageData = { "pageSize": 10, "pageNumber": 1 };
+  constructor(private ProductService: ProductProviderService, private router: Router, private route: ActivatedRoute) { }
 
-  constructor(private ajs: AjaxService) { }
+  loadData() {
+
+    // Anytime the user's search changes, we default to page one
+    this.listData.page = 1;
+
+    // This sets the queryParams, but if they're empty, they end up having "&name=" by itself in the URL
+    // So the following if statements check each of the available routeParams and clear them from the URL if they're set
+    this.router.navigate([], {
+      queryParams: this.listData
+    });
+
+    // Clear empty ones as necessary
+    if (this.listData.name === "") {
+      this.router.navigate([], {
+        queryParams: { name: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.id === "") {
+      this.router.navigate([], {
+        queryParams: { id: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+    if (this.listData.description === "") {
+      this.router.navigate([], {
+        queryParams: { description: null },
+        queryParamsHandling: 'merge'
+      });
+    }
+
+    // Now, actually get the data
+    this.ProductService.getProducts(this.listData).subscribe(
+      data => {
+        this.products = data;
+        this.router.navigate([], {
+          queryParams: { page: this.listData.page },
+          queryParamsHandling: 'merge'
+        });
+      },
+      err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
+      () => { }
+    );
+  }
 
   ngOnInit() {
-    this.ajs.getProducts(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.products = data.data; },
+    this.listData = new ProductListParameters("", "", "");
+    this.products = new ProductList();
+
+    this.listData.pageSize = 10;
+    this.listData.page = 1;
+
+    // Check if the page param is set.  If so, store it in the "currentPage"...
+    if (this.route.snapshot.queryParamMap.get('page')) {
+      this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));
+    }
+    if (this.route.snapshot.queryParamMap.get('name')) {
+      this.listData.name = this.route.snapshot.queryParamMap.get('name');
+    }
+
+    this.ProductService.getProducts(this.listData).subscribe(
+      data => { this.products = data; },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
@@ -26,20 +86,34 @@ export class ValidationDbProductsComponent implements OnInit {
   getPage(whichPage: string) {
 
     if (whichPage == "first") {
-      this.pageData.pageNumber = 1;
+      this.listData.page = 1;
     }
     else if (whichPage == "previous") {
-      this.pageData.pageNumber--;
+      if (this.listData.page > 1) {
+        this.listData.page = --this.listData.page;
+      }
     }
     else if (whichPage == "next") {
-      this.pageData.pageNumber++;
+      if (this.listData.page < this.products.totalPages) {
+        this.listData.page = ++this.listData.page;
+      }
+    }
+    else if (whichPage == "last") {
+      this.listData.page = this.products.totalPages;
     }
 
-    this.ajs.getProducts(this.pageData.pageSize, this.pageData.pageNumber).subscribe(
-      data => { this.products = data.data; },
+    this.ProductService.getProducts(this.listData).subscribe(
+      data => {
+        this.products = data;
+        this.router.navigate([], {
+          queryParams: { page: this.listData.page },
+          queryParamsHandling: 'merge'
+        });
+      },
       err => { /* we should find something useful to do in here at some point.  maybe a site-wide error popup in the html app.component? */ },
       () => { }
     );
   };
+
 
 }

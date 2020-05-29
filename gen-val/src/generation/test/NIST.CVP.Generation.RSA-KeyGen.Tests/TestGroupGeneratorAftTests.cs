@@ -64,10 +64,10 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfParams(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfParams(int expectedGroups, Parameters parameters)
         {
             var subject = new TestGroupGeneratorAft();
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

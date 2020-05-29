@@ -1,146 +1,119 @@
-﻿using ACVPCore;
-using ACVPCore.ExtensionMethods;
-using ACVPCore.Models;
-using ACVPCore.Models.Parameters;
-using ACVPCore.Results;
-using ACVPCore.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using Microsoft.AspNetCore.Mvc;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace Web.Admin.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrganizationsController : ControllerBase
-    {
-        private readonly IOrganizationService _organizationService;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class OrganizationsController : ControllerBase
+	{
+		private readonly IOrganizationService _organizationService;
 
-        public OrganizationsController(
-           IOrganizationService organizationService)
-        {
-            _organizationService = organizationService;
-        }
+		public OrganizationsController(IOrganizationService organizationService)
+		{
+			_organizationService = organizationService;
+		}
 
-        [HttpGet("{organizationId}")]
-        public Organization Get(long organizationId)
-        {
-            return _organizationService.Get(organizationId);
-        }
+		[HttpPut]
+		public OrganizationResult Create(OrganizationCreateParameters param)
+		{
+			return _organizationService.Create(param);
+		}
 
-        [HttpPatch("{organizationId}")]
-        public OrganizationResult Update(long organizationId, Organization organization)
-        {
+		[HttpDelete("{organizationId}")]
+		public DeleteResult Delete(long organizationId)
+		{
+			return _organizationService.Delete(organizationId);
+		}
 
-            OrganizationUpdateParameters parameters = new OrganizationUpdateParameters();
+		[HttpGet("{organizationId}")]
+		public Organization Get(long organizationId)
+		{
+			return _organizationService.Get(organizationId);
+		}
 
-            parameters.ID = organizationId;
+		[HttpPatch("{organizationId}")]
+		public OrganizationResult Update(long organizationId, Organization organization)
+		{
 
-            if(organization.Name != null)
-            {
-                parameters.Name = organization.Name;
-                parameters.NameUpdated = true;
-            }
-            if (organization.Url != null)
-            {
-                parameters.Website = organization.Url;
-                parameters.WebsiteUpdated = true;
-            }
-            if (organization.VoiceNumber != null)
-            {
-                parameters.VoiceNumber = organization.VoiceNumber;
-                parameters.VoiceNumberUpdated = true;
-            }
-            if (organization.FaxNumber != null)
-            {
-                parameters.FaxNumber = organization.FaxNumber;
-                parameters.FaxNumberUpdated = true;
-            }
-            return _organizationService.Update(parameters);
-        }
+			OrganizationUpdateParameters parameters = new OrganizationUpdateParameters();
 
-        [HttpDelete("{organizationId}/addresses/{indexOfAddressToRemove}")]
-        public Result DeleteAddress(long organizationId, int indexOfAddressToRemove)
-        {
-            // Get the current set of Addresses
-            Organization selectedOrganization = _organizationService.Get(organizationId);
+			parameters.ID = organizationId;
 
-            // Create the update params and copy in the current addresses
-            OrganizationUpdateParameters parameters = new OrganizationUpdateParameters();
+			if (organization.Name != null)
+			{
+				parameters.Name = organization.Name;
+				parameters.NameUpdated = true;
+			}
+			if (organization.Url != null)
+			{
+				parameters.Website = organization.Url;
+				parameters.WebsiteUpdated = true;
+			}
+			if (organization.VoiceNumber != null)
+			{
+				parameters.VoiceNumber = organization.VoiceNumber;
+				parameters.VoiceNumberUpdated = true;
+			}
+			if (organization.FaxNumber != null)
+			{
+				parameters.FaxNumber = organization.FaxNumber;
+				parameters.FaxNumberUpdated = true;
+			}
+			return _organizationService.Update(parameters);
+		}
 
-            // Instantiate the necessary child objects
-            parameters.ID = organizationId;
-            parameters.Addresses = new List<object>();
-            parameters.AddressesUpdated = true;
+		[HttpDelete("{organizationId}/addresses/{indexOfAddressToRemove}")]
+		public Result DeleteAddress(long organizationId, int indexOfAddressToRemove)
+		{
+			// Get the current set of Addresses
+			Organization selectedOrganization = _organizationService.Get(organizationId);
 
-            // Convert to a more generic form to be consumed by the service, while removing the one being deleted
-            List<object> genericList = new List<object>();
-            for (int i = 0; i < selectedOrganization.Addresses.Count; i++)
-            {
-                Console.WriteLine("I = " + i);
-                if(i != indexOfAddressToRemove)
-                {
-                    Console.WriteLine("IndexToRemove = " + indexOfAddressToRemove);
-                    //genericList.Add(selectedOrganization.Addresses[i]);
-                    genericList.Add(new AddressUpdateParameters
-                    {
-                        ID = selectedOrganization.Addresses[i].ID
-                    });
-                }
-            }
+			// Create the update params and copy in the current addresses
+			OrganizationUpdateParameters parameters = new OrganizationUpdateParameters();
 
-            parameters.Addresses = genericList;
+			// Instantiate the necessary child objects
+			parameters.ID = organizationId;
+			parameters.Addresses = new List<object>();
+			parameters.AddressesUpdated = true;
 
-            // Issue the update
-            return _organizationService.Update(parameters);
-        }
+			// Convert to a more generic form to be consumed by the service, while removing the one being deleted
+			List<object> genericList = new List<object>();
+			for (int i = 0; i < selectedOrganization.Addresses.Count; i++)
+			{
+				Console.WriteLine("I = " + i);
+				if (i != indexOfAddressToRemove)
+				{
+					Console.WriteLine("IndexToRemove = " + indexOfAddressToRemove);
+					//genericList.Add(selectedOrganization.Addresses[i]);
+					genericList.Add(new AddressUpdateParameters
+					{
+						ID = selectedOrganization.Addresses[i].ID
+					});
+				}
+			}
 
-        //[HttpGet]
-        //public WrappedEnumerable<Implementation> ListImplementations(long pageSize, long pageNumber)
-        //{
-        //    // Set some defaults in case no values are provided
-        //    if (pageSize == 0) { pageSize = 10; }
-        //    if (pageNumber == 0) { pageNumber = 1; }
-        //    return _implementationService.ListImplementations(pageSize, pageNumber).WrapEnumerable();
-        //}
+			parameters.Addresses = genericList;
 
-        //[HttpPatch("{implementationId}")]
-        //public Result UpdateImplementation(Implementation implementation)
-        //{
-        //    ImplementationUpdateParameters parameters = new ImplementationUpdateParameters();
+			// Issue the update
+			return _organizationService.Update(parameters);
+		}
 
-        //    if (implementation.Description != null)
-        //    {
-        //        parameters.Description = implementation.Description;
-        //        parameters.DescriptionUpdated = true;
-        //    }
-        //    if (implementation.Name != null)
-        //    {
-        //        parameters.Name = implementation.Name;
-        //        parameters.NameUpdated = true;
-        //    }
-        //    if (implementation.URL != null)
-        //    {
-        //        parameters.Website = implementation.URL;
-        //        parameters.WebsiteUpdated = true;
-        //    }
-        //    if (implementation.Version != null)
-        //    {
-        //        parameters.Version = implementation.Version;
-        //        parameters.VersionUpdated = true;
-        //    }
-        //    if (implementation.Vendor != null)
-        //    {
-        //        parameters.OrganizationID = implementation.Vendor.ID;
-        //        parameters.OrganizationIDUpdated = true;
-        //    }
-        //    if (implementation.Type != null)
-        //    {
-        //        parameters.Type = ImplementationTypeExtensions.FromString(implementation.Type.ToString());
-        //        parameters.TypeUpdated = true;
-        //    }
-        //    parameters.ID = implementation.ID;
-        //    return _implementationService.Update(parameters);
-        //}
-    }
+		[HttpPost]
+		public ActionResult<PagedEnumerable<OrganizationLite>> GetDependencies(OrganizationListParameters param)
+		{
+			if (param == null)
+				return new BadRequestResult();
+
+			return _organizationService.Get(param);
+		}
+
+	}
 }

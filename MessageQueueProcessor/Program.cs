@@ -1,11 +1,13 @@
 using System;
-using ACVPCore;
-using ACVPWorkflow;
-using CVP.DatabaseInterface;
+using NIST.CVP.Libraries.Internal.ACVPCore;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue;
 using Serilog;
 
 namespace MessageQueueProcessor
@@ -46,15 +48,18 @@ namespace MessageQueueProcessor
 				{
 					services.AddHostedService<Worker>();
 
+					//Do the configuration thing
+					services.Configure<MessageQueueProcessorConfig>(hostContext.Configuration.GetSection("MessageQueueProcessor"));
+
 					//Inject libraries
 					services.InjectACVPCore();
 					services.InjectACVPWorkflow();
 					services.InjectDatabaseInterface();
+					services.InjectMessageQueue();
+					services.InjectTaskQueue();
 
 					//Inject local things
-					services.AddSingleton<IMessageProvider, MessageProvider>();
 					services.AddSingleton<IMessageProcessorFactory, MessageProcessorFactory>();
-					services.AddSingleton<IAutoApproveProvider, AutoApproveProvider>();
 				});
 	}
 }

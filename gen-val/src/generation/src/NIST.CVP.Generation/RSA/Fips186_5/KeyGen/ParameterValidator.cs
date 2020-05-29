@@ -35,13 +35,21 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                 }
                 else
                 {
-                    PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger(), errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger());
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                 }
             }
-            
-            if (!parameters.AlgSpecs.Any())
+
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
 
             foreach (var algSpec in parameters.AlgSpecs)
@@ -51,20 +59,22 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                     errorResults.Add("Invalid or no rand pq");
                 }
 
-                if (algSpec.Capabilities.Length == 0)
-                {
-                    errorResults.Add("No capabilities listed for a KeyGen mode");
-                    continue;
-                }
-
-                if (errorResults.Count > 0)
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
                 {
                     continue;
                 }
-
+                
                 foreach (var capability in algSpec.Capabilities)
                 {
-                    PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(capability.Modulo, errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(capability.Modulo);
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                     
                     if (algSpec.RandPQ == PrimeGenModes.RandomProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
                     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Generation.EDDSA.v1_0.KeyGen;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -35,7 +36,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
         }
 
         [Test]
-        public void ShouldReturnTestGroups()
+        public async Task ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -52,14 +53,14 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -76,7 +77,7 @@ namespace NIST.CVP.Generation.DSA.Ed.KeyGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(4, groups.Count);

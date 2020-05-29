@@ -1,0 +1,848 @@
+{
+	"info": {
+		"_postman_id": "db0849af-e537-4b61-b559-1f7a8a55fda0",
+		"name": "PublicVendor_v1.0_Auto",
+		"description": "Initial ACVP E2E Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOTP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a575bd91-e4d7-4c86-afc5-34ac0a075833",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"TOTP Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"totp\");",
+							"});",
+							"pm.environment.set(\"totp\", jsonData[1].totp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/totp",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"totp"
+					]
+				},
+				"description": "TOTP Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2e8d825-f9c7-4284-b790-4e683fc47aab",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Token Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"accessToken\");",
+							"});",
+							"pm.environment.set(\"token1\", jsonData[1].accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"password\": \"{{totp}}\"\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/login",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"login"
+					]
+				},
+				"description": "LOGIN Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE Vendor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"1.0\"\n  },\n  {\n    \"name\": \"DMC Test 042120\",\n    \"website\": \"www.acme0421.acme\",\n    \"emails\": [\n      \"inquiry@acme0421.acme\"\n    ],\n    \"phoneNumbers\": [\n      {\n        \"number\": \"301-555-1234\",\n        \"type\": \"voice\"\n      }\n    ],\n    \"addresses\": [\n      {\n        \"street1\": \"0421 Main Street\",\n        \"locality\": \"Leland\",\n        \"region\": \"North Carolina\",\n        \"country\": \"USA\",\n        \"postalCode\": \"28451\"\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Request Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"reqstat\", jsonData[1].status);",
+							"var reqstatus = pm.environment.get(\"reqstat\");",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status\")}, 20000)}",
+							"else {pm.environment.set(\"vendurl\", jsonData[1].approvedUrl);}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							"pm.environment.set(\"reqstat\", \"initial\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{requrl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Info_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?offset=10955&limit=20",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "offset",
+							"value": "10955"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Name Contains Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?name[0]=contains:DMC&name[1]=contains:test",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "name[0]",
+							"value": "contains:DMC"
+						},
+						{
+							"key": "name[1]",
+							"value": "contains:test"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Website Start Search",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0931b27d-ce7d-4bae-9c41-c1411dd8822f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bbb5ddc6-6e63-42f6-a9fb-1685c3e55812",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?website[0]=start:www.acme",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "website[0]",
+							"value": "start:www.acme"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Email End Search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?email[0]=end:acme",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "email[0]",
+							"value": "end:acme"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Phone # Eq Search",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "94d4cec6-bdc7-429c-a990-9043c4364a84",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "65edef8f-67fd-47c8-b4cc-1a27666f680c",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}/acvp/v1/vendors?phoneNumber[0]=eq:301-555-1234",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"vendors"
+					],
+					"query": [
+						{
+							"key": "phoneNumber[0]",
+							"value": "eq:301-555-1234"
+						}
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Vendor_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae5a85d-66cd-4f2f-aaf9-da073686a662",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(jsonData[1].url).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  {\r\n    \"acvVersion\": \"1.0\"\r\n  },\r\n  {\r\n    \"name\": \"DMC Test Generic Update\",\r\n    \"website\": \"www.acmegenericupdate.acme\",\r\n    \"emails\": [\r\n      \"inquiry@acmegenericupdate.acme\"\r\n    ],\r\n    \"phoneNumbers\" : [{\r\n             \"number\" : \"301-666-0401\",\r\n             \"type\" : \"voice\"\r\n         }],\r\n    \"addresses\": [\r\n      {\r\n        \"street1\": \"1000 Updated Main Street\",\r\n        \"locality\": \"Updated Leland\",\r\n        \"region\": \"North Carolina\",\r\n        \"country\": \"USA\",\r\n        \"postalCode\": \"28451\"\r\n      }\r\n    ]\r\n  }\r\n]"
+				},
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
+					]
+				},
+				"description": "REGISTER Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Request Status2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bf3e1269-3f4e-43a2-89b8-26c31c9106ca",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});",
+							"pm.environment.set(\"reqstat\", jsonData[1].status);",
+							"var reqstatus = pm.environment.get(\"reqstat\");",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status2\")}, 20000)}",
+							"pm.environment.set(\"vendurl\", jsonData[1].approvedUrl);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9223d06b-57c4-4d22-a171-40a684647750",
+						"exec": [
+							"pm.environment.set(\"reqstat\", \"initial\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{requrl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{requrl}}"
+					]
+				},
+				"description": "Vector Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "REQ Vendor Info_VendorXYZ2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Vendor Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/vendors\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Vendor_VendorXYZ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e4d546f-af18-4676-9abf-f350758ae63b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Status 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Version Chk\", function () {",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
+							"});",
+							"pm.test(\"Request Chk\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://{{publicApiRootUrl}}{{vendurl}}",
+					"protocol": "https",
+					"host": [
+						
+						"{{publicApiRootUrl}}{{vendurl}}"
+					]
+				},
+				"description": "Answer Request to Test Env"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c856decc-c3ef-4289-aef8-191c27be4dbb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "87493567-f0bc-4230-b194-ed28fc9fd9c7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

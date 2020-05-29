@@ -33,16 +33,6 @@ namespace NIST.CVP.Common.Config
         public LogLevel MinimumLogLevel { get; set; }
         
         /// <summary>
-        /// Should logs be written to console?
-        /// </summary>
-        public bool UseConsoleLogging { get; set; }
-        
-        /// <summary>
-        /// Should logs be written to a file?
-        /// </summary>
-        public bool UseFileLogging { get; set; }
-
-        /// <summary>
         /// The port to use for the orleans dashboard
         /// </summary>
         public int OrleansDashboardPort { get; set; }

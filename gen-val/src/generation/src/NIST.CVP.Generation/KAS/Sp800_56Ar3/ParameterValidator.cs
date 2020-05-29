@@ -5,17 +5,16 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
-using NIST.CVP.Crypto.Common.Asymmetric.RSA.Helpers;
 using NIST.CVP.Crypto.Common.Hash.SHA2;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
-using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
@@ -192,6 +191,18 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         private static readonly int[] ValidAesKeyLengths = { 128, 192, 256 };
         private static readonly int MinimumL = 112;
         private static readonly int MaximumL = 1024;
+
+        private static readonly string[] ValidFixedInfoPatternPieces =
+        {
+            "l",
+            "iv",
+            "salt",
+            "uPartyInfo",
+            "vPartyInfo",
+            "context",
+            "algorithmId",
+            "label"
+        };
         #endregion Validation statics
 
         private AlgoMode _algoMode;
@@ -532,8 +543,10 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 errorResults.Add($"{nameof(fixedInfoPattern)} was not provided.");
                 return;
             }
-
-            const string fiRegex = @"^((?!(l|iv|salt|uPartyInfo|vPartyInfo|context|algorithmId|label|literal\[[0-9a-fA-F]+\])).)+$";
+            
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
             if (requiredPieces != null)
             {
@@ -551,12 +564,44 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             {
                 errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
             }
+            
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(fixedInfoPattern)} found; pieces should be unique.");
+            }
+            
             foreach (var fiPiece in fiPieces)
             {
-                Regex regex = new Regex(fiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(fiPiece))
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(fixedInfoPattern)} has invalid element {fiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of fixedInfoPattern contained non hex values.");
+                        continue;
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
+
+                    continue;
+                }
+
+                if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }

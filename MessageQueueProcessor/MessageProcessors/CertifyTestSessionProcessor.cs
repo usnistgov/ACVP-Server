@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using ACVPCore;
-using ACVPCore.Results;
-using ACVPCore.Services;
-using ACVPWorkflow;
-using ACVPWorkflow.Models;
-using ACVPWorkflow.Results;
-using ACVPWorkflow.Services;
-using MessageQueueProcessor.MessagePayloads;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPWorkflow.Services;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
@@ -16,14 +17,14 @@ namespace MessageQueueProcessor.MessageProcessors
 		private readonly ITestSessionService _testSessionService;
 		private readonly IWorkflowService _workflowService;
 		private readonly IWorkflowItemPayloadFactory _workflowItemPayloadFactory;
-		private readonly Dictionary<APIAction, bool> _autoApproveConfiguration;
+		private readonly MessageQueueProcessorConfig _messageQueueProcessorConfig;
 
-		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, Dictionary<APIAction, bool> autoApproveConfiguration)
+		public CertifyTestSessionProcessor(ITestSessionService testSessionService, IWorkflowService workflowService, IWorkflowItemPayloadFactory workflowItemPayloadFactory, MessageQueueProcessorConfig messageQueueProcessorConfig)
 		{
 			_testSessionService = testSessionService;
 			_workflowService = workflowService;
 			_workflowItemPayloadFactory = workflowItemPayloadFactory;
-			_autoApproveConfiguration = autoApproveConfiguration;
+			_messageQueueProcessorConfig = messageQueueProcessorConfig;
 		}
 
 		public Result Process(Message message)
@@ -34,8 +35,11 @@ namespace MessageQueueProcessor.MessageProcessors
 			//Deserialize the JSON into a CertifyTestSessionPayload object
 			CertifyTestSessionPayload certifyTestSessionPayload = JsonSerializer.Deserialize<CertifyTestSessionPayload>(requestPayload.Json.ToString());
 
+			//Update the test session to show it was touched
+			_testSessionService.KeepAlive(certifyTestSessionPayload.TestSessionID);
+
 			//Create the workflow item
-			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), requestPayload.UserID);
+			WorkflowInsertResult workflowInsertResult = _workflowService.AddWorkflowItem(APIAction.CertifyTestSession, requestPayload.RequestID, requestPayload.Json.GetRawText(), message.UserID);
 
 			//Error if that failed
 			if (!workflowInsertResult.IsSuccess)
@@ -88,7 +92,7 @@ namespace MessageQueueProcessor.MessageProcessors
 			}
 
 			//Auto approve if configured to do so
-			if (isValid && _autoApproveConfiguration.GetValueOrDefault(APIAction.CertifyTestSession))
+			if (isValid && _messageQueueProcessorConfig.AutoApprove.GetValueOrDefault(APIAction.CertifyTestSession))
 			{
 				//Approve it - don't care if this passes or fails, from the message processing standpoint the message has been fully processed
 				_workflowService.Approve(workflowItem);

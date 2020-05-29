@@ -33,7 +33,7 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             new int[] { 0, 128 },
             new int[] { 64, 128 }
         )]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParameters(
             string label,
             string[] mode,
             int[] keyLen,
@@ -62,77 +62,77 @@ namespace NIST.CVP.Generation.AES_XPN.Tests
             };
             int expectedResultCount = aadLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
 
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }
 
         [Test]
-        public void ShouldSetAadLen()
+        public async Task ShouldSetAadLen()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.AadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).AadLength);
         }
         
         [Test]
-        public void ShouldSetIvGen()
+        public async Task ShouldSetIvGen()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.IvGen, ((TestGroup)result[0]).IvGeneration);
         }
 
         [Test]
-        public void ShouldSetIvGenMode()
+        public async Task ShouldSetIvGenMode()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.IvGenMode, ((TestGroup)result[0]).IvGenerationMode);
         }
 
         [Test]
-        public void ShouldSetDirection()
+        public async Task ShouldSetDirection()
         {
             Parameters p = GetParameters();
 
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.Direction[0], ((TestGroup)result[0]).Function);
         }
 
         [Test]
-        public void ShouldSetPtLen()
+        public async Task ShouldSetPtLen()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.PayloadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).PayloadLength);
         }
 
         [Test]
-        public void ShouldSetTagLen()
+        public async Task ShouldSetTagLen()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.TagLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).TagLength);
         }
 
         [Test]
-        public void ShouldSetSaltGen()
+        public async Task ShouldSetSaltGen()
         {
             Parameters p = GetParameters();
             
-            var result = _subject.BuildTestGroups(p).ToList();
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(p.SaltGen, ((TestGroup)result[0]).SaltGen);
         }

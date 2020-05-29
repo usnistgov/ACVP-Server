@@ -1,67 +1,59 @@
-<div class="row mt-3">
-  <h2>Workflow {{ workflowItem.workflowItemID}}</h2>
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Create New Dependency</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{workflowItem?.payload.name}}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{workflowItem?.payload.type}}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{{workflowItem?.payload.description}}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">(Optional) User-Defined Attributes</h5>
+        <div class="card-body">
+          <table class="table" *ngIf="filterKeys().length > 0">
+            <tr *ngFor="let key of filterKeys()">
+              <th style="border:none;">
+                {{ key }}
+              </th>
+              <td style="border:none;">
+                {{ workflowItem.payload[key] }}
+              </td>
+            </tr>
+          </table>
+          <span *ngIf="filterKeys().length === 0">No user-defined attributes</span>
+        </div>
+      </div> <!-- Close Dependency Info Card -->
+    </div> <!-- Close col-lg-6 -->
+  </div>
 </div>
 
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Create New Dependency</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th style="border:none;">Name</th>
-            <td style="border:none;">{{workflowItem?.payload.name}}</td>
-          </tr>
-          <tr>
-            <th>Type</th>
-            <td>{{workflowItem?.payload.type}}</td>
-          </tr>
-          <!--<tr>
-            <th>CPE</th>
-            <td>{{workflowItem?.payload.cpe}}</td>
-          </tr>-->
-          <tr>
-            <th>Description</th>
-            <td>{{workflowItem?.payload.description}}</td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">Available Actions</h5>
-      <div class="card-body">
-        <table class="table" style="">
-          <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-primary" style="width:80%;">&#10004; Approve</button></td>
-          </tr>
-          <tr>
-            <td style="border:none;text-align:center;"><button class="btn btn-danger" style="width:80%;">&#10006; Reject</button></td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
-</div>
-
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <div class="card">
-      <h5 class="card-header">(Optional) User-Defined Attributes</h5>
-      <div class="card-body">
-        <table class="table">
-          <tr *ngFor="let key of objectKeys(workflowItem.payload)">
-            <th style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
-              {{ key }}
-            </th>
-            <td style="border:none;" *ngIf="key != 'id' && key != 'name' && key != 'type' && key != 'description' && key != 'url'">
-              {{ workflowItem.payload[key] }}
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div> <!-- Close Dependency Info Card -->
-  </div> <!-- Close col-lg-6 -->
+<div class="col-lg-6" *ngIf="workflowItem.status === 'Approved'">
+  <div class="card">
+    <h5 class="card-header">Create New Dependency</h5>
+    <div class="card-body">
+      <a [routerLink]="['/validation-db/dependencies/', workflowItem.acceptId]">View Resulting Object</a>
+    </div>
+  </div>
 </div>

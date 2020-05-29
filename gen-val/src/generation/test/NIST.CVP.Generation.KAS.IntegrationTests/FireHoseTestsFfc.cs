@@ -56,7 +56,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Assert.Fail("No TestGroups were parsed.");
             }
 
-            var oracle = new OracleBuilder().Build();
+            var oracle = await new OracleBuilder().Build();
             
             var tasks = new Dictionary<Task<KasResult>, (TestGroup testGroup, TestCase testCase)>();
 

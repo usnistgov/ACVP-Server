@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
 
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
+        public async Task ShouldCreate1TestGroupForEachCombinationOfModeLN(int expectedGroups, Parameters parameters)
         {
             var oracleMock = new Mock<IOracle>();
             oracleMock
@@ -61,7 +61,7 @@ namespace NIST.CVP.Generation.DSA.FFC.KeyGen.Tests
                 .Returns(Task.FromResult(new DsaKeyResult { Key = new FfcKeyPair() }));
 
             var subject = new TestGroupGenerator(oracleMock.Object);
-            var result = subject.BuildTestGroups(parameters);
+            var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroups, result.Count());
         }
     }

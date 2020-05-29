@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/Product/Product';
-import { AjaxService } from '../../services/ajax/ajax.service';
+import { Product } from '../../models/product/Product';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/modal/modal.service';
+import { ProductProviderService } from '../../services/ajax/product/product-provider.service';
 
 @Component({
   selector: 'app-validation-db-product',
@@ -16,24 +16,24 @@ export class ValidationDbProductComponent implements OnInit {
   updateStatusFlag = "none";
   updateAddressStatusFlag = "none";
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private ProductService: ProductProviderService, private route: ActivatedRoute, private modalService: ModalService) { }
 
   updateProduct() {
-    this.ajs.updateProduct(this.referenceCopyProduct).subscribe(
+    this.ProductService.updateProduct(this.referenceCopyProduct).subscribe(
       data => { this.updateStatusFlag = "successful"; this.refreshPageData(); },
       err => { console.log("Update failed"); },
       () => { });
   }
 
   updateAddress() {
-    this.ajs.updateAddress(this.referenceCopyProduct.address).subscribe(
+    this.ProductService.updateAddress(this.referenceCopyProduct.address).subscribe(
       data => { this.updateAddressStatusFlag = "successful"; this.refreshPageData(); },
       err => { console.log("Address update failed"); },
       () => { });
   }
 
   refreshPageData() {
-    this.ajs.getProduct(this.selectedProduct.id).subscribe(
+    this.ProductService.getProduct(this.selectedProduct.id).subscribe(
       data => { this.selectedProduct = JSON.parse(JSON.stringify(data)); this.referenceCopyProduct = JSON.parse(JSON.stringify(data)); },
       err => { },
       () => { });
@@ -41,7 +41,7 @@ export class ValidationDbProductComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getProduct(parseInt(params.get("id"))).subscribe(
+      this.ProductService.getProduct(parseInt(params.get("id"))).subscribe(
         data => { this.selectedProduct = JSON.parse(JSON.stringify(data)); this.referenceCopyProduct = JSON.parse(JSON.stringify(data)); },
         err => { },
         () => { })

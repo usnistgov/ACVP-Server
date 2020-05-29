@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AjaxService } from '../../services/ajax/ajax.service';
 import { ActivatedRoute } from '@angular/router';
-import { Dependency } from '../../models/dependency/dependency';
-import { Attribute } from '../../models/dependency/attribute';
-import { ModalService } from '../../services/modal/modal.service';
+import { Dependency } from '../../models/dependency/Dependency';
+import { DependencyDataProviderService } from '../../services/ajax/dependency/dependency-data-provider.service';
+import { Attribute } from '../../models/dependency/Attribute';
 
 @Component({
   selector: 'app-validation-db-dependency',
@@ -16,19 +15,34 @@ export class ValidationDbDependencyComponent implements OnInit {
   referenceCopyDependency: Dependency;
   newAttribute = new Attribute("", "");
 
+  noNameProvidedFlag = false;
+  noValueProvidedFlag = false;
+
   updateStatusFlag = "none";
 
-  constructor(private ajs: AjaxService, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(private dds: DependencyDataProviderService, private route: ActivatedRoute) { }
 
   addAttribute(name: string, value: string) {
-    this.ajs.addAttribute(this.selectedDependency.id, new Attribute(name, value)).subscribe(
-      data => { this.refreshPageData(); this.newAttribute.name = ""; this.newAttribute.value = "";},
-      err => { console.log("Attribute addition failed"); },
-      () => {});
+
+    this.noNameProvidedFlag = false;
+    this.noValueProvidedFlag = false;
+
+    if (name == "" || name == null) {
+      this.noNameProvidedFlag = true;
+    }
+    if (value == "" || name == null) {
+      this.noValueProvidedFlag = true;
+    }
+    if (!this.noNameProvidedFlag && !this.noValueProvidedFlag) {
+      this.dds.addAttribute(this.selectedDependency.id, new Attribute(name, value)).subscribe(
+        data => { this.refreshPageData(); this.newAttribute.name = ""; this.newAttribute.value = ""; },
+        err => { console.log("Attribute addition failed"); },
+        () => { });
+    }
   }
 
   deleteAttribute(attributeId: number) {
-    this.ajs.deleteAttribute(this.selectedDependency.id, attributeId).subscribe(
+    this.dds.deleteAttribute(this.selectedDependency.id, attributeId).subscribe(
       data => { this.refreshPageData(); },
       err => { },
       () => { });
@@ -39,7 +53,7 @@ export class ValidationDbDependencyComponent implements OnInit {
   // Available fields: name, type, description
   updateDependency() {
     this.updateStatusFlag = "processing";
-    this.ajs.updateDependency(this.referenceCopyDependency).subscribe(
+    this.dds.updateDependency(this.referenceCopyDependency).subscribe(
       data => { this.updateStatusFlag = "successful"; this.refreshPageData(); },
       err => { },
       () => { });
@@ -47,7 +61,7 @@ export class ValidationDbDependencyComponent implements OnInit {
 
   // Used to refresh the page after a dependency is added, or metadata is altered, etc.
   refreshPageData() {
-    this.ajs.getDependency(this.selectedDependency.id).subscribe(
+    this.dds.getDependency(this.selectedDependency.id).subscribe(
       data => { this.selectedDependency = data; this.referenceCopyDependency = data; },
       err => { },
       () => { });
@@ -55,7 +69,7 @@ export class ValidationDbDependencyComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.ajs.getDependency(parseInt(params.get("id"))).subscribe(
+      this.dds.getDependency(parseInt(params.get("id"))).subscribe(
         data => { this.selectedDependency = data; this.referenceCopyDependency = data; },
         err  => { },
         ()   => { })

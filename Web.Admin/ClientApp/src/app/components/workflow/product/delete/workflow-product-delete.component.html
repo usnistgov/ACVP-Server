@@ -1,0 +1,77 @@
+<div *ngIf="workflowItem.status === 'Pending'">
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Delete Product (ID: <a class="linkUnderline" [routerLink]="['/validation-db/products/' + workflowItem.payload.id]">{{workflowItem.payload.id}}</a>)</h5>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th style="border:none;">Name</th>
+              <td style="border:none;">{{product?.name}}</td>
+            </tr>
+            <tr>
+              <th>Version</th>
+              <td>{{product?.version == null ? "No Version" : product?.version}}</td>
+            </tr>
+            <tr>
+              <th>Type</th>
+              <td>{{product?.type == null ? "No Type" : product?.type}}</td>
+            </tr>
+            <tr>
+              <th>URL</th>
+              <td>{{product?.url == null ? "No URL" : product?.url}}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{{product?.description == null ? "No Description" : product?.description}}</td>
+            </tr>
+          </table>
+        </div>
+      </div> <!-- Close Product Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <app-workflow-actions [wfItem]="workflowItem"></app-workflow-actions>
+    </div> <!-- Close col-lg-6 -->
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Vendor Information</h5>
+        <div class="card-body">
+          <a [routerLink]="['/validation-db/organizations/' + product?.vendor.id]">{{ product?.vendor.id }} - {{ product?.vendor.name }}</a>
+        </div>
+      </div> <!-- Close Phone Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Address</h5>
+        <div class="card-body">
+          <div *ngIf="product?.address != null">
+            {{ product?.address.street1}}<br />
+            <span *ngIf="product?.address.street2 !== null">{{ product?.address.street2 !== null ? product?.address.street2 : '' }}<br /></span>
+            <span *ngIf="product?.address.street3 !== null">{{ product?.address.street3 !== null ? product?.address.street3 : '' }}<br /></span>
+            {{ product?.address.locality}} {{ product?.address.region }}, {{ product?.address.country }} {{product?.address.postalCode}}
+          </div>
+          <div *ngIf="product?.address == null">
+            No Address Provided
+          </div>
+        </div>
+      </div> <!-- Close Address Info Card -->
+    </div> <!-- Close col-lg-6 -->
+
+  </div>
+</div>
+
+<div *ngIf="workflowItem.status === 'Approved'">
+  <div class="col-lg-6">
+    <div class="card">
+      <h5 class="card-header">Delete Product</h5>
+      <div class="card-body">
+        <label class="bold-heading">ID: </label>{{workflowItem?.payload.id}}
+      </div>
+    </div>
+  </div>
+</div>

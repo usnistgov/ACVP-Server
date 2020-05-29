@@ -1,18 +1,26 @@
 ﻿CREATE PROCEDURE [val].[OEsGet]
 
-	@PageSize bigint,
-	@PageNumber bigint
-
+	@PageSize INT,
+	@PageNumber INT,
+	@Id BIGINT = NULL,
+	@Name NVARCHAR(2048) = NULL,
+	@TotalRecords BIGINT OUTPUT
 AS
 
 SET NOCOUNT ON
 
-SELECT OE.id,
-		OE.name
-	   --TotalCount
-FROM [val].[VALIDATION_OE] AS OE
---CROSS APPLY (SELECT COUNT(*) TotalCount
---FROM [val].[VALIDATION_OE] ) [Count]
-ORDER BY OE.id
+SELECT	@TotalRecords = COUNT_BIG(1)
+FROM [val].[VALIDATION_OE] AS o
+WHERE	1=1
+	AND (@Id IS NULL OR o.id LIKE CAST(@Id as varchar) + '%')
+	AND	(@Name IS NULL OR o.[name] LIKE '%' + @Name + '%')
+
+SELECT	o.id,
+		o.[name]
+FROM [val].[VALIDATION_OE] AS o
+WHERE	1=1
+	AND (@Id IS NULL OR o.id LIKE CAST(@Id as varchar) + '%')
+	AND	(@Name IS NULL OR o.[name] LIKE '%' + @Name + '%')
+ORDER BY o.id
 OFFSET @PageSize * (@PageNumber - 1) ROWS
 FETCH NEXT @PageSize ROWS ONLY;

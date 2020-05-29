@@ -247,9 +247,9 @@ namespace NIST.CVP.Generation.KAS.FFC.Tests
 
         [Test]
         [TestCaseSource(nameof(_testShouldReturnCorrectNumberOfGroups))]
-        public void ShouldReturnCorrectNumberOfGroups(Parameters parm, int expectedNumberOfGroups)
+        public async Task ShouldReturnCorrectNumberOfGroups(Parameters parm, int expectedNumberOfGroups)
         {
-            var result = _subject.BuildTestGroups(parm);
+            var result = await _subject.BuildTestGroupsAsync(parm);
 
             Assert.AreEqual(expectedNumberOfGroups, result.Count());
         }

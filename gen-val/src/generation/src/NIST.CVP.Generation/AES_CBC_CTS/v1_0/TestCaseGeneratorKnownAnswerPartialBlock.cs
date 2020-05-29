@@ -16,10 +16,10 @@ using NIST.CVP.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
-    public class TestCaseGeneratorKnownAnswerPartialBlock : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorKnownAnswerPartialBlock : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly List<AlgoArrayResponse> _kats = new List<AlgoArrayResponse>();
+        private readonly List<AlgoArrayResponse> _kats;
         private readonly Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>> _katMapping =
             new Dictionary<(int keyLength, string katType), List<AlgoArrayResponse>>()
             {
@@ -37,10 +37,8 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
                 {(256, "varkey"), KATData.GetVarKey256BitKey()},
             };
 
-        private bool _initialized = false;
-        private int _chosenPayloadLen = 0;
-
-        private int _katsIndex = 0;
+        private int _chosenPayloadLen;
+        private int _katsIndex;
 
         public TestCaseGeneratorKnownAnswerPartialBlock(IOracle oracle, int keyLength, string katType)
         {
@@ -60,17 +58,22 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 
         public int NumberOfTestCasesToGenerate => _kats.Count;
 
+        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        {
+            List<int> values = new List<int>();
+            // Use larger numbers only when the "smaller" values don't exist.
+            values.AddRangeIfNotNullOrEmpty(group.PayloadLen.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
+            values.AddRangeIfNotNullOrEmpty(group.PayloadLen.GetValues(a => a % 128 != 0, 128, true));
+
+            _chosenPayloadLen = values.First();
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             if (_katsIndex + 1 > _kats.Count)
             {
                 return await Task.FromResult(new TestCaseGenerateResponse<TestGroup, TestCase>("No additional KATs exist."));
-            }
-
-            if (!_initialized)
-            {
-                _initialized = true;
-                ChoosePayloadLen(group.PayloadLen);
             }
 
             var currentKat = _kats[_katsIndex++];
@@ -109,16 +112,6 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
             }
         }
 
-        private void ChoosePayloadLen(MathDomain groupPayloadLen)
-        {
-            List<int> values = new List<int>();
-            // Use larger numbers only when the "smaller" values don't exist.
-            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
-            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a % 128 != 0, 128, true));
-
-            _chosenPayloadLen = values.First();
-        }
-
-        private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
+        private static readonly ILogger ThisLogger = LogManager.GetCurrentClassLogger();
     }
 }

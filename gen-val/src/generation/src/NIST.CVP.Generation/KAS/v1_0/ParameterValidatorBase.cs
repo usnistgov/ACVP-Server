@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Exceptions;
 
 namespace NIST.CVP.Generation.KAS.v1_0
 {
@@ -37,6 +39,12 @@ namespace NIST.CVP.Generation.KAS.v1_0
             "timestamp",
             "sequence",
             "timestampSequence"
+        };
+        private static readonly string[] ValidFixedInfoPatternPieces =
+        {
+            "uPartyInfo",
+            "vPartyInfo",
+            "counter"
         };
 
         public ParameterValidateResponse Validate(Parameters parameters)
@@ -307,16 +315,54 @@ namespace NIST.CVP.Generation.KAS.v1_0
             {
                 return;
             }
+            
+            Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
+            string literalStart = "literal[";
+            string literalEnd = "]";
 
-            const string oiRegex = @"^((?!(uPartyInfo|vPartyInfo|counter|literal\[[0-9a-fA-F]+\])).)+$";
-
-            var oiPieces = oiPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            foreach (var oiPiece in oiPieces)
+            var fiPieces = oiPattern.Split("||".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            if (fiPieces?.Length == 0)
             {
-                Regex regex = new Regex(oiRegex, RegexOptions.IgnoreCase);
-                if (regex.IsMatch(oiPiece))
+                errorResults.Add($"Invalid {nameof(oiPattern)} {oiPattern}");
+            }
+
+            var allUniquePieces = fiPieces
+                .GroupBy(gb => gb)
+                .All(a => a.Count() == 1);
+
+            if (!allUniquePieces)
+            {
+                errorResults.Add($"Duplicate pieces of {nameof(oiPattern)} found; pieces should be unique.");
+            }
+            
+            foreach (var fiPiece in fiPieces)
+            {
+                if (fiPiece.StartsWith(literalStart) && fiPiece.EndsWith(literalEnd))
                 {
-                    errorResults.Add($"{nameof(oiPattern)} has invalid element {oiPiece}");
+                    var tempLiteral = fiPiece.Replace(literalStart, string.Empty);
+                    tempLiteral = tempLiteral.Replace(literalEnd, string.Empty);
+
+                    if (notHexRegex.IsMatch(tempLiteral))
+                    {
+                        errorResults.Add("literal element of oiPattern contained non hex values.");
+                        continue;
+                    }
+                    
+                    try
+                    {
+                        _ = new BitString(tempLiteral);
+                    }
+                    catch (InvalidBitStringLengthException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
+                    
+                    continue;
+                }
+
+                if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
+                {
+                    errorResults.Add($"Invalid portion of oiPattern: {fiPiece}");
                 }
             }
         }

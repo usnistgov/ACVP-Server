@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
 {
-    public class TestGroupGenerator : ITestGroupGenerator<Parameters, TestGroup, TestCase>
+    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
-        public IEnumerable<TestGroup> BuildTestGroups(Parameters parameters)
+        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new HashSet<TestGroup>();
             foreach (var hashAlg in parameters.HashAlg)
@@ -34,7 +36,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
                 }
             }
             
-            return testGroups;
+            return Task.FromResult(testGroups.ToList());
         }
 
         public static bool IsValidGroup(int fieldSize, int hashOutputLength)

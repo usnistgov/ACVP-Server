@@ -1,7 +1,11 @@
-﻿using ACVPCore.Results;
-using ACVPCore.Services;
-using MessageQueueProcessor.MessagePayloads;
-using System.Text.Json;
+﻿using System.Text.Json;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Internal.MessageQueue.MessagePayloads;
+using NIST.CVP.Libraries.Shared.Results;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 
 namespace MessageQueueProcessor.MessageProcessors
 {
@@ -21,26 +25,31 @@ namespace MessageQueueProcessor.MessageProcessors
 		public Result Process(Message message)
 		{
 			//Deserialize the payload
-			RegisterTestSessionPayload registerTestSessionPayload = JsonSerializer.Deserialize<RegisterTestSessionPayload>(message.Payload);
+			var registerTestSessionPayload = JsonSerializer.Deserialize<TestSessionRegisterPayload>(message.Payload);
 
 			//Add the test session	
-			Result result = _testSessionService.Create(registerTestSessionPayload.TestSessionID, registerTestSessionPayload.ACVVersion, "1.0", registerTestSessionPayload.IsSample, registerTestSessionPayload.UserID);
+			Result result = _testSessionService.Create(registerTestSessionPayload.ID, registerTestSessionPayload.AcvVersion, "1.0", registerTestSessionPayload.IsSample, message.UserID);
 
 			if (result.IsSuccess)
 			{
 				//Loop through the vector set registrations
-				foreach (VectorSetRegistration vectorSetRegistration in registerTestSessionPayload.VectorSetRegistrations)
+				foreach (var vectorSetRegistration in registerTestSessionPayload.Algorithms)
 				{
 					//Create the vector set - this actually inserts the Vector Set record and the capabilities
-					Result vectorSetResult = _vectorSetService.Create(vectorSetRegistration.VectorSetID, registerTestSessionPayload.TestSessionID, "1.0", vectorSetRegistration.AlgorithmID, vectorSetRegistration.Capabilities.ToString());		//HACK - this generator version shouldn't be hardcoded, but it was in Java, and it isn't clear what it was for
+					Result vectorSetResult = _vectorSetService.Create(
+						vectorSetRegistration.VsID, 
+						registerTestSessionPayload.ID, 
+						"1.0", //HACK - this generator version shouldn't be hardcoded, but it was in Java, and it isn't clear what it was for
+						vectorSetRegistration.AlgorithmId, 
+						JsonSerializer.Serialize(vectorSetRegistration));		
 
 					if (vectorSetResult.IsSuccess)
 					{
 						//Add to the task queue
-						vectorSetResult = _taskQueueService.AddGenerationTask(new ACVPCore.GenerationTask
+						vectorSetResult = _taskQueueService.AddGenerationTask(new GenerationTask
 						{
 							IsSample = registerTestSessionPayload.IsSample,
-							VectorSetID = vectorSetRegistration.VectorSetID
+							VectorSetID = vectorSetRegistration.VsID
 						});
 					}
 					
@@ -48,7 +57,7 @@ namespace MessageQueueProcessor.MessageProcessors
 					if (!vectorSetResult.IsSuccess)
 					{
 						//Update the status to reflect the error, including the error message 
-						_vectorSetService.RecordError(vectorSetRegistration.VectorSetID, vectorSetResult.ErrorMessage);	//TODO - figure out if these errors ever get exposed to the end users, as it would be bad to expose the text
+						_vectorSetService.RecordError(vectorSetRegistration.VsID, vectorSetResult.ErrorMessage);	//TODO - figure out if these errors ever get exposed to the end users, as it would be bad to expose the text
 					}
 				}
 			}

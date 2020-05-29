@@ -31,18 +31,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
             param.A = 0;
             param.B = 0;
             
-            var errors = new List<string>();
-            
-            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus, errors);
-            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
-            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
-            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens, errors);
+            // Rethrow on exception
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(param.Modulus);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed);
+            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens);
 
-            if (errors.Any())
-            {
-                return new PrimeGeneratorResult(string.Join(".", errors));
-            }
-            
             return GeneratePrimes(param);
         }
 
@@ -50,18 +44,12 @@ namespace NIST.CVP.Crypto.RSA.PrimeGenerators
         {
             _pBound = 20;
             
-            var errors = new List<string>();
-            
-            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus, errors);
-            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE, errors);
-            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed, errors);
-            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens, errors);
+            // Rethrow on exception
+            PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(param.Modulus);
+            PrimeGeneratorGuard.AgainstInvalidPublicExponent(param.PublicE);
+            PrimeGeneratorGuard.AgainstInvalidSeed(param.Modulus, param.Seed);
+            PrimeGeneratorGuard.AgainstInvalidBitlens(param.Modulus, param.BitLens);
 
-            if (errors.Any())
-            {
-                return new PrimeGeneratorResult(string.Join(".", errors));
-            }
-            
             return GeneratePrimes(param);
         }
 

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Generation.RSA.v1_0.KeyGen;
 using NIST.CVP.Math;
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         }
 
         [Test]
-        public void ShouldReturnTestGroups()
+        public async Task ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
             var p = new Parameters
@@ -60,14 +61,14 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.IsNotNull(result);
         }
 
         [Test]
-        public void ShouldReturnVectorSetWithProperTestGroupsForAllModes()
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
 
             var result = _subject.GetTestGroupGenerators(new Parameters());
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(100, groups.Count);

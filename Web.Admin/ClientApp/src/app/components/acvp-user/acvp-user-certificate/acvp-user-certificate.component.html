@@ -1,0 +1,50 @@
+<!-- Certificate Card-->
+<div class="card">
+  <div class="card-header">
+    <table width="100%">
+      <tr>
+        <td><h5>Certificate Information</h5></td>
+        <td align="right"><span class="linkUnderline" (click)="raiseEditCertificateModal()">Edit</span></td>
+      </tr>
+    </table>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      <label class="bold-heading">Expires</label>&nbsp;&nbsp;
+      <span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() > twoMonthsInFutureDate" style="color:green;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() > todayDate && selectedUser?.expiresOn.getTime() < twoMonthsInFutureDate" style="color:darkorange;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+        <span *ngIf="selectedUser?.expiresOn.getTime() < todayDate" style="color:darkred;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
+      </span>
+      <span>
+        (<a [href]="emailBody" class="linkUnderline">Generate Reminder Email</a>)
+      </span><br />
+      <label class="bold-heading mt-3">Issuer</label>&nbsp;&nbsp;{{selectedUser?.issuer}}<br />
+      <label class="bold-heading mt-3">Common Name</label><br />
+      {{selectedUser?.commonName}}
+    </p>
+  </div>
+</div> <!-- Close Certificate Card -->
+
+<div id="EditCertificateModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Certificate</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <label class="bold-heading">Certificate:</label><br />
+          <input type="file" #file placeholder="Choose file"><br /><br />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="uploadCertificate(file.files[0])">Upload</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

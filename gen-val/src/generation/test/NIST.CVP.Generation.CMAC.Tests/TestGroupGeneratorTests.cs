@@ -3,6 +3,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 using NIST.CVP.Generation.CMAC.v1_0;
 
 namespace NIST.CVP.Generation.CMAC.Tests
@@ -59,7 +60,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
         
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
+        public async Task ShouldReturnOneITestGroupForEveryMultiplicativeIterationOfParamters(
             string label,
             string direction,
             string algorithm,
@@ -86,7 +87,7 @@ namespace NIST.CVP.Generation.CMAC.Tests
                 }
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

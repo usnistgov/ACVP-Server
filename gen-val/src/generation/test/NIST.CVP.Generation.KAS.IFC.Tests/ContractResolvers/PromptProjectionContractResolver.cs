@@ -106,12 +106,6 @@ namespace NIST.CVP.Generation.KAS.IFC.Tests.ContractResolvers
 
             if (testType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
             {
-                Assert.AreEqual(tc.ServerD, newTc.ServerD, nameof(tc.ServerD));
-                Assert.AreEqual(tc.ServerDmp1, newTc.ServerDmp1, nameof(tc.ServerDmp1));
-                Assert.AreEqual(tc.ServerDmq1, newTc.ServerDmq1, nameof(tc.ServerDmq1));
-                Assert.AreEqual(tc.ServerIqmp, newTc.ServerIqmp, nameof(tc.ServerIqmp));
-                Assert.AreEqual(tc.ServerP, newTc.ServerP, nameof(tc.ServerP));
-                Assert.AreEqual(tc.ServerQ, newTc.ServerQ, nameof(tc.ServerQ));
                 Assert.AreEqual(tc.Tag, newTc.Tag, nameof(tc.Tag));
                 Assert.AreEqual(tc.Dkm, newTc.Dkm, nameof(tc.Dkm));
             }

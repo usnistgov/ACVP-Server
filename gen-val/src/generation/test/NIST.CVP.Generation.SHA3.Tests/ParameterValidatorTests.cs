@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.SHA3.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.SHA3.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -36,12 +37,11 @@ namespace NIST.CVP.Generation.SHA3.Tests
         }
 
         [Test]
-        [TestCase("empty", new object[] { })]
         [TestCase("Invalid", new object[] { 225 })]
         [TestCase("Partially valid", new object[] { 224, 200 })]
         public void ShouldReturnErrorWithInvalidDigestSize(string label, object[] digestSize)
         {
-            var intDigs = digestSize.Select(v => (int)v).ToArray();
+            var intDigs = digestSize.Select(v => (int)v).ToList();
 
             var subject = new ParameterValidator();
             var result = subject.Validate(
@@ -69,7 +69,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("shake")
-                    .WithDigestSizes(new int[] { 128 })
+                    .WithDigestSizes(new List<int>() { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
                     .Build()
@@ -85,7 +85,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHA3")
-                    .WithDigestSizes(new[] { 128 })
+                    .WithDigestSizes(new List<int>() { 128 })
                     .Build()
             );
 
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("SHAKE")
-                    .WithDigestSizes(new[] { 224 })
+                    .WithDigestSizes(new List<int>() { 224 })
                     .Build()
             );
 
@@ -146,7 +146,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm("shake-128")
-                    .WithDigestSizes(new int[] { 128 })
+                    .WithDigestSizes(new List<int>() { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
                     .Build()
@@ -158,7 +158,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
         public class ParameterBuilder
         {
             private string _algorithm;
-            private int[] _digestSizes;
+            private List<int> _digestSizes;
             private bool _includeNull;
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
@@ -167,7 +167,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
             public ParameterBuilder()
             {
                 _algorithm = "SHA3-224";
-                _digestSizes = new[] { 224 };
+                _digestSizes = new List<int>() { 224 };
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;
@@ -182,7 +182,7 @@ namespace NIST.CVP.Generation.SHA3.Tests
                 return this;
             }
 
-            public ParameterBuilder WithDigestSizes(int[] value)
+            public ParameterBuilder WithDigestSizes(List<int> value)
             {
                 _digestSizes = value;
                 return this;

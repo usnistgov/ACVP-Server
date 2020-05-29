@@ -1,8 +1,10 @@
-using ACVPCore.ExtensionMethods;
-using ACVPCore.Models;
-using ACVPCore.Results;
-using ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.Results;
+using System;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 
 namespace Web.Admin.Controllers
 {
@@ -17,10 +19,13 @@ namespace Web.Admin.Controllers
             _adminUserService = adminUserService;
         }
         
-        [HttpGet]
-        public WrappedEnumerable<AcvpUserLite> Get()
+        [HttpPost]
+        public ActionResult<PagedEnumerable<AcvpUserLite>> Get(AcvpUserListParameters param)
         {
-            return _adminUserService.GetUserList().WrapEnumerable();
+            if (param == null)
+                return new BadRequestResult();
+            
+            return _adminUserService.GetUserList(param);
         }
 
         [HttpGet("{userId}")]
@@ -34,10 +39,34 @@ namespace Web.Admin.Controllers
             return user;
         }
 
-        [HttpPost("{userId}/seed")]
-        public Result SetUserTotpSeed(long userId, [FromBody] string seed)
+        [HttpPut]
+        public Result CreateUser([FromBody] AcvpUserCreateParameters param)
         {
-            return _adminUserService.SetUserTotpSeed(userId, seed);
+            return _adminUserService.CreateUser(param);
+        }
+
+        [HttpPost("{userId}/seed")]
+        public Result SetUserTotpSeed(long userId, [FromBody] AcvpUserSeedUpdateParameters param)
+        {
+            return _adminUserService.SetUserTotpSeed(userId, param);
+        }
+
+        [HttpPost("{userId}/seed/refresh")]
+        public Result RefreshTotpSeed(long userId)
+        {
+            return _adminUserService.RefreshTotpSeed(userId);
+        }
+
+        [HttpPost("{userId}/certificate")]
+        public Result SetUserCertificate(long userId, [FromBody] AcvpUserCertificateUpdateParameters param)
+        {
+            return _adminUserService.SetUserCertificate(userId, param);
+        }
+
+        [HttpDelete("{userId}")]
+        public Result DeleteUser(long userId)
+        {
+            return _adminUserService.DeleteUser(userId);
         }
     }
 }

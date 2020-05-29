@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "663041f4-01a4-4a25-bcdc-9aa1ad9cec05",
+		"_postman_id": "9f360835-228c-4073-acbe-090a8df0f56a",
 		"name": "Dev-Tests v1.0",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6bf8b9c4-336f-4dfa-8704-1a434636294d",
+								"id": "278515e7-686f-48ea-bbdd-5e3bcf171d18",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -40,18 +40,14 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
+							"raw": "{{https}}{{publicApiRootUrl}}/acvp/totp",
 							"host": [
-								"{{https}}{{env}}",
-								"{{url}}"
+								"{{https}}{{publicApiRootUrl}}"
 							],
 							"path": [
-								"{{totp}}"
+								"acvp",
+								"totp"
 							]
 						},
 						"description": "Test only, not publicly available."
@@ -64,7 +60,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ace2ebee-a8e4-4a9c-9682-26fa89621553",
+								"id": "799e70e7-39b1-4ed4-aec3-e22e4aadb458",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -109,13 +105,14 @@
 							"raw": "[\n\t{\n\t\t\"acvVersion\": \"{{acv_version}}\" \n\t\t\n\t}, \n\t{\n\t\t\"password\": \"{{totp_token}}\",\n\t\t\"accessToken\": \"{{access_token}}\"\n\t}\n]"
 						},
 						"url": {
-							"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+							"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/login",
 							"host": [
-								"{{https}}{{env}}",
-								"{{url}}"
+								"{{https}}{{publicApiRootUrl}}"
 							],
 							"path": [
-								"{{login}}"
+								"acvp",
+								"v1",
+								"login"
 							]
 						},
 						"description": "Send TOTP to get valid token"
@@ -128,7 +125,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "41203838-26f1-4d23-b264-77bda863bc3d",
+								"id": "b2e3f7b8-1bd2-4aeb-8716-513865dc66eb",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -163,13 +160,14 @@
 							"raw": "[\n\t{\n\t\t\"acvVersion\": \"{{acv_version}}\" \n\t\t\n\t}, \n\t{\n\t\t\"password\": \"{{totp_token}}\"\n\t}\n]"
 						},
 						"url": {
-							"raw": "{{https}}{{env}}.{{url}}/{{login}}",
+							"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/login",
 							"host": [
-								"{{https}}{{env}}",
-								"{{url}}"
+								"{{https}}{{publicApiRootUrl}}"
 							],
 							"path": [
-								"{{login}}"
+								"acvp",
+								"v1",
+								"login"
 							]
 						},
 						"description": "Send TOTP to get valid token"
@@ -182,7 +180,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bdaa1c05-befb-4790-b9d7-3c25f14cedc5",
+								"id": "394b04d0-67c9-47ea-81d1-3babd8c58fe2",
 								"exec": [
 									"var jsonData = pm.response.json();",
 									"",
@@ -208,25 +206,22 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
+							"raw": "{{https}}{{publicApiRootUrl}}/acvp/totp",
 							"host": [
-								"{{https}}{{env}}",
-								"{{url}}"
+								"{{https}}{{publicApiRootUrl}}"
 							],
 							"path": [
-								"{{totp}}"
+								"acvp",
+								"totp"
 							]
 						},
 						"description": "Test only, not publicly available."
 					},
 					"response": []
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
 			"name": "Algorithms",
@@ -234,7 +229,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8c552f40-9690-4db4-87bf-5b662d0b0cdb",
+						"id": "b32ad368-2037-4489-b11b-aba94bb13d5f",
 						"exec": [
 							""
 						],
@@ -244,7 +239,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d5df79c7-e832-4b0f-a03a-457143c0128f",
+						"id": "13746062-ef3b-4fc3-bb70-3f547049e022",
 						"exec": [
 							""
 						],
@@ -270,17 +265,13 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/v1/algorithms",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/algorithms",
 					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
+						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
+						"acvp",
 						"v1",
 						"algorithms"
 					]
@@ -289,12 +280,12 @@
 			"response": []
 		},
 		{
-			"name": "Get Answers",
+			"name": "Get Expected Answers",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "21bb07c8-a20c-408c-9104-becbca522024",
+						"id": "e5ce955e-4c31-43b7-8d7d-3cbb84e0e7ce",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
@@ -316,6 +307,7 @@
 							"    ",
 							"    pm.environment.set(\"prev_step\", \"Get Answers\");",
 							"    pm.environment.set(\"algorithm\", jsonData[1].algorithm);",
+							"    pm.environment.set(\"revision\", jsonData[1].revision);",
 							"    ",
 							"    if (jsonData[1].mode) {",
 							"        pm.environment.set(\"mode\", jsonData[1].mode);",
@@ -350,17 +342,13 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/expected",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/expected",
 					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
+						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
+						"acvp",
 						"v1",
 						"testSessions",
 						"{{testSession_Id}}",
@@ -373,130 +361,12 @@
 			"response": []
 		},
 		{
-			"name": "Refresh Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "eeda5165-a46b-4eed-bc40-24e56b448568",
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"if (jsonData.error) {",
-							"    pm.environment.set(\"next_step\", null);",
-							"}",
-							"else {",
-							"    pm.test(\"response must have access_token\", function () {",
-							"        pm.expect(jsonData[1].accessToken);",
-							"    });",
-							"    ",
-							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
-							"    pm.environment.set(\"next_step\", pm.environment.get(\"prev_step\"));",
-							"}",
-							"",
-							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
-						]
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{access_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  }, \n  {\n    \"password\": \"{{totp_token}}\",\n    \"accessToken\": \"{{access_token}}\"\n  }\n]"
-				},
-				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/{{login}}",
-					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
-					],
-					"path": [
-						"{{login}}"
-					]
-				},
-				"description": "Send TOTP to get valid token"
-			},
-			"response": []
-		},
-		{
-			"name": "Access Token Login",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "41203838-26f1-4d23-b264-77bda863bc3d",
-						"type": "text/javascript",
-						"exec": [
-							"var jsonData = pm.response.json();",
-							"",
-							"if (jsonData.error) {",
-							"    pm.environment.set(\"next_step\", null);",
-							"}",
-							"else {",
-							"    pm.test(\"response must have access_token\", function () {",
-							"        pm.expect(jsonData[1].accessToken);",
-							"    });",
-							"    ",
-							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
-							"    pm.environment.set(\"next_step\", \"Register\");",
-							"}",
-							"",
-							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\" \n    \n  }, \n  {\n    \"password\": \"{{totp_token}}\"\n  }\n]"
-				},
-				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/{{login}}",
-					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
-					],
-					"path": [
-						"{{login}}"
-					]
-				},
-				"description": "Send TOTP to get valid token"
-			},
-			"response": []
-		},
-		{
 			"name": "Get Disposition",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "a2efec54-9e4d-4a7c-927c-5640ece0bcdd",
+						"id": "a0674caf-b2de-4a80-bdc5-cbc7e96ba951",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
@@ -505,18 +375,20 @@
 							"",
 							"if (jsonData[1].retry) {",
 							"    // If response has retry, repeat this call",
-							"    pm.environment.set(\"retry\", 10);",
-							"    pm.environment.set(\"next_step\", \"Wait\");",
+							"    setTimeout(",
+							"        function () {",
+							"            pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"        }, 10000);",
 							"}",
 							"else {",
 							"    pm.test(\"disposition must have vsId\", function () {",
 							"        pm.expect(jsonData[1]).to.have.property('vsId');",
 							"    });",
-							"    ",
+							"",
 							"    pm.test(\"disposition should pass\", function () {",
 							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
 							"    });",
-							"    ",
+							"",
 							"    pm.environment.set(\"next_step\", null);",
 							"}",
 							"",
@@ -539,17 +411,13 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
 					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
+						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
+						"acvp",
 						"v1",
 						"testSessions",
 						"{{testSession_Id}}",
@@ -562,26 +430,35 @@
 			"response": []
 		},
 		{
-			"name": "TOTP Login",
+			"name": "Get ts results",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "787d6d3a-1c74-48ae-bb1c-4ea654340d9e",
+						"id": "7a1e3ada-003a-447a-8c0c-e0079e9b35b3",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
-							"if (jsonData.error) {",
-							"    pm.environment.set(\"next_step\", null);",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Disposition\");",
+							"",
+							"if (jsonData[1].retry) {",
+							"    // If response has retry, repeat this call",
+							"    setTimeout(",
+							"        function () {",
+							"            pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"        }, 10000);",
 							"}",
 							"else {",
-							"    pm.test(\"response must have totp\", function () {",
-							"        pm.expect(jsonData[1].totp);",
+							"    pm.test(\"disposition must have vsId\", function () {",
+							"        pm.expect(jsonData[1]).to.have.property('vsId');",
 							"    });",
-							"    ",
-							"    pm.environment.set(\"totp_token\", jsonData[1].totp);",
 							"",
-							"    pm.environment.set(\"next_step\", \"Access Token Login\");",
+							"    pm.test(\"disposition should pass\", function () {",
+							"        pm.expect(jsonData[1].disposition).to.eql('passed');",
+							"    });",
+							"",
+							"    pm.environment.set(\"next_step\", null);",
 							"}",
 							"",
 							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
@@ -591,23 +468,31 @@
 				}
 			],
 			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/{{totp}}",
-					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
-					],
-					"path": [
-						"{{totp}}"
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
 					]
 				},
-				"description": "Test only, not publicly available."
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"results"
+					]
+				}
 			},
 			"response": []
 		},
@@ -617,7 +502,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8c552f40-9690-4db4-87bf-5b662d0b0cdb",
+						"id": "a127a6dd-8276-43b5-8cd3-c1af513bd5fb",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
@@ -631,9 +516,19 @@
 							"        pm.expect(jsonData[1].accessToken);",
 							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
 							"    });",
-							"    ",
-							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
-							"    ",
+							"    pm.test(\"response must have test session id\", function () {",
+							"        pm.expect(jsonData[1].url)",
+							"    });",
+							"    pm.test(\"response must have vector set ids\", function () {",
+							"        pm.expect(jsonData[1].vectorSetUrls)",
+							"    });",
+							"",
+							"    var tsId = jsonData[1].url.split('/').pop().trim();",
+							"    pm.test(\"TsId: \" + tsId, function () {});",
+							"",
+							"",
+							"    pm.environment.set(\"testSession_Id\", tsId);",
+							"",
 							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
 							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
 							"",
@@ -648,7 +543,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "d5df79c7-e832-4b0f-a03a-457143c0128f",
+						"id": "9ef95053-32eb-4ffe-a5b4-d16f9ff70af5",
 						"exec": [
 							""
 						],
@@ -679,145 +574,48 @@
 					"raw": "[{\n\t\t\"acvVersion\": \"{{acv_version}}\"\n\t},\n\t{\n\t\t\"isSample\": true,\n\t\t\"algorithms\": [{{algorithms}}]\n\t}\n]"
 				},
 				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/{{register}}",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
 					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
+						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
-						"{{register}}"
+						"acvp",
+						"v1",
+						"testSessions"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Get Prompt",
+			"name": "Register Specific algo fast running",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "188af6f2-9520-422e-bb74-41e11900c7a0",
+						"id": "85c7c964-d72d-455a-9c5c-54a53fc557b6",
 						"exec": [
 							"var jsonData = pm.response.json();",
 							"",
-							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
-							"pm.environment.set(\"post_refresh_step\", \"Get Prompt\");",
+							"pm.environment.set(\"prev_step\", \"Register\");",
 							"",
 							"if (jsonData.error) {",
 							"    pm.environment.set(\"next_step\", null);",
 							"}",
 							"else {",
-							"        pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
-							"        ",
-							"    if (jsonData[1].retry) {",
-							"        // If response has retry, repeat this call",
-							"        // The API can only run for 10 seconds maximum",
-							"        pm.environment.set(\"retry\", 10);",
-							"        pm.environment.set(\"next_step\", \"Wait\");",
-							"    }",
-							"    else {",
-							"        ",
-							"         pm.test(\"prompt must have vsId\", function () {",
-							"            pm.expect(jsonData[1]).to.have.property('vsId');",
-							"        });",
-							"        ",
-							"        pm.test(\"prompt must have tests\", function () {",
-							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
-							"        });",
-							"        ",
-							"        // If response is complete, move on to next call",
-							"        pm.environment.set(\"prev_step\", \"Get Answers\");",
-							"        pm.environment.set(\"next_step\", \"Wait\");",
-							"    }",
+							"    pm.test(\"response must have different access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
+							"    ",
+							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Get Prompt\");",
 							"}",
 							"",
-							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{access_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}",
-					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
-					],
-					"path": [
-						"v1",
-						"testSessions",
-						"{{testSession_Id}}",
-						"vectorSets",
-						"{{vs_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Wait",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5a7ff893-de19-4081-a573-2f4ed36c920c",
-						"type": "text/javascript",
-						"exec": [
-							"pm.environment.set(\"next_step\", pm.environment.get(\"prev_step\"));",
-							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
-						]
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "https://postman-echo.com/delay/{{retry}}",
-					"protocol": "https",
-					"host": [
-						"postman-echo",
-						"com"
-					],
-					"path": [
-						"delay",
-						"{{retry}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Post Answers",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8fabe1f0-a683-4c4e-9e5e-c7ab74f32d66",
-						"exec": [
-							"pm.environment.set(\"next_step\", \"Get Disposition\");",
 							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
 						],
 						"type": "text/javascript"
@@ -826,7 +624,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2119f137-b650-4d8e-91b9-86dd6c120f21",
+						"id": "56cf2305-049b-474c-b38c-74379cc08af2",
 						"exec": [
 							""
 						],
@@ -854,15 +652,432 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"algorithm\": \"{{algorithm}}\",\n    \"testGroups\": {{test_results}}\n  }\n]"
+					"raw": "[{\r\n\t\t\"acvVersion\": \"{{acv_version}}\"\r\n\t},\r\n\t{\r\n\t\t\"isSample\": true,\r\n\t\t\"algorithms\": [\r\n\t\t\t{\r\n\t\t\t  \"algorithm\": \"ACVP-AES-CBC\",\r\n\t\t\t  \"revision\": \"1.0\",\r\n\t\t\t  \"isSample\": false,\r\n\t\t\t  \"conformances\": [],\r\n\t\t\t  \"direction\": [\r\n\t\t\t    \"encrypt\",\r\n\t\t\t    \"decrypt\"\r\n\t\t\t  ],\r\n\t\t\t  \"keyLen\": [\r\n\t\t\t    128,\r\n\t\t\t    192,\r\n\t\t\t    256\r\n\t\t\t  ]\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n]"
 				},
 				"url": {
-					"raw": "{{https}}{{env}}.{{url}}/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
 					"host": [
-						"{{https}}{{env}}",
-						"{{url}}"
+						"{{https}}{{publicApiRootUrl}}"
 					],
 					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Specific algo long running",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19728ef6-f600-43e1-90d7-d71e60109188",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"Register\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.test(\"response must have different access_token\", function () {",
+							"        pm.expect(jsonData[1].accessToken);",
+							"        pm.expect(jsonData[1].accessToken).to.not.equal(pm.environment.get(\"access_token\"));",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"testSession_Id\", jsonData[1].url.split('/').pop().trim());",
+							"    ",
+							"    pm.environment.set(\"vs_id\", jsonData[1].vectorSetUrls[0].split('/').pop().trim());",
+							"    pm.environment.set(\"access_token\", jsonData[1].accessToken);",
+							"",
+							"    pm.environment.set(\"next_step\", \"Get Prompt\");",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fbf9c048-6753-4985-93ce-bbd3d8942e2c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n\t\t\"acvVersion\": \"{{acv_version}}\"\r\n\t},\r\n\t{\r\n\t\t\"isSample\": true,\r\n\t\t\"algorithms\": [{\r\n\t\t\t\"algorithm\": \"ACVP-AES-GCM\",\r\n\t\t\t\"revision\": \"1.0\",\r\n\t\t\t\"conformances\": [],\r\n\t\t\t\"direction\": [\r\n\t\t\t\t\"encrypt\",\r\n\t\t\t\t\"decrypt\"\r\n\t\t\t],\r\n\t\t\t\"keyLen\": [\r\n\t\t\t\t128,\r\n\t\t\t\t192,\r\n\t\t\t\t256\r\n\t\t\t],\r\n\t\t\t\"payloadLen\": [\r\n\t\t\t\t0,\r\n\t\t\t\t120,\r\n\t\t\t\t128,\r\n\t\t\t\t4096,\r\n\t\t\t\t10240\r\n\t\t\t],\r\n\t\t\t\"ivLen\": [\r\n\t\t\t\t96,\r\n\t\t\t\t120\r\n\t\t\t],\r\n\t\t\t\"ivGen\": \"external\",\r\n\t\t\t\"ivGenMode\": \"8.2.2\",\r\n\t\t\t\"aadLen\": [\r\n\t\t\t\t0,\r\n\t\t\t\t120\r\n\t\t\t],\r\n\t\t\t\"tagLen\": [\r\n\t\t\t\t32,\r\n\t\t\t\t128\r\n\t\t\t]\r\n\t\t}]\r\n\t}\r\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Prompt",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07d71740-e124-40e0-90ec-ac24e1ceb83b",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Prompt\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
+							"",
+							"    if (jsonData[1].retry) {",
+							"        // If response has retry, repeat this call",
+							"        setTimeout(",
+							"            function () {",
+							"                pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"            }, 10000);",
+							"    }",
+							"    else {",
+							"",
+							"        pm.test(\"prompt must have vsId\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('vsId');",
+							"        });",
+							"",
+							"        pm.test(\"prompt must have tests\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
+							"        });",
+							"",
+							"        // If response is complete, move on to next call",
+							"        pm.environment.set(\"next_step\", \"Get Expected Answers\");",
+							"    }",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e98d283f-2fdd-4b3e-9b35-ebf7ce83d74c",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"prev_step\", \"TOTP for refresh\");",
+							"pm.environment.set(\"post_refresh_step\", \"Get Prompt\");",
+							"",
+							"if (jsonData.error) {",
+							"    pm.environment.set(\"next_step\", null);",
+							"}",
+							"else {",
+							"    pm.environment.set(\"acv_version\", jsonData[0].acvVersion);",
+							"",
+							"    if (jsonData[1].retry) {",
+							"        // If response has retry, repeat this call",
+							"        setTimeout(",
+							"            function () {",
+							"                pm.environment.set(\"next_step\", \"TOTP for refresh\");",
+							"            }, 10000);",
+							"    }",
+							"    else {",
+							"",
+							"        pm.test(\"prompt must have vsId\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('vsId');",
+							"        });",
+							"",
+							"        pm.test(\"prompt must have tests\", function () {",
+							"            pm.expect(jsonData[1]).to.have.property('testGroups');",
+							"        });",
+							"",
+							"        // If response is complete, move on to next call",
+							"        pm.environment.set(\"next_step\", \"Get Expected Answers\");",
+							"    }",
+							"}",
+							"",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}{{requrl}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}{{requrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Certify Test Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "39da7a43-8bf6-4664-a756-96849a30ef05",
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Version Chk\", function () {\r",
+							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");\r",
+							"});\r",
+							"pm.test(\"Request Chk\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"/v1/requests\");\r",
+							"});\r",
+							"pm.environment.set(\"requrl\", jsonData[1].url);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"acvVersion\": \"1.0\"},\n    {\n        \"moduleUrl\": \"/acvp/v1/modules/1\",\n        \"oeUrl\": \"/acvp/v1/oes/1\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da311790-c808-447c-a78e-a9cb020bdb0b",
+						"exec": [
+							"pm.environment.set(\"next_step\", \"Get Disposition\");",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "56fd35ad-4ea5-46ab-a42c-7f4433fa812d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]"
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
+						"v1",
+						"testSessions",
+						"{{testSession_Id}}",
+						"vectorSets",
+						"{{vs_id}}",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Answers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc6f04b9-51f9-4a38-ae4f-20ed25a31862",
+						"exec": [
+							"pm.environment.set(\"next_step\", \"Get Disposition\");",
+							"postman.setNextRequest(pm.environment.get(\"next_step\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "06631e7a-64de-4a3c-9702-a279b0a36223",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"acvVersion\": \"{{acv_version}}\"\n  },\n  {\n    \"vsId\": {{vs_id}},\n    \"showExpected\": true,\n    \"testGroups\": {{test_results}}\n  }\n]",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{https}}{{publicApiRootUrl}}/acvp/v1/testSessions/{{testSession_Id}}/vectorSets/{{vs_id}}/results",
+					"host": [
+						"{{https}}{{publicApiRootUrl}}"
+					],
+					"path": [
+						"acvp",
 						"v1",
 						"testSessions",
 						"{{testSession_Id}}",
@@ -879,7 +1094,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "ae23c60f-4383-40bb-9300-e0a2882de484",
+				"id": "5dcad1f6-a454-4236-bfe3-fb6a97b66b3c",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -889,7 +1104,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1e7731f4-b67c-41ff-b05c-a824844f5fa8",
+				"id": "8b28b0c3-64eb-4a00-a088-8c1a44cdef98",
 				"type": "text/javascript",
 				"exec": [
 					"pm.test(\"response must be valid and have a json body\", function () {",
@@ -900,5 +1115,6 @@
 				]
 			}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

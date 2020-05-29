@@ -12,11 +12,10 @@ BEGIN
 	DECLARE @EncryptedChunk varbinary(8000)
 	DECLARE @EncryptedChunkLength  int
 	DECLARE @DecryptedChunk nvarchar(3900)
-	DECLARE @DecryptedValue nvarchar(MAX)
+	DECLARE @DecryptedChunks TABLE (id int identity, ChunkText nvarchar(3900))
 	
 	SET @CurrentPosition = 1
 	SET @TotalEncryptedLength = DATALENGTH(@EncryptedValue)
-	SET @DecryptedValue = null
 	
 	WHILE @CurrentPosition <= @TotalEncryptedLength
 	BEGIN
@@ -43,13 +42,15 @@ BEGIN
 		IF @DecryptedChunk is null
 			RETURN null
 	
-		-- Concatenate this chunk onto the output. First chunk requires special handling
-		IF @DecryptedValue IS NULL
-			SET @DecryptedValue = @DecryptedChunk
-		ELSE
-		   SET @DecryptedValue = @DecryptedValue + @DecryptedChunk
+		-- Add the chunk to our table
+		INSERT INTO @DecryptedChunks (ChunkText) VALUES (@DecryptedChunk)
+
 	END
 	
-	RETURN @DecryptedValue
+	-- This crazy statement winds up concatenating all those chunks into a single string
+	RETURN STUFF((SELECT N'' + ChunkText FROM @DecryptedChunks order by id FOR XML PATH(''),TYPE).value('text()[1]','nvarchar(max)')
+					,1
+					,0
+					,N'')
 END
 

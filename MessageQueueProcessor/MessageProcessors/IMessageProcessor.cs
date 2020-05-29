@@ -1,4 +1,5 @@
-﻿using ACVPCore.Results;
+﻿using NIST.CVP.Libraries.Internal.MessageQueue;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace MessageQueueProcessor.MessageProcessors
 {

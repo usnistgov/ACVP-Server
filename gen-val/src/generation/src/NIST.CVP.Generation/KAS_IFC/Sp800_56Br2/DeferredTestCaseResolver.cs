@@ -29,7 +29,10 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                 {
                     KtsHashAlg = serverTestGroup.KtsConfiguration.HashAlg,
                     AssociatedDataPattern = serverTestGroup.KtsConfiguration.AssociatedDataPattern,
-                    Encoding = serverTestGroup.KtsConfiguration.Encoding
+                    Encoding = serverTestGroup.KtsConfiguration.Encoding,
+                    Context = serverTestCase.KtsParameter.Context,
+                    Label = serverTestCase.KtsParameter.Label,
+                    AlgorithmId = serverTestCase.KtsParameter.AlgorithmId
                 };
             }
 

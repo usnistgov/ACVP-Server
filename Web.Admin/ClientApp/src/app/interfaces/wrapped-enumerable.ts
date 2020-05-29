@@ -1,5 +1,10 @@
-import { DependencyLite } from '../models/dependency/dependency-lite';
-
 export interface IWrappedEnumerable {
+
+  pageSize: number;
+  currentPage: number;
+  totalRecords: number;
+  totalPages: number;
+
   data: Object[];
+
 }

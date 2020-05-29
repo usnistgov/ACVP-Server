@@ -34,26 +34,33 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
                 }
                 else
                 {
-                    PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger(), errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidPublicExponent(parameters.FixedPubExp.ToPositiveBigInteger());
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                 }
             }
             
-            if (!parameters.AlgSpecs.Any())
+            if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.AlgSpecs, "capabilities")))
             {
-                errorResults.Add("Nothing registered");
+                return new ParameterValidateResponse(errorResults);
             }
-
+            
             foreach (var algSpec in parameters.AlgSpecs)
             {
+                if (errorResults.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(algSpec.Capabilities, "properties")))
+                {
+                    return new ParameterValidateResponse(errorResults);
+                }
+                
                 if (algSpec.RandPQ == PrimeGenFips186_4Modes.Invalid)
                 {
                     errorResults.Add("Invalid or no rand pq");
-                }
-
-                if (algSpec.Capabilities.Length == 0)
-                {
-                    errorResults.Add("No capabilities listed for a KeyGen mode");
-                    continue;
                 }
 
                 if (errorResults.Count > 0)
@@ -63,7 +70,15 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
                 foreach (var capability in algSpec.Capabilities)
                 {
-                    PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(capability.Modulo, errorResults);
+                    // TODO clean up try-catch
+                    try
+                    {
+                        PrimeGeneratorGuard.AgainstInvalidModulusFips186_4(capability.Modulo);
+                    }
+                    catch (RsaPrimeGenException e)
+                    {
+                        errorResults.Add(e.Message);
+                    }
                     
                     if (algSpec.RandPQ == PrimeGenFips186_4Modes.B32 || algSpec.RandPQ == PrimeGenFips186_4Modes.B34 || algSpec.RandPQ == PrimeGenFips186_4Modes.B35)
                     {

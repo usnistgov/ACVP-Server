@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Helpers;
+using Serilog;
+using Serilog.Context;
 
 namespace NIST.CVP.Generation
 {
@@ -28,20 +31,36 @@ namespace NIST.CVP.Generation
             return parameterChecker.CheckParameters(request);
         }
 
-        public GenerateResponse Generate(GenerateRequest request)
+        public async Task<GenerateResponse> GenerateAsync(GenerateRequest request, long vsId)
         {
-            var algoMode = DetermineAlgoModeFromRegistration(request);
-            using var container = GetContainer(algoMode).BeginLifetimeScope();
-            var generator = container.Resolve<IGenerator>();
-            return generator.Generate(request);
+            using (LogContext.PushProperty("VsID", vsId))
+            using (LogContext.PushProperty("Application", "Generator"))
+            {
+                var algoMode = DetermineAlgoModeFromRegistration(request);
+
+                Log.Information($"Running Generation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+
+                using var container = GetContainer(algoMode).BeginLifetimeScope();
+                var generator = container.Resolve<IGenerator>();
+                var generatorTask = generator.GenerateAsync(request);
+                return await generatorTask;   
+            }
         }
-        
-        public ValidateResponse Validate(ValidateRequest request)
+
+        public async Task<ValidateResponse> ValidateAsync(ValidateRequest request, long vsId)
         {
-            var algoMode = DetermineAlgoModeFromValidationRequest(request);
-            using var container = GetContainer(algoMode).BeginLifetimeScope();
-            var validator = container.Resolve<IValidator>();
-            return validator.Validate(request);
+
+            using (LogContext.PushProperty("VsID", vsId))
+            using (LogContext.PushProperty("Application", "Validator"))
+            {
+                var algoMode = DetermineAlgoModeFromValidationRequest(request);
+
+                Log.Information($"Running Validation for algo: {EnumHelpers.GetEnumDescriptionFromEnum(algoMode)}");
+                
+                using var container = GetContainer(algoMode).BeginLifetimeScope();
+                var validator = container.Resolve<IValidator>();
+                return await validator.ValidateAsync(request);
+            }
         }
 
         private AlgoMode DetermineAlgoModeFromRegistration(ParameterCheckRequest request)
@@ -101,7 +120,7 @@ namespace NIST.CVP.Generation
         {
             var candidateAlgoModeRevisions = GetSupportedAlgoModeRevisions();
 
-            return candidateAlgoModeRevisions.FirstOrDefault(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
+            return candidateAlgoModeRevisions.First(w => w.SupportedAlgoModeRevisions.Contains(algoMode));
         }
 
         /// <summary>

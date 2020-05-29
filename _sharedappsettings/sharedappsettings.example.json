@@ -1,17 +1,12 @@
 {
-  "EnvironmentConfig" : {
-    "Name":  "Local" 
+  "EnvironmentConfig": {
+    "Name": "Local"
   },
 
   "ConnectionStrings": {
     "Acvp": "Server=localhost;Database=Acvp;User=SA;Password=Password123;",
     "AcvpPools": "Server=localhost\\SQLEXPRESS01;Database=AcvpPools;Integrated Security=true;Max Pool Size=250;",
     "AcvpOrleans": "Server=localhost\\SQLEXPRESS01;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
-  },
-  
-  "TaskQueueProcessorConfig": {
-    "PollDelay": 5,
-    "MaxConcurrency": 2
   },
 
   "PoolConfig": {
@@ -28,20 +23,26 @@
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName":  "localhost",
-        "NumberOfCores" : 4
+        "HostName": "localhost",
+        "NumberOfCores": 4
       }
     ],
     "OrleansSiloPort": 8000,
     "OrleansGatewayPort": 30000,
     "ClusterId": "cryptoDist-local",
     "MinimumLogLevel": "Information",
-    "UseConsoleLogging": true,
-    "UseFileLogging": false,
     "OrleansDashboardPort": 8081,
     "FallBackMinimumCores": 4,
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
-  } 
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
+  }
 }

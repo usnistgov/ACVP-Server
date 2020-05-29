@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { WorkflowItemBase } from '../../../../models/Workflow/WorkflowItemBase';
-import { WorkflowOrganizationCreatePayload } from '../../../../models/Workflow/Organization/WorkflowOrganizationCreatePayload';
+import { WorkflowItemBase } from '../../../../models/workflow/WorkflowItemBase';
+import { WorkflowOrganizationCreatePayload } from '../../../../models/workflow/organization/WorkflowOrganizationCreatePayload';
 
 @Component({
   selector: 'app-workflow-organization-create',

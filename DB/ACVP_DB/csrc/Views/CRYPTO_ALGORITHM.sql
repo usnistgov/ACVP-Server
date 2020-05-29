@@ -7,3 +7,8 @@ SELECT id, name, primitive_id, mode, revision, alias, display_name, historical
 FROM ref.CRYPTO_ALGORITHM
 
 
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_CRYPTO_ALGORITHM]
+    ON [csrc].[CRYPTO_ALGORITHM]([id] ASC);
+

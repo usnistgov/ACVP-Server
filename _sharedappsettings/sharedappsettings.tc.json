@@ -16,7 +16,8 @@
     "PoolConfigFile": "D:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
-    "OverrideMinimumPoolLevel": 1
+    "OverrideMinimumPoolLevel": 1,
+    "AllowPoolSpawn": false
   },
 
   "OrleansConfig": {
@@ -30,12 +31,18 @@
     "OrleansGatewayPort": 30000,
     "ClusterId": "cryptoDist-TC",
     "MinimumLogLevel": "Warning",
-    "UseConsoleLogging": true,
-    "UseFileLogging": true,
     "OrleansDashboardPort": 8080,
     "FallBackMinimumCores": 2,
     "LoadSheddingCpuThreshold": 0,
     "MaxWorkItemsToQueuePerGenValInstance": 250,
     "TimeoutRetryAttempts": 15
+  },
+  "EmailConfiguration": {
+    "IsEnabled": false,
+    "Host": "smtp.nist.gov",
+    "Port": 25,
+    "UserId": null,
+    "Password": null,
+    "DefaultFromAddress": "cavpval@nist.gov"
   }
 }

@@ -6,6 +6,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.TupleHash.Tests
 {
@@ -41,7 +42,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
         [Test]
         [TestCase(false, 4)]
         [TestCase(true, 4)]
-        public void ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
+        public async Task ShouldReturnVectorSetWithProperTestGroupsForXOFModes(bool xof, int expected)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
@@ -53,7 +54,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             Parameters p = new Parameters
             {
                 Algorithm = "TupleHash",
-                DigestSizes = new[] { 128, 256 },
+                DigestSizes = new List<int> { 128, 256 },
                 MessageLength = minMaxMsg,
                 IsSample = false,
                 OutputLength = minMax,
@@ -63,7 +64,7 @@ namespace NIST.CVP.Generation.TupleHash.Tests
             var groups = new List<TestGroup>();
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(genny.BuildTestGroups(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
             Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 2    (digestsizes * XOF * TestGroups)

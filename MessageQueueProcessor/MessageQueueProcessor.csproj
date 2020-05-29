@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.Targets" Version="$(NuGetVersionMicrosoftNETCoreTargets)" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftAspNetCore)" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftAspNetCore)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="$(NuGetVersionMicrosoftExtensionsHosting)" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="$(NuGetVersionMicrosoftExtensionsHostingWindowsServices)" />
     <PackageReference Include="Mighty" Version="$(NuGetVersionMighty)" />
     <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
@@ -19,10 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ACVPCore\ACVPCore.csproj" />
-    <ProjectReference Include="..\ACVPWorkflow\ACVPWorkflow.csproj" />
-    <ProjectReference Include="..\DB\CVP.DatabaseInterface\CVP.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPWorkflow\NIST.CVP.Libraries.Internal.ACVPWorkflow.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.MessageQueue\NIST.CVP.Libraries.Internal.MessageQueue.csproj" />
     <ProjectReference Include="..\gen-val\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+    <ProjectReference Include="..\Libraries\Internal\NIST.CVP.Libraries.Internal.TaskQueue\NIST.CVP.Libraries.Internal.TaskQueue.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj" />
+    <ProjectReference Include="..\Libraries\Shared\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.csproj" />
   </ItemGroup>
 
   <!-- vvv App settings linking, directory changes depending on build environment vvv -->

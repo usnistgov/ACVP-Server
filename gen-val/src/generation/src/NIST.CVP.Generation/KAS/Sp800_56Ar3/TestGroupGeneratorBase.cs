@@ -20,7 +20,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGenerator<Parameters, TTestGroup, TTestCase>
+    public abstract class TestGroupGeneratorBase<TTestGroup, TTestCase, TDomainParameters, TKeyPair> : ITestGroupGeneratorAsync<Parameters, TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TDomainParameters : IDsaDomainParameters
@@ -32,13 +32,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             "VAL"
         };
 
-        public IEnumerable<TTestGroup> BuildTestGroups(Parameters parameters)
+        public async Task<List<TTestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             List<TTestGroup> groups = new List<TTestGroup>();
 
             GenerateGroups(parameters.Scheme, parameters, groups);
 
-            GenerateDomainParametersAsync(groups).Wait();
+            await GenerateDomainParametersAsync(groups);
             
             return groups;
         }
@@ -249,7 +249,17 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                             break;
                     }
 
-                    foreach (var saltMethod in auxFunction.MacSaltMethods.ToList().Shuffle().Take(1))
+                    var saltMethods = new List<MacSaltMethod>();
+                    if (auxFunction.MacSaltMethods != null && auxFunction.MacSaltMethods.Any())
+                    {
+                        saltMethods = auxFunction.MacSaltMethods.ToList().Shuffle().Take(1).ToList();
+                    }
+                    else
+                    {
+                        saltMethods.Add(MacSaltMethod.None);
+                    }
+                    
+                    foreach (var saltMethod in saltMethods)
                     {
                         list.Add(new OneStepConfiguration()
                         {
@@ -267,6 +277,22 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
         private AuxFunction[] GetKdfMethodAuxFunctions(OneStepKdf kdfMethod)
         {
+            var sha2 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA2_D224,
+                KasKdfOneStepAuxFunction.SHA2_D256,
+                KasKdfOneStepAuxFunction.SHA2_D384,
+                KasKdfOneStepAuxFunction.SHA2_D512,
+                KasKdfOneStepAuxFunction.SHA2_D512_T224,
+                KasKdfOneStepAuxFunction.SHA2_D512_T256,
+            };
+            var sha3 = new[]
+            {
+                KasKdfOneStepAuxFunction.SHA3_D224,
+                KasKdfOneStepAuxFunction.SHA3_D256,
+                KasKdfOneStepAuxFunction.SHA3_D384,
+                KasKdfOneStepAuxFunction.SHA3_D512,
+            };
             var hmacSha2 = new[]
             {
                 KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
@@ -292,6 +318,8 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             var registeredMacMethods = kdfMethod.AuxFunctions.ToList().Shuffle();
 
             var chosenAuxFunctions = new List<AuxFunction>();
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha2.Contains(f.AuxFunctionName)));
+            chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => sha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => hmacSha3.Contains(f.AuxFunctionName)));
             chosenAuxFunctions.AddIfNotNull(registeredMacMethods.FirstOrDefault(f => kmac.Contains(f.AuxFunctionName)));
@@ -607,22 +635,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         }
         #endregion KDFs
         
-        private async Task GenerateDomainParametersAsync(List<TTestGroup> groups)
-        {
-            var tasks = new Dictionary<TTestGroup, Task<TDomainParameters>>();
-            foreach (var group in groups)
-            {
-                tasks.Add(group, GenerateDomainParametersAsync(group));
-            }
-
-            await Task.WhenAll(tasks.Values);
-
-            foreach (var (group, value) in tasks)
-            {
-                group.DomainParameters = value.Result;
-            }
-        }
-
-        protected abstract Task<TDomainParameters> GenerateDomainParametersAsync(TTestGroup group);
+        protected abstract Task GenerateDomainParametersAsync(List<TTestGroup> groups);
     }
 }

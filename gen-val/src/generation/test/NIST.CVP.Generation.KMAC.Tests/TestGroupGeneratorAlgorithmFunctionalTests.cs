@@ -3,6 +3,7 @@ using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.KMAC.Tests
 {
@@ -44,7 +45,7 @@ namespace NIST.CVP.Generation.KMAC.Tests
 
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnOneITestGroupForEveryDigestSize(
+        public async Task ShouldReturnOneITestGroupForEveryDigestSize(
             string label,
             int[] digestSizes,
             int expectedResultCount
@@ -57,18 +58,18 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { false },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }
 
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnTwoITestGroupsForEveryDigestSizeXOF(
+        public async Task ShouldReturnTwoITestGroupsForEveryDigestSizeXOF(
             string label,
             int[] digestSizes,
             int expectedResultCount
@@ -81,18 +82,18 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { true, false },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount * 2, result.Count());
         }
 
         [Test]
         [TestCaseSource(nameof(testData))]
-        public void ShouldReturnOneITestGroupForEveryDigestSizeNonXOF(
+        public async Task ShouldReturnOneITestGroupForEveryDigestSizeNonXOF(
             string label,
             int[] digestSizes,
             int expectedResultCount
@@ -105,11 +106,11 @@ namespace NIST.CVP.Generation.KMAC.Tests
                 KeyLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 MacLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 1024, 8)),
                 XOF = new[] { true },
-                DigestSizes = digestSizes,
+                DigestSizes = digestSizes.ToList(),
                 IsSample = true
             };
 
-            var result = _subject.BuildTestGroups(p);
+            var result = await _subject.BuildTestGroupsAsync(p);
 
             Assert.AreEqual(expectedResultCount, result.Count());
         }

@@ -53,6 +53,8 @@ namespace NIST.CVP.Generation.KAS_IFC.Sp800_56Br2
                     ServerNonce = result.ServerNonce,
                     ServerKey = result.ServerKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
                     IutKey = result.IutKeyPair ?? new KeyPair() { PubKey = new PublicKey() },
+                    KdfParameter = result.KdfParameter,
+                    KtsParameter = result.KtsParameter
                 });
             }
             catch (Exception ex)

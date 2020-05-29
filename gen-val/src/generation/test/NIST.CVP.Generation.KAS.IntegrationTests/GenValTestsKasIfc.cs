@@ -1,3 +1,4 @@
+using System.Numerics;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
@@ -6,12 +7,15 @@ using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS_IFC.Sp800_56Br2;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
 using Parameters = NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.Parameters;
 using RegisterInjections = NIST.CVP.Generation.KAS_IFC.Sp800_56Br2.RegisterInjections;
 
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
-    public class GenValTestsKasIfc : GenValTestsSingleRunnerBase
+    [TestFixture, LongRunningIntegrationTest]
+    public class GenValTestsKasIfc : GenValTestsWithNoSample
     {
         public override AlgoMode AlgoMode => AlgoMode.KAS_IFC_Sp800_56Br2;
         public override string Algorithm => "KAS-IFC";
@@ -74,91 +78,9 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                //                PublicKeys = new []
-                //                {
-                //                    new PublicKey()
-                //                    {
-                //                        N = new BitString("CAAAB260AC87B780BD80F76CAB0B54F9B938803C1036A5F9D66F6AEF1869B43945E991155EC7178AA54A0BB1331FDAFD3B6A0984780842C96A88500B19D054111B53EAB5977D4B7F15230C610EE67177C361CB3A108581B47D5362EEC7C0AB7F3CEA25D6688EE69539682C9FFB1BE7F507EA875E3E234D0AA253467109ED9A5D9C1510AFA9A1DFCA0C827C96032AE5699E6D6C4271327DCA55093DE0C44025090014E4AD694D1C04582435FB5CCEDC9D28CD10608D44A6118AA60E91823330A0FD5E68C78028DAB1318642B7151FBED2937D46AB3C38F27E72D008C71DDD75071B4559F3B74990EA313B3542C402803BE4CCF499251B0C3349C92B394AD0EAF7").ToPositiveBigInteger(),
-                //                        E = new BitString("3BCF32AB").ToPositiveBigInteger()
-                //                    }, 
-                //                },
                 IutId = new BitString("123456ABCD"),
                 Scheme = new Schemes()
                 {
-                    //                    Kas1_basic = new Kas1_basic()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KdfMethods = new KdfMethods()
-                    //                        {
-                    //                            OneStepKdf = new OneStepKdf()
-                    //                            {
-                    //                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                                AuxFunctions = new []
-                    //                                {
-                    //                                    new AuxFunction()
-                    //                                    {
-                    //                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                    //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                    //                                    }
-                    //                                },
-                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
-                    //                            }
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        }
-                    //                    },
-                    //                    Kas2_basic = new Kas2_basic()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KdfMethods = new KdfMethods()
-                    //                        {
-                    //                            OneStepKdf = new OneStepKdf()
-                    //                            {
-                    //                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                                AuxFunctions = new []
-                    //                                {
-                    //                                    new AuxFunction()
-                    //                                    {
-                    //                                        AuxFunctionName = KasKdfOneStepAuxFunction.KMAC_128,
-                    //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                    //                                    }
-                    //                                },
-                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
-                    //                            }
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        }
-                    //                    },  
                     Kas1_partyV_confirmation = new Kas1_partyV_confirmation()
                     {
                         L = 512,
@@ -203,21 +125,9 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                         KeyGenerationMethods = new KeyGenerationMethods()
                         {
-                            //                            RsaKpg1_basic = new RsaKpg1_basic()
-                            //                            {
-                            //                                Modulo = new[] { 2048 },
-                            //                                FixedPublicExponent = new BigInteger(65537)
-                            //                            },
-                            //RsaKpg2_basic = new RsaKpg2_basic()
-                            //{
-                            //    Modulo = new[] { 2048 },
-                            //},
-                            //RsaKpg2_primeFactor = new RsaKpg2_primeFactor()
-                            //{
-                            //    Modulo = new[] { 2048 },
-                            //},
-                            RsaKpg2_crt = new RsaKpg2_crt()
+                            RsaKpg1_crt = new RsaKpg1_crt()
                             {
+                                PublicExponent = new BigInteger(65537),
                                 Modulo = new[] { 2048 },
                             }
                         },
@@ -230,141 +140,73 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                             },
                         }
                     },
-                    //                    Kas2_partyV_confirmation = new Kas2_partyV_confirmation()
-                    //                    {
-                    //                        L = 512,  
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KdfMethods = new KdfMethods()
-                    //                        {
-                    //                            OneStepKdf = new OneStepKdf()
-                    //                            {
-                    //                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                                AuxFunctions = new []
-                    //                                {
-                    //                                    new AuxFunction()
-                    //                                    {
-                    //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
-                    //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                    //                                    }
-                    //                                },
-                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
-                    //                            }
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        },
-                    //                        MacMethods = new MacMethods()
-                    //                        {
-                    //                            HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                            {
-                    //                                KeyLen = 128,
-                    //                                MacLen = 224
-                    //                            }
-                    //                        }
-                    //                    },
-                    //                    Kas2_partyU_confirmation = new Kas2_partyU_confirmation()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KdfMethods = new KdfMethods()
-                    //                        {
-                    //                            OneStepKdf = new OneStepKdf()
-                    //                            {
-                    //                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                                AuxFunctions = new []
-                    //                                {
-                    //                                    new AuxFunction()
-                    //                                    {
-                    //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
-                    //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                    //                                    }
-                    //                                },
-                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
-                    //                            }
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        },
-                    //                        MacMethods = new MacMethods()
-                    //                        {
-                    //                            HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                            {
-                    //                                KeyLen = 128,
-                    //                                MacLen = 224
-                    //                            }
-                    //                        }
-                    //                    },
-                    //                    Kas2_bilateral_confirmation = new Kas2_bilateral_confirmation()
-                    //                    {
-                    //                        L = 512,
-                    //                        KasRole = new []
-                    //                        {
-                    //                            KeyAgreementRole.InitiatorPartyU, 
-                    //                            KeyAgreementRole.ResponderPartyV
-                    //                        },
-                    //                        KdfMethods = new KdfMethods()
-                    //                        {
-                    //                            OneStepKdf = new OneStepKdf()
-                    //                            {
-                    //                                Encoding = new []{ FixedInfoEncoding.Concatenation },
-                    //                                AuxFunctions = new []
-                    //                                {
-                    //                                    new AuxFunction()
-                    //                                    {
-                    //                                        AuxFunctionName = KasKdfOneStepAuxFunction.HMAC_SHA2_D224,
-                    //                                        MacSaltMethods = new []{ MacSaltMethod.Default, MacSaltMethod.Random }
-                    //                                    }
-                    //                                },
-                    //                                FixedInputPattern = "l||uPartyInfo||vPartyInfo" 
-                    //                            }
-                    //                        },
-                    //                        KeyGenerationMethods = new KeyGenerationMethods()
-                    //                        {
-                    ////                            RsaKpg1_basic = new RsaKpg1_basic()
-                    ////                            {
-                    ////                                Modulo = new[] { 2048 },
-                    ////                                FixedPublicExponent = new BigInteger(65537)
-                    ////                            },
-                    //                            RsaKpg2_basic = new RsaKpg2_basic()
-                    //                            {
-                    //                                Modulo = new[] { 2048 },
-                    //                            }
-                    //                        },
-                    //                        MacMethods = new MacMethods()
-                    //                        {
-                    //                            HmacSha2_D224 = new MacOptionHmacSha2_d224()
-                    //                            {
-                    //                                KeyLen = 128,
-                    //                                MacLen = 224
-                    //                            }
-                    //                        }
-                    //                    },
+                }
+            };
+
+            return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileFewTestCasesNotSample(string folderName)
+        {
+            var p = new Parameters()
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Revision = Revision,
+                IsSample = false,
+                IutId = new BitString("123456ABCD"),
+                Scheme = new Schemes()
+                {
+                    Kas1_basic = new Kas1_basic()
+                    {
+                        L = 512,
+                        KasRole = new[]
+                        {
+                            KeyAgreementRole.InitiatorPartyU,
+                            KeyAgreementRole.ResponderPartyV
+                        },
+                        KdfMethods = new KdfMethods()
+                        {
+                            OneStepKdf = new OneStepKdf()
+                            {
+                                Encoding = new[] { FixedInfoEncoding.Concatenation },
+                                AuxFunctions = new[]
+                                {
+                                    new AuxFunction()
+                                    {
+                                        AuxFunctionName = KasKdfOneStepAuxFunction.SHA2_D256
+                                    }
+                                },
+                                FixedInfoPattern = "algorithmId||l||uPartyInfo||vPartyInfo"
+                            },
+                            TwoStepKdf = new TwoStepKdf()
+                            {
+                                Capabilities = new[]
+                                {
+                                    new TwoStepCapabilities()
+                                    {
+                                        Encoding = new[] { FixedInfoEncoding.Concatenation },
+                                        FixedInfoPattern = "l||label||uPartyInfo||vPartyInfo||context",
+                                        MacSaltMethods = new[] { MacSaltMethod.Random },
+                                        CounterLength = new [] { 32 },
+                                        SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
+                                        MacMode = new [] { MacModes.HMAC_SHA3_224 },
+                                        KdfMode = KdfModes.Feedback,
+                                        FixedDataOrder = new []{ CounterLocations.AfterFixedData },
+                                        SupportsEmptyIv = false
+                                    }
+                                },
+                            },
+                        },
+                        KeyGenerationMethods = new KeyGenerationMethods()
+                        {
+                            RsaKpg1_crt = new RsaKpg1_crt()
+                            {
+                                PublicExponent = new BigInteger(65537),
+                                Modulo = new[] { 2048 },
+                            }
+                        }
+                    },
                 }
             };
 

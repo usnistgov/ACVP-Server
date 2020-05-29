@@ -14,7 +14,7 @@ using NIST.CVP.Math.Domain;
 namespace NIST.CVP.Generation.KAS.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
-    public class GenValTestsFfc : GenValTestsSingleRunnerBase
+    public class GenValTestsFfc : GenValTestsWithNoSample
     {
         public override string Algorithm => "KAS-FFC";
         public override string Mode => string.Empty;
@@ -180,6 +180,121 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                     //},
                 },
                 IsSample = true
+            };
+
+            return CreateRegistration(folderName, p);
+        }
+
+        protected override string GetTestFileFewTestCasesNotSample(string folderName)
+        {
+            Parameters p = new Parameters()
+            {
+                Algorithm = Algorithm,
+                Mode = Mode,
+                Revision = Revision,
+                IsSample = false,
+                Function = new string[] { "dpGen" },
+                Scheme = new Schemes()
+                {
+                    FfcDhHybrid1 = new FfcDhHybrid1()
+                    {
+                        KasRole = new string[] { "initiator" },
+                        NoKdfNoKc = new NoKdfNoKc()
+                        {
+                            ParameterSet = new ParameterSets()
+                            {
+                                Fb = new Fb()
+                                {
+                                    HashAlg = new string[] { "SHA2-224" }
+                                }
+                            }
+                        }
+                    },
+                    //FfcMqv2 = new FfcMqv2()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhEphem = new FfcDhEphem()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhHybridOneFlow = new FfcDhHybridOneFlow()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcMqv1 = new FfcMqv1()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhOneFlow = new FfcDhOneFlow()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                    //FfcDhStatic = new FfcDhStatic()
+                    //{
+                    //    KasRole = new string[] { "initiator" },
+                    //    NoKdfNoKc = new NoKdfNoKc()
+                    //    {
+                    //        ParameterSet = new ParameterSets()
+                    //        {
+                    //            Fb = new Fb()
+                    //            {
+                    //                HashAlg = new string[] { "SHA2-224" }
+                    //            }
+                    //        }
+                    //    }
+                    //},
+                }
             };
 
             return CreateRegistration(folderName, p);

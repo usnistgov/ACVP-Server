@@ -2,6 +2,7 @@
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.Tests
 {
@@ -45,11 +46,11 @@ namespace NIST.CVP.Generation.AES_CBC_CTS.Tests
         };
         [Test]
         [TestCaseSource(nameof(parameters))]
-        public void ShouldCreate4TestGroupsForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
+        public async Task ShouldCreate4TestGroupsForEachCombinationOfKeyLengthAndDirection(int expectedGroupsCreated, Parameters parameters)
         {
             TestGroupGeneratorKnownAnswerTestsSingleBlock subject = new TestGroupGeneratorKnownAnswerTestsSingleBlock();
 
-            var results = subject.BuildTestGroups(parameters);
+            var results = await subject.BuildTestGroupsAsync(parameters);
             Assert.AreEqual(expectedGroupsCreated, results.Count());
         }
     }

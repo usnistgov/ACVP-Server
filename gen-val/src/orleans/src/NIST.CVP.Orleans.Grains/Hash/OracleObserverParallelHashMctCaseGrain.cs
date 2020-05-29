@@ -48,10 +48,11 @@ namespace NIST.CVP.Orleans.Grains.Hash
 
             await Notify(new MctResult<ParallelHashResult>
             {
-                Seed = new ParallelHashResult()
+                Seed = new ParallelHashResult
                 {
                     Message = message,
                     Customization = "",    // Statically set in the Crypto MCT for ParallelHash
+                    BlockSize = 8,         // Statically set in the Crypto MCT for ParallelHash
                     FunctionName = _param.FunctionName
                 },
                 Results = result.Response.ConvertAll(element =>
