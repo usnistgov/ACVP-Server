@@ -1,6 +1,9 @@
 ﻿CREATE PROCEDURE [external].[SecretKeyValuePairGet] 
 	@ConfigKey VARCHAR(256)
 	,@ConfigValue NVARCHAR(MAX) OUTPUT
+
+WITH EXECUTE AS OWNER
+
 AS
 BEGIN
 	
