@@ -95,7 +95,7 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(registration);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
 
             // This modifies registration along the way
@@ -163,7 +163,7 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
 
             var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
@@ -198,7 +198,7 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.CancelTestSession).Validate(payload);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
             
             _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);

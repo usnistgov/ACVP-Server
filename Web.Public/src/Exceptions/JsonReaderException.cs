@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Web.Public.Exceptions
 {
-    public class JsonReaderException : Exception
+    public class JsonReaderException : Exception, IMultiMessageException
     {
         public List<string> Errors { get; } = new List<string>();
 
