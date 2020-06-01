@@ -127,7 +127,7 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.CancelVectorSet).Validate(payload);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 // Pass to message queue
@@ -194,7 +194,7 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
@@ -231,7 +231,7 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);

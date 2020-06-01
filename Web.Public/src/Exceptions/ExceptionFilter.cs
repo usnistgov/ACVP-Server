@@ -20,28 +20,40 @@ namespace Web.Public.Exceptions
         
         public void OnException(ExceptionContext context)
         {
-            var error = context.Exception switch
-            {
-                JsonReaderException ex => OnJsonReaderException(ex),
-                _ => new ErrorObject
-                {
-                    Error = "Internal service error. Contact service provider."
-                }
-            };
+            ErrorObject error;
+            HttpStatusCode statusCode;
 
+            switch (context.Exception)
+            {
+                case JsonReaderException e:
+                    error = new ErrorObject()
+                    {
+                        Error = "Invalid JSON provided.",
+                        Context = e.Errors
+                    };
+                    statusCode = HttpStatusCode.BadRequest;
+                    break;
+                case PayloadValidatorException e:
+                    error = new ErrorObject()
+                    {
+                        Error = "Validation error(s) on JSON payload.",
+                        Context = e.Errors
+                    };
+                    statusCode = HttpStatusCode.BadRequest;
+                    break;
+                default:
+                    error = new ErrorObject()
+                    {
+                        Error = "Internal service error. Contact service provider."
+                    };
+                    statusCode = HttpStatusCode.InternalServerError;
+                    break;
+            }
+            
             _logger.LogError(context.Exception, $"Exception Handled.");
             
             context.ExceptionHandled = true;
-            context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.InternalServerError);
-        }
-
-        private ErrorObject OnJsonReaderException(JsonReaderException ex)
-        {
-            return new ErrorObject
-            {
-                Error = "Invalid JSON provided",
-                Context = ex.Errors
-            };
+            context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), statusCode);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Web.Public.Services
                 var errorList = extractedObject.ValidateObject();
                 if (errorList.Any())
                 {
-                    throw new JsonReaderException(errorList);
+                    throw new PayloadValidatorException(errorList);
                 }
 
                 return extractedObject;

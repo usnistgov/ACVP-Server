@@ -63,7 +63,7 @@ namespace Web.Public.Controllers
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
-				throw new JsonReaderException(validation.Errors);
+				throw new PayloadValidatorException(validation.Errors);
 			}
 			
 			// Pass to message queue
@@ -92,7 +92,7 @@ namespace Web.Public.Controllers
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
-				throw new JsonReaderException(validation.Errors);
+				throw new PayloadValidatorException(validation.Errors);
 			}
 
 			// Pass to message queue
@@ -120,7 +120,7 @@ namespace Web.Public.Controllers
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
-				throw new JsonReaderException(validation.Errors);
+				throw new PayloadValidatorException(validation.Errors);
 			}
 			
 			// Pass to message queue
