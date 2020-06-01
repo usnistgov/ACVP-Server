@@ -168,7 +168,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				}
 				else
 				{
-					eGenVariants.Add(("fixed", options.GetValue("RSA2_Fixed_e_Value"), false, true));
+					eGenVariants.Add(("fixed", options.GetValue("RSA2_Fixed_e_Value"), false, false));
 				}
 			}
 
@@ -181,7 +181,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				}
 				else
 				{
-					eGenVariants.Add(("random", null, false, true));
+					eGenVariants.Add(("random", null, false, false));
 				}
 			}
 
