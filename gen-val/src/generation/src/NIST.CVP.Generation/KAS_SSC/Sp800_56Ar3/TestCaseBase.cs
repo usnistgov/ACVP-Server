@@ -24,5 +24,6 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 		public KasSscTestCaseExpectation TestCaseDisposition { get; set; }
 		
 		public BitString Z { get; set; }
+		public BitString HashZ { get; set; }
 	}
 }

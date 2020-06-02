@@ -38,6 +38,7 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 					DomainParameters = group.DomainParameters,
 					KasAlgorithm = group.KasAlgorithm,
 					KasScheme = group.Scheme,
+					HashFunctionZ = group.HashFunctionZ,
 					IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
 					ServerGenerationRequirements = group.KeyNonceGenRequirementsServer
 				});
@@ -46,6 +47,7 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 				{
 					Deferred = false,
 					Z = result.SharedSecretComputationResult.Z,
+					HashZ = result.SharedSecretComputationResult.HashZ,
 					TestPassed = result.TestPassed,
 					EphemeralKeyIut = GetKey(result.IutSecretKeyingMaterial.EphemeralKeyPair),
 					StaticKeyIut = GetKey(result.IutSecretKeyingMaterial.StaticKeyPair),

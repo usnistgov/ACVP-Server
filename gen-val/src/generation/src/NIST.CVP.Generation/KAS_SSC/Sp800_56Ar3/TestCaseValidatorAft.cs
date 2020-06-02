@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
@@ -66,24 +67,22 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
             {
                 ValidatePublicKeyComponent(suppliedResult.EphemeralKeyIut, nameof(suppliedResult.EphemeralKeyIut), errors);
             }
-        }
 
-        private async Task CheckResults(
-            TTestCase suppliedResult, 
-            List<string> errors, 
-            Dictionary<string, string> expected, 
-            Dictionary<string, string> provided)
-        {
-            var serverResult = await _deferredResolver.CompleteDeferredCryptoAsync(
-                _testGroup, _workingTest, suppliedResult
-            );
-            
-            if (!serverResult.Tag.Equals(suppliedResult.Z))
+            // When a hash function does not exist, check z directly, otherwise check the hash of z
+            if (_testGroup.HashFunctionZ == HashFunctions.None)
             {
-                errors.Add($"{nameof(suppliedResult.Z)} does not match");
-                expected.Add(nameof(serverResult.Z), serverResult.Z.ToHex());
-                provided.Add(nameof(suppliedResult.Z), suppliedResult.Z.ToHex());
-            }                
+                if (suppliedResult.Z == null)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.Z)} but was not supplied");
+                }
+            }
+            else
+            {
+                if (suppliedResult.HashZ == null)
+                {
+                    errors.Add($"Expected {nameof(suppliedResult.HashZ)} but was not supplied");
+                }
+            }
         }
         
         private void ValidatePublicKeyComponent(TKeyPair keyPair, string keyLabel, List<string> errors)
@@ -107,6 +106,36 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
                         errors.Add($"Expected {keyLabel} but was not supplied");
                     }
                     break;
+            }
+        }
+
+        private async Task CheckResults(
+            TTestCase suppliedResult, 
+            List<string> errors, 
+            Dictionary<string, string> expected, 
+            Dictionary<string, string> provided)
+        {
+            var serverResult = await _deferredResolver.CompleteDeferredCryptoAsync(
+                _testGroup, _workingTest, suppliedResult
+            );
+
+            if (_testGroup.HashFunctionZ == HashFunctions.None)
+            {
+                if (!serverResult.Z.Equals(suppliedResult.Z))
+                {
+                    errors.Add($"{nameof(suppliedResult.Z)} does not match");
+                    expected.Add(nameof(serverResult.Z), serverResult.Z.ToHex());
+                    provided.Add(nameof(suppliedResult.Z), suppliedResult.Z.ToHex());
+                }                                
+            }
+            else
+            {
+                if (!serverResult.HashZ.Equals(suppliedResult.HashZ))
+                {
+                    errors.Add($"{nameof(suppliedResult.HashZ)} does not match");
+                    expected.Add(nameof(serverResult.HashZ), serverResult.HashZ.ToHex());
+                    provided.Add(nameof(suppliedResult.HashZ), suppliedResult.HashZ.ToHex());
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
@@ -32,6 +33,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 		public KeyAgreementRole KasRole { get; set; }
 
 		public KasMode KasMode { get; set; }
+		
+		public HashFunctions HashFunctionZ { get; set; }
 		
 		[JsonIgnore]
 		public SchemeKeyNonceGenRequirement KeyNonceGenRequirementsIut => 

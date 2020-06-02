@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
@@ -27,6 +28,11 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 		/// The methods of domain parameter generation to test
 		/// </summary>
 		public KasDpGeneration[] DomainParameterGenerationMethods { get; set; }
+		
+		/// <summary>
+		/// The hash function to apply to "Z", if not supplied return Z in the clear.
+		/// </summary>
+		public HashFunctions HashFunctionZ { get; set; }
 	}
 
 	public class Schemes

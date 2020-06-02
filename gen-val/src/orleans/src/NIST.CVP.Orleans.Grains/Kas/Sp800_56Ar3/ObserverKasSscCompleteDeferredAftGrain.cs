@@ -2,6 +2,9 @@ using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KC;
@@ -18,6 +21,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
         private readonly ISchemeBuilder _schemeBuilder;
         private readonly ISecretKeyingMaterialBuilder _serverSecretKeyingMaterialBuilder;
         private readonly ISecretKeyingMaterialBuilder _iutSecretKeyingMaterialBuilder;
+        private readonly IShaFactory _shaFactory;
         
         private KasSscAftDeferredParameters _param;
         
@@ -26,13 +30,15 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
             IKasBuilder kasBuilder,
             ISchemeBuilder schemeBuilder,
             ISecretKeyingMaterialBuilder serverSecretKeyingMaterialBuilder,
-            ISecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder
+            ISecretKeyingMaterialBuilder iutSecretKeyingMaterialBuilder,
+            IShaFactory shaFactory
         ) : base (nonOrleansScheduler)
         {
             _kasBuilder = kasBuilder;
             _schemeBuilder = schemeBuilder;
             _serverSecretKeyingMaterialBuilder = serverSecretKeyingMaterialBuilder;
             _iutSecretKeyingMaterialBuilder = iutSecretKeyingMaterialBuilder;
+            _shaFactory = shaFactory;
         }
 
         public async Task<bool> BeginWorkAsync(KasSscAftDeferredParameters param)
@@ -90,6 +96,21 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
             var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
 
             var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
+
+            // Some implementations can't output the computed Z in the clear, hash it and add that to the returned result 
+            if (_param.HashFunctionZ != HashFunctions.None)
+            {
+                var hashFunction = ShaAttributes.GetHashFunctionFromEnum(_param.HashFunctionZ);
+                var sha = _shaFactory.GetShaInstance(hashFunction);
+                var hashZ = sha.HashMessage(result.Z).Digest;
+                
+                result = new KeyAgreementResult(
+                    result.SecretKeyingMaterialPartyU,
+                    result.SecretKeyingMaterialPartyV,
+                    result.Z,
+                    hashZ);
+            }
+            
             var returnResult = new KasSscAftDeferredResult()
             {
                 ServerSecretKeyingMaterial = isServerPartyU ? result.SecretKeyingMaterialPartyU : result.SecretKeyingMaterialPartyV,

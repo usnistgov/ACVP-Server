@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Xml.Schema;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 
@@ -50,6 +54,51 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 			KasDpGeneration.B409,
 			KasDpGeneration.B571,
 		};
+		
+		private static readonly Dictionary<KasDpGeneration, int> DpGenerationEstimatedSecurityStrengths = new Dictionary<KasDpGeneration, int>()
+		{
+			{ KasDpGeneration.Modp2048, 103},
+			{ KasDpGeneration.Modp3072, 125},
+			{ KasDpGeneration.Modp4096, 150},
+			{ KasDpGeneration.Modp6144, 175},
+			{ KasDpGeneration.Modp8192, 192},
+			{ KasDpGeneration.Ffdhe2048, 103},
+			{ KasDpGeneration.Ffdhe3072, 125},
+			{ KasDpGeneration.Ffdhe4096, 150},
+			{ KasDpGeneration.Ffdhe6144, 175},
+			{ KasDpGeneration.Ffdhe8192, 192},
+			{ KasDpGeneration.Fb, 112},
+			{ KasDpGeneration.Fc, 112},
+			{ KasDpGeneration.P192, 80},
+			{ KasDpGeneration.P224, 112},
+			{ KasDpGeneration.P256, 128},
+			{ KasDpGeneration.P384, 192},
+			{ KasDpGeneration.P521, 256},
+			{ KasDpGeneration.K163, 112},
+			{ KasDpGeneration.K233, 128},
+			{ KasDpGeneration.K283, 128},
+			{ KasDpGeneration.K409, 192},
+			{ KasDpGeneration.K571, 256},
+			{ KasDpGeneration.B233, 128},
+			{ KasDpGeneration.B283, 128},
+			{ KasDpGeneration.B409, 192},
+			{ KasDpGeneration.B571, 256},
+		};
+		
+		private static readonly Dictionary<HashFunctions, int> HashFunctionEstimatedSecurityStrengths = new Dictionary<HashFunctions, int>()
+		{
+			{ HashFunctions.Sha1, 80 },
+			{ HashFunctions.Sha2_d224, 112 },
+			{ HashFunctions.Sha2_d256, 128 },
+			{ HashFunctions.Sha2_d384, 192 },
+			{ HashFunctions.Sha2_d512, 256 },
+			{ HashFunctions.Sha2_d512t224, 112 },
+			{ HashFunctions.Sha2_d512t256, 128 },
+			{ HashFunctions.Sha3_d224, 112 },
+			{ HashFunctions.Sha3_d256, 128 },
+			{ HashFunctions.Sha3_d384, 192 },
+			{ HashFunctions.Sha3_d512, 256 },
+		};
 
 		private AlgoMode _algoMode;
 		private bool _isKasEccRegistration;
@@ -69,6 +118,7 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 
 			ValidateSchemes(_algoMode, parameters, errors);
 			ValidateDomainParameterGeneration(_algoMode, parameters, errors);
+			ValidateHashDomainParamGenerationSecurity(parameters, errors);
 			
 			return new ParameterValidateResponse(errors);
 		}
@@ -129,6 +179,33 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 				errors.AddIfNotNullOrEmpty(ValidateArray(parameters.DomainParameterGenerationMethods,
 					ValidFfcDpGeneration, nameof(parameters.DomainParameterGenerationMethods)));
 			}
+		}
+		
+		private void ValidateHashDomainParamGenerationSecurity(Parameters parameters, List<string> errors)
+		{
+			// If we're not hashing Z, we can't compare security strengths of the domain parameter generation to the hash.
+			if (parameters.HashFunctionZ == HashFunctions.None)
+			{
+				return;
+			}
+			
+			// Need to ensure that the registered hash's security strength can be covered within the registered domain parameter security strengths.
+			var registeredDpJoinedWithSecurityStrengths =
+				from registeredDp in parameters.DomainParameterGenerationMethods
+				join validDps in DpGenerationEstimatedSecurityStrengths on registeredDp equals validDps.Key
+				select new
+				{
+					DpGenType = registeredDp,
+					SecurityStrength = validDps.Value
+				};
+
+			var hash = HashFunctionEstimatedSecurityStrengths.First(w => w.Key == parameters.HashFunctionZ);
+
+			errors.AddRange(
+				registeredDpJoinedWithSecurityStrengths
+					.Where(x => x.SecurityStrength > hash.Value)
+					.Select(registeredDp => 
+						$"{nameof(hash)} {hash.Key} is invalid as its security strength is too low to be used in conjunction with {registeredDp.DpGenType}"));
 		}
 	}
 }

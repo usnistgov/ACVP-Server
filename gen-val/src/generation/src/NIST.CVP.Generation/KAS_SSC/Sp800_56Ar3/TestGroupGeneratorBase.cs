@@ -39,7 +39,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 								KasMode = KasMode.NoKdfNoKc,
 								KasRole = role,
 								TestType = testType,
-								DomainParameterGenerationMode = dpGeneration
+								DomainParameterGenerationMode = dpGeneration,
+								HashFunctionZ = parameters.HashFunctionZ
 							});	
 						}
 					}
