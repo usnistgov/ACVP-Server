@@ -423,19 +423,55 @@ namespace NIST.CVP.Crypto.Oracle
             }
         }
 
-        public Task<KasSscAftResult> GetKasSscAftTestAsync(KasSscAftParameters param)
+        public async Task<KasSscAftResult> GetKasSscAftTestAsync(KasSscAftParameters param)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IObserverKasSscAftGrain, KasSscAftResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetKasSscAftTestAsync(param);
+            }
         }
         
-        public Task<KasSscAftDeferredResult> CompleteDeferredKasSscAftTestAsync(KasSscAftDeferredParameters param)
+        public async Task<KasSscAftDeferredResult> CompleteDeferredKasSscAftTestAsync(KasSscAftDeferredParameters param)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IObserverKasSscCompleteDeferredAftGrain, KasSscAftDeferredResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await CompleteDeferredKasSscAftTestAsync(param);
+            }
         }
         
-        public Task<KasSscValResult> GetKasSscValTestAsync(KasSscValParameters param)
+        public async Task<KasSscValResult> GetKasSscValTestAsync(KasSscValParameters param)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IObserverKasSscValGrain, KasSscValResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetKasSscValTestAsync(param);
+            }
         }
     }
 }
