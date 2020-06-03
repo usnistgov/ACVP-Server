@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -76,14 +77,14 @@ namespace Web.Public.Controllers
         }
         
         [HttpPost]
-        public ActionResult CreateTestSession()
+        public async Task<ActionResult> CreateTestSession()
         {
             var certSubject = GetCertSubjectFromJwt();
             
             var apiAction = APIAction.RegisterTestSession;
             
             // Parse registrations
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
             var registration = _jsonReader.GetMessagePayloadFromBodyJson<TestSessionRegisterPayload>(body, apiAction);
             
             if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
@@ -144,11 +145,11 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult CertifyTestSession(long id)
+        public async Task<ActionResult> CertifyTestSession(long id)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
-            var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+            var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 
             var claimValidator = new TestSessionClaimsVerifier(id);
             if (!claimValidator.AreClaimsValid(claims))

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -46,10 +47,10 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPost]
-		public JsonHttpStatusResult CreateDependency()
+		public async Task<JsonHttpStatusResult> CreateDependency()
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.CreateDependency;
@@ -74,10 +75,10 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateDependency(long id)
+		public async Task<JsonHttpStatusResult> UpdateDependency(long id)
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.UpdateDependency;

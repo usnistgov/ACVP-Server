@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.JsonObjects;
@@ -27,6 +28,6 @@ namespace Web.Public.Services
         /// <typeparam name="T">The <see cref="IMessagePayload"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
         T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction) where T : IMessagePayload;
-        string GetJsonFromBody(Stream body);
+        Task<string> GetJsonFromBodyAsync(Stream body);
     }
 }

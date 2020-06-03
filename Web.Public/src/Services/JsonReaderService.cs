@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Serilog;
@@ -96,10 +97,10 @@ namespace Web.Public.Services
             }
         }
         
-        public string GetJsonFromBody(Stream body)
+        public Task<string> GetJsonFromBodyAsync(Stream body)
         {
             var reader = new StreamReader(body, Encoding.UTF8);
-            return reader.ReadToEndAsync().Result;
+            return reader.ReadToEndAsync();
         }
     }
 }

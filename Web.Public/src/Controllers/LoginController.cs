@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +37,9 @@ namespace Web.Public.Controllers
         // RefreshToken includes both TOTP password AND the previous JWT
 
         [HttpPost]
-        public JsonResult Login()
+        public async Task<JsonResult> Login()
         {
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
             var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
 
             // Grab user from authentication

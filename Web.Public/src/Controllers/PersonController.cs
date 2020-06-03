@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -46,10 +47,10 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPost]
-		public JsonHttpStatusResult CreatePerson()
+		public async Task<JsonHttpStatusResult> CreatePerson()
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.CreatePerson;
@@ -74,10 +75,10 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdatePerson(long id)
+		public async Task<JsonHttpStatusResult> UpdatePerson(long id)
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.UpdatePerson;

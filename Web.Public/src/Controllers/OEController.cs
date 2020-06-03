@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -43,10 +44,10 @@ namespace Web.Public.Controllers
 		}
 		
 		[HttpPost]
-		public JsonHttpStatusResult CreateOE()
+		public async Task<JsonHttpStatusResult> CreateOE()
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.CreateOE;
@@ -71,10 +72,10 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateOE(long id)
+		public async Task<JsonHttpStatusResult> UpdateOE(long id)
 		{
 			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
+			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
 			
 			// Convert and validate
 			var apiAction = APIAction.UpdateOE;

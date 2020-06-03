@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -8,7 +9,6 @@ using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
-using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
 using Web.Public.Services.MessagePayloadValidators;
@@ -177,7 +177,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPost("{vsID}/results")]
-        public ActionResult PostResults(long tsID, long vsID)
+        public async Task<ActionResult> PostResults(long tsID, long vsID)
         {
             //Validate claim
             var jwt = GetJwt();
@@ -187,7 +187,7 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Parse request
-                var body = _jsonReader.GetJsonFromBody(Request.Body);
+                var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
                 var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
 
                 // Convert and validate
@@ -208,7 +208,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{vsID}/results")]
-        public ActionResult UpdateResults(long tsID, long vsID)
+        public async Task<ActionResult> UpdateResults(long tsID, long vsID)
         {
             //Check that resubmissions are allowed in this environment
             if (!_vectorSetConfig.AllowResubmission)
@@ -224,7 +224,7 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Parse request
-                var body = _jsonReader.GetJsonFromBody(Request.Body);
+                var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
                 var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
 
                 // Convert and validate
