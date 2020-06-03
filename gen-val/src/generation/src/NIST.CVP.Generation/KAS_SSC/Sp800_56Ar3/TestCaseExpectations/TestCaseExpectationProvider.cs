@@ -11,22 +11,36 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.TestCaseExpectations
 	public class TestCaseExpectationProvider : ITestCaseExpectationProvider<KasSscTestCaseExpectation>
 	{
 		private readonly ConcurrentQueue<TestCaseExpecttionReason> _expectationReasons;
+
+		public int ExpectationCount => _expectationReasons.Count;
 		
-		public TestCaseExpectationProvider(bool isSample = false)
+		public TestCaseExpectationProvider(bool isSample, bool includeFailureTests)
 		{
 			var expectationReasons = new List<TestCaseExpecttionReason>();
 
 			if (isSample)
 			{
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ));
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble));
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.Pass), 2);
+				var totalTests = 5;
+				
+				if (includeFailureTests)
+				{
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ));
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble));
+				}
+				
+				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.Pass), totalTests - expectationReasons.Count);
 			}
 			else
 			{
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ), 2);
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble), 2);
-				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.Pass), 10);
+				var totalTests = 15;
+
+				if (includeFailureTests)
+				{
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ), 2);
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble), 2);
+				}
+				
+				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.Pass), totalTests - expectationReasons.Count);
 			}
 			
 			_expectationReasons = new ConcurrentQueue<TestCaseExpecttionReason>(expectationReasons.Shuffle());

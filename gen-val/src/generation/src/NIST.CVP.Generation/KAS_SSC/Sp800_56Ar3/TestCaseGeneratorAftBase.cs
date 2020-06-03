@@ -9,7 +9,7 @@ using NLog;
 
 namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 {
-	public abstract class TestCaseGeneratorAftBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
+	public abstract class TestCaseGeneratorAftBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorWithPrep<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TKeyPair : IDsaKeyPair
@@ -21,7 +21,17 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
             _oracle = oracle;
         }
 
-        public int NumberOfTestCasesToGenerate => 10;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
+
+        public GenerateResponse PrepareGenerator(TTestGroup @group, bool isSample)
+        {
+            if (isSample)
+            {
+                NumberOfTestCasesToGenerate = 3;
+            }
+            
+            return new GenerateResponse();
+        }
         public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = -1)
         {
             try

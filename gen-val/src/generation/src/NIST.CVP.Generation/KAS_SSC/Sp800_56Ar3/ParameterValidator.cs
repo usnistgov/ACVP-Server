@@ -7,6 +7,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 
@@ -20,6 +21,12 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 			AlgoMode.KAS_FFC_SSC_Sp800_56Ar3
 		};
 
+		public static readonly KeyAgreementRole[] ValidKeyAgreementRoles =
+		{
+			KeyAgreementRole.InitiatorPartyU,
+			KeyAgreementRole.ResponderPartyV
+		};
+		
 		private static readonly KasDpGeneration[] ValidFfcDpGeneration =
 		{
 			KasDpGeneration.Modp2048,
@@ -156,6 +163,11 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 			}
 			
 			ValidateSchemesForAlgoMode(algoMode, schemesRegistered, errors);
+			foreach (var scheme in schemesRegistered)
+			{
+				var schemeRoles = scheme.KasRole;
+				errors.AddIfNotNullOrEmpty(ValidateArray(schemeRoles, ValidKeyAgreementRoles, "Key Agreement Roles"));
+			}
 		}
 		
 		private void ValidateSchemesForAlgoMode(AlgoMode algoMode, IEnumerable<SchemeBase> schemes, List<string> errors)
