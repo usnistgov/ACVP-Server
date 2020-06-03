@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using Moq;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -32,10 +34,12 @@ namespace Web.Public.Tests
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\", \"phoneNumbers\": [{\"number\": \"555-555-0001\", \"type\": \"phone\"}, {\"number\": \"555-555-0002\", \"type\": \"fax\"}]}]")]
         public void ShouldDeserializeOrganizationObjects(string json)
         {
+            MemoryStream memoryStream = new MemoryStream( Encoding.UTF8.GetBytes( json ) );
+            
             var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
             try
             {
-                jsonParser.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(json, APIAction.CreateVendor);
+                jsonParser.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(memoryStream, APIAction.CreateVendor);
             }
             catch (Exception ex)
             {

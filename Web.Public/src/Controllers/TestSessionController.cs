@@ -84,8 +84,7 @@ namespace Web.Public.Controllers
             var apiAction = APIAction.RegisterTestSession;
             
             // Parse registrations
-            var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-            var registration = _jsonReader.GetMessagePayloadFromBodyJson<TestSessionRegisterPayload>(body, apiAction);
+            var registration = await _jsonReader.GetMessagePayloadFromBodyJson<TestSessionRegisterPayload>(Request.Body, apiAction);
             
             if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
             {
@@ -149,8 +148,7 @@ namespace Web.Public.Controllers
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
-            var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-
+            
             var claimValidator = new TestSessionClaimsVerifier(id);
             if (!claimValidator.AreClaimsValid(claims))
             {
@@ -159,7 +157,7 @@ namespace Web.Public.Controllers
             
             // Convert and validate
             var apiAction = APIAction.CertifyTestSession;
-            var payload = _jsonReader.GetMessagePayloadFromBodyJson<CertifyTestSessionPayload>(jsonBlob, apiAction);
+            var payload = await _jsonReader.GetMessagePayloadFromBodyJson<CertifyTestSessionPayload>(Request.Body, apiAction);
             payload.TestSessionID = id;
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)

@@ -49,12 +49,9 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public async Task<JsonHttpStatusResult> CreateDependency()
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateDependency;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyCreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<DependencyCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -77,12 +74,9 @@ namespace Web.Public.Controllers
 		[HttpPut("{id}")]
 		public async Task<JsonHttpStatusResult> UpdateDependency(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateDependency;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<DependencyUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)

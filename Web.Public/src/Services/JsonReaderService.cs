@@ -22,12 +22,12 @@ namespace Web.Public.Services
             _workflowItemValidatorFactory = workflowItemValidatorFactory;
         }
         
-        public T GetObjectFromBodyJson<T>(string jsonBody) where T : IJsonObject
+        public async Task<T> GetObjectFromBodyJson<T>(Stream jsonBody) where T : IJsonObject
         {
             try
             {
                 // Unwrap the array
-                var jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
+                var jsonObjects = await JsonSerializer.DeserializeAsync<object[]>(jsonBody);
                 
                 if (jsonObjects.Length != 2)
                 {
@@ -58,13 +58,13 @@ namespace Web.Public.Services
             }
         }
 
-        public T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction)
+        public async Task<T> GetMessagePayloadFromBodyJson<T>(Stream jsonBody, APIAction apiAction)
             where T : IMessagePayload
         {
             object[] jsonObjects;
             try
             {
-                jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
+                jsonObjects = await JsonSerializer.DeserializeAsync<object[]>(jsonBody);
             }
             catch (Exception e)
             {
@@ -95,12 +95,6 @@ namespace Web.Public.Services
                 Log.Error("Error parsing JSON", ex.Message);
                 throw;
             }
-        }
-        
-        public Task<string> GetJsonFromBodyAsync(Stream body)
-        {
-            var reader = new StreamReader(body, Encoding.UTF8);
-            return reader.ReadToEndAsync();
         }
     }
 }

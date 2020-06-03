@@ -49,12 +49,9 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public async Task<JsonHttpStatusResult> CreatePerson()
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreatePerson;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<PersonCreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<PersonCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -77,12 +74,9 @@ namespace Web.Public.Controllers
 		[HttpPut("{id}")]
 		public async Task<JsonHttpStatusResult> UpdatePerson(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdatePerson;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<PersonUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<PersonUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)

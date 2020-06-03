@@ -46,12 +46,9 @@ namespace Web.Public.Controllers
 		[HttpPost]
 		public async Task<JsonHttpStatusResult> CreateOE()
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateOE;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OECreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<OECreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -74,12 +71,9 @@ namespace Web.Public.Controllers
 		[HttpPut("{id}")]
 		public async Task<JsonHttpStatusResult> UpdateOE(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateOE;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OEUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<OEUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)

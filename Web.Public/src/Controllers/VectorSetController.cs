@@ -187,8 +187,7 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Parse request
-                var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-                var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.SubmitVectorSetResults);
+                var submittedResults = await _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(Request.Body, APIAction.SubmitVectorSetResults);
 
                 // Convert and validate
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
@@ -224,8 +223,7 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 // Parse request
-                var body = await _jsonReader.GetJsonFromBodyAsync(Request.Body);
-                var submittedResults = _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(body, APIAction.ResubmitVectorSetResults);
+                var submittedResults = await _jsonReader.GetMessagePayloadFromBodyJson<VectorSetSubmissionPayload>(Request.Body, APIAction.ResubmitVectorSetResults);
 
                 // Convert and validate
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
