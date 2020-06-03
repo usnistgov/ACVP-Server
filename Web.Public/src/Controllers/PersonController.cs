@@ -51,7 +51,7 @@ namespace Web.Public.Controllers
 		{
 			// Convert and validate
 			var apiAction = APIAction.CreatePerson;
-			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<PersonCreatePayload>(Request.Body, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<PersonCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -76,7 +76,7 @@ namespace Web.Public.Controllers
 		{
 			// Convert and validate
 			var apiAction = APIAction.UpdatePerson;
-			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<PersonUpdatePayload>(Request.Body, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<PersonUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)

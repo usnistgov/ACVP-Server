@@ -39,7 +39,7 @@ namespace Web.Public.Controllers
         [HttpPost]
         public async Task<JsonResult> Login()
         {
-            var content = await _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(Request.Body);
+            var content = await _jsonReader.GetObjectFromBodyJsonAsync<JwtRequestObject>(Request.Body);
 
             // Grab user from authentication
             var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;

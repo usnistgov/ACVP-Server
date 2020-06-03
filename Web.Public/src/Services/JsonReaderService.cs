@@ -22,7 +22,7 @@ namespace Web.Public.Services
             _workflowItemValidatorFactory = workflowItemValidatorFactory;
         }
         
-        public async Task<T> GetObjectFromBodyJson<T>(Stream jsonBody) where T : IJsonObject
+        public async Task<T> GetObjectFromBodyJsonAsync<T>(Stream jsonBody) where T : IJsonObject
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Web.Public.Services
             }
         }
 
-        public async Task<T> GetMessagePayloadFromBodyJson<T>(Stream jsonBody, APIAction apiAction)
+        public async Task<T> GetMessagePayloadFromBodyJsonAsync<T>(Stream jsonBody, APIAction apiAction)
             where T : IMessagePayload
         {
             object[] jsonObjects;

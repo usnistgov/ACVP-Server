@@ -39,7 +39,7 @@ namespace Web.Public.Tests
             var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
             try
             {
-                jsonParser.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(memoryStream, APIAction.CreateVendor);
+                jsonParser.GetMessagePayloadFromBodyJsonAsync<OrganizationCreatePayload>(memoryStream, APIAction.CreateVendor);
             }
             catch (Exception ex)
             {

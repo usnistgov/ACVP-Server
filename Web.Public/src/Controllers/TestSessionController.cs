@@ -84,7 +84,7 @@ namespace Web.Public.Controllers
             var apiAction = APIAction.RegisterTestSession;
             
             // Parse registrations
-            var registration = await _jsonReader.GetMessagePayloadFromBodyJson<TestSessionRegisterPayload>(Request.Body, apiAction);
+            var registration = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<TestSessionRegisterPayload>(Request.Body, apiAction);
             
             if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
             {
@@ -157,7 +157,7 @@ namespace Web.Public.Controllers
             
             // Convert and validate
             var apiAction = APIAction.CertifyTestSession;
-            var payload = await _jsonReader.GetMessagePayloadFromBodyJson<CertifyTestSessionPayload>(Request.Body, apiAction);
+            var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<CertifyTestSessionPayload>(Request.Body, apiAction);
             payload.TestSessionID = id;
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)

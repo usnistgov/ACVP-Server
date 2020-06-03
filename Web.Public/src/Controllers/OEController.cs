@@ -48,7 +48,7 @@ namespace Web.Public.Controllers
 		{
 			// Convert and validate
 			var apiAction = APIAction.CreateOE;
-			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<OECreatePayload>(Request.Body, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OECreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -73,7 +73,7 @@ namespace Web.Public.Controllers
 		{
 			// Convert and validate
 			var apiAction = APIAction.UpdateOE;
-			var payload = await _jsonReader.GetMessagePayloadFromBodyJson<OEUpdatePayload>(Request.Body, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OEUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)

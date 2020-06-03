@@ -18,7 +18,7 @@ namespace Web.Public.Services
         /// <param name="jsonBody">The JSON to parse.</param>
         /// <typeparam name="T">The <see cref="IJsonObject"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        Task<T> GetObjectFromBodyJson<T>(Stream jsonBody) where T : IJsonObject;
+        Task<T> GetObjectFromBodyJsonAsync<T>(Stream jsonBody) where T : IJsonObject;
 
         /// <summary>
         /// Unwrap a JSON object that has a corresponding workflow action.
@@ -27,6 +27,6 @@ namespace Web.Public.Services
         /// <param name="apiAction">The type of workflow item to create.</param>
         /// <typeparam name="T">The <see cref="IMessagePayload"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        Task<T> GetMessagePayloadFromBodyJson<T>(Stream jsonBody, APIAction apiAction) where T : IMessagePayload;
+        Task<T> GetMessagePayloadFromBodyJsonAsync<T>(Stream jsonBody, APIAction apiAction) where T : IMessagePayload;
     }
 }
