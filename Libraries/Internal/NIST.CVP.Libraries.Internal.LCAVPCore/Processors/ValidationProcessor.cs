@@ -19,8 +19,9 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 		private readonly IScenarioOEProvider _scenarioOEProvider;
 		private readonly ICapabilityService _capabilityService;
 		private readonly IPrerequisiteService _prerequisiteService;
+		private readonly IDataProvider _dataProvider;
 
-		public ValidationProcessor(IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService)
+		public ValidationProcessor(IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService, IDataProvider dataProvider)
 		{
 			_moduleProcessor = moduleProcessor;
 			_validationService = validationService;
@@ -28,6 +29,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 			_oeProcessor = oeProcessor;
 			_capabilityService = capabilityService;
 			_prerequisiteService = prerequisiteService;
+			_dataProvider = dataProvider;
 		}
 
 		public InsertResult Create(NewRegistrationContainer foo)
@@ -40,20 +42,20 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 
 			foreach (var scenario in foo.Scenarios)
 			{
-				//Create the scenario record, complete with all the OEs
-				long scenarioID = CreateScenario(validationCreateResult.ID, scenario.OEs);
+				//Create the OE
+				long oeID = _oeProcessor.Create(scenario.OE).ID;
 
 				//Create the scenario algorithms, capabilities, prereqs
 				foreach (var algorithmThingy in scenario.Algorithms)
 				{
-					//Create the scenario algorithm record
-					var scenarioAlgorithmResult = _validationService.AddScenarioAlgorithm(scenarioID, algorithmThingy.Algorithm.AlgorithmID);
+					//Create the validation OE algorithm record
+					var validationOEAlgorithmCreateResult = _validationService.AddValidationOEAlgorithm(validationCreateResult.ID, oeID, algorithmThingy.Algorithm.AlgorithmID, -1);    //TODO - this -1 is here because the method was expecting ACVP, but there's no vector set here...
 
 					//Create the capabilities under it
-					CreateCapabilities(scenarioAlgorithmResult.ID, algorithmThingy.Algorithm);
+					CreateCapabilities(validationOEAlgorithmCreateResult.ID, algorithmThingy.Algorithm);
 
 					//Create the prereqs under it
-					CreatePrerequisites(validationCreateResult.ID, scenarioAlgorithmResult.ID, algorithmThingy.Prerequisites);
+					CreatePrerequisites(validationCreateResult.ID, validationOEAlgorithmCreateResult.ID, algorithmThingy.Prerequisites);
 				}
 			}
 
@@ -65,63 +67,74 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 			//Add scenarios to the existing validation
 			foreach (var scenario in foo.Scenarios)
 			{
-				//Create the scenario record, complete with all the OEs
-				long scenarioID = CreateScenario(foo.ValidationID, scenario.OEs);
+				//Try to find the existing OE, or create a new one
+				(long OEID, bool IsNew) = GetOEID(scenario.OE, foo.ValidationID);
+
+				//Get all the existing ValidationOEAlgorithms for this OE
+				List<(long ValidationOEAlgorithmID, long AlgorithmID)> existingValidationOEAlgorithms = IsNew ? new List<(long ValidationOEAlgorithmID, long AlgorithmID)>() : _validationService.GetValidationOEAlgorithms(foo.ValidationID, OEID);
 
 				//Create the scenario algorithms, capabilities, prereqs
 				foreach (var algorithmThingy in scenario.Algorithms)
 				{
-					//Create the scenario algorithm record
-					var scenarioAlgorithmResult = _validationService.AddScenarioAlgorithm(scenarioID, algorithmThingy.Algorithm.AlgorithmID);
+					//Inactivate all valdiation OE algorithms for this algo - deleting capabilities and prereqs, and inactivating the validation OE algorithm itself
+					foreach (var existingValidationOEAlgorithm in existingValidationOEAlgorithms.Where(x => x.AlgorithmID == algorithmThingy.Algorithm.AlgorithmID))
+					{
+						_validationService.InactivateValidationOEAlgorithm(existingValidationOEAlgorithm.ValidationOEAlgorithmID);
+					}
+
+					//Create the validation OE algorithm record
+					var validationOEAlgorithmCreateResult = _validationService.AddValidationOEAlgorithm(foo.ValidationID, OEID, algorithmThingy.Algorithm.AlgorithmID, -1);    //TODO - this -1 is here because the method was expecting ACVP, but there's no vector set here...
 
 					//Create the capabilities under it
-					CreateCapabilities(scenarioAlgorithmResult.ID, algorithmThingy.Algorithm);
+					CreateCapabilities(validationOEAlgorithmCreateResult.ID, algorithmThingy.Algorithm);
 
 					//Create the prereqs under it
-					CreatePrerequisites(foo.ValidationID, scenarioAlgorithmResult.ID, algorithmThingy.Prerequisites);
+					CreatePrerequisites(foo.ValidationID, validationOEAlgorithmCreateResult.ID, algorithmThingy.Prerequisites);
 				}
 			}
 		}
 
-
-		private Result AddOEToScenario(long scenarioID, long oeID) => _scenarioOEProvider.Insert(scenarioID, oeID);
-
-		private long CreateScenario(long validationID, List<OperationalEnvironment> oes)
-		{
-			List<long> oeIDs = new List<long>();
-
-			//Create each of the OEs in the scenario
-			foreach (var oe in oes)
-			{
-				var oeResult = _oeProcessor.Create(oe);
-				oeIDs.Add(oeResult.ID);
-			}
-
-			//Create the scenario - this will add the first OE
-			var scenarioCreateResult = _validationService.CreateScenario(validationID, oeIDs[0]);
-
-			//Add any remaining OEs to the scenario
-			oeIDs.Skip(1).ToList().ForEach(x => AddOEToScenario(scenarioCreateResult.ID, x));
-
-			return scenarioCreateResult.ID;
-		}
-
-		private void CreateCapabilities(long scenarioAlgorithmID, IAlgorithm algorithm)
+		private void CreateCapabilities(long validationOEAlgorithmID, IAlgorithm algorithm)
 		{
 			//Convert it to a persistence algorithm
 			IPersistedAlgorithm persistenceAlgorithm = algorithm.ToPersistedAlgorithm();
 
 			//Persist it - the entire algorithm object is just a class as far as the persistence mechanism is concerned, just with some non-property properties on it
-			_capabilityService.CreateClassCapabilities(algorithm.AlgorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
+			_capabilityService.CreateClassCapabilities(algorithm.AlgorithmID, validationOEAlgorithmID, null, 0, null, persistenceAlgorithm);
 		}
 
-		private void CreatePrerequisites(long validationID, long scenarioAlgorithmID, List<Prerequisite> prereqs)
+		private void CreatePrerequisites(long validationID, long validationOEAlgorithmID, List<Prerequisite> prereqs)
 		{
 			//Because of a weird old thing in how prereqs were being serialized, which I don't want to mess with, prereqs may be null instead of an empty list. So need to catch that
 			foreach (Prerequisite prereq in prereqs ?? new List<Prerequisite>())
 			{
-				_prerequisiteService.Create(scenarioAlgorithmID, (long)(prereq.ValidationRecordID ?? validationID), prereq.Algorithm);	//self referential prereqs will have a null ValidationRecordID, so use the validation ID instead. Since the ValidationRecordID is an int? some casting has to be done, and this is the only syntax that will handle all cases
+				_prerequisiteService.Create(validationOEAlgorithmID, (long)(prereq.ValidationRecordID ?? validationID), prereq.Algorithm);  //self referential prereqs will have a null ValidationRecordID, so use the validation ID instead. Since the ValidationRecordID is an int? some casting has to be done, and this is the only syntax that will handle all cases
 			}
+		}
+
+		private (long OEID, bool IsNew) GetOEID(OperationalEnvironment oe, long validationID)
+		{
+			long oeID;
+			bool isNew = false;
+
+			//Try to find an existing OE
+			List<long> oeIDs = _dataProvider.GetOEIDsForValidation(validationID, oe.Name);
+
+			if (oeIDs.Count == 0)
+			{
+				//Create a new OE
+				oeID = _oeProcessor.Create(oe).ID;
+				isNew = true;
+			}
+			else
+			{
+				// There's a decent chance that there's more than 1 OE with the same name, since we previously created a new OE each time. There's no good way to handle this. Just grab one?
+				// The best thing would be to return a list, then in the caller "delete" all the existing ones
+				// But hopefully this whole update process is only being used to add OEs...
+				oeID = oeIDs[0];
+			}
+
+			return (oeID, isNew);
 		}
 	}
 }

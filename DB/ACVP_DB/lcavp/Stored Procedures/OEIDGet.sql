@@ -6,18 +6,16 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT L.validation_oe_id AS OEID
+	SELECT DISTINCT A.OEId
 	FROM val.VALIDATION_SOURCE S
 		INNER JOIN
-		val.VALIDATION_RECORD VR ON VR.source_id = S.id
+		dbo.Validations V ON V.ValidationSourceId = S.id
 								AND S.prefix = @Algorithm
-								AND VR.validation_id = @ValidationNumber
+								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
-		val.VALIDATION_SCENARIO R ON R.record_id = VR.id
+		dbo.ValidationOEAlgorithms A ON A.ValidationId = V.ValidationId
 		INNER JOIN
-		val.VALIDATION_SCENARIO_OE_LINK L ON L.scenario_id = R.id
-		INNER JOIN
-		val.VALIDATION_OE OE ON OE.id = L.validation_oe_id
+		val.VALIDATION_OE OE ON OE.id = A.OEId
 							AND OE.[name] = @OEname
 
 

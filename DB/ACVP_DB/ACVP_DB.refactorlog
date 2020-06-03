@@ -14,4 +14,60 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ValidationTestSessionId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4eb1325b-59bc-4b7a-81c2-c04757c67d97" ChangeDateTime="06/02/2020 01:10:16">
+    <Property Name="ElementName" Value="[dbo].[Validations].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Validations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2f1bf76d-1299-4601-9d14-9ba7186e7ca0" ChangeDateTime="06/02/2020 01:11:11">
+    <Property Name="ElementName" Value="[dbo].[Validations].[ValidationId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Validations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a4a4a33c-762d-411f-a0e6-de58e0ac587b" ChangeDateTime="06/02/2020 01:17:52">
+    <Property Name="ElementName" Value="[dbo].[Validations].[ValidationID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Validations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="83bf4018-c04c-4c2a-bc0a-56d452a06557" ChangeDateTime="06/02/2020 01:17:55">
+    <Property Name="ElementName" Value="[dbo].[Validations].[ImplementationID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Validations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="db3a715b-30cf-4838-a8db-8cd03809f2d2" ChangeDateTime="06/02/2020 01:18:00">
+    <Property Name="ElementName" Value="[dbo].[Validations].[ValidationSourceID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Validations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationSourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0ec0971b-eb0e-404e-8743-1d7eb072a179" ChangeDateTime="06/02/2020 03:34:26">
+    <Property Name="ElementName" Value="[dbo].[ValidationOEAlgorithms].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ValidationOEAlgorithms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationOEAlgorithmId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="95c1543e-a50e-4234-bb37-0f5251aed949" ChangeDateTime="06/02/2020 04:04:39">
+    <Property Name="ElementName" Value="[dbo].[Capabilities].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Capabilities]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CapabilityId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="504a2688-fa8c-4f4b-a4df-cc6f29ce5015" ChangeDateTime="06/02/2020 04:10:58">
+    <Property Name="ElementName" Value="[dbo].[Capabilities].[ValidatedOEAlgorithmId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Capabilities]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationOEAlgorithmId" />
+  </Operation>
 </Operations>

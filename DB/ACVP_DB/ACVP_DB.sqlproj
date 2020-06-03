@@ -82,6 +82,8 @@
     <Folder Include="Security\" />
     <Folder Include="val\Stored Procedures" />
     <Folder Include="ref\Stored Procedures" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="val\Tables\PRODUCT_INFORMATION.sql" />
@@ -179,16 +181,16 @@
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
     <Build Include="lcavp\Stored Procedures\ContactIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactPersonIDGet.sql" />
-    <Build Include="lcavp\Stored Procedures\CValidationRecordIDForModuleGet.sql" />
+    <Build Include="lcavp\Stored Procedures\CValidationIDForImplementationGet.sql" />
     <Build Include="lcavp\Stored Procedures\FilesToArchiveGet.sql" />
-    <Build Include="lcavp\Stored Procedures\ModuleIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ImplementationIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\OEIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\PersonPhoneNumbersGet.sql" />
     <Build Include="lcavp\Stored Procedures\ProductNameForValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\SubmissionLogInsert.sql" />
     <Build Include="lcavp\Stored Procedures\SubmissionRegistrationInsert.sql" />
-    <Build Include="lcavp\Stored Procedures\ValidationRecordIDForFamilyAndModuleGet.sql" />
-    <Build Include="lcavp\Stored Procedures\ValidationRecordIDGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationIDForFamilyAndImplementationGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ValidationIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorAddressIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorIDGet.sql" />
     <Build Include="migration\Stored Procedures\AlgorithmsGet.sql" />
@@ -276,17 +278,12 @@
     <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmDelete.sql" />
-    <Build Include="val\Stored Procedures\ScenarioAlgorithmDelete.sql" />
     <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
     <Build Include="val\Stored Procedures\CapabilityInsert.sql" />
     <Build Include="ref\Stored Procedures\PropertiesGet.sql" />
-    <Build Include="val\Stored Procedures\ScenarioAlgorithmInsert.sql" />
-    <Build Include="val\Stored Procedures\ScenarioAlgorithmsForScenarioGet.sql" />
     <Build Include="val\Stored Procedures\ScenarioOEInsert.sql" />
     <Build Include="val\Stored Procedures\ScenarioInsert.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusUpdate.sql" />
-    <Build Include="val\Stored Procedures\ValidationInsert.sql" />
-    <Build Include="val\Stored Procedures\ValidationsForImplementationGet.sql" />
     <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
     <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
     <Build Include="val\Tables\ValidationTestSessions.sql" />
@@ -318,16 +315,12 @@
     <Build Include="val\Stored Procedures\AddressGet.sql" />
     <Build Include="common\Stored Procedures\MessageQueueUpdateStatus.sql" />
     <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
-    <Build Include="val\Stored Procedures\ValidationsGet.sql" />
-    <Build Include="val\Stored Procedures\ValidationGetById.sql" />
-    <Build Include="val\Stored Procedures\PrerequisitesForScenarioAlgorithmDelete.sql" />
     <Build Include="val\Stored Procedures\PersonGet.sql" />
     <Build Include="val\Stored Procedures\PersonGetEmails.sql" />
     <Build Include="val\Stored Procedures\PersonGetNotes.sql" />
     <Build Include="val\Stored Procedures\PersonsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationGetPersons.sql" />
-    <Build Include="val\Stored Procedures\PrerequisiteInsert.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
     <Build Include="ref\Stored Procedures\PropertyTreeValidationNodesGet.sql" />
@@ -356,6 +349,21 @@
     <Build Include="acvp\Stored Procedures\TestSessionsForExpirationWarningGet.sql" />
     <Build Include="common\Stored Procedures\TaskQueueSetStatus.sql" />
     <Build Include="common\Stored Procedures\TaskQueueDeletePendingForVectorSet.sql" />
+    <Build Include="dbo\Tables\Validations.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationsForImplementationGet.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationsGet.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationGetById.sql" />
+    <Build Include="dbo\Tables\ValidationOEAlgorithms.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationOEAlgorithmInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationOEAlgorithmInactivate.sql" />
+    <Build Include="dbo\Tables\Capabilities.sql" />
+    <Build Include="dbo\Stored Procedures\CapabilityInsert.sql" />
+    <Build Include="dbo\Tables\Prerequisites.sql" />
+    <Build Include="dbo\Stored Procedures\PrerequisitesForValidationOEAlgorithmDelete.sql" />
+    <Build Include="dbo\Stored Procedures\PrerequisiteInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationOEAlgorithmsForOEGetActive.sql" />
+    <Build Include="lcavp\Stored Procedures\OEIDGetForValidation.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

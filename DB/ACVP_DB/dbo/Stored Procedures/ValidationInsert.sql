@@ -1,23 +1,23 @@
-﻿CREATE PROCEDURE [val].[ValidationInsert]
+﻿CREATE PROCEDURE [dbo].[ValidationInsert]
 
 	 @ImplementationId bigint
-	,@SourceId int
+	,@ValidationSourceId int
 	,@ValidationNumber bigint
 
 AS
 
 SET NOCOUNT ON
 
-INSERT INTO val.VALIDATION_RECORD (
-		 product_information_id
-		,source_id
-		,validation_id
-		,created_on
-		,updated_on
+INSERT INTO dbo.Validations (
+		 ImplementationId
+		,ValidationSourceId
+		,ValidationNumber
+		,CreatedOn
+		,LastUpdated
 		)
 VALUES (
 		 @ImplementationId
-		,@SourceId
+		,@ValidationSourceId
 		,@ValidationNumber
 		,CURRENT_TIMESTAMP
 		,CURRENT_TIMESTAMP

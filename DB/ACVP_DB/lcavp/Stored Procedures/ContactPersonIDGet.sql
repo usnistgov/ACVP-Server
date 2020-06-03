@@ -10,12 +10,11 @@ AS
 	SELECT VC.person_id AS PersonID
 	FROM val.VALIDATION_SOURCE S
 		INNER JOIN
-		val.VALIDATION_RECORD VR ON VR.source_id = S.id
+		dbo.Validations V ON V.ValidationSourceId = S.id
 								AND S.prefix = @Algorithm
-								AND VR.validation_id = @ValidationNumber
+								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
-		val.VALIDATION_CONTACT VC ON VC.product_information_id = VR.product_information_id
-								 --AND VC.order_index = @OrderIndex
+		val.VALIDATION_CONTACT VC ON VC.product_information_id = V.ImplementationId
 	ORDER BY VC.order_index
 	OFFSET @OrderIndex - 1 ROWS
 	FETCH NEXT 1 ROW ONLY

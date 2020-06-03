@@ -6,7 +6,7 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
     {
         public long ValidationId { get; set; }
         public string ValidationLabel { get; set; }
-        public string ProductName { get; set; }
-        public DateTime Created { get; set; }
+        public string ImplementationName { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

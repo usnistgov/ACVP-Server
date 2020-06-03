@@ -1,10 +1,8 @@
 ﻿using System;
-using NIST.CVP.Libraries.Shared.Results;
-
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -19,13 +17,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID)
+		public Result DeleteAllForValidationOEAlgorithm(long validationOEAlgorithmID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				db.ExecuteProcedure("val.CapabilitiesForScenarioAlgorithmDelete", inParams: new { ScenarioAlgorithmId = scenarioAlgorithmID });
+				db.ExecuteProcedure("dbo.CapabilitiesForValidationOEAlgorithmDelete", inParams: new { ValidationOEAlgorithmId = validationOEAlgorithmID });
 			}
 			catch (Exception ex)
 			{
@@ -36,22 +34,19 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return new Result();
 		}
 
-		public InsertResult Insert(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, AlgorithmPropertyType type, int? orderIndex, bool historical, string stringValue, long? numberValue, bool? booleanValue)
+		public InsertResult Insert(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int? orderIndex, bool historical, string stringValue, long? numberValue, bool? booleanValue)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.CapabilityInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.CapabilityInsert", inParams: new
 				{
-					ScenarioAlgorithmId = scenarioAlgorithmID,
-					PropertyId = propertyID,
-					RootCapabilityId = rootCapabilityID,
-					ParentCapabilityId = parentCapabilityID,
-					Level = level,
-					Type = ToCapabilityRecordTypeThatIsNowUseless(type),
-					OrderIndex = orderIndex,
+					ValidationOEAlgorithmId = validationOEAlgorithmID,
+					AlgorithmPropertyId = propertyID,
 					Historical = historical,
+					ParentCapabilityId = parentCapabilityID,
+					OrderIndex = orderIndex,
 					StringValue = stringValue,
 					NumberValue = numberValue,
 					BooleanValue = booleanValue
@@ -62,47 +57,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
-				_logger.LogError($"{scenarioAlgorithmID} Property: {propertyID} Parent: {parentCapabilityID} AlgoPropType: {type} ConvertedToNumber: {ToCapabilityRecordTypeThatIsNowUseless(type)}" );
+				_logger.LogError($"{validationOEAlgorithmID} Property: {propertyID} Parent: {parentCapabilityID}" );
 				return new InsertResult(ex.Message);
 			}
 		}
-
-		public static AlgorithmPropertyType ToCapabilityType(string value) => value switch
-		{
-			"AB" => AlgorithmPropertyType.BooleanArray,
-			"AC" => AlgorithmPropertyType.CompositeArray,
-			"AL" => AlgorithmPropertyType.LongArray,
-			"AN" => AlgorithmPropertyType.NumberArray,
-			"AO:R" => AlgorithmPropertyType.RangeArray,
-			"AS" => AlgorithmPropertyType.StringArray,
-			"B" => AlgorithmPropertyType.Boolean,
-			"C" => AlgorithmPropertyType.Composite,
-			"L" => AlgorithmPropertyType.Long,
-			"N" => AlgorithmPropertyType.Number,
-			"O:D" => AlgorithmPropertyType.Domain,
-			"S" => AlgorithmPropertyType.String,
-			_ => AlgorithmPropertyType.Boolean		//Garbage and wrong, just to get rid of the warning
-		};
-
-		public static int ToCapabilityRecordTypeThatIsNowUseless(AlgorithmPropertyType type) => type switch
-		{
-			//This probably isn't even needed anymore, not quite sure how it was used before, not going to use it for anything now...
-			//The original types were PRIMITIVE, ARRAY, COMPOSITE, OBJECT
-			AlgorithmPropertyType.BooleanArray => 1,
-			AlgorithmPropertyType.CompositeArray => 1,
-			AlgorithmPropertyType.LongArray => 1,
-			AlgorithmPropertyType.NumberArray => 1,
-			AlgorithmPropertyType.RangeArray => 1,
-			AlgorithmPropertyType.StringArray => 1,
-			AlgorithmPropertyType.Boolean => 0,
-			AlgorithmPropertyType.Composite => 2,
-			AlgorithmPropertyType.Long => 0,
-			AlgorithmPropertyType.Number => 0,
-			AlgorithmPropertyType.Domain => 3,
-			AlgorithmPropertyType.String => 0,
-			AlgorithmPropertyType.Range => 3,
-			_ => -1 //Garbage, just to get rid of the warning, will throw a FK violation in the database if it gets hit
-		};
-
 	}
 }

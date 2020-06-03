@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
-using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Algorithms.External;
+using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
@@ -15,18 +15,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 	{
 		private readonly IValidationProvider _validationProvider;
 		private readonly IPrerequisiteService _prerequisiteService;
-		private readonly IScenarioProvider _scenarioProvider;
-		private readonly IScenarioOEProvider _scenarioOEProvider;
-		private readonly IScenarioAlgorithmProvider _scenarioAlgorithmProvider;
+		private readonly IValidationOEAlgorithmProvider _validationOEAlgorithmProvider;
 		private readonly ICapabilityService _capabilityService;
 
-		public ValidationService(IValidationProvider validationProvider, IPrerequisiteService prerequisiteService, IScenarioProvider scenarioProvider, IScenarioOEProvider scenarioOEProvider, IScenarioAlgorithmProvider scenarioAlgorithmProvider, ICapabilityService capabilityService)
+		public ValidationService(IValidationProvider validationProvider, IPrerequisiteService prerequisiteService, IValidationOEAlgorithmProvider validationOEAlgorithmProvider, ICapabilityService capabilityService)
 		{
 			_validationProvider = validationProvider;
 			_prerequisiteService = prerequisiteService;
-			_scenarioProvider = scenarioProvider;
-			_scenarioOEProvider = scenarioOEProvider;
-			_scenarioAlgorithmProvider = scenarioAlgorithmProvider;
+			_validationOEAlgorithmProvider = validationOEAlgorithmProvider;
 			_capabilityService = capabilityService;
 		}
 
@@ -43,42 +39,21 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			return validationInsertResult;
 		}
 
-		public InsertResult CreateScenario(long validationID, long oeID)
-		{
-			//Create the scenario record
-			InsertResult scenarioCreateResult = AddScenarioToValidation(validationID);
+		public InsertResult AddValidationOEAlgorithm(long validationID, long oeID, long algorithmID, long vectorSetID) => _validationOEAlgorithmProvider.Insert(validationID, oeID, algorithmID, vectorSetID);
 
-			if (!scenarioCreateResult.IsSuccess) return scenarioCreateResult;
-
-			long scenarioID = scenarioCreateResult.ID;
-
-			//Create the scenario OE link
-			Result OEResult = AddOEToScenario(scenarioID, oeID);
-
-			return OEResult.IsSuccess ? scenarioCreateResult : (InsertResult)OEResult;
-		}
-
-		public long GetScenarioIDForValidationOE(long validationID, long oeID) => _scenarioProvider.GetScenarioIDForValidationOE(validationID, oeID);
-
-		private InsertResult AddScenarioToValidation(long validationID) => _scenarioProvider.Insert(validationID);
-
-		private Result AddOEToScenario(long scenarioID, long oeID) => _scenarioOEProvider.Insert(scenarioID, oeID);
-
-		public InsertResult AddScenarioAlgorithm(long scenarioID, long algorithmID) => _scenarioAlgorithmProvider.Insert(scenarioID, algorithmID);
-
-		public void DeleteScenarioAlgorithm(long scenarioAlgorithmID)
+		public void InactivateValidationOEAlgorithm(long validationOEAlgorithmID)
 		{
 			//Delete the capabilities
-			Result capabilitiesDeleteResult = _capabilityService.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+			Result capabilitiesDeleteResult = _capabilityService.DeleteAllForValidationOEAlgorithm(validationOEAlgorithmID);
 
 			//Delete the prereqs
-			Result prereqsDeleteResult = _prerequisiteService.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+			Result prereqsDeleteResult = _prerequisiteService.DeleteAllForValidationOEAlgorithm(validationOEAlgorithmID);
 
-			//Delete the scenario algorithm
-			Result scenarioAlgorithmDeleteResult = _scenarioAlgorithmProvider.Delete(scenarioAlgorithmID);
+			//Inactivate the validation OE algorithm
+			Result validationOEAlgorithmInactivateResult = _validationOEAlgorithmProvider.Inactivate(validationOEAlgorithmID);
 		}
 
-		public List<(long ScenarioAlgorithmID, long AlgorithmID)> GetScenarioAlgorithms(long scenarioID) => _scenarioAlgorithmProvider.GetScenarioAlgorithmsForScenario(scenarioID);
+		public List<(long ValidationOEAlgorithmID, long AlgorithmID)> GetValidationOEAlgorithms(long validationID, long oeID) => _validationOEAlgorithmProvider.GetActiveValidationOEAlgorithms(validationID, oeID);
 
 		public List<(long ValidationID, int ValidationSource)> GetValidationsForImplementation(long implementationID) => _validationProvider.GetValidationsForImplementation(implementationID);
 
@@ -93,13 +68,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		};
 
 		public Result LogValidationTestSession(long validationID, long testSessionID) => _validationProvider.ValidationTestSessionInsert(validationID, testSessionID);
-		public void CreateCapabilities(long algorithmID, long scenarioAlgorithmID, IExternalAlgorithm externalAlgorithm)
+		public void CreateCapabilities(long validationOEAlgorithmID, long algorithmID, IExternalAlgorithm externalAlgorithm)
 		{
 			//Convert it to a persistence algorithm
 			IPersistedAlgorithm persistenceAlgorithm = PersistedAlgorithmFactory.GetPersistedAlgorithm(externalAlgorithm);
 
 			//Persist it - the entire algorithm object is just a class as far as the persistence mechanism is concerned, just with some non-property properties on it
-			_capabilityService.CreateClassCapabilities(algorithmID, scenarioAlgorithmID, null, null, 0, 0, null, persistenceAlgorithm);
+			_capabilityService.CreateClassCapabilities(algorithmID, validationOEAlgorithmID, null, 0, null, persistenceAlgorithm);
 		}
 		
 		public PagedEnumerable<ValidationLite> GetValidations(ValidationListParameters param)

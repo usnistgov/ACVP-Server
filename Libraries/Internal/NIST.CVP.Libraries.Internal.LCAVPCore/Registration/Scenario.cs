@@ -6,7 +6,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration
 	public class Scenario
 	{
 		[JsonProperty("operatingEnvironments")]
-		public List<OperationalEnvironment> OEs { get; set; } = new List<OperationalEnvironment>();
+		public OperationalEnvironment OE { get; set; }
 
 		[JsonProperty("algorithmCapabilities")]
 		public List<AlgorithmCapabilities> Algorithms { get; set; } = new List<AlgorithmCapabilities>();

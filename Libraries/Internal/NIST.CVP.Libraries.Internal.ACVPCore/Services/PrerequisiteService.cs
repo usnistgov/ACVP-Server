@@ -13,8 +13,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			_prerequisiteProvider = PrerequisiteProvider;
 		}
 
-		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID) => _prerequisiteProvider.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+		public Result DeleteAllForValidationOEAlgorithm(long validationOEAlgorithm) => _prerequisiteProvider.DeleteAllForValidationOEAlgorithm(validationOEAlgorithm);
 
-		public InsertResult Create(long scenarioAlgorithmID, long validationID, string requirement) => _prerequisiteProvider.Insert(scenarioAlgorithmID, validationID, requirement);
+		public InsertResult Create(long validationOEAlgorithmID, long validationID, string requirement) => _prerequisiteProvider.Insert(validationOEAlgorithmID, validationID, requirement);
 	}
 }

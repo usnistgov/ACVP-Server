@@ -9,14 +9,15 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 		int GetVendorID(ChangeFile changeFile);
 		int GetOEID(ChangeFile changeFile);
 		List<int> GetOEIDs(ChangeFile changeFile);
+		List<long> GetOEIDsForValidation(long validationID, string oeName);
 		int GetValidationRecordID(string family, int certNumber);
 		int GetAddressID(int vendorID, ChangeFile changeFile);
-		int GetCValidationRecordIDForProduct(int moduleID);
+		int GetCValidationIDForImplementation(int implementationID);
 		List<string> GetProductNameForValidations(List<(string Algorithm, int CertNumber)> affectedValidations);
-		int GetValidationRecordIDForModuleAndAlgo(int moduleID, string family);
+		int GetValidationIDForImplementationAndAlgo(int implementationID, string family);
 		List<(int OrderIndex, string PhoneNumber, string Type)> GetPhoneNumbersForPerson(int personID);
 		long GetValidationIDForSubmissionID(string submissionID);
 		long GetValidationNumberForValidationID(long validationID);
-		long GetAnAlgorithmOnValidation(long validationRecordID);
+		long GetAnAlgorithmOnValidation(long validationID);
 	}
 }

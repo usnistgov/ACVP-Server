@@ -9,8 +9,8 @@ AS
 	SELECT P.module_name AS ProductName
 	FROM val.VALIDATION_SOURCE S
 		INNER JOIN
-		val.VALIDATION_RECORD VR ON VR.source_id = S.id
+		dbo.Validations V ON V.ValidationSourceId = S.id
 								AND S.prefix = @Algorithm
-								AND VR.validation_id = @ValidationNumber
+								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
-		val.PRODUCT_INFORMATION P ON P.id = VR.product_information_id
+		val.PRODUCT_INFORMATION P ON P.id = V.ImplementationId

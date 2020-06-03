@@ -10,11 +10,11 @@ AS
 	SELECT VC.id AS ContactID
 	FROM val.VALIDATION_SOURCE S
 		INNER JOIN
-		val.VALIDATION_RECORD VR ON VR.source_id = S.id
+		dbo.Validations V ON V.ValidationSourceId = S.id
 								AND S.prefix = @Algorithm
-								AND VR.validation_id = @ValidationNumber
+								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
-		val.VALIDATION_CONTACT VC ON VC.product_information_id = VR.product_information_id
+		val.VALIDATION_CONTACT VC ON VC.product_information_id = V.ImplementationId
 								 AND VC.order_index = @OrderIndex
 
 

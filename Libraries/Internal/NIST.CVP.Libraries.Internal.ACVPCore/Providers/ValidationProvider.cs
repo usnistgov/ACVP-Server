@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
@@ -29,10 +29,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ValidationInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.ValidationInsert", inParams: new
 				{
 					ImplementationId = implementationID,
-					SourceId = validationSource,             //TODO - Once LCAVP goes away hardcode this to ACVP maybe
+					ValidationSourceId = validationSource,
 					ValidationNumber = validationNumber
 				});
 
@@ -52,14 +52,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			List<(long ValidationID, int ValidationSource)> validations = new List<(long ValidationID, int ValidationSource)>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.ValidationsForImplementationGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.ValidationsForImplementationGet", inParams: new
 				{
 					ImplementationId = implementationID
 				});
 
 				foreach (var validation in data)
 				{
-					validations.Add((validation.ValidationId, validation.SourceId));
+					validations.Add((validation.ValidationId, validation.ValidationSourceId));
 				}
 			}
 			catch (Exception ex)
@@ -87,6 +87,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 		}
 
+		//This can die, unless LCAVP has to sort of stay around
 		public long GetNextLCAVPValidationNumber()
 		{
 			var db = new MightyOrm(_acvpConnectionString);
@@ -133,14 +134,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var dbData = db.QueryWithExpando("val.ValidationsGet",
+				var dbData = db.QueryWithExpando("dbo.ValidationsGet",
 					inParams: new
 					{
 						PageSize = param.PageSize,
 						PageNumber = param.Page,
 						ValidationId = param.ValidationId,
 						ValidationLabel = param.ValidationLabel,
-						ProductName = param.ProductName
+						ImplementationName = param.ProductName
 					},
 					new
 					{
@@ -174,13 +175,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				
 				return new Validation()
 				{
-					Created = data.created,
-					ProductName = data.productName,
-					ImplementationID = data.productId,
-					ValidationId = data.validationId,
-					ValidationLabel = data.validationLabel,
-					Updated = data.updated,
-					VendorId = data.vendorId
+					ValidationId = data.ValidationId,
+					ImplementationID = data.ImplementationId,
+					ValidationLabel = data.ValidationLabel,
+					ImplementationName = data.ImplementationName,
+					CreatedOn = data.CreatedOn,
+					Updated = data.LastUpdated,
+					VendorId = data.VendorId
 				};
 			}
 			catch (Exception ex)

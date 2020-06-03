@@ -69,18 +69,18 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			{
 				isNewOE = true;
 
-				//Create an OE and set the ID in the parameters to the new ID
+				//Create an OE and set the ID in the parameters to the new ID, since it wouldn't be set yet
 				parameters.OEID = CreateInlineOE(certifyTestSessionPayload.OEToCreate).ID;
 			}
+
+			//Put the nullable OE ID value into non-nullable for convenience, as will use multiple times
+			long oeID = (long)parameters.OEID;
 
 			//Get or create the validation ID
 			(long validationID, bool isNewValidation) = GetValidationID((long)parameters.ImplementationID, isNewImplementation);
 
-			//Get or create the scenario ID
-			(long scenarioID, bool isNewScenario) = GetScenarioID(validationID, (long)parameters.OEID, isNewValidation, isNewOE);
-
-			//Get all the existing scenario algorithms, as we'll be replacing some or all of these - know that it is an empty collection if a new scenario
-			List<(long ScenarioAlgorithmID, long AlgorithmID)> existingScenarioAlgorithms = isNewScenario ? new List<(long ScenarioAlgorithmID, long AlgorithmID)>() : _validationService.GetScenarioAlgorithms(scenarioID);
+			//Get all the existing validation OE algorithms, as we'll be replacing some or all of these - know that it is an empty collection if new OE
+			List<(long ValidationOEAlgorithmID, long AlgorithmID)> existingValidationOEAlgorithms = isNewOE ? new List<(long ValidationOEAlgorithmID, long AlgorithmID)>() : _validationService.GetValidationOEAlgorithms(validationID, oeID);
 
 			//Get the passed vector sets (ignore cancelled ones, and anything else, though they shouldn't get to that point if there's anything else)
 			var vectorSets = _vectorSetService.GetVectorSetsForTestSession(parameters.TestSessionID).Where(x => x.Status == VectorSetStatus.Passed);
@@ -94,22 +94,22 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 				//Look up the algorithm ID based on the name and mode on the prerequisite - there is no revision... Because of this, name/mode may return multiple algos
 				//Get the ones that match this algorithm
 
-				//If this is an existing scenario there may be existing data for this algo that needs to be deleted. Rather than checking first if the algo exists, just delete, may or may not delete anything
-				if (!isNewScenario)
+				//If this is an existing OE there may be existing data for this algo that needs to be deleted/inactivate. Rather than checking first if the algo exists, just try it, may or may not do anything
+				if (!isNewOE)
 				{
-					//Delete all scenario algorithms for this algo - meaning capabilities, prereqs, and the scenario algorithm itself
-					foreach (long existingScenarioAlgorithmID in existingScenarioAlgorithms.Where(x => x.AlgorithmID == algorithmID).Select(x => x.ScenarioAlgorithmID))
+					//Inactivate all valdiation OE algorithms for this algo - deleting capabilities and prereqs, and inactivating the validation OE algorithm itself
+					foreach (var existingValidationOEAlgorithm in existingValidationOEAlgorithms.Where(x => x.AlgorithmID == algorithmID))
 					{
-						_validationService.DeleteScenarioAlgorithm(existingScenarioAlgorithmID);
+						_validationService.InactivateValidationOEAlgorithm(existingValidationOEAlgorithm.ValidationOEAlgorithmID);
 					}
 				}
 
-				//Add scenario algorithm/capabilities/prereqs for each instance of this algorithm
+				//Add validation OE algorithm/capabilities/prereqs for each instance of this algorithm
 				foreach (var vectorSet in vectorSets.Where(x => x.AlgorithmID == algorithmID))
 				{
-					//Create the scenario algorithm
-					InsertResult scenarioAlgorithmInsertResult = _validationService.AddScenarioAlgorithm(scenarioID, algorithmID);
-					long scenarioAlgorithmID = scenarioAlgorithmInsertResult.ID;
+					//Create the validation OE algorithm
+					InsertResult validationOEAlgorithmInsertResult = _validationService.AddValidationOEAlgorithm(validationID, oeID, algorithmID, vectorSet.ID);
+					long validationOEAlgorithmID = validationOEAlgorithmInsertResult.ID;
 
 					//Get the registration JSON
 					string registrationJSON = _vectorSetService.GetVectorFileJson(vectorSet.ID, VectorSetJsonFileTypes.Capabilities);
@@ -118,7 +118,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 					IExternalAlgorithm externalAlgorithm = ExternalAlgorithmFactory.Deserialize(registrationJSON);
 
 					//Add the capabilities based on that algorithm object
-					_validationService.CreateCapabilities(algorithmID, scenarioAlgorithmID, externalAlgorithm);
+					_validationService.CreateCapabilities(algorithmID, validationOEAlgorithmID, externalAlgorithm);
 
 					//Add the prereqs
 					//TODO - this
@@ -193,28 +193,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			}
 
 			return (validationID, isNewValidation);
-		}
-
-		private (long ScenarioID, bool IsNewScenario) GetScenarioID(long validationID, long oeID, bool isNewValidation, bool isNewOE)
-		{
-			long scenarioID = 0;
-			bool isNewScenario = isNewValidation || isNewOE;        //Know that it is definitely a new scenario if it is a new validation or a newly created OE
-
-			//If we don't know that this is a new scenario then look for it
-			if (!isNewScenario)
-			{
-				scenarioID = _validationService.GetScenarioIDForValidationOE(validationID, oeID);
-				isNewScenario = scenarioID == 0;
-			}
-
-			//If no existing scenario found, create one
-			if (isNewScenario)
-			{
-				InsertResult createScenarioResult = _validationService.CreateScenario(validationID, oeID);
-				scenarioID = createScenarioResult.ID;
-			}
-
-			return (scenarioID, isNewScenario);
 		}
 	}
 }

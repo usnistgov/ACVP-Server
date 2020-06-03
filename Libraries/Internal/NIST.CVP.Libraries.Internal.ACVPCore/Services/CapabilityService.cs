@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.Json;
-using NIST.CVP.Libraries.Shared.Algorithms.DataTypes;
-using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
+using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.Algorithms.DataTypes;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
@@ -22,9 +22,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			_propertyService = propertyService;
 		}
 
-		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID) => _capabilityProvider.DeleteAllForScenarioAlgorithm(scenarioAlgorithmID);
+		public Result DeleteAllForValidationOEAlgorithm(long validationOEAlgorithmID) => _capabilityProvider.DeleteAllForValidationOEAlgorithm(validationOEAlgorithmID);
 
-		public void CreateClassCapabilities(long algorithmID, long scenarioAlgorithmID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string parentPropertyName, Object objectClass)
+		public void CreateClassCapabilities(long algorithmID, long validationOEAlgorithmID, long? parentCapabilityID, int orderIndex, string parentPropertyName, Object objectClass)
 		{
 			//Iterate through each property of the class
 			foreach (PropertyInfo prop in (objectClass.GetType()).GetProperties())
@@ -55,88 +55,83 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 					switch (classProperty)
 					{
 						case bool x:
-							CreateBooleanCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateBooleanCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case Domain x:
-							CreateDomainCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateDomainCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case int x:
-							CreateNumberCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateNumericCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case long x:
-							CreateLongCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateNumericCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case Shared.Algorithms.DataTypes.Range x:
-							CreateRangeCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateRangeCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case string x:
-							CreateStringCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateStringCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case List<bool> x:
-							CreateBooleanArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateBooleanArrayCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case List<int> x:
-							CreateNumberArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateNumberArrayCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case List<long> x:
-							CreateLongArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateLongArrayCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case List<Shared.Algorithms.DataTypes.Range> x:
-							CreateRangeArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateRangeArrayCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case List<string> x:
-							CreateStringArrayCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, x);
+							CreateStringArrayCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, x);
 							break;
 
 						case IList x:
-							CreateCompositeArrayCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, propertyName, x);
+							CreateCompositeArrayCapability(algorithmID, validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, propertyName, x);
 							break;
 
 						case object x:
-							CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, orderIndex, propertyName, x);
+							CreateCompositeCapability(algorithmID, validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, propertyName, x);
 							break;
 					};
 				}
 			}
 		}
 
-		public void CreateBooleanCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, bool value)
+		public void CreateBooleanCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, bool value)
 		{
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Boolean, orderIndex, false, null, null, value);
+			_capabilityProvider.Insert(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, false, null, null, value);
 		}
 
-		public void CreateLongCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, long value)
+		public void CreateNumericCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, long value)
 		{
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Long, orderIndex, false, null, value, null);
+			_capabilityProvider.Insert(validationOEAlgorithmID, propertyID,  parentCapabilityID, orderIndex, false, null, value, null);
 		}
 
-		public void CreateNumberCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, int value)
+		public void CreateStringCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, string value)
 		{
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Number, orderIndex, false, null, value, null);
+			_capabilityProvider.Insert(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, false, value, null, null);
 		}
 
-		public void CreateStringCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string value)
-		{
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.String, orderIndex, false, value, null, null);
-		}
-
-		public void CreateRangeCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, Shared.Algorithms.DataTypes.Range value)
+		public void CreateRangeCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, Shared.Algorithms.DataTypes.Range value)
 		{
 			string stringValue = JsonSerializer.Serialize(value, new JsonSerializerOptions { IgnoreNullValues = true });
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Range, orderIndex, false, stringValue, null, null);
+			_capabilityProvider.Insert(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, false, stringValue, null, null);
 		}
 
-		public void CreateDomainCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, Domain value)
+		public void CreateDomainCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, Domain value)
 		{
 			//Need to turn the segments into a string that is a JSON array of numbers and Range objects. This could probably be done somehow in the DomainConverter, but just doing it here for now 
 			List<string> segmentsAsStrings = new List<string>();
@@ -150,149 +145,114 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			//Join the collection with a comma delimiter and put brackets around it => looks like a JSON array
 			string stringValue = $"[{String.Join(",", segmentsAsStrings)}]";
 
-			_capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Domain, orderIndex, false, stringValue, null, null);
+			_capabilityProvider.Insert(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, false, stringValue, null, null);
 		}
 
-		public void CreateCompositeCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string propertyName, object value)
+		public void CreateCompositeCapability(long algorithmID, long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, string propertyName, object value)
 		{
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.Composite, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the child capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the child capabilities from this object
-			CreateClassCapabilities(algorithmID, scenarioAlgorithmID, rootCapabilityID, containerCapabilityID, level + 1, orderIndex, propertyName, value);
+			CreateClassCapabilities(algorithmID, validationOEAlgorithmID, containerCapabilityID, orderIndex, propertyName, value);
 		}
 
-
-		public void CreateBooleanArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<bool> values)
+		public void CreateBooleanArrayCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, List<bool> values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.BooleanArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the value capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateBooleanCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateBooleanCapability(validationOEAlgorithmID, propertyID, containerCapabilityID, i, values[i]);
 			}
 		}
 
-		public void CreateLongArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<long> values)
+		public void CreateLongArrayCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, List<long> values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.LongArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the value capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateLongCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateNumericCapability(validationOEAlgorithmID, propertyID, containerCapabilityID, i, values[i]);
 			}
 		}
 
-		public void CreateNumberArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<int> values)
+		public void CreateNumberArrayCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, List<int> values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.NumberArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the value capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateNumberCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateNumericCapability(validationOEAlgorithmID, propertyID, containerCapabilityID, i, values[i]);
 			}
 		}
 
-		public void CreateStringArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<string> values)
+		public void CreateStringArrayCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, List<string> values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.StringArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the value capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateStringCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateStringCapability(validationOEAlgorithmID, propertyID, containerCapabilityID, i, values[i]);
 			}
 		}
 
-		public void CreateRangeArrayCapability(long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, List<Shared.Algorithms.DataTypes.Range> values)
+		public void CreateRangeArrayCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, List<Shared.Algorithms.DataTypes.Range> values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.RangeArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the child range capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateRangeCapability(scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, values[i]);
+				CreateRangeCapability(validationOEAlgorithmID, propertyID, containerCapabilityID, i, values[i]);
 			}
 		}
 
-		public void CreateCompositeArrayCapability(long algorithmID, long scenarioAlgorithmID, long propertyID, long? rootCapabilityID, long? parentCapabilityID, int level, int orderIndex, string propertyName, IList values)
+		public void CreateCompositeArrayCapability(long algorithmID, long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex, string propertyName, IList values)
 		{
 			//Don't do anything if the collection is empty
 			if (values.Count == 0) return;
 
-			//Create the container capability
-			InsertResult result = _capabilityProvider.Insert(scenarioAlgorithmID, propertyID, rootCapabilityID, parentCapabilityID, level, AlgorithmPropertyType.CompositeArray, orderIndex, false, null, null, null);
-
-			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
-			long containerCapabilityID = result.ID;
-
-			//If this object was a level 0 object, then the root for the children is the container
-			if (level == 0) rootCapabilityID = containerCapabilityID;
+			//Create the container capability, ID will be the parent of the child capabilities
+			long containerCapabilityID = CreateContainerCapability(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex);
 
 			//Create the child composite capabilities
 			for (int i = 0; i < values.Count; i++)
 			{
-				CreateCompositeCapability(algorithmID, scenarioAlgorithmID, propertyID, rootCapabilityID, containerCapabilityID, level + 1, i, propertyName, values[i]);
+				CreateCompositeCapability(algorithmID, validationOEAlgorithmID, propertyID, containerCapabilityID, i, propertyName, values[i]);
 			}
+		}
+
+		private long CreateContainerCapability(long validationOEAlgorithmID, long propertyID, long? parentCapabilityID, int orderIndex)
+		{
+			InsertResult result = _capabilityProvider.Insert(validationOEAlgorithmID, propertyID, parentCapabilityID, orderIndex, false, null, null, null);
+
+			//Grab the ID of the container that was just created, it will be the parent of the value capabilities
+			return result.ID;
 		}
 	}
 }

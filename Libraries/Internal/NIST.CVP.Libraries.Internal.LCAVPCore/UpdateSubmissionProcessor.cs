@@ -198,16 +198,9 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			//Need an algorithm collection to know which ones have been accounted for by old style validations
 			List<int> algorithmsMappedToValidations = new List<int>();
 
-
-			//Collection to store the registrations that we'll group and turn into one or more scenarios
-			List<(OperationalEnvironment oe, List<AlgorithmCapabilities> algorithmCapabilities, string algorithmJson)> potentialScenarios = new List<(OperationalEnvironment oe, List<AlgorithmCapabilities> algorithmCapabilities, string algorithmJson)>();
-
-
 			//First, try to assign each of the algorithms to existing old style validations
 			foreach (var (AlgorithmFamily, CertNumber) in affectedValidations.Where(x => x.Algorithm != "A" && x.Algorithm != "C"))
 			{
-				potentialScenarios = new List<(OperationalEnvironment oe, List<AlgorithmCapabilities> algorithmCapabilities, string algorithmJson)>();
-
 				//Figure out which validation this applies to
 				int validationRecordID = _dataProvider.GetValidationRecordID(AlgorithmFamily, CertNumber);
 
@@ -237,39 +230,16 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 							if (applicableAlgorithms.Count > 0)
 							{
-								//registration.Scenarios.Add(new Scenario
-								//{
-								//	OEs = new List<OperationalEnvironment> { OE },
-								//	Algorithms = applicableAlgorithms
-								//});
-
-								potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+								registration.Scenarios.Add(new Scenario
+								{
+									OE = OE,
+									Algorithms = applicableAlgorithms
+								});
 
 								//Add these algorithms to the list of ones we've mapped to a validation
 								algorithmsMappedToValidations.AddRange(applicableAlgorithms.Select(x => x.Algorithm.AlgorithmID));
 							}
 						}
-
-
-						//Group the OEs by distinct registration
-						foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-						{
-							//Get one of the algorithm collections to use for this scenario
-							List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-							//Get all the OEs that have this same registration
-							List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-							//Add the scenario
-							registration.Scenarios.Add(new Scenario
-							{
-								Algorithms = algorithmCapabilities,
-								OEs = oes
-							});
-						}
-
-
-
 						break;
 
 					case "Component":
@@ -310,8 +280,6 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 								break;
 						}
 
-						
-
 						foreach (var (OE, Algorithms) in rawInfRegistrationContent)
 						{
 							//Filter the algorithms down to ones that belong in this grouping, but if ECDSA Sig Gen make sure we only take the component capabilities, not the regular ECDSA Sig Gen capabilities
@@ -319,36 +287,16 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 							if (applicableAlgorithms.Count > 0)
 							{
-								//registration.Scenarios.Add(new Scenario
-								//{
-								//	OEs = new List<OperationalEnvironment> { OE },
-								//	Algorithms = applicableAlgorithms
-								//});
-
-								potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+								registration.Scenarios.Add(new Scenario
+								{
+									OE = OE,
+									Algorithms = applicableAlgorithms
+								});
 
 								//Add these algorithms to the list of ones we've mapped to a validation
 								algorithmsMappedToValidations.AddRange(applicableAlgorithms.Select(x => x.Algorithm.AlgorithmID));
 							}
 						}
-
-						//Group the OEs by distinct registration
-						foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-						{
-							//Get one of the algorithm collections to use for this scenario
-							List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-							//Get all the OEs that have this same registration
-							List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-							//Add the scenario
-							registration.Scenarios.Add(new Scenario
-							{
-								Algorithms = algorithmCapabilities,
-								OEs = oes
-							});
-						}
-
 						break;
 
 					default:    //All the normal algorithm families
@@ -359,42 +307,19 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 							if (applicableAlgorithms.Count > 0)
 							{
-								//registration.Scenarios.Add(new Scenario
-								//{
-								//	OEs = new List<OperationalEnvironment> { OE },
-								//	Algorithms = applicableAlgorithms
-								//});
-
-								potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+								registration.Scenarios.Add(new Scenario
+								{
+									OE = OE,
+									Algorithms = applicableAlgorithms
+								});
 
 								//Add these algorithms to the list of ones we've mapped to a validation
 								algorithmsMappedToValidations.AddRange(applicableAlgorithms.Select(x => x.Algorithm.AlgorithmID));
 							}
 						}
-
-						//Group the OEs by distinct registration
-						foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-						{
-							//Get one of the algorithm collections to use for this scenario
-							List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-							//Get all the OEs that have this same registration
-							List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-							//Add the scenario
-							registration.Scenarios.Add(new Scenario
-							{
-								Algorithms = algorithmCapabilities,
-								OEs = oes
-							});
-						}
-
-
 						break;
 
 				}
-
-
 
 				//Check for a seemingly impossible case of there not being any algos in a referenced family - maybe they referenced AES because they wanted the metadata change to apply to it, but the capabilities changed only applies to TDES?
 				if (registration.Scenarios.Count > 0)
@@ -437,18 +362,16 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 			if (unmappedAlgorithms.Count() > 0)
 			{
-				potentialScenarios = new List<(OperationalEnvironment oe, List<AlgorithmCapabilities> algorithmCapabilities, string algorithmJson)>();
-
-				int validationRecordID = -1;
+				int validationID = -1;
 
 				//Have at least one algorithm that needs to go into a C validation. Did they provide a C validation number, or do we have to create a new one
 				if (affectedValidations.Exists(x => x.Algorithm == "C"))
 				{
 					//C validation number was provided, so get the record ID
 					int certNumber = affectedValidations.First(x => x.Algorithm == "C").CertNumber;
-					validationRecordID = _dataProvider.GetValidationRecordID("C", certNumber);
+					validationID = _dataProvider.GetValidationRecordID("C", certNumber);
 
-					if (validationRecordID <= 0)
+					if (validationID <= 0)
 					{
 						errors.Add($"Unable to locate validation record for C-{certNumber}");
 					}
@@ -456,7 +379,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					//Create an update registration
 					UpdateRegistrationContainer registration = new UpdateRegistrationContainer
 					{
-						ValidationID = validationRecordID,
+						ValidationID = validationID,
 						ModuleID = moduleID
 					};
 
@@ -468,30 +391,12 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 						if (applicableAlgorithms.Count > 0)
 						{
-							//registration.Scenarios.Add(new Scenario
-							//{
-							//	OEs = new List<OperationalEnvironment> { OE },
-							//	Algorithms = applicableAlgorithms
-							//});
-							potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+							registration.Scenarios.Add(new Scenario
+							{
+								OE = OE,
+								Algorithms = applicableAlgorithms
+							});
 						}
-					}
-
-					//Group the OEs by distinct registration
-					foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-					{
-						//Get one of the algorithm collections to use for this scenario
-						List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-						//Get all the OEs that have this same registration
-						List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-						//Add the scenario
-						registration.Scenarios.Add(new Scenario
-						{
-							Algorithms = algorithmCapabilities,
-							OEs = oes
-						});
 					}
 
 					//See if there were any "In this same implementation" prerequisites in the update, which the back end doesn't handle quite right
@@ -525,14 +430,14 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				else
 				{
 					//They didn't give us a C validation, but does one exist for this product and they just didn't give it to us?
-					validationRecordID = _dataProvider.GetCValidationRecordIDForProduct(moduleID);
+					validationID = _dataProvider.GetCValidationIDForImplementation(moduleID);
 
-					if (validationRecordID > 0)
+					if (validationID > 0)
 					{
 						//Found the existing C validation, so update it
 						UpdateRegistrationContainer registration = new UpdateRegistrationContainer
 						{
-							ValidationID = validationRecordID,
+							ValidationID = validationID,
 							ModuleID = moduleID
 						};
 
@@ -544,31 +449,12 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 							if (applicableAlgorithms.Count > 0)
 							{
-								//registration.Scenarios.Add(new Scenario
-								//{
-								//	OEs = new List<OperationalEnvironment> { OE },
-								//	Algorithms = applicableAlgorithms
-								//});
-
-								potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+								registration.Scenarios.Add(new Scenario
+								{
+									OE = OE,
+									Algorithms = applicableAlgorithms
+								});
 							}
-						}
-
-						//Group the OEs by distinct registration
-						foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-						{
-							//Get one of the algorithm collections to use for this scenario
-							List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-							//Get all the OEs that have this same registration
-							List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-							//Add the scenario
-							registration.Scenarios.Add(new Scenario
-							{
-								Algorithms = algorithmCapabilities,
-								OEs = oes
-							});
 						}
 
 						//See if there were any "In this same implementation" prerequisites in the update, which the back end doesn't handle quite right
@@ -617,31 +503,12 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 							if (applicableAlgorithms.Count > 0)
 							{
-								//registration.Scenarios.Add(new Scenario
-								//{
-								//	OEs = new List<OperationalEnvironment> { OE },
-								//	Algorithms = applicableAlgorithms
-								//});
-
-								potentialScenarios.Add((OE, applicableAlgorithms, JsonConvert.SerializeObject(applicableAlgorithms)));
+								registration.Scenarios.Add(new Scenario
+								{
+									OE = OE,
+									Algorithms = applicableAlgorithms
+								});
 							}
-						}
-
-						//Group the OEs by distinct registration
-						foreach (string registrationJson in potentialScenarios.Select(x => x.algorithmJson).Distinct().ToList())
-						{
-							//Get one of the algorithm collections to use for this scenario
-							List<AlgorithmCapabilities> algorithmCapabilities = potentialScenarios.First(x => x.algorithmJson == registrationJson).algorithmCapabilities;
-
-							//Get all the OEs that have this same registration
-							List<OperationalEnvironment> oes = potentialScenarios.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-							//Add the scenario
-							registration.Scenarios.Add(new Scenario
-							{
-								Algorithms = algorithmCapabilities,
-								OEs = oes
-							});
 						}
 
 						//See if there were any "In this same implementation" prerequisites in the update, which the back end doesn't handle quite right
@@ -673,10 +540,6 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 						results.Add(processingResult);
 					}
 				}
-
-
-
-
 			}
 			
 			return results;
@@ -712,7 +575,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 								&& scenarios[i].Algorithms[j].Prerequisites[k].ValidationRecordID == null)
 							{
 								//Is a self referential prereq, so look up what that ID is - that may be complex since old stuff could be multiple validations
-								int validationRecordID = _dataProvider.GetValidationRecordIDForModuleAndAlgo(moduleID, scenarios[i].Algorithms[j].Prerequisites[k].Algorithm);
+								int validationRecordID = _dataProvider.GetValidationIDForImplementationAndAlgo(moduleID, scenarios[i].Algorithms[j].Prerequisites[k].Algorithm);
 
 								if (validationRecordID > 0)
 								{

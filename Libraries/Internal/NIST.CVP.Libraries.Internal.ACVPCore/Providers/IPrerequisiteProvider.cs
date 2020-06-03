@@ -5,7 +5,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
 	public interface IPrerequisiteProvider
 	{
-		Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID);
-		InsertResult Insert(long scenarioAlgorithmID, long validationID, string requirement);
+		Result DeleteAllForValidationOEAlgorithm(long validationOEAlgorithm);
+		InsertResult Insert(long validationOEAlgorithmID, long validationID, string requirement);
 	}
 }

@@ -84,7 +84,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 						PotentialScenarios.Add(new Scenario
 						{
-							OEs = new List<OperationalEnvironment> { GetOE(infEvaluationResult.InfFile) },
+							OE = GetOE(infEvaluationResult.InfFile),
 							Algorithms = algorithms.Select(a => new AlgorithmCapabilities(a)).ToList()
 						});
 					}
@@ -126,29 +126,8 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				processingResult.Errors.Add($"Cannot be processed because it depends on other submissions that have not been approved. Retry after you have approved submission(s) {submissions}");
 			}
 
-
-			//Do the combining of like scenarios. Will use the resulting list on the registration
-			List<(OperationalEnvironment oe, List<AlgorithmCapabilities> algorithms, string algorithmJson)> foo = PotentialScenarios.Select(x => (x.OEs[0], x.Algorithms, JsonConvert.SerializeObject(x.Algorithms))).ToList();
-
-			//Get the distinct algorithms JSON from that collection
-			List<string> distinctRegistrations = foo.Select(x => x.algorithmJson).Distinct().ToList();
-
-			//Want to group the OEs by the registrations, make a new scenario for each diferent registration - probably not often that there's > 1
-			foreach (string registrationJson in distinctRegistrations)
-			{
-				//Get one of the algorithm collections to use for this scenario
-				List<AlgorithmCapabilities> algorithmCapabilities = foo.First(x => x.algorithmJson == registrationJson).algorithms;
-
-				//Get all the OEs that have this same registration
-				List<OperationalEnvironment> oes = foo.Where(x => x.algorithmJson == registrationJson).Select(x => x.oe).ToList();
-
-				//Add the scenario
-				registration.Scenarios.Add(new Scenario
-				{
-					Algorithms = algorithmCapabilities,
-					OEs = oes
-				});
-			}
+			//No longer want to combine like scenarios, so just slap them all into the "registration"
+			registration.Scenarios = PotentialScenarios;
 
 			//Put this object on the processing result
 			processingResult.TheThingy = registration;

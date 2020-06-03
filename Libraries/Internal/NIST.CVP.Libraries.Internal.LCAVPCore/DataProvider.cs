@@ -68,9 +68,9 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 				var (Algorithm, CertNumber) = GetAnAlgoValidation(changeFile.AffectedValidations);
 
-				var data = db.Query("EXEC [lcavp].[ModuleIDGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[ImplementationIDGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
 
-				return (int)data.ModuleID;
+				return (int)data.ImplementationId;
 			}
 			catch
 			{
@@ -132,7 +132,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 				var data = db.Query("EXEC [lcavp].[OEIDGet] @0, @1, @2", Algorithm, CertNumber, oeName).FirstOrDefault();
 
-				return (int)data.OEID;
+				return (int)data.OEId;
 			}
 			catch
 			{
@@ -195,6 +195,20 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 		}
 
+		public List<long> GetOEIDsForValidation(long validationID, string oeName)
+		{
+			List<long> oes = new List<long>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			var data = db.Query("EXEC [lcavp].[OEIDGetForValidation] @0, @1", validationID, oeName);
+			foreach (var row in data)
+			{
+				oes.Add((int)row.OEID);
+			}
+
+			return oes;
+		}
+
 
 		private (string Algorithm, int CertNumber) GetAnAlgoValidation(List<(string Algorithm, int CertNumber)> affectedValidations)
 		{
@@ -207,9 +221,9 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[ValidationRecordIDGet] @0, @1", family, certNumber).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[ValidationIDGet] @0, @1", family, certNumber).FirstOrDefault();
 
-				return (int)data.ValidationRecordID;
+				return (int)data.ValidationId;
 			}
 			catch
 			{
@@ -217,13 +231,13 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 		}
 
-		public int GetCValidationRecordIDForProduct(int moduleID)
+		public int GetCValidationIDForImplementation(int implementationID)
 		{
 			try
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[CValidationRecordIDForModuleGet] @0", moduleID).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[CValidationRecordIDForModuleGet] @0", implementationID).FirstOrDefault();
 
 				return (int)data.ValidationRecordID;
 			}
@@ -233,7 +247,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 		}
 
-		public int GetValidationRecordIDForModuleAndAlgo(int moduleID, string family)
+		public int GetValidationIDForImplementationAndAlgo(int implementationID, string family)
 		{
 			//This needs to handle it actually being C, family will never be C
 			//First try to get it like is is non-C
@@ -241,15 +255,15 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[ValidationRecordIDForFamilyAndModuleGet] @0, @1", moduleID, family).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[ValidationIDForFamilyAndImplementationGet] @0, @1", implementationID, family).FirstOrDefault();
 
 				if (data != null)
 				{
-					return (int)data.ValidationRecordID;
+					return (int)data.ValidationId;
 				}
 				else
 				{
-					return GetCValidationRecordIDForProduct(moduleID);
+					return GetCValidationIDForImplementation(implementationID);
 				}
 			}
 			catch
@@ -347,16 +361,16 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 		}
 
-		public long GetAnAlgorithmOnValidation(long validationRecordID)
+		public long GetAnAlgorithmOnValidation(long validationID)
 		{
 
 			try
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[AlgorithmsOnValidationGet] @0", validationRecordID).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[AlgorithmsOnValidationGet] @0", validationID).FirstOrDefault();
 
-				return (long)data.algorithm_id;
+				return (long)data.AlgorithmId;
 			}
 			catch
 			{

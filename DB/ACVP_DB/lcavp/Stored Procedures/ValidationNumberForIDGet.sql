@@ -5,8 +5,8 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT TOP 1 validation_id AS ValidationNumber
-	FROM val.VALIDATION_RECORD
-	WHERE id = @ValidationId
+	SELECT TOP 1 ValidationNumber
+	FROM dbo.Validations
+	WHERE ValidationId = @ValidationId
 
 

@@ -1,9 +1,8 @@
 ﻿using System;
-using NIST.CVP.Libraries.Shared.Results;
-
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -18,15 +17,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			_logger = logger;
 		}
 
-		public Result DeleteAllForScenarioAlgorithm(long scenarioAlgorithmID)
+		public Result DeleteAllForValidationOEAlgorithm(long validationOEAlgorithmID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				db.ExecuteProcedure("val.PrerequisitesForScenarioAlgorithmDelete", inParams: new
+				db.ExecuteProcedure("dbo.PrerequisitesForValidationOEAlgorithmDelete", inParams: new
 				{
-					ScenarioAlgorithmId = scenarioAlgorithmID
+					ValidationOEAlgorithmId = validationOEAlgorithmID
 				});
 			}
 			catch (Exception ex)
@@ -38,15 +37,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return new Result();
 		}
 
-		public InsertResult Insert(long scenarioAlgorithmID, long validationID, string requirement)
+		public InsertResult Insert(long validationOEAlgorithmID, long validationID, string requirement)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.ScalarFromProcedure("val.PrerequisiteInsert", inParams: new
+				var data = db.ScalarFromProcedure("dbo.PrerequisiteInsert", inParams: new
 				{
-					ScenarioAlgorithmId = scenarioAlgorithmID,
+					ValidationOEAlgorithmId = validationOEAlgorithmID,
 					ValidationId = validationID,
 					Requirement = requirement
 				});
