@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+﻿using System;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -31,14 +32,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			ImplementationUpdateParameters parameters = ((ImplementationUpdatePayload)workflowItem.Payload).ToImplementationUpdateParameters();
 
 			//Update it
-			ImplementationResult implementationUpdateResult = _implementationService.Update(parameters);
+			ImplementationResult result = _implementationService.Update(parameters);
 
-			if (!implementationUpdateResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 
-			return implementationUpdateResult.ID;
+			return result.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem) { }

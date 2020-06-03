@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+﻿using System;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Exceptions;
@@ -32,16 +33,16 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			DeleteParameters deleteParameters = ((DeletePayload)workflowItem.Payload).ToDeleteParameters();
 
 			//Delete that dependency - will fail if dependency is in use
-			DeleteResult deleteResult = _dependencyService.Delete(deleteParameters.ID);
+			DeleteResult result = _dependencyService.Delete(deleteParameters.ID);
 
-			if (deleteResult.IsInUse)
+			if (result.IsInUse)
 			{
 				throw new ResourceInUseException($"The resource could not be deleted as other resources are referencing it. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");
 			}
 			
-			if (!deleteResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}");				
+				throw new ResourceProcessorException($"The resource could not be deleted. Workflow Info: {workflowItem.APIAction} {workflowItem.WorkflowItemID}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 			
 			return deleteParameters.ID;
