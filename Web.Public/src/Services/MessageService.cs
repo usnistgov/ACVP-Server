@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Web.Public.Providers;
 
@@ -14,7 +15,7 @@ namespace Web.Public.Services
             _userProvider = userProvider;
         }
         
-        public long InsertIntoQueue(APIAction apiAction, string userCertSubject, object content)
+        public async Task<long> InsertIntoQueueAsync(APIAction apiAction, string userCertSubject, object content)
         {
             var userID = _userProvider.GetUserIDFromCertificateSubject(userCertSubject);
 
@@ -22,13 +23,13 @@ namespace Web.Public.Services
             if (content is IWorkflowItemPayload)
             {
                 var requestID = _messageProvider.GetNextRequestID();
-                _messageProvider.InsertIntoQueue(apiAction, requestID, userID, content);
+                await _messageProvider.InsertIntoQueueAsync(apiAction, requestID, userID, content);
 
                 return requestID;                
             }
             
             // Messages that don't lead to workflow items don't get a request id.
-            _messageProvider.InsertIntoQueue(apiAction, userID, content);
+            await _messageProvider.InsertIntoQueueAsync(apiAction, userID, content);
             return 0;
         }
     }

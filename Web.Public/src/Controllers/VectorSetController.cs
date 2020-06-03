@@ -75,7 +75,7 @@ namespace Web.Public.Controllers
 
                 //Send a TestSessionKeepAlive message
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
                 var vectorSetUrls = new VectorSetUrlObject
                 {
@@ -99,7 +99,7 @@ namespace Web.Public.Controllers
             {
                 //Send a TestSessionKeepAlive message
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
                 var prompt = await _vectorSetService.GetPromptAsync(vsID);
                 if (prompt == null)
@@ -131,7 +131,7 @@ namespace Web.Public.Controllers
                 }
                 
                 // Pass to message queue
-                _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueueAsync(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
 
                 // Build request object for response
                 var requestObject = new CancelObject()
@@ -156,7 +156,7 @@ namespace Web.Public.Controllers
             {
                 //Send a TestSessionKeepAlive message
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
                 if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
@@ -196,7 +196,7 @@ namespace Web.Public.Controllers
                     throw new PayloadValidatorException(validation.Errors);
                 }
                 
-                _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
+                _messageService.InsertIntoQueueAsync(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
                 _vectorSetService.SetStatus(vsID, VectorSetStatus.KATReceived);
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
@@ -232,7 +232,7 @@ namespace Web.Public.Controllers
                     throw new PayloadValidatorException(validation.Errors);
                 }
                 
-                _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
+                _messageService.InsertIntoQueueAsync(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
                 _vectorSetService.SetStatus(vsID, VectorSetStatus.ResubmitAnswers);
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
@@ -252,7 +252,7 @@ namespace Web.Public.Controllers
             {
                 //Send a TestSessionKeepAlive message
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
                 // If the session isn't a sample, then the expected results are not generated
                 var testSessions = _testSessionService.GetTestSession(tsID);

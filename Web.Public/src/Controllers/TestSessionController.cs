@@ -102,7 +102,7 @@ namespace Web.Public.Controllers
             var testSession = _testSessionService.CreateTestSession(certSubject, registration);
 
             // Insert into queue
-            _messageService.InsertIntoQueue(apiAction, certSubject, registration);
+            _messageService.InsertIntoQueueAsync(apiAction, certSubject, registration);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
@@ -138,7 +138,7 @@ namespace Web.Public.Controllers
 
             //Send a TestSessionKeepAlive message
             var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
-            _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
@@ -165,7 +165,7 @@ namespace Web.Public.Controllers
                 throw new PayloadValidatorException(validation.Errors);
             }
 
-            var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+            var requestId = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 
             // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards
             _testSessionService.SetTestSessionPublished(id);
@@ -200,7 +200,7 @@ namespace Web.Public.Controllers
                 throw new PayloadValidatorException(validation.Errors);
             }
             
-            _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
+            _messageService.InsertIntoQueueAsync(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
             var requestObject = new CancelObject()
             {
                 Url = Request.Path.Value
