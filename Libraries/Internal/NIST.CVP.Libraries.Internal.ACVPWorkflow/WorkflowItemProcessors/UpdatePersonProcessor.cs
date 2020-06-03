@@ -32,14 +32,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			PersonUpdateParameters parameters = ((PersonUpdatePayload)workflowItem.Payload).ToPersonUpdateParameters();
 
 			//Update it
-			PersonResult personUpdateResult = _personService.Update(parameters);
+			PersonResult result = _personService.Update(parameters);
 
-			if (!personUpdateResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 
-			return personUpdateResult.ID;
+			return result.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem)
