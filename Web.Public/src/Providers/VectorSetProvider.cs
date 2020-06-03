@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
@@ -69,13 +70,13 @@ namespace Web.Public.Providers
             }
         }
 
-        public VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType)
+        public async Task<VectorSet> GetJsonAsync(long vsID, VectorSetJsonFileTypes fileType)
         {
             var db = new MightyOrm(_connectionString);
 
             try
             {
-                var jsonData = db.SingleFromProcedure("acvp.VectorSetJsonGet", new
+                var jsonData = await db.SingleFromProcedureAsync("acvp.VectorSetJsonGet", new
                 {
                     VsID = vsID,
                     FileType = (int)fileType

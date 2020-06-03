@@ -89,7 +89,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}")]
-        public ActionResult GetPrompt(long tsID, long vsID)
+        public async Task<ActionResult> GetPrompt(long tsID, long vsID)
         {
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -101,7 +101,7 @@ namespace Web.Public.Controllers
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
                 _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
 
-                var prompt = _vectorSetService.GetPrompt(vsID);
+                var prompt = await _vectorSetService.GetPromptAsync(vsID);
                 if (prompt == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
@@ -146,7 +146,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}/results")]
-        public ActionResult GetValidationResults(long tsID, long vsID)
+        public async Task<ActionResult> GetValidationResults(long tsID, long vsID)
         {
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -164,7 +164,7 @@ namespace Web.Public.Controllers
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
                 }
                 
-                var validation = _vectorSetService.GetValidation(vsID);
+                var validation = await _vectorSetService.GetValidationAsync(vsID);
                 if (validation == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
@@ -242,7 +242,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpGet("{vsID}/expected")]
-        public ActionResult GetExpectedResults(long tsID, long vsID)
+        public async Task<ActionResult> GetExpectedResults(long tsID, long vsID)
         {
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -261,7 +261,7 @@ namespace Web.Public.Controllers
                     return new NotFoundResult();
                 }
                 
-                var expectedResults = _vectorSetService.GetExpectedResults(vsID);
+                var expectedResults = await _vectorSetService.GetExpectedResultsAsync(vsID);
                 if (expectedResults == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
