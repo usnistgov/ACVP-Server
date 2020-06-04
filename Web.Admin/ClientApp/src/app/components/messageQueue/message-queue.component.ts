@@ -10,6 +10,7 @@ import { MessageQueue } from '../../models/messageQueue/MessageQueue';
 export class MessageQueueComponent implements OnInit {
 
   messageQueue: MessageQueue;
+  autoRefreshEnabled = true;
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService) { }
 
@@ -21,11 +22,24 @@ export class MessageQueueComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
+  getPageData() {
     this.AdministrativeAjax.getMessageQueue().subscribe(
       data => {
         this.messageQueue = data;
       });
-  };
+  }
+
+  ngOnInit() {
+    // Get the initial data
+    this.getPageData();
+
+    // This sets the callback function to be run every second.
+    // The callback contains a boolean check
+    setInterval(() => {
+      if (this.autoRefreshEnabled === true) {
+        this.getPageData();
+      }
+    }, 1000);
+  }
 
 }
