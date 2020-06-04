@@ -45,17 +45,14 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
         
 		private static readonly KasDpGeneration[] ValidEccDpGeneration = 
 		{
-			KasDpGeneration.P192,
 			KasDpGeneration.P224,
 			KasDpGeneration.P256,
 			KasDpGeneration.P384,
 			KasDpGeneration.P521,
-			KasDpGeneration.K163,
 			KasDpGeneration.K233,
 			KasDpGeneration.K283,
 			KasDpGeneration.K409,
 			KasDpGeneration.K571,
-			KasDpGeneration.B163,
 			KasDpGeneration.B233,
 			KasDpGeneration.B283,
 			KasDpGeneration.B409,
