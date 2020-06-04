@@ -13,7 +13,7 @@ export class MessageQueueComponent implements OnInit {
   autoRefreshEnabled = true;
 
   // Used to store the interval object for eventual cleanup on component destruction
-  interval;
+  //interval;
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService) { }
 
@@ -38,13 +38,14 @@ export class MessageQueueComponent implements OnInit {
 
     // This sets the callback function to be run every second.
     // The callback contains a boolean check
-    this.interval = setInterval(() => {
-      if (this.autoRefreshEnabled === true) {
-        this.getPageData();
-      }
-    }, 1000);
+    // 06/04/2020 - Commented out because it was generating tons of logs when users left it open on their machines.
+  //  this.interval = setInterval(() => {
+  //    if (this.autoRefreshEnabled === true) {
+  //      this.getPageData();
+  //    }
+  //  }, 1000);
   }
 
-  ngOnDestroy() { clearInterval(this.interval); }
+  //ngOnDestroy() { clearInterval(this.interval); }
 
 }
