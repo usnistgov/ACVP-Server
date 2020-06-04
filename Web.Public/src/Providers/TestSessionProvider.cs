@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
-using Mighty;
-using NIST.CVP.Libraries.Shared.Results;
-using Web.Public.Models;
-using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using Web.Public.Configs;
 using Microsoft.Extensions.Options;
+using Mighty;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Results;
+using Web.Public.Configs;
+using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
@@ -72,7 +72,8 @@ namespace Web.Public.Providers
                     CreatedOn = data.CreatedOn,
                     IsSample = data.Sample,
                     Status = (TestSessionStatus)data.TestSessionStatusId,
-                    ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
+                    LastTouched = (DateTime)data.LastTouched,
+                    ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)     //This is pretty lame to set both of these, but expiration is based on configuration, and don't want to pass config into a model class
                 };
 
                 var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
@@ -214,6 +215,21 @@ namespace Web.Public.Providers
             }
             
             return new Result();
+        }
+
+        public DateTime GetLastTouched(long testSessionID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                return (DateTime)db.ScalarFromProcedure("acvp.TestSessionGetLastTouched", new { TestSessionId = testSessionID });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving LastTouched for Test Session  {testSessionID}");
+                return DateTime.MinValue;
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -136,9 +137,12 @@ namespace Web.Public.Controllers
                 }), HttpStatusCode.NotFound);
             }
 
-            //Send a TestSessionKeepAlive message
-            var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
-            _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            //Send a TestSessionKeepAlive message if hasn't already been touched today
+            if (testSession.LastTouched.Date != DateTime.Today)
+            {
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            }
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }

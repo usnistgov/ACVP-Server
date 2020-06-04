@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -8,7 +9,6 @@ using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
-using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
 using Web.Public.Services.MessagePayloadValidators;
@@ -54,7 +54,7 @@ namespace Web.Public.Controllers
 
             var claimValidator = new TestSessionClaimsVerifier(tsID);
             if (claimValidator.AreClaimsValid(claims))
-            {            
+            {
                 var testSession = _testSessionService.GetTestSession(tsID);
             
                 if (testSession == null)
@@ -73,9 +73,8 @@ namespace Web.Public.Controllers
                     }), HttpStatusCode.NotFound);
                 }
 
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var vectorSetUrls = new VectorSetUrlObject
                 {
@@ -97,9 +96,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
@@ -154,9 +152,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
                 if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
@@ -252,9 +249,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 // If the session isn't a sample, then the expected results are not generated
                 var testSessions = _testSessionService.GetTestSession(tsID);
@@ -273,6 +269,22 @@ namespace Web.Public.Controllers
             }
 
             return new ForbidResult();
+        }
+
+        private void MaybeSendKeepAlive(long testSessionID, string userCertSubject)
+        {
+            //Don't want to send keep alives on test sessions that were just created and haven't been processed yet
+            if (!_testSessionService.IsTestSessionQueued(testSessionID))
+            {
+                //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned
+                DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
+
+                if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
+                {
+                    var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
+                    _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, userCertSubject, payload);
+                }
+            }
         }
     }
 }
