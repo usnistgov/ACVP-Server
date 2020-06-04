@@ -14,6 +14,9 @@ export class TaskQueueComponent implements OnInit {
   taskQueue: TaskQueue;
   autoRefreshEnabled = true;
 
+  // Used to store the interval object for eventual cleanup on component destruction
+  interval;
+
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService,
     private TestSessionProvider: TestSessionProviderService) { }
 
@@ -56,11 +59,13 @@ export class TaskQueueComponent implements OnInit {
 
     // This sets the callback function to be run every second.
     // The callback contains a boolean check
-    setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.autoRefreshEnabled === true) {
         this.getPageData();
       }
     }, 1000);
   }
+
+  ngOnDestroy() { clearInterval(this.interval); }
 
 }
