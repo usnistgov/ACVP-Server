@@ -9,7 +9,6 @@ using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
-using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
 using Web.Public.Services.MessagePayloadValidators;
@@ -74,8 +73,8 @@ namespace Web.Public.Controllers
                     }), HttpStatusCode.NotFound);
                 }
 
-            //Maybe send a TestSessionKeepAlive message
-            MaybeSendKeepAlive(tsID, "blsh"); //GetCertSubjectFromJwt());
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var vectorSetUrls = new VectorSetUrlObject
                 {
@@ -98,7 +97,7 @@ namespace Web.Public.Controllers
             if (claimValidator.AreClaimsValid(claims))
             {
                 //Maybe send a TestSessionKeepAlive message
-                MaybeSendKeepAlive(tsID, "blah");//GetCertSubjectFromJwt());
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
