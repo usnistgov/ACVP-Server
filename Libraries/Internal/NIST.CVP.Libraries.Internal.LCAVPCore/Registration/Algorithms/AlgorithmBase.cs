@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using Newtonsoft.Json;
 
 namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms
@@ -249,6 +248,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms
 			48 => "AES",
 			49 => "AES",
 			53 => "AES",
+			141 => "AES",
 			73 => "Component",
 			74 => "Component",
 			75 => "Component",
