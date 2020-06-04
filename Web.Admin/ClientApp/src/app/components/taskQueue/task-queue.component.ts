@@ -12,6 +12,7 @@ import { TestSessionListParameters } from '../../models/testSession/TestSessionL
 export class TaskQueueComponent implements OnInit {
 
   taskQueue: TaskQueue;
+  autoRefreshEnabled = true;
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService,
     private TestSessionProvider: TestSessionProviderService) { }
@@ -24,10 +25,8 @@ export class TaskQueueComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-
+  getPageData() {
     let self = this;
-
     this.AdministrativeAjax.getTaskQueue().subscribe(
       data => {
         this.taskQueue = data;
@@ -48,6 +47,20 @@ export class TaskQueueComponent implements OnInit {
         });
 
       });
+  }
+
+  ngOnInit() {
+
+    // Get the initial data
+    this.getPageData();
+
+    // This sets the callback function to be run every second.
+    // The callback contains a boolean check
+    setInterval(() => {
+      if (this.autoRefreshEnabled === true) {
+        this.getPageData();
+      }
+    }, 1000);
   }
 
 }
