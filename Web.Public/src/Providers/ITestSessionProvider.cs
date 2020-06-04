@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.Results;
 using Web.Public.Models;
@@ -12,5 +13,6 @@ namespace Web.Public.Providers
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
         Result SetTestSessionPublished(long testSessionId);
+        DateTime GetLastTouched(long testSessionID);
     }
 }
