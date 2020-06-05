@@ -154,11 +154,20 @@ namespace Web.Public.Controllers
             {
                 //Maybe send a TestSessionKeepAlive message
                 MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
+                var status = _vectorSetService.GetStatus(vsID);
 
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
-                if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
+                if (status == VectorSetStatus.ResubmitAnswers)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                }
+                // If we never received the responses, tell the client
+                else if (status == VectorSetStatus.Processed || status == VectorSetStatus.Initial)
+                {
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject
+                    {
+                        Error = $"Responses for vsId {vsID} not received by the server."
+                    }));
                 }
                 
                 var validation = _vectorSetService.GetValidation(vsID);
