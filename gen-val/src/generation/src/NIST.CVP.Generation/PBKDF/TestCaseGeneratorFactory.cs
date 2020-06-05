@@ -1,7 +1,7 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.Async;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
+namespace NIST.CVP.Generation.PBKDF
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {

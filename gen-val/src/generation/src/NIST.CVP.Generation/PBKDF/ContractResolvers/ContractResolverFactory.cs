@@ -2,7 +2,7 @@ using System;
 using NIST.CVP.Generation.Core.ContractResolvers;
 using NIST.CVP.Generation.Core.Enums;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF.ContractResolvers
+namespace NIST.CVP.Generation.PBKDF.ContractResolvers
 {
     public class ContractResolverFactory : IContractResolverFactory<TestGroup, TestCase>
     {

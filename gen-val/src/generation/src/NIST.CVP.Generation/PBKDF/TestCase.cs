@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
+namespace NIST.CVP.Generation.PBKDF
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {

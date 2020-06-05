@@ -6,17 +6,17 @@ using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Generation.Core.DeSerialization;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Parsers;
-using NIST.CVP.Generation.KDF_Components.v1_0.PBKDF.ContractResolvers;
+using NIST.CVP.Generation.PBKDF.ContractResolvers;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
+namespace NIST.CVP.Generation.PBKDF
 {
     public class RegisterInjections : ISupportedAlgoModeRevisions
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.KDFComponents_PBKDF_v1_0
+            AlgoMode.PBKDF_v1_0
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)
