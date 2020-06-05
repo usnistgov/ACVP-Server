@@ -183,6 +183,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPost("{vsID}/results")]
+        [DisableRequestSizeLimit, RequestFormLimits(MultipartBodyLengthLimit = 536870912)]
         public ActionResult PostResults(long tsID, long vsID)
         {
             //Validate claim
@@ -214,6 +215,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{vsID}/results")]
+        [DisableRequestSizeLimit, RequestFormLimits(MultipartBodyLengthLimit = 536870912)]
         public ActionResult UpdateResults(long tsID, long vsID)
         {
             //Check that resubmissions are allowed in this environment
