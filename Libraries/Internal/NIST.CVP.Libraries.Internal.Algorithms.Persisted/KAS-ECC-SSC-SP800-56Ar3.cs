@@ -10,6 +10,9 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 		[AlgorithmProperty(Name = "domainParameterGenerationMethods")]
 		public List<string> DomainParameterGenerationMethods { get; set; }
 
+		[AlgorithmProperty(Name = "hashFunctionZ")]
+		public string HashFunctionZ { get; set; }
+		
 		[AlgorithmProperty(Name = "scheme")] public SchemeCollection Schemes { get; set; }
 
 		public KAS_ECC_SSC_SP800_56Ar3()

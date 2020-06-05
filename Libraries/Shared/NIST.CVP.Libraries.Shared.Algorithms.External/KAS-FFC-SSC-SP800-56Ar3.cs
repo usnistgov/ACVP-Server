@@ -9,6 +9,9 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 		[JsonPropertyName("domainParameterGenerationMethods")]
 		public List<string> DomainParameterGenerationMethods { get; set; }
 
+		[JsonPropertyName("hashFunctionZ")]
+		public string HashFunctionZ { get; set; }
+		
 		[JsonPropertyName("scheme")] public SchemeCollection Schemes { get; set; }
 
 		public KAS_FFC_SSC_SP800_56Ar3()
