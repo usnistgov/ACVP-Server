@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -102,13 +103,13 @@ namespace Web.Public.Controllers
             var testSession = _testSessionService.CreateTestSession(certSubject, registration);
 
             // Insert into queue
-            _messageService.InsertIntoQueueAsync(apiAction, certSubject, registration);
+            await _messageService.InsertIntoQueueAsync(apiAction, certSubject, registration);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetTestSession(long id)
+        public async Task<ActionResult> GetTestSession(long id)
         {
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -136,9 +137,12 @@ namespace Web.Public.Controllers
                 }), HttpStatusCode.NotFound);
             }
 
-            //Send a TestSessionKeepAlive message
-            var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
-            _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            //Send a TestSessionKeepAlive message if hasn't already been touched today
+            if (testSession.LastTouched.Date != DateTime.Today)
+            {
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
+                await _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            }
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }

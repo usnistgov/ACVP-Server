@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.Results;
@@ -14,5 +15,6 @@ namespace Web.Public.Services
         TestSession CreateTestSession(string userCertSubject, TestSessionRegisterPayload registration);
         Result SetTestSessionPublished(long testSessionId);
         TestSessionResults GetTestSessionResults(long id);
+        DateTime GetLastTouched(long testSessionID);
     }
 }
