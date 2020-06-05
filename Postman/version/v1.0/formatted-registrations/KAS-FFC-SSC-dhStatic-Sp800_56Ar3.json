@@ -1,0 +1,1 @@
+[{"algorithms":"{\"algorithm\": \"KAS-FFC-SSC\",\"revision\": \"Sp800-56Ar3\",\"scheme\": {\"dhStatic\": {\"kasRole\": [\"initiator\", \"responder\"]}},\"domainParameterGenerationMethods\": [\"MODP-2048\"]}"}]

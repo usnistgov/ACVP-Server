@@ -132,8 +132,12 @@ namespace NIST.CVP.Common
         KAS_FFC_Component_v1_0,
         [EnumMember(Value = "KAS-FFC-Sp800-56Ar3")]
         KAS_FFC_Sp800_56Ar3,
+        [EnumMember(Value = "KAS-FFC-SSC-SP800-56Ar3")]
+        KAS_FFC_SSC_Sp800_56Ar3,
         [EnumMember(Value = "KAS-ECC-Sp800-56Ar3")]
         KAS_ECC_Sp800_56Ar3,
+        [EnumMember(Value = "KAS-ECC-SSC-SP800-56Ar3")]
+        KAS_ECC_SSC_Sp800_56Ar3,
         [EnumMember(Value = "KAS-IFC-Sp800-56Br2")]
         KAS_IFC_Sp800_56Br2,
         [EnumMember(Value = "KTS-IFC-Sp800-56Br2")]

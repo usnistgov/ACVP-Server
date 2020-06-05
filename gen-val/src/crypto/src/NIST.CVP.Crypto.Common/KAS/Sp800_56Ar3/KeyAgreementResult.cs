@@ -17,6 +17,10 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
         /// </summary>
         public BitString Z { get; }
         /// <summary>
+        /// The hash of Z 
+        /// </summary>
+        public BitString HashZ { get; set; }
+        /// <summary>
         /// The fixed info used in construction of <see cref="Dkm"/>
         /// </summary>
         public BitString FixedInfo { get; }
@@ -60,6 +64,22 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3
             SecretKeyingMaterialPartyU = secretKeyingMaterialPartyU;
             SecretKeyingMaterialPartyV = secretKeyingMaterialPartyV;
             Z = z;
+        }
+        
+        /// <summary>
+        /// Construct the Result for KAS without a KDF or KeyConfirmation (component test).
+        /// In this instance the hash of Z is performed to accommodate implementations unable
+        /// to return Z in the clear 
+        /// </summary>
+        /// <param name="secretKeyingMaterialPartyU">The secret keying material for party U.</param>
+        /// <param name="secretKeyingMaterialPartyV">The secret keying material for party V.</param>
+        /// <param name="z">The shared secret.</param>
+        /// <param name="hashZ">The hash of the shared secret.</param>
+        public KeyAgreementResult(ISecretKeyingMaterial secretKeyingMaterialPartyU, 
+            ISecretKeyingMaterial secretKeyingMaterialPartyV, 
+            BitString z, BitString hashZ) : this(secretKeyingMaterialPartyU, secretKeyingMaterialPartyV, z)
+        {
+            HashZ = hashZ;
         }
         
         /// <summary>

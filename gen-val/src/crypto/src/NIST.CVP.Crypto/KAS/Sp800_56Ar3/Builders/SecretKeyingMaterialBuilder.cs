@@ -1,5 +1,4 @@
 using System;
-using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
@@ -120,7 +119,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders
 
         private void ValidatePartyId(SchemeKeyNonceGenRequirement schemeRequirements, BitString partyId)
         {
-            if (partyId == null)
+            if (schemeRequirements.KasMode != KasMode.NoKdfNoKc && partyId == null)
                 throw new ArgumentNullException(nameof(partyId));
         }
         
