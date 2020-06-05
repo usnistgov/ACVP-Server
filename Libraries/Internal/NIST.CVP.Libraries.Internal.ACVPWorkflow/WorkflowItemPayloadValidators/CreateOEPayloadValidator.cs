@@ -23,16 +23,19 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 			OECreateParameters parameters = oeCreatePayload.ToOECreateParameters();
 
 			//Verify that the dependencies exist
-			foreach (long dependencyID in parameters.DependencyIDs)
+			if (parameters.DependencyIDs != null)
 			{
-				if (!_dependencyService.DependencyExists(dependencyID))
+				foreach (long dependencyID in parameters.DependencyIDs)
 				{
-					throw new ResourceDoesNotExistException($"Dependency {dependencyID} does not exist");
+					if (!_dependencyService.DependencyExists(dependencyID))
+					{
+						throw new ResourceDoesNotExistException($"Dependency {dependencyID} does not exist");
+					}
 				}
 			}
 
 			//If there are any inline dependencies, validate those
-			if (oeCreatePayload.DependenciesToCreate.Count > 0)
+			if (oeCreatePayload.DependenciesToCreate?.Count > 0)
 			{
 				var dependencyValidator = _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateDependency);
 				foreach (DependencyCreatePayload dependencyCreatePayload in oeCreatePayload.DependenciesToCreate)

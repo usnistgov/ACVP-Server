@@ -345,8 +345,23 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				return new List<(int OrderIndex, string PhoneNumber, string Type)>();
 			}
+		}
 
+		public long GetAnAlgorithmOnValidation(long validationRecordID)
+		{
 
+			try
+			{
+				var db = new MightyOrm(_acvpConnectionString);
+
+				var data = db.Query("EXEC [lcavp].[AlgorithmsOnValidationGet] @0", validationRecordID).FirstOrDefault();
+
+				return (long)data.algorithm_id;
+			}
+			catch
+			{
+				return -1;
+			}
 		}
 	}
 }

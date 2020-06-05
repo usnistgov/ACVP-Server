@@ -38,7 +38,7 @@
       </div>
 
       <!-- Main Table Row -->
-      <div class="row">
+      <div class="row" style="min-height:540px;">
         <table class="table table-hover">
           <thead class="thead-light">
             <tr>
@@ -53,7 +53,7 @@
           </thead>
           <tbody>
             <!-- We didn't use routerLink here because this way it keeps the routerLink from overriding the checkbox (which ist he defualt)
-                 See further comments in TS code -->
+         See further comments in TS code -->
             <tr *ngFor="let workflowItem of workflowItems?.data;let i = index" (click)="routeToIndividualWorkflowPage(workflowItem.workflowItemId)">
               <td><input type="checkbox" *ngIf="workflowItem.status === 'Pending'" [(ngModel)]="workflowItem.multiSelected" (click)="checkBoxClick($event, i)" /></td>
               <td>{{ workflowItem.submissionId }}</td>
@@ -172,10 +172,13 @@
               <td>{{ workflowItem.status }}</td>
             </tr>
           </tbody>
+          <tbody *ngIf="workflowItems?.data?.length === 0">
+            <tr><td colspan="8" align="center">No items</td></tr>
+          </tbody>
         </table>
       </div><!-- Close Main Table Row -->
       <!-- Pagination Buttons Row-->
-      <div class="row">
+      <div class="row" *ngIf="workflowItems?.data?.length > 0">
         <table class="center">
           <tr>
             <td><button class="btn btn-primary bold-heading" (click)="getPage('first')">&lt;&lt;</button></td>

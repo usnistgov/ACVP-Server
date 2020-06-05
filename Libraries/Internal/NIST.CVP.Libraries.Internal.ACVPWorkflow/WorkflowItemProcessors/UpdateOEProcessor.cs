@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+﻿using System;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -34,30 +35,33 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			OEUpdateParameters parameters = oeUpdatePayload.ToOEUpdateParameters();
 
 			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs
-			foreach (DependencyCreatePayload dependencyCreatePayload in oeUpdatePayload.DependenciesToCreate)
+			if (oeUpdatePayload.DependenciesToCreate != null)
 			{
-				//Convert from a payload to parameters
-				DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
-
-				//Create it
-				DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
-
-				//Add it to the dependency list
-				if (dependencyCreateResult.IsSuccess)
+				foreach (DependencyCreatePayload dependencyCreatePayload in oeUpdatePayload.DependenciesToCreate)
 				{
-					parameters.DependencyIDs.Add(dependencyCreateResult.ID);
+					//Convert from a payload to parameters
+					DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
+
+					//Create it
+					DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
+
+					//Add it to the dependency list
+					if (dependencyCreateResult.IsSuccess)
+					{
+						parameters.DependencyIDs.Add(dependencyCreateResult.ID);
+					}
 				}
 			}
 
 			//Update it
-			OEResult oeUpdateResult = _oeService.Update(parameters);
+			OEResult result = _oeService.Update(parameters);
 
-			if (!oeUpdateResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 
-			return oeUpdateResult.ID;
+			return result.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem) { }

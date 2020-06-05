@@ -20,7 +20,7 @@ IF (@Filter IS NULL)
 		-- No filter simply means all are potentially returned
 		INSERT INTO @MatchingIDs (id)
 		SELECT id
-		FROM val.VALIDATION_OE_DEPENDENCY
+		FROM val.PRODUCT_INFORMATION
 	END
 ELSE
 	BEGIN
@@ -31,7 +31,7 @@ ELSE
 		DECLARE @ORs TABLE (id int, clause nvarchar(1000))
 
 		INSERT into @ORs (id, clause)
-		SELECT ValueID, [Value] FROM dbo.DelimitedListToTable(@Filter, @ORdelimiter)
+		SELECT ValueID, value FROM dbo.DelimitedListToTable(@Filter, @ORdelimiter)
 
 
 		DECLARE @OrClause varchar(1000)

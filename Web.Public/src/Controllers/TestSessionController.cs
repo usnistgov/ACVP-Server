@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -95,7 +96,7 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(registration);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
 
             // This modifies registration along the way
@@ -122,6 +123,13 @@ namespace Web.Public.Controllers
             var testSession = _testSessionService.GetTestSession(id);
             if (testSession == null)
             {
+                // This can be null in cases where the test session was POSTed but has not yet been replicated to public.
+                // Check that is not the case
+                if (_testSessionService.IsTestSessionQueued(id))
+                {
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                }
+                
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
                 {
                     Error = Request.HttpContext.Request.Path,
@@ -129,9 +137,12 @@ namespace Web.Public.Controllers
                 }), HttpStatusCode.NotFound);
             }
 
-            //Send a TestSessionKeepAlive message
-            var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
-            _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            //Send a TestSessionKeepAlive message if hasn't already been touched today
+            if (testSession.LastTouched.Date != DateTime.Today)
+            {
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+            }
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
@@ -156,7 +167,7 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
 
             var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
@@ -191,14 +202,13 @@ namespace Web.Public.Controllers
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.CancelTestSession).Validate(payload);
             if (!validation.IsSuccess)
             {
-                throw new JsonReaderException(validation.Errors);
+                throw new PayloadValidatorException(validation.Errors);
             }
             
-            var requestId = _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
-            var requestObject = new RequestObject
+            _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
+            var requestObject = new CancelObject()
             {
-                RequestID = requestId,
-                Status = RequestStatus.Initial
+                Url = Request.Path.Value
             };
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));

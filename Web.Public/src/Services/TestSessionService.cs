@@ -38,7 +38,9 @@ namespace Web.Public.Services
         }
 
         public TestSession GetTestSession(long id) => _testSessionProvider.GetTestSession(id);
-        
+
+        public bool IsTestSessionQueued(long id) => _testSessionProvider.IsTestSessionQueued(id);
+
         public (long TotalRecords, List<TestSession> TestSessions) GetTestSessionList(string userCertSubject, PagingOptions pagingOptions)
         {
             var userID = _userProvider.GetUserIDFromCertificateSubject(userCertSubject);
@@ -118,5 +120,7 @@ namespace Web.Public.Services
 
             return returnObject;
         }
+
+        public DateTime GetLastTouched(long testSessionID) => _testSessionProvider.GetLastTouched(testSessionID);
     }
 }

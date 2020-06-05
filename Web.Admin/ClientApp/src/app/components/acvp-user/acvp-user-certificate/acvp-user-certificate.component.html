@@ -15,10 +15,10 @@
         <span *ngIf="selectedUser?.expiresOn.getTime() > twoMonthsInFutureDate" style="color:green;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
         <span *ngIf="selectedUser?.expiresOn.getTime() > todayDate && selectedUser?.expiresOn.getTime() < twoMonthsInFutureDate" style="color:darkorange;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
         <span *ngIf="selectedUser?.expiresOn.getTime() < todayDate" style="color:darkred;">{{ selectedUser?.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
-      </span><!--
+      </span>
       <span>
         (<a [href]="emailBody" class="linkUnderline">Generate Reminder Email</a>)
-      </span>--><br />
+      </span><br />
       <label class="bold-heading mt-3">Issuer</label>&nbsp;&nbsp;{{selectedUser?.issuer}}<br />
       <label class="bold-heading mt-3">Common Name</label><br />
       {{selectedUser?.commonName}}

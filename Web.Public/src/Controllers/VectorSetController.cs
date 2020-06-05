@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -8,7 +9,6 @@ using Web.Public.ClaimsVerifiers;
 using Web.Public.Configs;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
-using Web.Public.Models;
 using Web.Public.Results;
 using Web.Public.Services;
 using Web.Public.Services.MessagePayloadValidators;
@@ -54,11 +54,18 @@ namespace Web.Public.Controllers
 
             var claimValidator = new TestSessionClaimsVerifier(tsID);
             if (claimValidator.AreClaimsValid(claims))
-            {            
+            {
                 var testSession = _testSessionService.GetTestSession(tsID);
             
                 if (testSession == null)
                 {
+                    // This can be null in cases where the test session was POSTed but has not yet been replicated to public.
+                    // Check that is not the case
+                    if (_testSessionService.IsTestSessionQueued(tsID))
+                    {
+                        return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                    }
+                    
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
                     {
                         Error = Request.HttpContext.Request.Path,
@@ -66,9 +73,8 @@ namespace Web.Public.Controllers
                     }), HttpStatusCode.NotFound);
                 }
 
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var vectorSetUrls = new VectorSetUrlObject
                 {
@@ -90,9 +96,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
@@ -120,17 +125,16 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.CancelVectorSet).Validate(payload);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 // Pass to message queue
-                var requestID = _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
+                _messageService.InsertIntoQueue(APIAction.CancelVectorSet, GetCertSubjectFromJwt(), payload);
 
                 // Build request object for response
-                var requestObject = new RequestObject
+                var requestObject = new CancelObject()
                 {
-                    RequestID = requestID,
-                    Status = RequestStatus.Initial
+                    Url = Request.Path.Value
                 };
 
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(requestObject));
@@ -148,9 +152,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
                 if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
@@ -188,7 +191,7 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.SubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
@@ -225,7 +228,7 @@ namespace Web.Public.Controllers
                 var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(APIAction.ResubmitVectorSetResults).Validate(submittedResults);
                 if (!validation.IsSuccess)
                 {
-                    throw new JsonReaderException(validation.Errors);
+                    throw new PayloadValidatorException(validation.Errors);
                 }
                 
                 _messageService.InsertIntoQueue(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
@@ -246,9 +249,8 @@ namespace Web.Public.Controllers
             var claimValidator = new VectorSetClaimsVerifier(tsID, vsID);
             if (claimValidator.AreClaimsValid(claims))
             {
-                //Send a TestSessionKeepAlive message
-                var payload = new TestSessionKeepAlivePayload { TestSessionID = tsID };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                //Maybe send a TestSessionKeepAlive message
+                MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
                 // If the session isn't a sample, then the expected results are not generated
                 var testSessions = _testSessionService.GetTestSession(tsID);
@@ -267,6 +269,22 @@ namespace Web.Public.Controllers
             }
 
             return new ForbidResult();
+        }
+
+        private void MaybeSendKeepAlive(long testSessionID, string userCertSubject)
+        {
+            //Don't want to send keep alives on test sessions that were just created and haven't been processed yet
+            if (!_testSessionService.IsTestSessionQueued(testSessionID))
+            {
+                //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned
+                DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
+
+                if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
+                {
+                    var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
+                    _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, userCertSubject, payload);
+                }
+            }
         }
     }
 }

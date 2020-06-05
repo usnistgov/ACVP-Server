@@ -41,7 +41,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemPayloadValidators
 			}
 
 			//If there are any inline dependencies, validate those
-			if (oeUpdatePayload.DependenciesToCreate.Count > 0)
+			if (oeUpdatePayload.DependenciesToCreate?.Count > 0)		//DependenciesToCreate should be null if there are no inline dependencies, but also check the count
 			{
 				var dependencyValidator = _workflowItemPayloadValidatorFactory.GetWorkflowItemPayloadValidator(APIAction.CreateDependency);
 				foreach (DependencyCreatePayload dependencyCreatePayload in oeUpdatePayload.DependenciesToCreate)

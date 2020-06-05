@@ -39,5 +39,8 @@ namespace Web.Public.Models
 
         [JsonIgnore]
         public TestSessionStatus Status { get; set; }
+
+        [JsonIgnore]
+        public DateTime LastTouched { get; set; }
     }
 }

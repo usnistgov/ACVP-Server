@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -52,14 +53,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			};
 
 			//Create it
-			ImplementationResult implementationCreateResult = _implementationService.Create(parameters);
+			ImplementationResult result = _implementationService.Create(parameters);
 
-			if (!implementationCreateResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 
-			return implementationCreateResult.ID;
+			return result.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem) { }

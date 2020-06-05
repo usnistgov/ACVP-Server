@@ -48,6 +48,7 @@ export class AcvpUserCertificateComponent implements OnInit {
 
     // Assemble the emails to send to
     var emailAddresses = "";
+    console.log(this.selectedUser.person.emailAddresses);
     for (let i = 0; i < this.selectedUser.person.emailAddresses.length; i++) {
       emailAddresses = emailAddresses + this.selectedUser.person.emailAddresses[i] + ";";
     }
@@ -77,10 +78,20 @@ export class AcvpUserCertificateComponent implements OnInit {
       "mailto:" + emailAddresses +
       "&subject=ACVTS " + environment + " Environment Credential Expiration Reminder" +
       "&body=" + this.selectedUser.fullName + ",\r\n\r\n" +
+
       "This is a reminder that your credential to the ACVTS " + environment +
       " Environment is at or near expiration.\r\n\r\n" +
+
       "The expiration date is: " + this.selectedUser.expiresOn + "\r\n\r\n" +
-      "Please contact " + envEmailContact + " for instructions on submitting a new CSR\r\n\r\n" +
+
+      "Please contact " + envEmailContact + " for instructions on submitting a new CSR" +
+      " if you are interested in renewing your " + environment + " certificate. \r\n\r\n" +
+
+      "If we don’t hear back from you within 2 weeks of this email notification, we will " +
+      "remove your existing cert from the " + environment + " environment either by the date " +
+      "the certificate expires or two weeks from the date of this email notification in the " +
+      "event your certificate has already expired. If you no longer need access to the Demo environment," +
+      "please reply back and let us know that as well.\r\n\r\n" +
       "Thank you,\r\nACVTS Administration Team";
 
     this.emailBody = encodeURI(this.emailBody);

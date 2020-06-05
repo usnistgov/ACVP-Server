@@ -21,7 +21,7 @@
               <th>ID</th>
               <th>Name</th>
               <th>Organization</th>
-              <!--<th>Expiration</th>-->
+              <th>Expiration</th>
               <th style="text-align:center;">Delete</th>
             </tr>
           </thead>
@@ -30,11 +30,11 @@
               <td [routerLink]="user.acvpUserId">{{ user.acvpUserId }}</td>
               <td [routerLink]="user.acvpUserId">{{ user.fullName }}</td>
               <td [routerLink]="user.acvpUserId">{{ user.companyName }}</td>
-              <!--<td [routerLink]="user.acvpUserId">
+              <td [routerLink]="user.acvpUserId">
                 <span *ngIf="user.expiresOn.getTime() > twoMonthsInFutureDate" style="color:green;">{{ user.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
                 <span *ngIf="user.expiresOn.getTime() > todayDate && user.expiresOn.getTime() < twoMonthsInFutureDate" style="color:darkorange;">{{ user.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
                 <span *ngIf="user.expiresOn.getTime() < todayDate" style="color:darkred;">{{ user.expiresOn | date:'yyyy-MM-dd HH:mm' }}</span>
-              </td>-->
+              </td>
               <td style="text-align:center;"><button class="btn btn-sm btn-danger" (click)="showDeleteConfirmation(user)">X</button></td>
             </tr>
           </tbody>

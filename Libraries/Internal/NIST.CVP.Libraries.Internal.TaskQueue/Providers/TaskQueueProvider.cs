@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
@@ -70,6 +70,22 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 			try
 			{
 				db.ExecuteProcedure("common.TaskQueueDelete", inParams: new { TaskID = taskID });
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+		}
+
+		public Result DeletePendingTasksForVectorSet(long vectorSetID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("common.TaskQueueDeletePendingForVectorSet", inParams: new { VectorSetId = vectorSetID });
 				return new Result();
 			}
 			catch (Exception ex)
