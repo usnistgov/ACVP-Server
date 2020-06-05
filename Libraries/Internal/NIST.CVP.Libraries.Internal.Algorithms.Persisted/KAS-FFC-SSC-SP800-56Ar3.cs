@@ -14,7 +14,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 
 		public KAS_FFC_SSC_SP800_56Ar3()
 		{
-			Name = "KAS-FFC";
+			Name = "KAS-FFC-SSC";
 			Revision = "Sp800-56Ar3";
 		}
 
