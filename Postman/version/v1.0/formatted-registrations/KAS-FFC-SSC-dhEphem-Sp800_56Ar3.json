@@ -1,1 +1,1 @@
-[{"algorithms":"{\"algorithm\": \"KAS-FFC-SSC\",\"revision\": \"Sp800-56Ar3\",\"scheme\": {\"dhEphem\": {\"kasRole\": [\"initiator\", \"responder\"]}},\"domainParameterGenerationMethods\": [\"MODP-2048\"]}"}]
+[{"algorithms":"{\"algorithm\": \"KAS-FFC-SSC\",\"revision\": \"Sp800-56Ar3\",\"scheme\": {\"dhEphem\": {\"kasRole\": [\"initiator\", \"responder\"]}},\"domainParameterGenerationMethods\": [\"MODP-2048\"], \"hashFunctionZ\": \"SHA3-512\"}"}]
