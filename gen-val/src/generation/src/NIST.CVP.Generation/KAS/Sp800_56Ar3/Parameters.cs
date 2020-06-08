@@ -5,6 +5,7 @@ using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
@@ -379,18 +380,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         /// The encoding type of the fixedInput
         /// </summary>
         public FixedInfoEncoding[] Encoding { get; set; }
-    }
-
-    public class AuxFunction
-    {
-        /// <summary>
-        /// The Hash or Mac function name
-        /// </summary>
-        public KasKdfOneStepAuxFunction AuxFunctionName { get; set; }
-        /// <summary>
-        /// The salting methods used for the KDF (hashes do not require salts, MACs do)
-        /// </summary>
-        public MacSaltMethod[] MacSaltMethods { get; set; }
     }
 
     public class TwoStepKdf : KdfMethodBase

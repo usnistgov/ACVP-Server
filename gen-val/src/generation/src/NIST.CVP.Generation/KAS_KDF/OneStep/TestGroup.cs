@@ -1,7 +1,15 @@
+using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.Generation.Core;
+
 namespace NIST.CVP.Generation.KAS_KDF.OneStep
 {
-	public class TestGroup
+	public class TestGroup : ITestGroup<TestGroup, TestCase>
 	{
+		public int TestGroupId { get; set; }
+		public string TestType { get; set; }
+		public List<TestCase> Tests { get; set; } = new List<TestCase>();
 		
+		public OneStepConfiguration KdfConfiguration { get; set; }
 	}
 }

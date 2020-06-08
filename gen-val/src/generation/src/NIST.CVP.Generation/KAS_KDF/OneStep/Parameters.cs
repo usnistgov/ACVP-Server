@@ -1,6 +1,9 @@
+using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.KAS_KDF
+namespace NIST.CVP.Generation.KAS_KDF.OneStep
 {
 	public class Parameters : IParameters
 	{
@@ -11,6 +14,21 @@ namespace NIST.CVP.Generation.KAS_KDF
 		public bool IsSample { get; set; }
 		public string[] Conformances { get; } = null;
 		
-		
+		/// <summary>
+		/// The Hash or MAC functions utilized for the KDF
+		/// </summary>
+		public AuxFunction[] AuxFunctions { get; set; }
+		/// <summary>
+		/// The pattern used for FixedInputConstruction.
+		/// </summary>
+		public string FixedInfoPattern { get; set; }
+		/// <summary>
+		/// The encoding type of the fixedInput
+		/// </summary>
+		public FixedInfoEncoding[] Encoding { get; set; }
+		/// <summary>
+		/// The lengths of DKM the KDF can produce
+		/// </summary>
+		public MathDomain L { get; set; }
 	}
 }
