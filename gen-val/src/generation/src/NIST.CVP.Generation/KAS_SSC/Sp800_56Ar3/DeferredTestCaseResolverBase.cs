@@ -41,6 +41,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 
                     EphemeralKeyIut = iutTestCase.EphemeralKeyIut,
                     StaticKeyIut = iutTestCase.StaticKeyIut,
+                    
+                    HashFunctionZ = serverTestGroup.HashFunctionZ
                 };
 
                 var result = await Oracle.CompleteDeferredKasSscAftTestAsync(param);
