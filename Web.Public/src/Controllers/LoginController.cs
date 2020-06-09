@@ -83,5 +83,61 @@ namespace Web.Public.Controllers
                         AccessToken = tokenResult.Token
                     }));
         }
+
+        [HttpPost("refresh")]
+        public JsonResult MultipleTokenRefresh()
+        {
+            var body = _jsonReader.GetJsonFromBody(Request.Body);
+            var content = _jsonReader.GetObjectFromBodyJson<JwtMultiRefreshObject>(body);
+
+            // Grab user from authentication
+            var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
+            
+            // Validate TOTP
+            var result = _totpService.ValidateTotp(clientCertSubject, content.Password);
+
+            // If no validation, don't proceed
+            if (!result.IsSuccess)
+            {
+                var errorObject = new ErrorObject
+                {
+                    Error = $"Access denied! Reason: {result.ErrorMessage}"
+                };
+                
+                return new JsonHttpStatusResult(
+                    _jsonWriter.BuildVersionedObject(
+                        errorObject),
+                    HttpStatusCode.Forbidden);
+            }
+
+            // Refresh multiple tokens, ORDER MUST BE PRESERVED TO LINK OLD AND NEW TOKENS
+            var refreshedTokens = new List<string>();
+            foreach (var token in content.AccessToken)
+            {
+                var tokenResult = _jwtService.Refresh(clientCertSubject, token);
+                if (!tokenResult.IsSuccess)
+                {
+                    var errorObject = new ErrorObject
+                    {
+                        Error = tokenResult.ErrorMessage,
+                        Context = token
+                    };
+                
+                    return new JsonHttpStatusResult(
+                        _jsonWriter.BuildVersionedObject(
+                            errorObject), 
+                        HttpStatusCode.Forbidden);
+                }
+                
+                refreshedTokens.Add(tokenResult.Token);
+            }
+            
+            return new JsonHttpStatusResult(
+                _jsonWriter.BuildVersionedObject(
+                    new MultiLoginObject()
+                    {
+                        AccessToken = refreshedTokens
+                    }));
+        }
     }
 }
