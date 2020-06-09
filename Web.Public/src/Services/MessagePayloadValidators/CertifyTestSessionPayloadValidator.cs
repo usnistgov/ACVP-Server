@@ -25,6 +25,12 @@ namespace Web.Public.Services.MessagePayloadValidators
             
 			var testSession = _testSessionService.GetTestSession(payload.TestSessionID);
             
+            if (testSession == null)
+            {
+            	errors.Add("Test session was not found");
+            	return new PayloadValidationResult(errors);
+            }
+            
 			// Test session must not be sample
 			if (testSession.IsSample)
 			{

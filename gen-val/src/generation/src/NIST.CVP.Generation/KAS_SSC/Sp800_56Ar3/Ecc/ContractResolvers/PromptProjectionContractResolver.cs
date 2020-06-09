@@ -24,7 +24,6 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc.ContractResolvers
                 nameof(TestGroup.DomainParameterGenerationMode),
                 nameof(TestGroup.Scheme),
                 nameof(TestGroup.KasRole),
-                nameof(TestGroup.HashFunctionZ),
                 nameof(TestGroup.Tests),
             };
             
@@ -34,6 +33,23 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc.ContractResolvers
                     instance => true;
             }
 
+            // Return the hashFunctionZ only when being used.
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.HashFunctionZ), StringComparison.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                        if (testGroup.HashFunctionZ != HashFunctions.None)
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+            
             return jsonProperty.ShouldSerialize = instance => false;
         }
 
@@ -66,8 +82,6 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc.ContractResolvers
                 nameof(TestCase.StaticPublicKeyIutY),
                 nameof(TestCase.EphemeralPrivateKeyIut),
                 nameof(TestCase.StaticPrivateKeyIut),
-                nameof(TestCase.Z),
-                nameof(TestCase.HashZ)
             };
 
             if (includePropertiesValScenarios.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -85,12 +99,9 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc.ContractResolvers
                         return false;
                     };
             }
-            
-            var valIncludeZ = new[]
-            {
-                nameof(TestCase.Z),
-            };
-            if (valIncludeZ.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+
+            // Include Z when no hash function provided
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.Z), StringComparison.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>
@@ -106,11 +117,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc.ContractResolvers
                     };
             }
             
-            var valIncludeHashZ = new[]
-            {
-                nameof(TestCase.HashZ),
-            };
-            if (valIncludeHashZ.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            // Include hashZ when hash function provided
+            if (jsonProperty.UnderlyingName.Equals(nameof(TestCase.HashZ), StringComparison.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize =
                     instance =>

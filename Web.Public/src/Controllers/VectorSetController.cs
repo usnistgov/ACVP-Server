@@ -284,17 +284,13 @@ namespace Web.Public.Controllers
 
         private void MaybeSendKeepAlive(long testSessionID, string userCertSubject)
         {
-            //Don't want to send keep alives on test sessions that were just created and haven't been processed yet
-            if (!_testSessionService.IsTestSessionQueued(testSessionID))
-            {
-                //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned
-                DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
+            //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned, which would happen if the TS is invalid (may happen if the TS has not been internally processed yet) or the LastTouched value is null (which should never be the case)
+            DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
 
-                if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
-                {
-                    var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
-                    _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, userCertSubject, payload);
-                }
+            if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
+            {
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
+                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, userCertSubject, payload);
             }
         }
     }

@@ -46,7 +46,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 		public SubmissionProcessingResult Process(string filePath)
 		{
-			string processedFileName = $"{DateTime.Now.ToString("yyyyMMddHHmmssfff")}_{Path.GetFileName(filePath)}";
+			string processedFileName = $"{DateTime.Now:yyyyMMddHHmmssfff}_{Path.GetFileName(filePath)}";
 
 			FileExtractionResult extractionResult = null;
 			SubmissionProcessingResult submissionProcessingResult = new SubmissionProcessingResult();
@@ -59,7 +59,12 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 
 			//Get some metadata out of the inf file
-			(bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) = ExtractINFMetadata(filePath);
+			(bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber, bool ITAR) = ExtractINFMetadata(filePath);
+
+			if (ITAR == true)
+			{
+				submissionProcessingResult.Errors.Add("ITAR submissions cannot be processed");
+			}
 
 			//Determine if this is a New, Update, or Change submission
 			SubmissionType submissionType = DetermineSubmissionType(filePath, SubmissionCode);
@@ -95,6 +100,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					submissionProcessingResult.Errors.Add($"Does not use version 21.X of CAVS");
 				}
 			}
+
 
 
 			//File appears valid, now can attempt to extract it
@@ -243,16 +249,16 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			}
 		}
 
-		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) ExtractINFMetadata(string filePath)
+		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber, bool ITAR) ExtractINFMetadata(string filePath)
 		{
 			//Starting with this path, try to extract the needed metadata from inf file
 			using ZipArchive archive = new ZipArchive(File.OpenRead(filePath), ZipArchiveMode.Read);
 			return RecursiveINFMetadataSearch(archive);
 		}
 
-		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) RecursiveINFMetadataSearch(ZipArchive archive)
+		private (bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber, bool ITAR) RecursiveINFMetadataSearch(ZipArchive archive)
 		{
-			(bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber) infData = (false, null, null, null, null, null, null, null);
+			(bool Found, string CAVSVersion, string LabName, string LabPOC, string LabPOCEmail, string NVLAPCode, string SubmissionCode, string UniqueNumber, bool ITAR) infData = (false, null, null, null, null, null, null, null, false);
 
 			//Look for an inf file in this zip file
 			ZipArchiveEntry infFile = archive.Entries.FirstOrDefault(e => e.Name.EndsWith(".inf") && !e.Name.StartsWith("._"));     //._ thing filters out garbage from zips from Macs
@@ -267,7 +273,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				int linesFound = 0;     //Hacky way to keep track of whether or not all lines we care about here have been found, without having to write 5 booleans
 
 				//Read a line at a time from the stream until finding the line we care about
-				while ((line = reader.ReadLine()) != null && linesFound != 7)
+				while ((line = reader.ReadLine()) != null && linesFound != 8)
 				{
 					if (line.StartsWith("CAVS_Tool_Version"))
 					{
@@ -308,6 +314,12 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 					if (line.StartsWith("ImplCodePart3_UniqueNumber="))
 					{
 						infData.UniqueNumber = line.Substring(27).Trim();
+						linesFound++;
+					}
+
+					if (line.StartsWith("itar="))
+					{
+						infData.ITAR = line.Substring(5).Trim() == "No" ? false : true;
 						linesFound++;
 					}
 				}
