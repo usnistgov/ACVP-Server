@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.Extensions.Logging;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
@@ -18,13 +19,15 @@ namespace Web.Public.Controllers
     [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
     public class LoginController : ControllerBase
     {
+        private readonly ILogger<LoginController> _logger;
         private readonly ITotpService _totpService;
         private readonly IJwtService _jwtService;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJsonReaderService _jsonReader;
 
-        public LoginController(ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter, IJsonReaderService jsonReader)
+        public LoginController(ILogger<LoginController> logger, ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter, IJsonReaderService jsonReader)
         {
+            _logger = logger;
             _totpService = totpService;
             _jwtService = jwtService;
             _jsonWriter = jsonWriter;
@@ -75,6 +78,8 @@ namespace Web.Public.Controllers
                         errorObject), 
                     HttpStatusCode.Forbidden);
             }
+
+            _logger.LogInformation($@"Successful login from ""{clientCertSubject}""");
 
             return new JsonHttpStatusResult(
                 _jsonWriter.BuildVersionedObject(

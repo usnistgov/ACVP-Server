@@ -22,6 +22,7 @@ namespace Web.Public.Exceptions
         {
             ErrorObject error;
             HttpStatusCode statusCode;
+            bool logAsError = false;
 
             switch (context.Exception)
             {
@@ -47,10 +48,15 @@ namespace Web.Public.Exceptions
                         Error = "Internal service error. Contact service provider."
                     };
                     statusCode = HttpStatusCode.InternalServerError;
+                    logAsError = true;
+                    
                     break;
             }
-            
-            _logger.LogError(context.Exception, $"Exception Handled.");
+
+            if (logAsError)
+            {
+                _logger.LogError(context.Exception, $"Exception Handled.");
+            }
             
             context.ExceptionHandled = true;
             context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), statusCode);
