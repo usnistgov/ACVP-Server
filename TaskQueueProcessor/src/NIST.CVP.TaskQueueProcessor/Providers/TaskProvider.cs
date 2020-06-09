@@ -47,21 +47,23 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
                 switch (operation)
                 {
                     case TaskActions.GENERATION:
+
                         return new GenerationTask()
                         {
                             DbId = dbId,
                             VsId = vsId,
                             IsSample = isSample,
-                            Capabilities = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.Capabilities)
+                            Capabilities = GetJson(vsId, VectorSetJsonFileTypes.Capabilities)
                         };
                     case TaskActions.VALIDATION:
+                        
                         return new ValidationTask()
                         {
                             DbId = dbId, 
                             VsId = vsId,
                             Expected = showExpected, 
-                            SubmittedResults = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.SubmittedAnswers),
-                            InternalProjection = _vectorSetService.GetVectorFileJson(vsId, VectorSetJsonFileTypes.InternalProjection)
+                            SubmittedResults = GetJson(vsId, VectorSetJsonFileTypes.SubmittedAnswers),
+                            InternalProjection = GetJson(vsId, VectorSetJsonFileTypes.InternalProjection)
                         };
                     default:
                         throw new Exception($"Invalid {nameof(operation)}");
@@ -91,6 +93,18 @@ namespace NIST.CVP.TaskQueueProcessor.Providers
             {
                 _logger.LogError(e);
             }
+        }
+        
+        private string GetJson(long vsId, VectorSetJsonFileTypes fileType)
+        {
+            var json = _vectorSetService.GetVectorFileJson(vsId, fileType);
+
+            if (string.IsNullOrEmpty(json))
+            {
+                throw new Exception($"Json for vsId {vsId}, fileType {fileType} was null.");
+            }
+
+            return json;
         }
     }
 }
