@@ -137,6 +137,8 @@ namespace Web.Public.Controllers
                 refreshedTokens.Add(tokenResult.Token);
             }
             
+            _logger.LogInformation($@"Successful login from ""{clientCertSubject}""");
+            
             return new JsonHttpStatusResult(
                 _jsonWriter.BuildVersionedObject(
                     new MultiLoginObject()
