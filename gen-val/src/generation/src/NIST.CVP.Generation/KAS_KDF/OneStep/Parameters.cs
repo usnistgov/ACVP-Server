@@ -25,10 +25,10 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		/// <summary>
 		/// The encoding type of the fixedInput
 		/// </summary>
-		public FixedInfoEncoding[] Encoding { get; set; }
+		public FixedInfoEncoding[] FixedInfoEncoding { get; set; }
 		/// <summary>
-		/// The lengths of DKM the KDF can produce
+		/// The length of DKM the KDF can produce
 		/// </summary>
-		public MathDomain L { get; set; }
+		public int L { get; set; }
 	}
 }
