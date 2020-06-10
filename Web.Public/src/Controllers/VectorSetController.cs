@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -19,6 +20,7 @@ namespace Web.Public.Controllers
     [Route("acvp/v1/testSessions/{tsID}/vectorSets")]
     public class VectorSetController : JwtAuthControllerBase
     {
+        private readonly ILogger<VectorSetController> _logger;
         private readonly IVectorSetService _vectorSetService;
         private readonly ITestSessionService _testSessionService;
         private readonly IJsonWriterService _jsonWriter;
@@ -28,6 +30,7 @@ namespace Web.Public.Controllers
         private readonly VectorSetConfig _vectorSetConfig;
 
         public VectorSetController(
+            ILogger<VectorSetController> logger,
             IJwtService jwtService,
             IVectorSetService vectorSetService, 
             ITestSessionService testSessionService, 
@@ -38,6 +41,7 @@ namespace Web.Public.Controllers
             IOptions<VectorSetConfig> vectorSetConfig)
             : base (jwtService)
         {
+            _logger = logger;
             _vectorSetService = vectorSetService;
             _testSessionService = testSessionService;
             _jsonWriter = jsonWriter;
@@ -204,10 +208,27 @@ namespace Web.Public.Controllers
                 {
                     throw new PayloadValidatorException(validation.Errors);
                 }
-                
-                await _messageService.InsertIntoQueueAsync(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
-                _vectorSetService.SetStatus(vsID, VectorSetStatus.KATReceived);
 
+                var preQueueStatus = _vectorSetService.GetStatus(vsID);
+                
+                try
+                {
+                    var messageTask = _messageService.InsertIntoQueueAsync(APIAction.SubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
+                    _vectorSetService.SetStatus(vsID, VectorSetStatus.KATReceived);
+                    await messageTask;
+                }
+                catch (Exception e)
+                {
+                    string failureMessage = $"Unable to POST json for vsId {vsID}.";
+                    _logger.LogError(e, failureMessage);
+                    _vectorSetService.SetStatus(vsID, preQueueStatus);
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                    {
+                        Error = Request.HttpContext.Request.Path,
+                        Context = failureMessage
+                    }), HttpStatusCode.InternalServerError);
+                }
+                
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
 
@@ -241,10 +262,27 @@ namespace Web.Public.Controllers
                 {
                     throw new PayloadValidatorException(validation.Errors);
                 }
-                
-                await _messageService.InsertIntoQueueAsync(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
-                _vectorSetService.SetStatus(vsID, VectorSetStatus.ResubmitAnswers);
 
+                var preQueueStatus = _vectorSetService.GetStatus(vsID);
+                
+                try
+                {
+                    var messageTask = _messageService.InsertIntoQueueAsync(APIAction.ResubmitVectorSetResults, GetCertSubjectFromJwt(), submittedResults);
+                    _vectorSetService.SetStatus(vsID, VectorSetStatus.ResubmitAnswers);
+                    await messageTask;
+                }
+                catch (Exception e)
+                {
+                    string failureMessage = $"Unable to PUT json for vsId {vsID}.";
+                    _logger.LogError(e, failureMessage);
+                    _vectorSetService.SetStatus(vsID, preQueueStatus);
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject()
+                    {
+                        Error = Request.HttpContext.Request.Path,
+                        Context = failureMessage
+                    }), HttpStatusCode.InternalServerError);
+                }                
+                
                 return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new VectorSetPostAnswersObject(tsID, vsID)));
             }
 
