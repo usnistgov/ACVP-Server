@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.Models;
 using Web.Public.Providers;
@@ -13,45 +15,45 @@ namespace Web.Public.Services
             _vectorSetProvider = vectorSetProvider;
         }
 
-        public VectorSet GetPrompt(long vsID)
+        public Task<VectorSet> GetPromptAsync(long vsID)
         {
             return GetStatus(vsID) switch
             {
-                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
-                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Processed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Prompt),
                 
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
+                VectorSetStatus.Error => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Error),
                 
-                _ => null
+                _ => Task.FromResult<VectorSet>(null)
             };
         }
 
-        public VectorSet GetExpectedResults(long vsID)
+        public Task<VectorSet> GetExpectedResultsAsync(long vsID)
         {
             // TODO check is sample ?
             
             return GetStatus(vsID) switch
             {
-                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
-                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Processed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
                 
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
-                _ => null
+                VectorSetStatus.Error => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Error),
+                _ => Task.FromResult<VectorSet>(null)
             };
         }
 
-        public VectorSet GetValidation(long vsID)
+        public Task<VectorSet> GetValidationAsync(long vsID)
         {
             return GetStatus(vsID) switch
             {
-                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
-                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
-                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
-                _ => null
+                VectorSetStatus.Passed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Error => _vectorSetProvider.GetJsonAsync(vsID, VectorSetJsonFileTypes.Error),
+                _ => Task.FromResult<VectorSet>(null)
             };
         }
 

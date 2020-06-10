@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,10 +40,9 @@ namespace Web.Public.Controllers
         // RefreshToken includes both TOTP password AND the previous JWT
 
         [HttpPost]
-        public JsonResult Login()
+        public async Task<JsonResult> Login()
         {
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var content = _jsonReader.GetObjectFromBodyJson<JwtRequestObject>(body);
+            var content = await _jsonReader.GetObjectFromBodyJsonAsync<JwtRequestObject>(Request.Body);
 
             // Grab user from authentication
             var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
@@ -90,10 +90,9 @@ namespace Web.Public.Controllers
         }
 
         [HttpPost("refresh")]
-        public JsonResult MultipleTokenRefresh()
+        public async Task<JsonResult> MultipleTokenRefresh()
         {
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var content = _jsonReader.GetObjectFromBodyJson<JwtMultiRefreshObject>(body);
+            var content = await _jsonReader.GetObjectFromBodyJsonAsync<JwtMultiRefreshObject>(Request.Body);
 
             // Grab user from authentication
             var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
