@@ -1,10 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using System.Data;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Serilog;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Services;
 
 namespace Web.Public.Providers
@@ -36,7 +38,7 @@ namespace Web.Public.Providers
                     MessageType = apiAction,
                     userId = userID,
                     Payload = json
-                });
+                }, commandTimeout: 120);
                 Log.Information($"Added message to the message queue");
             }
             catch (Exception ex)
@@ -60,7 +62,7 @@ namespace Web.Public.Providers
                     MessageType = apiAction,
                     userId = userID,
                     Payload = requestJson
-                });
+                }, commandTimeout: 120);
                 Log.Information($"Added requestID: {requestID} to the message queue");
             }
             catch (Exception ex)

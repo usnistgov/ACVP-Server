@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.Extensions.Logging;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
 using Web.Public.Results;
@@ -19,13 +20,15 @@ namespace Web.Public.Controllers
     [Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
     public class LoginController : ControllerBase
     {
+        private readonly ILogger<LoginController> _logger;
         private readonly ITotpService _totpService;
         private readonly IJwtService _jwtService;
         private readonly IJsonWriterService _jsonWriter;
         private readonly IJsonReaderService _jsonReader;
 
-        public LoginController(ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter, IJsonReaderService jsonReader)
+        public LoginController(ILogger<LoginController> logger, ITotpService totpService, IJwtService jwtService, IJsonWriterService jsonWriter, IJsonReaderService jsonReader)
         {
+            _logger = logger;
             _totpService = totpService;
             _jwtService = jwtService;
             _jsonWriter = jsonWriter;
@@ -76,11 +79,70 @@ namespace Web.Public.Controllers
                     HttpStatusCode.Forbidden);
             }
 
+            _logger.LogInformation($@"Successful login from ""{clientCertSubject}""");
+
             return new JsonHttpStatusResult(
                 _jsonWriter.BuildVersionedObject(
                     new LoginObject
                     {
                         AccessToken = tokenResult.Token
+                    }));
+        }
+
+        [HttpPost("refresh")]
+        public async Task<JsonResult> MultipleTokenRefresh()
+        {
+            var content = await _jsonReader.GetObjectFromBodyJsonAsync<JwtMultiRefreshObject>(Request.Body);
+
+            // Grab user from authentication
+            var clientCertSubject = HttpContext.Connection.ClientCertificate.Subject;
+            
+            // Validate TOTP
+            var result = _totpService.ValidateTotp(clientCertSubject, content.Password);
+
+            // If no validation, don't proceed
+            if (!result.IsSuccess)
+            {
+                var errorObject = new ErrorObject
+                {
+                    Error = $"Access denied! Reason: {result.ErrorMessage}"
+                };
+                
+                return new JsonHttpStatusResult(
+                    _jsonWriter.BuildVersionedObject(
+                        errorObject),
+                    HttpStatusCode.Forbidden);
+            }
+
+            // Refresh multiple tokens, ORDER MUST BE PRESERVED TO LINK OLD AND NEW TOKENS
+            var refreshedTokens = new List<string>();
+            foreach (var token in content.AccessToken)
+            {
+                var tokenResult = _jwtService.Refresh(clientCertSubject, token);
+                if (!tokenResult.IsSuccess)
+                {
+                    var errorObject = new ErrorObject
+                    {
+                        Error = tokenResult.ErrorMessage,
+                        Context = token
+                    };
+                
+                    return new JsonHttpStatusResult(
+                        _jsonWriter.BuildVersionedObject(
+                            errorObject), 
+                        HttpStatusCode.Forbidden);
+                }
+                
+                refreshedTokens.Add(tokenResult.Token);
+            }
+            
+            _logger.LogInformation($@"Successful login from ""{clientCertSubject}""");
+            
+            return new JsonHttpStatusResult(
+                _jsonWriter.BuildVersionedObject(
+                    new MultiLoginObject()
+                    {
+                        AccessToken = refreshedTokens
                     }));
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using Mighty;
 
 namespace NIST.CVP.Libraries.Shared.ExtensionMethods
@@ -36,6 +37,52 @@ namespace NIST.CVP.Libraries.Shared.ExtensionMethods
 			{
 				cmd.CommandTimeout = commandTimeout;
 				db.Execute(cmd, connection);
+			}
+		}
+		
+		public static async Task ExecuteProcedureAsync(this MightyOrm db, string spName,
+			object inParams = null, object outParams = null, object ioParams = null, object returnParams = null,
+			DbConnection connection = null,
+			int commandTimeout = 30,
+			params object[] args)
+		{
+			await using var cmd = db.CreateCommandWithParams(spName,
+				inParams, outParams, ioParams, returnParams,
+				isProcedure: true,
+				args: args);
+			cmd.CommandTimeout = commandTimeout;
+			await db.ExecuteAsync(cmd, connection);
+		}
+
+		public static dynamic SingleFromProcedure(this MightyOrm db, string spName,
+			object inParams = null, object outParams = null, object ioParams = null, object returnParams = null,
+			DbConnection connection = null,
+			int commandTimeout = 30,
+			params object[] args)
+		{
+			using (var cmd = db.CreateCommandWithParams(spName,
+				inParams, outParams, ioParams, returnParams,
+				isProcedure: true,
+				args: args))
+			{
+				cmd.CommandTimeout = commandTimeout;
+				return db.Single(cmd, connection);
+			}
+		}
+
+		public static IEnumerable<dynamic> QueryFromProcedure(this MightyOrm db, string spName,
+			object inParams = null, object outParams = null, object ioParams = null, object returnParams = null,
+			DbConnection connection = null,
+			int commandTimeout = 30,
+			params object[] args)
+		{
+			using (var cmd = db.CreateCommandWithParams(spName,
+				inParams, outParams, ioParams, returnParams,
+				isProcedure: true,
+				args: args))
+			{
+				cmd.CommandTimeout = commandTimeout;
+				return db.Query(cmd, connection);
 			}
 		}
 	}

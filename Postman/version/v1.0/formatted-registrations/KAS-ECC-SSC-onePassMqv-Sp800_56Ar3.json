@@ -1,0 +1,1 @@
+[{"algorithms":"{\"algorithm\": \"KAS-ECC-SSC\",\"revision\": \"Sp800-56Ar3\",\"scheme\": {\"onePassMqv\": {\"kasRole\": [\"initiator\", \"responder\"]}},\"domainParameterGenerationMethods\": [\"P-224\"]}"}]

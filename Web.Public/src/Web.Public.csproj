@@ -22,6 +22,7 @@
         <PackageReference Include="Otp.NET" Version="1.2.2" />
         <PackageReference Include="System.Data.SqlClient" Version="$(NuGetVersionSystemDataSqlClient)" />
         <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+        <PackageReference Include="Serilog.AspNetCore" Version="$(NuGetVersionSerilogAspNetCore)" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
         <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />

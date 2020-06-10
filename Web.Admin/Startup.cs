@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using Web.Admin.Auth;
 using Web.Admin.Auth.Models;
 
@@ -123,6 +124,8 @@ namespace Web.Admin
             
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSerilogRequestLogging();
             
             app.UseEndpoints(endpoints =>
             {

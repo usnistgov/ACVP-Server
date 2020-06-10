@@ -155,11 +155,21 @@ namespace Web.Public.Controllers
             {
                 //Maybe send a TestSessionKeepAlive message
                 await MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
+                
+                var status = _vectorSetService.GetStatus(vsID);
 
                 // Short circuit, if answers were resubmitted the "/results" file will exist, we don't want to return it.
-                if (_vectorSetService.GetStatus(vsID) == VectorSetStatus.ResubmitAnswers)
+                if (status == VectorSetStatus.ResubmitAnswers)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
+                }
+                // If we never received the responses, tell the client
+                else if (status == VectorSetStatus.Processed || status == VectorSetStatus.Initial)
+                {
+                    return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new ErrorObject
+                    {
+                        Error = $"Responses for vsId {vsID} not received by the server."
+                    }));
                 }
                 
                 var validation = await _vectorSetService.GetValidationAsync(vsID);
@@ -175,6 +185,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPost("{vsID}/results")]
+        [DisableRequestSizeLimit, RequestFormLimits(MultipartBodyLengthLimit = 536870912)]
         public async Task<ActionResult> PostResults(long tsID, long vsID)
         {
             //Validate claim
@@ -205,6 +216,7 @@ namespace Web.Public.Controllers
         }
 
         [HttpPut("{vsID}/results")]
+        [DisableRequestSizeLimit, RequestFormLimits(MultipartBodyLengthLimit = 536870912)]
         public async Task<ActionResult> UpdateResults(long tsID, long vsID)
         {
             //Check that resubmissions are allowed in this environment
@@ -272,17 +284,13 @@ namespace Web.Public.Controllers
 
         private async Task MaybeSendKeepAlive(long testSessionID, string userCertSubject)
         {
-            //Don't want to send keep alives on test sessions that were just created and haven't been processed yet
-            if (!_testSessionService.IsTestSessionQueued(testSessionID))
-            {
-                //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned
-                DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
+            //Only send a keep alive if the test session hasn't already been touched today. Just watch out for a minValue being returned, which would happen if the TS is invalid (may happen if the TS has not been internally processed yet) or the LastTouched value is null (which should never be the case)
+            DateTime lastTouched = _testSessionService.GetLastTouched(testSessionID);
 
-                if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
-                {
-                    var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
-                    await _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, userCertSubject, payload);
-                }
+            if (lastTouched.Date != DateTime.Today && lastTouched != DateTime.MinValue)
+            {
+                var payload = new TestSessionKeepAlivePayload { TestSessionID = testSessionID };
+                await _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, userCertSubject, payload);
             }
         }
     }
