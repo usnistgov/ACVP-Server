@@ -39,6 +39,11 @@ namespace Web.Public.Services
             if (request.Status == RequestStatus.Approved)
             {
                 request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
+                
+                if (request.APIAction == APIAction.CertifyTestSession)
+                {
+                    request.ValidationId = request.ApprovedID;
+                }
             }
             
             return request;
@@ -53,11 +58,11 @@ namespace Web.Public.Services
                 if (request.Status == RequestStatus.Approved)
                 {
                     request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
-                }
-
-                if (request.APIAction == APIAction.CertifyTestSession)
-                {
-                    request.ValidationId = request.ApprovedID;
+                    
+                    if (request.APIAction == APIAction.CertifyTestSession)
+                    {
+                        request.ValidationId = request.ApprovedID;
+                    }
                 }
             }
 
