@@ -22,5 +22,8 @@ namespace Web.Public.Models
         
         [JsonPropertyName("approvedUrl")]
         public string ApprovedURL { get; set; }
+
+        [JsonPropertyName("validationId")] 
+        public long? ValidationId { get; set; }
     }
 }

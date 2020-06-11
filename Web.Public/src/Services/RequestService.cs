@@ -54,6 +54,11 @@ namespace Web.Public.Services
                 {
                     request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
                 }
+
+                if (request.APIAction == APIAction.CertifyTestSession)
+                {
+                    request.ValidationId = request.ApprovedID;
+                }
             }
 
             return result;
