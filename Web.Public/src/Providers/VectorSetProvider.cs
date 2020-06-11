@@ -5,6 +5,7 @@ using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.Models;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 
 namespace Web.Public.Providers
 {
@@ -80,7 +81,7 @@ namespace Web.Public.Providers
                 {
                     VsID = vsID,
                     FileType = (int)fileType
-                });
+                }, commandTimeout: 120);
 
                 if (jsonData == null)
                 {
