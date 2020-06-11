@@ -64,7 +64,7 @@ namespace Web.Public.Services
                 return new Result("TOTP Window has already been used");
             }
             
-            _totpProvider.SetUsedWindowFromUserCertificateSubject(userCertSubject, previousWindow);
+            _totpProvider.SetUsedWindowFromUserCertificateSubject(userCertSubject, computedWindow);
             return new Result();
         }
 
