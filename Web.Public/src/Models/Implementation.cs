@@ -53,7 +53,7 @@ namespace Web.Public.Models
 		[JsonIgnore]
 		public long? AddressID { get; set; }
 
-		[JsonPropertyName("addressUrls")]
+		[JsonPropertyName("addressUrl")]
 		public string AddressURL => $"/acvp/v1/vendors/{OrganizationID}/addresses/{AddressID}";
 
 		[JsonIgnore]
