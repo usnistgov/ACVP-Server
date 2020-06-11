@@ -71,6 +71,36 @@ namespace Web.Public.Providers
             }
         }
 
+        public VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var jsonData = db.SingleFromProcedure("acvp.VectorSetJsonGet", new
+                {
+                    VsID = vsID,
+                    FileType = (int)fileType
+                }, commandTimeout: 120);
+
+                if (jsonData == null)
+                {
+                    // Prep for retry
+                    return null;
+                }
+
+                return new VectorSet
+                {
+                    JsonContent = jsonData.Content
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving vector set file. VsID: {vsID}, FileType: {fileType}");
+                throw;
+            }
+        }
+        
         public async Task<VectorSet> GetJsonAsync(long vsID, VectorSetJsonFileTypes fileType)
         {
             var db = new MightyOrm(_connectionString);
