@@ -39,11 +39,6 @@ namespace Web.Public.Services
             if (request.Status == RequestStatus.Approved)
             {
                 request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
-                
-                if (request.APIAction == APIAction.CertifyTestSession)
-                {
-                    request.ValidationId = request.ApprovedID;
-                }
             }
             
             return request;
@@ -58,11 +53,6 @@ namespace Web.Public.Services
                 if (request.Status == RequestStatus.Approved)
                 {
                     request.ApprovedURL = BuildApprovedURL(request.ApprovedID, request.APIAction);
-                    
-                    if (request.APIAction == APIAction.CertifyTestSession)
-                    {
-                        request.ValidationId = request.ApprovedID;
-                    }
                 }
             }
 
@@ -96,9 +86,10 @@ namespace Web.Public.Services
                 APIAction.UpdateVendor => $"{baseURL}/vendors/{approvedID}",
                 APIAction.DeleteVendor => $"{baseURL}/vendors/{approvedID}",
                 
+                APIAction.CertifyTestSession => $"{baseURL}/validations/{approvedID}",
+                
                 APIAction.RegisterTestSession => null,
                 APIAction.CancelTestSession => null,
-                APIAction.CertifyTestSession => null,
                 APIAction.SubmitVectorSetResults => null,
                 APIAction.CancelVectorSet => null,
                 
