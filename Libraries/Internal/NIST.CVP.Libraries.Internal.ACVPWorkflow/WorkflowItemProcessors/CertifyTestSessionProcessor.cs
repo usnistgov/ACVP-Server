@@ -152,18 +152,21 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			OECreateParameters oeCreateParameters = oeCreatePayload.ToOECreateParameters();
 
 			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs in the OE create parameters
-			foreach (DependencyCreatePayload dependencyCreatePayload in oeCreatePayload.DependenciesToCreate)
+			if (oeCreatePayload.DependenciesToCreate != null)
 			{
-				//Convert from a payload to parameters
-				DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
-
-				//Create it
-				DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
-
-				//Add it to the dependency list
-				if (dependencyCreateResult.IsSuccess)
+				foreach (DependencyCreatePayload dependencyCreatePayload in oeCreatePayload.DependenciesToCreate)
 				{
-					oeCreateParameters.DependencyIDs.Add(dependencyCreateResult.ID);
+					//Convert from a payload to parameters
+					DependencyCreateParameters dependencyCreateParameters = dependencyCreatePayload.ToDependencyCreateParameters();
+
+					//Create it
+					DependencyResult dependencyCreateResult = _dependencyService.Create(dependencyCreateParameters);
+
+					//Add it to the dependency list
+					if (dependencyCreateResult.IsSuccess)
+					{
+						oeCreateParameters.DependencyIDs.Add(dependencyCreateResult.ID);
+					}
 				}
 			}
 
