@@ -22,12 +22,18 @@ namespace NIST.CVP.Crypto.Symmetric.CTS
             // Decrypt the last full payload block (when there is more than one block)
             if (numberOfBlocks > 1)
             {
-                var originalPayload = payload.ToBytes();
+                // When at the block size, nothing was swapped
+                if (payload.BitLength % engine.BlockSizeBits == 0)
+                {
+                    return payload.ToBytes();
+                }
+                
+                var originalPayloadPaddedToBlockSize = payload.PadToModulus(engine.BlockSizeBits).ToBytes();
 
                 // Decrypt the last full payload block (in this case the second to last block)
                 var secondToLastBlock = new byte[engine.BlockSizeBytes];
                 var secondToLastBlockStartIndex = (numberOfBlocks - 2) * engine.BlockSizeBytes;
-                Array.Copy(originalPayload, secondToLastBlockStartIndex, secondToLastBlock, 0, engine.BlockSizeBytes);
+                Array.Copy(originalPayloadPaddedToBlockSize, secondToLastBlockStartIndex, secondToLastBlock, 0, engine.BlockSizeBytes);
 
                 var decryptedSecondToLastBlockBuffer = new byte[engine.BlockSizeBytes];
 
