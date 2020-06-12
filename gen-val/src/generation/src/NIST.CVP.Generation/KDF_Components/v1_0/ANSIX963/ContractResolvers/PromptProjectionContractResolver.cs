@@ -23,7 +23,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.Z),
+                nameof(TestCase.SharedSecret),
                 nameof(TestCase.SharedInfo),
             };
 
