@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [acvp].[AcvpUserAuthentications] (
-    [AcvpUserID]     BIGINT NULL,
+    [AcvpUserID]     BIGINT NOT NULL,
     [LastUsedWindow] BIGINT NULL,
-    FOREIGN KEY ([AcvpUserID]) REFERENCES [acvp].[ACVP_USER] ([id])
+    FOREIGN KEY ([AcvpUserID]) REFERENCES [acvp].[ACVP_USER] ([id]), 
+    CONSTRAINT [PK_AcvpUserAuthentications] PRIMARY KEY ([AcvpUserID])
 );
 
