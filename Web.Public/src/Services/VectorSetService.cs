@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.Generation.KMAC.v1_0;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -15,6 +16,49 @@ namespace Web.Public.Services
             _vectorSetProvider = vectorSetProvider;
         }
 
+        public VectorSet GetPrompt(long vsID)
+        {
+            return GetStatus(vsID) switch
+            {
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Prompt),
+                
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
+                
+                _ => null
+            };
+        }
+
+        public VectorSet GetExpectedResults(long vsID)
+        {
+            // TODO check is sample ?
+            
+            return GetStatus(vsID) switch
+            {
+                VectorSetStatus.Processed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                VectorSetStatus.KATReceived => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.ExpectedAnswers),
+                
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
+                _ => null
+            };
+        }
+
+        public VectorSet GetValidation(long vsID)
+        {
+            return GetStatus(vsID) switch
+            {
+                VectorSetStatus.Passed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Failed => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Validation),
+                VectorSetStatus.Error => _vectorSetProvider.GetJson(vsID, VectorSetJsonFileTypes.Error),
+                _ => null
+            };
+        }
+
+        [Obsolete]
         public Task<VectorSet> GetPromptAsync(long vsID)
         {
             return GetStatus(vsID) switch
@@ -30,6 +74,7 @@ namespace Web.Public.Services
             };
         }
 
+        [Obsolete]
         public Task<VectorSet> GetExpectedResultsAsync(long vsID)
         {
             // TODO check is sample ?
@@ -46,6 +91,7 @@ namespace Web.Public.Services
             };
         }
 
+        [Obsolete]
         public Task<VectorSet> GetValidationAsync(long vsID)
         {
             return GetStatus(vsID) switch

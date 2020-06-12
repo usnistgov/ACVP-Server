@@ -185,5 +185,6 @@
     <Build Include="external\Stored Procedures\SecretKeyValuePairGet.sql" />
     <Build Include="external\Stored Procedures\TestSessionCheckIfExists.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetLastTouched.sql" />
+    <Build Include="val\Stored Procedures\ValidationGet.sql" />
   </ItemGroup>
 </Project>

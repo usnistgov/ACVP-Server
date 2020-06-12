@@ -104,7 +104,7 @@ namespace Web.Public.Controllers
                 //Maybe send a TestSessionKeepAlive message
                 await MaybeSendKeepAlive(tsID, GetCertSubjectFromJwt());
 
-                var prompt = await _vectorSetService.GetPromptAsync(vsID);
+                var prompt = _vectorSetService.GetPrompt(vsID);
                 if (prompt == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
@@ -176,7 +176,7 @@ namespace Web.Public.Controllers
                     }));
                 }
                 
-                var validation = await _vectorSetService.GetValidationAsync(vsID);
+                var validation = _vectorSetService.GetValidation(vsID);
                 if (validation == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
@@ -308,7 +308,7 @@ namespace Web.Public.Controllers
                     return new NotFoundResult();
                 }
                 
-                var expectedResults = await _vectorSetService.GetExpectedResultsAsync(vsID);
+                var expectedResults = _vectorSetService.GetExpectedResults(vsID);
                 if (expectedResults == null)
                 {
                     return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(new RetryObject()));
