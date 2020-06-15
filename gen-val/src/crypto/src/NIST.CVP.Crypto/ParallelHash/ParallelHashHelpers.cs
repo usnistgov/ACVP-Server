@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Math;
+﻿using System.Collections.Generic;
+using NIST.CVP.Math;
 using NIST.CVP.Crypto.SHA3;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.Common.Hash.CSHAKE;
@@ -23,16 +24,24 @@ namespace NIST.CVP.Crypto.ParallelHash
 
             var newMessage = LeftEncode(IntToBitString(blockSize));
             
-            BitString[] strings = new BitString[numberOfBlocks];
-            Parallel.For(0, numberOfBlocks, i =>
+            var strings = new List<BitString>();
+            var hashFunction = new HashFunction{ DigestLength = capacity, Capacity = capacity};
+            for (var i = 0; i < numberOfBlocks; i++)
             {
-                BitString substring = SubString(message, i * blockSize * 8, (i + 1) * blockSize * 8);
-                strings[i] = cSHAKE.HashMessage(new HashFunction
-                {
-                    DigestLength = capacity,
-                    Capacity = capacity
-                }, substring, "").Digest;
-            });
+                var substring = SubString(message, i * blockSize * 8, (i + 1) * blockSize * 8);
+                strings.Add(cSHAKE.HashMessage(hashFunction, substring, "").Digest);
+            }
+
+            // TODO Orleans struggles with this sort of statement but ParallelHash could be made faster using this
+            // Parallel.For(0, numberOfBlocks, i =>
+            // {
+            //     BitString substring = SubString(message, i * blockSize * 8, (i + 1) * blockSize * 8);
+            //     strings[i] = cSHAKE.HashMessage(new HashFunction
+            //     {
+            //         DigestLength = capacity,
+            //         Capacity = capacity
+            //     }, substring, "").Digest;
+            // });
 
             for (int i = 0; i < numberOfBlocks; i++)
             {

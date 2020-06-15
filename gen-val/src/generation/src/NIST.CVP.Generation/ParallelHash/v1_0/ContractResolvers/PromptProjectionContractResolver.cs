@@ -22,7 +22,9 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0.ContractResolvers
             var mctProperties = new[]
             {
                 nameof(TestGroup.MinOutputLength),
-                nameof(TestGroup.MaxOutputLength)
+                nameof(TestGroup.MaxOutputLength),
+                nameof(TestGroup.MinBlockSize),
+                nameof(TestGroup.MaxBlockSize)
             };
 
             if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

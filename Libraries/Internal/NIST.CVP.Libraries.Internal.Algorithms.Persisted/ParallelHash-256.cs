@@ -21,6 +21,9 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 		[AlgorithmProperty("xof")]
 		public List<bool> XOF { get; set; }
 
+		[AlgorithmProperty("blockSize")]
+		public Domain BlockSize { get; set; }
+
 		public ParallelHash_256()
 		{
 			Name = "PARALLELHASH-256";
@@ -34,6 +37,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 			OutputLength = external.OutputLength;
 			HexCustomization = external.HexCustomization;
 			XOF = external.XOF;
+			BlockSize = external.BlockSize;
 		}
 	}
 }

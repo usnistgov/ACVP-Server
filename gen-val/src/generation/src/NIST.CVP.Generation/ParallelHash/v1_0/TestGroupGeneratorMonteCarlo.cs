@@ -21,9 +21,10 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
                     {
                         Function = "ParallelHash",
                         DigestSize = digSize,
-                        OutputLength = parameters.OutputLength,
+                        OutputLength = parameters.OutputLength.GetDeepCopy(),
                         TestType = TEST_TYPE,
                         HexCustomization = parameters.HexCustomization,
+                        BlockSize = parameters.BlockSize.GetDeepCopy(),
                         XOF = xof
                     };
 
