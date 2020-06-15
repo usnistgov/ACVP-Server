@@ -1,7 +1,5 @@
-﻿using System;
-using NIST.CVP.Common;
+﻿using NIST.CVP.Common;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.KDF_Components.v1_0.PBKDF;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -15,7 +13,7 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
         public override string Algorithm => "kdf-components";
         public override string Mode => "PBKDF";
 
-        public override AlgoMode AlgoMode => AlgoMode.KDFComponents_PBKDF_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.PBKDF_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 

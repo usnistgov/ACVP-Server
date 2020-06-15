@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using NIST.CVP.Common.ExtensionMethods;
-using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
+namespace NIST.CVP.Generation.PBKDF
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {

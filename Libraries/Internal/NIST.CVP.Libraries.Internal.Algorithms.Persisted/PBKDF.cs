@@ -4,19 +4,18 @@ using External = NIST.CVP.Libraries.Shared.Algorithms.External;
 
 namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 {
-	public class KDF_PBKDF : PersistedAlgorithmBase
+	public class PBKDF : PersistedAlgorithmBase
 	{
 		[AlgorithmProperty("capabilities")]
 		public List<Capability> Capabilities { get; set; } = new List<Capability>();
 
-		public KDF_PBKDF()
+		public PBKDF()
 		{
-			Name = "kdf-components";
-			Mode = "pbkdf";
+			Name = "PBKDF";
 			Revision = "1.0";
 		}
 
-		public KDF_PBKDF(External.KDF_PBKDF external) : this()
+		public PBKDF(External.PBKDF external) : this()
 		{
 			foreach (var capability in external.Capabilities)
 			{
