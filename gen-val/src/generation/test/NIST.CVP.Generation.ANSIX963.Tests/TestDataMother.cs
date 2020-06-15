@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.ANSIX963.Tests
                     tests.Add(new TestCase
                     {
                         Z = new BitString("AB"),
+                        SharedSecret = new BitString("AB").ToPositiveBigInteger(),
                         SharedInfo = new BitString("ABCD"),
                         KeyData = new BitString("ABCDEF"),
                         TestCaseId = testId,
