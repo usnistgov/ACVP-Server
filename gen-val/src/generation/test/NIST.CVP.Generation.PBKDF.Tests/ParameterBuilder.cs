@@ -1,4 +1,3 @@
-using NIST.CVP.Generation.KDF_Components.v1_0.PBKDF;
 using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.PBKDF.Tests

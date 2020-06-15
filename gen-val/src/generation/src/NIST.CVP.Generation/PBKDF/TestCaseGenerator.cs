@@ -9,7 +9,7 @@ using NIST.CVP.Generation.Core.Async;
 using NIST.CVP.Math.Domain;
 using NLog;
 
-namespace NIST.CVP.Generation.KDF_Components.v1_0.PBKDF
+namespace NIST.CVP.Generation.PBKDF
 {
     public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
