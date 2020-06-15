@@ -4,15 +4,14 @@ using NIST.CVP.Libraries.Shared.Algorithms.DataTypes;
 
 namespace NIST.CVP.Libraries.Shared.Algorithms.External
 {
-	public class KDF_PBKDF : AlgorithmBase, IExternalAlgorithm
+	public class PBKDF : AlgorithmBase, IExternalAlgorithm
 	{
 		[JsonPropertyName("capabilities")]
 		public List<Capability> Capabilities { get; set; }
 
-		public KDF_PBKDF()
+		public PBKDF()
 		{
-			Name = "kdf-components";
-			Mode = "pbkdf";
+			Name = "PBKDF";
 			Revision = "1.0";
 		}
 
