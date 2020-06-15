@@ -160,6 +160,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             private int[] _digestSize;
             private MathDomain _outputLength;
             private MathDomain _messageLength;
+            private MathDomain _blockSize;
             private bool[] _xof;
             private bool _hexCustomization;
 
@@ -169,6 +170,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
+                _blockSize = new MathDomain().AddSegment(new RangeDomainSegment(null, 1, 16));
                 _xof = new[] { true };
                 _hexCustomization = false;
             }
@@ -217,6 +219,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     DigestSizes = _digestSize.ToList(),
                     MessageLength = _messageLength,
                     OutputLength = _outputLength,
+                    BlockSize = _blockSize,
                     XOF = _xof,
                     HexCustomization = _hexCustomization
                 };

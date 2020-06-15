@@ -116,7 +116,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
         
         private void ValidateBlockSize(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.BlockSize, "OutputLength Domain");
+            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.BlockSize, "BlockSize Domain");
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))
             {
@@ -125,7 +125,7 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
             
             if (parameters.BlockSize.DomainSegments.Count() != 1)
             {
-                segmentCheck = "OutputLength must have exactly one segment in the domain";
+                segmentCheck = "BlockSize must have exactly one segment in the domain";
             }
             errorResults.AddIfNotNullOrEmpty(segmentCheck);
             if (!string.IsNullOrEmpty(segmentCheck))

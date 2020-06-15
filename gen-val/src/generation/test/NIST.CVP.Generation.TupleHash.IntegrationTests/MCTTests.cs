@@ -29,7 +29,7 @@ namespace NIST.CVP.Generation.TupleHash.IntegrationTests
 
             var domain = new MathDomain();
             domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
-            var result = subject.MCTHash(hashFunction, messageBitStringTuple, domain, true);
+            var result = subject.MCTHash(hashFunction, messageBitStringTuple, domain, true, true);
 
             Assert.IsNotNull(result, "null check");
             Assert.IsTrue(result.Success, result.ErrorMessage);
