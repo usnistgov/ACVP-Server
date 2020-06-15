@@ -14,8 +14,7 @@ namespace NIST.CVP.Generation.PBKDF.Tests
 
         public ParameterBuilder()
         {
-            _algorithm = "kdf-components";
-            _mode = "pbkdf";
+            _algorithm = "PBKDF";
             _hashAlgs = new [] {"sha-1", "sha2-384"};
             _saltLen = new MathDomain().AddSegment(new ValueDomainSegment(128));
             _passLen = new MathDomain().AddSegment(new ValueDomainSegment(32));
@@ -26,12 +25,6 @@ namespace NIST.CVP.Generation.PBKDF.Tests
         public ParameterBuilder WithAlgorithm(string value)
         {
             _algorithm = value;
-            return this;
-        }
-
-        public ParameterBuilder WithMode(string value)
-        {
-            _mode = value;
             return this;
         }
 
@@ -70,7 +63,6 @@ namespace NIST.CVP.Generation.PBKDF.Tests
             return new Parameters
             {
                 Algorithm = _algorithm,
-                Mode = _mode,
                 Capabilities = new []
                 {
                     new Capability
