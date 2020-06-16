@@ -5,7 +5,6 @@ namespace NIST.CVP.Generation.PBKDF.Tests
     public class ParameterBuilder
     {
         private string _algorithm;
-        private string _mode;
         private string[] _hashAlgs;
         private MathDomain _saltLen;
         private MathDomain _passLen;
