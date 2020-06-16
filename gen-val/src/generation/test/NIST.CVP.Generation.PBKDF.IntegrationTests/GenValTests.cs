@@ -10,13 +10,12 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm => "kdf-components";
-        public override string Mode => "PBKDF";
-
+        public override string Algorithm => "PBKDF";
+        public override string Mode => null;
+        
         public override AlgoMode AlgoMode => AlgoMode.PBKDF_v1_0;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
