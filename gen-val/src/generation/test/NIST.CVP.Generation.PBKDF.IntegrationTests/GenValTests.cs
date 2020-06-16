@@ -11,7 +11,7 @@ namespace NIST.CVP.Generation.PBKDF.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "PBKDF";
-        public override string Mode => null;
+        public override string Mode => "";
         
         public override AlgoMode AlgoMode => AlgoMode.PBKDF_v1_0;
 
