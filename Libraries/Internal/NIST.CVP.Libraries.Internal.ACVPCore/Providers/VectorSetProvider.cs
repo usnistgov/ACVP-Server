@@ -212,7 +212,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					{
 						VsId = vectorSetId,
 						JsonFileType = fileType.ToString()
-					});
+					}, commandTimeout: 120);
 
 				if (queryResult == null)
 					return null;
@@ -237,7 +237,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				var data = db.QueryFromProcedure("acvp.VectorSetJsonGetAll", inParams: new
 				{
 					VectorSetId = vectorSetID
-				});
+				}, commandTimeout: 120);
 
 				foreach (var row in data)
 				{

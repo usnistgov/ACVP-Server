@@ -39,7 +39,7 @@ namespace NIST.CVP.Orleans.Grains.Hash
         protected override async Task DoWorkAsync()
         {
             var message = _rand.GetRandomBitString(_param.MessageLength);
-            var result = _hash.MCTHash(_param.HashFunction, message, _param.OutLens, _param.HexCustomization, _param.IsSample);
+            var result = _hash.MCTHash(_param.HashFunction, message, _param.OutLens, _param.BlockSizeDomain, _param.HexCustomization, _param.IsSample);
 
             if (!result.Success)
             {

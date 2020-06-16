@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -43,14 +44,11 @@ namespace Web.Public.Controllers
 		}
 		
 		[HttpPost]
-		public JsonHttpStatusResult CreateOE()
+		public async Task<JsonHttpStatusResult> CreateOE()
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateOE;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OECreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OECreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -58,7 +56,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -71,14 +69,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateOE(long id)
+		public async Task<JsonHttpStatusResult> UpdateOE(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateOE;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OEUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OEUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
@@ -87,7 +82,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -100,7 +95,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteOE(long id)
+		public async Task<JsonHttpStatusResult> DeleteOE(long id)
 		{
 			var apiAction = APIAction.DeleteOE;
 			var payload = new DeletePayload()
@@ -115,7 +110,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

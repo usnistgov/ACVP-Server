@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -52,14 +53,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPost]
-		public JsonHttpStatusResult CreateVendor()
+		public async Task<JsonHttpStatusResult> CreateVendor()
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateVendor;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OrganizationCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -67,7 +65,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -80,14 +78,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateVendor(long id)
+		public async Task<JsonHttpStatusResult> UpdateVendor(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateVendor;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<OrganizationUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<OrganizationUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
@@ -96,7 +91,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -109,7 +104,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteVendor(long id)
+		public async Task<JsonHttpStatusResult> DeleteVendor(long id)
 		{
 			var apiAction = APIAction.DeleteVendor;
 			var payload = new DeletePayload()
@@ -124,7 +119,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

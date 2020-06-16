@@ -16,8 +16,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
     public class GenValTestParallelHash128 : GenValTestsSingleRunnerBase
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
-
-
+        
         public override string Algorithm { get; } = "ParallelHash-128";
         public override string Mode { get; } = string.Empty;
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash_128_v1_0;
@@ -76,6 +75,9 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
 
+            var blockSize = new MathDomain();
+            blockSize.AddSegment(new RangeDomainSegment(null, 1, 16));
+            
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -84,6 +86,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 128 }.ToList(),
                 MessageLength = minMax,
                 OutputLength = minMax,
+                BlockSize = blockSize,
                 XOF = new[] { false },
                 IsSample = true
             };
@@ -99,6 +102,9 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var minMaxMsg = new MathDomain();
             minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
 
+            var blockSize = new MathDomain();
+            blockSize.AddSegment(new RangeDomainSegment(null, 1, 16));
+
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -107,6 +113,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 128 }.ToList(),
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
+                BlockSize = blockSize,
                 XOF = new[] { true, false },
                 IsSample = true
             };

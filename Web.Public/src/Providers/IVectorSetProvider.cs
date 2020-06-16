@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using Web.Public.Models;
 
@@ -7,6 +9,8 @@ namespace Web.Public.Providers
     {
         long GetNextVectorSetID(long tsID, string token);
         VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType);
+        [Obsolete]
+        Task<VectorSet> GetJsonAsync(long vsID, VectorSetJsonFileTypes fileType);
         VectorSetStatus GetStatus(long vsID);
         void SetStatus(long vsID, VectorSetStatus status);
     }

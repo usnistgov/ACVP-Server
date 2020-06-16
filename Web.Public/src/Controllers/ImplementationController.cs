@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -48,14 +49,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPost]
-		public JsonHttpStatusResult CreateImplementation()
+		public async Task<JsonHttpStatusResult> CreateImplementation()
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateImplementation;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<ImplementationCreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<ImplementationCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -63,7 +61,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -76,14 +74,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateImplementation(long id)
+		public async Task<JsonHttpStatusResult> UpdateImplementation(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateImplementation;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<ImplementationUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<ImplementationUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
@@ -92,7 +87,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -105,7 +100,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteImplementation(long id)
+		public async Task<JsonHttpStatusResult> DeleteImplementation(long id)
 		{
 			var apiAction = APIAction.DeleteImplementation;
 			var payload = new DeletePayload()
@@ -120,7 +115,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject

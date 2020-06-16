@@ -95,8 +95,8 @@ ELSE
 									WHEN @PropertyName = 'phoneNumber' AND @Operator = 'end' AND (voice_number LIKE '%' + @Value OR fax_number LIKE '%' + @Value) THEN 1
 									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address = @Value) THEN 1
 									WHEN @PropertyName = 'email' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value + '%') THEN 1
-									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE @Value + '%') THEN 1
-									WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value) THEN 1
+									WHEN @PropertyName = 'email' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE @Value + '%') THEN 1
+									WHEN @PropertyName = 'email' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value) THEN 1
 									ELSE 0
 								  END
 					END
@@ -124,8 +124,8 @@ ELSE
 										WHEN @PropertyName = 'phoneNumber' AND @Operator = 'end' AND (voice_number LIKE '%' + @Value OR fax_number LIKE '%' + @Value) THEN 1
 										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address = @Value) THEN 1
 										WHEN @PropertyName = 'email' AND @Operator = 'contains' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value + '%') THEN 1
-										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE @Value + '%') THEN 1
-										WHEN @PropertyName = 'email' AND @Operator = 'eq' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value) THEN 1
+										WHEN @PropertyName = 'email' AND @Operator = 'start' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE @Value + '%') THEN 1
+										WHEN @PropertyName = 'email' AND @Operator = 'end' AND EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address LIKE '%' + @Value) THEN 1
 										ELSE 0
 									  END
 						) 

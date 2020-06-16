@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.KDF_Components.v1_0.ANXIX963
                 
                 var testCase = new TestCase
                 {
-                    Z = result.Z,
+                    SharedSecret = result.Z.ToPositiveBigInteger(),
                     SharedInfo = result.SharedInfo,
                     KeyData = result.KeyOut
                 };

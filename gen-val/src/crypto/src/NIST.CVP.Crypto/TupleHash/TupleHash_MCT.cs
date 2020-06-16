@@ -12,6 +12,7 @@ namespace NIST.CVP.Crypto.TupleHash
     public class TupleHash_MCT : ITupleHash_MCT
     {
         private readonly ITupleHash _iTupleHash;
+        private bool _hexCustomization;
         private int NUM_OF_RESPONSES = 100;
 
         public TupleHash_MCT(ITupleHash iTupleHash)
@@ -59,8 +60,9 @@ namespace NIST.CVP.Crypto.TupleHash
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MCTResultTuple<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool isSample)
+        public MCTResultTuple<AlgoArrayResponse> MCTHash(HashFunction function, IEnumerable<BitString> tuple, MathDomain domain, bool hexCustomization, bool isSample)
         {
+            _hexCustomization = hexCustomization;
             if (isSample)
             {
                 NUM_OF_RESPONSES = 3;
@@ -149,10 +151,18 @@ namespace NIST.CVP.Crypto.TupleHash
         private string GetStringFromBytes(byte[] bytes)
         {
             var result = "";
-            foreach (var num in bytes)
+            if (_hexCustomization)
             {
-                result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });
+                result = new BitString(bytes).ToHex();
             }
+            else
+            {
+                foreach (var num in bytes)
+                {
+                    result += System.Text.Encoding.ASCII.GetString(new byte[] { (byte)((num % 26) + 65) });                    
+                }    
+            }
+            
             return result;
         }
 

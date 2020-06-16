@@ -27,6 +27,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                     DigestSize = groupIdx + 1,
                     MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                    BlockSize = new MathDomain().AddSegment(new ValueDomainSegment(64)),
                     HexCustomization = hexCustomization,
                     TestType = testType
                 };

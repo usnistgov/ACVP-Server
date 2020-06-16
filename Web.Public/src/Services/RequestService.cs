@@ -86,9 +86,10 @@ namespace Web.Public.Services
                 APIAction.UpdateVendor => $"{baseURL}/vendors/{approvedID}",
                 APIAction.DeleteVendor => $"{baseURL}/vendors/{approvedID}",
                 
+                APIAction.CertifyTestSession => $"{baseURL}/validations/{approvedID}",
+                
                 APIAction.RegisterTestSession => null,
                 APIAction.CancelTestSession => null,
-                APIAction.CertifyTestSession => null,
                 APIAction.SubmitVectorSetResults => null,
                 APIAction.CancelVectorSet => null,
                 

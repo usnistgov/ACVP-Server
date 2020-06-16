@@ -62,6 +62,9 @@ namespace Web.Public
             item.AddSingleton<ITestSessionProvider, TestSessionProvider>();
             item.AddSingleton<ITestSessionService, TestSessionService>();
 
+            item.AddSingleton<IValidationProvider, ValidationProvider>();
+            item.AddSingleton<IValidationService, ValidationService>();
+            
             item.AddSingleton<IVectorSetProvider, VectorSetProvider>();
             item.AddSingleton<IVectorSetService, VectorSetService>();
 

@@ -68,8 +68,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             // Keep pulling output lengths until we have enough
             do
             {
-                outputLengths.AddRange(outputAllowed.GetValues(x => true, 1, false));
-
+                outputLengths.AddRange(outputAllowed.GetValues(x => true, messageLengths.Count, true));
             } while (outputLengths.Count < messageLengths.Count);
             
             // Shuffle inputs and outputs
@@ -77,7 +76,7 @@ namespace NIST.CVP.Generation.CSHAKE.v1_0
             outputLengths = outputLengths.Shuffle();
             
             // Pair up input and output
-            if (messageLengths.Count != outputLengths.Count)
+            if (messageLengths.Count > outputLengths.Count)
             {
                 return new GenerateResponse("Unable to pair up input and output lengths");
             }
