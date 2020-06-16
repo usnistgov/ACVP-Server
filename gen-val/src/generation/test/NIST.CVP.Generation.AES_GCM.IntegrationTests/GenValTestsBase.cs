@@ -94,29 +94,48 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            Parameters p = new Parameters()
+            // Parameters p = new Parameters()
+            // {
+            //     Algorithm = Algorithm,
+            //     Revision = Revision,
+            //     Direction = ParameterValidator.VALID_DIRECTIONS,
+            //     KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
+            //     PayloadLen = new MathDomain()
+            //         .AddSegment(new ValueDomainSegment(0))
+            //         .AddSegment(new ValueDomainSegment(120)),
+            //     IvLen = new MathDomain()
+            //         .AddSegment(new ValueDomainSegment(96))
+            //         .AddSegment(new ValueDomainSegment(120)),
+            //     IvGen = ParameterValidator.VALID_IV_GEN[1],
+            //     IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+            //     AadLen = new MathDomain()
+            //         .AddSegment(new ValueDomainSegment(0))
+            //         .AddSegment(new ValueDomainSegment(120)),
+            //     TagLen = new MathDomain()
+            //         .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()))
+            //         .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.Last())),
+            //     IsSample = false
+            // };
+
+            var tagDomain = new MathDomain();
+            foreach (var tagLen in ParameterValidator.VALID_TAG_LENGTHS){
+                tagDomain.AddSegment(new ValueDomainSegment(tagLen));
+            }
+
+            var p = new Parameters()
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
                 Direction = ParameterValidator.VALID_DIRECTIONS,
-                KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
-                PayloadLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(0))
-                    .AddSegment(new ValueDomainSegment(120)),
-                IvLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(96))
-                    .AddSegment(new ValueDomainSegment(120)),
+                KeyLen = ParameterValidator.VALID_KEY_SIZES,
+                PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_PT, ParameterValidator.VALID_MAX_PT, 8)),
+                IvLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_IV, ParameterValidator.VALID_MAX_IV, 8)),
                 IvGen = ParameterValidator.VALID_IV_GEN[1],
                 IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
-                AadLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(0))
-                    .AddSegment(new ValueDomainSegment(120)),
-                TagLen = new MathDomain()
-                    .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()))
-                    .AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.Last())),
-                IsSample = false
+                AadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_AAD, ParameterValidator.VALID_MAX_AAD, 8)),
+                TagLen = tagDomain
             };
-
+            
             return CreateRegistration(targetFolder, p);
         }
     }
