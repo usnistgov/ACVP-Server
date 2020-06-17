@@ -327,6 +327,7 @@ namespace Web.Public.Providers
 					{
 						ID = rawPerson.PersonId,
 						Name = rawPerson.FullName,
+						OrganizationID = organizationId,
 						Emails = emails.Count > 0 ? emails : null,
 						PhoneNumbers = phoneNumbers.Count > 0 ? phoneNumbers : null
 					};
