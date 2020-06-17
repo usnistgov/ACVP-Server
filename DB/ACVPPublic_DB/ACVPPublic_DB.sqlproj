@@ -129,11 +129,6 @@
     <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserSet.sql" />
     <Build Include="acvp\Stored Procedures\PreviousComputedWindowByUserGet.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserGetByCertificate.sql" />
-    <Build Include="val\Stored Procedures\DependencyFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\ImplementationFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\OEFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\PersonFilteredListGet.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
@@ -176,7 +171,6 @@
     <Build Include="val\Stored Procedures\OEExists.sql" />
     <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
     <Build Include="external\Stored Procedures\RequestExists.sql" />
-    <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
     <Build Include="ref\Tables\MODULE_TYPE.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetStatusSet.sql" />
     <Build Include="external\Tables\SecretKeyValuePairs.sql" />
@@ -186,5 +180,11 @@
     <Build Include="external\Stored Procedures\TestSessionCheckIfExists.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionGetLastTouched.sql" />
     <Build Include="val\Stored Procedures\ValidationGet.sql" />
+    <Build Include="val\Stored Procedures\PersonFilteredListDataGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationFilteredListDataGet.sql" />
+    <Build Include="val\Stored Procedures\OrganizationContactsFilteredListDataGet.sql" />
+    <Build Include="val\Stored Procedures\OEFilteredListDataGet.sql" />
+    <Build Include="val\Stored Procedures\ImplementationFilteredListDataGet.sql" />
+    <Build Include="val\Stored Procedures\DependencyFilteredListDataGet.sql" />
   </ItemGroup>
 </Project>

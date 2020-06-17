@@ -8,7 +8,7 @@ namespace Web.Public.Providers
         Organization Get(long id);
         bool Exists(long id);
         bool IsUsed(long id);
-        (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter);
-        (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationId, string filter, long offset, long limit, string orDelimiter, string andDelimiter);
+        (long TotalCount, List<Organization> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit);
+        (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationID, List<OrClause> orClauses, long offset, long limit);
     }
 }

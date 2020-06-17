@@ -8,6 +8,6 @@ namespace Web.Public.Providers
 		Implementation Get(long id);
 		bool Exists(long id);
 		bool IsUsed(long id);
-		(long TotalCount, List<Implementation> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter);
+		(long TotalCount, List<Implementation> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit);
 	}
 }
