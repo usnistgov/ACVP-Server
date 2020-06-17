@@ -106,10 +106,10 @@ namespace Web.Public.Providers
 					},
 					new
 					{
-						exists = false
+						isUsed = false
 					});
 
-				return data.exists;
+				return data.isUsed;
 			}
 			catch (Exception e)
 			{

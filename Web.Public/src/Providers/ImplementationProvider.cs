@@ -110,10 +110,10 @@ namespace Web.Public.Providers
 					},
 					new
 					{
-						exists = false
+						inUse = false
 					});
 
-				return data.exists;
+				return data.inUse;
 			}
 			catch (Exception e)
 			{
