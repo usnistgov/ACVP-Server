@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Generation.AES_GCM.v1_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.Generation.AES_GCM.v1_0;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -60,7 +61,10 @@ namespace NIST.CVP.Generation.AES_GCM.Tests
                 PayloadLen = mdPt,
                 TagLen = mdTag
             };
-            int expectedResultCount = aadLen.Length * ivLen.Length * keyLen.Length * mode.Length * ptLen.Length * tagLen.Length;
+
+            var lengths = new List<int> {ptLen.Length, ivLen.Length, aadLen.Length, tagLen.Length};
+            var maxLength = lengths.Max();
+            int expectedResultCount = keyLen.Length * mode.Length * maxLength;
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
