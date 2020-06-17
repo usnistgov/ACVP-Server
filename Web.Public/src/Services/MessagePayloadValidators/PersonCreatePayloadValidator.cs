@@ -24,9 +24,16 @@ namespace Web.Public.Services.MessagePayloadValidators
 				errors.Add("person.name must be provided.");
 			}
 
-			if (!_organizationService.Exists(BasePayload.ParseIDFromURL(item.OrganizationURL)))
+			if (string.IsNullOrEmpty(item.OrganizationURL))
 			{
-				errors.Add("person.vendorUrl is invalid.");
+				errors.Add("person.vendorUrl must be provided.");
+			}
+			else
+			{
+				if (!_organizationService.Exists(BasePayload.ParseIDFromURL(item.OrganizationURL)))
+				{
+					errors.Add("person.vendorUrl is invalid.");
+				}
 			}
 			
 			return new PayloadValidationResult(errors);
