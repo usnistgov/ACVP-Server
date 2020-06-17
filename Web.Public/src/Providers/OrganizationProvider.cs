@@ -145,10 +145,10 @@ namespace Web.Public.Providers
 					},
 					new
 					{
-						exists = false
+						isUsed = false
 					});
 
-				return data.exists;
+				return data.isUsed;
 			}
 			catch (Exception e)
 			{
@@ -399,7 +399,6 @@ namespace Web.Public.Providers
 					//Build the list of organization objects
 					foreach (var rawPerson in rawPersons.OrderBy(x => x.PersonId))
 					{
-<<<<<<< Web.Public/src/Providers/OrganizationProvider.cs
 						var emails = rawEmailAddresses
 							.Where(x => x.PersonId == rawPerson.PersonId)
 							.OrderBy(x => x.OrderIndex)
@@ -420,7 +419,7 @@ namespace Web.Public.Providers
 						{
 							ID = rawPerson.PersonId,
 							Name = rawPerson.FullName,
-							OrganizationID = organizationId,
+							OrganizationID = organizationID,
 							Emails = emails.Count > 0 ? emails : null,
 							PhoneNumbers = phoneNumbers.Count > 0 ? phoneNumbers : null
 						};
@@ -428,17 +427,6 @@ namespace Web.Public.Providers
 						//Finally add it to the collection
 						contacts.Add(person);
 					}
-=======
-						ID = rawPerson.PersonId,
-						Name = rawPerson.FullName,
-						OrganizationID = organizationId,
-						Emails = emails.Count > 0 ? emails : null,
-						PhoneNumbers = phoneNumbers.Count > 0 ? phoneNumbers : null
-					};
-
-					//Finally add it to the collection
-					contacts.Add(person);
->>>>>>> Web.Public/src/Providers/OrganizationProvider.cs
 				}
 
 				return (totalRecords, contacts);
