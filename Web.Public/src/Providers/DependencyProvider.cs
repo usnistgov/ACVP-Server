@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using Web.Public.Helpers;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -91,41 +92,87 @@ namespace Web.Public.Providers
 			}
 		}
 
-		public (long TotalCount, List<Dependency> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter)
+		public (long TotalCount, List<Dependency> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
+			//Build the query to get all the matching org IDs
+			string query = "SELECT id FROM val.VALIDATION_OE_DEPENDENCY D";
+
+			if (orClauses.Count > 0)
+			{
+				//First OR clause gets special treatment - it starts with the WHERE, not an OR
+				List<string> orStrings = new List<string>();
+
+				foreach (OrClause orClause in orClauses)
+				{
+					List<string> andStrings = new List<string>();
+					foreach (AndClause andClause in orClause.AndClauses)
+					{
+						switch (andClause.Property)
+						{
+							case "name":
+								andStrings.Add($"name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								break;
+							case "type":
+								andStrings.Add($"dependency_type {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								break;
+							case "description":
+								andStrings.Add($"description {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								break;
+							default: break;
+						}
+					}
+
+					//Combine all of the AND clauses with ANDs, and add as an OrClause
+					orStrings.Add(string.Join(" AND ", andStrings));
+				}
+
+				//Combine all of the OR clauses with ORs and parens, add it to the query. Each OR clause needs to be wrapped in parens, so the join puts the closing and opening on ones in the middle, but need to add the opening for the first and closing for the last
+				query += $" WHERE ({string.Join(") OR (", orStrings)})";
+			}
+
+			query += " ORDER BY D.id";
+
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
 			try
 			{
-				var data = db.QueryMultipleFromProcedure("val.DependencyFilteredListGet", inParams: new
-				{
-					Filter = filter,
-					Limit = limit,
-					Offset = offset,
-					ORdelimiter = orDelimiter,
-					ANDdelimiter = andDelimiter
-				});
-
 				//Create the objects to hold the final data
 				long totalRecords;
 				var dependencies = new List<Dependency>();
 
+				//Get all the IDs that match the query
+				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+
+				//Set the total records value since we have them all
+				totalRecords = allIDs.Length;
+
+				//If we didn't find any, can stop here
+				if (totalRecords == 0)
+				{
+					return (0, dependencies);
+				}
+
+				//Get the page of IDs we care about for the rest
+				Index startIndex = (Index)offset;
+				Index endIndex = (Index)Math.Min(offset + limit, totalRecords); //end of a range is exclusive, which is weird given the start is inclusive
+
+				long[] pagedIDs = allIDs[startIndex..endIndex];
+
+				var data = db.QueryMultipleFromProcedure("val.DependencyFilteredListDataGet", inParams: new
+				{
+					IDs = string.Join(",", pagedIDs)
+				});
+
 				//Get the enumerator to manually iterate over the results
 				using var enumerator = data.GetEnumerator();
 
-				//Move to the first result set, the total records
+				//Move to the first result set, the dependencies
 				enumerator.MoveNext();
 				var resultSet = enumerator.Current;
 
-				totalRecords = resultSet.First().TotalRecords;
-
-				//Move to the second result set, the dependencies
-				enumerator.MoveNext();
-				resultSet = enumerator.Current;
-
 				var rawDependencies = resultSet.Select(x => (x.Id, x.DependencyType, x.Name, x.Description)).ToList();
 
-				//Move to the third result set, the attributes
+				//Move to the second result set, the attributes
 				enumerator.MoveNext();
 				resultSet = enumerator.Current;
 

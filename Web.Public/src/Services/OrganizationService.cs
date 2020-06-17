@@ -19,10 +19,10 @@ namespace Web.Public.Services
 
 		public bool IsUsed(long organizationID) => _organizationProvider.IsUsed(organizationID);
 
-		public (long TotalCount, List<Organization> Organizations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
-			=> _organizationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<Organization> Organizations) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions)
+			=> _organizationProvider.GetFilteredList(orClauses, pagingOptions.Offset, pagingOptions.Limit);
 
-		public (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationId, string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
-			=> _organizationProvider.GetContactFilteredList(organizationId, filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationId, List<OrClause> orClauses, PagingOptions pagingOptions)
+			=> _organizationProvider.GetContactFilteredList(organizationId, orClauses, pagingOptions.Offset, pagingOptions.Limit);
 	}
 }

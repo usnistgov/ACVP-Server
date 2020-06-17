@@ -8,6 +8,6 @@ namespace Web.Public.Services
 		OperatingEnvironmentWithDependencies GetOE(long id);
 		bool Exists(long id);
 		bool IsUsed(long id);
-		(long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
+		(long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions);
 	}
 }
