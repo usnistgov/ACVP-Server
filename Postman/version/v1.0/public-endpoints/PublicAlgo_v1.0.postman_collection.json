@@ -117,9 +117,9 @@
 							"    pm.expect(jsonData[0].acvVersion).to.eql(\"1.0\");",
 							"});",
 							"pm.test(\"Algo ACVP-AES-GCM Chk\", function () {",
-							"    pm.expect(jsonData[1].algorithms[0].algorithm).to.eql(\"ACVP-AES-GCM\");",
+							"    pm.expect(jsonData[1].algorithms[0].name).to.eql(\"ACVP-AES-GCM\");",
 							"});",
-							"pm.environment.set(\"algo_url\", jsonData[1].algorithms[2].url);"
+							"//pm.environment.set(\"algo_url\", jsonData[1].algorithms[2].url);"
 						],
 						"type": "text/javascript"
 					}
