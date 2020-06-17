@@ -27,40 +27,30 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
             const int ivLenSpecialCase = 96;
             if (ivLengthMinMax.Minimum < ivLenSpecialCase)
             {
-                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLengthMinMax.Minimum,
-                    ivLenSpecialCase - 1, 2));
+                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLengthMinMax.Minimum, ivLenSpecialCase - 1, 2));
             }
+            
             if (ivLengthMinMax.Maximum >= ivLenSpecialCase)
             {
                 ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLenSpecialCase, ivLenSpecialCase, 1));
             }
+            
             if (ivLengthMinMax.Maximum > ivLenSpecialCase)
             {
-                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLenSpecialCase + 1,
-                    ivLengthMinMax.Maximum, 2));
+                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLenSpecialCase + 1, ivLengthMinMax.Maximum, 2));
             }
 
             var ptLengths = new List<int>();
             ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetDomainMinMaxAsEnumerable());
+            
             // Get block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(
-                parameters.PayloadLen
-                    .GetValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2, true));
-            // get non block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(
-                parameters.PayloadLen
-                    .GetValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2, true));
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2, true));
+            
+            // Get non block length values
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2, true));
 
             var aadLengths = GetTestableValuesFromCapability(parameters.AadLen);
-
-            var tagLengths = new List<int>();
-            foreach (var validTagLength in ParameterValidator.VALID_TAG_LENGTHS)
-            {
-                if (parameters.TagLen.IsWithinDomain(validTagLength))
-                {
-                    tagLengths.Add(validTagLength);
-                }
-            }
+            var tagLengths = ParameterValidator.VALID_TAG_LENGTHS.Where(validTagLength => parameters.TagLen.IsWithinDomain(validTagLength)).ToList();
 
             // sanity check, should be caught by parameter validator
             if (tagLengths.Count == 0)
@@ -68,39 +58,77 @@ namespace NIST.CVP.Generation.AES_GCM.v1_0
                 throw new ArgumentException("No valid tag lengths found within parameters");
             }
 
+            var lengths = new List<int> { ivLengths.Count, ptLengths.Count, aadLengths.Count, tagLengths.Count };
+            var maxLengthParameter = lengths.Max();
+            var ivQueue = new ShuffleQueue<int>(ivLengths);
+            var ptQueue = new ShuffleQueue<int>(ptLengths);
+            var aadQueue = new ShuffleQueue<int>(aadLengths);
+            var tagQueue = new ShuffleQueue<int>(tagLengths);
+
             foreach (var function in parameters.Direction)
             {
                 foreach (var keyLength in parameters.KeyLen)
                 {
-                    foreach (var ivLength in ivLengths)
+                    for (var i = 0; i < maxLengthParameter; i++)
                     {
-                        foreach (var ptLength in ptLengths)
+                        var testGroup = new TestGroup
                         {
-                            foreach (var aadLength in aadLengths)
-                            {
-                                foreach (var tagLength in tagLengths)
-                                {
-                                    var testGroup = new TestGroup
-                                    {
-                                        AlgoMode = algoMode,
-                                        Function = function,
-                                        IvLength = ivLength,
-                                        PayloadLength = ptLength,
-                                        KeyLength = keyLength,
-                                        AadLength = aadLength,
-                                        TagLength = tagLength,
-                                        IvGeneration = parameters.IvGen,
-                                        IvGenerationMode = parameters.IvGenMode
-
-                                    };
-                                    testGroups.Add(testGroup);
-                                }
-                            }
-                        }
+                            AlgoMode = algoMode,
+                            Function = function,
+                            IvLength = ivQueue.Pop(),
+                            PayloadLength = ptQueue.Pop(),
+                            KeyLength = keyLength,
+                            AadLength = aadQueue.Pop(),
+                            TagLength = tagQueue.Pop(),
+                            IvGeneration = parameters.IvGen,
+                            IvGenerationMode = parameters.IvGenMode
+                        };
+                        
+                        testGroups.Add(testGroup);
                     }
                 }
             }
+
             return Task.FromResult(testGroups);
+        }
+
+        private class ShuffleQueue<T>
+        {
+            private Queue<T> _queue;
+            private List<T> _fullList;
+            
+            public ShuffleQueue(List<T> list)
+            {
+                _queue = new Queue<T>();
+                _fullList = list.Shuffle();
+                AddElements(_fullList);
+            }
+
+            public T Pop()
+            {
+                // If the queue is empty, re-queue the stored elements
+                if (!_queue.Any())
+                {
+                    // It is possible for the list coming in to be empty too. 
+                    if (!_fullList.Any())
+                    {
+                        return default;
+                    }
+                    
+                    var shuffledList = _fullList.Shuffle();
+                    AddElements(shuffledList);
+                }
+
+                return _queue.Dequeue();
+            }
+
+            private void AddElements(List<T> list)
+            {
+                foreach (var element in _fullList)
+                {
+                    _queue.Enqueue(element);
+                }
+            }
         }
 
         private List<int> GetTestableValuesFromCapability(MathDomain capability)
