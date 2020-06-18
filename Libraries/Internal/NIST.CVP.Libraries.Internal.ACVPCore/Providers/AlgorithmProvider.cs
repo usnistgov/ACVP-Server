@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -24,7 +24,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("ref.AlgorithmIDByNameAndModeGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.AlgorithmIDByNameAndModeGet", inParams: new
 				{
 					Name = name,
 					Mode = mode
@@ -47,7 +47,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("ref.AlgorithmsGet");
+				var data = db.QueryFromProcedure("dbo.AlgorithmsGet");
 
 				foreach (var algorithm in data)
 				{

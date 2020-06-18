@@ -6,6 +6,6 @@
 		public string Name { get; set; }
 		public int Level { get; set; }
 		public int OrderIndex { get; set; }
-		public string Type { get; set; }
+		public AlgorithmPropertyType Type { get; set; }
 	}
 }

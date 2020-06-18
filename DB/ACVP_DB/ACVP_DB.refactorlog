@@ -70,4 +70,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ValidationOEAlgorithmId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="9260d3ab-2494-4480-80d1-fe9b422029d5" ChangeDateTime="06/18/2020 18:07:19">
+    <Property Name="ElementName" Value="[dbo].[Algorithms].[AlgorithmName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Algorithms]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
 </Operations>

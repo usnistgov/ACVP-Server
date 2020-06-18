@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -28,15 +29,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("ref.PropertiesGet");
+				var data = db.QueryFromProcedure("dbo.PropertiesGet");
 
 				foreach (var property in data)
 				{
 					properties.Add(new PropertyLookup
 					{
 						AlgorithmID = property.AlgorithmId,
-						PropertyID = property.PropertyId,
-						Name = property.Name,
+						PropertyID = property.AlgorithmPropertyId,
+						Name = property.PropertyName,
 						OrderIndex = property.OrderIndex
 					});
 				}
@@ -57,7 +58,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("ref.PropertyTreeValidationNodesGet", inParams: new { AlgorithmId = algorithmID });
+				var data = db.QueryFromProcedure("dbo.PropertyTreeValidationNodesGet", inParams: new { AlgorithmId = algorithmID });
 
 				foreach (var item in data)
 				{
@@ -67,7 +68,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 						Name = item.PropertyName,
 						Level = item.Level,
 						OrderIndex = item.OrderIndex,
-						Type = item.PropertyType.Trim()
+						Type = (AlgorithmPropertyType)item.AlgorithmPropertyTypeId
 					});
 				}
 			}

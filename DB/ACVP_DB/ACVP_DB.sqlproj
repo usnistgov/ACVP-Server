@@ -275,12 +275,9 @@
     <Build Include="val\Stored Procedures\OEDependenciesGet.sql" />
     <Build Include="val\Stored Procedures\OEsGet.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetsForTestSessionGet.sql" />
-    <Build Include="ref\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
     <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmDelete.sql" />
-    <Build Include="ref\Stored Procedures\AlgorithmsGet.sql" />
     <Build Include="val\Stored Procedures\CapabilityInsert.sql" />
-    <Build Include="ref\Stored Procedures\PropertiesGet.sql" />
     <Build Include="val\Stored Procedures\ScenarioOEInsert.sql" />
     <Build Include="val\Stored Procedures\ScenarioInsert.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionStatusUpdate.sql" />
@@ -323,7 +320,6 @@
     <Build Include="val\Stored Procedures\OrganizationGetPersons.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
-    <Build Include="ref\Stored Procedures\PropertyTreeValidationNodesGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationsGet.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionIdGet.sql" />
@@ -364,6 +360,14 @@
     <Build Include="dbo\Stored Procedures\PrerequisiteInsert.sql" />
     <Build Include="dbo\Stored Procedures\ValidationOEAlgorithmsForOEGetActive.sql" />
     <Build Include="lcavp\Stored Procedures\OEIDGetForValidation.sql" />
+    <Build Include="dbo\Tables\Algorithms.sql" />
+    <Build Include="dbo\Tables\AlgorithmPropertyTypes.sql" />
+    <Build Include="dbo\Tables\AlgorithmProperties.sql" />
+    <Build Include="dbo\Stored Procedures\RecursivelyCreateCapability.sql" />
+    <Build Include="dbo\Stored Procedures\AlgorithmsGet.sql" />
+    <Build Include="dbo\Stored Procedures\AlgorithmIDByNameAndModeGet.sql" />
+    <Build Include="dbo\Stored Procedures\PropertiesGet.sql" />
+    <Build Include="dbo\Stored Procedures\PropertyTreeValidationNodesGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
