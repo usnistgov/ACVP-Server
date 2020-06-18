@@ -9,4 +9,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NIST.CVP.Common\NIST.CVP.Common.csproj" />
+  </ItemGroup>
+
 </Project>
