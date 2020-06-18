@@ -1,11 +1,13 @@
-﻿CREATE TABLE [dbo].[ValidationOEAlgorithms]
-(
-	[ValidationOEAlgorithmId] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
-    [ValidationId] BIGINT NOT NULL, 
-    [OEId] BIGINT NOT NULL, 
-    [AlgorithmId] BIGINT NOT NULL, 
-    [VectorSetId] BIGINT NULL,
-    [Active] BIT NOT NULL DEFAULT 1,
-    [CreatedOn] DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-    [InactiveOn] DATETIME2 NULL
-)
+﻿CREATE TABLE [dbo].[ValidationOEAlgorithms] (
+    [ValidationOEAlgorithmId] BIGINT        IDENTITY (1, 1) NOT NULL,
+    [ValidationId]            BIGINT        NOT NULL,
+    [OEId]                    BIGINT        NOT NULL,
+    [AlgorithmId]             BIGINT        NOT NULL,
+    [VectorSetId]             BIGINT        NULL,
+    [Active]                  BIT           DEFAULT ((1)) NOT NULL,
+    [CreatedOn]               DATETIME2 (7) DEFAULT (getdate()) NOT NULL,
+    [InactiveOn]              DATETIME2 (7) NULL,
+    CONSTRAINT [PK__ValidationOEAlgorithms] PRIMARY KEY CLUSTERED ([ValidationOEAlgorithmId] ASC)
+);
+
+
