@@ -150,7 +150,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY O.id";
+			query += " ORDER BY OE.id";
 
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
