@@ -42,7 +42,7 @@ namespace NIST.CVP.Generation.HKDF.v1_0
             return new GenerateResponse();
         }
         
-        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
+        public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
         {
             var param = new HkdfParameters
             {
@@ -83,7 +83,7 @@ namespace NIST.CVP.Generation.HKDF.v1_0
             var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);            
             valuesSelected.AddRange(valuesPulled);
 
-            return new ShuffleQueue<int>(valuesSelected);
+            return new ShuffleQueue<int>(valuesSelected, NumberOfTestCasesToGenerate);
         }
 
         private ILogger ThisLogger => LogManager.GetCurrentClassLogger();

@@ -9,34 +9,27 @@ namespace NIST.CVP.Math
         private readonly Queue<T> _queue;
         private readonly List<T> _fullList;
             
-        public ShuffleQueue(List<T> list)
+        public ShuffleQueue(List<T> list, int requestedValues = 0)
         {
             _queue = new Queue<T>();
             _fullList = list.Shuffle();
-            AddElements(_fullList);
-        }
 
-        public T Pop()
-        {
-            // If the queue is empty, re-queue the stored elements
-            if (!_queue.Any())
+            // Pre-load the queue
+            if (_fullList.Any())
             {
-                // It is possible for the list coming in to be empty too. 
-                if (!_fullList.Any())
+                do
                 {
-                    return default;
-                }
-                    
-                var shuffledList = _fullList.Shuffle();
-                AddElements(shuffledList);
+                    AddElements(_fullList);
+                } while (_queue.Count < requestedValues);
             }
-
-            return _queue.Dequeue();
         }
 
+        public T Pop() => _queue.Dequeue();
+        
         private void AddElements(List<T> list)
         {
-            foreach (var element in _fullList)
+            var shuffledList = list.Shuffle();
+            foreach (var element in shuffledList)
             {
                 _queue.Enqueue(element);
             }

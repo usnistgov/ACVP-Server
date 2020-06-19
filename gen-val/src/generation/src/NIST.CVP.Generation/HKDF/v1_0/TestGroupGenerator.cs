@@ -24,7 +24,11 @@ namespace NIST.CVP.Generation.HKDF.v1_0
                     var hmac = ShaAttributes.GetHashFunctionFromName(hmacAlg);
                     var group = new TestGroup
                     {
-                        HmacAlg = hmac
+                        HmacAlg = hmac,
+                        InputKeyingMaterialLength = capability.InputKeyingMaterialLength,
+                        OtherInfoLength = capability.InfoLength,
+                        SaltLength = capability.SaltLength,
+                        KeyLength = capability.KeyLength
                     };
                 
                     groups.Add(group);

@@ -22,7 +22,7 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
         public const int MIN_INPUT_LENGTH = 0;
         public const int MAX_INPUT_LENGTH = 4096;
         
-        public string[] VALID_HASH_ALGS = ShaAttributes.GetShaNames().Except(new [] {"SHAKE-128", "SHAKE-256"}).ToArray();
+        public static string[] VALID_HASH_ALGS = ShaAttributes.GetShaNames().Except(new [] {"SHAKE-128", "SHAKE-256"}).ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

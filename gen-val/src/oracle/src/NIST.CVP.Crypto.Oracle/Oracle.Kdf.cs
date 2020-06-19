@@ -214,5 +214,22 @@ namespace NIST.CVP.Crypto.Oracle
                 return await GetTpmKdfCaseAsync();
             }
         }
+        
+        public async Task<HkdfResult> GetHkdfCaseAsync(HkdfParameters param)
+        {
+            try
+            {
+                var observableGrain = 
+                    await GetObserverGrain<IOracleObserverHkdfCaseGrain, HkdfResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetHkdfCaseAsync(param);
+            }
+        }
     }
 }
