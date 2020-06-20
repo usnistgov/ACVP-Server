@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math.Domain;
@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.HKDF.v1_0
         [JsonIgnore]
         public HashFunction HmacAlg { get; set; }
 
-        [JsonPropertyName("hmacAlg")]
+        [JsonProperty(PropertyName = "hmacAlg")]
         public string HmacAlgName => HmacAlg.Name;
         
         [JsonIgnore]

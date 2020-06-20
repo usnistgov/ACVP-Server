@@ -1,0 +1,52 @@
+{
+  "vsId": 42,
+  "algorithm": "HKDF",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": false,
+  "capabilities": [
+    {
+      "saltLength": [
+        {
+          "min": 0,
+          "max": 512,
+          "increment": 8
+        }
+      ],
+      "infoLength": [
+        {
+          "min": 0,
+          "max": 512,
+          "increment": 8
+        }
+      ],
+      "keyLength": [
+        {
+          "min": 8,
+          "max": 4096,
+          "increment": 8
+        }
+      ],
+      "inputKeyingMaterialLength": [
+        {
+          "min": 0,
+          "max": 4096,
+          "increment": 8
+        }
+      ],
+      "hmacAlg": [
+        "SHA-1",
+        "SHA2-224",
+        "SHA2-256",
+        "SHA2-384",
+        "SHA2-512",
+        "SHA2-512/224",
+        "SHA2-512/256",
+        "SHA3-224",
+        "SHA3-256",
+        "SHA3-384",
+        "SHA3-512"
+      ]
+    }
+  ]
+}

@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.HKDF.IntegrationTests
         {
             var rand = new Random800_90();
             
-            if (testCase.tcId % 2 == 0)
+            if ((int)testCase.tcId % 2 == 0)
             {
                 testCase.derivedKey = rand.GetDifferentBitStringOfSameSize(new BitString(testCase.derivedKey.ToString())).ToHex();
             }
