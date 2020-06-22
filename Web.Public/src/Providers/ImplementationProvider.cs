@@ -155,7 +155,7 @@ namespace Web.Public.Providers
 								andStrings.Add($"M.[name] {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "vendorId":
-								andStrings.Add($"P.module_version {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
+								andStrings.Add($"P.vendor_id {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
 								break;
 							default: break;
 						}
