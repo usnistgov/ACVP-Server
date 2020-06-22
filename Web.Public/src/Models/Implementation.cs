@@ -27,9 +27,9 @@ namespace Web.Public.Models
 		{
 			get => Type switch
 			{
-				ImplementationType.Software => "software",
-				ImplementationType.Hardware => "hardware",
-				ImplementationType.Firmware => "firmware",
+				ImplementationType.Software => "Software",
+				ImplementationType.Hardware => "Hardware",
+				ImplementationType.Firmware => "Firmware",
 				_ => "unknown"
 			};
 			set => Type = value.ToLower() switch
