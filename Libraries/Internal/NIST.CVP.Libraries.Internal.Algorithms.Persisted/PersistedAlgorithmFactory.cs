@@ -51,6 +51,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.EDDSAKeyVer x => new EDDSAKeyVer(x),
 				External.EDDSASigGen x => new EDDSASigGen(x),
 				External.EDDSASigVer x => new EDDSASigVer(x),
+				External.HKDF x => new HKDF(x),
 				External.HashDRBG x => new HashDRBG(x),
 				External.HMAC_DRBG x => new HMAC_DRBG(x),
 				External.HMAC_SHA_1 x => new HMAC_SHA_1(x),

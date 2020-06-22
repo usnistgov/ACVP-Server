@@ -68,6 +68,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("EDDSA", "keyVer", "1.0") => JsonSerializer.Deserialize<EDDSAKeyVer>(algorithmRegistration),
 				("EDDSA", "sigGen", "1.0") => JsonSerializer.Deserialize<EDDSASigGen>(algorithmRegistration),
 				("EDDSA", "sigVer", "1.0") => JsonSerializer.Deserialize<EDDSASigVer>(algorithmRegistration),
+				("HKDF", null, "1.0") => JsonSerializer.Deserialize<HKDF>(algorithmRegistration),
 				("hashDRBG", null, "1.0") => JsonSerializer.Deserialize<HashDRBG>(algorithmRegistration),
 				("hmacDRBG", null, "1.0") => JsonSerializer.Deserialize<HMAC_DRBG>(algorithmRegistration),
 				("HMAC-SHA-1", null, "1.0") => JsonSerializer.Deserialize<HMAC_SHA_1>(algorithmRegistration),
