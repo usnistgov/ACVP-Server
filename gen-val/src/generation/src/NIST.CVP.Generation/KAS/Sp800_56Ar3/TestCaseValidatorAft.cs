@@ -105,6 +105,12 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 _testGroup, _workingTest, suppliedResult
             );
 
+            if (!serverResult.Success)
+            {
+                errors.Add($"Failed completing deferred crypto. {serverResult.ErrorMessage}");
+                return;
+            }
+            
             if (!serverResult.Dkm.Equals(suppliedResult.Dkm))
             {
                 errors.Add($"{nameof(suppliedResult.Dkm)} does not match");

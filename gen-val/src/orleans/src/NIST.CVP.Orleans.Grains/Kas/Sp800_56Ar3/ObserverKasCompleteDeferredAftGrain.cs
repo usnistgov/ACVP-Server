@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
@@ -54,93 +55,105 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
         }
-        
+
         protected override async Task DoWorkAsync()
         {
-            // depending if the server is party U or party V in the negotiation.
-            var isServerPartyU = _param.ServerGenerationRequirements.ThisPartyKasRole == KeyAgreementRole.InitiatorPartyU;
-            var isServerPartyV = !isServerPartyU;
-
-            _serverSecretKeyingMaterialBuilder
-                .WithDomainParameters(_param.DomainParameters)
-                .WithPartyId(_param.PartyIdServer)
-                .WithEphemeralKey(_param.EphemeralKeyServer)
-                .WithStaticKey(_param.StaticKeyServer)
-                .WithEphemeralNonce(_param.EphemeralNonceServer)
-                .WithDkmNonce(_param.DkmNonceServer);
-                
-            var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
-                .Build(
-                    _param.KasScheme,
-                    _param.ServerGenerationRequirements.KasMode,
-                    _param.ServerGenerationRequirements.ThisPartyKasRole,
-                    _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
-                    _param.ServerGenerationRequirements.KeyConfirmationDirection);
-                
-            _iutSecretKeyingMaterialBuilder
-                .WithDomainParameters(_param.DomainParameters)
-                .WithPartyId(_param.PartyIdIut)
-                .WithEphemeralKey(_param.EphemeralKeyIut)
-                .WithStaticKey(_param.StaticKeyIut)
-                .WithEphemeralNonce(_param.EphemeralNonceIut)
-                .WithDkmNonce(_param.DkmNonceIut);
-                
-            var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
-                .Build(
-                    _param.KasScheme,
-                    _param.IutGenerationRequirements.KasMode,
-                    _param.IutGenerationRequirements.ThisPartyKasRole,
-                    _param.IutGenerationRequirements.ThisPartyKeyConfirmationRole,
-                    _param.IutGenerationRequirements.KeyConfirmationDirection);
-
-            var fixedInfoParameter = new FixedInfoParameter
+            try
             {
-                L = _param.L,
-                Encoding = _param.KdfParameter.FixedInputEncoding,
-                FixedInfoPattern = _param.KdfParameter.FixedInfoPattern,
-                Salt = _param.KdfParameter.Salt,
-                Iv = _param.KdfParameter.Iv,
-                Label = _param.KdfParameter.Label,
-                Context = _param.KdfParameter.Context,
-                AlgorithmId = _param.KdfParameter.AlgorithmId,
-            };
+                // depending if the server is party U or party V in the negotiation.
+                var isServerPartyU = _param.ServerGenerationRequirements.ThisPartyKasRole ==
+                                     KeyAgreementRole.InitiatorPartyU;
+                var isServerPartyV = !isServerPartyU;
 
-            // KDF fixed info construction
+                _serverSecretKeyingMaterialBuilder
+                    .WithDomainParameters(_param.DomainParameters)
+                    .WithPartyId(_param.PartyIdServer)
+                    .WithEphemeralKey(_param.EphemeralKeyServer)
+                    .WithStaticKey(_param.StaticKeyServer)
+                    .WithEphemeralNonce(_param.EphemeralNonceServer)
+                    .WithDkmNonce(_param.DkmNonceServer);
 
-            MacParameters macParam = null;
-            IKeyConfirmationFactory kcFactory = null;
-            if (_param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole != KeyConfirmationRole.None)
-            {
-                macParam = _param.MacParameter;
-                kcFactory = _keyConfirmationFactory;
-            }
-            
-            _schemeBuilder
-                .WithSchemeParameters(
-                    new SchemeParameters(
-                        new KasAlgoAttributes(_param.KasScheme),
-                        _param.ServerGenerationRequirements.ThisPartyKasRole,
+                var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
+                    .Build(
+                        _param.KasScheme,
                         _param.ServerGenerationRequirements.KasMode,
+                        _param.ServerGenerationRequirements.ThisPartyKasRole,
                         _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
-                        _param.ServerGenerationRequirements.KeyConfirmationDirection,
-                        KasAssurance.None,
-                        _param.PartyIdServer))
-                .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial)
-                .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
-                .WithKdf(_kdfFactory, _param.KdfParameter)
-                .WithKeyConfirmation(kcFactory, macParam);
+                        _param.ServerGenerationRequirements.KeyConfirmationDirection);
 
-            var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
+                _iutSecretKeyingMaterialBuilder
+                    .WithDomainParameters(_param.DomainParameters)
+                    .WithPartyId(_param.PartyIdIut)
+                    .WithEphemeralKey(_param.EphemeralKeyIut)
+                    .WithStaticKey(_param.StaticKeyIut)
+                    .WithEphemeralNonce(_param.EphemeralNonceIut)
+                    .WithDkmNonce(_param.DkmNonceIut);
 
-            var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
-            var returnResult = new KasAftDeferredResult()
+                var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
+                    .Build(
+                        _param.KasScheme,
+                        _param.IutGenerationRequirements.KasMode,
+                        _param.IutGenerationRequirements.ThisPartyKasRole,
+                        _param.IutGenerationRequirements.ThisPartyKeyConfirmationRole,
+                        _param.IutGenerationRequirements.KeyConfirmationDirection);
+
+                var fixedInfoParameter = new FixedInfoParameter
+                {
+                    L = _param.L,
+                    Encoding = _param.KdfParameter.FixedInputEncoding,
+                    FixedInfoPattern = _param.KdfParameter.FixedInfoPattern,
+                    Salt = _param.KdfParameter.Salt,
+                    Iv = _param.KdfParameter.Iv,
+                    Label = _param.KdfParameter.Label,
+                    Context = _param.KdfParameter.Context,
+                    AlgorithmId = _param.KdfParameter.AlgorithmId,
+                };
+
+                // KDF fixed info construction
+
+                MacParameters macParam = null;
+                IKeyConfirmationFactory kcFactory = null;
+                if (_param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole != KeyConfirmationRole.None)
+                {
+                    macParam = _param.MacParameter;
+                    kcFactory = _keyConfirmationFactory;
+                }
+
+                _schemeBuilder
+                    .WithSchemeParameters(
+                        new SchemeParameters(
+                            new KasAlgoAttributes(_param.KasScheme),
+                            _param.ServerGenerationRequirements.ThisPartyKasRole,
+                            _param.ServerGenerationRequirements.KasMode,
+                            _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
+                            _param.ServerGenerationRequirements.KeyConfirmationDirection,
+                            KasAssurance.None,
+                            _param.PartyIdServer))
+                    .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial)
+                    .WithFixedInfo(_fixedInfoFactory, fixedInfoParameter)
+                    .WithKdf(_kdfFactory, _param.KdfParameter)
+                    .WithKeyConfirmation(kcFactory, macParam);
+
+                var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
+
+                var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
+                var returnResult = new KasAftDeferredResult()
+                {
+                    ServerSecretKeyingMaterial = isServerPartyU
+                        ? result.SecretKeyingMaterialPartyU
+                        : result.SecretKeyingMaterialPartyV,
+                    IutSecretKeyingMaterial = isServerPartyV
+                        ? result.SecretKeyingMaterialPartyV
+                        : result.SecretKeyingMaterialPartyU,
+                    KasResult = result
+                };
+
+                await Notify(returnResult);
+            }
+            catch (Exception e)
             {
-                ServerSecretKeyingMaterial = isServerPartyU ? result.SecretKeyingMaterialPartyU : result.SecretKeyingMaterialPartyV,
-                IutSecretKeyingMaterial = isServerPartyV ? result.SecretKeyingMaterialPartyV : result.SecretKeyingMaterialPartyU,
-                KasResult = result
-            };
-
-            await Notify(returnResult);
+                await Throw(e);
+            }
         }
     }
 }
