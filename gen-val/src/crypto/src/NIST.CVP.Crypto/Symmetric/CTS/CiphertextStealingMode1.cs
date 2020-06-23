@@ -20,44 +20,20 @@ namespace NIST.CVP.Crypto.Symmetric.CTS
             }
 
             var bitsToAddForPadding = numberOfBlocks * engine.BlockSizeBits - originalPayloadBitLength;
-
-            // When the "padded" block is the second to last block in the byte array,
-            // We need to remove the padding bits from that block, and left shift
-            // the last block to where the padding bits were removed.
-	
             var blockBitsWithoutPadding = engine.BlockSizeBits - bitsToAddForPadding;
-	
-            // The "padded" block is the second to the last block
-            var secondToLastBlockStartIndex = (numberOfBlocks - 2) * engine.BlockSizeBytes;
-            var secondToLastBlockBytes = new byte[engine.BlockSizeBytes];
-            Array.Copy(
-                outBuffer, secondToLastBlockStartIndex, 
-                secondToLastBlockBytes, 0, 
-                engine.BlockSizeBytes);
-
-            // The last block of outBuffer
-            var lastBlockStartIndex = (numberOfBlocks - 1) * engine.BlockSizeBytes;
-            var lastBlockBytes = new byte[engine.BlockSizeBytes];
-            Array.Copy(
-                outBuffer, lastBlockStartIndex, 
-                lastBlockBytes, 0, 
-                engine.BlockSizeBytes);
-	
-            // The last two blocks of outBuffer with padding removed
-            var lastTwoBlocks = new BitString(secondToLastBlockBytes)
-                .GetMostSignificantBits(blockBitsWithoutPadding) // second to last block, only the bits that aren't a part of padding
-                .ConcatenateBits(new BitString(lastBlockBytes)) // last block
-                .ToBytes();
-
-            // Finally, copy the last two blocks onto the outBuffer,
-            // starting at the secondToLastBlockStartIndex.
-            Array.Copy(
-                lastTwoBlocks, 0, 
-                outBuffer, secondToLastBlockStartIndex, 
-                lastTwoBlocks.Length);
             
-            // The extra bits at the end of the byte array will be
-            // automatically removed by the block cipher
+            var newPayload = new BitString(outBuffer);
+            var newPayloadUpToPadding = newPayload
+                // all the blocks up to the second to last block, which should only include the "non padded" bits
+                .GetMostSignificantBits(engine.BlockSizeBits * (numberOfBlocks - 2) + blockBitsWithoutPadding);
+            var finalBlock = newPayload.GetLeastSignificantBits(engine.BlockSizeBits);
+            var newPayloadBytes = newPayloadUpToPadding
+                .ConcatenateBits(finalBlock)
+                // Adding zero bits in the LSB to not add significant bits when converting to a byte array.
+                .ConcatenateBits(BitString.Zeroes(bitsToAddForPadding))
+                .ToBytes();
+            
+            Array.Copy(newPayloadBytes, 0, outBuffer, 0, newPayloadBytes.Length);
         }
 
         public byte[] HandleFinalFullPayloadBlockDecryption(BitString payload, IBlockCipherEngine engine, int numberOfBlocks, int originalPayloadBitLength)
@@ -69,28 +45,19 @@ namespace NIST.CVP.Crypto.Symmetric.CTS
                 
                 // Decrypt the last full payload block (in this case the last block)
                 var decryptedLastBlockBuffer = new byte[engine.BlockSizeBytes];
-                var lastBlock = new byte[engine.BlockSizeBytes];
-                var lastBlockStartIndex = payload.BitLength / BitString.BITSINBYTE - engine.BlockSizeBytes;
-                Array.Copy(payload.ToBytes(), lastBlockStartIndex, lastBlock, 0, engine.BlockSizeBytes);
+                var lastBlock = payload.GetLeastSignificantBits(engine.BlockSizeBits).ToBytes();
 
                 engine.ProcessSingleBlock(lastBlock, decryptedLastBlockBuffer, 0);
 
                 var paddedPayload = payload
+                    // The original payload minus the final full block 
                     .GetMostSignificantBits(payload.BitLength - engine.BlockSizeBits)
+                    // Add the least significant bits of the decrypted last block to pad to a multiple of the block size
                     .ConcatenateBits(new BitString(decryptedLastBlockBuffer).GetLeastSignificantBits(numberOfBitsToAdd))
-                    .ConcatenateBits(payload.GetLeastSignificantBits(engine.BlockSizeBits))
-                    .ToBytes();
-                
-                // //Swap the final two blocks
-                // for (int i = 0; i < engine.BlockSizeBytes; i++)
-                // {
-                //     var secondToLastBlockIndex = (numberOfBlocks - 2) * engine.BlockSizeBytes + i;
-                //     var lastBlockIndex = (numberOfBlocks - 1) * engine.BlockSizeBytes + i;
-                //
-                //     SwapBytesHelper.SwapBytes(paddedPayload, secondToLastBlockIndex, lastBlockIndex);
-                // }
+                    // Add the last block back onto the payload
+                    .ConcatenateBits(payload.GetLeastSignificantBits(engine.BlockSizeBits));
 
-                return paddedPayload;
+                return paddedPayload.ToBytes();
             }
 
             return payload.ToBytes();
