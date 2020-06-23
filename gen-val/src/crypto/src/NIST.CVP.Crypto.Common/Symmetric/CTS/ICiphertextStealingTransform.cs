@@ -7,6 +7,10 @@ namespace NIST.CVP.Crypto.Common.Symmetric.CTS
     /// Used to apply a ciphertext stealing mode's final block(s) transform.
     ///
     /// https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38a-add.pdf
+    ///
+    /// Note that the intention of this interface is to "perform encryption/decryption as if running in CS3 mode".
+    /// For encrypt: transforming the ciphertext to the appropriate mode for return (either CS1, CS2, or CS3)
+    /// For decrypt: transform the mode passed in into a CS3 mode for decryption.
     /// </summary>
     public interface ICiphertextStealingTransform
     {
