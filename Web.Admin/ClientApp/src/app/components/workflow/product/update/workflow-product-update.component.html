@@ -50,10 +50,10 @@
               <td>{{ currentState?.url == "" || currentState?.url == null ? "(Empty)" : currentState?.url }}</td>
               <td>(No Changes)</td>
             </tr>
-            <tr *ngIf="workflowItem.payload.vendorURLUpdated == true">
+            <tr *ngIf="workflowItem.payload.vendorURLUpdated == true && workflowItem.payload.vendor !== null">
               <th>Vendor</th>
               <td>{{ currentState?.vendor.name == "" || currentState?.vendor.name == null ? "(Empty)" : currentState?.vendor.name }}</td>
-              <td>{{ workflowItem?.payload.vendor.name == "" || workflowItem?.payload.vendor.name == null ? "(Empty)" : workflowItem?.payload.vendor.name }}</td>
+              <td>{{ workflowItem?.payload?.vendor?.name == "" || workflowItem?.payload?.vendor?.name == null ? "(Empty)" : workflowItem?.payload?.vendor?.name }}</td>
             </tr>
             <tr *ngIf="workflowItem.payload.vendorURLUpdated == false">
               <th>Vendor</th>
@@ -82,34 +82,37 @@
 
   <div class="row mt-3">
 
-    <!--<div class="col-lg-6">
-      <div class="card">
-        <h5 class="card-header">Proposed Contacts</h5>
-        <div class="card-body">
-          <table class="table table-hover" *ngIf="workflowItem">
-            <tbody>
-              <tr *ngFor="let contact of workflowItem?.payload?.contacts; index as i">
-                <td><a [routerLink]="['/validation-db/persons/' + contact.person.id]">{{contact.person.name}}</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>-->
-    <!--<div class="col-lg-6">
+    <div class="col-lg-6">
       <div class="card">
         <h5 class="card-header">Existing Contacts</h5>
         <div class="card-body">
           <table class="table table-hover" *ngIf="workflowItem">
             <tbody>
               <tr *ngFor="let contact of currentState?.contacts; index as i">
-                <td><a [routerLink]="['/validation-db/persons/' + contact.person.id]">{{contact.person.name}}</a></td>
+                <td><a [routerLink]="['/validation-db/persons/' + contact.id]">{{contact.id}} - {{contact.name}}</a></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-    </div>-->
+    </div>
+    <!-- End current contacts -->
+
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Proposed Contacts</h5>
+        <div class="card-body">
+          <table class="table table-hover" *ngIf="workflowItem">
+            <tbody>
+              <tr *ngFor="let contact of workflowItem?.payload?.contacts; index as i">
+                <td><a [routerLink]="['/validation-db/persons/' + contact.person.id]">{{contact.person.id}} - {{contact.person.name}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- End proposed contacts -->
   </div>
 </div>
 

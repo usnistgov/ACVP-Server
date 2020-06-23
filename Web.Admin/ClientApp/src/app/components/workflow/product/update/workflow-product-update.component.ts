@@ -5,6 +5,8 @@ import { Product } from '../../../../models/product/Product';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 import { ProductProviderService } from '../../../../services/ajax/product/product-provider.service';
 import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
+import { WorkflowCreateProductPayloadContact } from '../../../../models/workflow/product/WorkflowCreateProductPayloadContact';
+import { Person } from '../../../../models/person/Person';
 
 @Component({
   selector: 'app-workflow-product-update',
@@ -32,18 +34,33 @@ export class WorkflowProductUpdateComponent implements OnInit {
     if (this.workflowItem.payload.vendorUrl !== null) {
       let vendorID = parseInt(this.workflowItem.payload.vendorUrl.split('/')[this.workflowItem.payload.vendorUrl.split('/').length - 1]);
       this.OrganizationService.getOrganization(vendorID).subscribe(
-        data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
+        data => { this.workflowItem.payload.vendor = data; },
         err => { },
         () => { }
       );
     }
 
     // Get the data for each contact in the contacts list
-    if (this.workflowItem.payload.contactUrls !== null){
+    // Check in case the urls aren't available for some reason
+    if (this.workflowItem.payload.contactUrls !== null) {
+
+      // Instantiate the array for the contacts to go into once pulled
+      this.workflowItem.payload.contacts = [];
+
+      // Loop through the contactUrls...
       for (let i = 0; i < this.workflowItem.payload.contactUrls.length; i++) {
+
+        // Prase out the id from the url, since it's not available immediately...
         let personID = parseInt(this.workflowItem.payload.contactUrls[i].split('/')[this.workflowItem.payload.contactUrls[i].split('/').length - 1]);
+
+        // Now, go get the data using that id...
         this.PersonService.getPerson(personID).subscribe(
-          data => { this.workflowItem.payload.contacts[i].person = data; }
+
+          // And place it in the contacts array we instantiated earlier
+          data => {
+            this.workflowItem.payload.contacts[i] = new WorkflowCreateProductPayloadContact();
+            this.workflowItem.payload.contacts[i].person = data;
+          }
         );
       }
     }
