@@ -114,6 +114,34 @@
     </div>
     <!-- End proposed contacts -->
   </div>
+
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Existing Address</h5>
+        <div class="card-body">
+          {{ currentState?.address.street1 }}
+          <br />
+          <span *ngIf="currentState?.address.street2 != null">{{ currentState?.address.street2 }}<br /></span>
+          <span *ngIf="currentState?.address.street3 != null">{{ currentState?.address.street3 }}<br /></span>
+          {{ currentState?.address.locality }}, {{ currentState?.address.region }}, {{ currentState?.address.country }} {{ currentState?.address.postalCode }}
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card">
+        <h5 class="card-header">Proposed Address</h5>
+        <div class="card-body">
+          {{ workflowItem?.payload?.address?.street1 }}
+          <br />
+          <span *ngIf="workflowItem?.payload?.address?.street2 != null">{{ workflowItem?.payload?.address?.street2 }}<br /></span>
+          <span *ngIf="workflowItem?.payload?.address?.street3 != null">{{ workflowItem?.payload?.address?.street3 }}<br /></span>
+          {{ workflowItem?.payload?.address?.locality }}, {{ workflowItem?.payload?.address?.region }}, {{ workflowItem?.payload?.address?.country }} {{ workflowItem?.payload?.address?.postalCode }}
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="col-lg-6" *ngIf="workflowItem.status === 'Approved'">

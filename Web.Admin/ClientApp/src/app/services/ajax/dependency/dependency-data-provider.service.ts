@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Dependency } from '../../../models/dependency/Dependency';
 import { DependencyList } from '../../../models/dependency/Dependency-list';
 import { DependencyListParameters } from '../../../models/dependency/DependencyListParameters';
