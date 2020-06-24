@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WorkflowItemLite } from '../../../models/workflow/WorkflowItemLite';
 import { Result } from '../../../models/responses/Result';
 import { WorkflowProviderService } from '../../../services/ajax/workflow/workflow-provider.service';
+import { ModalService } from '../../../services/modal/modal.service';
 
 @Component({
   selector: 'app-workflows-multi-approve',
@@ -15,7 +16,7 @@ export class WorkflowsMultiApproveComponent implements OnInit {
   multiApproveModalTitle = "Are you sure that you want to approve all these items?";
   multiApproveErrorReviewMessage = "";
 
-  constructor(private workflowService: WorkflowProviderService) { }
+  constructor(private workflowService: WorkflowProviderService, private modalService: ModalService) { }
 
   @Input()
   set requests(requestsToApprove: WorkflowItemLite[]) {
@@ -44,6 +45,11 @@ export class WorkflowsMultiApproveComponent implements OnInit {
     });
 
     this.approveWorkflowRecursive(0);
+  }
+
+  raiseMultiApprovalErrorMessage(errorMessage: string) {
+    this.multiApproveErrorReviewMessage = errorMessage;
+    this.modalService.showModal('MultiApproveErrorReview');
   }
 
   approveWorkflowRecursive(index: number) {
