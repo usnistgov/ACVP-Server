@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
@@ -51,74 +52,81 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
         
         protected override async Task DoWorkAsync()
         {
-            // depending if the server is party U or party V in the negotiation.
-            var isServerPartyU = _param.ServerGenerationRequirements.ThisPartyKasRole == KeyAgreementRole.InitiatorPartyU;
-            var isServerPartyV = !isServerPartyU;
+            try
+            {
+                // depending if the server is party U or party V in the negotiation.
+                var isServerPartyU = _param.ServerGenerationRequirements.ThisPartyKasRole == KeyAgreementRole.InitiatorPartyU;
+                var isServerPartyV = !isServerPartyU;
 
-            _serverSecretKeyingMaterialBuilder
-                .WithDomainParameters(_param.DomainParameters)
-                .WithEphemeralKey(_param.EphemeralKeyServer)
-                .WithStaticKey(_param.StaticKeyServer);
-                
-            var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
-                .Build(
-                    _param.KasScheme,
-                    _param.ServerGenerationRequirements.KasMode,
-                    _param.ServerGenerationRequirements.ThisPartyKasRole,
-                    _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
-                    _param.ServerGenerationRequirements.KeyConfirmationDirection);
-                
-            _iutSecretKeyingMaterialBuilder
-                .WithDomainParameters(_param.DomainParameters)
-                .WithEphemeralKey(_param.EphemeralKeyIut)
-                .WithStaticKey(_param.StaticKeyIut);
-                
-            var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
-                .Build(
-                    _param.KasScheme,
-                    _param.IutGenerationRequirements.KasMode,
-                    _param.IutGenerationRequirements.ThisPartyKasRole,
-                    _param.IutGenerationRequirements.ThisPartyKeyConfirmationRole,
-                    _param.IutGenerationRequirements.KeyConfirmationDirection);
-
-            _schemeBuilder
-                .WithSchemeParameters(
-                    new SchemeParameters(
-                        new KasAlgoAttributes(_param.KasScheme),
-                        _param.ServerGenerationRequirements.ThisPartyKasRole,
+                _serverSecretKeyingMaterialBuilder
+                    .WithDomainParameters(_param.DomainParameters)
+                    .WithEphemeralKey(_param.EphemeralKeyServer)
+                    .WithStaticKey(_param.StaticKeyServer);
+                    
+                var serverSecretKeyingMaterial = _serverSecretKeyingMaterialBuilder
+                    .Build(
+                        _param.KasScheme,
                         _param.ServerGenerationRequirements.KasMode,
+                        _param.ServerGenerationRequirements.ThisPartyKasRole,
                         _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
-                        _param.ServerGenerationRequirements.KeyConfirmationDirection,
-                        KasAssurance.None,
-                        null))
-                .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial);
+                        _param.ServerGenerationRequirements.KeyConfirmationDirection);
+                    
+                _iutSecretKeyingMaterialBuilder
+                    .WithDomainParameters(_param.DomainParameters)
+                    .WithEphemeralKey(_param.EphemeralKeyIut)
+                    .WithStaticKey(_param.StaticKeyIut);
+                    
+                var iutSecretKeyingMaterial = _iutSecretKeyingMaterialBuilder
+                    .Build(
+                        _param.KasScheme,
+                        _param.IutGenerationRequirements.KasMode,
+                        _param.IutGenerationRequirements.ThisPartyKasRole,
+                        _param.IutGenerationRequirements.ThisPartyKeyConfirmationRole,
+                        _param.IutGenerationRequirements.KeyConfirmationDirection);
 
-            var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
+                _schemeBuilder
+                    .WithSchemeParameters(
+                        new SchemeParameters(
+                            new KasAlgoAttributes(_param.KasScheme),
+                            _param.ServerGenerationRequirements.ThisPartyKasRole,
+                            _param.ServerGenerationRequirements.KasMode,
+                            _param.ServerGenerationRequirements.ThisPartyKeyConfirmationRole,
+                            _param.ServerGenerationRequirements.KeyConfirmationDirection,
+                            KasAssurance.None,
+                            null))
+                    .WithThisPartyKeyingMaterial(serverSecretKeyingMaterial);
 
-            var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
+                var serverKas = _kasBuilder.WithSchemeBuilder(_schemeBuilder).Build();
 
-            // Some implementations can't output the computed Z in the clear, hash it and add that to the returned result 
-            if (_param.HashFunctionZ != HashFunctions.None)
-            {
-                var hashFunction = ShaAttributes.GetHashFunctionFromEnum(_param.HashFunctionZ);
-                var sha = _shaFactory.GetShaInstance(hashFunction);
-                var hashZ = sha.HashMessage(result.Z).Digest;
+                var result = serverKas.ComputeResult(iutSecretKeyingMaterial);
+
+                // Some implementations can't output the computed Z in the clear, hash it and add that to the returned result 
+                if (_param.HashFunctionZ != HashFunctions.None)
+                {
+                    var hashFunction = ShaAttributes.GetHashFunctionFromEnum(_param.HashFunctionZ);
+                    var sha = _shaFactory.GetShaInstance(hashFunction);
+                    var hashZ = sha.HashMessage(result.Z).Digest;
+                    
+                    result = new KeyAgreementResult(
+                        result.SecretKeyingMaterialPartyU,
+                        result.SecretKeyingMaterialPartyV,
+                        result.Z,
+                        hashZ);
+                }
                 
-                result = new KeyAgreementResult(
-                    result.SecretKeyingMaterialPartyU,
-                    result.SecretKeyingMaterialPartyV,
-                    result.Z,
-                    hashZ);
-            }
-            
-            var returnResult = new KasSscAftDeferredResult()
-            {
-                ServerSecretKeyingMaterial = isServerPartyU ? result.SecretKeyingMaterialPartyU : result.SecretKeyingMaterialPartyV,
-                IutSecretKeyingMaterial = isServerPartyV ? result.SecretKeyingMaterialPartyV : result.SecretKeyingMaterialPartyU,
-                KasResult = result
-            };
+                var returnResult = new KasSscAftDeferredResult()
+                {
+                    ServerSecretKeyingMaterial = isServerPartyU ? result.SecretKeyingMaterialPartyU : result.SecretKeyingMaterialPartyV,
+                    IutSecretKeyingMaterial = isServerPartyV ? result.SecretKeyingMaterialPartyV : result.SecretKeyingMaterialPartyU,
+                    KasResult = result
+                };
 
-            await Notify(returnResult);
+                await Notify(returnResult);
+            }
+            catch (Exception e)
+            {
+                await Throw(e);
+            }
         }
     }
 }

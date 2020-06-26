@@ -17,7 +17,7 @@ namespace Web.Public.Services
 		public bool Exists(long id) => _implementationProvider.Exists(id);
 		public bool IsUsed(long id) => _implementationProvider.IsUsed(id);
 
-		public (long TotalCount, List<Implementation> Implementations) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
-			=> _implementationProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<Implementation> Implementations) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions)
+			=> _implementationProvider.GetFilteredList(orClauses, pagingOptions.Offset, pagingOptions.Limit);
 	}
 }

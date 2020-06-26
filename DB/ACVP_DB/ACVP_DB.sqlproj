@@ -356,6 +356,7 @@
     <Build Include="acvp\Stored Procedures\TestSessionsForExpirationWarningGet.sql" />
     <Build Include="common\Stored Procedures\TaskQueueSetStatus.sql" />
     <Build Include="common\Stored Procedures\TaskQueueDeletePendingForVectorSet.sql" />
+    <Build Include="val\Stored Procedures\ImplementationContactsGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

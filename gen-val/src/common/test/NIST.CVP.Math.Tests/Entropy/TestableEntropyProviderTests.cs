@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using NUnit.Framework;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -34,10 +35,21 @@ namespace NIST.CVP.Math.Tests.Entropy
         }
 
         [Test]
-        public void ShouldThrowExceptionWhenEntropyLengthNotMatched()
+        public void ShouldThrowExceptionWhenEntropyLengthNotLargeEnough()
         {
-            _subject.AddEntropy(new BitString(1));
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetEntropy(0));
+            _subject.AddEntropy(new BitString(10));
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetEntropy(15));
+        }
+        
+        [Test]
+        public void ShouldReturnMsbWhenEntropySourceLargerThanRequest()
+        {
+            var testBitString = new BitString("01020304");
+            var bitsToPull = 16;
+            _subject.AddEntropy(testBitString.GetDeepCopy());
+            var result = _subject.GetEntropy(bitsToPull);
+            
+            Assert.AreEqual(testBitString.GetMostSignificantBits(bitsToPull), result);
         }
 
         [Test]

@@ -134,6 +134,12 @@ namespace NIST.CVP.Generation.KAS.v1_0.ECC
                 _testGroup, _workingTest, suppliedResult
             );
 
+            if (!serverResult.Success)
+            {
+                errors.Add($"Failed completing deferred crypto. {serverResult.ErrorMessage}");
+                return;
+            }
+            
             if (!serverResult.Tag.Equals(suppliedResult.Tag))
             {
                 errors.Add($"{nameof(suppliedResult.Tag)} does not match");

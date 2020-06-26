@@ -283,6 +283,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="ClientApp\src\app\services\ajax\address\" />
       <Folder Include="ClientApp\src\app\services\ajax\validation\" />
       <Folder Include="ClientApp\src\app\services\ajax\product\" />
     </ItemGroup>

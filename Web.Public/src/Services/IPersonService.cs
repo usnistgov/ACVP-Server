@@ -7,6 +7,6 @@ namespace Web.Public.Services
 	{
 		Person Get(long personID);
 		bool Exists(long personID);
-		(long TotalCount, List<Person> Persons) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
+		(long TotalCount, List<Person> Persons) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions);
 	}
 }

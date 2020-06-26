@@ -23,8 +23,7 @@ export class WorkflowsComponent implements OnInit {
   selectedStatus: string;
 
   checkAllBoxesFlag = false;
-  multiApproveModalTitle = "Are you sure that you want to approve all these items?";
-  multiApproveErrorReviewMessage = "";
+  requestsToApprove: WorkflowItemLite[];
 
   constructor(private workflowService: WorkflowProviderService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
 
@@ -43,56 +42,19 @@ export class WorkflowsComponent implements OnInit {
     event.stopPropagation();
   }
 
-  submitMultiApprove() {
-
-    var self = this;
-
-    this.multiApproveModalTitle = "Approving selected items...";
-
-    this.workflowItems.data.filter(self.isMultiSelected).forEach(function (item, index, array) {
-      // Set the item's display to "processing" before issuing the AJAX call
-      item.multiSelectSubmissionStatus = "processing";
-
-      // Submit the AJAX call
-      self.workflowService.approveWorkflow(item.workflowItemId)
-        .subscribe(data => {
-
-          if (data.isSuccess) {
-            item.multiSelectSubmissionStatus = "successful";
-          }
-          else {
-            item.multiSelectSubmissionStatus = "error";
-            item.multiApproveErrorReviewMessage = data.errorMessage;
-          }
-
-          if (array.filter(self.isApprovalComplete).length > 0) {
-            self.multiApproveModalTitle = "All Approvals Complete";
-          }
-        }
-      );
-    });
-  }
-
-  raiseMultiApprovalConfirmation() { this.modalService.showModal('MultiApproveModal'); }
-  raiseMultiApprovalErrorMessage(errorMessage: string) {
-    this.multiApproveErrorReviewMessage = errorMessage;
-    this.modalService.showModal('MultiApproveErrorReview');
+  raiseMultiApprovalConfirmation() {
+    this.requestsToApprove = this.workflowItems.data.filter(this.isMultiSelected);
+    this.modalService.showModal('MultiApproveModal');
   }
 
   closeMultiApproveModal() {
     this.loadData();
     this.modalService.hideModal('MultiApproveModal');
-    this.multiApproveModalTitle = "Are you sure that you want to approve all these items?";
   }
 
   // Small utility function used in a filter
   isMultiSelected(element: WorkflowItemLite, index, array) {
     if (element.multiSelected) { return true; }
-    return false;
-  }
-  isApprovalComplete(element: WorkflowItemLite, index, array) {
-    if (element.multiSelectSubmissionStatus === "successful" ||
-      element.multiSelectSubmissionStatus === "error") { return true; }
     return false;
   }
 
@@ -178,7 +140,7 @@ export class WorkflowsComponent implements OnInit {
     this.listData.page = 1;
     this.listData.Status = "Pending";
     this.listData.APIActionID = "All";
-    
+
     // Check if the page param is set.  If so, store it in the "currentPage"...
     if (this.route.snapshot.queryParamMap.get('page')) {
       this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));

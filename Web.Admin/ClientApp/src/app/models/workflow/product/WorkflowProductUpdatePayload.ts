@@ -10,7 +10,7 @@ export class WorkflowProductUpdatePayload {
   type: string;
   version: string;
   link: string;
-  addressUrl: null;
+  addressUrl: string;
   address: Address;
   vendorUrl: string;
   vendor: Organization;

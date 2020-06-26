@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Exceptions;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -162,11 +164,8 @@ namespace Web.Public.Controllers
 			//If limit was not present, or a garbage value, make it a default
 			if (limit <= 0) limit = 20;
 
-			//Build the querystring that excluded limit and offset
-			var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
-
-			//Try to build a filter string from those parameters
-			var filter = FilterStringService.BuildFilterString(filterString, _legalPropertyDefinitions);
+			//Try to parse the filter from the querystring
+			var filter = FilterHelpers.ParseFilter(HttpUtility.UrlDecode(Request.QueryString.Value), _legalPropertyDefinitions);
 
 			if (filter.IsValid)
 			{
@@ -176,15 +175,15 @@ namespace Web.Public.Controllers
 					Offset = offset
 				};
 
-				var data = _implementationService.GetFilteredList(filter.FilterString, pagingOptions, filter.OrDelimiter, filter.AndDelimiter);
-				var pagedData =  new PagedResponse<Implementation>(data.TotalCount, data.Implementations, "/acvp/v1/modules", pagingOptions, filterString);
+				var data = _implementationService.GetFilteredList(filter.OrClauses, pagingOptions);
+				var pagedData =  new PagedResponse<Implementation>(data.TotalCount, data.Implementations, "/acvp/v1/modules", pagingOptions, filter.QuerystringWithoutPaging);
 				
 				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));
 			}
 
 			var error = new ErrorObject
 			{
-				Error = $"Invalid filter applied: {filterString}"
+				Error = "Invalid filter applied"
 			};
 			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);

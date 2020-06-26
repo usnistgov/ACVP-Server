@@ -7,6 +7,6 @@ namespace Web.Public.Services
 	{
 		Dependency GetDependency(long id);
 		bool Exists(long id);
-		(long TotalCount, List<Dependency> Dependencys) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter);
+		(long TotalCount, List<Dependency> Dependencys) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions);
 	}
 }

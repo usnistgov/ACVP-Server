@@ -25,14 +25,9 @@ namespace NIST.CVP.Generation.PBKDF
         {
             var errors = new List<string>();
 
-            if (!parameters.Algorithm.Equals("kdf-components", StringComparison.OrdinalIgnoreCase))
+            if (!parameters.Algorithm.Equals("pbkdf", StringComparison.OrdinalIgnoreCase))
             {
                 errors.Add("Incorrect algorithm");
-            }
-
-            if (!parameters.Mode.Equals("pbkdf", StringComparison.OrdinalIgnoreCase))
-            {
-                errors.Add("Incorrect mode");
             }
 
             if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))

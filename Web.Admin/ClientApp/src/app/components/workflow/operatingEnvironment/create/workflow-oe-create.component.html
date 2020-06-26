@@ -11,11 +11,11 @@
             </tr>
             <tr>
               <th>Type</th>
-              <td>{{ workflowItem?.payload.type == null ? 'N/A' :  workflowItem?.payload.type }}</td>
+              <td>{{ workflowItem?.payload.type == null ? 'N/A' :  workflowItem?.payload.type }} (Deprecated)</td>
             </tr>
             <tr>
               <th>Description</th>
-              <td>{{ workflowItem?.payload.description == null ? 'N/A' :  workflowItem?.payload.description }}</td>
+              <td>{{ workflowItem?.payload.description == null ? 'N/A' :  workflowItem?.payload.description }} (Deprecated)</td>
             </tr>
           </table>
         </div>
@@ -33,31 +33,39 @@
         <h5 class="card-header">Inline (New) Dependencies</h5>
         <div class="card-body">
 
-          <table class="table" *ngIf="workflowItem?.payload?.dependencies.length > 0">
-            <tr *ngFor="let dependency of workflowItem?.payload?.dependencies">
-              <td>
-                <span class="bold-heading">{{ dependency.name  }}</span>
-                <ul *ngFor="let key of objectKeys(dependency)">
-                  <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
-                    <span style="font-weight:bold;">
-                      {{ key }} :
-                    </span>
-                    <span *ngIf="key !== 'attributes'">
-                      {{ dependency[key] }}
-                    </span>
-                    <div *ngIf="key === 'attributes'">
-                      <ul>
-                        <li *ngFor="let attribute of dependency[key]">
-                          {{attribute.name}}: {{attribute.value}}
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </table>
-          <span *ngIf="workflowItem?.payload?.dependencies.length === 0">No inline dependencies in use</span>
+          <div *ngIf="workflowItem?.payload?.dependencies !== null">
+            <table class="table" *ngIf="workflowItem?.payload?.dependencies.length > 0">
+              <tr *ngFor="let dependency of workflowItem?.payload?.dependencies">
+                <td>
+                  <span class="bold-heading">{{ dependency.name  }}</span>
+                  <ul *ngFor="let key of objectKeys(dependency)">
+                    <li *ngIf="key != 'id' && key != 'url' && key != 'isInlineCreate'">
+                      <span style="font-weight:bold;">
+                        {{ key }} :
+                      </span>
+                      <span *ngIf="key !== 'attributes'">
+                        {{ dependency[key] }}
+                      </span>
+                      <div *ngIf="key === 'attributes'">
+                        <ul>
+                          <li *ngFor="let attribute of dependency[key]">
+                            {{attribute.name}}: {{attribute.value}}
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div *ngIf="workflowItem?.payload?.dependencies !== null">
+            <span *ngIf="workflowItem?.payload?.dependencies.length === 0">No inline dependencies in use</span>
+          </div>
+          <div *ngIf="workflowItem?.payload?.dependencies === null">
+            No inline dependencies in use
+          </div>
         </div>
       </div> <!-- Close Dependency Info Card -->
     </div> <!-- Close col-lg-6 -->
