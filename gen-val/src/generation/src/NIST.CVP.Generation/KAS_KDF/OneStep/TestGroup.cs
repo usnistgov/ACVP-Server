@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		public int TestGroupId { get; set; }
 		public string TestType { get; set; }
 		public List<TestCase> Tests { get; set; } = new List<TestCase>();
-		
+		public bool IsSample { get; set; }
 		public OneStepConfiguration KdfConfiguration { get; set; }
 	}
 }

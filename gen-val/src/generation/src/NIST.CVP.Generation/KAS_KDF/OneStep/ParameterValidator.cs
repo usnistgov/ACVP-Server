@@ -56,6 +56,12 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 			"algorithmId",
 			"label"
 		};
+
+		private static readonly string[] RequiredFixedInfoPatternPieces =
+		{
+			"uPartyInfo",
+			"vPartyInfo"
+		};
 		
 		private static readonly FixedInfoEncoding[] ValidEncodingTypes = 
 		{
@@ -89,7 +95,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 				var algoMode =
 					AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
-				if (algoMode != AlgoMode.KAS_KDF_OneStep)
+				if (algoMode != AlgoMode.KAS_KDF_OneStep_Sp800_56Cr1)
 				{
 					errors.Add("Invalid algo/mode/revision for generator.");
 				}
@@ -137,7 +143,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
                 errorResults.Add($"{nameof(fixedInfoPattern)} was not provided.");
                 return;
             }
-            
+
             Regex notHexRegex = new Regex(@"[^0-9a-fA-F]", RegexOptions.IgnoreCase);
             string literalStart = "literal[";
             string literalEnd = "]";
@@ -146,6 +152,15 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
             if (fiPieces?.Length == 0)
             {
                 errorResults.Add($"Invalid {nameof(fixedInfoPattern)} {fixedInfoPattern}");
+                return;
+            }
+            
+            foreach (var requiredPiece in RequiredFixedInfoPatternPieces)
+            {
+	            if (!fiPieces.Contains(requiredPiece))
+	            {
+		            errorResults.Add($"Required FixedInfo piece {requiredPiece} was not present.");
+	            }
             }
             
             var allUniquePieces = fiPieces

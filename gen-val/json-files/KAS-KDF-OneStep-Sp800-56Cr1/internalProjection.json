@@ -1,0 +1,2679 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-KDF",
+  "mode": "OneStep",
+  "revision": "Sp800-56Cr1",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "9895B42291BA4C653013D67873691740"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8ECC9BC3CD9FA90D6BC35AA89A1BD1BA"
+          },
+          "dkm": "4FFC129E5122D88D55DACE76F401844EA25A0A7C1BEBA2E2A79BD5E567A53FE36BB7B364CF14CEC62733F3A75421B8D907641E1BD5B40E58EA59CA05A793D5C55D4977C523AAC61B17E97B61DD4C7133B4F2DC46731B1A98EB1772F381E80DA61975AE5C733D692A7CB263546039B7F0808AC27152240A0E34483A472DB5B56A"
+        },
+        {
+          "tcId": 2,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "317E463F5D16CED9AA3875020024EEBE",
+            "ephemeralData": "CF2A3D946E985CF888C7B21492D84288772EB9E67889534635E48668F5028494E536A9829F246B16C52DD0687F69B3671A8E56AAF052FC78ACDDB9D9AF212659"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5DDEB447143834CFE1B29854265B6CC6",
+            "ephemeralData": "380B68F1E1DAAE278934FF64018CEB2F9359F3A69BDA68799A22FEEB26E7313B7D4441B279DFC2F690F023085D7AB2BA2909A176ED0BFD79BDE2D1A3D13F17AD"
+          },
+          "dkm": "A78CFB77F519BF3B049849895B89FB4E174E048E8985DB7682BD0B9D55C4805047FCD107D298A8D4F99000575CADC8E45D8B28F3BFD9C32B2FC276CB82AF49FCA2C3ACF6B1CAFD003BC496F152DAD9C13F7601F7BB1E9D2D077419A8DD84EAAB56B5480F7A568EA2CA5759091872138482CC1294A3A4EA0DEC75D5C035E03D22"
+        },
+        {
+          "tcId": 3,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "682093D2E31AFD7255C2D172A643D235"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "38AA687CCBC9A36D1E19F304C94D762D",
+            "ephemeralData": "3D981AC5581226691D9BEE1FB13DEB73C2C97FEFD3D1A73983CE8217D744B1AA6F95F589F92E05872ADF31864A8BB63FE056E0A39F2920322213F35E9A50484F"
+          },
+          "dkm": "D75E7967A6EA9B11D52D3133BD9256EDE936291D016ECF7CF29F003CAB1C349A3FF3EA113F05EEFA0B374A55BFA04B8EC5B0793573EE8DE75AC2D31AB599F70E54BB056B49571EC72A164AC7E9779799D8A138F3E14D6D63E99697BE0DEE4D935D404C9261B372B3B9D54EA6EC29C2370E4B70EFF6675FCB739B9706FB88AF9D"
+        },
+        {
+          "tcId": 4,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "BB261F3024DCA808A2EBE965F85ACAA8",
+            "ephemeralData": "D77F3CE8CA1DE276FC3BD88F6C7478B51DFFB5AFDBFA31595A016BA692D47A7BBD1D9247C487DBFCDCE689F5E297B3BBAC268B09ED3C0D6AC60170A619BF5D85"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "462C0A8FC3893CB1500593B68F717EEF"
+          },
+          "dkm": "A4C5DB53B66C8CF721D543E135BC3C98EF7D506AC962688700CB2E84EDCC0E7D9870FDE284528F6BF5FB15C5A85CDC8BCB4650CD39AB120AABB84F8411B8855BEE279D7AE3F54ABCCA83536CED9E07A439D7BA6DB2BDF741228373BE15E3F858FFC6573B0D02A1B05AD6F611DDFB1D2C5546655EA968590F5A607EFBD671912D"
+        },
+        {
+          "tcId": 5,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "2232A9891F74E1AE6901EFF348770DAF",
+            "ephemeralData": "033443A2DDFE5766B20D98FEE01796F96D67AAACAF77C6A551626A617152B7D72843784D8E1970020F7CD6328933C871897A7447BF55407C81D2BB4D0066E288"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5862CC5F6BE4E266072709218FE72CFC",
+            "ephemeralData": "4D078B0EE85048A5603296E319EAD88333E19B1DFE80E6A80299A27DAEF7D3A5F49952A2B31C7A106EEF4BD7C27FB3749261AE846C0A0AA0A93F2A6260B795AB"
+          },
+          "dkm": "B1876A941B2DBE6BB996C1FC00FA9868DB527CA0D2CD7523FE467AD9FD996830ED99E5A3CFEE9A2EE5178823406183D188B09001F9EABB74935989C5234C231EF153D9172255FEBC69E79F5A56AF9003BC39FF849CD095F0EDFFFC39002E536ED3A94C64D290BF98C88C880457DB2B0A327A434502B07C3671128E8CFBFDC9C4"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 128,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "KMAC-128"
+      }
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 6,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "C8E3F769B01B5F120FEC7D056E9EADDB",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "2056E41D0D83091E0229119F0DFA5E6E"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "F8D73F2DD48B6ED4C1929356FB1968B7",
+            "ephemeralData": "9A81B8B0002A4BE9475CD51F9FE80AC89B429D01C697557C497234460E026901991E2424E46D4441C25266B023B89F44C9C2D3922391CCBFA69D1E456B0D3CAE"
+          },
+          "dkm": "0E6DDB1883ED4A38CCA6AAC5413BDAC0AB17668F8505F0BA58F07EDB09A8F7E3205CCE298B8112F882D87C888D4FFAE7C74730A672CDEF9EBBCB9DCCA39C2D6FE2F15374F4FF921CB827C4C5EBB52D7DD143FC2CDCD2C89FEC64012DD8705BB5F9C1F9C8A842B8C9818E96D77EF982F34DE9F8D2F8EFB37133F493FB4AA3590F"
+        },
+        {
+          "tcId": 7,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "A3C18CCF5BA76E2C1082B4D02821F8AD",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0086B4FD8789E99D6B27BB738271C843",
+            "ephemeralData": "2CC0A25F6E5D8EC3734DEAC0E2ED90D3C4A19692E55D229FDF9E91B3EB5192918153EA9F2E8A361CBC19468416C5D210F7B624FBD594D61660D1E9A4794ADCB9"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "852934E96276E6337F44CAD369441282"
+          },
+          "dkm": "325E39707D6596E6295CF6D9F0BE14B652F3165D043FA194BEC050365D7B25713D6020BB0A355BA253647C1EC155C6100E9E2EB2D12B93EDE11CE228685EBBE1F3861592DC955075C5E718CC1D768268FDAF9B73DFF40BD2D754301651A57104F1DB49B6114B5782746CC41EE88EC7B868A9D92E6C536B1352A95A2D3DDB9FCC"
+        },
+        {
+          "tcId": 8,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "95E0FAF6FF4E024A3DC5629391EE4870",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E8271D595EE2653754C5147B7AAFEADC",
+            "ephemeralData": "6AE71344510539212382A48B11080EB42462B5EE7F09998681E86612982A7E4A830A08F91624A383421B7D0F439B0B51502E40D49FD79572E12968F4897B3DA0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "CD549C7475BD1A23EB3D95165654538A"
+          },
+          "dkm": "6E9B8629C2012CDC17CB59BCD77836B5FEF4CB7B564C3E020E24B5BB65B3A390524B20D9CE5CB0F6AEF90F590D457C8F6F7A130A0AFA18CBEBDAF22E554529E1A508B4B3D647C37C2EC7AE2BFFE08EF4C8E9D46C0CBCB209A389F4ED5F7322DFF6CFCB28556DEE5331F667F5F28078B15CB15544C0249491C2033F9356EA7C6A"
+        },
+        {
+          "tcId": 9,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "940C78A48DC715511C7C0E9189E415C5",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "F1AE296E0A209D930B5A648B30C90724"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "76747D22EC9137F45BF24F454E8F3BAA"
+          },
+          "dkm": "D895297974E0AEB4F07681F617E53BA828FDE94E6F8536F6F018636A802B4F73DCAD97949171A7DEB926F210B3D6E6DE1544A60AB8377973D5A601F4CD6EED65AB1D9096BF5C3F119121C1C8463CC676A06DBBE9921408AAB959CEE3B8F926795B940B3BC87AAF1429EC62A7BAE5A0257EC7C5F3486CD6025B07A768B6233928"
+        },
+        {
+          "tcId": 10,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "61FD7F30332428DE44A7C171FD0F5BC5",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "69694E9FEDF4C57EA3BCBCD1EAFA73AB"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "97EBD8487E7980B650C380ACEF6108A0",
+            "ephemeralData": "A293BEA166D40381183ACD8D7CFF32B47E548D0260D4365F2B1E5B2FF537325508ED3525433B1B9A36F2FE33CA5E5B484CC50262C2C020D8B801DC826F397317"
+          },
+          "dkm": "98B808B75AE26A4EF54A2E4AFA355FFA1C0A96283C5586EAE82E9DB654E53FD155B027398889B2FCAD20A7E2BE53AEA9E897F6AE7782345DF64A80FD78492D46BF054C62B53CEAD89E6E0715766F83B45F40F5FEF5866A1C828D8E4FADF14A50014D1617C1473643B2E31043FF403AFEF48C810F1D1FA20C3668EDF132A6DA9C"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 128,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "KMAC-128"
+      }
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 11,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0A5533F24EB10599A5AD1DA9EF4171F2",
+            "ephemeralData": "210AE13A5077692FCFB71F75485D56E0FB64316C281158C2BFA9FF4BC5D27F1E1672768C9D77F89D33A85390EADFEB95F8D10A347341F498977EB248149CD823"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "6CC780423728204296AC0B37B5552A82",
+            "ephemeralData": "7548074B24528CE8B8E39086DA52EA469CE80DCA7534EC568A5707D423BEBC0AA2AF8D7FF75506C7AAD4C3AFDC41A6F04DE1845988E19503C8FEA02A1936BD7C"
+          },
+          "dkm": "AFD24F6179BB94983E833702D82B669C4537D792D3BE7E8732D5F53779C7DACAF9364ED2EE7640528786031CE846D555473988D72E4C87C37CD039DE29F155A7031B64887CC04752B64C68D902671C005231AD486F72317FF09BA45CE775CFD6EBC1AE726081F1D72B76AE9ABDDC87D03B88E8D701E7B6865C8CCDE7C4B13DD0"
+        },
+        {
+          "tcId": 12,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "D987243AC7316A128B69B2A495DC2689",
+            "ephemeralData": "BACF2C7AE828CEBD5DC732AA483436AA7EEA84A6B0FC4B8641D7FFD99BDCEC754D83EC7A286AC9E661A9693FA7DCDB069087EB2707C302A74A55E5B10E3066C6"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "62BBF86CF4219B0307B7EC0F3A91757E"
+          },
+          "dkm": "7FA67628DBF50DBBAFF78AC6FB4CE54658DE7B8612B19491D7C79AE09FA69232443FE57E8BB0C116A00535743F8E522DEEAF22924B6E625E8E524B7EF2C2D16BE632B03D5C0CBC6768E423F09B471B6F1583DF21B63D266B0A78C0005352685F03982A45FB36F816BA45B01206E5241EB44EAB15659FA88C2A799C991B212CC9"
+        },
+        {
+          "tcId": 13,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A199ECFCA6EFB20AAF9F01FEFF6EF7B0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3DED44B5254CEF8A5A8F053951159A90"
+          },
+          "dkm": "685135F7C50DEA628D585F1AF4BE4E7557A005002BD0A5B558D34CF3FC74EC4F39CF45CCF8AB3930964678102DBD6252106A60C654591D31DE80117082335931C4A4CEC1BB4F04E226C5710A4900B2A33B8D144C31434E714A70C21C750FEF20752087A312770B7E10E5912CB6AD215BC08259C67926370F6D318611A19EA147"
+        },
+        {
+          "tcId": 14,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "AF272309D9B3AF50EFC7199A3A23DAF9",
+            "ephemeralData": "4732797755185091C9494797242AB037FF1A37F48E9CF1CEF8DC998D72ADDDB2C7C7B617DC6AC7400DDC765D6790FEDE287BAF35B8D28AFD4955E21D595D6D40"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "09184DD96C999722449A080257050AC3",
+            "ephemeralData": "F3B8BD30A0A550756EE9D82E8384AD44169BC35D271EC29ADA20BBCCD40BA80F3843F0DCADFF02E5162EFCC331E9CA55BF558186813CE1E3946B2FA28B66A46B"
+          },
+          "dkm": "85A31114E4F30C0A728A1F9715B3B718B5DDB55F6887C5E5809BB11D6D861F440A20971343B6F382FA5558C4E048040B3027CCF8CA7AEE25F2E6156D4977C9A0EA8D5BF9961413F1892D66B6094C3EC829EE2AF40A1E9C877D3EE73D3870C3BF208078D4E35C25E20CAAAA5CC584E3EE921AE6487430A6DAA8506ABE39510068"
+        },
+        {
+          "tcId": 15,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "8944F258C54FBD28EF9F08C8E2458F62",
+            "ephemeralData": "21CA91E603584BF76DB507801DBC15EB239495F0540F0553855C74DB2D9DD18C083C9712602301A56021747881C4D49BAF6399935AAEB4B8DCF20905FDAC18E2"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "0F70CC65732E3E7727D436FCC2CDA677"
+          },
+          "dkm": "B8BB73E2C89D4EC3AA28B1FA2A1D07F4F50A3D52C3AA9FF9510AE586F41E8C599A758F577077404A19187E1715179C61D3D7ECA8324D2600BE9945153BB9B4137869C61A8415B5EB3B552454870BEECCA2AA95EEB1FB3838C17DA55AD2DE9EFB80BC9893B7BD6AA24777A70A0B6D5E394C8A7A26FF0FEACBE79A1124F62E2006"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA2-224"
+      }
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 16,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "DF3B00894BA216864656CF79FF65F178"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "A9B8E6F49914AFF1AFCDC8116C30BA19"
+          },
+          "dkm": "4876CCEAEAC226E3D6565EC991792CA151B1B1C391A956E20C754D7232FF405193C0B56BD8BB804E65EE2131E3B3867AE08DD8641AA51C7F4C922367D8972F6286CDA41C269BEE2F0E3CB649A25B3DA7445BB2C0246159285D2B5677F14E2938C99EE0CC0F2EF889ED150ABEB2D3EB4A4705C95504DBF4DD91B3DFA9C12A810A"
+        },
+        {
+          "tcId": 17,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "FCD1AFDE9AA45DEE3FF1AA39E511F619",
+            "ephemeralData": "7047895B25DDD32C9E03DE1ABADAD6881DA1C82CBB290ABC6E1BC5F7E859C48EF40F9F94CB2DD8EA861C9B2D1EB6F504C31B3F4D76C4EE0FDB5588FDC75A4939"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "215A6072236248D93ECB32E588E7CFDE"
+          },
+          "dkm": "5FF213EE5CDD4B9542920BC3B9DEAB177BF27610B6E436C4C4685B0EC6A42B860E715D7D9CEB0FE698B70E76C0607E4C1990F8E11D1F8D35844D7293FFFC32F4FC1B8096EC51F82C0D80A39024877D5452B9D6D4C01681230B5BA42882935F3408F3ADC73F231881B647F8A2F57B0AEF13452ACEC6B874D57AB92CD0A590C107"
+        },
+        {
+          "tcId": 18,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "02F71712AE831CDEB6DFD67B5090525D",
+            "ephemeralData": "916C8F1DD1BB27FC739BD3A709C1456A293ABF607A61AD5BC1ED8A5B671ABCA1C8478835A5739E0C8583D23E2F500E516918F2A3F77E5C1AA2349170C7AD7F46"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "4C24097190D38E20C60EB1D7E756B614",
+            "ephemeralData": "A416CE0855CDB880F710E37AA3A04F06EB05F8DA4630C68895D6C97C54D36E6E02F3020AFF18E8FA37B9525368AA65D041CCA31BCE336AA620CE213EC7F03A49"
+          },
+          "dkm": "CC1DB746AF853BF10B940CF6DBC94A7103B0EAAB96B2D0D10A832804298888482C9838D50C88543E39D2B8AC6E09E371F58A94814F99C923F4371522057F02231FF522AC92A29EA2D07FAF10BD106DD2C9D40CA4BDAEAF40A549AFD2A3FA4EB272495AE79FB91ADD810B50B65222B86C43734C1B1E4E59181F92E5A9200AE03C"
+        },
+        {
+          "tcId": 19,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "6093A97F4E055E6B67A049639712FD87",
+            "ephemeralData": "2BB566C314793E8E03033214CAE7B323370F478247C74A733CB90606A4541FAF235B719738FDBAE839AE50FD2E7FDE989BE2275B201D019C4D9FC0CE61783C54"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "A1B66689B3BA422591953ED23C71FAA5"
+          },
+          "dkm": "74CCC330C250C0EFE7B0F41BC3F64FC79FB038D2A686C1885C9713C7AD5EF404F635068267FC0A1C636B0BCC5C547FE3B943DCC054F253F8F49E711394027E82121E4A80E329045D68DF5E0366EE3F27B6967783EEF1251F55662BAB05F044A12BAB0A07043227759608AE26AB7C45385230923C463A451A9A377F2C96680A57"
+        },
+        {
+          "tcId": 20,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "199F6A924087C721818483874769072D",
+            "ephemeralData": "B07FEE815885EF7B55009E5E56144166819542CFD75D15B5CD5582B61C90BE038C6B7AB1C5B97F1A834CECA17B40147EFE21458B3EB5AB2A31B43AD8A072C742"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D7B3748E8BC672BEFC4704B5CD3B283F",
+            "ephemeralData": "74488D427D4E76FD6B20CF0CDCE1F5FF26C1FF80637A0FD5FA2A4A0F8F496FAE3B07C674D7EB9717F961CCC807A797AD96C64CFCFCC7A03BBD652D1565705E37"
+          },
+          "dkm": "E5E53A8C26DEED1FFA54701FD140FFA41791EE941C861CA450A0A41E2E1EC13F186E6166878FAE45F972F4C1E4DA478A3375094C3B4EF668AD711F0F36E56E839595D808370A258A18D9782C20A8A3159E4AD6720D543511FF6103D674D580A6CC31D111BEA86295D43F82F314BBDC0C69C3E8BE8A22EF4A8C0A5999CFF1CD9A"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 224,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-224"
+      }
+    },
+    {
+      "tgId": 5,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 21,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "C7EEAFCB5716FA420827E6F3AD8E37984CBA6E115FF96E72828B991F",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "43F405A7ACDB1443A52DE1857BE51606"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "E975C9414B9F514110320922031FA012"
+          },
+          "dkm": "89E328DF4DD04C3DB0FB5EA642F4225364E1399091A694CB53A866B56A0EE1ADDC76E364C1F7FF2E91A2530699D827A2D3881D748F9A05D969CF8E484333F08063241AE88962B4E67CB0AEC1A0325DC761EB13936803C13A5EC278218522FD7B3B8B662309882E78B244F06AA16328843BDDEC9214548A9AB0D1D9F8F637FB60"
+        },
+        {
+          "tcId": 22,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "DAC731189BC33B7F083DBB9A2F66A78E6319B91262C04D825100992E",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "243045BE52EB9D87E1F105B68C7FF136"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "7B6B838A660F2260E2398F19BC149E99"
+          },
+          "dkm": "B01755112F6602B0B6304884EA2BAAF62292A3EA02870F90EA9B197942368F9A778F767CC10A06B6B69096997BFE8A1893525D7C1D095C98DE81F2A0E30AAC07F03232C6E364EB74AC3E5C96BE43171767993845426AE8818B939ED24377F9A25E5B0D46181BF9998A8A809BC07054134CFDA918FE16E1F7EC6A3FD53F72E34A"
+        },
+        {
+          "tcId": 23,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "1D21C4BD1F7374F4FA999CA3AD0E100D23747E7A3E0C2EB1B12DADF9",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E790581721E3999DE99F6498BD3C74E4",
+            "ephemeralData": "2C2B2FE02C061FBC2183D4C970B1E2B44984AE65C728C110DA23066DBF6BC09A2B0342D1FCB9948F3DB2FA9012C7E8663F2F50193A3A9D6FFC2C99C1965C6E1B"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "E0D8EAD1CF02ECC560D170E458A00E99"
+          },
+          "dkm": "BABA3AD8D80AC52E091777CE1990BE8ED2F1A933ACE63BC267CD0716BA4C10F735E2CC54945C5DB466BD6927AF2821B8C7E376EFC22860BA3D2430489CA1B1000B6BE5CBC9451B77B94E3F8755E57626B5A989A97AAE3D4189A1FA350AE9ACB7F9E81B3D73B37BE50AAD10A32CB3950089C630FA9E7260843F4035235E5FA3EC"
+        },
+        {
+          "tcId": 24,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "888A6225156B3809A951BF38C35D0C648AD94E7F4534D14D7A6D0245",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A437E376922AFD2527AB8035FC7D423F",
+            "ephemeralData": "D20A2A368AD7E61218BB95E87FE9A3B115E09C0F83316ADA3062EB02F49A83683C1A318779DB522C023CF2030F4F638CEF78E7458B9CFC0492A311DD04E94F0A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "90F3B8C099341E01A1ED844DC1225FE2"
+          },
+          "dkm": "B4226A68D0A09604A8B7A7A932A41D44F613FFE7A5F825B4F9D52A3BB919D2CE6AA83ABF0D2BED9467A9032107987807A115FCAF7A69F0D9270C4D826C727A2FAE84F04A60955A5F70EEA0AD39B12485BCEDF357E3D5C45E775E891324E3480B169E5763158DD86273616428925F80155B0F4E8E4E288116F303CF36763B3AB4"
+        },
+        {
+          "tcId": 25,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "F06E2615BC50E3B89E856B3B083A0C60DE1007E8BDC87F9CF1F5B98A",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0214B98BE798F0ECEDCD56314BE2AFFC",
+            "ephemeralData": "0FB58595156BC3C7434F537E515EAF76333087E73B4879E3A279F59D16C395884F9FD91D79786DF06BC4072FAF95672D3721BDBB66E51AE8D2FF0D825B2F8B4B"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "688389BFB6CBF3EE389A0BFA26DD957B"
+          },
+          "dkm": "508D7DA158463FDC153F1145BE64A3C52A4BDE1FF13E5A7D62CF743427EF26D0C637DD607DF021AD2EC342DA827703D6F11A97534A9B8B658BF41B2D6EA8B7F5C38596F7F10D13F6A4B7EEE750D02313970FE798F5592BB38CAB3A9D4298ACF56340F1CA98C4FE3A49F34FAD8625842346BA7C8A70D67CAB59ECF4B456DDD5A4"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 224,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-224"
+      }
+    },
+    {
+      "tgId": 6,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 26,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "72CEE7ED4CEEB9FF71F919E462CCCAA3",
+            "ephemeralData": "B7437B5718826257C48FE5B84DCED2422920AB2888C1CB09AE8C8A398541AC28F6126B5347C4FE498FAAFC288C169A1E79AC8FDFC5D1902296C21B16CCF201C0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "9D66213A5C83670D9340264E329DDB7E"
+          },
+          "dkm": "34A8E72F2ED1C2E4802733FAE373E4BB7E67F6826A5D6CDC7297E31F8599280999E53A4F76A8BB44C59B9688D9CD2E1BD07E0D1CE816D59DD7ABB73F3FC0E259336F6BF40AE558453F9AF71205911C3E35F7688A953979592F024551E4AC6B2FB6F729025432028EC94562E07AA66491F1B958DC47B66155CCB7483F51707C22"
+        },
+        {
+          "tcId": 27,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "BFDAD93901080D9E3EE5F75B49B88B69",
+            "ephemeralData": "FF322F37E8DB4632A68D2801354C4ECA419F40DF4FD6928292DF8CB879A73BF664AA858406C1A1FAE072E3DC97D9A3ECB23DCBFFFE06A884B735F98AD627A48A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B900230C4A1546C460FAC424C408A1FD"
+          },
+          "dkm": "4497A1A993DA372F3C125FDDE9E95F6E713A3B26504F8E16ADBFEA74FB8AF2D5FB125D0B6C072594F3F33236BF4DEAB1BC605AFEF2750E7DD6A45B54FE0C0DB2DAC964A382F5F2B2050C431CFB109F01BE196410BD659BE18788E1EEF747814B06692218BEFF1EFBD78BBC99692EA89431627F25934D8B2B5D77E07CD0C3DEEF"
+        },
+        {
+          "tcId": 28,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "926CFFFFB1B13D6434B6C0F88628F4F1",
+            "ephemeralData": "61590EAE9C373C11AF5B30FCD24846C166DEAED451A4AA5EC9127FA522F0A951AD43F182BB7C42A10D8AE50661702DB76BF0D78586E16E53DCCA2ADFD8499C94"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "F23938405B02A61B37C6CEE6DC35342B"
+          },
+          "dkm": "FDF098571D96190CD324DFB81F40651E07B0E6FCF044D54997261C092F7A8E287985D03294AAA9269E7699675C90CCF6C648F01EAAFFFC99110E79690A779AFBF4A8DF40A00109D1E9E55BF11E98E390512B9702BD6A73BE4F948D5F7DAC4A9C1C8F6EC33207DE8A4BB33D78241A0452BA41BBA397FF8E55388F7CEF7FBACEB7"
+        },
+        {
+          "tcId": 29,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "969747B80B1FD9DE3334A9557D6DEDE8"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5E94C9F62062B940B1CAF92AEDCF1A13"
+          },
+          "dkm": "5278A4041C929AA5EF5EC56B8CA5C6206D039F69973A73E40E3299BC91A00C20B10539F88B92EEB7407646365D75C52A86D51B03D21B8A4E6788C5F652D5DEAFD1452A93B6E942A98E95467E5C20B3BD5A38BC60D22ABE08C7EA39F49A33B1387B7ADFBEC0DC426FC4013C935EA1EC245F69F1F51A030D153C143784873806C8"
+        },
+        {
+          "tcId": 30,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "D6F6EAE78075A647A9CF5F7EB2F6BB64",
+            "ephemeralData": "B49C6ED964B4DEAB002EE4712F391932047F0CB800D30F743300E5F19331CC49440FF60613AEFF90B438EFDDF185BAAD6742A1C89D175EABA38188634592E3F0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "84FB381CCE7D52BAC775AF6FFB53D24F"
+          },
+          "dkm": "9663DD27AF9C03EF7829B9CB4AAB83CB1D916BF36F22CFE84AAAC2917190A5D479B48DBC3E060E56A809E34BD2277915DCFD78511A8EE8621D215B4B829218F7815E3DBF8A56F142994B350B21B27F5F025DAF3896097AFB704BFCBE957EDC40DB1B99CE5F1FD8EC681705D43FD146FDD15303318115EE83B05F939D52A7FA5F"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA2-512"
+      }
+    },
+    {
+      "tgId": 7,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 31,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "892433433EB73521AF4A5D9BB93440E6",
+            "ephemeralData": "99ED77D482CA307B65AE840C3468B2E131212E672D54605EF0F344112E71AAA342C4AE6B5F7B70FD891A8F680417FEDB8BD6040080E32F4759D64FF3C7BA96F5"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "CE22EC3B08A6260B977AA79256DCA06A",
+            "ephemeralData": "E254404F66758043AB847C5B298095BF099B1D9AF3865ABD6BDB5334F98A32FB0E8E29A6DEE628D0383A9ECA51C7C2BB72E61C7079E0B30CFB1E358F45B87D49"
+          },
+          "dkm": "CBC0FA74F9BDF45DBA2C3E10F0F4A433FAA044B5961EA7A3F330D1D98487500E43C6D6585A816341568E9C863FBE855DC00A67E7299787E02FD68BA6B7B2D07EB2CBCE91EC6A11AC396CA1831F4F27B3569C3E37758EAD7FC62EC86DF0DF06A12E8FBC763DB77215C38C92CAD5A1D031FC842EB52CFC47DD7C91FDB38AB473F6"
+        },
+        {
+          "tcId": 32,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "766DF69A03B23538081B26297BD7E009",
+            "ephemeralData": "3A8C81E7B6D4D789BBBF1A7494B45B5E5082FF23A1B0888446BDB6B14C30F9EA052D3D66D1B19510C3187F0D5BF962E6A754E4B508F88578F253994CE49AA23A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "11A077CE84D7B2A52FF507B3BB1DF257"
+          },
+          "dkm": "BB6EC771C8C17D61E7580F6A84542AB7D1BDA249EFC633037192443599F6CF42D64AA1A432D8F6ACA1BCBEB205C0732E8BA6423CEB4024C0858EA95EDC518D3F33ABAD2E469762A31D0B4C0EE9884EB90B43D01ADAFF6589B509274FEA81825CDBD6A1C06B18899A82FB92EF970D486031A2D8ACFAE6339677B2BDBD474090BE"
+        },
+        {
+          "tcId": 33,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E18E0434EC0E267BBD71E10D8995A8A8"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "A655CD2C37D16D6E217944FE04CB61C9"
+          },
+          "dkm": "69B1546FC79BC144CD23F5920A1E3ED7EE132B6131AECA1D5E9A179CF6915B4A605F3AA1B22382E38EF542B7D32A4981B394E4156889C40F58DA2E21C3861252041384C575266446A977B521343333BEF0EB61C2F8C65D476C326FC4CA5F8AE709E47A8E2E692BA16AAAB149F1CE04F012F7E8D33A9CE4F09CC906CF352610A8"
+        },
+        {
+          "tcId": 34,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "DB41BB5727CAE64126C27828B8013076",
+            "ephemeralData": "5E13629FA40D6AF055F1470F696609DA9B3C7A5C490CD09D628B683B0E8E126F07A3BDD4012E46D799FFD065943151F01DF04B04AC662E1CE864CEEAE503EF25"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5D3CB5C395F6CFC587E1E1BCF23C5E8B",
+            "ephemeralData": "A7C5D8B79576A22EB5BE203EF715D8BB0CDE2B10C384D014665208483B0C9AAF2D3A915C5040A4DF28F8DE4A3DFDBEADBC3AC2E75BD01E382128F83956CA2793"
+          },
+          "dkm": "E2A535501B847464CEB60051EBD2BA266AA5CC37B9D39CE26953357A97E2BBD88113C2DA56CC767078ACA68B7567D2E49CB09619983477AC2B621E798F4E9BD39B48BE7123016D475BEED7B1C0866E2878DF6CC7C855285BC215F3111D7AE4BE538FE784C05CD2A630889BE7D146911F05E84B2EF126ECBE8D65C72A9F9447E1"
+        },
+        {
+          "tcId": 35,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "2516E8494185A727CEEBB1794DFE4A32",
+            "ephemeralData": "F4FC4CAF3F8318AF72DC3FBB66A37D2A2D49655B679EF43EC6A249C697D9B6BD8BA0E65C73D4503FE04B5634E55A81A5C45A79DD688F4ADA58C08390C3F9FBC8"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D985E4B73FA793DF5CFEC3A026AB04AA"
+          },
+          "dkm": "C4480300889C5BE108536B164B98FB0AC371A92E98F859DDCBE61E5C3166D3EB6C0ED9B62BA6CB30FB2C49E6E2C881D0B419330E689F624A1559FAA6F1723067A90BB9825A5FD3E69F55C2FDF95353AED65F1D5FD96539B9A30DF76ACB20303A8C6CE1B431753124CBDCEC9815509D5CFD4ED97BC18A7B8F473538372C332A66"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-512"
+      }
+    },
+    {
+      "tgId": 8,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 36,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "BC77AE82E6AF6094EEB29B2A2CB22A996DB2A3C8DB0A9C5FA349F9FD4859538EB3F3B9F04208A51A6E391935AE566EF795ED7492EAEB987668F18B8BC9CECE08",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "87A613C05232B4497E2F1427C2749E93",
+            "ephemeralData": "3B33F55A9AFA083D706FE2F8307B5299AEA7A95231CE2AFFF25B53A317712416C39A1D637E519E7408A50E1CA5AEE244FF9805A1D5DDE3589774AB386F11E27E"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "CBB6733FF1A5BB87F05C80937DBF1A48"
+          },
+          "dkm": "E58A6DD785B7B421C85481AE7B14751CA76317B7DA461053F5E38190104E1A5F157713585FE5B5E71D55071CAA24B89E31AF0E1B4379414061F118E6D1D2D92EEEFC4DDFF42D69D58B77417673F2D888E74BAB21FF4EFEA4AD173AA8FBD1E5E7D0895DDBB7738034F8F898D092A9D50DC5750ACF82DF80F070F4F435B837063B"
+        },
+        {
+          "tcId": 37,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "528221615EEF288FBBC8D54FA8DA20EF41B774152C7800B51C0DBA237F864EC4A1679F59381391ED297615B2EBFA1DECC0CC0DEB1419D7F2DC5A75EFDD5105D0",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "6E4EE0281BB6A618BF56758D7732A223"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "43E145FE03C2770C9835BA2B2A56E6AB"
+          },
+          "dkm": "DF1647A891E96AEBE7C723229322772450BA2734E2C72663B86150F607D3313E514074A4975789DDD7E1BF3FD4640A47E24E8D9A2BBDC1F3A37FEFF4808A46BF8B9BD71246552D146ECFD2C966BC0AB46097DECADEE89F7E20A703B2C321325BBBCBDB48096563B43E8D9A1C754CB713A1C7153EAED807CB53DB0EA70E3EE7C0"
+        },
+        {
+          "tcId": 38,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "AC3CE6A6B1FB60E118E31F2E270D47B67C7B9650DB384D2D3571B11C030939A993CBBA9D972887477E678D22BA57BDAAF8F11763C5ADE767D97ECF3943DF48A6",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "47F758C998EA193EB936F7CDC8C44692"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D04BFD4F7EE880468B2A42941A6B88CD"
+          },
+          "dkm": "EA2757C00A8A8D18C353B536E46750DA450EDAB56C5C388364FD9BB7993BC197560D6B9475ABE2946154CA469B34CBB31E68081D3411FE8153747AC9F823F9521CAE9B78E78D48EFC88930F03DBF4D06B1180C7746961EC6504908BD7C81C65C5632992866C2A265137921D9B7EDCBD6AA91B4A4DEDCC00A869B0630860FF322"
+        },
+        {
+          "tcId": 39,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "5C088BA236C6E71557FF332694F159AE318426A387B5653646F408895092F2D8D4601ABC93FD81DFFDE8F73610BBB10DA913458771923276C41F9FB7A6E4FD4E",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "C44BFBF63C28F84D0D2B75ACE8742ED0",
+            "ephemeralData": "9F2D3855445850FC7FF80A20191F136C9148C191A1FDC3BD2A027B9069FF53DDA7150FF77DAE892BE218082CBA2AE1D728BC66054C99D3AF25B604CD84331487"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "6A50760A69FC00DF5B975267B16EF1BE"
+          },
+          "dkm": "C0AED3036374E0DBDFC438A89E7062F6176F13CB6BE8038EC3E769EABC66FE37CC74BDF80AEE2D83DCD08622AFB98EA2501EB23026C68447B9A7178ED86F64782E3CE9CAD68549FABDBFCCA745F0672350FA4198BCA08742352C36D21E9C9FF428CDC7122ED714DB80C3E355918B2C25C88F6F363C052D66807C91386F0D396A"
+        },
+        {
+          "tcId": 40,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "2F7A71DB652FA19BC6C336A330BCDD83E75E51F8273F01A490F31509D37EA8C2D33D74199D03150B8BDCCDF34C1D6158CD590A64059BA0A4930EDE7A3B2D7793",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "13FE1A493E221CBF13AB63EF7D6A75D7",
+            "ephemeralData": "64612DA0F543A5AE5AC5ACE5DB6422666D374752CA7FE42299E1FFEC03FC53C3B87D0B381B3BFF9BCAABF6BA66193EE41CBCAF87CB58996F9948DBF5DF705951"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5377E176D6447F5DE52FB8B334079F1C",
+            "ephemeralData": "BD9EAF6D2327230714C313C4335B524F857129E86211A5F0CC7ABD4A77D22EEF2ECDE3EF67657E7FF2ADB90340B3AD1B83F4F9EBBC4755A18E17D3A1A616B5CE"
+          },
+          "dkm": "06EAAAD3EC31B06CA90C813DABC2D799320CEDCABC5909B17982004FBE60C267ED6462152F824A8E17233FF046CA724A1E20E89484CDD65644259D6CE473672214E162F400B301F4C30BC95105EC28B20F826DD83D7CCF4FAFCEBBD1F580BADD5A7986A1426422BEE26BA24C7C98AC2453159B8C0CA49A80656BA9C54E4FE8DD"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-512"
+      }
+    },
+    {
+      "tgId": 9,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 41,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "436C37FDE701F4453F08A5744AA59A25",
+            "ephemeralData": "A54FC4BBB92EBDB021D724CCD8CE3CCE0F262E1FF6A5ECC2BF9223BBFAF31CD597DD290E1D1FD81ACD8FCB241EA05F2EAA32E41E10E9AECE5EE2DB92488B3FEC"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "EBAE9826375CE1CC0AEF38F1023A51D1",
+            "ephemeralData": "D7A6E9E0F89685B8F28DF6E172269A5FDDF314F2EE1EBC8986CC4A7D75AB07420E17FA9FC7EB0CC44C961D24F4CD25FF9DFD03D8F5FD4AD245B1CB045AD24F10"
+          },
+          "dkm": "AC879C8ECDC7107177DE24FC9952B74660A528C476D85E06499A4853928E469F990C419492C8C7CC2918F1444B118E61112DA593C4313F3A8AB347BED408F6DD63DC3AEACC99766BD01054B045A6698CBB4A423CB5F8CF74244BB238F4E0E8677F2B9286FBE47B50087656A21A02441728F5596A5341B7B3E9222D1BECAB61A9"
+        },
+        {
+          "tcId": 42,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "55C0928A62898F86F54E57ECB751CCA0",
+            "ephemeralData": "2BA15C2A860B36F88889800198F3F037809E295315BD74DCAECD8E315C1CD801A62F03A118F24CE998D3243CD4BFFA9671520EE8CCFA412E43741DD2F5CECCAC"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "C044BE66C8F8102C083FF6F110CB5412",
+            "ephemeralData": "718EF7B42A23FF9FE21F6245BAD3F5788CE48544925DC04BAF7B1BF17BB9D84BF13A22C188F06CEBB0418F8E5EFE0392D27F834782FB63944F80A5970FB0E071"
+          },
+          "dkm": "30D69A8BBEDAEA514B54925E5463397B09EFA232881DF1D6FE7D37221BB15A8DC36D1B0474EC505ABB3ED6948EEB7BBB513E0E8E1B4CECA56BE36CA5381204AB49CF02C9AF3516F57BCF52BC0544A5194108866CD8DBD03DA4939490AD758E6C3AFEB351CC3CD9DE9B15514E0979EC0869F310736F898A2423919939E68151B8"
+        },
+        {
+          "tcId": 43,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "374A125F4594CF8AC57AF5D8631FA3B1"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "82C09115ABDDF1C35793C7E394B26F6E"
+          },
+          "dkm": "0A223D3D86840E63EEE6EB5D3A73E7BE1C6FCCDCB62C8E63F1D376D9452B27A5CF0F40D6B26D6972E50C58DD2F55BE3E4EBFCFE960CA3EABB8B6169E3DC6BD8885A6CBC8F5AA4DDAC1BC2960D7F554327D97B2EB7C91B4B5B950D600D4DFAF129EA247D33143DC8286E95A6220FECEC05F590B559CBEFB5C633EA042937C09FB"
+        },
+        {
+          "tcId": 44,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "39FB643A70027C6F451BF7E40B72975A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "C88347E00B8B7788C292AA2454CCF4A3",
+            "ephemeralData": "EC149A640B043E22FE5B0CBBF90E3152C5C1197A46A806A20E3B6F19EA2F74A87E358E3990805C48E0ED3669BBC84DD1D938B2C6A818637B4E2AE5674D1F1034"
+          },
+          "dkm": "781166E0A3ED7F5CDCD37DF4F2C8B5D8F65D07A83CDB55FE5D54F2FE52FB67A471EF17201AC21F4EACED99E9221841D0467B081A8D9A14FFCBE6E029C25D9B82F3C3AEAA6F8161B1787A3B5A15879ABB4FEE423EB205509D2F1F781E99B1B424C99D1E34F451F075B2945EFE0CB5E1D89AAA6830CE3FEA6A706D9F7B436E7B3C"
+        },
+        {
+          "tcId": 45,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "04178B9A8B8245825AF93A7054570F87"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3308C4F45F6B20EC1E04A9D241C40CB3",
+            "ephemeralData": "7AC14AC5C7E1BC4FA2892E036ADC0F92FC98758557C985EB2D673BF5633476587A808EFA8D1A84355265B49A040459174FD82353A97F5109BBD8DF4C170EB457"
+          },
+          "dkm": "B7C421924993964D0DD307EAF496221C91238DD4B302AC26709619BF4954D009DEC7C1AFF9E26BE20B09615650D67EDF2B214C1C7308A4CFAFF8F33D50333B37D4285AA5834C03FDCEAE801015EA71D183C62191B6FB327EE737E2B53511388D697233FC80C33557C06EFA61CCBB42AB54B7E527F219C27064A6F00DB641CCBE"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA3-512"
+      }
+    },
+    {
+      "tgId": 10,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 46,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "7BFCC0201C01F00D6C967C1D392CAA31"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "7473653D807DB2CA90ADEF917E945771",
+            "ephemeralData": "646C3E4327E88154C69CEDEF8F097956FE388CF9375C253D4AF8AE7AEC59A6A88D8BD0EC19CA52A97EBBA0DD8684D5340626B39203B3B73458570D7991000F67"
+          },
+          "dkm": "B0E14FA9AD9C11C6A770D475B0100D153724DB483C575674FD23F6652FC195914F95C6628B7ECBF86D9E003EFE45157C2498DABCFE53A8CDCB17A1203BD5D32BBB9634A2C84427B9B6EBA274FB21E93B87A8D84A9A2EE12606D5EB9C05D426D73196DA1CE5A681ECC1FDBF0EAA2AD7024906ED7DD6129A37CE7A29498B3AC2C5"
+        },
+        {
+          "tcId": 47,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E4870EA1A2392DA229B5D155D4FD679C"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "64BB5DC20F3C7FEDB643862BBF827D05"
+          },
+          "dkm": "3FD79E38167B540D907BDBE83EE40985C42EB86425B45FA0419D77B68233BBA796633774862CDF09B05C9EA851FAF75FE906DC85089F712250D84A27D2A165E79199276891F6BD524AFA072A5B9C63CDD6378023BEC92DD4156A9469D116B8BB10AAF7C52BFB50A249DDF422A54304989D3E2501DF3B16E096CA0B96C4B834D4"
+        },
+        {
+          "tcId": 48,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "DE1D5B93EFC3E3BFC57285019A26B123",
+            "ephemeralData": "C8AF0E1D12459E6F31006389B05A5C886F38C96F2381AD0608742B8B61D0A14CC5B8B73D118B9DDE21C75A937A94AA39923A7487FB03617FED1FA8AF24C0378B"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "15B2A3D9E6748B360D07D8A4E5AE3DA8"
+          },
+          "dkm": "22740BF3467DD1DD46E409632ECDBBBBBB8CD630E7D512AB27AE4296667442EDA76EDC625E45DA0832B69CB995CB4D78AD7C1E9AE5784E6E1B850538A31CB7164B0FBB421C7F97EFA7274873A6870B90C2C667CB6010560762DF94D770E10F00B7E77210E17D8CB9333E02A344DC6F581F73B27062714A6238F4F5F196DA704E"
+        },
+        {
+          "tcId": 49,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "3CCB88FAC4FDFFC811625EA3108E2B38",
+            "ephemeralData": "EC5A1DBE3341CFEC86E51B6E433D187D69439847A04E52EDA8FB001369DA601015AD686383C40923886448BD205D45BDAB809585791BBE55BEA0823C655750CE"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8B40C3F96A33B449BC9816BB24680510"
+          },
+          "dkm": "6A1467B10E9CB60E159420F5FF70B8EB92C20AE9D3C3A5860E6E6B45387780D61D4C834FC7262196A23049DD0F3AEEDE358250C09C1DDF3EDA5AFFED9BB24F9510A98AD55986C3F2179B01D4ABF6A4712324BD186143581BC4983F98603CDED2A1E4CB5CDC940C07EF69CD8D58FEBEFBC78C23038F43C19F829746FD01DA58D1"
+        },
+        {
+          "tcId": 50,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "7269BA4D7023E67E28C0BBEECBF497A2"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "E0E8F0EBD969ABC3D9F8E8CF2ACBAFDC",
+            "ephemeralData": "1EB9920D570984AC7F73F31683ABFF1AB168D942F61E21E292599BF20D6757903BF5934E560F2BF1FCAFD381EDD16C3FDA4FFA5A00B5F1B108E81D82FA805B52"
+          },
+          "dkm": "BA8627AC1DAAEB1852209504B984C4B3F7EA333ECEFB240E8290BAB42AA3B37793A1B137F95E6F206274483681F75BC1BC210DB41A938EAA837B10226802FCDE1AE1FB806EB43FC704AEDE9FCEF25C5EB8225A3A86910800ABA5992C5379AC89CCBCF8B4A4C2B775C93A8F6334BD879261B3F28F876E9D42ACB9CE1D542377EA"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA3-512"
+      }
+    },
+    {
+      "tgId": 11,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 51,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "55197F6493E1634B214B56034B836BF2B4BC318191F6950D54A1724550FF327ED5AB56BB11528380C19C513A60074D1953E630A22F93DBABD490B6176124E872",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "402481C1F6F2C01B7ACE7DA9BA29C5C3"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "C633CD30C3F7D6921EB22B2940FEBFC3"
+          },
+          "dkm": "0D1ABBEC6BBD68E74472152526694660A1729E3D3F7B9EC5C32423539D728593C889C505CFA8724E04F0CDE94FBE614DD6E0790C1EDC94C32BE6E6A50000A637ED258EAE7660AA0FFDE13AFFF48059C7D755F0B179833E463AE6BDEDAD7778AFBCC0FEBB616F7FEABC381F8EA5F1328EF9825FDEED9C9AAEFF94BFBD4439D679"
+        },
+        {
+          "tcId": 52,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "54A11878DA82D306371D20EE462E5C0C350910610B0513EFA61B1ACA09C532ECA7E36CEF7EBE76332D420B59E2F20D4E1E119B559C201CC090973650B6014943",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "3E9E1548438B6C2A85C3E36554D41B1D",
+            "ephemeralData": "E1C9E0F57AE99DCBCA7E3B8C90A6E4E06D14AB46BA2FB870EBDEDF626DD1ECCE44AA53D2823AC4E89B2469DD021185A15EAAFF15D97C28359B632F3FD239EF34"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3C556939249225A7C1FC3D2D290B377D"
+          },
+          "dkm": "27AE631C9173E23A1EAF7BCCFB519E550D0C2B616420C3BC09E189E5D98A8C793FF8DBC716CD1C91379C32D6DBC4B430DE11DAEDE6335D84B3B0BC7F072EFD1F2F58E36B36FE8A4489A1B7F54E7B46FFFA218E5A627597EB6CDA2575A86CF987E6EBD89D5620B677AE9628D0CCABEEAE3BEBD98E3EFAB30DA3A01711EC273D8E"
+        },
+        {
+          "tcId": 53,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "F9EB59700012164EBE20F9E795FEB394C9C846D4A4C895F68DA8CDDB1B9844A5581488344378D692E394FF997CFC2D15368D541EEA6D0281209CE9D7A5FAE2BD",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0838F76FD3278CA2214B4E38675AE851"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "28C27D2A37671C495F3EF35BB6F4BD6E"
+          },
+          "dkm": "4E2088128F77EDC9367EC355900710CFC61F0392B692C692C2D35A37D634F7F5F3D1F47E9377D899154DB295456561BD959656255CF01DA9C14FF71C4D6E9666041946B49FE84671001380D77367894D6AA5F9B97290F31D560BAF059388D05B6318730616E7604B58EA329901564FF759A5E68D804E9D8A229BE1FE30F5BDFB"
+        },
+        {
+          "tcId": 54,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "7B1AE84EF69A52F3848A8164EB2597F9348435E6C2357B743DC4C0800C05D38DBC57E2DB5394CD4C5E648CD252A403F6FA10870F1138A25DF53BE2C3E6B05710",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "15685BC1CB2664ADFF640C2A9CF55177",
+            "ephemeralData": "7C08D9D4C0728184A2C1D815D587EB5658FCA92AC590A06B5276516DF921ADDC0FC81DF2B02940AD20CE26913D528639E0D00BB156394799FB89FE0020A152C8"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "03F50895F1D1FF0FE772D6E903792A7F",
+            "ephemeralData": "731CFEE32DF58FD9614BD3F5C281593E81580886606A1774308BE7007F047C6E8B7C0CCF0616C59F78806FF83000461497927EB6DEEC757FEC04F9F395075AD0"
+          },
+          "dkm": "780CB4E56BA9CE8ADAE7A3C4706EFB21E7CA4DF2544E9811927540B65BC30749C91D7DBECE6400D4EC04F655FD37912669D77E798600D327128CB2446B791FE4E79C8526E7E0C15607B0393DF26B34BDAE4EEF25CC05BC162545CB8E57D77F89254B5CBDBC1CDBEB6CE930421A2D63E199D23709A0694788ADF308C16C847E4D"
+        },
+        {
+          "tcId": 55,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "5166C8D8456FD99D9F16246CFE355B666FC271786E40115089A10902DAB8DFED6D90542CDD415D317150F0A6425DEA07E2C46D72DCB4A1A693A61AA3A04BEE90",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "479569DDE756FB176C3CC684C2E96822"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D3C4CF1F645DEDDEBB1637AAB1E94880"
+          },
+          "dkm": "5840A98998A5DE34CB9ACDB223A75C7E0CE1A8AFAC09B669A19AB88CA3F50FC72441C59F508A6D4686D2734E7BDDBB8A6B3DFAE684B141E78B9209221D328E0C7966178B9C152E7F0986E9A5CD8F962E3A0874FE2D0E87DE5CD1879953241FE96A0006FF2AEC99E82EF61D076630CEF45BFD2A4060135E6C5888634C1A843C05"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA3-512"
+      }
+    },
+    {
+      "tgId": 12,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 56,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "CE7DD5BD069F9020DE3C6B0F415ACC25"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "539ECF1C674BB378C11090B32BA44AF1",
+            "ephemeralData": "75CB6A46912F104CD25E9382DAF5370EFAE188FF8B3AEA494CC87C74F491BBB200C00376F1B7977F4A3B71A3BF1BF526303CB99639100579415BFD28AF5A8843"
+          },
+          "dkm": "0C6326703B03EBB0E514425CD55E1840747BE3A0188AC9FF060EF4DB45C6D9CF5CB4543846F6EF38051D34CFEFDF2B5CDF220465E2C570B49304BB31C98D5D1150BB2BEEEDCC0C45233EC1302D13E5094BD1A76F5BF4A4A093C63D2456993742BBDFD797E7DA3D2B1B1E72CD821EAD9F12175125B6C9BFAC7CDF5B459328B50F"
+        },
+        {
+          "tcId": 57,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E9E43EE6E53D6B33EAD689D1A04DE53C"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "AB0989C8B0E09039F9B1AB9C4132F535"
+          },
+          "dkm": "03586584757040552DFCF5530A640EE65A1DAD1B6D507B904919AA3310FCA9E03FE015255C3A655C003F1D13698C1E512F312F8D1351E4FAB1EFE8492FBCB8987E65B8BF4100D15DBFB4F86B5EA7D1455C9FB7B63FE1CE92003DA6BAA5CC8C5E91D635471D40270BC1E133729E8BBF9E4EE21AC7DCBC3ED2B776F59CD11A22A6"
+        },
+        {
+          "tcId": 58,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "DCF6A16F0B384DD3353CD767630709EF",
+            "ephemeralData": "CF2004331BDAE7419C23700B87676AC31DE8DE5B2ECA54C959B28B9A57118F1FD923CCEE387C2209D89E6A0F6BEA1A07A0752FEB56E0A89C0E3DAF3DE3BFDF06"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "2A7C6F9FBAA191687C061E1E5B360685",
+            "ephemeralData": "7602E0547C7A1ED05FAD8227C6A486DC6BD0CB5208A9EF8738E96A9D8ED5E1AF6AD1FD68CE791FEA64A4FF8CA754A9FB34C52597B1B315746BAFCE9C6583755E"
+          },
+          "dkm": "6BEE56FC0D8D3253BEC4F78E2431F5BFD8AFFAA51F2AAA7E7F2F3F7656E3F53A11EB303DF135F30E81865F9F38899A7414A0D697E552D6B56173BB472F9F2DE2DAFDC9D799319A6EEE172190B33CFA9C7324775FD70CE77AA99845AE6BE73FF37621747C05CD8E164907288200C37D222116C3A86CF42E807A60710BDCA9F602"
+        },
+        {
+          "tcId": 59,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "F27E4B78665C375EA135AE90891A0F31"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "DACC116185DECFEE486F04475E72CC69",
+            "ephemeralData": "11424C32342EEA20F733A47972B40F476492F6716338FFCFBA93A55B526A8C8C9025FD1B56DEA140AB0BE9B835529EAC75976B5C51FDA00E5EA311D66E962CE1"
+          },
+          "dkm": "27FF1F9ED66788A63AA672CA97338D915A718AA84D62B05F818DD674DB5E6FEEF604B8092A7FC2CCD24F2278EB8BCE8866D2D1E7D9BD1A9A0DE85820F11420BD3C24EE695F64A019E5A75755A7746C2D172ACEF47A1304BCE5105AD3B36BB8DE581ABC1C8585769A07E450B081CA51B868F3F6E465D772B3C372EE784F2B3555"
+        },
+        {
+          "tcId": 60,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "00000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "196CAC2542814AB8C08EEF7F33A05DD0",
+            "ephemeralData": "0D045981D2F2E5A3B28A959C2518C2EFC1734D3F8D1B94D072B53B66C46E11A4429B569A7669479E635DA36483D0860C7F918944734E62639ECFEA1A90490055"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5124CF87CFB25DD1D119CD1A32CE0CC6",
+            "ephemeralData": "91CC2B6621F72E640192D2F108783F3A6BEF8799AC5DABBF6650CE2CD2D8FFA1C1D32ABAE33F5447A922A6417E33C70E9077F1E2498020BC870FA5763ED786A8"
+          },
+          "dkm": "9C851EDC7384BDC4E1A776481800EB38D4D6CD88B2D7FDDD7AFCD8DC22194BED739F44BF98F88AA69E0585D926BED273E5430913C3A2A59977E019279356A123422E1CAFBF4020833B69995989A3F990408B4DA33F206B0014E66DB333D3239F339089205CE0A45B077F9526B303061FDC3EF687472F11A9065A0C3A45B56098"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 128,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "KMAC-128"
+      }
+    },
+    {
+      "tgId": 13,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 61,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "F1F13C447472A5518B35A209DFDBF52F",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "42EA43F6401788FACA9F852900E07B46"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "333E3A89F016CADBD1BAAD9DE9B30981",
+            "ephemeralData": "F40DE219D802A2C9D5BFF29DA96F2B5012D489DFCE370247345B157A53C4510DD94E71DA89BB4D2E25CDA9E540A09019C5C5B80648DBDE65E76CD42631C7977E"
+          },
+          "dkm": "16020FB14A3F55E42BD3312F51B65E550A9207C8EC80CD9BDA368FD641918388E2EB731AD6D7FC8523D4E8D853B8F96229307D5A42E67BCCB7F96DB01406BB6A55375C208D6CEB8833DFC824B04D327395FF2AEDD814B01A745C3FA32C231ABA08E4ACE9BEDC80DD8A3985D6910B095C5335E069435F3C38D03D635F6CA21274"
+        },
+        {
+          "tcId": 62,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "EF8FF663F6C4A2066E92B71AADEDA2CC",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "8E2F316BD73E9D05100035A523A637A4",
+            "ephemeralData": "23E69E33164A3D51E1B44C16A3BC83462B729D47E3D301F5D4FA96F6AC678B995EA9AD3C122E93387C0ACFF142198DAF53F8729373B952D122B162AA82BA5BB1"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "9B3526FBF04C4493195D4B0B07DA5AA9",
+            "ephemeralData": "9F134D76F54F93D0E3B6D848EB4BD5F6A3AFCDA4F185308D11A3322DD330F5AF082BE5C3FFD210A225FA206AC2ED3AAF1B56A0E34CB85A85D74C4805F1B9CB03"
+          },
+          "dkm": "5B7FACEF3127E67E8C3A74F1E7D3586AFF677FB24144331D440298D515E21FC88696731AA00179143AC11258699D131359D8B691104CA9059188B2F44BE510A75BA44ED323D53D802E7E96E64E22A1F64B3E226A977534156D22A6EAC139E78173D609164C3D60687FB5CB4E19D404412D0EEC47FA4862681E8B11830957EBE5"
+        },
+        {
+          "tcId": 63,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "D4FDE780AC97C5349863562D634862E4",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "7223ED8918DB49C1FB120F5929A690A3",
+            "ephemeralData": "8B95CDB8DA4480D535150D7871D4A7F4AAED45B96CCDF6D594E1CC8696D2D0BB6925009D0343E7D38DEF695C64AA7BB570E79ED3B558A38C33D1FCC2170DC49F"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8DD3839C658F169AE9EA50CC03FAEE7E",
+            "ephemeralData": "040A2F8EDC41386BBA0E4208955A04883A9461E38F2E484CFDCB5E9FBE1FE1B6AC5198B07D62D7EBBDA3DEEA4ACBED416107DC068706C19DBAADF0B32CF60F99"
+          },
+          "dkm": "580FBFD108C306991F6A5B492A98346DA0848D6ED7C96DAB978516D7D87B257D44DBFEEEF37F91FBE846884BB09F84D19CC7203903AFF8F4C8F3DD466A2A1AF540BDFED5B2444FB39F21E14CF80E82FE862F619134B88E3038B07879174FEBA4E2ACDFDA4CD5C146F6B05681414475E680DB1FD27CCEEA9CB24318888B3F158A"
+        },
+        {
+          "tcId": 64,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "5F7BB503A445D83E5E523A0B84F70FD9",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "51880EA3C5B6D872BEC5DA2E908B90A7"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "72FA0FB5A2C95CD617C4F22D93BB940C",
+            "ephemeralData": "7C35DFC0B5199A7C675099DA5B01C03EE47D4964BDF343DF55FFE8F06E2C2F52BCC8BC1BFC7E5878C69E7A22D81FB4B4E28B7858CE60343950DB3E0D92611AE2"
+          },
+          "dkm": "028489E014472F7A27FB884DCA76D42A1E50D5F76A976D7617C2193448C498E577A120E1B4FAA1D338B375C3E8A417E03F5F52879A9B14FF12AB176632E3322C5C901BE24934A5C954AA539F9A2D8C47AFE386D9CFBEB9DDB985428620A65CC3770F50A8FAFAFE976776A632883AAC4C9ACAC7DB7D938EA95D1E4F8D5395E4D1"
+        },
+        {
+          "tcId": 65,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "KMAC-128",
+            "salt": "66900E6D229BBAEAAEB9E3877E243795",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A36CF3E9C1D75A41D10F257AC601EED4"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "2EA0D244C22AB7DFBDC85060F78D9939",
+            "ephemeralData": "81AEB41F6E4441B9497C5B9488C666DE80BC682D4CE13AF40B305A271535E9933788FD0FE46E9A09399D7383D20C497E5B4C3623549A037EBD988D084D7B57BD"
+          },
+          "dkm": "454A4BBD301452AC311018E16FE2A389A6679ED905ACFD637108808E6F7B11FC93A80CF8950500FCCECAB21052DA9F8F0006871AD12042577456818223AB7B2F1C9FD10B4FB3BFBB0E9C15B3BF1CD09FC901B6755A10EB0CD07AC51CD3A00725874EB4FDE60841F15C9BF4F095B710E17E9402EF096A557BBCF31BC4D49E3DC7"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 128,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "KMAC-128"
+      }
+    },
+    {
+      "tgId": 14,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 66,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "D74119506830F3B5756BD5AD73499D6A",
+            "ephemeralData": "C7DF1AA21D91AB3120DDF308E52183859C2D40910E75B90AD1007C931CA943A6ECE270DA24294C565A51B21CE438332FE4AB578834DAC638BA3ECB69E80682D3"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "15C9423D63D96733B2518EAD448DEDE4",
+            "ephemeralData": "A6EB9A4249E125A89D376224178F89E93850C868A223DFDA08E878887B15FE7CE2EEE27A19A1B26E32F6EFE8B3A42AADD9F02EE2EAE8EB8965B3E4FC4F579E8C"
+          },
+          "dkm": "62E55138101A45BEE32315AD43AA88ECB50E2996D02988911F1D73D1CE939DAB353CF8CF9854BE714E0ACD10AB23759F8CF132954717AC07C156FB73E901F9B4F2CCE41207E163D8A0248237E93C269AFAB6F25C1B2F054D9B3FEBC11ED623871DB40A40AEE6ED42943AD72D96F9BDE81B27F97FE5C226511939F04DAB810956"
+        },
+        {
+          "tcId": 67,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "1B1C7BD803C3E68D6A0E4F92DC9EEE56",
+            "ephemeralData": "BD7643F283F0D8152001E335EF49AE460A45201B459183964274AF0E41BC043C202642E2C4B95ED4114449A837E68B8E547CDC484AF309005907ABE1C4EA5969"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B3F6FEB724A1A417DF453B1F440DD3E2"
+          },
+          "dkm": "03E1FC8BA23B876A0CA237F69E0A0488FBC11AEED1697302A3EE7B7D13F23FBE6C69A5F4A574615C84EBBF38E3DA56F631F9FFBAC11F7899CA6076BEDD68C84F1519DBE2839124189F2A492CDD8E195F8580FCED59497D6B3583D8A93AC438A1360C1C75B13FFB3E5BE5CDCA300CF48DBC570640F492D43E9B9BD908A3E1ACFC"
+        },
+        {
+          "tcId": 68,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "58753D3901875CB2833F8F781081623C"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "82210E04A290091BAA24A7731AD33F0F",
+            "ephemeralData": "CBD116C56C4897C6F8AF555CFB18E0D1A916654B1AFA670FF4454363F47C347F654DADE1AE855D655DBBC8552CC513EBC2BF600444D98C79B3C44AC9AEF481C0"
+          },
+          "dkm": "3F28FCEA3EBDCBF7D23F4ED908E3BC759AEDB68DECFFCC8B870E06BE30CDB57F781443AB25F8D21A56C721FDC0925FDA03FC6CC2AC73814A064534530DFFB0734A2490F8FE0376ADE49AC7707512FD0564122E18FEED65CA2A0A9DA66BC1F168894FCE6931D5749D9A20366DC420F967592EBD201E28E5E1127B12E40E62B3B6"
+        },
+        {
+          "tcId": 69,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "2E83215B215903284FBDE22CC65814B8"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "AE3072584170DCCB044DD12142FF6A01",
+            "ephemeralData": "2AD0E47CF53ABD06000A5B72ADE792858B374D739C2763CDE8AA08663A890F722991CF0E4D0660C10A42974053BDC470AEEB5093B7DA35FADE328256FCC84897"
+          },
+          "dkm": "3146556CA10136F8BF3CE4F6B8710179F00A71319DB8C00C49D22B522D9903D7D2414029DFC7E4556C085F38B456A21D805D1F64EA4C7674C790DD7F65256F09095487ABB01DC4A1E283712DC2CB746F679FE15ACE4ACF680205381244D1591FE15BE3B443EC3C66C38DEA8A9D5CB17CC46C5628355DBFA6B620B6EDC75D608F"
+        },
+        {
+          "tcId": 70,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-224",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "7B036DB326DFA6231DD83EBE1F216237"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "957067164353FEE21BB659E74025416E",
+            "ephemeralData": "BD883859C07658F8BB473F58CA5326FF984FC976C71DDD66A7D278B70161AD916E3E0CD98540DC036B0850BE55189DC31C546692513F91C962BE999C7AC3010B"
+          },
+          "dkm": "FCCF27A1A2BF8DA82FA1EEEBD5A8D4C5482220C98720CEBD93CB11EE1B90F26BDB8D3DAE4CD28B88B3FE394D2FD40C8A4FAB33EAEAF6AA9D0312C271D5D62C35A1F4875D4866FC9D7B25C2BB95A8F5949B8D26CFC2099A8381E1499A39DDC52C42E215B3F49F641F4BE0CA52F45FB686839D2ACC0904FC1EEB045E78A807D8B0"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA2-224"
+      }
+    },
+    {
+      "tgId": 15,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 71,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "006F3EAE962DB0E77A900114893A7FBA"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3D8FD97510B8E4021209428AF59BBF06",
+            "ephemeralData": "E35B93A3EB0F15736CE6C59979512E6C533F22913F352F2EFF081AB8BEA1A3589DD7716AD81C1276313D2F2477F65F23E14C91C2F0770355C66CC0FD8647B19C"
+          },
+          "dkm": "0A880A0BF0F5124AEC4F6D5957873ED6F8AE31E7FB6351AA478148AC03C757C20053034D6EFEFDCA880F5E50C7F460D63BE71D6170135FC590F87EEEA97D959104C677507A7E41339657EC26400308E95B9062B4F31C15AC2F55E18A9D038EF2CAA92FDC9A9A71B387ACD28F107A95B0863CF25C8F12B489E28173EB675812F2"
+        },
+        {
+          "tcId": 72,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "B2DEE99726282CA5CD153D482BB8DBE2",
+            "ephemeralData": "DED77694E91A06BA31109B93681BBC17C021CF1BEBE4365A2CC0454FC6F90D43D0C3841CE71B383195C6C497164B817C69106B83FDF95163F45EAF214B9C81F6"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "6179DBE060BB1FC037194A7275BA288E"
+          },
+          "dkm": "83A4A759BB7979E74FD9926DC8A4798BFED1A40EE6E8ABA57545229B32E799B7D03CEEAE746009F26AF6EDD1AFF72C22F3BF244A6F0B6CDDBD6443EB33DEAD1B87A0EB9A96A591B72AFEBC9A1CF96E91E7A84FA0449B22C39D06392B3F75B5C1BD1192183B5B0DEBFA15A062A61D8E09E0CC6A62282D268E0F37E8C0989CEA0E"
+        },
+        {
+          "tcId": 73,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "3ABA0F8F94775D6E5BF8417F32BD9D14"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "94E3CE69B61F0955158792BA3272B0F3",
+            "ephemeralData": "BF8FD1BCBF683FD525F5F945E988245059695EF942F6FDC8BB0AAEC5D9907600938E04A5D937291D350A59249A9EE5E191CEB0ECB68D50C334AAF4E98575E07F"
+          },
+          "dkm": "45A818FE1F391D8CB99C3F27CB19FFAF82CF5F09B24EB5C86D0D9422BBEEDAC42241BB58DC053444D51708D4D0A228D203709530CBC196370015020DD2C0AE97F032F7B49FB3B9811ECC750730B840ACBAD018D9508BA3FAD619151B3E9B8E18AF7A0145F3CA0828665C8C542A2FE4CC551F223912DB04609A6822E1ECA812EB"
+        },
+        {
+          "tcId": 74,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "D3DAAE596B7424DF6DE699412BE18ACF"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "47A02C58667E04A29EF66917D6F45181",
+            "ephemeralData": "D3C40D9A66E4AF4B545EC04C26BFBD1D8CBCB5C9E7BD097E237C7A386DA20C23D3F8860768949F8DEA21B7EF86530599A86078E6E82D815ACC752E05719A6C0C"
+          },
+          "dkm": "EFCC84DE6F6C95A7D465D5E51B5439C13AF6CF6C0F9D56B6F058795345BB9D33C8C1B9EE8F7EC70222385A4F7EAFA6194C3B63C6B9B616F7933263A258C4DC5B98B27CFC905DED26ED3EF08F1D888D5EED710D27DD14464D804FBF8C7547E3737B348100BB46DC25903BF1E70935FDB834AC037B7891DFF091DE141B94076ADF"
+        },
+        {
+          "tcId": 75,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "00000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "CC16613BD8348E64B1C9E9EAA822AE9A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "49819AAAC086E1458EB3748004502ED4"
+          },
+          "dkm": "DDE1B2711510287AB6FCAA2EC636E1E28556B5F777D628E05BC481A6F685C6D7EE84F2E9989B3E3FF9CFAA32319E078D694B85207BB8C6A4C5A0173F4536F326B65EA7A1901C32B4330DA1A7045EA57C98CC25667AD68BBB80442D162FCBCB713D3DAD1B90C760CD9A43BEF0A02D60337BC273353F6C1B7983C55FF39302DEF7"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 224,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-224"
+      }
+    },
+    {
+      "tgId": 16,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 76,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "D5A71366B0DC31C7008A1B45F2D6EBE1A928C583AD4DC64A68A4A066",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A699C430C6C92F402494496AD461482E",
+            "ephemeralData": "7B5957427F839ED42A62FD45DDB89F52276A1A4ECF774E8BA38E1A8E40C6AC8F0B53762B7E622025C80B58DFA954E678267608D60A467AF285D6A5A0A867DF82"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "0B7A3BE0901EB1575D983641297B3B26"
+          },
+          "dkm": "959E315C98B688004837734E0C89B990E9F8875D8EE0F031F93CAECFA64C14760D01DD074C344DBB6C2D5C987609B9ACA3FD669B7E88D58536DA207565B0C4692BC178737ED4EC9476B0F91BD38D49A1CF85A3E57C34DC098370CA3BB7428CC8B7ED65F323607CBBBF7C53BCF9BA572FCBEE433403F062EE3EEE29C59C952125"
+        },
+        {
+          "tcId": 77,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "1D053A6B3EF53056DCCDAD1753500A7E5B980C55C6B603377AB6A423",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0265F95AD47078F0CC0C318A1C55AA6E"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3F9C10901ABE3643BFC36B85A1F6EE3E"
+          },
+          "dkm": "0B4E6A3808AD8FE89D5BBE9C0FEE8FD89218ED0DC9A2DB3DA458731815F3119BF33CC52D026168C67136D30A98AE0044A8B8B98A95CB400CDBFD340CCE26B46E2A7ECDF7A4A02424951A31C7B3066FAAC3A1247211737E53019AAEC6DA3909EA2551E5A82FA2FD6BFFB4D168648FA97944A663674D2D1D81AD1B97C90E0E117D"
+        },
+        {
+          "tcId": 78,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "875F7C36E150AE4C3D7602DBD3778B670787EDE9F03F1115416E1575",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "948B8F4B94C8AB86BCBA7D4129B6C9EA"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "61BFB8D8BB6AFC134FDDFF6A39C44DB6",
+            "ephemeralData": "6B95F47A8B587D0C7A74FC0AEF083AC9D0627CD11151A27F52FC333DB495623309F2AE0150802DD9D9C9807464B5C9D080A02CB1D30CED199745FBB93257D6FA"
+          },
+          "dkm": "06FA0E06FE09252529816FFD4062FEB4ECDAE44CFB1721CD863927DA3C73D6CD757C827BEEBEF579EA2565724749615AEE8924DCB9E0F4260F294916E43EB058B60B4F52E60059A5797639B814A8CB8FE47BEA2910D572BE181B818FA839691605E6C7167947F7E73E05C3210A2873B2EAE17B801A2C5649D2C07817729AEC49"
+        },
+        {
+          "tcId": 79,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "1439D469C553416C4CE34475B1DF49457F120D9730640A7292E93413",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "0AD9A66A0EBF106451616F71E36AF48A",
+            "ephemeralData": "50438C86DEA25EBD560BCD1C70DE1B48AC309BE67D9A201BEA39469770B1B7CAAA78857FC28373979052C2363DBC368BF2776434B57BF1D6C34E0A513AEE0F19"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "FBAAD4271521D1FC455B07B37DEBD079"
+          },
+          "dkm": "FDB26E13BFEBD3D631EC0A9C964DD8CFFA53C72D51DFC1DF000D109F828EC2A0BB01CED256D46AD52FCBDB397025F273727A170314FB34A7BDCFE787DF3681F8658E61E408F8EA33525F07FA148D6C26D2738B82FD840C65DDE92C22859C3C36E1C2F0A66792179354EB0274EEE8B159FBF997BAB23190964486B81795D32931"
+        },
+        {
+          "tcId": 80,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-224",
+            "salt": "064531D74DD33E8483A219E2F3327389625EE80BFAD4F8DF1C2A4711",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "549EA69B32793598BA6F903958EF9564"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "AF1C53F486DAB017B0C57AD712351278",
+            "ephemeralData": "30DD3A4E785DE626467BDD6C566E992C1853C4517B020267E3DE51445DD2A3825DE1A43394E021A7291A8D7CD2AFFC86EDAD97C4EB73FED410CE2E9A051040D3"
+          },
+          "dkm": "1DBA506FF83066692477E2A826C2F0ED95DCA9C06FDBCCA0356F8BD678C0953422EDE3DF7BFA5DEF7F517F25347CDC40F4E9A69F5848D2A276642CD01C18EE4388776DFAAF1F33B69A14325D591E03BF11A04AEB7F8CDB608E15F567D22E9DA2D5012D8AA5052336A8D9CBE144CF04679A6D137106334E49E88A626EF09284ED"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 224,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-224"
+      }
+    },
+    {
+      "tgId": 17,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 81,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "F132DB5A37CE6C62F4E1A788DD4C3DB0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D5F78130D6120B618627053B7809BDDA",
+            "ephemeralData": "00566077C802BB10DF28772B062A3838199E6ADFF90904DAA9EAD711E9867761D6EB311DCE9C2757253875BA5ECB7A069DD9F1C21B470C32732F13EF59E04954"
+          },
+          "dkm": "300859DA8CF0EC5239E2FD9CC8D45193EDECD2882A04F023D46A8AEB1DBBBBF085CEA589CD70232C6E28A8353920B23624025AB7876E9881C7FDDDF329B5EE5017F86B119BB08DFF80746DB4D5AB0F9E451809B50F968FCECD63981CAB497A0197CB658294528DC238A00268F3DF795D913E27512DEB83D881A852EEFBC75343"
+        },
+        {
+          "tcId": 82,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "D6D18EA43401092890E73C5E0471BB2C",
+            "ephemeralData": "C732228C0B2E946DC3D73ABC7B6F09B4E9A7A12E992F9B04B3CBFE9FBEDEF5AFEC7467364A7C5548199A28E59C1512342A4C1F81EFB9A32E686D086077AE08EC"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "A7EB01F84A976147358B8E418B3FCC2E"
+          },
+          "dkm": "0CC9D40BE6452A42B402ECC9FE347AFA11788DC8C94D56D5F0F14C4820FE22362DCF5DF26755E7607899E01928F9C37AC0BD4E03D068632107BFB1274E25893839BB8DC5EB402173E9DAEA15859335FA287332DF4BFBB269F7554617E31A91163BC283AB4EA0DA583B7C21B7ACA6B3B10E0501AA72599F7FE9B69E62F804FB8C"
+        },
+        {
+          "tcId": 83,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "B76D7BEC19503E3C93D5D264DC6A1500"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B05857EE9AD4170E0185C1974F93E37B",
+            "ephemeralData": "4EE14F905E3ACABD8EA9D106A76BD9950BE3745545FB744297C6D4065B83AC68F8E64DF901BA55DBE5546896DE52B083C03E0B2A8C2F7C9CDB504BB415B011F7"
+          },
+          "dkm": "0CDD1345CDB73EB85CE7990995FC68F92DD7CED765BD92125282BC9B161A66FF7694CB2BB6DE7A4A9D716F55FD10145740C1D4A2FFC6FA333CAE161FEAFD8CA326E101017287BBD00D6AB035EA6DE40F8AD2DFDAC3615F8B5F1BD46D8AD2D2F773BAF390FDE2250421A4FCBA96E99630EE4AAC5208D12FB3CD36F5D72B75300F"
+        },
+        {
+          "tcId": 84,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "4858FD66BF5E5EB70FCA8C0D87815416"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "1C9E904C3575547D529C327984C4F43D"
+          },
+          "dkm": "DFFBFB647D0D0E048F0606DC535E4B8B5EE2C2A53DC579D34A3B2093ED4C7F53D5D0FDBADFA89AA372C1DA7B3BF971EFF99AE3A7499E291DFF3F654DE224CC293E5688E54840979A31FC433FDE7B2A0456FE9D77AD45C04D797D75092D66BD048CA2C0246A3C7D4E8BE150FF617A9A47C260E4CECD59F18E9ED640A6C1824633"
+        },
+        {
+          "tcId": 85,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA2-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "FF002D74B0F1DA14223050CBD38AC021"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "BFBB6234EB9AE9965B7F7C9DDEC5FC50"
+          },
+          "dkm": "6277FB60E3A09B9B2F3E77264F996C7BD77A30C1481B1A80AD2C7FDB4C65DF34685A88616E29542C46646AE60C75E82D83D9DFD4D524EB3A08F9CCDF472212451DCA0C72527D1859726FECFDA67000BBA01088F155011B428AB2B8D353E9AECCEAD612961CD523F13E32D094E34454AA6170A3403AD794E6BC8CF016AF227F90"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA2-512"
+      }
+    },
+    {
+      "tgId": 18,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 86,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "55A48BC66278ABF2F8ADCDBB9C331FF4"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8B337B64E625AC0A949513A3E46BC8F5"
+          },
+          "dkm": "D9B8E4757489B7FF6E92230AD2176F169B2F0D2398A69597B2ACE91F07799F86CFE1E7AAD922754F4641B2E9A4A39972226B8F1CC40BF87B5A6B0A26042007596B3C89F8A9F3E510A1C62D47C412A34391BCB62CB4EC56AEA7C4F548AA588BEB291FFDB62FA7C9B8F3C92848A0392881FC00BF1416044B06E69AF8FFE9439F0B"
+        },
+        {
+          "tcId": 87,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "3B8A4008FDEAEF24989DD56E48B58283"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B67EA841AAEE05AA73E84358CBEB5256",
+            "ephemeralData": "6E17A35DAE017699326BA7D774FB7CBEAE57D018B707C59925E49AF7B1E3EE476C47E2EEAECFC4D4CD3E2AAE0FA633452E305753A3D08C5006512D72D643D85D"
+          },
+          "dkm": "37FA3CB72D6096BF28DFB0C529D27DD7C758C70E14D8519467C1086EA16D25697B903AAE1DB6762AAC0D7B114F2699F709A06A6542F10B05269C2FE5FE8C32B821FD66595194414BCDC6FB5A57BB65D509F1E22CCAAB78D06874D991A8F63F32AD1E93E64832520FA199B328188047FA29B6FB44981D3B3A57AB214A07B0A87A"
+        },
+        {
+          "tcId": 88,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "27325053FBA98B759A869D3FB8553D36",
+            "ephemeralData": "8FD64614FFAB86DE66CB7BFDE5D40104C85C5FEE8771E273E226FEC5FB696ACF90D53EFF9A46100FF3704803AB346A7EFAA4C3193B9815CDD6E15A10BA7A4FAF"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B005E9D7213851448034A859AE6B073F",
+            "ephemeralData": "73F410E74F15313A0E05BD1FA1F5160B831E2DF58B550F17744F26D8B1964CFA81F58FAA43ABA053CD5B6FADF3E647E10B2CCE26533F1D039E5493F069FE957E"
+          },
+          "dkm": "6E4648B4F4AB833C8A8A4DAAE4567FBF5E1141A14AE6FDFC86FC08A693E782A5B97184BBE3792B5E0DABAB3DF1D5D35C937B1E553A3EFA28C82A174A10CFDD4ABD3BA83887C0CE86093ADCD5796EBC6B2C0FB7C37F3D5E70142848EF2E48973BD07BD322AD1096666FB94B1F502BAC41DB2EDBDED30CCCCCCF94D665B2F8EFE9"
+        },
+        {
+          "tcId": 89,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "047CD56F6F589F192C3A65D5374572EF",
+            "ephemeralData": "DF96FAB45AA85B2E45846D6AE95E70497BA3E49993BFEC57D5099C6A631C24FE96BB36B4F3E98B5AE707AEBA9712EB11FE0F237547A0D2154BEE9DE5034236F3"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "754D74EECE403DE27494AC0751480A16"
+          },
+          "dkm": "0ED7D4524E52C91408C70400923123215230F6B0FF10EF3682251EAA6B5AEDC93FE003CB8DEFCF57C15FA06C127841A9BF8A03CA113DC366976396DC69E1461A034EAEC5099F06DC5DB030F532BFB75CFE15BB3C080D061E27C2C0696DB702E1703EFBB94D75074E30E06AD899B22AB4B1360B721C80EF899314F3E40E37493F"
+        },
+        {
+          "tcId": 90,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "F369BD185F2E88353A393104F0C87DAB",
+            "ephemeralData": "533757C2C068B1F57FD0AEE34D51853ECC29DF03CF9BDFFDA3C90CBFED9A9A88A99514D9731721B6C51F0BB445866FC7D9F0BC0B5B35626811CADAE21F77148A"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "D7C14F6FD547E3A6BA1A032271D28BCD",
+            "ephemeralData": "0ACF73C59F2DE8F9A13FCA494D272EA0019D170B0B07A7F7C58690E32176C991EFA50FFA6600A7966B3BAAB80C780247A7A6E108A30EF71AC9DAC647C354354B"
+          },
+          "dkm": "15B7DD03B4544B6418BAB29799AE16DAEB40E1B27C57958927B3B9E69C14D419A2254BF6E31B774EF79DF44F9C6C32BCCC37EFD2F4BB287CBF368191F4443F84A0AADCA6CDF2BE6890F0C4F11D81A29BF05FF8DB243AE5E313986822AA1708A34CC72614894AB3FDF6220167BB57AB65E03AFCA95342C5330A1AB3C12848D4B5"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-512"
+      }
+    },
+    {
+      "tgId": 19,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 91,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "E99B538024AFC6F0EF05244347947912C7497CA36D54CEE77233C130F3C1E51C409BAEE299024C3ED6BF3F9AEE092E60D581099A3A34DB977DED8370EE9CB02F",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A6D94F07239502BC6F638325809974A4"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "6898FA09BE38B7429B01C7ADED23D565",
+            "ephemeralData": "D5016044969D08FC125FFE32D4618FEC0E5FEE64FD243A98C5EC4B053046A8BAFC08B3B02ACCE2E597ADF6FF696525A72F4CA8E3AC9CC988B28A107882A0A909"
+          },
+          "dkm": "94A575D5EFA7138C323DF03E5A876880219AD470A2B3022EAA04B3EFDD006C73B5313405470001499E13FEBCEFB41A2A7C0DDAA60C29BC04B47A76A334FC88CE81AB657EA7A905309D6C90B8ABA953FDE6081ED03F6D16B62C8C57B775F5A79BE2D7F3632B1DD22B96B639244E8502709B7DEB36ACF922676FC8E57C6D9A725F"
+        },
+        {
+          "tcId": 92,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "D466753EE614AD94EC99B01EA6862EF8B9E32F7832EB27654698717E5918D3857F944F1B9AF59EC0864BFB07E40E85272986CA2A3479CD23820F3485D433DFE7",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "80A30A34F769D7352F108E1EF81F90C0"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "77AB637F6DA4E5AF0A471B0486D93149"
+          },
+          "dkm": "0AA58378AC69B48CBA8DF57CB7F2817B19978EE38A6B8303D7EFD1A050E77D953E1F3B89A658BE663E6AA55353704647FD49C847DB19BC977E9A5512D4C4FF6291D7E971E70437470845320E644FEC18F4B861573A6874CFBA9D6F8A3889D1E4176E87E29E1F9BCDF7FC50102D61EB659C290218932A3DA85B0B6B0505D42EE6"
+        },
+        {
+          "tcId": 93,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "BF0290E056B4507DE3FC6B9176330902662A55E3461B9660DFB6AD54D1228BACE36C2563AF113F950739560C993CC162D018E07DCE8449E4653FF2954957B63A",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "080F1E8A74CCF202DC0DE089DFE1695E",
+            "ephemeralData": "26350FFA97B81E8AC8CC634749C8B2B72AD907B9ED0651F57D948C37A129E95AD0305C59DCF13265664C01C9A5C8D5C1C114C728D453F3838EEBEBC91D85D7C9"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "5DAD5FFB78B04A403489739E3F7A83C2"
+          },
+          "dkm": "599FB59A5DFF30F86819AC6755391A057335966A05987FE7900FEC492E67139AE42A7EF9EC390FC406CF416E6843AE1B594F6807B711E1AD03295D3D42AD3F6CC7E8CC574A973DF51DB152A35EFBE20E395716B3B3D3BCFF322257BC5B4F4B754FF1EBC0EE2A4431FCF4291840A474F5828AD399FA5F9E41637AE2FE7D7E1912"
+        },
+        {
+          "tcId": 94,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "94656CADAA3FA9E40DC1A6C704EDB7CAF034B232DED4DAAE51AB1AE2AB78C229E8C528E4AA383E652A3D665B602168C25D39536B6A7587BC4A16E6E9A5D42273",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "C18E2A79F6F1A3327D425242510B6F2C",
+            "ephemeralData": "9484F7CC0A3D0329FDC58C0860EF7DF72E8C988F19266ACDB9EE5B7EBA8680E53041876246E933224A5E43293485C98A78FA74A5E5B2391BE73DB53E604E8740"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8ABB451DBF66CBDB2EF940EE240082F7",
+            "ephemeralData": "AAB532EA5CD760987A3FF2AE238BD98FDDF6107EAF6469A75A16FC9FA71063B248E4DF05263D85C084B74067980C2191E5D6EDE41E7B9089BB5827E198E44FBB"
+          },
+          "dkm": "872003BFC9FDBA3A4A73EE2D4902E48E1775A6A2267DC566071454A9FBA574542982D570128D70058D09D479A3AA87CB580A68C6317ED6736920902BBD5B308173E41A5445A211522E28926DABB8F138AE82912635355B0861A58C74EA3F239280B939B58A1078490F43461170E01ACC398D2E6D1A69BFCFE112AC5D6384DE75"
+        },
+        {
+          "tcId": 95,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA2-512",
+            "salt": "D24EF25BBA99BC079662799912FE0AB38BA5EF5DBEA48D1582B9B81D1498384502D86EFF2D55B6107FF27F02789F2642514F1B75476810414E20B171A93CFA16",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E8B5ED21FC1E02C3A8332AAD083541F6"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "0903498601B5FB156FE5AB9554A6C539",
+            "ephemeralData": "915AC7418D19693F241E44F5554B8333EBC609AA36C753615514942FE067E9F31BB83CA67D2F97994F956019C40DF43A7E820F4F663A74CD01457025B2B8D585"
+          },
+          "dkm": "CE767B75B85FDD992EFF6F927F1D1B8ED2C9CDE6320F57079646A4CCF76C920BC0B66EE41889E99CA2B8A088EF813B9B27E0C811FB2A21D1BAB3DF0C9963D7C087E4D7B77B69706CC28870DBBF6304E8240244FB83E5D93657DEFBA2180176153279AC68E04C4D6D441F789B8DAB2798096C5547FFC75A56ACFC2816F8059370"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA2-512"
+      }
+    },
+    {
+      "tgId": 20,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 96,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "E6CB940D58BD32EE8D0E53235CF1C49D",
+            "ephemeralData": "FF999F068A0720819F97C714CD6DAF3A35AD43B94F51B8323761F493CB7CB3880ACCD2091E86B1EEB9E4663D1FB7C69FA982FC40495403D2A3BE8C3CF6D96506"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "AAFF941484EC7F65AB15B67F8DC14937"
+          },
+          "dkm": "0152692A838D0E0CD6779645DE92907A003C7967CFDC8436A4F8671DCFCB4CC27D1EEBA8B94880961EC30FF299AEDC05C254948862A84F648BF4A3AE6D7EDA434390EFF30CAE201C9614B49649BF156CAD4A13E45B2B7B0A509F22757C700CE86313299160C44DC8030D22C49A5204E56484DD2F4A529D660535175CA1F560AB"
+        },
+        {
+          "tcId": 97,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "88FDB45A2B7D2B85A76DA3B9C3D2B50B"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "CC9ED8DE01105E0DFB00B43A91086BA2"
+          },
+          "dkm": "A6061C71AF9E5F97C6A934F5324C4A1114955127A8EB467815A5DBEE08BF6BA4513AC90694E0DDF9A607CF53EDF6985BF35E63CC228B9329654C90868EEEA16FB837BD639424350EE83FB3C599D6A7D6A1535B4BB4B1237F48BDC006542D43C60FBC99FA6C6BAE9FC58BFDC7BACD887D21ABCCCD33FF42EFA8204B2211C2E6E4"
+        },
+        {
+          "tcId": 98,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "DE5BB4AA5FB0A8DE3D52A06B3782D4E4"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "8E588A99B0B8DB9008BB2ECE33214E0C",
+            "ephemeralData": "9C0202F4238F1D66B3ED051B927AFBF933678E0BFEEEA385950DD4F94FEBF8D0581D448C99C4DB2EC7A515C4893CF81EB5BFA7297AAF2FE08F9CB9FEBDE50CC9"
+          },
+          "dkm": "9725486EA77977F3FD25FF8A956BB270FF5879C04A31BEA93F4B54419448B06D934478CB53CA8B4AAD6BAF6FFBBE028B00AA3B1A3FED5C4AD3EEF733DE4C950A71890FE97E5950C41058AE182A5BCBA10188E79096453C07450F2BC1F55ED9EA0A6E9ABE6E61515AC106CF91670C86D609662067D5B772134E6EDED551E370DD"
+        },
+        {
+          "tcId": 99,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "71709E830BC92194D65CFF273B63AF60"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "F6433CAE2D512124C1B4830DEBCB6A0A",
+            "ephemeralData": "EF74034E3276F4C0F375E938990062F172656042F338CDBD3ED518CD85593D1585E4E6A90BDD027AAE2B52D00C0BA2ADCB60AFBE617290D51D0E2B34F0A3EB45"
+          },
+          "dkm": "1D843EFCADED7AF3CA38E8B67E4C3BF28624B2E79D3BBF4122722686FBC1D95C939D3A448BE4E53379A862BBF99EE3EDEE90BD71F18A6922DBB5E9B93DDE7FD0DD6AD5940E33805D38C39B54509DA9560C085928D5D71E03BCA08C303767BADE3B6F1990B5DBB1DDFA586F03662C233868F4B2CEC2DE37AAAABB1CD780F87C7E"
+        },
+        {
+          "tcId": 100,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "SHA3-512",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "12911A2D01DADE253B2A6D5E0331AE34"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "544AB077FA715D52F86FDB190255E6BD"
+          },
+          "dkm": "8E58A4AFFFA99AD9DA70017BEAD60A0B32F3A87C488CFEF8428902AC2E04ED54F3BF3D37A1D2E894C3AA17170708A43AD1923430F411F5A6FA38A011182DD4AF7E935F92A88CB420E4B7236E3A28837E793F1BF13062B653CDB12A4647A4D25B9A585BC28DF8466E4BF9B8AAAC05BB45348D6D73AAD908DC758C550E54FA8CAD"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "SHA3-512"
+      }
+    },
+    {
+      "tgId": 21,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 101,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "5BF4BA1E3240993F92CFCCC572CF9843",
+            "ephemeralData": "7ACE2CDB1AD071F84B3D1F6555B748FA87C9D9A85FBF9BB61BA95E350CF0A4FD5A248B08ECA27FF622ED31783C8E6466EA451275B8266C06D6197D9AC694E67C"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "1C7A8D72DC8673BB07B53921D0BACC47",
+            "ephemeralData": "CB06450234232C31B4BCFD9E752D0FFC322B79F1267C69DCD678A60E3AC064B4F76BD96099F29AB093C065F91FDC1844CD89408F8EC313A567DEF5CFD4BFF21A"
+          },
+          "dkm": "C368CD0AF4CE6E41A9EDC84433D5375284A4C2DDC6230B021F5A529020707E59987B8846D3AD29FF35E9EE7BCD8CA459062E3992CB0B2D0F87420B45C088FDFDA89BAB3979F5B0A9C8853429A77611B09F46A65FB8CF0C9BC310FEF8FE65CAFA4777B9B027F1D96FF9E433D9C4C7F23341FA74A0F0EA941F1C50437ABC2B63AD"
+        },
+        {
+          "tcId": 102,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "BAE48AFD2429A45AD4384D89BECC2788"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "52DD7F298AF9C973C430AF42F5E8DDA4"
+          },
+          "dkm": "217E10DB0C66A4C3CA4A9C736ABC9449BDFE5FB033002C240E2C1ABE771B0EBA1DFEC8754ED9780B6ABE0398F0633CA2F5319367C3CF9052DA5256DACCFCC03E059D8A0025D6A91F652BD0E8598D426268B35A144269C2996A8BFD4F64CD5711564A0511BFB5063059FD7D290FF838A8D890732C7361BD891A05951C503F2589"
+        },
+        {
+          "tcId": 103,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "3B9C4601D2939DE7C26D504BC80FEAA7"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "9AD01E829CE8E09AA665811EB7620BF2",
+            "ephemeralData": "E606529055A5D3E189FED36D8C64451E98766AFEC0D28B8B0AEA55BE5234F538C37F65258470B121AA69890CC662911D56C947233C66C14C2CD60007C77D4A12"
+          },
+          "dkm": "084B7E23AA96EAFEFFCC4D2FE2C45E541AB8C0074069C10ACB9D8A411F70C25FB53385B11C7F41718942954205154E3A3896F1C9D58BB86AF0D6F170780B6BC2FC53854D4AA1CA5FAB5ABD0A97C897F1F665A01087F8172C5365CE0BBAE6E027D133BC3F8B8EA42D75C9D9FA76D8619F324F64A9859E0A7350A7506D9D255C94"
+        },
+        {
+          "tcId": 104,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "F44FA0A00864F66FD2DC9F7EB2651C78"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "3D8C77D9DF97251930EE1E3F255D055B",
+            "ephemeralData": "D14C6957C201F05FFB9B84DEE6268293C21F48BD28D7E6AE3334A38EF06B93CBD77E95F34479658176FE3971B8AD91B35D0463F9E831F5673FAED12783665E35"
+          },
+          "dkm": "F829EDDF7E4951339E0DED54AB098E9BAED53071A786455E2E78678654A3DB1B7A95086221FC979E88358BD237A822B5DDA7D88BB2B5AF88426CF094BE91DC261AA03B32A59AFB6D8D60CD76CBCB5B47265872F88EEEF0BC142663117962A6C7F534AFCDB2E477BFBB6310981BF55601C1C764D3CA54D5F30AAB9E47B3391C90"
+        },
+        {
+          "tcId": 105,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "826A205D5020EE2DD1FA36083CDD321E"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "4B18910F3FE2E11C392F16D48A58F500",
+            "ephemeralData": "7F2CA8471801F7A6C37DC5854E01FBAE4C5EF1F81B35CB9758FBE9DCA8123205085C1E921754EB02AD1B4AAE8592430E443394BD4736FB9EBFC09C0404A5C20E"
+          },
+          "dkm": "3ED42E4BDEBE6A78C0458CD0FA010FE1092475D2BC4726EB05EE7C8F241DC728578CC54328910500E04D82CC699CA62385E5029FCD0BADC254F843C5AE637EE728D9E8F26C50530C546D8BC581615F48298CE0AE944D226EF9423E565CAAE7FD4CDDB253F462B682B84CAF52F171F6BB5D0E0E43E4CF310CB42E87B4A0D3792E"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "default",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA3-512"
+      }
+    },
+    {
+      "tgId": 22,
+      "testType": "VAL",
+      "tests": [
+        {
+          "tcId": 106,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "D0D5A99FF6636D0F2CCAF929FDD31854BF441E79E914F218E925365498494969016D5489521174A4DFF276E844C347E10CF72F463B161B245EFCB16B084D01A2",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "ABA2889458100977E83901CD1DD9BC91",
+            "ephemeralData": "55FD6220248950D849A6B091C9AB0883EA641E4FD9CE2722F9958AE4F45474D2BFB4A8F754A2D6DEA40639ADFA10BEE94F8D1E12C9EA27FEF5B7C2FB67F4DE82"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "C0542C6A85D817285E6A99CA9EF72A73"
+          },
+          "dkm": "29BF73BEC4D17EDB2E9A0F33615A3145C33C388308150F98909AEE2607779EB75F15F7E6FE641BEA525551E16FD6360DB58A3030FE829C8CDCC71CA50242205493288E186EE249DEBB7E1D9F7FEF6DD8F0913433589B898716220B5439422FA22D20A44D431DCF411532BE87BA0428691CAB3FF4EC1750AFBA3D9E1DF19AF17D"
+        },
+        {
+          "tcId": 107,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "8B43C1B084712531D46C9448985F45B0BA7395430F8568E7A709E9F93A705CD14C2431493F8416F99B784634BE94E6C945480EFF2FEC9FBC8D00359A6AC1AA1A",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "4F7FA8D0510AEBAED12BB5D3C6A6B0F6"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "17839E191D1806A640E6F310A26A073F",
+            "ephemeralData": "A25CD068C8C739507EAE1A14D9A0B9781288D8B2ACD89188F04A3B5671436C39874D94B412AE2C86C0BCE6B5FD6EC57963A0F41D6734473710E217F54DF90D65"
+          },
+          "dkm": "95E45C318A23A68829590F2DEA1A228B2ABABC6B4CA57191F584A69472A48CEFA10381B7DF0388E5BC2393BFF1279930F4639321498246F41D35C402F5EF36DF57AC2013CB6F8B8284FF2D3B0FE6ACEE1614E00082FE83262837154DCCE30666EF849732BF26335491A34A2D2D71205A56657F8568536DE9F0E5197B50B1A247"
+        },
+        {
+          "tcId": 108,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "377EF028F4B54D5DA823C3E750A3BD93F1B0524FF6325D1473C1764E3A6AEB3253FB50F7F1DBD6B8E9AC804ECB106487666CAE31CD134F8876E104CA6E370928",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "966220FC1A94FB3DBBAF0B1452139250"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "408D0D2AEC8B3BF7709A920EFE714C35"
+          },
+          "dkm": "F7705E229EB3290618D43D6AB5633B03386ECDB0FED16B18FB906E45A93DD958FB05AB08A35E9256A68D761EA628E558024CECC019C5244DC13F9F1F425E307C449A760FC71BD9E89013C93EDA53EE7DF34E9F2E7C6DD6A37FE2786EC499B63B89D594704803D0006736348F6432983046C6FDC2A5E87F1BE835D1F326A2DDAA"
+        },
+        {
+          "tcId": 109,
+          "testPassed": false,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "54CA8821A7B6379C7C87194D54D206D2C87D2E41CFBF03EBC9E668EE833A7F6FD72D0037D9511F6B9B1B87378B945ED05FDD127D0623F155016173C721D2B703",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "A5DD07FCC39B8E9821A464405CFB3C23"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "B5DB06D67958321E449EE20E3838D897",
+            "ephemeralData": "3D3C8847ED41F9E2489E38F92BC418F5772FE29FEF0E53635E87B04E9FA95B0EBF88C2A84C3222175D5A15027CE1DB116162BAEF62FEF200E4D4790F58563D5E"
+          },
+          "dkm": "636E1966A33FD3915C47890AE696DFD7D57B483ADDC5C370BAF7D4873A455588ACE90100EE03C5054F3D999E82AC68529A9F861321E0CE5AEF5BEC634FE2E6E5B7E8C8A23EF72CBB9D0EADCE5647596A8EB3B36CE6DB5715924441788BB0544784069F9B989D738CE1714C3DEFF2EBCD3156B24EE273A3BA2CE1C43E5EB04830"
+        },
+        {
+          "tcId": 110,
+          "testPassed": true,
+          "deferred": false,
+          "kdfParameter": {
+            "kdfType": "oneStep",
+            "requiresAdditionalNoncePair": false,
+            "auxFunction": "HMAC-SHA3-512",
+            "salt": "4255E6622C3D1C7283583EFFD0D9E4372D9A4CE9C6001F85D670F1CA8960CCCFC7E1A37A5A869FBA08CB893BE68A7762C2887B36B84605E5CF40E9CCF7243E0C",
+            "l": 1024,
+            "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+            "fixedInputEncoding": "concatenation"
+          },
+          "fixedInfoPartyU": {
+            "partyId": "37B27C4661AAE947D40AB462CB53C13F"
+          },
+          "fixedInfoPartyV": {
+            "partyId": "ABA150D4390BB38E440ADB6B1BE4B1A9",
+            "ephemeralData": "4EB8C64836A99F35375DD20811787A6678C12CF401AAC81F689EB34E967041B50899729AFE00D48649E6D4A8D8993F5BBFA53BCC1715D9C153C5480A2FE81C0B"
+          },
+          "dkm": "0CCA548E6760D18B185A188D445B7265C48EEA464413DC6A7442201C2955D81A1C21A4933C78B14E2CB21BE11FCBF2DA04212FEBD3E25D5350C6D5833B2E42FFB93C3205E2023271ABB8D21B779B3CCEECE9B536B6AC4E67BD165A95664D6BB356807FF514778C7F3D1D070BDA3C21CDA34F411CFFC8CED40C588F71CD567D3A"
+        }
+      ],
+      "isSample": true,
+      "kdfConfiguration": {
+        "kdfType": "oneStep",
+        "l": 1024,
+        "saltLen": 512,
+        "saltMethod": "random",
+        "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+        "fixedInfoEncoding": "concatenation",
+        "auxFunction": "HMAC-SHA3-512"
+      }
+    }
+  ]
+}
