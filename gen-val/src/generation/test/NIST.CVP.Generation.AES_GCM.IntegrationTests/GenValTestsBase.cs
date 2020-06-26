@@ -117,6 +117,27 @@ namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
                 IsSample = false
             };
 
+            // Below is a FULL registration for GCM if needed for testing
+            
+            // var tagDomain = new MathDomain();
+            // foreach (var tagLen in ParameterValidator.VALID_TAG_LENGTHS){
+            //     tagDomain.AddSegment(new ValueDomainSegment(tagLen));
+            // }
+            //
+            // var p = new Parameters()
+            // {
+            //     Algorithm = Algorithm,
+            //     Revision = Revision,
+            //     Direction = ParameterValidator.VALID_DIRECTIONS,
+            //     KeyLen = ParameterValidator.VALID_KEY_SIZES,
+            //     PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_PT, ParameterValidator.VALID_MAX_PT, 8)),
+            //     IvLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_IV, ParameterValidator.VALID_MAX_IV, 8)),
+            //     IvGen = ParameterValidator.VALID_IV_GEN[1],
+            //     IvGenMode = ParameterValidator.VALID_IV_GEN_MODE[1],
+            //     AadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, ParameterValidator.VALID_MIN_AAD, ParameterValidator.VALID_MAX_AAD, 8)),
+            //     TagLen = tagDomain
+            // };
+            
             return CreateRegistration(targetFolder, p);
         }
     }

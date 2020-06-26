@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.Helpers;
@@ -6,6 +7,7 @@ using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.AES_CBC_CTS.v1_0
 {
+    [Obsolete]
     public class TestGroupGeneratorMonteCarlo : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {
         public const string _MCT_TEST_TYPE_LABEL = "MCT";

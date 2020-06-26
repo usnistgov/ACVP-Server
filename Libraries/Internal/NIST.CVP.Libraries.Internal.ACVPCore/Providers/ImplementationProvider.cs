@@ -58,6 +58,32 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 						Country = data.address_country
 					};
 
+					List<Person> implContacts = new List<Person>();
+					try
+					{
+						var contactsData = db.QueryWithExpando("val.ImplementationContactsGet", inParams: new
+						{
+							ImplementationId = implementationID
+						});
+
+						if(contactsData != null)
+						{
+							foreach (var p in contactsData.Data)
+							{
+								implContacts.Add(new Person
+								{
+									ID = p.id,
+									Name = p.full_name
+								});
+							}
+						}
+					}
+					catch(Exception contactsException)
+					{
+						_logger.LogError(contactsException.Message);
+						return null;
+					}
+
 					// Why this can't be inlined is beyond my comprehension... tried it, but it gives NullReferences - RLS4 03/19/20
 					ImplementationType tmp = ImplementationTypeExtensions.FromString(data.module_type);
 
@@ -71,7 +97,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 						Type = tmp,
 						Version = data.module_version,
 						Description = data.module_description,
-						ITAR = data.product_itar
+						ITAR = data.product_itar,
+						Contacts = implContacts
 					};
 
 				}

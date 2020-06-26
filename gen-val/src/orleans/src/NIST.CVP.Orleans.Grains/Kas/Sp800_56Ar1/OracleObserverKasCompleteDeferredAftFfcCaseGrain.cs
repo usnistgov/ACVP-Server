@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
@@ -31,8 +32,14 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar1
         
         protected override async Task DoWorkAsync()
         {
-            // Notify observers of result
-            await Notify(_kasFactory.GetInstance(_param.KasMode).CompleteTest(_param));
+            try
+            {
+                await Notify(_kasFactory.GetInstance(_param.KasMode).CompleteTest(_param));
+            }
+            catch (Exception e)
+            {
+                await Throw(e);
+            }
         }
     }
 }

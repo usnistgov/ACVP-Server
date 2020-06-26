@@ -8,7 +8,7 @@ namespace NIST.CVP.Libraries.Shared.Enumerables
         public int PageSize { get; }
         public int CurrentPage { get; }
         public long TotalRecords { get; }
-        public long TotalPages => TotalRecords.CeilingDivide(PageSize);
+        public long TotalPages => PageSize == 0 ? 0 : TotalRecords.CeilingDivide(PageSize);
         
         public PagedEnumerable(IEnumerable<T> data, int pageSize, int currentPage, long totalRecords) : base(data)
         {

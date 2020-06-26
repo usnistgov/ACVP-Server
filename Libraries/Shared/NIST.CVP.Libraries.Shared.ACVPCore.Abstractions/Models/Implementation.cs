@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
+﻿using System.Collections.Generic;
+
+namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
 {
     public class Implementation
     {
@@ -11,5 +13,6 @@
         public string Version { get; set; }
         public string Description { get; set; }
         public bool ITAR { get; set; }
+        public List<Person> Contacts { get; set; }
     }
 }
