@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ValidationList } from '../../../models/validation/ValidationList';
 import { ValidationListParameters } from '../../../models/validation/ValidationListParameters';
 import { Validation } from '../../../models/validation/Validation';
+import { ValidationOEAlgorithmList } from '../../../models/validation/ValidationOEAlgorithmList';
+import { CapabilityDisplay } from '../../../models/validation/CapabilityDisplay';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +17,16 @@ export class ValidationProviderService {
 
   // Begin TestSession-related calls
   getValidations(params: ValidationListParameters) {
-    console.log(params);
     // These need to be here because the API handles nulls but not empty strings well, so we
     // need to null-out anything that's an empty-string due to the angular two-way data binding to a text box
-    if (params.productName === "") { params.productName = null; }
+    if (params.implementationName === "") { params.implementationName = null; }
     if (params.validationId === "") { params.validationId = null; }
     if (params.validationLabel === "") { params.validationLabel = null; }
 
-    var slightlyReformatted = {
+    let slightlyReformatted = {
       "page": params.page,
       "pageSize": params.pageSize,
-      "productName": params.productName,
+      "implementationName": params.implementationName,
       "validationId": parseInt(params.validationId),
       "validationLabel": params.validationLabel
     }
@@ -35,5 +36,13 @@ export class ValidationProviderService {
 
   getValidation(validationId: number) {
     return this.http.get<Validation>(this.apiRoot + '/Validations/' + validationId);
+  }
+
+  getValidationOEAlgorithms(validationId: number) {
+    return this.http.get<ValidationOEAlgorithmList>(this.apiRoot + '/Validations/' + validationId + '/validationOEAlgorithms');
+  }
+
+  getCapabilityHTML(validationOEAlgorithmId: number) {
+    return this.http.get<CapabilityDisplay>(this.apiRoot + '/Validations/' + 5 + '/validationOEAlgorithm/' + validationOEAlgorithmId);
   }
 }

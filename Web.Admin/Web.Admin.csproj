@@ -88,10 +88,13 @@
       <None Remove="ClientApp\src\app\models\TestSession\TestSessionStatus.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\VectorSet.ts" />
       <None Remove="ClientApp\src\app\models\TestSession\VectorSetStatus.ts" />
+      <None Remove="ClientApp\src\app\models\validation\CapabilityDisplay.ts" />
       <None Remove="ClientApp\src\app\models\validation\Validation.ts" />
       <None Remove="ClientApp\src\app\models\validation\ValidationList.ts" />
       <None Remove="ClientApp\src\app\models\validation\ValidationListParameters.ts" />
       <None Remove="ClientApp\src\app\models\validation\ValidationLite.ts" />
+      <None Remove="ClientApp\src\app\models\validation\ValidationOEAlgorithm.ts" />
+      <None Remove="ClientApp\src\app\models\validation\ValidationOEAlgorithmList.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\APIAction.enum.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyCreatePayload.ts" />
       <None Remove="ClientApp\src\app\models\Workflow\Dependency\WorkflowDependencyUpdatePayload.ts" />
@@ -154,6 +157,9 @@
 
     <ItemGroup>
       <TypeScriptCompile Include="ClientApp\src\app\models\organization\OrganizationCreateParameters.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\validation\CapabilityDisplay.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\validation\ValidationOEAlgorithmList.ts" />
+      <TypeScriptCompile Include="ClientApp\src\app\models\validation\ValidationOEAlgorithm.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\routing\disclaimer-route-guard.module.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUser.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\models\AcvpUser\AcvpUserCertificateUpdateParameters.ts" />

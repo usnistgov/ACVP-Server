@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Internal.ACVPCore.Models;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
@@ -27,7 +31,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 
@@ -56,10 +60,52 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex.Message);
+				_logger.LogError(ex);
 				_logger.LogError($"{validationOEAlgorithmID} Property: {propertyID} Parent: {parentCapabilityID}" );
 				return new InsertResult(ex.Message);
 			}
+		}
+
+		public List<RawCapability> GetCapabilities(long validationOEAlgorithmID)
+		{
+			List<RawCapability> capabilities = new List<RawCapability>();
+
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try {
+				var data = db.QueryFromProcedure("dbo.CapabilitiesGet", inParams: new
+				{
+					ValidationOEAlgorithmId = validationOEAlgorithmID,
+				});
+
+				foreach (var row in data)
+				{
+					capabilities.Add(new RawCapability
+					{
+						ID = row.CapabilityId,
+						AlgorithmPropertyID = row.AlgorithmPropertyId,
+						ParentCapabilityID = row.ParentCapabilityId,
+						HistoricalCapability = row.HistoricalCapability,
+						CapabilityOrderIndex = row.CapabilityOrderIndex,
+						BooleanValue = row.BooleanValue,
+						StringValue = row.StringDisplayValue,
+						NumberValue = row.NumberValue,
+						PropertyDisplayName = row.DisplayName,
+						PropertyType = (AlgorithmPropertyType)row.AlgorithmPropertyTypeId,
+						HistoricalProperty = row.HistoricalProperty,
+						IsRequired = row.IsRequired ?? false,
+						UnitsLabel = row.UnitsLabel,
+						PropertyOrderIndex = row.PropertyOrderIndex,
+						HistoricalAlgorithm = row.HistoricalAlgorithm
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+
+			return capabilities;
 		}
 	}
 }

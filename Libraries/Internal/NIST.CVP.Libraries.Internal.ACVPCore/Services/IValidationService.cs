@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
@@ -14,6 +15,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		long GetLatestACVPValidationForImplementation(long implementationID);
 		List<(long ValidationID, int ValidationSource)> GetValidationsForImplementation(long implementationID);
 		List<(long ValidationOEAlgorithmID, long AlgorithmID)> GetValidationOEAlgorithms(long validationID, long oeID);
+		List<ValidationOEAlgorithmDisplay> GetActiveValidationOEAlgorithmsForDisplay(long validationID);
 		void InactivateValidationOEAlgorithm(long validationOEAlgorithmID);
 		long GetValidationNumber(ValidationSource validationSource);
 		InsertResult AddValidationOEAlgorithm(long validationID, long oeID, long algorithmID, long vectorSetID);

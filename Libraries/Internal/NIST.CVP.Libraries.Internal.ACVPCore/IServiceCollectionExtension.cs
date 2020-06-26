@@ -41,6 +41,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore
 			services.AddSingleton<IPropertyProvider, PropertyProvider>();
 			services.AddSingleton<IPrerequisiteProvider, PrerequisiteProvider>();
 			services.AddSingleton<IPrerequisiteService, PrerequisiteService>();
+			services.AddSingleton<ICapabilityDisplayService, CapabilityDisplayService>();
 			return services;
 		}
 	}

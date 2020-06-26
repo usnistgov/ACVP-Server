@@ -15,3 +15,11 @@ tr[ng-reflect-router-link], tr[data-target] {
   color: blue;
   text-decoration: underline;
 }
+
+ul.unstyled-indented {
+  list-style-type: none;
+}
+
+table.voa > tbody > tr > td {
+  vertical-align: text-top;
+}

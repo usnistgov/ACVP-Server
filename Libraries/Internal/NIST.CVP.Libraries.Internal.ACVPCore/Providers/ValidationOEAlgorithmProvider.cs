@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Results;
 
@@ -39,6 +40,38 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				_logger.LogError(ex.Message);
 				return new InsertResult(ex.Message);
 			}
+		}
+
+		public List<ValidationOEAlgorithmDisplay> GetActiveValidationOEAlgorithmsForDisplay(long validationID)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			List<ValidationOEAlgorithmDisplay> ValidationOEAlgorithms = new List<ValidationOEAlgorithmDisplay>();
+			try
+			{
+				var data = db.QueryFromProcedure("dbo.ValidationOEAlgorithmsForValidationGetActive", inParams: new
+				{
+					ValidationId = validationID
+				});
+
+				foreach (var row in data)
+				{
+					ValidationOEAlgorithms.Add(new ValidationOEAlgorithmDisplay
+					{
+						ValidationOEAlgorithmID = row.ValidationOEAlgorithmId,
+						AlgorithmDisplayName = row.AlgorithmDisplayName,
+						OEID = row.OEId,
+						OEDisplay = row.OEName,
+						CreatedOn = row.CreatedOn
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return ValidationOEAlgorithms;
 		}
 
 		public List<(long ValidationOEAlgorithmID, long AlgorithmID)> GetActiveValidationOEAlgorithms(long validationID, long oeID)

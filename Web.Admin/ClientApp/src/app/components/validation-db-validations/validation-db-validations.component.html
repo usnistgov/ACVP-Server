@@ -10,7 +10,7 @@
         <div class="container">
           <h3>Filters</h3>
           <label class="bold-heading">Name</label><br />
-          <input type="text" class="form-control" [(ngModel)]="listData.productName" (ngModelChange)="loadData()" placeholder="Name..." />
+          <input type="text" class="form-control" [(ngModel)]="listData.implementationName" (ngModelChange)="loadData()" placeholder="Name..." />
           <br />
           <label class="bold-heading">Cert. #</label><br />
           <input type="text" class="form-control" [(ngModel)]="listData.validationLabel" (ngModelChange)="loadData()" placeholder="Type..." />
@@ -39,17 +39,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let validation of validations.data" [routerLink]="validation.validationId" data-toggle="tooltip" data-placement="top" title="{{validation.productName}}">
+            <tr *ngFor="let validation of validations.data" [routerLink]="validation.validationId" data-toggle="tooltip" data-placement="top" title="{{validation.implementationName}}">
               <td>{{ validation.validationId }}</td>
               <td>{{ (validation.validationLabel === "") ? "---" : validation.validationLabel }}</td>
               <td>
-                <span *ngIf="(validation.productName === ' ' || validation.productName === null)">---</span>
-                <span *ngIf="(validation.productName !== ' ' && validation.productName !== null)">
-                  {{ validation.productName.substring(0,60) }}
-                  <span *ngIf="validation.productName.length > 55">...</span>
+                <span *ngIf="(validation.implementationName === ' ' || validation.implementationName === null)">---</span>
+                <span *ngIf="(validation.implementationName !== ' ' && validation.implementationName !== null)">
+                  {{ validation.implementationName.substring(0,60) }}
+                  <span *ngIf="validation.implementationName.length > 55">...</span>
                 </span>
               </td>
-              <td>{{ (validation.created === "") ? "---" : validation.created }}</td>
+              <td>{{ (validation.createdOn === "") ? "---" : validation.createdOn }}</td>
             </tr>
           </tbody>
         </table>

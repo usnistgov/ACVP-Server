@@ -28,9 +28,9 @@ export class ValidationDbValidationsComponent implements OnInit {
     });
 
     // Clear empty ones as necessary
-    if (this.listData.productName === "") {
+    if (this.listData.implementationName === "") {
       this.router.navigate([], {
-        queryParams: { productName: null },
+        queryParams: { implementationName: null },
         queryParamsHandling: 'merge'
       });
     }
@@ -72,8 +72,8 @@ export class ValidationDbValidationsComponent implements OnInit {
     if (this.route.snapshot.queryParamMap.get('page')) {
       this.listData.page = parseInt(this.route.snapshot.queryParamMap.get('page'));
     }
-    if (this.route.snapshot.queryParamMap.get('productName')) {
-      this.listData.productName = this.route.snapshot.queryParamMap.get('name');
+    if (this.route.snapshot.queryParamMap.get('implementationName')) {
+      this.listData.implementationName = this.route.snapshot.queryParamMap.get('name');
     }
     if (this.route.snapshot.queryParamMap.get('validationId')) {
       this.listData.validationId = this.route.snapshot.queryParamMap.get('name');

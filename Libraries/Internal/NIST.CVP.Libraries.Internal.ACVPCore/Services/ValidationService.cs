@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Libraries.Internal.ACVPCore.Models;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
 using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
@@ -54,6 +55,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		}
 
 		public List<(long ValidationOEAlgorithmID, long AlgorithmID)> GetValidationOEAlgorithms(long validationID, long oeID) => _validationOEAlgorithmProvider.GetActiveValidationOEAlgorithms(validationID, oeID);
+		public List<ValidationOEAlgorithmDisplay> GetActiveValidationOEAlgorithmsForDisplay(long validationID) => _validationOEAlgorithmProvider.GetActiveValidationOEAlgorithmsForDisplay(validationID);
 
 		public List<(long ValidationID, int ValidationSource)> GetValidationsForImplementation(long implementationID) => _validationProvider.GetValidationsForImplementation(implementationID);
 

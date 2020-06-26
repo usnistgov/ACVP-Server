@@ -4,6 +4,7 @@ import { ValidationProviderService } from '../../services/ajax/validation/valida
 import { ActivatedRoute } from '@angular/router';
 import { OrganizationProviderService } from '../../services/ajax/organization/organization-provider.service';
 import { Organization } from '../../models/organization/Organization';
+import { ValidationOEAlgorithm } from '../../models/validation/ValidationOEAlgorithm';
 
 @Component({
   selector: 'app-validation-db-validation',
@@ -14,6 +15,8 @@ export class ValidationDbValidationComponent implements OnInit {
 
   selectedValidation: Validation;
   organization: Organization;
+  validationOEAlgorithms: ValidationOEAlgorithm[]
+  someValue: string;
 
   constructor(private ValidationService: ValidationProviderService, private OrganizationService: OrganizationProviderService, private route: ActivatedRoute) { }
 
@@ -27,10 +30,27 @@ export class ValidationDbValidationComponent implements OnInit {
             data => {
               this.organization = data;
             });
+
+          //this.ValidationService.getValidationOEAlgorithms(parseInt(params.get("id"))).subscribe(
+          //  data => {
+          //    this.validationOEAlgorithms = data;
+          //  });
         },
         err => { },
-        () => { })
-    });
-  }
+        () => { });
 
-}
+      this.ValidationService.getValidationOEAlgorithms(parseInt(params.get("id"))).subscribe(
+        data => {
+          this.validationOEAlgorithms = data.data;
+        });
+    });
+  };
+
+  LoadCapabilities(validationOEAlgorithm: ValidationOEAlgorithm) {
+    if (!(validationOEAlgorithm.capabilityHTML)) {
+      this.ValidationService.getCapabilityHTML(validationOEAlgorithm.validationOEAlgorithmID).subscribe(
+        data => { validationOEAlgorithm.capabilityHTML = data.html; })
+    }
+    validationOEAlgorithm.capabilitiesExpanded = !validationOEAlgorithm.capabilitiesExpanded;
+  };
+};
