@@ -11,6 +11,7 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         public int CustomizationLength { get; set; }
         public int BlockSize { get; set; }
         public bool HexCustomization { get; set; }
+        public MathDomain BlockSizeDomain { get; set; }
         public MathDomain OutLens { get; set; }
         public HashFunction HashFunction { get; set; }
         public bool IsSample { get; set; }
@@ -26,6 +27,6 @@ namespace NIST.CVP.Common.Oracle.ParameterTypes
         }
 
         // TODO make sure this works as expected
-        public override int GetHashCode() => HashCode.Combine(MessageLength, CustomizationLength, BlockSize, HexCustomization, OutLens, HashFunction, IsSample);
+        public override int GetHashCode() => HashCode.Combine(MessageLength, CustomizationLength, BlockSize, BlockSizeDomain, HexCustomization, OutLens, HashFunction, IsSample);
     }
 }

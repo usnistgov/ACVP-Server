@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -77,15 +78,14 @@ namespace Web.Public.Controllers
         }
         
         [HttpPost]
-        public ActionResult CreateTestSession()
+        public async Task<ActionResult> CreateTestSession()
         {
             var certSubject = GetCertSubjectFromJwt();
             
             var apiAction = APIAction.RegisterTestSession;
             
             // Parse registrations
-            var body = _jsonReader.GetJsonFromBody(Request.Body);
-            var registration = _jsonReader.GetMessagePayloadFromBodyJson<TestSessionRegisterPayload>(body, apiAction);
+            var registration = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<TestSessionRegisterPayload>(Request.Body, apiAction);
             
             if (registration.IsSample && !_vectorSetConfig.AllowIsSample)
             {
@@ -103,13 +103,13 @@ namespace Web.Public.Controllers
             var testSession = _testSessionService.CreateTestSession(certSubject, registration);
 
             // Insert into queue
-            _messageService.InsertIntoQueue(apiAction, certSubject, registration);
+            await _messageService.InsertIntoQueueAsync(apiAction, certSubject, registration);
             
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetTestSession(long id)
+        public async Task<ActionResult> GetTestSession(long id)
         {
             var jwt = GetJwt();
             var claims = _jwtService.GetClaimsFromJwt(jwt);
@@ -141,19 +141,18 @@ namespace Web.Public.Controllers
             if (testSession.LastTouched.Date != DateTime.Today)
             {
                 var payload = new TestSessionKeepAlivePayload { TestSessionID = id };
-                _messageService.InsertIntoQueue(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
+                await _messageService.InsertIntoQueueAsync(APIAction.TestSessionKeepAlive, GetCertSubjectFromJwt(), payload);
             }
 
             return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(testSession));
         }
 
         [HttpPut("{id}")]
-        public ActionResult CertifyTestSession(long id)
+        public async Task<ActionResult> CertifyTestSession(long id)
         {
             var jwt = Request.Headers["Authorization"];
             var claims = _jwtService.GetClaimsFromJwt(jwt);
-            var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-
+            
             var claimValidator = new TestSessionClaimsVerifier(id);
             if (!claimValidator.AreClaimsValid(claims))
             {
@@ -162,7 +161,7 @@ namespace Web.Public.Controllers
             
             // Convert and validate
             var apiAction = APIAction.CertifyTestSession;
-            var payload = _jsonReader.GetMessagePayloadFromBodyJson<CertifyTestSessionPayload>(jsonBlob, apiAction);
+            var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<CertifyTestSessionPayload>(Request.Body, apiAction);
             payload.TestSessionID = id;
             var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
             if (!validation.IsSuccess)
@@ -170,7 +169,7 @@ namespace Web.Public.Controllers
                 throw new PayloadValidatorException(validation.Errors);
             }
 
-            var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+            var requestId = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 
             // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards
             _testSessionService.SetTestSessionPublished(id);
@@ -205,7 +204,7 @@ namespace Web.Public.Controllers
                 throw new PayloadValidatorException(validation.Errors);
             }
             
-            _messageService.InsertIntoQueue(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
+            _messageService.InsertIntoQueueAsync(APIAction.CancelTestSession, GetCertSubjectFromJwt(), payload);
             var requestObject = new CancelObject()
             {
                 Url = Request.Path.Value

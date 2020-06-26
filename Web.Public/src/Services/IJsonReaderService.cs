@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.JsonObjects;
@@ -17,7 +18,7 @@ namespace Web.Public.Services
         /// <param name="jsonBody">The JSON to parse.</param>
         /// <typeparam name="T">The <see cref="IJsonObject"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        T GetObjectFromBodyJson<T>(string jsonBody) where T : IJsonObject;
+        Task<T> GetObjectFromBodyJsonAsync<T>(Stream jsonBody) where T : IJsonObject;
 
         /// <summary>
         /// Unwrap a JSON object that has a corresponding workflow action.
@@ -26,7 +27,6 @@ namespace Web.Public.Services
         /// <param name="apiAction">The type of workflow item to create.</param>
         /// <typeparam name="T">The <see cref="IMessagePayload"/> to parse and return.</typeparam>
         /// <returns>The parsed <see cref="T"/>.</returns>
-        T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction) where T : IMessagePayload;
-        string GetJsonFromBody(Stream body);
+        Task<T> GetMessagePayloadFromBodyJsonAsync<T>(Stream jsonBody, APIAction apiAction) where T : IMessagePayload;
     }
 }

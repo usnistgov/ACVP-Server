@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Data;
 using Microsoft.Extensions.Logging;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
@@ -23,7 +24,7 @@ namespace Web.Public.Providers
             _jsonWriter = jsonWriter;
         }
 
-        public void InsertIntoQueue(APIAction apiAction, long userID, object content)
+        public async Task InsertIntoQueueAsync(APIAction apiAction, long userID, object content)
         {
             // Build json message to go into table
             var json = _jsonWriter.BuildMessageObject(content);
@@ -32,7 +33,7 @@ namespace Web.Public.Providers
 
             try
             {
-                db.ExecuteProcedure("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
                 {
                     MessageType = apiAction,
                     userId = userID,
@@ -47,7 +48,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public void InsertIntoQueue(APIAction apiAction, long requestID, long userID, object content)
+        public async Task InsertIntoQueueAsync(APIAction apiAction, long requestID, long userID, object content)
         {
             // Build json message to go into table
             var requestJson = _jsonWriter.BuildRequestWorkflowObject(requestID, content);
@@ -56,7 +57,7 @@ namespace Web.Public.Providers
 
             try
             {
-                db.ExecuteProcedure("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
                 {
                     MessageType = apiAction,
                     userId = userID,

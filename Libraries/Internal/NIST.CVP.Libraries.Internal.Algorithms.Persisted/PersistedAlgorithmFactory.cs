@@ -80,7 +80,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.KDF_ANSIX963 x => new KDF_ANSIX963(x),
 				External.KDF_IKEv1 x => new KDF_IKEv1(x),
 				External.KDF_IKEv2 x => new KDF_IKEv2(x),
-				External.KDF_PBKDF x => new KDF_PBKDF(x),
+				External.PBKDF x => new PBKDF(x),
 				External.KDF_SNMP x => new KDF_SNMP(x),
 				External.KDF_SRTP x => new KDF_SRTP(x),
 				External.KDF_SSH x => new KDF_SSH(x),

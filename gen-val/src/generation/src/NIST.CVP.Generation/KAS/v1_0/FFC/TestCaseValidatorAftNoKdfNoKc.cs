@@ -78,6 +78,12 @@ namespace NIST.CVP.Generation.KAS.v1_0.FFC
         {
             KasResult serverResult = await _deferredResolver.CompleteDeferredCryptoAsync(_testGroup, _workingResult, suppliedResult);
 
+            if (!serverResult.Success)
+            {
+                errors.Add($"Failed completing deferred crypto. {serverResult.ErrorMessage}");
+                return;
+            }
+            
             if (!serverResult.Tag.Equals(suppliedResult.HashZ))
             {
                 errors.Add($"{nameof(suppliedResult.HashZ)} does not match");

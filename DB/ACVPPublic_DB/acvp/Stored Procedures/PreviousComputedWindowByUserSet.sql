@@ -10,10 +10,12 @@ SELECT TOP(1) @UserId = id
 FROM [acvp].[ACVP_USER] au
 WHERE au.common_name = @Subject
 
-UPDATE [acvp].[AcvpUserAuthentications]
-SET LastUsedWindow = @LastUsedWindow
-WHERE AcvpUserID = @UserId
-
-IF @@ROWCOUNT = 0
-    INSERT INTO [acvp].[AcvpUserAuthentications] (AcvpUserId, LastUsedWindow)
-    VALUES (@UserId, @LastUsedWindow)
+MERGE [acvp].[AcvpUserAuthentications] AS target
+USING (SELECT @UserId) as source (AcvpUserID)
+ON target.AcvpUserID = source.AcvpUserID
+WHEN matched THEN
+	UPDATE SET LastUsedWindow = @LastUsedWindow
+WHEN not matched THEN
+	INSERT (AcvpUserID, LastUsedWindow)
+	VALUES (@UserId, @LastUsedWindow)
+;

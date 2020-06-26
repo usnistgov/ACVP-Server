@@ -34,7 +34,7 @@ namespace Web.Public.Services
 		public ParameterValidationResult Validate(TestSessionRegisterPayload registration)
 		{
 			var errors = new List<string>();
-
+			
 			if (registration.Algorithms == null)
 			{
 				errors.Add("Algorithms property is required but was not provided.");

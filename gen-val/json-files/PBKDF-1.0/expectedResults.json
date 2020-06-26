@@ -1,0 +1,334 @@
+{
+  "vsId": 0,
+  "algorithm": "PBKDF",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "derivedKey": "D82020DCDC3F9BA5192B8184A6F5"
+        },
+        {
+          "tcId": 2,
+          "derivedKey": "3F69179E665CDB91BD7BAEB1D409377EE918606826376CCFC04FF06F9B77FA40"
+        },
+        {
+          "tcId": 3,
+          "derivedKey": "968E19D75D8ACA9D3B23C5308332ED41ADEC190390"
+        },
+        {
+          "tcId": 4,
+          "derivedKey": "290C0AC25D7E43A3AD51BEE0A94F52255DFED42A2CCFC7C9E7896D4BA49C"
+        },
+        {
+          "tcId": 5,
+          "derivedKey": "A725CB6C04792EC625817B083A5EAC251F4BAD3E1C66AFDCBE30"
+        },
+        {
+          "tcId": 6,
+          "derivedKey": "8956BFA87EBE06DB653D12DE4263EF569BA066E65400"
+        },
+        {
+          "tcId": 7,
+          "derivedKey": "97607A88A212C1E301283DC83BCAEB813E941A9EC5D48340"
+        },
+        {
+          "tcId": 8,
+          "derivedKey": "4659C6B9758B12FEFA5AEA2ADF9F94CCAB29D074FB3151D680"
+        },
+        {
+          "tcId": 9,
+          "derivedKey": "EEA0D9CD00B3B99CF09E64454B7C389B07D001D00645873DE02074CA23BE1B"
+        },
+        {
+          "tcId": 10,
+          "derivedKey": "EF42066B0DA49E67627C1F3D482753AF7A2A343EC5204CA47C"
+        },
+        {
+          "tcId": 11,
+          "derivedKey": "8A553FB320A161A6B32883EE3582F5F3B56639C54044C280"
+        },
+        {
+          "tcId": 12,
+          "derivedKey": "C916E1F6A6BB007492739CD3D77DC750"
+        },
+        {
+          "tcId": 13,
+          "derivedKey": "80BFC213681AECB80D9F46DEBCAA71B3FDC8"
+        },
+        {
+          "tcId": 14,
+          "derivedKey": "DFD5527E7ED66D8DF0C2C998BF772A0966D41F8B04"
+        },
+        {
+          "tcId": 15,
+          "derivedKey": "E6BFCC1543875DBAD0ED2A5E2DD38E4A51B1C1512F56EB"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 16,
+          "derivedKey": "DC1C263DCBAF8BCBE62E3F335772F3F6D32FF7CF5C"
+        },
+        {
+          "tcId": 17,
+          "derivedKey": "78FDF844938C32795FF3BE1A86FD561ECE6200"
+        },
+        {
+          "tcId": 18,
+          "derivedKey": "FA9D9C2479B8E4BBCF0D0C837750A8A4B8DA5A00"
+        },
+        {
+          "tcId": 19,
+          "derivedKey": "B7EFAD99B67ADC0FB93CF25A9BBD201776C9863549"
+        },
+        {
+          "tcId": 20,
+          "derivedKey": "5B5EF74F0181C2F1732E1A6F359DF889B7AB2129C5266F7AC7FE598BED3D2FD8"
+        },
+        {
+          "tcId": 21,
+          "derivedKey": "69F9E4EF3B2D5E150F317733A5E4EB1AF0484DD00ABF10"
+        },
+        {
+          "tcId": 22,
+          "derivedKey": "0572D586CAF76B1FF54A00E08415E0E452DB81C2"
+        },
+        {
+          "tcId": 23,
+          "derivedKey": "6A9FFEEFA14CC02ED6D485AD29FF"
+        },
+        {
+          "tcId": 24,
+          "derivedKey": "2DEB7BE19F74E055400CD7E7C5527CE894098D00CF80"
+        },
+        {
+          "tcId": 25,
+          "derivedKey": "FD8061819BB0E8C4A5445900A840BD88A0"
+        },
+        {
+          "tcId": 26,
+          "derivedKey": "B2410B701CA6F1498A3E90B4FCB5CEEA7B761FE05E46C7DE977EE0"
+        },
+        {
+          "tcId": 27,
+          "derivedKey": "E6655AA2AE8E86F4F060F7832A1ADB40906E82D32D72BE8280"
+        },
+        {
+          "tcId": 28,
+          "derivedKey": "09490DD1C450E98D15EA27D705B3850A93C358A716C100"
+        },
+        {
+          "tcId": 29,
+          "derivedKey": "9D568EFBDD4D13AE9339C91E247150FEFECDB3D7C529837920785BACA480"
+        },
+        {
+          "tcId": 30,
+          "derivedKey": "9F2D3D7C6BD97D27B51401961A2838"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 31,
+          "derivedKey": "41D9F43365EA6352D6CC7CEBA6B379F76E90"
+        },
+        {
+          "tcId": 32,
+          "derivedKey": "62729E5F9983ECDE932F4DB9B7D9F555D29A916080"
+        },
+        {
+          "tcId": 33,
+          "derivedKey": "5B21B87C566EF2ED47863DE003F5A4F2E1E4223A1BB5B4"
+        },
+        {
+          "tcId": 34,
+          "derivedKey": "E09C153ABBDE904E05212D63CD0F761E551BC040BBED86CE8977C7AC"
+        },
+        {
+          "tcId": 35,
+          "derivedKey": "D2A5FF4B82E2D72DFB6EFF8984AB57747C20054A09FE"
+        },
+        {
+          "tcId": 36,
+          "derivedKey": "BC8631A0978A4940BCDCCC7E80A9F69FCFEFC0"
+        },
+        {
+          "tcId": 37,
+          "derivedKey": "BE212C85A821450FB30842311292"
+        },
+        {
+          "tcId": 38,
+          "derivedKey": "9AC492B34E5070AC240EF05785E49D3233C6A556E3F4501C8DD7F7A12580"
+        },
+        {
+          "tcId": 39,
+          "derivedKey": "A45616EBA19A30B985D6636E8FB2420032B659FFA7D10454BAD820"
+        },
+        {
+          "tcId": 40,
+          "derivedKey": "952BF8C10024248E65B20F1F595C11D53A50A92E8610"
+        },
+        {
+          "tcId": 41,
+          "derivedKey": "782C8E6867828BFC8EF2C8A2CADAE7B7F8312088E16473394931C3B1D1B0"
+        },
+        {
+          "tcId": 42,
+          "derivedKey": "6CC8563F1BF39F5F8D6F10A116B16D3CABFA527B693080"
+        },
+        {
+          "tcId": 43,
+          "derivedKey": "8FB6846CAEF942C89A5B3C9D704136BF0A201AA5226B3408"
+        },
+        {
+          "tcId": 44,
+          "derivedKey": "2368057E548567286AB2BF9581ED28"
+        },
+        {
+          "tcId": 45,
+          "derivedKey": "C89F4ECF98D55FF1EAE3B0FB1D7EDA5E6F3811141C6798C5AB7B125F5B89E398"
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 46,
+          "derivedKey": "8499F562A4C287B2303A83F4AE57"
+        },
+        {
+          "tcId": 47,
+          "derivedKey": "FE068698BC8E40122089AD75BBBC9404B32003185DE7588EDCEE5ACE867070"
+        },
+        {
+          "tcId": 48,
+          "derivedKey": "4F1110DC303C476AD8CAA97A75D33BFF7A5AD51CA6CE10"
+        },
+        {
+          "tcId": 49,
+          "derivedKey": "62070F4D892111A13CADF6717E94F82F681F070A65068B9439ADEA31D0"
+        },
+        {
+          "tcId": 50,
+          "derivedKey": "20DA7530F853CCCF3ECFC14639D04071E6817DBB7D108288"
+        },
+        {
+          "tcId": 51,
+          "derivedKey": "BA84E822CF34DA84554331C1B79094745CFA15E10D6C83BE45F6"
+        },
+        {
+          "tcId": 52,
+          "derivedKey": "1D860E80D536020A826C48AF0279BF82BA40EF290A80"
+        },
+        {
+          "tcId": 53,
+          "derivedKey": "7DA6469BA6A085C235519111A2C84D9E72"
+        },
+        {
+          "tcId": 54,
+          "derivedKey": "D704E6A5B22CBC6780BEBE0ED231B8889E992879D35B23DEC860F69D2AEE0716"
+        },
+        {
+          "tcId": 55,
+          "derivedKey": "25D08FA9A94BFD3E249BE8FBFEE83380"
+        },
+        {
+          "tcId": 56,
+          "derivedKey": "7BD083051D1F37781303C312E92BBA92BA5FC380"
+        },
+        {
+          "tcId": 57,
+          "derivedKey": "4D7D679618058D14DB5291433B5EF190572E"
+        },
+        {
+          "tcId": 58,
+          "derivedKey": "E2F596CC09E3D36F3CE154D5F68092314022F1EFBE16CC359214DB8A0613684A"
+        },
+        {
+          "tcId": 59,
+          "derivedKey": "8098E1B331B4A07D95CC167359B69A8935439310DA681451C93C0016455DFB"
+        },
+        {
+          "tcId": 60,
+          "derivedKey": "2777ADDFCFA427F75C16FCC2D60AE16D43198316FAC50D5BAD90DD0E4E3A"
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "tests": [
+        {
+          "tcId": 61,
+          "derivedKey": "DE8D488F683A255E438343F3CE3B24"
+        },
+        {
+          "tcId": 62,
+          "derivedKey": "5E51C7CC928FFBA34B92696340842F208EFC20"
+        },
+        {
+          "tcId": 63,
+          "derivedKey": "CC526BEF3A8D02D5C40C03F14C10D50EA52D38ADB0B67B70DC"
+        },
+        {
+          "tcId": 64,
+          "derivedKey": "3C2D16AB1942E38B7933E941324D3FF33AA2BCFDC209BF55DB"
+        },
+        {
+          "tcId": 65,
+          "derivedKey": "2C0CAC6DA1EDF5860C54B3252647"
+        },
+        {
+          "tcId": 66,
+          "derivedKey": "BEA2D4863A63961733B282A07823A3E4B4DD480E93D83F4CBAA812CD13E4C8"
+        },
+        {
+          "tcId": 67,
+          "derivedKey": "55ADDF9FAA052ABF1F516FB4B442A8D8E80F8C4DB6FFCC2E123AC983007D453C"
+        },
+        {
+          "tcId": 68,
+          "derivedKey": "7FBF3455D2661252734E6A13872AFF0DACC544E286C8"
+        },
+        {
+          "tcId": 69,
+          "derivedKey": "17DCCC931258078EF329A2340CEE2F3565223EB53AD2F2"
+        },
+        {
+          "tcId": 70,
+          "derivedKey": "B452E30505C73798FA38B006EDA23A42EC63A1533DE130E3AC91770BA937D1E0"
+        },
+        {
+          "tcId": 71,
+          "derivedKey": "127F86BDE55E731A3AD070F877BFB4A498C3385FCFEB3E0FA59C58"
+        },
+        {
+          "tcId": 72,
+          "derivedKey": "32536ED117E7312883496BBD71B617E5D8AB2BD6959A80"
+        },
+        {
+          "tcId": 73,
+          "derivedKey": "DECB58DE5FA3C954645B9D2B4EA40E18EE541E60"
+        },
+        {
+          "tcId": 74,
+          "derivedKey": "73BC60C90A4C355C68509C856754CD3995FB40"
+        },
+        {
+          "tcId": 75,
+          "derivedKey": "05C37EE498BEE9B254A8C87E3681418EF9DC116CE24BE0209F8C1407EA1B6EEC"
+        }
+      ]
+    }
+  ]
+}

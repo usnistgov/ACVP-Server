@@ -1,0 +1,1 @@
+[{"algorithms": "{\"algorithm\":\"PBKDF\",\"revision\":\"1.0\",\"capabilities\":[{\"iterationCount\":[10, 256],\"passwordLen\":[8,20],\"saltLen\":[224,521],\"keyLen\":[256,1024],\"hmacAlg\":[\"SHA3-224\",\"SHA2-256\",\"SHA2-384\",\"SHA2-512\"]}]}"}]

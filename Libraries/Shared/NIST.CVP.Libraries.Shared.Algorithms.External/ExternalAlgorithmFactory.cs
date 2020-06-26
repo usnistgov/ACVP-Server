@@ -97,7 +97,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("kdf-components", "ansix9.63", "1.0") => JsonSerializer.Deserialize<KDF_ANSIX963>(algorithmRegistration),
 				("kdf-components", "ikev1", "1.0") => JsonSerializer.Deserialize<KDF_IKEv1>(algorithmRegistration),
 				("kdf-components", "ikev2", "1.0") => JsonSerializer.Deserialize<KDF_IKEv2>(algorithmRegistration),
-				("kdf-components", "pbkdf", "1.0") => JsonSerializer.Deserialize<KDF_PBKDF>(algorithmRegistration),
+				("PBKDF", null, "1.0") => JsonSerializer.Deserialize<PBKDF>(algorithmRegistration),
 				("kdf-components", "snmp", "1.0") => JsonSerializer.Deserialize<KDF_SNMP>(algorithmRegistration),
 				("kdf-components", "srtp", "1.0") => JsonSerializer.Deserialize<KDF_SRTP>(algorithmRegistration),
 				("kdf-components", "ssh", "1.0") => JsonSerializer.Deserialize<KDF_SSH>(algorithmRegistration),

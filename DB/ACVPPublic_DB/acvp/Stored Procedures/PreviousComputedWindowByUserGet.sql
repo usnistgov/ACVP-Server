@@ -3,12 +3,10 @@
 	
 AS
 
-DECLARE @UserId BIGINT
+SET NOCOUNT ON
 
-SELECT TOP(1) @UserId = id
-FROM [acvp].[ACVP_USER] au
-WHERE au.common_name = @Subject
-
-SELECT TOP(1) (LastUsedWindow)
-FROM [acvp].[AcvpUserAuthentications] auAuths
-WHERE auAuths.AcvpUserID = @UserId
+SELECT TOP 1 A.LastUsedWindow
+from acvp.ACVP_USER U
+	INNER JOIN
+	acvp.AcvpUserAuthentications A ON A.AcvpUserID = U.id
+								  AND U.common_name = @Subject

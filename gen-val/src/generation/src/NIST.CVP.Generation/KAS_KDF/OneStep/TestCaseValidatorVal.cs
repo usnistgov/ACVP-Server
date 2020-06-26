@@ -16,7 +16,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 
         public int TestCaseId => _workingTest.TestCaseId;
 
-        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
+        public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
             var expected = new Dictionary<string, string>();
@@ -25,23 +25,23 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
-                await CheckResults(suppliedResult, errors, expected, provided);
+                CheckResults(suppliedResult, errors, expected, provided);
             }
 
             if (errors.Count > 0)
             {
-                return new TestCaseValidation
+                return Task.FromResult(new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
-                };
+                });
             }
 
-            return new TestCaseValidation
-                {TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed};
+            return Task.FromResult(new TestCaseValidation
+                {TestCaseId = suppliedResult.TestCaseId, Result = Core.Enums.Disposition.Passed});
         }
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
@@ -52,7 +52,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
             }
         }
 
-        private Task CheckResults(
+        private void CheckResults(
             TestCase suppliedResult,
             List<string> errors,
             Dictionary<string, string> expected,
@@ -64,8 +64,6 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
                 expected.Add(nameof(_workingTest.TestPassed), _workingTest.TestPassed.ToString());
                 provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
             }
-            
-            return Task.CompletedTask;
         }
     }
 }

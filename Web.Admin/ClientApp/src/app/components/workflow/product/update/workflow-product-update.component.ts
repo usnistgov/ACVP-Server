@@ -5,6 +5,8 @@ import { Product } from '../../../../models/product/Product';
 import { OrganizationProviderService } from '../../../../services/ajax/organization/organization-provider.service';
 import { ProductProviderService } from '../../../../services/ajax/product/product-provider.service';
 import { PersonProviderService } from '../../../../services/ajax/person/person-provider.service';
+import { WorkflowCreateProductPayloadContact } from '../../../../models/workflow/product/WorkflowCreateProductPayloadContact';
+import { AddressProviderService } from '../../../../services/ajax/address/address-provider.service';
 
 @Component({
   selector: 'app-workflow-product-update',
@@ -16,7 +18,10 @@ export class WorkflowProductUpdateComponent implements OnInit {
   workflowItem: WorkflowItemBase<WorkflowProductUpdatePayload>;
   currentState: Product;
 
-  constructor(private ProductService: ProductProviderService, private PersonService: PersonProviderService, private OrganizationService: OrganizationProviderService) { }
+  constructor(private ProductService: ProductProviderService,
+    private PersonService: PersonProviderService,
+    private OrganizationService: OrganizationProviderService,
+    private AddressService: AddressProviderService) { }
 
   /*
  * This is how the component takes the workflowItem from the main workflow controller using the
@@ -32,21 +37,45 @@ export class WorkflowProductUpdateComponent implements OnInit {
     if (this.workflowItem.payload.vendorUrl !== null) {
       let vendorID = parseInt(this.workflowItem.payload.vendorUrl.split('/')[this.workflowItem.payload.vendorUrl.split('/').length - 1]);
       this.OrganizationService.getOrganization(vendorID).subscribe(
-        data => { this.workflowItem.payload.vendor = JSON.parse(JSON.stringify(data)); },
+        data => { this.workflowItem.payload.vendor = data; },
         err => { },
         () => { }
       );
     }
 
     // Get the data for each contact in the contacts list
-    if (this.workflowItem.payload.contactUrls !== null){
+    // Check in case the urls aren't available for some reason
+    if (this.workflowItem.payload.contactUrls !== null) {
+
+      // Instantiate the array for the contacts to go into once pulled
+      this.workflowItem.payload.contacts = [];
+
+      // Loop through the contactUrls...
       for (let i = 0; i < this.workflowItem.payload.contactUrls.length; i++) {
+
+        // Prase out the id from the url, since it's not available immediately...
         let personID = parseInt(this.workflowItem.payload.contactUrls[i].split('/')[this.workflowItem.payload.contactUrls[i].split('/').length - 1]);
+
+        // Now, go get the data using that id...
         this.PersonService.getPerson(personID).subscribe(
-          data => { this.workflowItem.payload.contacts[i].person = data; }
+
+          // And place it in the contacts array we instantiated earlier
+          data => {
+            this.workflowItem.payload.contacts[i] = new WorkflowCreateProductPayloadContact();
+            this.workflowItem.payload.contacts[i].person = data;
+          }
         );
       }
     }
+
+    var addressId = parseInt(this.workflowItem.payload.addressUrl.split('/')[this.workflowItem.payload.addressUrl.split('/').length - 1]);
+
+    // I'm not sure if this can be inlined.  If so, it will likely need a check for either -1 or null later. -RLS4 06/23/20
+    this.AddressService.getAddress(addressId).subscribe(
+      data => {
+        this.workflowItem.payload.address = data;
+      }
+    );
     
     // Get the current state
     this.ProductService.getProduct(this.workflowItem.payload.id).subscribe(

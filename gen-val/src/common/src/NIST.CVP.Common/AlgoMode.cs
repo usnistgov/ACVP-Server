@@ -152,8 +152,6 @@ namespace NIST.CVP.Common
         KDFComponents_IKEv1_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv2-1.0")]
         KDFComponents_IKEv2_v1_0,
-        [EnumMember(Value = "KDF-Components-PBKDF-1.0")]
-        KDFComponents_PBKDF_v1_0,
         [EnumMember(Value = "KDF-Components-SNMP-1.0")]
         KDFComponents_SNMP_v1_0,
         [EnumMember(Value = "KDF-Components-SRTP-1.0")]
@@ -174,6 +172,8 @@ namespace NIST.CVP.Common
         ParallelHash_128_v1_0,
         [EnumMember(Value = "ParallelHash-256-1.0")]
         ParallelHash_256_v1_0,
+        [EnumMember(Value = "PBKDF-1.0")]
+        PBKDF_v1_0,
         [EnumMember(Value = "RSA-DecryptionPrimitive-1.0")]
         RSA_DecryptionPrimitive_v1_0,
         [EnumMember(Value = "RSA-KeyGen-1.0")]

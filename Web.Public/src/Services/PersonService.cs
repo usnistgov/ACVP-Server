@@ -17,7 +17,7 @@ namespace Web.Public.Services
 
 		public bool Exists(long personID) => _personProvider.Exists(personID);
 
-		public (long TotalCount, List<Person> Persons) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
-			=> _personProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<Person> Persons) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions)
+			=> _personProvider.GetFilteredList(orClauses, pagingOptions.Offset, pagingOptions.Limit);
 	}
 }

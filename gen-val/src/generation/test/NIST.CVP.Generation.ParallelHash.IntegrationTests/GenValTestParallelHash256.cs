@@ -76,6 +76,9 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 256, 512, 8));
 
+            var blockSize = new MathDomain();
+            blockSize.AddSegment(new RangeDomainSegment(null, 1, 16));
+
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -84,6 +87,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 }.ToList(),
                 MessageLength = minMax,
                 OutputLength = minMax,
+                BlockSize = blockSize,
                 XOF = new[] { false },
                 IsSample = true
             };
@@ -99,6 +103,9 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
             var minMaxMsg = new MathDomain();
             minMaxMsg.AddSegment(new RangeDomainSegment(null, 0, 65536, 1));
 
+            var blockSize = new MathDomain();
+            blockSize.AddSegment(new RangeDomainSegment(null, 1, 16));
+
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -107,6 +114,7 @@ namespace NIST.CVP.Generation.ParallelHash.IntegrationTests
                 DigestSizes = new[] { 256 }.ToList(),
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
+                BlockSize = blockSize,
                 XOF = new[] { true, false },
                 IsSample = true
             };

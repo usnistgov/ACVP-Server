@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Mvc;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Web.Public.Exceptions;
+using Web.Public.Helpers;
 using Web.Public.JsonObjects;
 using Web.Public.Models;
 using Web.Public.Results;
@@ -46,14 +49,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPost]
-		public JsonHttpStatusResult CreateDependency()
+		public async Task<JsonHttpStatusResult> CreateDependency()
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.CreateDependency;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyCreatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<DependencyCreatePayload>(Request.Body, apiAction);
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
 			{
@@ -61,7 +61,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -74,14 +74,11 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public JsonHttpStatusResult UpdateDependency(long id)
+		public async Task<JsonHttpStatusResult> UpdateDependency(long id)
 		{
-			// Get raw JSON
-			var jsonBlob = _jsonReader.GetJsonFromBody(Request.Body);
-			
 			// Convert and validate
 			var apiAction = APIAction.UpdateDependency;
-			var payload = _jsonReader.GetMessagePayloadFromBodyJson<DependencyUpdatePayload>(jsonBlob, apiAction);
+			var payload = await _jsonReader.GetMessagePayloadFromBodyJsonAsync<DependencyUpdatePayload>(Request.Body, apiAction);
 			payload.ID = id;
 			var validation = _workflowItemValidatorFactory.GetMessagePayloadValidator(apiAction).Validate(payload);
 			if (!validation.IsSuccess)
@@ -90,7 +87,7 @@ namespace Web.Public.Controllers
 			}
 
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -103,7 +100,7 @@ namespace Web.Public.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public JsonHttpStatusResult DeleteDependency(long id)
+		public async Task<JsonHttpStatusResult> DeleteDependency(long id)
 		{
 			var apiAction = APIAction.DeleteDependency;
 			var payload = new DeletePayload()
@@ -118,7 +115,7 @@ namespace Web.Public.Controllers
 			}
 			
 			// Pass to message queue
-			var requestID = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
+			var requestID = await _messageService.InsertIntoQueueAsync(apiAction, GetCertSubjectFromJwt(), payload);
 			
 			// Build request object for response
 			var requestObject = new RequestObject
@@ -165,11 +162,8 @@ namespace Web.Public.Controllers
 			//If limit was not present, or a garbage value, make it a default
 			if (limit <= 0) limit = 20;
 
-			//Build the querystring that excluded limit and offset
-			var filterString = string.Join("&", Request.Query.Where(x => x.Key != "limit" && x.Key != "offset").Select(x => $"{x.Key}={x.Value.FirstOrDefault()}"));
-
-			//Try to build a filter string from those parameters
-			var filter = FilterStringService.BuildFilterString(filterString, _legalPropertyDefinitions);
+			//Try to parse the filter from the querystring
+			var filter = FilterHelpers.ParseFilter(HttpUtility.UrlDecode(Request.QueryString.Value), _legalPropertyDefinitions);
 
 			if (filter.IsValid)
 			{
@@ -179,15 +173,15 @@ namespace Web.Public.Controllers
 					Offset = offset
 				};
 
-				var data = _dependencyService.GetFilteredList(filter.FilterString, pagingOptions, filter.OrDelimiter, filter.AndDelimiter);
-				var pagedData =  new PagedResponse<Dependency>(data.TotalCount, data.Dependencys, "/acvp/v1/dependencies", pagingOptions, filterString);
+				var data = _dependencyService.GetFilteredList(filter.OrClauses, pagingOptions);
+				var pagedData =  new PagedResponse<Dependency>(data.TotalCount, data.Dependencys, "/acvp/v1/dependencies", pagingOptions, filter.QuerystringWithoutPaging);
 				
 				return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(pagedData));
 			}
 
 			var error = new ErrorObject
 			{
-				Error = $"Invalid filter applied: {filterString}"
+				Error = "Invalid filter applied"
 			};
 			
 			return new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), HttpStatusCode.RequestedRangeNotSatisfiable);
