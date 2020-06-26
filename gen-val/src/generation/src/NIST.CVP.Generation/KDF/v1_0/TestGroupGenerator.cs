@@ -43,8 +43,11 @@ namespace NIST.CVP.Generation.KDF.v1_0
                             }
 
                             var testOutputLengths = new List<int>();
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetDomainMinMaxAsEnumerable());
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => true, 2, true));
                             testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength == 0, 2, true));
                             testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength != 0 && w > macOutputLength, 2, true));
+                            testOutputLengths = testOutputLengths.Distinct().ToList();
 
                             foreach (var outputLen in testOutputLengths)
                             {
