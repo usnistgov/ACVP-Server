@@ -4,5 +4,5 @@
     [Content]   VARCHAR (MAX) NOT NULL,
     [CreatedOn] DATETIME      NOT NULL,
     PRIMARY KEY CLUSTERED ([VsId] ASC, [FileType] ASC),
-    CONSTRAINT [FK_FileType] FOREIGN KEY ([FileType]) REFERENCES [common].[JsonFileType] ([Id])
+    CONSTRAINT [FK_FileType] FOREIGN KEY ([FileType]) REFERENCES [dbo].[VectorSetJsonFileTypes] ([VectorSetJsonFileTypeId])
 );
