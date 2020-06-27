@@ -105,4 +105,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="VectorSetId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="bdc3a14e-60f1-4d7c-945c-15ee24c0306b" ChangeDateTime="06/27/2020 01:48:12">
+    <Property Name="ElementName" Value="[dbo].[TaskQueue].[TaskID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskQueue]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskId" />
+  </Operation>
 </Operations>

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[TaskQueue] (
-    [TaskID]       BIGINT        IDENTITY (1, 1) NOT NULL,
+    [TaskId]       BIGINT        IDENTITY (1, 1) NOT NULL,
     [TaskTypeId]   TINYINT       NOT NULL,
     [VectorSetId]  BIGINT        NOT NULL,
     [IsSample]     BIT           DEFAULT ((0)) NOT NULL,

@@ -10,7 +10,7 @@ WITH Foo_CTE AS (
 select  P.AlgorithmPropertyId as PropertyID, P.AlgorithmPropertyTypeId, P.PropertyName, P.DefaultValue, P.DisplayName
 ,CAST('\' + CAST(P.OrderIndex AS varchar(10)) AS varchar(4000)) AS Lineage, P.OrderIndex, P.InCertificate
 from dbo.AlgorithmProperties P
-WHERE P.AlgorithmId = @AlgorithmID
+WHERE P.AlgorithmId = @AlgorithmId
 AND P.ParentAlgorithmPropertyId is null
 
 UNION ALL
