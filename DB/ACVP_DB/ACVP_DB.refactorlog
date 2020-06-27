@@ -77,4 +77,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Name" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="475cbf3a-ceff-44b9-8c39-45c4d8b7d9fe" ChangeDateTime="06/26/2020 21:39:38">
+    <Property Name="ElementName" Value="[dbo].[TaskTypes].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskTypes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="834895f8-f153-4749-99f5-5086ae42aea4" ChangeDateTime="06/26/2020 22:19:48">
+    <Property Name="ElementName" Value="[dbo].[TaskTypes].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskTypes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5bb69cea-f201-473f-ab46-23064a149f81" ChangeDateTime="06/26/2020 22:23:41">
+    <Property Name="ElementName" Value="[dbo].[TaskQueue].[TaskType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskQueue]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TaskTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ca2b001-761f-4bd6-ad00-f38a09ba0ec0" ChangeDateTime="06/26/2020 22:24:00">
+    <Property Name="ElementName" Value="[dbo].[TaskQueue].[VsId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TaskQueue]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VectorSetId" />
+  </Operation>
 </Operations>

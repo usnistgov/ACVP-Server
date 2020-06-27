@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
@@ -21,27 +22,13 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 
 		public Result Insert(TaskType type, long vectorSetID, bool isSample, bool showExpected)
 		{
-			//Map the type in the task queue record with something easier to work with
-			string taskType = type switch
-			{
-				TaskType.Generation => "vector-generation",
-				TaskType.Validation => "vector-validation",
-				_ => null
-			};
-
-			//Error if not a valid task type
-			if (taskType == null)
-			{
-				return new Result("Invalid task type");
-			}
-
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				db.ExecuteProcedure("common.TaskQueueInsert", inParams: new
+				db.ExecuteProcedure("dbo.TaskQueueInsert", inParams: new
 				{
-					TaskType = taskType,
+					TaskType = type,
 					VectorSetId = vectorSetID,
 					IsSample = isSample,
 					ShowExpected = showExpected
@@ -60,7 +47,33 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 		{
 			var db = new MightyOrm<TaskQueueItem>(_acvpConnectionString);
 
-			return db.QueryFromProcedure("common.TaskQueueList").ToList();
+			return db.QueryFromProcedure("dbo.TaskQueueList").ToList();
+		}
+
+		public TaskQueueItem GetNext()
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.SingleFromProcedure("dbo.TaskQueueGet");
+
+				return data == null ? null : new TaskQueueItem
+				{
+					ID = data.TaskId,
+					Type = (TaskType)data.TaskTypeId,
+					VectorSetID = data.VectorSetID,
+					IsSample = data.IsSample,
+					ShowExpected = data.ShowExpected,
+					Status = data.Status,
+					CreatedOn = data.CreatedOn
+				};
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+				return null;
+			}
 		}
 
 		public Result Delete(long taskID)
@@ -69,7 +82,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 
 			try
 			{
-				db.ExecuteProcedure("common.TaskQueueDelete", inParams: new { TaskID = taskID });
+				db.ExecuteProcedure("dbo.TaskQueueDelete", inParams: new { TaskID = taskID });
 				return new Result();
 			}
 			catch (Exception ex)
@@ -85,7 +98,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 
 			try
 			{
-				db.ExecuteProcedure("common.TaskQueueDeletePendingForVectorSet", inParams: new { VectorSetId = vectorSetID });
+				db.ExecuteProcedure("dbo.TaskQueueDeletePendingForVectorSet", inParams: new { VectorSetId = vectorSetID });
 				return new Result();
 			}
 			catch (Exception ex)
@@ -101,12 +114,32 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 
 			try
 			{
-				db.ExecuteProcedure("common.TaskQueueRestart");
+				db.ExecuteProcedure("dbo.TaskQueueRestart");
 				return new Result();
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
+				return new Result(ex.Message);
+			}
+		}
+
+		public Result UpdateStatus(long taskID, TaskStatus taskStatus)
+		{
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				db.ExecuteProcedure("dbo.TaskQueueSetStatus", new
+				{
+					TaskID = taskID,
+					Status = taskStatus
+				});
+				return new Result();
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
 				return new Result(ex.Message);
 			}
 		}

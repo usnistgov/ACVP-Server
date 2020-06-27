@@ -112,7 +112,6 @@
     <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
     <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
     <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
-    <Build Include="common\Tables\TASK_QUEUE.sql" />
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
     <Build Include="migration\Tables\Contact_Contact.sql" />
@@ -214,7 +213,6 @@
     <Build Include="acvp\Stored Procedures\VectorSetCancel.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetInsert.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueInsert.sql" />
     <Build Include="val\Stored Procedures\DependencyDelete.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeDelete.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeDeleteAll.sql" />
@@ -287,10 +285,6 @@
     <Build Include="val\Stored Procedures\ValidationTestSessionsInsert.sql" />
     <Build Include="val\Stored Procedures\ScenariosForValidationOEGet.sql" />
     <Build Include="acvp\Tables\VectorSetJson.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueDelete.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueGet.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueRestart.sql" />
-    <Build Include="common\Tables\TaskQueue.sql" />
     <Build Include="common\Tables\JsonFileType.sql" />
     <Build Include="acvp\Tables\VectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetJsonPut.sql" />
@@ -333,7 +327,6 @@
     <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
     <Build Include="common\Stored Procedures\MessageGetPayload.sql" />
     <Build Include="common\Stored Procedures\MessageQueueList.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueList.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetRemoveJson.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserDelete.sql" />
@@ -343,8 +336,6 @@
     <Build Include="acvp\Views\FilteredVectorSetJson.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionLastTouchedUpdate.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionsForExpirationWarningGet.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueSetStatus.sql" />
-    <Build Include="common\Stored Procedures\TaskQueueDeletePendingForVectorSet.sql" />
     <Build Include="dbo\Tables\Validations.sql" />
     <Build Include="dbo\Stored Procedures\ValidationInsert.sql" />
     <Build Include="dbo\Stored Procedures\ValidationsForImplementationGet.sql" />
@@ -371,6 +362,15 @@
     <Build Include="dbo\Stored Procedures\ValidationOEAlgorithmsForValidationGetActive.sql" />
     <Build Include="dbo\Stored Procedures\CapabilitiesGet.sql" />
     <Build Include="dbo\Tables\AlgorithmPropertyStringValueDisplayMapping.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueDelete.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueDeletePendingForVectorSet.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueGet.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueInsert.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueList.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueRestart.sql" />
+    <Build Include="dbo\Stored Procedures\TaskQueueSetStatus.sql" />
+    <Build Include="dbo\Tables\TaskQueue.sql" />
+    <Build Include="dbo\Tables\TaskTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

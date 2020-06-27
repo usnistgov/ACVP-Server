@@ -1,28 +1,66 @@
 using System;
 using System.Threading.Tasks;
-using NIST.CVP.TaskQueueProcessor.Providers;
+using Microsoft.Extensions.Logging;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+using NIST.CVP.Libraries.Internal.TaskQueue;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
+using GenerationTask = NIST.CVP.TaskQueueProcessor.TaskModels.GenerationTask;
+using TaskStatus = NIST.CVP.Libraries.Internal.TaskQueue.TaskStatus;
+using ValidationTask = NIST.CVP.TaskQueueProcessor.TaskModels.ValidationTask;
 
 namespace NIST.CVP.TaskQueueProcessor.Services
 {
-    public class TaskService : ITaskService
+	public class TaskService : ITaskService
     {
-        private readonly ITaskProvider _taskProvider;
         private readonly IGenValService _genValService;
         private readonly IPoolService _poolService;
+        private readonly ITaskQueueService _taskQueueService;
+        private readonly IVectorSetService _vectorSetService;
+        private readonly ILogger<TaskService> _logger;
 
-        public TaskService(ITaskProvider taskProvider, IGenValService genValService, IPoolService poolService)
+        public TaskService(IGenValService genValService, IPoolService poolService, ITaskQueueService taskQueueService, IVectorSetService vectorSetService, ILogger<TaskService> logger)
         {
-            _taskProvider = taskProvider;
             _genValService = genValService;
             _poolService = poolService;
+            _taskQueueService = taskQueueService;
+            _vectorSetService = vectorSetService;
+            _logger = logger;
         }
 
         public ExecutableTask GetTaskFromQueue()
         {
-            // Basically everything in here is db reliant, so just let the provider handle it
-            return _taskProvider.GetTaskFromQueue();
+            TaskQueueItem taskQueueItem = _taskQueueService.GetNext();
+            try
+            {
+                return taskQueueItem?.Type switch
+                {
+                    TaskType.Generation => new GenerationTask()
+                    {
+                        DbId = taskQueueItem.ID,
+                        VsId = taskQueueItem.VectorSetID,
+                        IsSample = taskQueueItem.IsSample,
+                        Capabilities = _vectorSetService.GetVectorFileJson(taskQueueItem.VectorSetID, VectorSetJsonFileTypes.Capabilities)
+                    },
+                    TaskType.Validation => new ValidationTask()
+                    {
+                        DbId = taskQueueItem.ID,
+                        VsId = taskQueueItem.VectorSetID,
+                        Expected = taskQueueItem.ShowExpected,
+                        SubmittedResults = _vectorSetService.GetVectorFileJson(taskQueueItem.VectorSetID, VectorSetJsonFileTypes.SubmittedAnswers),
+                        InternalProjection = _vectorSetService.GetVectorFileJson(taskQueueItem.VectorSetID, VectorSetJsonFileTypes.InternalProjection)
+                    },
+                    _ => null,
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception encountered on building executable task.  Setting task to an error status.");
+                _taskQueueService.UpdateStatus(taskQueueItem.ID, TaskStatus.Error);
+                return null;
+            }
         }
 
         public async Task RunTaskAsync(ExecutableTask task)

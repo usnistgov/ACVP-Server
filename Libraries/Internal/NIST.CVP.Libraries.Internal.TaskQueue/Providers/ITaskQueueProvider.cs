@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.Libraries.Shared.Results;
 
-
 namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 {
 	public interface ITaskQueueProvider
@@ -11,5 +10,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 		Result Delete(long taskID);
 		Result DeletePendingTasksForVectorSet(long vectorSetID);
 		Result RestartAll();
+		TaskQueueItem GetNext();
+		Result UpdateStatus(long taskID, TaskStatus taskStatus);
 	}
 }

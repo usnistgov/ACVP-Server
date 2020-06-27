@@ -13,5 +13,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 		Result Delete(long taskID);
 		Result DeletePendingTasksForVectorSet(long vectorSetID);
 		Result RestartAll();
+		TaskQueueItem GetNext();
+		Result UpdateStatus(long taskID, TaskStatus taskStatus);
 	}
 }

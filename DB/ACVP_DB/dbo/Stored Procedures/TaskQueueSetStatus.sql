@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [common].[TaskQueueSetStatus] 
+﻿CREATE PROCEDURE [dbo].[TaskQueueSetStatus] 
 	
 	@TaskID BIGINT
 	,@Status INT
@@ -7,7 +7,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-    UPDATE	common.TaskQueue
+    UPDATE	dbo.TaskQueue
 	SET		[status] = @Status
 	WHERE	TaskID = @TaskID
 

@@ -1,5 +1,5 @@
 -- Removes the completed row from the TASK_QUEUE
-CREATE PROCEDURE [common].[TaskQueueDelete]
+CREATE PROCEDURE [dbo].[TaskQueueDelete]
 
     @TaskID BIGINT
 
@@ -7,7 +7,7 @@ AS
     SET NOCOUNT ON
 
     DELETE
-    FROM [common].[TaskQueue]
+    FROM [dbo].[TaskQueue]
     WHERE TaskID = @TaskID
 
 GO

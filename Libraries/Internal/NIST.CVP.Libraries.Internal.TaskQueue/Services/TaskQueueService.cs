@@ -67,5 +67,9 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Services
 		public List<TaskQueueItem> List() => _taskQueueProvider.List();
 
 		public Result RestartAll() => _taskQueueProvider.RestartAll();
+
+		public TaskQueueItem GetNext() => _taskQueueProvider.GetNext();
+
+		public Result UpdateStatus(long taskID, TaskStatus taskStatus) => _taskQueueProvider.UpdateStatus(taskID, taskStatus);
 	}
 }

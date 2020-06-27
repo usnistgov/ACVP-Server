@@ -1,22 +1,21 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using NIST.CVP.Common.Config;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Libraries.Internal.TaskQueue.Services;
 using NIST.CVP.TaskQueueProcessor.Services;
 using NIST.CVP.TaskQueueProcessor.TaskModels;
 using Serilog;
 
 namespace NIST.CVP.TaskQueueProcessor
 {
-    public class QueueProcessor : BackgroundService
+	public class QueueProcessor : BackgroundService
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly ITaskService _taskService;
-        private readonly ICleaningService _cleaningService;
+        private readonly ITaskQueueService _taskQueueService;
         
         private readonly PoolConfig _poolConfig;
         private readonly TaskQueueProcessorConfig _taskConfig;
@@ -24,11 +23,9 @@ namespace NIST.CVP.TaskQueueProcessor
         private readonly SemaphoreSlim _semaphore;
         private readonly int _maxTasks;
         
-        public QueueProcessor(IServiceProvider serviceProvider, ITaskService taskService, ICleaningService cleaningService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
+        public QueueProcessor(ITaskService taskService, IOptions<PoolConfig> poolConfig, IOptions<TaskQueueProcessorConfig> taskConfig)
         {
-            _serviceProvider = serviceProvider;
             _taskService = taskService;
-            _cleaningService = cleaningService;
             _poolConfig = poolConfig.Value;
             _taskConfig = taskConfig.Value;
 
@@ -85,7 +82,7 @@ namespace NIST.CVP.TaskQueueProcessor
                     var genValTask = _taskService.RunTaskAsync(task);
 
                     await genValTask;
-                    _cleaningService.DeleteCompletedTask(task.DbId);
+                    _taskQueueService.Delete(task.DbId);
                 }
                 catch (Exception e)
                 {
@@ -125,7 +122,7 @@ namespace NIST.CVP.TaskQueueProcessor
         {
             // Stop commands
             Log.Information("Stopping");
-            _cleaningService.MarkTasksForRestart();
+            _taskQueueService.RestartAll();
             Log.Information("Tasks saved");
             
             return base.StopAsync(cancellationToken);
