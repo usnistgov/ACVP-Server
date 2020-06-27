@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace NIST.CVP.Libraries.Internal.MessageQueue
 {
@@ -8,7 +7,7 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue
 	{
 		public Guid ID { get; set; }
 		public MessageStatus Status { get; set; }
-		public MessageType MessageType { get; set; }
+		public APIAction APIAction { get; set; }
 		public int Length { get; set; }
 		public DateTime CreatedOn { get; set; }
 	}

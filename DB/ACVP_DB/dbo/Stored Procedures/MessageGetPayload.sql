@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [common].[MessageGetPayload]
+CREATE PROCEDURE [dbo].[MessageGetPayload]
 
 	@MessageId uniqueidentifier
 
@@ -11,9 +11,9 @@ SET NOCOUNT ON
 
 OPEN SYMMETRIC KEY ACVPKey DECRYPTION BY CERTIFICATE ACVPKeyProtectionCert;
 
-SELECT	dbo.DecryptNvarchar(message_payload) AS Payload
-FROM common.MESSAGE_QUEUE
-WHERE id = @MessageId
+SELECT	dbo.DecryptNvarchar(Payload) AS Payload
+FROM dbo.MessageQueue
+WHERE MessageId = @MessageId
 
 CLOSE SYMMETRIC KEY ACVPKey
 

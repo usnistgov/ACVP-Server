@@ -111,7 +111,6 @@
     <Build Include="acvp\Tables\VECTOR_SET.sql" />
     <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
     <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
-    <Build Include="common\Tables\MESSAGE_QUEUE.sql" />
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
     <Build Include="migration\Tables\Contact_Contact.sql" />
@@ -200,7 +199,6 @@
     <Build Include="migration\Stored Procedures\ScenarioAlgorithmInsert.sql" />
     <Build Include="migration\Stored Procedures\ScenarioValidationRecordsGet.sql" />
     <Build Include="migration\Stored Procedures\ValidationNumberForScenarioGet.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueGetNext.sql" />
     <Build Include="Security\acvp.sql" />
     <Build Include="Security\common.sql" />
     <Build Include="Security\csrc.sql" />
@@ -208,7 +206,6 @@
     <Build Include="Security\migration.sql" />
     <Build Include="Security\ref.sql" />
     <Build Include="Security\val.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueDelete.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionVectorSetsCancel.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetCancel.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionInsert.sql" />
@@ -304,7 +301,6 @@
     <Build Include="val\Stored Procedures\ImplementationExists.sql" />
     <Build Include="acvp\Stored Procedures\TestSessionExists.sql" />
     <Build Include="val\Stored Procedures\AddressGet.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueUpdateStatus.sql" />
     <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
     <Build Include="val\Stored Procedures\PersonGet.sql" />
     <Build Include="val\Stored Procedures\PersonGetEmails.sql" />
@@ -325,8 +321,6 @@
     <Build Include="val\Stored Procedures\WorkflowItemGetById.sql" />
     <Build Include="val\Stored Procedures\WorkflowItemsGet.sql" />
     <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
-    <Build Include="common\Stored Procedures\MessageGetPayload.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueList.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserInsert.sql" />
     <Build Include="acvp\Stored Procedures\VectorSetRemoveJson.sql" />
     <Build Include="acvp\Stored Procedures\AcvpUserDelete.sql" />
@@ -371,6 +365,12 @@
     <Build Include="dbo\Stored Procedures\TaskQueueSetStatus.sql" />
     <Build Include="dbo\Tables\TaskQueue.sql" />
     <Build Include="dbo\Tables\TaskTypes.sql" />
+    <Build Include="dbo\Tables\MessageQueue.sql" />
+    <Build Include="dbo\Stored Procedures\MessageGetPayload.sql" />
+    <Build Include="dbo\Stored Procedures\MessageQueueDelete.sql" />
+    <Build Include="dbo\Stored Procedures\MessageQueueGetNext.sql" />
+    <Build Include="dbo\Stored Procedures\MessageQueueList.sql" />
+    <Build Include="dbo\Stored Procedures\MessageQueueUpdateStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

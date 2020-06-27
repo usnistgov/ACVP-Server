@@ -19,14 +19,14 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue.Providers
 		{
 			var db = new MightyOrm<Message>(_acvpConnectionString);
 
-			return db.SingleFromProcedure("common.MessageQueueGetNext");
+			return db.SingleFromProcedure("dbo.MessageQueueGetNext");
 		}
 
 		public void UpdateStatus(Guid id, MessageStatus messageStatus)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			db.ExecuteProcedure("common.MessageQueueUpdateStatus", inParams: new
+			db.ExecuteProcedure("dbo.MessageQueueUpdateStatus", inParams: new
 			{
 				MessageId = id,
 				StatusId = messageStatus
@@ -37,7 +37,7 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue.Providers
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
-			db.ExecuteProcedure("common.MessageQueueDelete", inParams: new
+			db.ExecuteProcedure("dbo.MessageQueueDelete", inParams: new
 			{
 				MessageId = id
 			});
@@ -47,13 +47,13 @@ namespace NIST.CVP.Libraries.Internal.MessageQueue.Providers
 		{
 			var db = new MightyOrm<MessageQueueItem>(_acvpConnectionString);
 
-			return db.QueryFromProcedure("common.MessageQueueList").ToList();
+			return db.QueryFromProcedure("dbo.MessageQueueList").ToList();
 		}
 
 		public string GetMessagePayload(Guid id)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
-			return db.ScalarFromProcedure("common.MessageGetPayload", inParams: new
+			return db.ScalarFromProcedure("dbo.MessageGetPayload", inParams: new
 			{
 				MessageId = id
 			}).ToString();

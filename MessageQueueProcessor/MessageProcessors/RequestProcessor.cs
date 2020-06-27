@@ -25,7 +25,7 @@ namespace MessageQueueProcessor.MessageProcessors
 
 		public Result Process(Message message)
 		{
-			APIAction apiAction = message.MessageType;
+			APIAction apiAction = message.APIAction;
 
 			//Deserialize the request payload
 			RequestPayload requestPayload = JsonSerializer.Deserialize<RequestPayload>(message.Payload);

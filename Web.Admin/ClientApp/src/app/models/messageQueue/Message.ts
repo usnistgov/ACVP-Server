@@ -1,7 +1,7 @@
 export class Message {
   id: string;
   status: string;
-  messageType: string;
+  apiAction: string;
   length: number;
   createdOn: Date;
 }
