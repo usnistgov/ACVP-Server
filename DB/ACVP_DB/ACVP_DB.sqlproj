@@ -62,8 +62,6 @@
     <Folder Include="val\Tables\" />
     <Folder Include="acvp\" />
     <Folder Include="acvp\Tables\" />
-    <Folder Include="common\" />
-    <Folder Include="common\Tables\" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
     <Folder Include="migration\" />
@@ -78,7 +76,6 @@
     <Folder Include="acvp\Stored Procedures\" />
     <Folder Include="lcavp\Stored Procedures\" />
     <Folder Include="migration\Stored Procedures\" />
-    <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="val\Stored Procedures" />
     <Folder Include="ref\Stored Procedures" />
@@ -200,7 +197,6 @@
     <Build Include="migration\Stored Procedures\ScenarioValidationRecordsGet.sql" />
     <Build Include="migration\Stored Procedures\ValidationNumberForScenarioGet.sql" />
     <Build Include="Security\acvp.sql" />
-    <Build Include="Security\common.sql" />
     <Build Include="Security\csrc.sql" />
     <Build Include="Security\lcavp.sql" />
     <Build Include="Security\migration.sql" />
