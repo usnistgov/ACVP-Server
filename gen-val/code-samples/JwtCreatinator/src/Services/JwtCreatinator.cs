@@ -42,6 +42,15 @@ namespace JwtCreatinator.Services
 				};
 				var jwt = _jwtService.Create(request.ClientCertSubject, claims);
 				
+				if (!_jwtService.IsTokenValid(request.ClientCertSubject, jwt.Token, true))
+				{
+					_logger.LogError($"The token that we literally just created for {testSession.ID} didn't validate.");
+				}
+				else
+				{
+					_logger.LogInformation($"Token validated for {testSession.ID}.");
+				}
+				
 				list.Add(new JwtRenewResponse()
 				{
 					Jwt = jwt.Token,
