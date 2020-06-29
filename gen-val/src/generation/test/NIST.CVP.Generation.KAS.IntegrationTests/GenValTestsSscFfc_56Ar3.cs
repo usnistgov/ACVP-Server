@@ -79,7 +79,8 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 HashFunctionZ = HashFunctions.None,
                 DomainParameterGenerationMethods = new[]
                 {
-                    KasDpGeneration.Ffdhe2048
+                    KasDpGeneration.Ffdhe2048,
+                    KasDpGeneration.Fb
                 },
                 Scheme = new Schemes()
                 {
@@ -121,8 +122,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 HashFunctionZ = HashFunctions.Sha3_d512,
                 DomainParameterGenerationMethods = new[]
                 {
-                    KasDpGeneration.Ffdhe2048,
-                    KasDpGeneration.Fb
+                    KasDpGeneration.Ffdhe2048
                 },
                 Scheme = new Schemes()
                 {
