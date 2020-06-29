@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[LCAVPIdGenerator] (
+    [id] BIGINT IDENTITY (1, 1) NOT NULL,
+    CONSTRAINT [PK_LCAVPIdGenerator] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+

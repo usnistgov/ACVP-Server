@@ -1,0 +1,13 @@
+﻿
+CREATE VIEW [csrc].[OEs]
+WITH SCHEMABINDING
+AS
+
+SELECT OEId, Name
+FROM dbo.OEs
+
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_OEs]
+    ON [csrc].[OEs]([OEId] ASC);
+

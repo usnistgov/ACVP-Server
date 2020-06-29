@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[ACVPRoles] (
+    [ACVPRoleId]         BIGINT        IDENTITY (1, 1) NOT NULL,
+    [RoleName]  NVARCHAR (64) NOT NULL,
+    [RoleGroup] NVARCHAR (64) DEFAULT ('Roles') NOT NULL,
+    CONSTRAINT [PK_ACVP_ROLE] PRIMARY KEY CLUSTERED ([ACVPRoleId] ASC)
+);
+

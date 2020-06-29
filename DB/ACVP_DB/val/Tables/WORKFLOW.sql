@@ -12,7 +12,7 @@
     [LastUpdatedDate] DATETIME2 NULL, 
     CONSTRAINT [PK_WORKFLOW] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_WORKFLOW_STATUS] FOREIGN KEY ([status]) REFERENCES [val].[WORKFLOW_STATUS] ([id]),
-    CONSTRAINT [FK_APIAction] FOREIGN KEY ([APIActionID]) REFERENCES [acvp].[APIActions] ([APIActionID]),
-    CONSTRAINT [FK_ACVPUser] FOREIGN KEY ([RequestingUserId]) REFERENCES [acvp].[ACVP_USER] ([id]),
+    CONSTRAINT [FK_Workflow_APIAction] FOREIGN KEY ([APIActionID]) REFERENCES [dbo].[APIActions] ([APIActionId]),
+    CONSTRAINT [FK_Workflow_ACVPUser] FOREIGN KEY ([RequestingUserId]) REFERENCES [dbo].[ACVPUsers] ([ACVPUserId]),
 );
 

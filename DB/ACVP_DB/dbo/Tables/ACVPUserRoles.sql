@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[ACVPUserRoles] (
+    [ACVPUserRoleId]      BIGINT IDENTITY (1, 1) NOT NULL,
+    [ACVPRoleId] BIGINT NOT NULL,
+    [AcvpUserId] BIGINT NOT NULL,
+    CONSTRAINT [PK_ACVPUserRoles] PRIMARY KEY CLUSTERED ([ACVPUserRoleId] ASC),
+    CONSTRAINT [FK_ACVPUserRoles_RoleId] FOREIGN KEY ([ACVPRoleId]) REFERENCES [dbo].[ACVPRoles] ([ACVPRoleId]),
+    CONSTRAINT [FK_ACVPUserRoles_UserId] FOREIGN KEY ([AcvpUserId]) REFERENCES [dbo].[ACVPUsers] ([ACVPUserId]),
+    CONSTRAINT [UQ_ACVPUserRoles_Role_User] UNIQUE NONCLUSTERED ([ACVPRoleId] ASC, [AcvpUserId] ASC)
+);
+

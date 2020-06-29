@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[ACVPUserDelete]
+
+	@ACVPUserId BIGINT
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM dbo.ACVPUsers
+	WHERE ACVPUserId.id = @ACVPUserId
+
+END

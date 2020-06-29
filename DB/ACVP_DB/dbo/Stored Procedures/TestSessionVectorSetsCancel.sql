@@ -6,6 +6,6 @@ AS
 
 SET NOCOUNT ON
 
-UPDATE dbo.VectorSet
+UPDATE dbo.VectorSets
 SET VectorSetStatusId = 5
 WHERE TestSessionId = @TestSessionId

@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[ACVPUserSetSeed]
+	
+	 @ACVPUserId BIGINT
+	,@Seed NVARCHAR(64)
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	UPDATE	dbo.ACVPUsers
+	SET		Seed = @Seed
+	WHERE	ACVPUserId = @ACVPUserId
+
+END
