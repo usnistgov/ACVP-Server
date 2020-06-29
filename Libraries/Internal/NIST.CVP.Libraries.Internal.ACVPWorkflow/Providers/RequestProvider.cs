@@ -23,11 +23,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.RequestInsert", inParams: new
+				db.ExecuteProcedure("dbo.RequestInsert", inParams: new
 				{
-					RequestID = requestID,
-					WorkflowID = workflowID,
-					UserID = userID
+					RequestId = requestID,
+					WorkflowId = workflowID,
+					ACVPUserId = userID
 				});
 
 				return new KillThisResult();

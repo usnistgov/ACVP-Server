@@ -76,8 +76,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
         public Result CreateUser(AcvpUserCreateParameters param)
         {
 			string base64Seed;
-			// Based on the note about IDisposable interface in the docs, this is the recommended usage to ensure the
-			// CSP is disposed of properly
+			// Based on the note about IDisposable interface in the docs, this is the recommended usage to ensure the CSP is disposed of properly
 			using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
 			{
 				byte[] seed = new byte[48];
@@ -92,6 +91,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			{
 				if (DateTime.TryParse(x509.GetExpirationDateString(), out var expiresOn))
 				{
+                    //Create the person and person email records
 					PersonResult personResult = _personService.Create(param.Person);
 
 					if (personResult.IsSuccess)

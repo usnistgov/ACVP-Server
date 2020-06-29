@@ -707,4 +707,102 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ExpiresOn" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="472ae42a-aa49-4bf7-814b-81d08a8e2abb" ChangeDateTime="06/29/2020 23:20:33">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkflowId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="85fe665c-1bec-4bd9-a4a5-be5eb814d650" ChangeDateTime="06/29/2020 23:20:41">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[created_on]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5c5499a1-eab4-40f4-9180-19c870da45bc" ChangeDateTime="06/29/2020 23:20:46">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[status]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkflowStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a66893a0-cd1a-443b-b82d-07c7dbcd9cd3" ChangeDateTime="06/29/2020 23:20:51">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[accept_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AcceptId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6b63e947-4c73-4837-98fc-a0e66cc6a0e1" ChangeDateTime="06/29/2020 23:20:55">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[json_blob]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="JsonBlob" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7baffe01-6f68-4568-92a5-aedfaa861ad0" ChangeDateTime="06/29/2020 23:21:00">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[lab_name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LabName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="472f560d-c68d-40da-af0d-32ef53d50a97" ChangeDateTime="06/29/2020 23:21:04">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[lab_contact]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LabContact" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fa9111f8-f7a6-479b-b45c-362388d10ca9" ChangeDateTime="06/29/2020 23:21:10">
+    <Property Name="ElementName" Value="[val].[WORKFLOW].[lab_email]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LabEmail" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b57290dd-56e6-41fd-b3b2-328003615ba4" ChangeDateTime="06/29/2020 23:21:27">
+    <Property Name="ElementName" Value="[dbo].[WorkflowItems].[WorkflowId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[WorkflowItems]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkflowItemId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="22206da7-7f4c-4385-b491-b3a62e9fa15f" ChangeDateTime="06/29/2020 23:22:51">
+    <Property Name="ElementName" Value="[val].[WORKFLOW_STATUS].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW_STATUS]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkflowStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="579493b6-5399-4d7c-856e-9542d5f76133" ChangeDateTime="06/29/2020 23:23:12">
+    <Property Name="ElementName" Value="[val].[WORKFLOW_STATUS].[status]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[WORKFLOW_STATUS]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Status" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="afa1ab54-4daf-4b27-802d-40891b2104dc" ChangeDateTime="06/29/2020 23:26:19">
+    <Property Name="ElementName" Value="[acvp].[REQUEST].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[REQUEST]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="95866804-37d1-4bc0-a337-38a8b3fe5ce0" ChangeDateTime="06/29/2020 23:26:23">
+    <Property Name="ElementName" Value="[acvp].[REQUEST].[workflow_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[REQUEST]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WorkflowItemId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5930c055-3536-45cb-ae00-3511b03a9a5b" ChangeDateTime="06/29/2020 23:26:30">
+    <Property Name="ElementName" Value="[acvp].[REQUEST].[user_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[REQUEST]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ACVPUserId" />
+  </Operation>
 </Operations>

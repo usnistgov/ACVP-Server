@@ -1,7 +1,7 @@
 ﻿using System;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
@@ -23,7 +23,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("acvp.WorkflowContactDataForUserGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.WorkflowContactDataForUserGet", inParams: new
 				{
 					ACVPUserID = acvpUserID
 				});
@@ -32,8 +32,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 				{
 					return new WorkflowContact
 					{
-						Name = data.Name,
-						Lab = data.Lab,
+						Name = data.FullName,
+						Lab = data.OrganizationName,
 						Email = data.EmailAddress
 					};
 				}

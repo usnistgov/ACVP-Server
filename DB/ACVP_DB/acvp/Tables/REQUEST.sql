@@ -1,9 +1,0 @@
-﻿CREATE TABLE [acvp].[REQUEST] (
-    [id]          BIGINT NOT NULL,
-    [workflow_id] BIGINT NOT NULL,
-    [user_id]     BIGINT NOT NULL,
-    CONSTRAINT [PK_REQUEST] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_REQUEST_USER_ID] FOREIGN KEY ([user_id]) REFERENCES [dbo].[ACVPUsers] ([ACVPUserId]),
-    CONSTRAINT [FK_REQUEST_WORKFLOW_ID] FOREIGN KEY ([workflow_id]) REFERENCES [val].[WORKFLOW] ([id])
-);
-

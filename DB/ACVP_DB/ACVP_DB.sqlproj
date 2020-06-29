@@ -60,20 +60,16 @@
     <Folder Include="Properties" />
     <Folder Include="val\" />
     <Folder Include="val\Tables\" />
-    <Folder Include="acvp\" />
-    <Folder Include="acvp\Tables\" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
     <Folder Include="migration\" />
     <Folder Include="migration\Tables\" />
     <Folder Include="ref\" />
     <Folder Include="ref\Tables\" />
-    <Folder Include="acvp\Views\" />
     <Folder Include="csrc\" />
     <Folder Include="csrc\Views\" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Functions\" />
-    <Folder Include="acvp\Stored Procedures\" />
     <Folder Include="lcavp\Stored Procedures\" />
     <Folder Include="migration\Stored Procedures\" />
     <Folder Include="Security\" />
@@ -84,12 +80,6 @@
     <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="acvp\Tables\REQUEST.sql" />
-    <Build Include="acvp\Tables\REQUEST_ACTION.sql" />
-    <Build Include="val\Tables\WORKFLOW.sql" />
-    <Build Include="val\Tables\WORKFLOW_ACTION.sql" />
-    <Build Include="val\Tables\WORKFLOW_STATUS.sql" />
-    <Build Include="val\Tables\WORKFLOW_TYPE.sql" />
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
     <Build Include="migration\Tables\Contact_Contact.sql" />
@@ -114,7 +104,6 @@
     <Build Include="ref\Tables\LEGACY_CRYPTO_ALGORITHM_FAMILY_LINK.sql" />
     <Build Include="ref\Tables\PROPERTY_TYPE.sql" />
     <Build Include="ref\Tables\STRING_VALUE_DISPLAY_MAPPING.sql" />
-    <Build Include="acvp\Views\REQUEST_WORKFLOW.sql" />
     <Build Include="csrc\Views\Addresses.sql" />
     <Build Include="csrc\Views\LEGACY_CRYPTO_ALGORITHM_FAMILY.sql" />
     <Build Include="csrc\Views\Organizations.sql" />
@@ -171,7 +160,6 @@
     <Build Include="val\Stored Procedures\DependencyOELinkDelete.sql" />
     <Build Include="val\Stored Procedures\DependencyOELinkForOEDeleteAll.sql" />
     <Build Include="val\Stored Procedures\WorkflowInsert.sql" />
-    <Build Include="acvp\Stored Procedures\RequestInsert.sql" />
     <Build Include="val\Stored Procedures\DependencyAttributeInsert.sql" />
     <Build Include="val\Stored Procedures\DependencyInsert.sql" />
     <Build Include="val\Stored Procedures\WorkflowUpdateStatusAcceptID.sql" />
@@ -250,7 +238,6 @@
     <Build Include="Security\ACVPKey.sql" />
     <Build Include="val\Stored Procedures\WorkflowItemGetById.sql" />
     <Build Include="val\Stored Procedures\WorkflowItemsGet.sql" />
-    <Build Include="acvp\Stored Procedures\WorkflowContactDataForUserGet.sql" />
     <Build Include="val\Stored Procedures\PersonGetPhones.sql" />
     <Build Include="val\Stored Procedures\OEsForValidationGet.sql" />
     <Build Include="dbo\Tables\Validations.sql" />
@@ -356,6 +343,12 @@
     <Build Include="dbo\Stored Procedures\ACVPUserSetSeed.sql" />
     <Build Include="dbo\Stored Procedures\ACVPUserSetCertificate.sql" />
     <Build Include="dbo\Stored Procedures\ACVPUserInsert.sql" />
+    <Build Include="dbo\Tables\WorkflowItems.sql" />
+    <Build Include="dbo\Tables\WorkflowStatuses.sql" />
+    <Build Include="dbo\Tables\Requests.sql" />
+    <Build Include="dbo\Views\RequestWorkflow.sql" />
+    <Build Include="dbo\Stored Procedures\RequestInsert.sql" />
+    <Build Include="dbo\Stored Procedures\WorkflowContactDataForUserGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />
