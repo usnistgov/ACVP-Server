@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
 
@@ -27,9 +27,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetCancel", inParams: new
+				db.ExecuteProcedure("dbo.VectorSetCancel", inParams: new
 				{
-					id = id
+					VectorSetId = id
 				});
 			}
 			catch (Exception ex)
@@ -47,12 +47,12 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetInsert", inParams: new
+				db.ExecuteProcedure("dbo.VectorSetInsert", inParams: new
 				{
-					VectorSetID = vectorSetID,
-					TestSessionID = testSessionID,
+					VectorSetId = vectorSetID,
+					TestSessionId = testSessionID,
 					GeneratorVersion = generatorVersion,
-					AlgorithmID = algorithmID
+					AlgorithmId = algorithmID
 				});
 			}
 			catch (Exception ex)
@@ -64,22 +64,22 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return new Result();
 		}
 
-		public Result UpdateSubmittedResults(long vectorSetID, string results)
-		{
-			var db = new MightyOrm(_acvpConnectionString);
+		//public Result UpdateSubmittedResults(long vectorSetID, string results)
+		//{
+		//	var db = new MightyOrm(_acvpConnectionString);
 
-			try
-			{
-				db.ExecuteProcedure("acvp.VectorSetUpdateSubmittedResult", inParams: new { VectorSetID = vectorSetID, Results = System.Text.Encoding.UTF8.GetBytes(results) });
-			}
-			catch (Exception ex)
-			{
-				_logger.LogError(ex);
-				return new Result(ex.Message);
-			}
+		//	try
+		//	{
+		//		db.ExecuteProcedure("acvp.VectorSetUpdateSubmittedResult", inParams: new { VectorSetID = vectorSetID, Results = System.Text.Encoding.UTF8.GetBytes(results) });
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_logger.LogError(ex);
+		//		return new Result(ex.Message);
+		//	}
 
-			return new Result();
-		}
+		//	return new Result();
+		//}
 
 		public Result UpdateStatus(long vectorSetID, VectorSetStatus status, string errorMessage)
 		{
@@ -87,10 +87,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetUpdateStatusAndMessage", inParams: new
+				db.ExecuteProcedure("dbo.VectorSetUpdateStatusAndMessage", inParams: new
 				{
-					VectorSetID = vectorSetID,
-					Status = status,
+					VectorSetId = vectorSetID,
+					VectorSetStatusId = status,
 					ErrorMessage = errorMessage
 				});
 			}
@@ -111,7 +111,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.VectorSetsForTestSessionGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.VectorSetsForTestSessionGet", inParams: new
 				{
 					TestSessionId = testSessionID
 				});
@@ -135,11 +135,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var queryResult = db.SingleFromProcedure(
-					"acvp.VectorSetGet",
+				var queryResult = db.SingleFromProcedure("dbo.VectorSetGet",
 					new
 					{
-						vectorSetId
+						VectorSetId = vectorSetId
 					});
 
 				if (queryResult == null)
@@ -147,12 +146,12 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 				VectorSet result = new VectorSet()
 				{
-					Algorithm = queryResult.algorithmName,
-					AlgorithmId = queryResult.algorithmId,
-					GeneratorVersion = queryResult.generatorVersion,
-					Id = queryResult.vectorSetId,
-					Status = (VectorSetStatus)queryResult.status,
-					TestSessionID = queryResult.testSessionId
+					Algorithm = queryResult.DisplayName,
+					AlgorithmId = queryResult.AlgorithmId,
+					GeneratorVersion = queryResult.GeneratorVersion,
+					Id = queryResult.VectorSetId,
+					Status = (VectorSetStatus)queryResult.VectorSetStatusId,
+					TestSessionID = queryResult.TestSessionId
 				};
 
 				return result;
@@ -170,25 +169,24 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var queryResult = db.QueryFromProcedure(
-					"dbo.VectorSetGetJsonFileTypes",
+				var queryResult = db.QueryFromProcedure("dbo.VectorSetGetJsonFileTypes",
 					new
 					{
 						vectorSetId
 					});
 
-				if (queryResult == null)
-					return new List<VectorSetJsonFile>();
-
 				List<VectorSetJsonFile> result = new List<VectorSetJsonFile>();
+
+				if (queryResult == null)
+					return result;
+								
 				foreach (var item in queryResult)
 				{
-					VectorSetJsonFile tmpFile = new VectorSetJsonFile
+					result.Add(new VectorSetJsonFile
 					{
-						Type = Enum.Parse<VectorSetJsonFileTypes>(item.fileType, true),
+						Type = (VectorSetJsonFileTypes)item.VectorSetJsonFileTypeId,
 						CreatedOn = item.createdOn
-					};
-					result.Add(tmpFile);
+					});
 				}
 
 				return result;
@@ -206,12 +204,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var queryResult = db.SingleFromProcedure(
-					"acvp.VectorSetJsonGet",
+				var queryResult = db.SingleFromProcedure("dbo.VectorSetJsonGet",
 					new
 					{
-						VsId = vectorSetId,
-						JsonFileType = fileType.ToString()
+						VectorSetId = vectorSetId,
+						VectorSetJsonFileTypeId = fileType
 					});
 
 				if (queryResult == null)
@@ -234,14 +231,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.VectorSetJsonGetAll", inParams: new
+				var data = db.QueryFromProcedure("dbo.VectorSetJsonGetAll", inParams: new
 				{
 					VectorSetId = vectorSetID
 				});
 
 				foreach (var row in data)
 				{
-					vectorSetJson.Add(((VectorSetJsonFileTypes)row.FileType, row.Content, row.CreatedOn));
+					vectorSetJson.Add(((VectorSetJsonFileTypes)row.VectorSetJsonFileTypeId, row.Content, row.CreatedOn));
 				}
 			}
 			catch (Exception ex)
@@ -258,10 +255,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetJsonPut", inParams: new
+				db.ExecuteProcedure("dbo.VectorSetJsonPut", inParams: new
 				{
-					VsId = vectorSetID,
-					JsonFileType = fileType.ToString(),
+					VectorSetId = vectorSetID,
+					VectorSetJsonFileTypeId = fileType,
 					Content = json
 				},
 				commandTimeout: 120);
@@ -281,7 +278,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetArchive", inParams: new
+				db.ExecuteProcedure("dbo.VectorSetArchive", inParams: new
 				{
 					VectorSetId = vectorSetId
 				});
@@ -303,7 +300,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.VectorSetsToArchiveGet");
+				var data = db.QueryFromProcedure("dbo.VectorSetsToArchiveGet");
 
 				foreach (var row in data)
 				{
@@ -324,11 +321,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.VectorSetRemoveJson",
+				db.ExecuteProcedure("dbo.VectorSetRemoveJson",
 					new
 					{
-						vectorSetId,
-						fileTypeId = fileType
+						VectorSetId = vectorSetId,
+						VectorSetJsonFileTypeId = fileType
 					});
 			}
 			catch (Exception ex)

@@ -1,0 +1,7 @@
+﻿CREATE TABLE [val].[VALIDATION_SOURCE] (
+    [ValidationSourceId]     INT           IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
+    [Name]   NVARCHAR (32) NOT NULL,
+    [prefix] NVARCHAR (16) NULL,
+    CONSTRAINT [PK_VALIDATION_SOURCE] PRIMARY KEY CLUSTERED ([ValidationSourceId] ASC)
+);
+

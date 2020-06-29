@@ -9,8 +9,8 @@ SELECT	 c.id
 		,C.order_index
 FROM val.VALIDATION_CONTACT C
 	INNER JOIN
-	val.PRODUCT_INFORMATION P ON P.id = C.product_information_id
-							AND P.itar = 0
+	dbo.Implementations I ON I.ImplementationId = C.product_information_id
+							AND I.ITAR = 0
 
 
 GO

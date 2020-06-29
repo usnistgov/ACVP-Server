@@ -112,4 +112,186 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TaskId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ca03e55e-612c-4eb9-aa32-4f94c18a9fc0" ChangeDateTime="06/27/2020 02:15:56">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f9d16bec-323c-4c1c-8806-9ab12a69188e" ChangeDateTime="06/27/2020 02:16:03">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[vendor_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VendorId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8bda60a5-a4b8-499f-bdb1-37ba21556159" ChangeDateTime="06/27/2020 02:16:07">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[address_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AddressId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="966b74d9-cbba-4d29-990e-4921b9897072" ChangeDateTime="06/27/2020 02:16:12">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[product_url]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Url" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b24663cf-264e-4ba8-94d7-31b8d7f1315e" ChangeDateTime="06/27/2020 02:16:16">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[module_name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="60a36248-bf49-41ed-b2ed-cd34658ba41e" ChangeDateTime="06/27/2020 02:16:24">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[module_type]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="144c3304-dc6b-4ce9-867e-9262c64c5d76" ChangeDateTime="06/27/2020 02:16:30">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[module_version]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationVersion" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0926c08f-70d4-42da-9cc9-e3a3bcefa56c" ChangeDateTime="06/27/2020 02:16:46">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[implementation_description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationDescription" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="23895229-505b-4a0c-bbd9-696f7b4a4186" ChangeDateTime="06/27/2020 02:17:00">
+    <Property Name="ElementName" Value="[val].[PRODUCT_INFORMATION].[itar]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[PRODUCT_INFORMATION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ITAR" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="00ffca05-ba96-4e42-9a57-18014d9f284e" ChangeDateTime="06/27/2020 02:18:15">
+    <Property Name="ElementName" Value="[dbo].[ImplementationTypes].[name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ImplementationTypes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ImplementationTypeName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e7ce1333-0187-48be-accf-46288e8759a5" ChangeDateTime="06/27/2020 02:25:16">
+    <Property Name="ElementName" Value="[acvp].[VectorSetJson].[VsId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[VectorSetJson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VectorSetId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ac294f4d-3467-48f7-929a-19c80e60ac9c" ChangeDateTime="06/27/2020 02:25:35">
+    <Property Name="ElementName" Value="[acvp].[VectorSetJson].[FileType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[VectorSetJson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VectorSetJsonFileTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ef1fd32-91d2-4383-a04e-ba2f3d08d5d8" ChangeDateTime="06/27/2020 02:36:28">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VectorSetId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0bbd8a54-0749-485a-a1b3-50c54199c21e" ChangeDateTime="06/27/2020 02:36:33">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[test_session_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TestSessionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a7bc76c3-208c-459a-9da1-9475383e825f" ChangeDateTime="06/27/2020 02:36:38">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[generator_version]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="GeneratorVersion" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="200ae917-b58d-4e83-bd73-181086061d5c" ChangeDateTime="06/27/2020 02:36:43">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[algorithm_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AlgorithmId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5120901c-d906-4914-929b-2032e3cc0671" ChangeDateTime="06/27/2020 02:36:55">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[status]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VectorSetStatusId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="48c6f83e-fe4c-4ba2-8beb-f33311c5b838" ChangeDateTime="06/27/2020 02:37:05">
+    <Property Name="ElementName" Value="[dbo].[VectorSet].[vector_error_message]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSet]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ErrorMessage" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d0d32e65-b577-4b3f-922c-697b8898253c" ChangeDateTime="06/27/2020 02:39:31">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TestSessionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3f5da27b-5c68-42c9-9fd3-5ec72b7f8619" ChangeDateTime="06/27/2020 02:39:35">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[created_on]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedOn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2375dbad-ca06-4f92-b7b3-c2532ccdab04" ChangeDateTime="06/27/2020 02:39:40">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[acv_version_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ACVVersionId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="de6337d5-afc3-4ccc-8a11-f5918bcfbb00" ChangeDateTime="06/27/2020 02:39:45">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[generator]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Generator" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1c638a71-adc1-4764-9d73-f61eaec5e38a" ChangeDateTime="06/27/2020 02:39:48">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[sample]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsSample" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8ce802a8-104e-42be-b675-2380b8453346" ChangeDateTime="06/27/2020 02:39:58">
+    <Property Name="ElementName" Value="[acvp].[TEST_SESSION].[user_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[acvp].[TEST_SESSION]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AcvpUserId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="71251b7a-a2b8-481d-9817-6e0777b3e728" ChangeDateTime="06/29/2020 19:20:14">
+    <Property Name="ElementName" Value="[val].[VALIDATION_SOURCE].[id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[VALIDATION_SOURCE]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValidationSourceId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7da55afe-fec7-4d77-9b2e-2d42a9bce5a9" ChangeDateTime="06/29/2020 19:20:22">
+    <Property Name="ElementName" Value="[val].[VALIDATION_SOURCE].[name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[val].[VALIDATION_SOURCE]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
 </Operations>

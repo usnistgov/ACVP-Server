@@ -29,7 +29,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionVectorSetsCancel", inParams: new { id = id });
+				db.ExecuteProcedure("dbo.TestSessionVectorSetsCancel", inParams: new { TestSessionId = id });
 			}
 			catch (Exception ex)
 			{
@@ -46,13 +46,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionInsert", inParams: new
+				db.ExecuteProcedure("dbo.TestSessionInsert", inParams: new
 				{
-					TestSessionID = testSessionId,
-					ACVVersionID = acvVersionID,
+					TestSessionId = testSessionId,
+					ACVVersionId = acvVersionID,
 					Generator = generator,
 					IsSample = isSample,
-					UserID = userID
+					UserId = userID
 				});
 			}
 			catch (Exception ex)
@@ -70,7 +70,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("acvp.TestSessionStatusGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.TestSessionStatusGet", inParams: new
 				{
 					TestSessionId = testSessionID
 				});
@@ -90,7 +90,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionStatusUpdate", inParams: new
+				db.ExecuteProcedure("dbo.TestSessionStatusUpdate", inParams: new
 				{
 					TestSessionId = testSessionID,
 					TestSessionStatusId = testSessionStatus
@@ -113,15 +113,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("acvp.TestSessionsGet",
+				var dbResult = db.QueryWithExpando("dbo.TestSessionsGet", inParams:
 					new
 					{
-						param.PageSize,
-						param.Page,
-						param.TestSessionId,
-						param.TestSessionStatus,
-						param.VectorSetId
-					}, new
+						PageSize = param.PageSize,
+						Page = param.Page,
+						TestSessionId = param.TestSessionId,
+						TestSessionStatusId = param.TestSessionStatus,
+						VectorSetId = param.VectorSetId
+					}, outParams: new
 					{
 						totalRecords = (long)0
 					});
@@ -143,11 +143,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var testSessionData = db.SingleFromProcedure(
-					"acvp.TestSessionGetById",
+				var testSessionData = db.SingleFromProcedure("dbo.TestSessionGetById",
 					new
 					{
-						testSessionId
+						TestSessionId = testSessionId
 					});
 
 				if (testSessionData == null)
@@ -156,10 +155,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				return new TestSession()
 				{
 					TestSessionId = testSessionId,
-					Created = testSessionData.created_on,
+					Created = testSessionData.CreatedOn,
 					Status = (TestSessionStatus)testSessionData.TestSessionStatusId,
-					IsSample = testSessionData.sample,
-					UserID = testSessionData.UserId,
+					IsSample = testSessionData.IsSample,
+					UserID = testSessionData.PersonId,
 					UserName = testSessionData.UserName
 				};
 			}
@@ -177,22 +176,21 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-
-				var vectorSetsData = db.QueryFromProcedure(
-					"acvp.VectorSetsGetByTestSessionId",
+				var vectorSetsData = db.QueryFromProcedure("dbo.VectorSetsGetByTestSessionId",
 					new
 					{
-						testSessionId
+						TestSessionId = testSessionId
 					});
+
 				foreach (var vectorSet in vectorSetsData)
 				{
 					result.Add(new VectorSet()
 					{
-						Algorithm = vectorSet.display_name,
-						Id = vectorSet.id,
-						Status = (VectorSetStatus)vectorSet.status,
-						AlgorithmId = vectorSet.algorithm_id,
-						GeneratorVersion = vectorSet.generator_version,
+						Algorithm = vectorSet.DisplayName,
+						Id = vectorSet.VectorSetId,
+						Status = (VectorSetStatus)vectorSet.VectorSetStatusId,
+						AlgorithmId = vectorSet.AlgorithmId,
+						GeneratorVersion = vectorSet.GeneratorVersion,
 						TestSessionID = testSessionId
 					});
 				}
@@ -211,7 +209,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("acvp.TestSessionExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.TestSessionExists", inParams: new
 				{
 					TestSessionId = testSessionID
 				});
@@ -229,7 +227,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (long)db.ScalarFromProcedure("acvp.TestSessionIdGet", inParams: new
+				return (long)db.ScalarFromProcedure("dbo.TestSessionIdGet", inParams: new
 				{
 					VectorSetId = vectorSetID
 				});
@@ -247,7 +245,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionsExpire", inParams: new
+				db.ExecuteProcedure("dbo.TestSessionsExpire", inParams: new
 				{
 					AgeInDays = ageInDays
 				});
@@ -266,14 +264,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.QueryFromProcedure("acvp.TestSessionsForExpirationWarningGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.TestSessionsForExpirationWarningGet", inParams: new
 				{
 					AgeInDaysForWarning = ageInDaysForWarning
 				});
 
 				foreach (var row in data)
 				{
-					result.Add((row.TestSessionID, row.PersonID));
+					result.Add((row.TestSessionId, row.PersonId));
 				}
 
 			}
@@ -291,7 +289,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("acvp.TestSessionLastTouchedUpdate", inParams: new
+				db.ExecuteProcedure("dbo.TestSessionLastTouchedUpdate", inParams: new
 				{
 					TestSessionId = testSessionID
 				});
