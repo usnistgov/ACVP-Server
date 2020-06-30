@@ -176,7 +176,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status1\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status1\")}, 5000)}",
 							"else {pm.environment.set(\"vendurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -682,7 +682,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status2\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status2\")}, 5000)}",
 							"else {pm.environment.set(\"perurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -1229,7 +1229,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status3\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status3\")}, 5000)}",
 							"else {pm.environment.set(\"modurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -1855,7 +1855,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status4\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status4\")}, 5000)}",
 							"else {pm.environment.set(\"depurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -2283,7 +2283,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status5\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status5\")}, 5000)}",
 							"else {pm.environment.set(\"oesurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -2643,7 +2643,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status6\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status6\")}, 5000)}",
 							"pm.environment.set(\"vendurl\", jsonData[1].approvedUrl);"
 						],
 						"type": "text/javascript"
@@ -2951,7 +2951,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status8\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status8\")}, 5000)}",
 							"else {pm.environment.set(\"modurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -3105,7 +3105,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status9\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status9\")}, 5000)}",
 							"else {pm.environment.set(\"depurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -3259,7 +3259,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status10\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status10\")}, 5000)}",
 							"else {pm.environment.set(\"oesurl\", jsonData[1].approvedUrl);}"
 						],
 						"type": "text/javascript"
@@ -3417,7 +3417,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status11\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status11\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -3575,7 +3575,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -3732,7 +3732,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12a\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12a\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -3889,7 +3889,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12b\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12b\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -4046,7 +4046,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12c\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12c\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -4203,7 +4203,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12d\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status12d\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -4360,7 +4360,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status13\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status13\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -4517,7 +4517,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status14\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status14\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
@@ -4674,7 +4674,7 @@
 							"});",
 							"pm.environment.set(\"reqstat\", jsonData[1].status);",
 							"var reqstatus = pm.environment.get(\"reqstat\");",
-							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status15\")}, 20000)}",
+							"if (reqstatus == \"initial\") {setTimeout(function() {postman.setNextRequest(\"REQ Request Status15\")}, 5000)}",
 							""
 						],
 						"type": "text/javascript"
