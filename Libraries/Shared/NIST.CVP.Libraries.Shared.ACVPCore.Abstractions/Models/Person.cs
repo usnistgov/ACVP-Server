@@ -9,6 +9,5 @@ namespace NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models
         public Organization Organization { get; set; }
         public List<PersonPhone> PhoneNumbers { get; set; }
         public List<string> EmailAddresses { get; set; }
-        public List<PersonNote> Notes { get; set; }
     }
 }

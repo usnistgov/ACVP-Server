@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Enumerables;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Results;
-using NIST.CVP.Libraries.Shared.Enumerables;
-using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
@@ -32,20 +32,20 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.WorkflowInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.WorkflowInsert", inParams: new
 				{
 					APIActionID = apiAction,
-					Status = WorkflowStatus.Pending,
+					WorkflowStatusId = WorkflowStatus.Pending,
 					LabName = labName,
 					LabContactName = contact,
 					LabContactEmail = email,
-					Json = json,
-					RequestingUserId = userID
+					RequestingUserId = userID,
+					Json = json
 				});
 
 				if (data != null)
 				{
-					return new WorkflowInsertResult { WorkflowID = (long)data.WorkflowID };
+					return new WorkflowInsertResult { WorkflowID = (long)data.WorkflowItemId };
 				}
 				else return new WorkflowInsertResult("Workflow item creation failed");
 			}
@@ -62,11 +62,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.WorkflowUpdateStatusAcceptID", inParams: new
+				var data = db.ExecuteProcedure("dbo.WorkflowUpdateStatusAcceptID", inParams: new
 				{
-					WorkflowItemID = workflowItemID,
-					Status = status,
-					AcceptID = acceptID
+					WorkflowItemId = workflowItemID,
+					WorkflowStatusId = status,
+					AcceptId = acceptID
 				});
 
 				return new Result();
@@ -84,10 +84,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.WorkflowUpdateStatus", inParams: new
+				var data = db.ExecuteProcedure("dbo.WorkflowUpdateStatus", inParams: new
 				{
-					WorkflowItemID = workflowItemID,
-					Status = status
+					WorkflowItemId = workflowItemID,
+					@WorkflowStatusId = status
 				});
 
 				return new Result();
@@ -107,16 +107,16 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("val.WorkflowItemsGet",
+				var dbResult = db.QueryWithExpando("dbo.WorkflowItemsGet", inParams:
 					new
 					{
-						param.PageSize,
-						param.Page,
-						param.WorkflowItemId,
-						param.APIActionId,
-						param.RequestId,
-						param.Status
-					},
+						PageSize = param.PageSize,
+						Page = param.Page,
+						WorkflowItemId = param.WorkflowItemId,
+						APIActionID = param.APIActionId,
+						RequestId = param.RequestId,
+						WorkflowStatusId = param.Status
+					}, outParams:
 					new
 					{
 						totalRecords = (long) 0
@@ -139,7 +139,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.WorkflowItemGetById", new
+				var data = db.SingleFromProcedure("dbo.WorkflowItemGetById", new
 				{
 					workflowItemId
 				});
@@ -150,10 +150,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 				return new WorkflowItem()
 				{
 					RequestId = data.RequestId,
-					APIAction = (APIAction)data.APIActionId,
+					APIAction = (APIAction)data.APIActionID,
 					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
 					WorkflowItemID = workflowItemId,
-					Status = (WorkflowStatus)data.Status,
+					Status = (WorkflowStatus)data.WorkflowStatusId,
 					AcceptId = data.AcceptId
 				};
 			}

@@ -111,7 +111,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.ValidationTestSessionsInsert", inParams: new
+				var data = db.ExecuteProcedure("dbo.ValidationTestSessionsInsert", inParams: new
 				{
 					ValidationId = validationID,
 					TestSessionId = testSessionID

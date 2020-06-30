@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [val].[WorkflowInsert]
+﻿CREATE PROCEDURE [dbo].[WorkflowInsert]
 
 	 @APIActionID int
-	,@Status int
+	,@WorkflowStatusId int
 	,@LabName nvarchar(100)
 	,@LabContactName nvarchar(100)
 	,@LabContactEmail nvarchar(100)
@@ -12,20 +12,20 @@ AS
 
 SET NOCOUNT ON
 
-INSERT INTO val.WORKFLOW (
-	 created_on
-	,[status]
-	,json_blob
-	,lab_name
-	,lab_contact
-	,lab_email
+INSERT INTO dbo.WorkflowItems(
+	 CreatedOn
+	,WorkflowStatusId
+	,JsonBlob
+	,LabName
+	,LabContact
+	,LabEmail
 	,APIActionID
 	,RequestingUserId
 	,LastUpdatedDate
 )
 VALUES (
 	 CURRENT_TIMESTAMP
-	,@Status
+	,@WorkflowStatusId
 	,@Json
 	,@LabName
 	,@LabContactName
@@ -35,4 +35,4 @@ VALUES (
 	,CURRENT_TIMESTAMP
 )
 
-SELECT CAST(SCOPE_IDENTITY() AS bigint) AS WorkflowID
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS WorkflowItemId

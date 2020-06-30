@@ -31,60 +31,44 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			personResult.Organization = new Organization();
 			personResult.PhoneNumbers = new List<PersonPhone>();
 			personResult.EmailAddresses = new List<string>();
-			personResult.Notes = new List<PersonNote>();
 
 			try
 			{
 				// First Section - Basic Personal data
-				var personData = db.SingleFromProcedure("val.PersonGet", inParams: new
+				var personData = db.SingleFromProcedure("dbo.PersonGet", inParams: new
 				{
-					PersonID = personID
+					PersonId = personID
 				});
 
-				personResult.ID = personData.person_id;
-				personResult.Name = personData.person_name;
+				personResult.ID = personID;
+				personResult.Name = personData.FullName;
 
-				personResult.Organization.ID = personData.organization_id;
-				personResult.Organization.Name = personData.organization_name;
-				personResult.Organization.Url = personData.organization_url;
-				personResult.Organization.VoiceNumber = personData.organization_voice;
-				personResult.Organization.FaxNumber = personData.organization_fax;
+				//TODO - a query to get a person should not be bringing back all this data about an org
+				personResult.Organization.ID = personData.OrganizationId;
+				personResult.Organization.Name = personData.OrganizationName;
+				personResult.Organization.Url = personData.OrganizationUrl;
+				personResult.Organization.VoiceNumber = personData.VoiceNumber;
+				personResult.Organization.FaxNumber = personData.FaxNumber;
 
 				// Second section - Personal Email Data, a one-to-many relationship
 				personResult.EmailAddresses = GetEmailAddresses(personID);
 
 				// Third section - Personal Phone Data, a one-to-many relationship
-				var personPhoneData = db.QueryFromProcedure("val.PersonGetPhones", inParams: new
+				var personPhoneData = db.QueryFromProcedure("dbo.PersonGetPhones", inParams: new
 				{
-					PersonID = personID
+					PersonId = personID
 				});
 
 				foreach (var phone in personPhoneData)
 				{
-					personResult.PhoneNumbers.Add(new PersonPhone {
-						Type = phone.phone_number_type,
-						Number = phone.phone_number 
-					});
-				}
-
-				// Fourth Section - Notes
-				var personNoteData = db.QueryFromProcedure("val.PersonGetNotes", inParams: new
-				{
-					PersonID = personID
-				});
-
-				foreach (var note in personNoteData)
-				{
-					personResult.Notes.Add(new PersonNote
+					personResult.PhoneNumbers.Add(new PersonPhone
 					{
-						ID = note.id,
-						Time = note.note_date,
-						Subject = note.note_subject,
-						Body = note.note
+						Type = phone.PhoneNumberType,
+						Number = phone.PhoneNumber
 					});
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
 			}
@@ -92,22 +76,22 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return personResult;
 		}
 
-		public List<string> GetEmailAddresses (long personID)
+		public List<string> GetEmailAddresses(long personID)
 		{
 			List<string> result = new List<string>();
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				var data = db.QueryFromProcedure("val.PersonGetEmails", inParams: new
+				var data = db.QueryFromProcedure("dbo.PersonGetEmails", inParams: new
 				{
 					PersonID = personID
 				});
 
-				foreach(var row in data)
+				foreach (var row in data)
 				{
 					result.Add(row.EmailAddress);
-				}	
+				}
 			}
 			catch (Exception ex)
 			{
@@ -123,7 +107,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.PersonDelete", inParams: new { PersonID = personID });
+				db.ExecuteProcedure("dbo.PersonDelete", inParams: new { PersonId = personID });
 			}
 			catch (Exception ex)
 			{
@@ -140,7 +124,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.PersonEmailDeleteAll", inParams: new { PersonID = personID });
+				db.ExecuteProcedure("dbo.PersonEmailDeleteAll", inParams: new { PersonId = personID });
 			}
 			catch (Exception ex)
 			{
@@ -157,7 +141,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.PersonPhoneDeleteAll", inParams: new { PersonID = personID });
+				db.ExecuteProcedure("dbo.PersonPhoneDeleteAll", inParams: new { PersonId = personID });
 			}
 			catch (Exception ex)
 			{
@@ -176,10 +160,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.PersonInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.PersonInsert", inParams: new
 				{
 					Name = name,
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 
 				if (data == null)
@@ -188,7 +172,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.PersonID);
+					return new InsertResult((long)data.PersonId);
 				}
 			}
 			catch (Exception ex)
@@ -205,9 +189,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			try
 			{
 				//There is no ID on the record, so don't return anything
-				db.ExecuteProcedure("val.PersonEmailInsert", inParams: new
+				db.ExecuteProcedure("dbo.PersonEmailInsert", inParams: new
 				{
-					PersonID = personID,
+					PersonId = personID,
 					EmailAddress = emailAddress,
 					OrderIndex = orderIndex
 				});
@@ -227,10 +211,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				//There is no ID on the record, so don't return anything
-				db.ExecuteProcedure("val.PersonPhoneInsert", inParams: new
+				db.ExecuteProcedure("dbo.PersonPhoneInsert", inParams: new
 				{
-					PersonID = personID,
+					PersonId = personID,
 					OrderIndex = orderIndex,
 					Type = type,
 					Number = number
@@ -253,13 +236,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.PersonUpdate", inParams: new
+				db.ExecuteProcedure("dbo.PersonUpdate", inParams: new
 				{
-					PersonID = personID,
+					PersonId = personID,
 					Name = name,
-					OrganizationID = organizationID,
+					OrganizationId = organizationID,
 					NameUpdated = nameUpdated,
-					OrganizationIDUpdated = organizationIDUpdated
+					OrganizationIdUpdated = organizationIDUpdated
 				});
 
 				return new Result();
@@ -277,12 +260,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.PersonIsUsed", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.PersonIsUsed", inParams: new
 				{
 					PersonID = personID
 				});
-
-				return data.IsUsed;
 			}
 			catch (Exception ex)
 			{
@@ -297,7 +278,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.PersonExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.PersonExists", inParams: new
 				{
 					PersonId = personID
 				});
@@ -315,14 +296,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			List<PersonLite> result = new List<PersonLite>();
 			long totalRecords = 0;
-			
+
 			try
 			{
-				var dbResult = db.QueryWithExpando("val.PersonsGet", inParams: new
+				var dbResult = db.QueryWithExpando("dbo.PersonsGet", inParams: new
 				{
 					PageSize = param.PageSize,
 					PageNumber = param.Page,
-					Id = param.Id,
+					PersonId = param.Id,
 					Name = param.Name,
 					OrganizationName = param.OrganizationName
 				}, outParams: new
@@ -337,7 +318,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			{
 				_logger.LogError(ex.Message);
 			}
-			
+
 			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
 		}
 	}

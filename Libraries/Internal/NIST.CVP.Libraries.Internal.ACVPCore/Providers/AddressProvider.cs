@@ -26,9 +26,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.AddressDelete", inParams: new
+				db.ExecuteProcedure("dbo.AddressDelete", inParams: new
 				{
-					AddressID = addressID
+					AddressId = addressID
 				});
 			}
 			catch (Exception ex)
@@ -46,9 +46,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.AddressDeleteAllForOrganization", inParams: new
+				db.ExecuteProcedure("dbo.AddressDeleteAllForOrganization", inParams: new
 				{
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 			}
 			catch (Exception ex)
@@ -62,32 +62,64 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 		public List<Address> GetAllForOrganization(long organizationID)
 		{
-			var db = new MightyOrm<Address>(_acvpConnectionString);
+			List<Address> addresses = new List<Address>();
+
+			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				return db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.AddressesForOrganizationGet", inParams: new
 				{
 					OrganizationID = organizationID
-				}).ToList();
+				});
+
+				foreach (var row in data)
+				{
+					addresses.Add(new Address
+					{
+						ID = row.AddressId,
+						OrganizationID = organizationID,
+						Street1 = row.Street1,
+						Street2 = row.Street2,
+						Street3 = row.Street3,
+						Locality = row.Locality,
+						Region = row.Region,
+						PostalCode = row.PostalCode,
+						Country = row.Country
+					});
+				}
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
-				return new List<Address>();
 			}
+
+			return addresses;
 		}
 
 		public Address Get(long addressID)
 		{
-			var db = new MightyOrm<Address>(_acvpConnectionString);
+			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				return db.SingleFromProcedure("val.AddressGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.AddressGet", inParams: new
 				{
 					AddressId = addressID
 				});
+
+				return new Address
+				{
+					ID = data.AddressId,
+					OrganizationID = data.OrganizationId,
+					Street1 = data.Street1,
+					Street2 = data.Street2,
+					Street3 = data.Street3,
+					Locality = data.Locality,
+					Region = data.Region,
+					PostalCode = data.PostalCode,
+					Country = data.Country
+				};
 			}
 			catch (Exception ex)
 			{
@@ -103,9 +135,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.ScalarFromProcedure("val.AddressInsert", inParams: new
+				var data = db.ScalarFromProcedure("dbo.AddressInsert", inParams: new
 				{
-					OrganizationID = organizationID,
+					OrganizationId = organizationID,
 					OrderIndex = orderIndex,
 					Street1 = street1,
 					Street2 = street2,
@@ -138,9 +170,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.AddressUpdate", inParams: new
+				db.ExecuteProcedure("dbo.AddressUpdate", inParams: new
 				{
-					AddressID = addressID,
+					AddressId = addressID,
 					Street1 = street1,
 					Street2 = street2,
 					Street3 = street3,
@@ -173,9 +205,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.AddressIsUsedOtherThanOrg", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.AddressIsUsedOtherThanOrg", inParams: new
 				{
-					AddressID = addressID
+					AddressId = addressID
 				});
 			}
 			catch (Exception ex)
@@ -191,7 +223,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.AddressExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.AddressExists", inParams: new
 				{
 					AddressId = addressID
 				});
