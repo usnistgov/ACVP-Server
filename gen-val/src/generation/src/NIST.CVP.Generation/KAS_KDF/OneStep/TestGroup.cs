@@ -11,5 +11,6 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		public List<TestCase> Tests { get; set; } = new List<TestCase>();
 		public bool IsSample { get; set; }
 		public OneStepConfiguration KdfConfiguration { get; set; }
+		public int ZLength { get; set; }
 	}
 }

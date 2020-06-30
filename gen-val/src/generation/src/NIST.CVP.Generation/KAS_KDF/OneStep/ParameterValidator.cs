@@ -84,6 +84,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 			ValidateFixedInfoPattern(parameters.FixedInfoPattern, errors);
 			ValidateFixedInfoEncoding(parameters.FixedInfoEncoding, errors);
 			ValidateL(parameters, errors);
+			ValidateZ(parameters, errors);
 			
 			return new ParameterValidateResponse(errors);
 		}
@@ -226,6 +227,19 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 			if (param.L > MaximumL)
 			{
 				errors.Add($"Provided 'l' value of {param.L} exceeds that maximum testable l value of {MaximumL}.");
+			}
+		}
+		
+		private void ValidateZ(Parameters parameters, List<string> errors)
+		{
+			if (!ValidateDomain(parameters.Z, errors, "z", 224, 65336))
+			{
+				return;
+			}
+			var modCheck = ValidateMultipleOf(parameters.Z, 8, "z mod");
+			if (!string.IsNullOrEmpty(modCheck))
+			{
+				errors.Add(modCheck);
 			}
 		}
 	}

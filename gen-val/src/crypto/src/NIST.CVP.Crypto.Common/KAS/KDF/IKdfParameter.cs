@@ -32,7 +32,6 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <summary>
         /// The shared secret for use in deriving a key.
         /// </summary>
-        [JsonIgnore]
         BitString Z { get; set; }
         /// <summary>
         /// The length of the key to derive.

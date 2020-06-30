@@ -15,9 +15,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 {
 	public class ObserverKasKdfValOneStepCaseGrain : ObservableOracleGrainBase<KasKdfValOneStepResult>, IObserverKasKdfValOneStepCaseGrain
 	{
-		private const int LengthZ = 512;
 		private const int LengthPartyId = 128;
-		private const int LengthEphemeralData = 512;
 		
 		private readonly IKdfParameterVisitor _kdfParameterVisitor;
 		private readonly IKdfVisitor _kdfVisitor;
@@ -61,16 +59,16 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 				while (true)
 				{
 					var kdfParam = _kdfParameterVisitor.CreateParameter(_param.OneStepConfiguration);
-					kdfParam.Z = _entropyProvider.GetEntropy(LengthZ);
+					kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
 
 					var fixedInfoPartyU =
 						new PartyFixedInfo(
 							_entropyProvider.GetEntropy(LengthPartyId), 
-							IncludeEphemeralData() ? _entropyProvider.GetEntropy(LengthEphemeralData) : null);
+							IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
 					var fixedInfoPartyV =
 						new PartyFixedInfo(
 							_entropyProvider.GetEntropy(LengthPartyId), 
-							IncludeEphemeralData() ? _entropyProvider.GetEntropy(LengthEphemeralData) : null);
+							IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
 					var fixedInfoParam = new FixedInfoParameter()
 					{
 						Context = kdfParam.Context,

@@ -27,6 +27,10 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		/// </summary>
 		public FixedInfoEncoding[] FixedInfoEncoding { get; set; }
 		/// <summary>
+		/// Supported lengths of Z 
+		/// </summary>
+		public MathDomain Z { get; set; }
+		/// <summary>
 		/// The length of DKM the KDF can produce
 		/// </summary>
 		public int L { get; set; }

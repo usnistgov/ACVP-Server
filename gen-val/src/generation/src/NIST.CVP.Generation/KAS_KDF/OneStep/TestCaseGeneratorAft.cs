@@ -35,7 +35,8 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 			{
 				var result = await _oracle.GetKasKdfAftOneStepTestAsync(new KasKdfAftOneStepParameters()
 				{
-					OneStepConfiguration = group.KdfConfiguration
+					OneStepConfiguration = group.KdfConfiguration,
+					ZLength = group.ZLength
 				});
 
 				return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Math.Domain;
 
 namespace NIST.CVP.Generation.KAS_KDF.OneStep
 {
@@ -25,20 +27,24 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 					{
 						foreach (var saltMethod in GetSaltingMethods(auxFunction))
 						{
-							groups.Add(new TestGroup()
+							foreach (var zLength in GetZs(parameters.Z))
 							{
-								KdfConfiguration = new OneStepConfiguration()
+								groups.Add(new TestGroup()
 								{
-									L = parameters.L,
-									AuxFunction = auxFunction.AuxFunctionName,
-									SaltMethod = saltMethod,
-									SaltLen = GetSaltLen(auxFunction),
-									FixedInfoEncoding = fixedInfoEncoding,
-									FixedInfoPattern = parameters.FixedInfoPattern
-								},
-								TestType = testType,
-								IsSample = parameters.IsSample
-							});
+									KdfConfiguration = new OneStepConfiguration()
+									{
+										L = parameters.L,
+										AuxFunction = auxFunction.AuxFunctionName,
+										SaltMethod = saltMethod,
+										SaltLen = GetSaltLen(auxFunction),
+										FixedInfoEncoding = fixedInfoEncoding,
+										FixedInfoPattern = parameters.FixedInfoPattern
+									},
+									TestType = testType,
+									IsSample = parameters.IsSample,
+									ZLength = zLength
+								});
+							}
 						}
 					}
 				}				
@@ -86,6 +92,18 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 			results.AddRangeIfNotNullOrEmpty(auxFunction.MacSaltMethods);
 			
 			return results;
+		}
+		
+		private List<int> GetZs(MathDomain z)
+		{
+			var values = new List<int>();
+
+			values.AddRange(z.GetValues(i => i < 1024, 10, false));
+			values.AddRange(z.GetValues(i => i < 4098, 5, false));
+			values.AddRange(z.GetValues(i => i < 8196, 2, false));
+			values.AddRange(z.GetValues(1));
+			
+			return values.Shuffle().Take(5).ToList();
 		}
 	}
 }

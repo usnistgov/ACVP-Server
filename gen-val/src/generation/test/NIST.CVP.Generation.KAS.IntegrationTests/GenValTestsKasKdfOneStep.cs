@@ -4,6 +4,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS_KDF.OneStep;
 using NIST.CVP.Math;
+using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -60,6 +61,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 L = 512,
+                Z = new MathDomain().AddSegment(new ValueDomainSegment(512)),
                 AuxFunctions = new[]
                 {
                     new AuxFunction()
@@ -104,6 +106,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 L = 1024,
+                Z = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 224, 65336, 8)),
                 AuxFunctions = new[]
                 {
                     new AuxFunction()

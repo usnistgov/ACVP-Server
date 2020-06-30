@@ -47,5 +47,12 @@
   "fixedInfoEncoding": [
     "concatenation"
   ],
+  "z": [
+    {
+      "min": 224,
+      "max": 65336,
+      "increment": 8
+    }
+  ],
   "l": 1024
 }
