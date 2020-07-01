@@ -7,10 +7,10 @@ AS
 	SET NOCOUNT ON
 
 	SELECT V.ValidationId
-	FROM val.VALIDATION_SOURCE S
+	FROM dbo.ValidationSources S
 		INNER JOIN
-		dbo.Validations V ON V.ValidationSourceId = S.id
-								AND S.prefix = @Algorithm
+		dbo.Validations V ON V.ValidationSourceId = S.ValidationSourceId
+								AND S.Prefix = @Algorithm
 								AND V.ValidationNumber = @ValidationNumber
 
 

@@ -52,7 +52,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 				var data = db.Query("EXEC [lcavp].[VendorIDGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
 
-				return (int)data.VendorID;
+				return (int)data.VendorId;
 			}
 			catch
 			{
@@ -88,7 +88,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 				var data = db.Query("EXEC [lcavp].[ContactPersonIDGet] @0, @1, @2", Algorithm, CertNumber, orderIndex).FirstOrDefault();
 
-				return (int)data.PersonID;
+				return (int)data.PersonId;
 			}
 			catch
 			{
@@ -237,7 +237,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				var db = new MightyOrm(_acvpConnectionString);
 
-				var data = db.Query("EXEC [lcavp].[CValidationRecordIDForModuleGet] @0", implementationID).FirstOrDefault();
+				var data = db.Query("EXEC [lcavp].[CValidationIDForModuleGet] @0", implementationID).FirstOrDefault();
 
 				return (int)data.ValidationRecordID;
 			}
@@ -325,9 +325,9 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 			{
 				try
 				{
-					var data = db.Query("EXEC [lcavp].[ProductNameForValidationGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
+					var data = db.Query("EXEC [lcavp].[ImplementationNameForValidationGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
 
-					names.Add((string)data.ProductName);
+					names.Add((string)data.ImplementationName);
 				}
 				catch
 				{
@@ -350,7 +350,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 				var data = db.Query("EXEC [lcavp].[PersonPhoneNumbersGet] @0", personID);
 				foreach (var row in data)
 				{
-					phoneNumbers.Add(((int)row.OrderIndex, (string)row.PhoneNumber, (string)row.Type));
+					phoneNumbers.Add(((int)row.OrderIndex, (string)row.PhoneNumber, (string)row.PhoneNumberType));
 				}
 
 				return phoneNumbers;

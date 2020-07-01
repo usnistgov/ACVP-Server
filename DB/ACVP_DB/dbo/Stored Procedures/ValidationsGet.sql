@@ -13,26 +13,28 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT	@TotalRecords = COUNT_BIG(1)
-	FROM	dbo.Validations V
-	INNER	JOIN val.VALIDATION_SOURCE VS on V.ValidationSourceId = VS.id
-	INNER	JOIN val.PRODUCT_INFORMATION P on V.ImplementationId = P.id
-	WHERE	1=1
-		AND (@ValidationId IS NULL OR V.ValidationId = @ValidationId)
+	FROM dbo.Validations V
+		INNER JOIN
+		dbo.ValidationSources VS ON V.ValidationSourceId = VS.ValidationSourceId
+		INNER JOIN
+		dbo.Implementations I ON I.ImplementationId = V.ImplementationId
+	WHERE	(@ValidationId IS NULL OR V.ValidationId = @ValidationId)
 		AND (@ValidationLabel IS NULL OR CONCAT(VS.prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
-		AND (@ImplementationName IS NULL OR P.module_name LIKE '%' + @ImplementationName + '%')
+		AND (@ImplementationName IS NULL OR I.ImplementationName LIKE '%' + @ImplementationName + '%')
 
 	SELECT	 V.ValidationId
 			,CONCAT(VS.prefix, V.ValidationNumber) AS ValidationLabel
-			,P.module_name as ImplementationName
+			,I.ImplementationName
 			,V.CreatedOn
-	FROM	dbo.Validations V
-	INNER	JOIN val.VALIDATION_SOURCE VS on V.ValidationSourceId = VS.id
-	INNER	JOIN val.PRODUCT_INFORMATION P on V.ImplementationId = P.id
-	WHERE	1=1
-		AND (@ValidationId IS NULL OR V.ValidationId = @ValidationId)
+	FROM dbo.Validations V
+		INNER JOIN
+		dbo.ValidationSources VS ON V.ValidationSourceId = VS.ValidationSourceId
+		INNER JOIN
+		dbo.Implementations I ON I.ImplementationId = V.ImplementationId
+	WHERE	(@ValidationId IS NULL OR V.ValidationId = @ValidationId)
 		AND (@ValidationLabel IS NULL OR CONCAT(VS.prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
-		AND (@ImplementationName IS NULL OR P.module_name LIKE '%' + @ImplementationName + '%')
-	ORDER	BY CreatedOn DESC
+		AND (@ImplementationName IS NULL OR I.ImplementationName LIKE '%' + @ImplementationName + '%')
+	ORDER BY V.CreatedOn DESC
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 

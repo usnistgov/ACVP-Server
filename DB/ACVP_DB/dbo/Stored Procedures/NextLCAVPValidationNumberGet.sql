@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[NextLCAVPValidationNumberGet]
+
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO dbo.LCAVPIdGenerator DEFAULT VALUES
+
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS ValidationNumber

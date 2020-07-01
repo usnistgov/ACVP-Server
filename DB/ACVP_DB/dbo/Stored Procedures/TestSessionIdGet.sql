@@ -7,5 +7,5 @@ AS
 SET NOCOUNT ON
 
 SELECT TOP 1 TestSessionId
-FROM dbo.VectorSet
+FROM dbo.VectorSets
 WHERE VectorSetId = @VectorSetId

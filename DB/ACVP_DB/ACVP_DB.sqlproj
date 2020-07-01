@@ -58,8 +58,6 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="val\" />
-    <Folder Include="val\Tables\" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
     <Folder Include="ref\" />
@@ -70,7 +68,6 @@
     <Folder Include="dbo\Functions\" />
     <Folder Include="lcavp\Stored Procedures\" />
     <Folder Include="Security\" />
-    <Folder Include="val\Stored Procedures" />
     <Folder Include="ref\Stored Procedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
@@ -112,28 +109,23 @@
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ArchiveFile.sql" />
-    <Build Include="lcavp\Stored Procedures\ContactIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\ContactPersonIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\CValidationIDForImplementationGet.sql" />
     <Build Include="lcavp\Stored Procedures\FilesToArchiveGet.sql" />
     <Build Include="lcavp\Stored Procedures\ImplementationIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\OEIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\PersonPhoneNumbersGet.sql" />
-    <Build Include="lcavp\Stored Procedures\ProductNameForValidationGet.sql" />
+    <Build Include="lcavp\Stored Procedures\ImplementationNameForValidationGet.sql" />
     <Build Include="lcavp\Stored Procedures\SubmissionLogInsert.sql" />
     <Build Include="lcavp\Stored Procedures\SubmissionRegistrationInsert.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForFamilyAndImplementationGet.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorAddressIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorIDGet.sql" />
-    <Build Include="Security\acvp.sql" />
     <Build Include="Security\csrc.sql" />
     <Build Include="Security\lcavp.sql" />
     <Build Include="Security\migration.sql" />
     <Build Include="Security\ref.sql" />
-    <Build Include="Security\val.sql" />
-    <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
-    <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />
@@ -320,6 +312,8 @@
     <Build Include="dbo\Stored Procedures\OEsForValidationGet.sql" />
     <Build Include="dbo\Stored Procedures\OEsGet.sql" />
     <Build Include="dbo\Stored Procedures\OEUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
+    <Build Include="dbo\Stored Procedures\NextACVPValidationNumberGet.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

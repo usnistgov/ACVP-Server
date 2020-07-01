@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE [dbo].[NextACVPValidationNumberGet]
+
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO dbo.ACVPIdGenerator DEFAULT VALUES
+
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS ValidationNumber

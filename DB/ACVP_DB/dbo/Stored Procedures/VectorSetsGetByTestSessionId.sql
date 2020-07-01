@@ -11,7 +11,7 @@ SELECT	 VS.VectorSetId
 		,VS.AlgorithmId
 		,VS.VectorSetStatusId
 		,A.DisplayName
-FROM dbo.VectorSet VS
+FROM dbo.VectorSets VS
 	INNER JOIN
 	dbo.Algorithms A ON A.AlgorithmId = VS.AlgorithmId
 					AND VS.TestSessionId = @TestSessionId

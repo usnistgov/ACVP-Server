@@ -12,15 +12,15 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT id AS AddressID
-	FROM val.[ADDRESS]
-	WHERE organization_id = @VendorID
-	  AND (@Street1 IS NULL OR @Street1 = address_street1)
-	  AND (@Street2 IS NULL OR @Street2 = address_street2)
-	  AND (@Street3 IS NULL OR @Street3 = address_street3)
-	  AND (@Locality IS NULL OR @Locality = address_locality)
-	  AND (@Region IS NULL OR @Region = address_region)
-	  AND (@PostalCode IS NULL OR @PostalCode = address_postal_code)
-	  AND (@Country IS NULL OR @Country = address_country)
+	SELECT AddressId
+	FROM dbo.Addresses
+	WHERE OrganizationId = @VendorID
+	  AND (@Street1 IS NULL OR @Street1 = Street1)
+	  AND (@Street2 IS NULL OR @Street2 = Street2)
+	  AND (@Street3 IS NULL OR @Street3 = Street3)
+	  AND (@Locality IS NULL OR @Locality = Locality)
+	  AND (@Region IS NULL OR @Region = Region)
+	  AND (@PostalCode IS NULL OR @PostalCode = PostalCode)
+	  AND (@Country IS NULL OR @Country = Country)
 
 

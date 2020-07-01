@@ -76,7 +76,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.NextACVPValidationNumberGet");
+				var data = db.SingleFromProcedure("dbo.NextACVPValidationNumberGet");
 
 				return data.ValidationNumber;
 			}
@@ -94,7 +94,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.NextLCAVPValidationNumberGet");
+				var data = db.SingleFromProcedure("dbo.NextLCAVPValidationNumberGet");
 
 				return data.ValidationNumber;
 			}
@@ -165,9 +165,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ValidationGetById", new
+				var data = db.SingleFromProcedure("dbo.ValidationGetById", inParams: new
 				{
-					validationId
+					ValidationId = validationId
 				});
 
 				if (data == null)

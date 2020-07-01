@@ -1,21 +1,23 @@
 ﻿
-CREATE PROCEDURE [val].[ValidationGetById]
+CREATE PROCEDURE [dbo].[ValidationGetById]
 	
-	@validationId bigint
+	@ValidationId bigint
 
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-    SELECT	V.ValidationId
-		, V.ImplementationId
-		, CONCAT(vs.prefix, V.ValidationNumber) AS ValidationLabel
-		, P.module_name AS ImplementationName
-		, V.CreatedOn
-		, V.LastUpdated
-		, p.vendor_id AS VendorId
-	FROM	dbo.Validations V
-	INNER	JOIN val.VALIDATION_SOURCE vs on V.ValidationSourceId = vs.id
-	INNER	JOIN val.PRODUCT_INFORMATION p on V.ImplementationId = p.id
-	WHERE	V.ValidationId = @validationId
+    SELECT	 V.ValidationId
+			,V.ImplementationId
+			,CONCAT(vs.prefix, V.ValidationNumber) AS ValidationLabel
+			,I.ImplementationName
+			,V.CreatedOn
+			,V.LastUpdated
+			,I.VendorId
+	FROM dbo.Validations V
+		INNER JOIN
+		dbo.ValidationSources vs on V.ValidationSourceId = vs.ValidationSourceId
+								AND V.ValidationId = @ValidationId
+		INNER JOIN
+		dbo.Implementations I ON I.ImplementationId = V.ImplementationId
 END

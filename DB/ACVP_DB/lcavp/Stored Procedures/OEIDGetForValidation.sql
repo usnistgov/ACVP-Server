@@ -10,7 +10,7 @@ AS
 	SELECT DISTINCT A.OEId
 	FROM dbo.ValidationOEAlgorithms A
 		INNER JOIN
-		val.VALIDATION_OE OE ON OE.id = A.OEId
-							AND OE.[name] = @OEname
-							AND A.ValidationId = @ValidationId
+		dbo.OEs OE ON OE.OEId = A.OEId
+				  AND OE.[Name] = @OEname
+				  AND A.ValidationId = @ValidationId
 

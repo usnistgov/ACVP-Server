@@ -159,7 +159,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					Status = (TestSessionStatus)testSessionData.TestSessionStatusId,
 					IsSample = testSessionData.IsSample,
 					UserID = testSessionData.PersonId,
-					UserName = testSessionData.UserName
+					UserName = testSessionData.FullName
 				};
 			}
 			catch (Exception ex)

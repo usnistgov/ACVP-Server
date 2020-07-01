@@ -7,10 +7,10 @@ AS
 
 SET NOCOUNT ON
 
-SELECT	 order_index AS OrderIndex
-		,phone_number AS PhoneNumber
-		,phone_number_type AS [Type]
-FROM val.PERSON_PHONE
-WHERE person_id = @PersonID
-ORDER BY order_index
+SELECT	 OrderIndex
+		,PhoneNumber
+		,PhoneNumberType
+FROM dbo.PersonPhoneNumbers
+WHERE PersonId = @PersonID
+ORDER BY OrderIndex
 

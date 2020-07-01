@@ -10,7 +10,7 @@ AS
 	SELECT V.ValidationId
 	FROM dbo.Validations V
 		INNER JOIN
-		val.VALIDATION_SOURCE S ON S.id = V.ValidationSourceId
+		dbo.ValidationSources S ON S.ValidationSourceId = V.ValidationSourceId
 								AND V.ImplementationId = @ImplementationId
 								AND S.prefix = @Algorithm
 

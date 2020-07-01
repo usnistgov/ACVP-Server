@@ -10,7 +10,7 @@ DELETE
 FROM dbo.VectorSetJson
 WHERE VectorSetId = @VectorSetId
 
-UPDATE dbo.VectorSet
+UPDATE dbo.VectorSets
 SET Archived = 1
 WHERE VectorSetId = @VectorSetId
 

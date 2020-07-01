@@ -7,14 +7,14 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT VC.person_id AS PersonID
-	FROM val.VALIDATION_SOURCE S
+	SELECT C.PersonId
+	FROM dbo.ValidationSources S
 		INNER JOIN
-		dbo.Validations V ON V.ValidationSourceId = S.id
-								AND S.prefix = @Algorithm
+		dbo.Validations V ON V.ValidationSourceId = S.ValidationSourceId
+								AND S.Prefix = @Algorithm
 								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
-		val.VALIDATION_CONTACT VC ON VC.product_information_id = V.ImplementationId
-	ORDER BY VC.order_index
+		dbo.ImplementationContacts C ON C.ImplementationId = V.ImplementationId
+	ORDER BY C.OrderIndex
 	OFFSET @OrderIndex - 1 ROWS
 	FETCH NEXT 1 ROW ONLY

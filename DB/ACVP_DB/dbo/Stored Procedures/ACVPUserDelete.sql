@@ -7,6 +7,6 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DELETE FROM dbo.ACVPUsers
-	WHERE ACVPUserId.id = @ACVPUserId
+	WHERE ACVPUserId = @ACVPUserId
 
 END

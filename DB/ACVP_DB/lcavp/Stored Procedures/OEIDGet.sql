@@ -7,15 +7,15 @@ AS
 	SET NOCOUNT ON
 
 	SELECT DISTINCT A.OEId
-	FROM val.VALIDATION_SOURCE S
+	FROM dbo.ValidationSources S
 		INNER JOIN
-		dbo.Validations V ON V.ValidationSourceId = S.id
-								AND S.prefix = @Algorithm
+		dbo.Validations V ON V.ValidationSourceId = S.ValidationSourceId
+								AND S.Prefix = @Algorithm
 								AND V.ValidationNumber = @ValidationNumber
 		INNER JOIN
 		dbo.ValidationOEAlgorithms A ON A.ValidationId = V.ValidationId
 		INNER JOIN
-		val.VALIDATION_OE OE ON OE.id = A.OEId
-							AND OE.[name] = @OEname
+		dbo.OEs OE ON OE.OEId = A.OEId
+				  AND OE.[Name] = @OEname
 
 
