@@ -127,9 +127,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 				Result addressResult;
 				for (int i = 0; i < parameters.Addresses.Count; i++)
 				{
-					if (parameters.Addresses[i] is AddressCreateParameters)
+					if (parameters.Addresses[i] is AddressCreateParameters addressCreateParameters)
 					{
-						addressResult = _addressService.Create((AddressCreateParameters)parameters.Addresses[i]);
+						addressResult = _addressService.Create(addressCreateParameters);
 					}
 					else
 					{

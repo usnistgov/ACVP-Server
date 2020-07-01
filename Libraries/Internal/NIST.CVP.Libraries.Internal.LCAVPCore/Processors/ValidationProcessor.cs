@@ -16,16 +16,14 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 		private readonly IModuleProcessor _moduleProcessor;
 		private readonly IOEProcessor _oeProcessor;
 		private readonly IValidationService _validationService;
-		private readonly IScenarioOEProvider _scenarioOEProvider;
 		private readonly ICapabilityService _capabilityService;
 		private readonly IPrerequisiteService _prerequisiteService;
 		private readonly IDataProvider _dataProvider;
 
-		public ValidationProcessor(IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IValidationService validationService, IScenarioOEProvider scenarioOEProvider, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService, IDataProvider dataProvider)
+		public ValidationProcessor(IModuleProcessor moduleProcessor, IOEProcessor oeProcessor, IValidationService validationService, ICapabilityService capabilityService, IPrerequisiteService prerequisiteService, IDataProvider dataProvider)
 		{
 			_moduleProcessor = moduleProcessor;
 			_validationService = validationService;
-			_scenarioOEProvider = scenarioOEProvider;
 			_oeProcessor = oeProcessor;
 			_capabilityService = capabilityService;
 			_prerequisiteService = prerequisiteService;
