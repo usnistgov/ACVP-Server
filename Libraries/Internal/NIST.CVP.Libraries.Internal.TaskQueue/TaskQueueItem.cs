@@ -19,6 +19,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue
 			{
 				"vector-generation" => TaskType.Generation,
 				"vector-validation" => TaskType.Validation,
+				_ => throw new ArgumentException($"{value} is invalid for {nameof(TaskTypeText)}")
 			};
 		}
 

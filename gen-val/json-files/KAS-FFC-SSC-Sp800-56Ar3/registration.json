@@ -25,7 +25,8 @@
     }
   },
   "domainParameterGenerationMethods": [
-    "ffdhe2048"
+    "ffdhe2048",
+    "FB"
   ],
   "hashFunctionZ": "None"
 }
