@@ -172,25 +172,14 @@
     <Build Include="val\Stored Procedures\OEDependencyLinkInsert.sql" />
     <Build Include="val\Stored Procedures\OEUpdate.sql" />
     <Build Include="val\Stored Procedures\OEDependencyLinksGet.sql" />
-    <Build Include="val\Stored Procedures\ImplementationDelete.sql" />
-    <Build Include="val\Stored Procedures\ImplementationContactsDeleteAll.sql" />
-    <Build Include="val\Stored Procedures\ImplementationInsert.sql" />
-    <Build Include="val\Stored Procedures\ImplementationContactInsert.sql" />
-    <Build Include="val\Stored Procedures\ImplementationUpdate.sql" />
-    <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
     <Build Include="val\Stored Procedures\DependenciesGet.sql" />
     <Build Include="val\Stored Procedures\OEGet.sql" />
     <Build Include="val\Stored Procedures\OEDependenciesGet.sql" />
     <Build Include="val\Stored Procedures\OEsGet.sql" />
-    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmGet.sql" />
-    <Build Include="val\Stored Procedures\CapabilitiesForScenarioAlgorithmDelete.sql" />
     <Build Include="val\Stored Procedures\NextACVPValidationNumberGet.sql" />
     <Build Include="val\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
-    <Build Include="val\Stored Procedures\ImplementationGet.sql" />
     <Build Include="val\Stored Procedures\DependencyExists.sql" />
     <Build Include="val\Stored Procedures\OEExists.sql" />
-    <Build Include="val\Stored Procedures\ImplementationExists.sql" />
-    <Build Include="val\Stored Procedures\ImplementationsGet.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />
@@ -344,6 +333,15 @@
     <Build Include="dbo\Stored Procedures\OrganizationsGet.sql" />
     <Build Include="dbo\Stored Procedures\OrganizationUpdate.sql" />
     <Build Include="dbo\Stored Procedures\PersonsForOrgGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationContactInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationContactsDeleteAll.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationDelete.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationExists.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationIsUsed.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationsGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationUpdate.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

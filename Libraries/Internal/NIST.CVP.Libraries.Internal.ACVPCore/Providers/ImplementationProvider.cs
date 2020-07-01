@@ -28,52 +28,43 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			var db = new MightyOrm(_acvpConnectionString);
 			try
 			{
-				var data = db.SingleFromProcedure("val.ImplementationGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.ImplementationGet", inParams: new
 				{
 					implementationID = implementationID
 				});
 
 				if (data != null)
 				{
-
-					Organization organization = new Organization
-					{
-						ID = data.organization_id,
-						Name = data.organization_name,
-						Url = data.organization_url,
-						VoiceNumber = data.organization_voice_number,
-						FaxNumber = data.organization_fax_number,
-						Parent = (data.organization_parent_id == null) ? null : new OrganizationLite() { ID = data.organization_parent_id }
-					};
-
-					Address address = new Address
-					{
-						ID = data.address_id,
-						Street1 = data.address_street1,
-						Street2 = data.address_street2,
-						Street3 = data.address_street3,
-						Locality = data.address_locality,
-						Region = data.address_region,
-						PostalCode = data.address_postal_code,
-						Country = data.address_country
-					};
-
-					// Why this can't be inlined is beyond my comprehension... tried it, but it gives NullReferences - RLS4 03/19/20
-					ImplementationType tmp = ImplementationTypeExtensions.FromString(data.module_type);
-
 					return new Implementation
 					{
 						ID = implementationID,
-						Vendor = organization,
-						Address = address,
-						URL = data.product_url,
-						Name = data.module_name,
-						Type = tmp,
-						Version = data.module_version,
-						Description = data.module_description,
-						ITAR = data.product_itar
+						URL = data.Url,
+						Name = data.ImplementationName,
+						Type = (ImplementationType)data.ImplementationTypeId,
+						Version = data.ImplementationVersion,
+						Description = data.ImplementationDescription,
+						ITAR = data.ITAR,
+						Vendor = new Organization
+						{
+							ID = data.OrganizationId,
+							Name = data.OrganizationName,
+							Url = data.OrganizationUrl,
+							VoiceNumber = data.VoiceNumber,
+							FaxNumber = data.FaxNumber,
+							Parent = (data.ParentOrganizationId == null) ? null : new OrganizationLite() { ID = data.ParentOrganizationId }
+						},
+						Address = new Address
+						{
+							ID = data.AddressId,
+							Street1 = data.Street1,
+							Street2 = data.Street2,
+							Street3 = data.Street3,
+							Locality = data.Locality,
+							Region = data.Region,
+							PostalCode = data.PostalCode,
+							Country = data.Country
+						}
 					};
-
 				}
 				else
 				{
@@ -86,17 +77,18 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				return null;
 			}
 		}
+
 		public PagedEnumerable<Implementation> GetImplementations(ImplementationListParameters param)
 		{
 			long totalRecords = 0;
 			var db = new MightyOrm(_acvpConnectionString);
 			try
 			{
-				var data = db.QueryWithExpando("val.ImplementationsGet", inParams: new
+				var data = db.QueryWithExpando("dbo.ImplementationsGet", inParams: new
 				{
 					PageSize = param.PageSize,
 					PageNumber = param.Page,
-					Id = param.Id,
+					ImplementationId = param.Id,
 					Name = param.Name,
 					Description = param.Description
 				},
@@ -109,41 +101,37 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 				if (data != null)
 				{
-					foreach (var attribute in data.Data)
+					foreach (var row in data.Data)
 					{
-						Organization organization = new Organization
-						{
-							ID = attribute.organization_id,
-							Name = attribute.organization_name,
-							Url = attribute.organization_url,
-							VoiceNumber = attribute.organization_voice_number,
-							FaxNumber = attribute.organization_fax_number,
-							Parent = (attribute.organization_parent_id == null) ? null : new OrganizationLite() { ID = attribute.organization_parent_id }
-						};
-
-						Address address = new Address
-						{
-							ID = attribute.address_id,
-							Street1 = attribute.address_street1,
-							Street2 = attribute.address_street2,
-							Street3 = attribute.address_street3,
-							Locality = attribute.address_locality,
-							Region = attribute.address_region,
-							PostalCode = attribute.address_postal_code,
-							Country = attribute.address_country
-						};
-
 						implementations.Add(new Implementation
 						{
-							ID = attribute.product_id,
-							Vendor = organization,
-							Address = address,
-							URL = attribute.product_url,
-							Name = attribute.module_name,
-							Type = Enum.Parse(typeof(ImplementationType), attribute.module_type, true),
-							Version = attribute.module_version,
-							Description = attribute.module_description,
-							ITAR = attribute.product_itar
+							ID = row.ImplementationId,
+							URL = row.Url,
+							Name = row.ImplementationName,
+							Type = (ImplementationType)row.ImplementationTypeId,
+							Version = row.ImplementationVersion,
+							Description = row.ImplementationDescription,
+							ITAR = row.ITAR,
+							Vendor = new Organization
+							{
+								ID = row.OrganizationId,
+								Name = row.OrganizationName,
+								Url = row.OrganizationUrl,
+								VoiceNumber = row.VoiceNumber,
+								FaxNumber = row.FaxNumber,
+								Parent = (row.ParentOrganizationId == null) ? null : new OrganizationLite() { ID = row.ParentOrganizationId }
+							},
+							Address = new Address
+							{
+								ID = row.AddressId,
+								Street1 = row.Street1,
+								Street2 = row.Street2,
+								Street3 = row.Street3,
+								Locality = row.Locality,
+								Region = row.Region,
+								PostalCode = row.PostalCode,
+								Country = row.Country
+							}
 						});
 					}
 
@@ -162,13 +150,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				return null;
 			}
 		}
+
 		public Result Delete(long implementationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				db.ExecuteProcedure("val.ImplementationDelete", inParams: new { ImplementationID = implementationID });
+				db.ExecuteProcedure("dbo.ImplementationDelete", inParams: new { ImplementationId = implementationID });
 			}
 			catch (Exception ex)
 			{
@@ -185,7 +174,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.ImplementationContactsDeleteAll", inParams: new { ImplementationID = implementationID });
+				db.ExecuteProcedure("dbo.ImplementationContactsDeleteAll", inParams: new { ImplementationId = implementationID });
 			}
 			catch (Exception ex)
 			{
@@ -206,15 +195,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ImplementationInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.ImplementationInsert", inParams: new
 				{
 					Name = name,
 					Description = description,
-					Type = type,
+					ImplementationTypeId = type,
 					Version = version,
 					Website = website,
-					OrganizationID = organizationID,
-					AddressID = addressID,
+					OrganizationId = organizationID,
+					AddressId = addressID,
 					IsITAR = isITAR
 				});
 
@@ -224,7 +213,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.ImplementationID);
+					return new InsertResult((long)data.ImplementationId);
 				}
 			}
 			catch (Exception ex)
@@ -241,10 +230,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			try
 			{
 				//There is no ID on the record, so don't return anything
-				db.ExecuteProcedure("val.ImplementationContactInsert", inParams: new
+				db.ExecuteProcedure("dbo.ImplementationContactInsert", inParams: new
 				{
-					ImplementationID = implementationID,
-					PersonID = personID,
+					ImplementationId = implementationID,
+					PersonId = personID,
 					OrderIndex = orderIndex
 				});
 
@@ -267,23 +256,23 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.ImplementationUpdate", inParams: new
+				db.ExecuteProcedure("dbo.ImplementationUpdate", inParams: new
 				{
-					ImplementationID = implementationID,
+					ImplementationId = implementationID,
 					Name = name,
 					Description = description,
-					Type = type,
+					ImplementationTypeId = type,
 					Version = version,
 					Website = website,
-					OrganizationID = organizationID,
-					AddressID = addressID,
+					OrganizationId = organizationID,
+					AddressId = addressID,
 					NameUpdated = nameUpdated,
 					DescriptionUpdated = descriptionUpdated,
-					TypeUpdated = typeUpdated,
+					ImplementationTypeIdUpdated = typeUpdated,
 					VersionUpdated = versionUpdated,
 					WebsiteUpdated = websiteUpdated,
-					OrganizationIDUpdated = organizationIDUpdated,
-					AddressIDUpdated = addressIDUpdated
+					OrganizationIdUpdated = organizationIDUpdated,
+					AddressIdUpdated = addressIDUpdated
 				});
 
 				return new Result();
@@ -301,12 +290,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ImplementationIsUsed", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.ImplementationIsUsed", inParams: new
 				{
-					ImplementationID = implementationID
+					ImplementationId = implementationID
 				});
-
-				return data.IsUsed;
 			}
 			catch (Exception ex)
 			{
@@ -321,7 +308,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.ImplementationExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.ImplementationExists", inParams: new
 				{
 					ImplementationId = implementationID
 				});
