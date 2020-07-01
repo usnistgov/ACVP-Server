@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
-using System.Linq;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -30,7 +30,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			List<long> dependencyIDs = new List<long>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.OEDependencyLinksGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.OEDependencyLinksGet", inParams: new
 				{
 					OEID = oeID
 				});
@@ -54,7 +54,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OEDelete", inParams: new { OEID = oeID });
+				db.ExecuteProcedure("dbo.OEDelete", inParams: new { OEId = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -71,7 +71,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OEDependencyLinksDeleteAll", inParams: new { OEID = oeID });
+				db.ExecuteProcedure("dbo.OEDependencyForOEDeleteAll", inParams: new { OEId = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -88,7 +88,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyOELinkDelete", inParams: new { DependencyID = dependencyID, OEID = oeID });
+				db.ExecuteProcedure("dbo.OEDependencyDelete", inParams: new { DependencyId = dependencyID, OEId = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -107,7 +107,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.OEInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.OEInsert", inParams: new
 				{
 					Name = name
 				});
@@ -118,7 +118,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.OEID);
+					return new InsertResult((long)data.OEId);
 				}
 
 			}
@@ -136,10 +136,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			try
 			{
 				//Since the link record is just these 2 IDs, no other ID on the record, no need to return an ID of the newly created record
-				db.ExecuteProcedure("val.OEDependencyLinkInsert", inParams: new
+				db.ExecuteProcedure("dbo.OEDependencyInsert", inParams: new
 				{
-					OEID = oeID,
-					DependencyID = dependencyID,
+					OEId = oeID,
+					DependencyId = dependencyID,
 				});
 
 				return new Result();
@@ -159,9 +159,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OEUpdate", inParams: new
+				db.ExecuteProcedure("dbo.OEUpdate", inParams: new
 				{
-					OEID = oeID,
+					OEId = oeID,
 					Name = name
 				});
 
@@ -180,12 +180,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.OEIsUsed", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.OEIsUsed", inParams: new
 				{
 					OEID = oeID
 				});
-
-				return data.IsUsed;
 			}
 			catch (Exception ex)
 			{
@@ -200,7 +198,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.OEExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.OEExists", inParams: new
 				{
 					OEId = oeID
 				});
@@ -219,15 +217,15 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			var OEResult = new OperatingEnvironment();
 			try
 			{
-				var OEData = db.SingleFromProcedure("val.OEGet", inParams: new
+				var OEData = db.SingleFromProcedure("dbo.OEGet", inParams: new
 				{
-					OEID = oeID
+					OEId = oeID
 				});
 
-				OEResult.ID = OEData.Id;
+				OEResult.ID = OEData.OEId;
 				OEResult.Name = OEData.Name;
 
-				var data = db.QueryFromProcedure("val.OEDependenciesGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.OEDependenciesDetailsGet", inParams: new
 				{
 					OEID = oeID
 				});
@@ -236,10 +234,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				{
 					OEResult.Dependencies.Add(new DependencyLite
 					{
-						ID = dependency.id,
-						Name = dependency.name,
-						Type = dependency.dependency_type,
-						Description = dependency.description
+						ID = dependency.DependencyId,
+						Name = dependency.Name,
+						Type = dependency.DependencyType,
+						Description = dependency.Description
 					});
 				}
 			}
@@ -258,11 +256,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("val.OEsGet", inParams: new
+				var dbResult = db.QueryWithExpando("dbo.OEsGet", inParams: new
 				{
 					PageSize = param.PageSize,
 					PageNumber = param.Page,
-					Id = param.Id,
+					OEId = param.Id,
 					Name = param.Name
 				}, new
 				{
@@ -286,7 +284,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return db.QueryFromProcedure("val.OEsForValidationGet", inParams: new { ValidationId = validationID }).ToList();
+				return db.QueryFromProcedure("dbo.OEsForValidationGet", inParams: new { ValidationId = validationID }).ToList();
 			}
 			catch (Exception ex)
 			{

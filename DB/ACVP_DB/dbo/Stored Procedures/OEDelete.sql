@@ -1,0 +1,11 @@
+﻿CREATE PROCEDURE [dbo].[OEDelete]
+
+	@OEId bigint
+
+AS
+
+SET NOCOUNT ON
+
+DELETE 
+FROM dbo.OEs
+WHERE OEId = @OEId

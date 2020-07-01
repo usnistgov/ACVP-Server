@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[OEInsert]
+
+	@Name nvarchar(2048)
+
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO dbo.OEs ([Name])
+VALUES (@Name)
+
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS OEId

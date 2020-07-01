@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [val].[OEExists]
+﻿CREATE PROCEDURE [dbo].[OEExists]
 	
 	@OEId bigint
 
@@ -8,7 +8,7 @@ SET NOCOUNT ON
 
 SELECT CAST(CASE
 		WHEN EXISTS (SELECT NULL
-					 FROM val.VALIDATION_OE
-					 WHERE id = @OEId) THEN 1
+					 FROM dbo.OEs
+					 WHERE OEId = @OEId) THEN 1
 		ELSE 0
 		END AS bit) AS [Exists]

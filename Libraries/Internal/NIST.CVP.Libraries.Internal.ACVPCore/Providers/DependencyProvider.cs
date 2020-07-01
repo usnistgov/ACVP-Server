@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
@@ -28,9 +28,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.DependencyGet", inParams: new
+				var data = db.SingleFromProcedure("dbo.DependencyGet", inParams: new
 				{
-					DependencyID = dependencyID
+					DependencyId = dependencyID
 				});
 
 				if (data != null)
@@ -39,7 +39,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					{
 						ID = dependencyID,
 						Name = data.Name,
-						Type = data.Type,
+						Type = data.DependencyType,
 						Description = data.Description,
 						Attributes = GetAttributes(dependencyID)    //TODO - decide whether or not this should be populated, or if I just want the base dependency object
 					};
@@ -63,7 +63,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			List<DependencyAttribute> dependencyAttributes = new List<DependencyAttribute>();
 			try
 			{
-				var data = db.QueryFromProcedure("val.DependencyAttributesGet", inParams: new
+				var data = db.QueryFromProcedure("dbo.DependencyAttributesGet", inParams: new
 				{
 					DependencyID = dependencyID
 				});
@@ -72,7 +72,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				{
 					dependencyAttributes.Add(new DependencyAttribute
 					{
-						ID = attribute.ID,
+						ID = attribute.DependencyAttributeId,
 						DependencyID = dependencyID,
 						Name = attribute.Name,
 						Value = attribute.Value
@@ -93,7 +93,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyDelete", inParams: new { DependencyID = dependencyID });
+				db.ExecuteProcedure("dbo.DependencyDelete", inParams: new { DependencyId = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -110,7 +110,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyAttributeDeleteAll", inParams: new { DependencyID = dependencyID });
+				db.ExecuteProcedure("dbo.DependencyAttributeDeleteAll", inParams: new { DependencyId = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -127,7 +127,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyAttributeDelete", inParams: new { DependencyAttributeID = attributeID });
+				db.ExecuteProcedure("dbo.DependencyAttributeDelete", inParams: new { DependencyAttributeId = attributeID });
 			}
 			catch (Exception ex)
 			{
@@ -144,7 +144,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyOELinkForDependencyDeleteAll", inParams: new { DependencyID = dependencyID });
+				db.ExecuteProcedure("dbo.OEDependencyForDependencyDeleteAll", inParams: new { DependencyId = dependencyID });
 			}
 			catch (Exception ex)
 			{
@@ -161,7 +161,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyOELinkDelete", inParams: new { DependencyID = dependencyID, OEID = oeID });
+				db.ExecuteProcedure("dbo.OEDependencyDelete", inParams: new { DependencyId = dependencyID, OEId = oeID });
 			}
 			catch (Exception ex)
 			{
@@ -181,7 +181,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.DependencyInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.DependencyInsert", inParams: new
 				{
 					Type = type,
 					Name = name,
@@ -194,7 +194,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.DependencyID);
+					return new InsertResult((long)data.DependencyId);
 				}
 
 			}
@@ -214,9 +214,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.DependencyAttributeInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.DependencyAttributeInsert", inParams: new
 				{
-					DependencyID = dependencyID,
+					DependencyId = dependencyID,
 					Name = name,
 					Value = value
 				});
@@ -227,7 +227,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.DependencyAttributeID);
+					return new InsertResult((long)data.DependencyAttributeId);
 				}
 			}
 			catch (Exception ex)
@@ -246,9 +246,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.DependencyUpdate", inParams: new
+				db.ExecuteProcedure("dbo.DependencyUpdate", inParams: new
 				{
-					DependencyID = dependencyID,
+					DependencyId = dependencyID,
 					Type = type,
 					Name = name,
 					Description = description,
@@ -272,12 +272,10 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.DependencyIsUsed", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.DependencyIsUsed", inParams: new
 				{
-					DependencyID = dependencyID
+					DependencyId = dependencyID
 				});
-
-				return data.IsUsed;
 			}
 			catch (Exception ex)
 			{
@@ -292,7 +290,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.DependencyExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.DependencyExists", inParams: new
 				{
 					DependencyId = dependencyID
 				});
@@ -312,11 +310,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("val.DependenciesGet", inParams: new
+				var dbResult = db.QueryWithExpando("dbo.DependenciesGet", inParams: new
 				{
 					PageSize = param.PageSize,
 					PageNumber = param.Page,
-					Id = param.Id,
+					DependencyId = param.Id,
 					Name = param.Name,
 					Type = param.Type,
 					Description = param.Description
