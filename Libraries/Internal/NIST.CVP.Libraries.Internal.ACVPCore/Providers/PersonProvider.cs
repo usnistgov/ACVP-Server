@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
-using System.Linq;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
@@ -320,6 +319,32 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			}
 
 			return result.ToPagedEnumerable(param.PageSize, param.Page, totalRecords);
+		}
+
+		public List<PersonLite> GetForOrganization(long organizationID)
+		{
+			List<PersonLite> result = new List<PersonLite>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.ExecuteProcedure("dbo.PersonsForOrgGet", inParams: new { OrganizationId = organizationID });
+
+				foreach (var row in data)
+				{
+					result.Add(new PersonLite
+					{
+						ID = row.PersonId,
+						Name = row.FullName
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+
+			return result;
 		}
 	}
 }

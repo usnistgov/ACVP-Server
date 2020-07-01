@@ -20,5 +20,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		bool PersonIsUsed(long personID);
 		bool PersonExists(long personID);
 		Result Update(long personID, string name, long? organizationID, bool nameUpdated, bool organizationIDUpdated);
+		List<PersonLite> GetForOrganization(long organizationID);
 	}
 }

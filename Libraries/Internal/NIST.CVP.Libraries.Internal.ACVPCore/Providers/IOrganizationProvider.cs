@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
@@ -15,7 +16,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		Organization Get(long organizationID);
 		Result Delete(long organizationID);
 		Result DeleteAllEmails(long organizationID);
-
+		List<string> GetEmails(long organizationID);
 		bool OrganizationIsUsed(long organizationID);
 		bool OrganizationExists(long organizationID);
 		PagedEnumerable<OrganizationLite> Get(OrganizationListParameters param);

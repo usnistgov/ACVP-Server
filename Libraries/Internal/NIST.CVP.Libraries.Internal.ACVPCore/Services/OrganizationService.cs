@@ -14,11 +14,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 	{
 		private readonly IOrganizationProvider _organizationProvider;
 		private readonly IAddressService _addressService;
+		private readonly IPersonService _personService;
 
-		public OrganizationService(IOrganizationProvider organizationProvider, IAddressService addressService)
+		public OrganizationService(IOrganizationProvider organizationProvider, IAddressService addressService, IPersonService personService)
 		{
 			_organizationProvider = organizationProvider;
 			_addressService = addressService;
+			_personService = personService;
 		}
 		public DeleteResult Delete(long organizationID)
 		{
@@ -172,7 +174,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 
 		public Organization Get(long organizationID)
 		{
-			return _organizationProvider.Get(organizationID);
+			Organization organization = _organizationProvider.Get(organizationID);
+			organization.Emails = _organizationProvider.GetEmails(organizationID);
+			organization.Addresses = _addressService.GetAllForOrganization(organizationID);
+			organization.Persons = _personService.GetForOrganization(organizationID);
+			return organization;
 		}
 		
 		public bool OrganizationExists(long organizationID)

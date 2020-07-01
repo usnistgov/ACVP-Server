@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.Results;
@@ -28,7 +28,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OrganizationDelete", inParams: new { OrganizationID = organizationID });
+				db.ExecuteProcedure("dbo.OrganizationDelete", inParams: new { OrganizationId = organizationID });
 			}
 			catch (Exception ex)
 			{
@@ -45,7 +45,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OrganizationEmailDeleteAll", inParams: new { OrganizationID = organizationID });
+				db.ExecuteProcedure("dbo.OrganizationEmailDeleteAll", inParams: new { OrganizationId = organizationID });
 			}
 			catch (Exception ex)
 			{
@@ -64,13 +64,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.OrganizationInsert", inParams: new
+				var data = db.SingleFromProcedure("dbo.OrganizationInsert", inParams: new
 				{
 					Name = name,
 					Website = website,
 					VoiceNumber = voiceNumber,
 					FaxNumber = faxNumber,
-					ParentOrganizationID = parentOrganizationID
+					ParentOrganizationId = parentOrganizationID
 				});
 
 				if (data == null)
@@ -79,7 +79,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				}
 				else
 				{
-					return new InsertResult((long)data.OrganizationID);
+					return new InsertResult((long)data.OrganizationId);
 				}
 			}
 			catch (Exception ex)
@@ -97,11 +97,11 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var dbResult = db.QueryWithExpando("val.OrganizationsGet", inParams: new
+				var dbResult = db.QueryWithExpando("dbo.OrganizationsGet", inParams: new
 				{
 					PageSize = param.PageSize,
 					PageNumber = param.Page,
-					Id = param.Id,
+					OrganizationId = param.Id,
 					Name = param.Name
 				}, new
 				{
@@ -127,9 +127,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			try
 			{
 				//There is no ID on the record, so don't return anything
-				db.ExecuteProcedure("val.OrganizationEmailInsert", inParams: new
+				db.ExecuteProcedure("dbo.OrganizationEmailInsert", inParams: new
 				{
-					OrganizationID = organizationID,
+					OrganizationId = organizationID,
 					EmailAddress = emailAddress,
 					OrderIndex = orderIndex
 				});
@@ -151,19 +151,19 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				db.ExecuteProcedure("val.OrganizationUpdate", inParams: new
+				db.ExecuteProcedure("dbo.OrganizationUpdate", inParams: new
 				{
-					OrganizationID = organizationID,
+					OrganizationId = organizationID,
 					Name = name,
 					Website = website,
 					VoiceNumber = voiceNumber,
 					FaxNumber = faxNumber,
-					ParentOrganizationID = parentOrganizationID,
+					ParentOrganizationId = parentOrganizationID,
 					NameUpdated = nameUpdated,
 					WebsiteUpdated = websiteUpdated,
 					VoiceNumberUpdated = voiceNumberUpdated,
 					FaxNumberUpdated = faxNumberUpdated,
-					ParentOrganizationIDUpdated = parentOrganizationIDUpdated
+					ParentOrganizationIdUpdated = parentOrganizationIDUpdated
 				});
 
 				return new Result();
@@ -181,9 +181,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.OrganizationIsUsed", inParams: new
+				var data = db.SingleFromProcedure("dbo.OrganizationIsUsed", inParams: new
 				{
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 
 				return data.IsUsed;
@@ -202,87 +202,42 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			Organization result = new Organization
 			{
 				Parent = new OrganizationLite(),
-				Addresses = new List<Address>(),
-				Persons = new List<PersonLite>(),
-				Emails = new List<string>(),
 				ID = organizationID
 			};
 
 			try
 			{
-				var orgData = db.SingleFromProcedure("val.OrganizationGet", inParams: new
+				var orgData = db.SingleFromProcedure("dbo.OrganizationGet", inParams: new
 				{
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 
-				result.Name = orgData.Name;
-				result.Url = orgData.Website;
+				result.Name = orgData.OrganizationName;
+				result.Url = orgData.OrganizationUrl;
 				result.VoiceNumber = orgData.VoiceNumber;
 				result.FaxNumber = orgData.FaxNumber;
 				result.Parent = new OrganizationLite
 				{
 					ID = orgData.ParentOrganizationId ?? 0
 				};
-
-				var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
-				{
-					OrganizationID = organizationID
-				});
-
-				foreach (var address in addressData)
-				{
-					result.Addresses.Add(new Address
-					{
-						ID = address.ID,
-						Street1 = address.Street1,
-						Street2 = address.Street2,
-						Street3 = address.Street3,
-						Locality = address.Locality,
-						Region = address.Region,
-						Country = address.Country,
-						PostalCode = address.PostalCode
-					});
-				}
-
-				var personData = db.QueryFromProcedure("val.OrganizationGetPersons", inParams: new
-				{
-					OrganizationID = organizationID
-				});
-
-				foreach (var person in personData)
-				{
-					result.Persons.Add(new PersonLite
-					{
-						ID = person.Id,
-						Name = person.FullName
-					});
-				}
-
-				var emailData = db.QueryFromProcedure("val.OrganizationEmailsGet", inParams: new
-				{
-					OrganizationID = organizationID
-				});
-
-				foreach (var email in emailData)
-				{
-					result.Emails.Add(email.EmailAddress);
-				}
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex.Message);
 			}
+
 			return result;
 		}
-		public bool OrganizationExists(long oeID)
+
+		public bool OrganizationExists(long organizationID)
 		{
 			var db = new MightyOrm(_acvpConnectionString);
 
 			try
 			{
-				return (bool)db.ScalarFromProcedure("val.OrganizationExists", inParams: new
+				return (bool)db.ScalarFromProcedure("dbo.OrganizationExists", inParams: new
 				{
-					OrganizationId = oeID
+					OrganizationId = organizationID
 				});
 			}
 			catch (Exception ex)
@@ -290,6 +245,30 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				_logger.LogError(ex.Message);
 				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
+		}
+
+		public List<string> GetEmails(long organizationID)
+		{
+			List<string> result = new List<string>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var emailData = db.QueryFromProcedure("dbo.OrganizationEmailsGet", inParams: new
+				{
+					OrganizationId = organizationID
+				});
+
+				foreach (var email in emailData)
+				{
+					result.Add(email.EmailAddress);
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex.Message);
+			}
+			return result;
 		}
 	}
 }

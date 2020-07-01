@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using NIST.CVP.Libraries.Shared.Results;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {

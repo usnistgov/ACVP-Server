@@ -17,5 +17,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		PersonResult Update(PersonUpdateParameters parameters);
 		PagedEnumerable<PersonLite> Get(PersonListParameters param);
 		List<string> GetEmailAddresses(long personID);
+		List<PersonLite> GetForOrganization(long organizationID);
 	}
 }
