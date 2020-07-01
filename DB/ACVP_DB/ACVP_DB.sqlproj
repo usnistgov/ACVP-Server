@@ -62,8 +62,6 @@
     <Folder Include="val\Tables\" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
-    <Folder Include="migration\" />
-    <Folder Include="migration\Tables\" />
     <Folder Include="ref\" />
     <Folder Include="ref\Tables\" />
     <Folder Include="csrc\" />
@@ -71,7 +69,6 @@
     <Folder Include="dbo\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="lcavp\Stored Procedures\" />
-    <Folder Include="migration\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="val\Stored Procedures" />
     <Folder Include="ref\Stored Procedures" />
@@ -82,16 +79,6 @@
   <ItemGroup>
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
-    <Build Include="migration\Tables\Contact_Contact.sql" />
-    <Build Include="migration\Tables\Contact_Person.sql" />
-    <Build Include="migration\Tables\Dependency.sql" />
-    <Build Include="migration\Tables\DependencyAttribute.sql" />
-    <Build Include="migration\Tables\Product_Address.sql" />
-    <Build Include="migration\Tables\Product_Organization.sql" />
-    <Build Include="migration\Tables\Product_Product.sql" />
-    <Build Include="migration\Tables\PROPERTY_STRING_VALUE_MAPPING.sql" />
-    <Build Include="migration\Tables\ValidationOE.sql" />
-    <Build Include="migration\Tables\VR_VR.sql" />
     <Build Include="ref\Tables\ACV_VERSION.sql" />
     <Build Include="ref\Tables\CRYPTO_ALGORITHM.sql" />
     <Build Include="ref\Tables\CRYPTO_ALGORITHM_FAMILY.sql" />
@@ -139,14 +126,6 @@
     <Build Include="lcavp\Stored Procedures\ValidationIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorAddressIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\VendorIDGet.sql" />
-    <Build Include="migration\Stored Procedures\AlgorithmsGet.sql" />
-    <Build Include="migration\Stored Procedures\DuplicateScenario.sql" />
-    <Build Include="migration\Stored Procedures\PrerequisiteInsert.sql" />
-    <Build Include="migration\Stored Procedures\PropertiesGet.sql" />
-    <Build Include="migration\Stored Procedures\PropertyStringValueMappingsGet.sql" />
-    <Build Include="migration\Stored Procedures\ScenarioAlgorithmInsert.sql" />
-    <Build Include="migration\Stored Procedures\ScenarioValidationRecordsGet.sql" />
-    <Build Include="migration\Stored Procedures\ValidationNumberForScenarioGet.sql" />
     <Build Include="Security\acvp.sql" />
     <Build Include="Security\csrc.sql" />
     <Build Include="Security\lcavp.sql" />
