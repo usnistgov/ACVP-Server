@@ -8,7 +8,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     UPDATE	dbo.TaskQueue
-	SET		[status] = @Status
+	SET		[Status] = @Status
 	WHERE	TaskId = @TaskId
 
 END

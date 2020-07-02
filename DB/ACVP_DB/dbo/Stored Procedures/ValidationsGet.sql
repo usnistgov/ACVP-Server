@@ -19,7 +19,7 @@ BEGIN
 		INNER JOIN
 		dbo.Implementations I ON I.ImplementationId = V.ImplementationId
 	WHERE	(@ValidationId IS NULL OR V.ValidationId = @ValidationId)
-		AND (@ValidationLabel IS NULL OR CONCAT(VS.prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
+		AND (@ValidationLabel IS NULL OR CONCAT(VS.Prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
 		AND (@ImplementationName IS NULL OR I.ImplementationName LIKE '%' + @ImplementationName + '%')
 
 	SELECT	 V.ValidationId
@@ -32,7 +32,7 @@ BEGIN
 		INNER JOIN
 		dbo.Implementations I ON I.ImplementationId = V.ImplementationId
 	WHERE	(@ValidationId IS NULL OR V.ValidationId = @ValidationId)
-		AND (@ValidationLabel IS NULL OR CONCAT(VS.prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
+		AND (@ValidationLabel IS NULL OR CONCAT(VS.Prefix, V.ValidationNumber) LIKE '%' + @ValidationLabel + '%')
 		AND (@ImplementationName IS NULL OR I.ImplementationName LIKE '%' + @ImplementationName + '%')
 	ORDER BY V.CreatedOn DESC
 	OFFSET @PageSize * (@PageNumber - 1) ROWS

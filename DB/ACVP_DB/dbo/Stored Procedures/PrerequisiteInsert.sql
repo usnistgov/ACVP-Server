@@ -9,7 +9,7 @@ AS
 SET NOCOUNT ON
 
 INSERT INTO dbo.Prerequisites (
-	 ValidationOEAlgorithmID
+	 ValidationOEAlgorithmId
 	,ValidationId
 	,Requirement
 )

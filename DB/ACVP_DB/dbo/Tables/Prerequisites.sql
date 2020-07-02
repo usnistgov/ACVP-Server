@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Prerequisites] (
     [PrerequisiteId]                    BIGINT          IDENTITY (1, 1) NOT NULL,
-    [ValidationOEAlgorithmID] BIGINT          NOT NULL,
+    [ValidationOEAlgorithmId] BIGINT          NOT NULL,
     [ValidationId]             BIGINT          NOT NULL,
     [Requirement]           NVARCHAR (2048) NOT NULL,
     CONSTRAINT [PK_PREREQUISITE] PRIMARY KEY CLUSTERED ([PrerequisiteId] ASC),

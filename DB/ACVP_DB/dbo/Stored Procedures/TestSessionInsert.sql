@@ -10,5 +10,5 @@ AS
 
 SET NOCOUNT ON
 
-INSERT INTO dbo.TestSessions (TestSessionId, ACVVersionId, Generator, IsSample, TestSessionStatusId, AcvpUserId, CreatedOn, LastTouched)
+INSERT INTO dbo.TestSessions (TestSessionId, ACVVersionId, Generator, IsSample, TestSessionStatusId, ACVPUserId, CreatedOn, LastTouched)
 VALUES (@TestSessionId, @ACVVersionId, @Generator, @IsSample, 2, @UserId, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

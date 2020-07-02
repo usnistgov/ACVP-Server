@@ -4,7 +4,7 @@
     [ACVVersionId] INT           NOT NULL,
     [Generator]      NVARCHAR (32) NOT NULL,
     [IsSample]         BIT           DEFAULT ((0)) NOT NULL,
-    [AcvpUserId]        BIGINT        NULL,
+    [ACVPUserId]        BIGINT        NULL,
     [TestSessionStatusId] TINYINT NULL, 
     [LastTouched] DATETIME2 NULL, 
     CONSTRAINT [PK_TestSessions] PRIMARY KEY CLUSTERED ([TestSessionId] ASC),

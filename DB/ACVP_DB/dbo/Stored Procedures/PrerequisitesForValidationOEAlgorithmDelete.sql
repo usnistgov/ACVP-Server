@@ -8,4 +8,4 @@ SET NOCOUNT ON
 
 DELETE
 FROM dbo.Prerequisites
-WHERE ValidationOEAlgorithmID = @ValidationOEAlgorithmId
+WHERE ValidationOEAlgorithmId = @ValidationOEAlgorithmId

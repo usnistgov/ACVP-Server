@@ -4,9 +4,9 @@ WITH SCHEMABINDING
 AS
 
 SELECT	 Q.PrerequisiteId
-		,Q.ValidationOEAlgorithmID
+		,Q.ValidationOEAlgorithmId
 		,Q.ValidationId
-		,Q.requirement
+		,Q.Requirement
 FROM dbo.Prerequisites Q
 	INNER JOIN
 	dbo.Validations V ON V.ValidationId = Q.ValidationId

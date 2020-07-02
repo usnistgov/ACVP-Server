@@ -12,4 +12,4 @@ UPDATE dbo.WorkflowItems
 SET	 WorkflowStatusId = @WorkflowStatusId
 	,AcceptId = @AcceptId
 	,LastUpdatedDate = CURRENT_TIMESTAMP
-WHERE WorkflowItemId = @WorkflowItemID
+WHERE WorkflowItemId = @WorkflowItemId
