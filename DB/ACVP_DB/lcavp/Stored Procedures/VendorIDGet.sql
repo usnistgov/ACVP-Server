@@ -6,7 +6,7 @@
 AS
 	SET NOCOUNT ON
 
-	SELECT I.VendorId
+	SELECT I.OrganizationId
 	FROM dbo.ValidationSources S
 		INNER JOIN
 		dbo.Validations V ON V.ValidationSourceId = S.ValidationSourceId

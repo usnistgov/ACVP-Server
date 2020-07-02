@@ -29,7 +29,7 @@ SELECT	 I.ImplementationId
 		,A.Country
 FROM dbo.Implementations I
 	INNER JOIN
-	dbo.Organizations O ON O.OrganizationId = I.VendorId
+	dbo.Organizations O ON O.OrganizationId = I.OrganizationId
 						AND I.ImplementationId = @ImplementationId
 	INNER JOIN
 	dbo.Addresses A ON A.AddressId = I.AddressId

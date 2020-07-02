@@ -14,7 +14,7 @@ AS
 SET NOCOUNT ON
 
 INSERT INTO dbo.Implementations (
-	 VendorId
+	 OrganizationId
 	,AddressId
 	,Url
 	,ImplementationName

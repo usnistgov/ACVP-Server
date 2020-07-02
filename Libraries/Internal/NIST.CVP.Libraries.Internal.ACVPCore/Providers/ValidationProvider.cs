@@ -181,7 +181,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					ImplementationName = data.ImplementationName,
 					CreatedOn = data.CreatedOn,
 					Updated = data.LastUpdated,
-					VendorId = data.VendorId
+					VendorId = data.OrganizationId
 				};
 			}
 			catch (Exception ex)

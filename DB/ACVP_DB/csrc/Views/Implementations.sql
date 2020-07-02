@@ -2,7 +2,7 @@
 WITH SCHEMABINDING
 AS
 
-SELECT ImplementationId, VendorId, AddressId, [Url], ImplementationName, ImplementationTypeId, ImplementationVersion, ImplementationDescription, ITAR
+SELECT ImplementationId, OrganizationId, AddressId, [Url], ImplementationName, ImplementationTypeId, ImplementationVersion, ImplementationDescription, ITAR
 FROM dbo.Implementations
 WHERE ITAR = 0
 

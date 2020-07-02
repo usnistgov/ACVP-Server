@@ -13,7 +13,7 @@ BEGIN
 			,I.ImplementationName
 			,V.CreatedOn
 			,V.LastUpdated
-			,I.VendorId
+			,I.OrganizationId
 	FROM dbo.Validations V
 		INNER JOIN
 		dbo.ValidationSources vs on V.ValidationSourceId = vs.ValidationSourceId

@@ -812,4 +812,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ACVVersionId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="fe6e658c-08c8-4240-9b83-541025c7e3b1" ChangeDateTime="07/02/2020 19:43:34">
+    <Property Name="ElementName" Value="[dbo].[Implementations].[VendorId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Implementations]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="OrganizationId" />
+  </Operation>
 </Operations>

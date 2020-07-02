@@ -52,7 +52,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore
 
 				var data = db.Query("EXEC [lcavp].[VendorIDGet] @0, @1", Algorithm, CertNumber).FirstOrDefault();
 
-				return (int)data.VendorId;
+				return (int)data.OrganizationId;
 			}
 			catch
 			{

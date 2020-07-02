@@ -40,7 +40,7 @@ AS
 			,A.Country
 	FROM dbo.Implementations I
 		INNER JOIN
-		dbo.Organizations O ON O.OrganizationId = I.VendorId
+		dbo.Organizations O ON O.OrganizationId = I.OrganizationId
 		INNER JOIN
 		dbo.Addresses A ON A.AddressId = I.AddressId
 	WHERE	(@ImplementationId IS NULL OR I.ImplementationId = @ImplementationId)
