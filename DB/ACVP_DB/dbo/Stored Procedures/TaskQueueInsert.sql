@@ -10,4 +10,4 @@ AS
 SET NOCOUNT ON
 
 INSERT INTO dbo.TaskQueue(TaskTypeId, VectorSetId, IsSample, ShowExpected)
-VALUES (@TaskTypeId, @VectorSetId, @IsSample, @showExpected)
+VALUES (@TaskTypeId, @VectorSetId, @IsSample, @ShowExpected)

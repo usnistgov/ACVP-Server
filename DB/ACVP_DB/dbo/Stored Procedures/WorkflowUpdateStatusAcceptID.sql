@@ -10,6 +10,6 @@ SET NOCOUNT ON
 
 UPDATE dbo.WorkflowItems
 SET	 WorkflowStatusId = @WorkflowStatusId
-	,AcceptId = @AcceptID
+	,AcceptId = @AcceptId
 	,LastUpdatedDate = CURRENT_TIMESTAMP
 WHERE WorkflowItemId = @WorkflowItemID

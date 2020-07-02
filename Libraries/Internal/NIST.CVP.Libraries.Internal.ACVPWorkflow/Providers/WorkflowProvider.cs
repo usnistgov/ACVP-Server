@@ -113,7 +113,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 						PageSize = param.PageSize,
 						Page = param.Page,
 						WorkflowItemId = param.WorkflowItemId,
-						APIActionID = param.APIActionId,
+						APIActionId = param.APIActionId,
 						RequestId = param.RequestId,
 						WorkflowStatusId = param.Status
 					}, outParams:

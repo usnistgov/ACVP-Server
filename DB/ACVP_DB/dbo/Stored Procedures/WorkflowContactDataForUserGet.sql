@@ -13,7 +13,7 @@ SELECT TOP 1 P.FullName
 FROM dbo.ACVPUsers U
 	INNER JOIN
 	dbo.People P ON P.PersonId = U.PersonId
-				AND U.ACVPUserId = @ACVPUserID
+				AND U.ACVPUserId = @ACVPUserId
 	LEFT OUTER JOIN
 	dbo.Organizations O ON O.OrganizationId = P.OrganizationId
 	LEFT OUTER JOIN

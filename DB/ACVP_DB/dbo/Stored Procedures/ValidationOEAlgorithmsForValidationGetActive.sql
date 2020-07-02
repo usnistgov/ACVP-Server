@@ -18,5 +18,5 @@ FROM dbo.ValidationOEAlgorithms VOA
 					AND VOA.ValidationId = @ValidationId
 					AND VOA.Active = 1
 	INNER JOIN
-	dbo.OEs OE ON OE.OEid = VOA.OEId
+	dbo.OEs OE ON OE.OEId = VOA.OEId
 ORDER BY OEName, AlgorithmDisplayName, VOA.ValidationOEAlgorithmId

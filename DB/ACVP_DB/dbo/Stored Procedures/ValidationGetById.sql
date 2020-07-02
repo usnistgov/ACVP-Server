@@ -9,7 +9,7 @@ BEGIN
 
     SELECT	 V.ValidationId
 			,V.ImplementationId
-			,CONCAT(vs.prefix, V.ValidationNumber) AS ValidationLabel
+			,CONCAT(vs.Prefix, V.ValidationNumber) AS ValidationLabel
 			,I.ImplementationName
 			,V.CreatedOn
 			,V.LastUpdated

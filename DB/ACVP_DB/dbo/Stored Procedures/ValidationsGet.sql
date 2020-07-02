@@ -23,7 +23,7 @@ BEGIN
 		AND (@ImplementationName IS NULL OR I.ImplementationName LIKE '%' + @ImplementationName + '%')
 
 	SELECT	 V.ValidationId
-			,CONCAT(VS.prefix, V.ValidationNumber) AS ValidationLabel
+			,CONCAT(VS.Prefix, V.ValidationNumber) AS ValidationLabel
 			,I.ImplementationName
 			,V.CreatedOn
 	FROM dbo.Validations V

@@ -8,4 +8,4 @@ AS
 SET NOCOUNT ON
 
 INSERT INTO dbo.OEDependencies (OEId, DependencyId)
-VALUES (@OEID, @DependencyID)
+VALUES (@OEID, @DependencyId)

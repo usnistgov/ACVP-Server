@@ -5,7 +5,7 @@ AS
 
 SET NOCOUNT ON
 
-SELECT	 TaskID
+SELECT	 TaskId
 		,TaskTypeId
 		,VectorSetId
 		,IsSample

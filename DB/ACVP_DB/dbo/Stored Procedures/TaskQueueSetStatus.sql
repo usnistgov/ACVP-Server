@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[TaskQueueSetStatus] 
 	
-	@TaskID BIGINT
+	 @TaskId BIGINT
 	,@Status INT
 
 AS
@@ -9,6 +9,6 @@ BEGIN
 
     UPDATE	dbo.TaskQueue
 	SET		[status] = @Status
-	WHERE	TaskID = @TaskID
+	WHERE	TaskId = @TaskId
 
 END

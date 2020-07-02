@@ -8,4 +8,4 @@ SET NOCOUNT ON
 
 DELETE 
 FROM dbo.People
-WHERE PersonId = @PersonID
+WHERE PersonId = @PersonId

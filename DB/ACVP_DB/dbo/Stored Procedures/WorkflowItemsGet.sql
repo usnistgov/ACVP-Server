@@ -3,7 +3,7 @@
 	@PageSize INT,
 	@Page INT,
 	@WorkflowItemId BIGINT = NULL,
-	@APIActionID TINYINT = NULL,
+	@APIActionId TINYINT = NULL,
 	@RequestId BIGINT = NULL,
 	@WorkflowStatusId TINYINT = NULL,
 	@TotalRecords BIGINT OUTPUT

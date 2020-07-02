@@ -17,7 +17,7 @@ WHERE	(@OEId IS NULL OR OEid = @OEId)
 SELECT	 OEId AS ID
 		,[Name]
 FROM dbo.OEs
-WHERE	(@OEId IS NULL OR OEid = @OEId)
+WHERE	(@OEId IS NULL OR OEId = @OEId)
 	AND	(@Name IS NULL OR [Name] LIKE '%' + @Name + '%')
 ORDER BY OEId
 OFFSET @PageSize * (@PageNumber - 1) ROWS

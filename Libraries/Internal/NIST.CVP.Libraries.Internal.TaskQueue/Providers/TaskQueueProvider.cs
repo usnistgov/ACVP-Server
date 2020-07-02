@@ -62,7 +62,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 				{
 					ID = data.TaskId,
 					Type = (TaskType)data.TaskTypeId,
-					VectorSetID = data.VectorSetID,
+					VectorSetID = data.VectorSetId,
 					IsSample = data.IsSample,
 					ShowExpected = data.ShowExpected,
 					Status = data.Status,
@@ -82,7 +82,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 
 			try
 			{
-				db.ExecuteProcedure("dbo.TaskQueueDelete", inParams: new { TaskID = taskID });
+				db.ExecuteProcedure("dbo.TaskQueueDelete", inParams: new { TaskId = taskID });
 				return new Result();
 			}
 			catch (Exception ex)
@@ -132,7 +132,7 @@ namespace NIST.CVP.Libraries.Internal.TaskQueue.Providers
 			{
 				db.ExecuteProcedure("dbo.TaskQueueSetStatus", new
 				{
-					TaskID = taskID,
+					TaskId = taskID,
 					Status = taskStatus
 				});
 				return new Result();

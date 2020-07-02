@@ -60,15 +60,12 @@
     <Folder Include="Properties" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
-    <Folder Include="ref\" />
-    <Folder Include="ref\Tables\" />
     <Folder Include="csrc\" />
     <Folder Include="csrc\Views\" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="lcavp\Stored Procedures\" />
     <Folder Include="Security\" />
-    <Folder Include="ref\Stored Procedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="dbo\Views" />
@@ -76,20 +73,7 @@
   <ItemGroup>
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
-    <Build Include="ref\Tables\ACV_VERSION.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM_FAMILY.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM_LINK.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY_PROTOCOL.sql" />
-    <Build Include="ref\Tables\CRYPTO_ALGORITHM_PROPERTY_PROTOCOL_ACV_VERSION_LINK.sql" />
-    <Build Include="ref\Tables\CRYPTO_PRIMITIVE.sql" />
-    <Build Include="ref\Tables\LEGACY_CRYPTO_ALGORITHM_FAMILY.sql" />
-    <Build Include="ref\Tables\LEGACY_CRYPTO_ALGORITHM_FAMILY_LINK.sql" />
-    <Build Include="ref\Tables\PROPERTY_TYPE.sql" />
-    <Build Include="ref\Tables\STRING_VALUE_DISPLAY_MAPPING.sql" />
     <Build Include="csrc\Views\Addresses.sql" />
-    <Build Include="csrc\Views\LEGACY_CRYPTO_ALGORITHM_FAMILY.sql" />
     <Build Include="csrc\Views\Organizations.sql" />
     <Build Include="csrc\Views\OrganizationEmails.sql" />
     <Build Include="csrc\Views\People.sql" />
@@ -124,8 +108,6 @@
     <Build Include="lcavp\Stored Procedures\VendorIDGet.sql" />
     <Build Include="Security\csrc.sql" />
     <Build Include="Security\lcavp.sql" />
-    <Build Include="Security\migration.sql" />
-    <Build Include="Security\ref.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationIDForSubmissionIDGet.sql" />
     <Build Include="lcavp\Stored Procedures\UpdateValidationIDForSubmissionLogID.sql" />
     <Build Include="lcavp\Stored Procedures\ValidationNumberForIDGet.sql" />
@@ -314,6 +296,7 @@
     <Build Include="dbo\Stored Procedures\OEUpdate.sql" />
     <Build Include="dbo\Stored Procedures\NextLCAVPValidationNumberGet.sql" />
     <Build Include="dbo\Stored Procedures\NextACVPValidationNumberGet.sql" />
+    <Build Include="dbo\Tables\ACVVersions.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

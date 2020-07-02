@@ -12,5 +12,5 @@ AS
 		INNER JOIN
 		dbo.ValidationSources S ON S.ValidationSourceId = V.ValidationSourceId
 								AND V.ImplementationId = @ImplementationId
-								AND S.prefix = @Algorithm
+								AND S.Prefix = @Algorithm
 
