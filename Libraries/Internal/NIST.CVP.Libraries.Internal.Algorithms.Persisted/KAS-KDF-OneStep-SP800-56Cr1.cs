@@ -7,6 +7,12 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 {
 	public class KAS_KDF_OneStep_SP800_56Cr1 : PersistedAlgorithmBase
 	{
+		[AlgorithmProperty(Name = "l", PrependParentPropertyName = true)]
+		public int L { get; set; }
+		
+		[AlgorithmProperty(Name = "z", PrependParentPropertyName = true)]
+		public Domain Z { get; set; }
+		
 		[AlgorithmProperty(Name = "auxFunctions", PrependParentPropertyName = true)]
 		public List<AuxFunction> AuxFunctions { get; set; }
 
@@ -25,6 +31,8 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 
 		public KAS_KDF_OneStep_SP800_56Cr1(External.KAS_KDF_OneStep_SP800_56Cr1 external) : this()
 		{
+			L = external.L;
+			Z = external.Z;
 			FixedInfoPattern = external.FixedInfoPattern;
 			Encoding = external.Encoding;
 			AuxFunctions = external.AuxFunctions?.Select(x => AuxFunction.Create(x)).ToList();
