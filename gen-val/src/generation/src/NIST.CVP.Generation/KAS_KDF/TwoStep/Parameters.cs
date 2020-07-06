@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KDF.v1_0;
@@ -29,6 +30,6 @@ namespace NIST.CVP.Generation.KAS_KDF.TwoStep
 		/// <summary>
 		/// The encoding type of the fixedInput
 		/// </summary>
-		public FixedInfoEncoding[] FixedInfoEncoding { get; set; }
+		public FixedInfoEncoding[] Encoding { get; set; }
 	}
 }

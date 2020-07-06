@@ -82,7 +82,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 
 			ValidateAuxFunctions(parameters.AuxFunctions, errors);
 			ValidateFixedInfoPattern(parameters.FixedInfoPattern, errors);
-			ValidateFixedInfoEncoding(parameters.FixedInfoEncoding, errors);
+			ValidateFixedInfoEncoding(parameters.Encoding, errors);
 			ValidateL(parameters, errors);
 			ValidateZ(parameters, errors);
 			

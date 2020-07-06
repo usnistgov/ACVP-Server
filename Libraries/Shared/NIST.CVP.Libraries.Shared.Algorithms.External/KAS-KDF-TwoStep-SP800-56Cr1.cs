@@ -30,8 +30,8 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 			[JsonPropertyName("fixedInfoPattern")]
 			public string FixedInfoPattern { get; set; }
 			
-			[JsonPropertyName("fixedInfoEncoding")]
-			public List<string> FixedInfoEncoding { get; set; }
+			[JsonPropertyName("encoding")]
+			public List<string> Encoding { get; set; }
 			
 			[JsonPropertyName("kdfMode")]
 			public string KDFMode { get; set; }

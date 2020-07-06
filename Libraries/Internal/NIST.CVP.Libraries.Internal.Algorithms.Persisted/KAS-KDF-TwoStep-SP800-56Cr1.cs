@@ -38,8 +38,8 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 			[AlgorithmProperty(Name = "fixedInfoPattern", PrependParentPropertyName = true)]
 			public string FixedInfoPattern { get; set; }
 			
-			[AlgorithmProperty(Name = "fixedInfoEncoding", PrependParentPropertyName = true)]
-			public List<string> FixedInfoEncoding { get; set; }
+			[AlgorithmProperty(Name = "encoding", PrependParentPropertyName = true)]
+			public List<string> Encoding { get; set; }
 			
 			[AlgorithmProperty(Name = "kdfMode", PrependParentPropertyName = true)]
 			public string KDFMode { get; set; }
@@ -68,7 +68,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				MacMode = externalCapability.MacMode,
 				SupportedLengths = externalCapability.SupportedLengths,
 				FixedDataOrder = externalCapability.FixedDataOrder,
-				FixedInfoEncoding = externalCapability.FixedInfoEncoding,
+				Encoding = externalCapability.Encoding,
 				FixedInfoPattern = externalCapability.FixedInfoPattern,
 				MacSaltMethods = externalCapability.MacSaltMethods,
 				KDFMode = externalCapability.KDFMode,

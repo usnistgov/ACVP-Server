@@ -94,7 +94,7 @@ namespace NIST.CVP.Generation.KAS_KDF.TwoStep
 			foreach (var capability in parameters.Capabilities)
 			{
 				ValidateFixedInfoPattern(capability.FixedInfoPattern, errorResults, null);
-				ValidateEncoding(capability.FixedInfoEncoding, errorResults);
+				ValidateEncoding(capability.Encoding, errorResults);
 				errorResults.AddIfNotNullOrEmpty(ValidateArray(capability.MacSaltMethods, ValidSaltGenerationMethods, nameof(MacSaltMethod)));
 
 				// Ensure the L value is contained within the capabilities domain

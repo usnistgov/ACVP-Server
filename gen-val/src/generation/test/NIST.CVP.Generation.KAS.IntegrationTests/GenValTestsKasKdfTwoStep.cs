@@ -66,7 +66,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 {
                     new TwoStepCapabilities()
                     {
-                        FixedInfoEncoding = new []
+                        Encoding = new []
                         {
                             FixedInfoEncoding.Concatenation
                         },
@@ -99,7 +99,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                 {
                     new TwoStepCapabilities()
                     {
-                        FixedInfoEncoding = new []
+                        Encoding = new []
                         {
                             FixedInfoEncoding.Concatenation
                         },

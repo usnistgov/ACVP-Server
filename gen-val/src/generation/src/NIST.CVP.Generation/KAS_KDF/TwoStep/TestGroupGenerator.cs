@@ -67,7 +67,7 @@ namespace NIST.CVP.Generation.KAS_KDF.TwoStep
 
             foreach (var capability in parameters.Capabilities)
             {
-                foreach (var encoding in capability.FixedInfoEncoding)
+                foreach (var encoding in capability.Encoding)
                 {
                     foreach (var saltMethod in capability.MacSaltMethods)
                     {

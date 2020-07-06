@@ -25,7 +25,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		/// <summary>
 		/// The encoding type of the fixedInput
 		/// </summary>
-		public FixedInfoEncoding[] FixedInfoEncoding { get; set; }
+		public FixedInfoEncoding[] Encoding { get; set; }
 		/// <summary>
 		/// Supported lengths of Z 
 		/// </summary>
