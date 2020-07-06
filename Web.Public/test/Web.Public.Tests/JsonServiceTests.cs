@@ -15,20 +15,6 @@ namespace Web.Public.Tests
     [TestFixture]
     public class JsonServiceTests
     {
-        private Mock<IMessagePayloadValidator> _mockWorkflowItemValidator = new Mock<IMessagePayloadValidator>();
-        private Mock<IMessagePayloadValidatorFactory> _mockWorkflowItemValidatorFactory = new Mock<IMessagePayloadValidatorFactory>();
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockWorkflowItemValidator
-                .Setup(s => s.Validate(It.IsAny<IWorkflowItemPayload>()))
-                .Returns(new PayloadValidationResult(null));
-            _mockWorkflowItemValidatorFactory
-                .Setup(s => s.GetMessagePayloadValidator(It.IsAny<APIAction>()))
-                .Returns(_mockWorkflowItemValidator.Object);
-        }
-        
         [Test]
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\"}]")]
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\", \"phoneNumbers\": [{\"number\": \"555-555-0001\", \"type\": \"phone\"}, {\"number\": \"555-555-0002\", \"type\": \"fax\"}]}]")]
@@ -36,7 +22,7 @@ namespace Web.Public.Tests
         {
             MemoryStream memoryStream = new MemoryStream( Encoding.UTF8.GetBytes( json ) );
             
-            var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
+            var jsonParser = new JsonReaderService();
             try
             {
                 jsonParser.GetMessagePayloadFromBodyJsonAsync<OrganizationCreatePayload>(memoryStream, APIAction.CreateVendor);
