@@ -1,8 +1,9 @@
 ﻿CREATE TABLE [dbo].[VectorSetJson] (
-    [VectorSetId]      INT        NOT NULL,
+    [VectorSetId]      BIGINT        NOT NULL,
     [VectorSetJsonFileTypeId]  BIGINT        NOT NULL,
     [Content]   VARCHAR (MAX) NOT NULL,
     [CreatedOn] DATETIME      NOT NULL,
-    PRIMARY KEY CLUSTERED ([VectorSetId] ASC, [VectorSetJsonFileTypeId] ASC),
-    CONSTRAINT [FK_FileType] FOREIGN KEY ([VectorSetJsonFileTypeId]) REFERENCES [dbo].[VectorSetJsonFileTypes] ([VectorSetJsonFileTypeId])
+    CONSTRAINT [PK_VectorSetJson] PRIMARY KEY CLUSTERED ([VectorSetId] ASC, [VectorSetJsonFileTypeId] ASC),
+    CONSTRAINT [FK_VectorSetJson_VectorSets] FOREIGN KEY ([VectorSetId]) REFERENCES [dbo].[VectorSets] ([VectorSetId]),
+    CONSTRAINT [FK_VectorSetJson_VectorSetJsonFileTypes] FOREIGN KEY ([VectorSetJsonFileTypeId]) REFERENCES [dbo].[VectorSetJsonFileTypes] ([VectorSetJsonFileTypeId])
 );

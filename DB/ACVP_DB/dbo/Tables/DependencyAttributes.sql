@@ -4,6 +4,6 @@
     [Name]                        NVARCHAR (1024) NOT NULL,
     [Value]                       NVARCHAR (1024) NOT NULL,
     CONSTRAINT [PK_DependencyAttributes] PRIMARY KEY CLUSTERED ([DependencyAttributeId] ASC),
-    CONSTRAINT [FK_DependencyAttributes_DependencyId] FOREIGN KEY ([DependencyId]) REFERENCES [dbo].[Dependencies] ([DependencyId])
+    CONSTRAINT [FK_DependencyAttributes_Dependencies] FOREIGN KEY ([DependencyId]) REFERENCES [dbo].[Dependencies] ([DependencyId])
 );
 

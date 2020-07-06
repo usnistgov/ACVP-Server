@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[ACVVersions]
 (
-	[ACVVersionId] INT NOT NULL PRIMARY KEY, 
-    [ACVVersion] NVARCHAR(10) NULL
+	[ACVVersionId] INT NOT NULL, 
+    [ACVVersion] NVARCHAR(10) NULL,
+	CONSTRAINT [PK_ACVVersions] PRIMARY KEY CLUSTERED ([ACVVersionId] ASC)
 )

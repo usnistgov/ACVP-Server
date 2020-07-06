@@ -12,6 +12,7 @@
     [IsRequired]                BIT            NULL,
     [UnitsLabel]                NVARCHAR (128) NULL,
     CONSTRAINT [PK_AlgorithmProperties] PRIMARY KEY CLUSTERED ([AlgorithmPropertyId] ASC),
+    CONSTRAINT [FK_AlgorithmProperties_Algorithms] FOREIGN KEY ([AlgorithmId]) REFERENCES [dbo].[Algorithms] ([AlgorithmId]),
     CONSTRAINT [FK_AlgorithmProperties_AlgorithmPropertyTypes] FOREIGN KEY ([AlgorithmPropertyTypeId]) REFERENCES [dbo].[AlgorithmPropertyTypes] ([AlgorithmPropertyTypeId])
 );
 

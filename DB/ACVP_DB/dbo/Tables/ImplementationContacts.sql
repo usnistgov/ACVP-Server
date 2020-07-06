@@ -4,7 +4,7 @@
     [PersonId]              BIGINT NOT NULL,
     [OrderIndex]            INT    NOT NULL,
     CONSTRAINT [PK_ImplementationContacts] PRIMARY KEY CLUSTERED ([ImplementationContactId] ASC),
-    CONSTRAINT [FK_ImplementationContacts_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[People] ([PersonId]),
-    CONSTRAINT [FK_ImplementationContacts_ImplementationId] FOREIGN KEY ([ImplementationId]) REFERENCES [dbo].[Implementations] ([ImplementationId])
+    CONSTRAINT [FK_ImplementationContacts_People] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[People] ([PersonId]),
+    CONSTRAINT [FK_ImplementationContacts_Implementations] FOREIGN KEY ([ImplementationId]) REFERENCES [dbo].[Implementations] ([ImplementationId])
 );
 

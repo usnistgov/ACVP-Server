@@ -11,8 +11,8 @@
     [RequestingUserId] BIGINT NULL, 
     [LastUpdatedDate] DATETIME2 NULL, 
     CONSTRAINT [PK_WorkflowItems] PRIMARY KEY CLUSTERED ([WorkflowItemId] ASC),
-    CONSTRAINT [FK_WorkflowItems_Status] FOREIGN KEY ([WorkflowStatusId]) REFERENCES [dbo].[WorkflowStatuses] ([WorkflowStatusId]),
-    CONSTRAINT [FK_WorkflowItems_APIAction] FOREIGN KEY ([APIActionID]) REFERENCES [dbo].[APIActions] ([APIActionId]),
-    CONSTRAINT [FK_WorkflowItems_ACVPUser] FOREIGN KEY ([RequestingUserId]) REFERENCES [dbo].[ACVPUsers] ([ACVPUserId]),
+    CONSTRAINT [FK_WorkflowItems_WorkflowStatuses] FOREIGN KEY ([WorkflowStatusId]) REFERENCES [dbo].[WorkflowStatuses] ([WorkflowStatusId]),
+    CONSTRAINT [FK_WorkflowItems_APIActions] FOREIGN KEY ([APIActionID]) REFERENCES [dbo].[APIActions] ([APIActionId]),
+    CONSTRAINT [FK_WorkflowItems_ACVPUsers] FOREIGN KEY ([RequestingUserId]) REFERENCES [dbo].[ACVPUsers] ([ACVPUserId]),
 );
 

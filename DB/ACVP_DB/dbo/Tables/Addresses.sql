@@ -10,7 +10,7 @@
     [Country]     NVARCHAR (128)  NULL,
     [PostalCode] NVARCHAR (128)  NULL,
     CONSTRAINT [PK_Addresses] PRIMARY KEY CLUSTERED ([AddressId] ASC),
-    CONSTRAINT [FK_Addresses_OrganizationId] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organizations] ([OrganizationId]),
+    CONSTRAINT [FK_Addresses_Organizations] FOREIGN KEY ([OrganizationId]) REFERENCES [dbo].[Organizations] ([OrganizationId]),
     CONSTRAINT [UQ_Addresses] UNIQUE NONCLUSTERED ([OrganizationId] ASC, [OrderIndex] ASC)
 );
 

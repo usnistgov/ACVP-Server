@@ -6,6 +6,6 @@
     [Seed]        NVARCHAR (64)   NOT NULL,
     [ExpiresOn] DATETIME2 NULL, 
     CONSTRAINT [PK_ACVPUsers] PRIMARY KEY CLUSTERED ([ACVPUserId] ASC),
-    CONSTRAINT [FK_ACVPUsers_PersonId] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[People] ([PersonId])
+    CONSTRAINT [FK_ACVPUsers_People] FOREIGN KEY ([PersonId]) REFERENCES [dbo].[People] ([PersonId])
 );
 
