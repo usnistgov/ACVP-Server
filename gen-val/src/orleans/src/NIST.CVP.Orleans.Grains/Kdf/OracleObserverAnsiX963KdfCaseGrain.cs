@@ -39,7 +39,7 @@ namespace NIST.CVP.Orleans.Grains.Kdf
         {
             var ansi = _kdfFactory.GetInstance(_param.HashAlg);
 
-            var z = _rand.GetRandomBitString(_param.FieldSize);
+            var z = _rand.GetRandomBitString(_param.FieldSize).PadToModulus(8);
             var sharedInfo = _rand.GetRandomBitString(_param.SharedInfoLength);
 
             var result = ansi.DeriveKey(z, sharedInfo, _param.KeyDataLength);
