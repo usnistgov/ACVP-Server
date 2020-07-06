@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Web.Public.JsonObjects;
@@ -26,6 +27,16 @@ namespace Web.Public.Exceptions
 
             switch (context.Exception)
             {
+                // thrown by System.Json
+                case JsonException e:
+                    error = new ErrorObject()
+                    {
+                        Error = "Invalid JSON provided.",
+                        Context = e.Message
+                    };
+                    statusCode = HttpStatusCode.BadRequest;
+                    break;
+                // Thrown by our code, can contain multiple parameter parsing validation error messages
                 case JsonReaderException e:
                     error = new ErrorObject()
                     {

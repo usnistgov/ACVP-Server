@@ -33,7 +33,6 @@ namespace NIST.CVP.Generation.Core.Parsers
             }
             catch (Exception ex)
             {
-                ThisLogger.Error(ex);
                 return new ParseResponse<TParameters>(ex.Message);
             }
         }
