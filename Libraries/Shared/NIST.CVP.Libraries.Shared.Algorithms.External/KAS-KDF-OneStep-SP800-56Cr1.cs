@@ -9,6 +9,9 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 		[JsonPropertyName("l")]
 		public int L { get; set; }
 
+		[JsonPropertyName("z")]
+		public Domain Z { get; set; }
+		
 		[JsonPropertyName("auxFunctions")]
 		public List<AuxFunction> AuxFunctions { get; set; }
 		

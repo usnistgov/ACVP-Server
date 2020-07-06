@@ -1,9 +1,10 @@
+using System.Text.Json.Serialization;
 using NIST.CVP.Crypto.Common.KAS.Enums;
-using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Generation.Core;
+using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Math.Domain;
 
-namespace NIST.CVP.Generation.KAS_KDF.OneStep
+namespace NIST.CVP.Generation.KAS_KDF.TwoStep
 {
 	public class Parameters : IParameters
 	{
@@ -12,12 +13,16 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		public string Mode { get; set; }
 		public string Revision { get; set; }
 		public bool IsSample { get; set; }
-		public string[] Conformances { get; } = null;
-		
-		/// <summary>
-		/// The Hash or MAC functions utilized for the KDF
-		/// </summary>
-		public AuxFunction[] AuxFunctions { get; set; }
+		public string[] Conformances { get; set; }
+
+		public TwoStepCapabilities[] Capabilities { get; set; }
+		public int L { get; set; }
+		public MathDomain Z { get; set; }
+	}
+	
+	public class TwoStepCapabilities : Capability
+	{
+		public MacSaltMethod[] MacSaltMethods { get; set; }
 		/// <summary>
 		/// The pattern used for FixedInputConstruction.
 		/// </summary>
@@ -26,13 +31,5 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 		/// The encoding type of the fixedInput
 		/// </summary>
 		public FixedInfoEncoding[] Encoding { get; set; }
-		/// <summary>
-		/// Supported lengths of Z 
-		/// </summary>
-		public MathDomain Z { get; set; }
-		/// <summary>
-		/// The length of DKM the KDF can produce
-		/// </summary>
-		public int L { get; set; }
 	}
 }

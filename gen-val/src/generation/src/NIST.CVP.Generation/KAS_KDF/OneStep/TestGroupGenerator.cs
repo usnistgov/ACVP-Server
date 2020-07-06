@@ -21,7 +21,7 @@ namespace NIST.CVP.Generation.KAS_KDF.OneStep
 
 			foreach (var testType in _testTypes)
 			{
-				foreach (var fixedInfoEncoding in parameters.FixedInfoEncoding)
+				foreach (var fixedInfoEncoding in parameters.Encoding)
 				{
 					foreach (var auxFunction in parameters.AuxFunctions)
 					{

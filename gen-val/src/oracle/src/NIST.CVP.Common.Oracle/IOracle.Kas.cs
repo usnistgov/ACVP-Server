@@ -45,5 +45,8 @@ namespace NIST.CVP.Common.Oracle
 
         Task<KasKdfAftOneStepResult> GetKasKdfAftOneStepTestAsync(KasKdfAftOneStepParameters param);
         Task<KasKdfValOneStepResult> GetKasKdfValOneStepTestAsync(KasKdfValOneStepParameters param);
+        
+        Task<KasKdfAftTwoStepResult> GetKasKdfAftTwoStepTestAsync(KasKdfAftTwoStepParameters param);
+        Task<KasKdfValTwoStepResult> GetKasKdfValTwoStepTestAsync(KasKdfValTwoStepParameters param);
     }
 }
