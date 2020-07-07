@@ -8,5 +8,6 @@ AS
 	SELECT TOP 1 ValidationId
 	FROM lcavp.SubmissionLog
 	WHERE SubmissionID = @SubmissionID
+	  AND ValidationId IS NOT NULL
 
 
