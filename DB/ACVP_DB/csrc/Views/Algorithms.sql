@@ -3,7 +3,7 @@ CREATE VIEW [csrc].[Algorithms]
 WITH SCHEMABINDING
 AS
 
-SELECT AlgorithmId, [Name], Mode, Revision, Alias, DisplayName, Historical, PrimitiveId
+SELECT AlgorithmId, [Name], Mode, Revision, Alias, DisplayName, Historical, DisplayOnCSRC, SupportedByACVP, PrimitiveId
 FROM dbo.Algorithms
 
 
