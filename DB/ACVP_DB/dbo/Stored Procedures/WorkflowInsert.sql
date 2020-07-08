@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[WorkflowInsert]
 
-	 @APIActionID int
+	 @APIActionId int
 	,@WorkflowStatusId int
 	,@LabName nvarchar(100)
 	,@LabContactName nvarchar(100)
@@ -19,7 +19,7 @@ INSERT INTO dbo.WorkflowItems(
 	,LabName
 	,LabContact
 	,LabEmail
-	,APIActionID
+	,APIActionId
 	,RequestingUserId
 	,LastUpdatedDate
 )
@@ -30,7 +30,7 @@ VALUES (
 	,@LabName
 	,@LabContactName
 	,@LabContactEmail
-	,@APIActionID
+	,@APIActionId
 	,@RequestingUserId
 	,CURRENT_TIMESTAMP
 )

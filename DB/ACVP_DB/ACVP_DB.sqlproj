@@ -13,7 +13,7 @@
     </RootPath>
     <RootNamespace>ACVP_DB</RootNamespace>
     <AssemblyName>ACVP_DB</AssemblyName>
-    <ModelCollation>1033,CI</ModelCollation>
+    <ModelCollation>1033,CS</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -22,7 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
-    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultCollation>SQL_Latin1_General_CP1_CS_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

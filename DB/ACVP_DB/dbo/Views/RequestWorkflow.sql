@@ -8,14 +8,14 @@ SELECT	 R.RequestId
 		,W.CreatedOn
 		,W.WorkflowStatusId
 		,W.AcceptId
-		,W.APIActionID
+		,W.APIActionId
 FROM dbo.Requests R
 	INNER JOIN 
 	dbo.WorkflowItems W ON W.WorkflowItemId = R.WorkflowItemId
 
 GO
 
-CREATE UNIQUE CLUSTERED INDEX [PK_ACVP_REQUEST_WORKFLOW] ON [dbo].[RequestWorkflow]
+CREATE UNIQUE CLUSTERED INDEX [PK_RequestWorkflow] ON [dbo].[RequestWorkflow]
 (
 	[RequestId] ASC
 )

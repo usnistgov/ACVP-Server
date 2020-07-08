@@ -34,7 +34,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 			{
 				var data = db.SingleFromProcedure("dbo.WorkflowInsert", inParams: new
 				{
-					APIActionID = apiAction,
+					APIActionId = apiAction,
 					WorkflowStatusId = WorkflowStatus.Pending,
 					LabName = labName,
 					LabContactName = contact,
@@ -150,7 +150,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.Providers
 				return new WorkflowItem()
 				{
 					RequestId = data.RequestId,
-					APIAction = (APIAction)data.APIActionID,
+					APIAction = (APIAction)data.APIActionId,
 					Payload = _workflowItemPayloadFactory.GetPayload(data.JsonBlob, (APIAction)data.APIActionId),
 					WorkflowItemID = workflowItemId,
 					Status = (WorkflowStatus)data.WorkflowStatusId,

@@ -16,10 +16,10 @@
             <p class="card-text">
               <!-- These ngModel expressions are using a workaround for a known weakness: https://github.com/angular/angular/issues/7697 -->
               <label class="bold-heading">Implementation Name</label><br />
-              <a routerLink="/validation-db/products/{{selectedValidation?.implementationID}}">{{selectedValidation?.productName}}</a>
+              <a routerLink="/validation-db/products/{{selectedValidation?.implementationID}}">{{selectedValidation?.implementationName}}</a>
               <br /><br />
               <label class="bold-heading">Created</label><br />
-              {{selectedValidation?.created}}
+              {{selectedValidation?.createdOn}}
               <br /><br />
               <label class="bold-heading">Updated</label><br />
               {{selectedValidation?.updated}}

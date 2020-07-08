@@ -23,7 +23,6 @@ export class OrganizationProviderService {
 
   // Dependency-related AJAX calls
   getOrganizations(params: OrganizationListParameters) {
-    console.log(params);
     // These need to be here because the API handles nulls but not empty strings well, so we
     // need to null-out anything that's an empty-string due to the angular two-way data binding to a text box
     if (params.name === "") { params.name = null; }

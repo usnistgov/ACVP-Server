@@ -20,12 +20,12 @@ BEGIN
 	WHERE	1=1
 		AND (@WorkflowStatusId IS NULL OR w.WorkflowStatusId = @WorkflowStatusId)
 		AND (@WorkflowItemId IS NULL OR CAST(w.WorkflowItemId as varchar) LIKE '%' + CAST(@WorkflowItemId as varchar) + '%')
-		AND	(@APIActionId IS NULL OR w.APIActionID = @APIActionId)
+		AND	(@APIActionId IS NULL OR w.APIActionId = @APIActionId)
 		AND	(@RequestId IS NULL OR CAST(r.RequestId as varchar) LIKE '%' + CAST(@RequestId as varchar) + '%')
 
     SELECT	 w.WorkflowItemId
 			,r.RequestId
-			,ISNULL(APIActionID, 0) as APIAction
+			,ISNULL(APIActionId, 0) as APIAction
 			,CONCAT('ACVP ', r.RequestId) as SubmissionId
 			,ISNULL(w.LabName, 'NIST') as Submitter 
 			,w.CreatedOn AS Submitted
@@ -36,7 +36,7 @@ BEGIN
 	WHERE	1=1
 		AND (@WorkflowStatusId IS NULL OR w.WorkflowStatusId = @WorkflowStatusId)
 		AND (@WorkflowItemId IS NULL OR CAST(w.WorkflowItemId as varchar) LIKE '%' + CAST(@WorkflowItemId as varchar) + '%')
-		AND	(@APIActionId IS NULL OR w.APIActionID = @APIActionId)
+		AND	(@APIActionId IS NULL OR w.APIActionId = @APIActionId)
 		AND	(@RequestId IS NULL OR CAST(r.RequestId as varchar) LIKE '%' + CAST(@RequestId as varchar) + '%')
 	ORDER BY w.WorkflowItemId DESC
 	OFFSET (@Page - 1) * @PageSize ROWS

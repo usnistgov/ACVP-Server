@@ -16,7 +16,7 @@ FROM dbo.VectorSetJson J
 
 GO
 
-CREATE UNIQUE CLUSTERED INDEX [PK_ACVP_FILTEREDVECTORSETJSON] ON [dbo].[FilteredVectorSetJson]
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredVectorSetJson] ON [dbo].[FilteredVectorSetJson]
 (
 	 [VectorSetId] ASC
 	,[VectorSetJsonFileTypeId] ASC

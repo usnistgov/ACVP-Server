@@ -8,7 +8,7 @@ BEGIN
 	SET NOCOUNT ON;
 
     SELECT	 w.WorkflowItemId
-			,w.APIActionID
+			,w.APIActionId
 			,w.JsonBlob
 			,w.WorkflowStatusId
 			,r.RequestId

@@ -328,7 +328,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("dbo.PersonsForOrgGet", inParams: new { OrganizationId = organizationID });
+				var data = db.QueryFromProcedure("dbo.PersonsForOrgGet", inParams: new { OrganizationId = organizationID });
 
 				foreach (var row in data)
 				{
