@@ -21,9 +21,11 @@ namespace NIST.CVP.Generation.RSA.Fips186_5.KeyGen
                     return new TestCaseGeneratorKat(testGroup, _oracle);
 
                 case "aft":
-                case "gdt":
                     return new TestCaseGeneratorAft(_oracle);
-
+                    
+                case "gdt":
+                    return new TestCaseGeneratorGdt(_oracle);
+                    
                 default:
                     throw new Exception("Invalid test type");
             }

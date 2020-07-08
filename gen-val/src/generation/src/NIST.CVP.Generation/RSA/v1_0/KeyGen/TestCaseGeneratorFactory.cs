@@ -14,19 +14,13 @@ namespace NIST.CVP.Generation.RSA.v1_0.KeyGen
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            switch (testGroup.TestType.ToLower())
+            return testGroup.TestType.ToLower() switch
             {
-                case "kat":
-                    return new TestCaseGeneratorKat(testGroup, _oracle);
-
-                case "aft":
-                case "gdt":
-                    // Aft and Gdt generator would do the same function (validators differ) so they are lumped together
-                    return new TestCaseGeneratorAft(_oracle);
-
-                default:
-                    return new TestCaseGeneratorNull();
-            }
+                "kat" => new TestCaseGeneratorKat(testGroup, _oracle),
+                "aft" => new TestCaseGeneratorAft(_oracle),
+                "gdt" => new TestCaseGeneratorGdt(_oracle),
+                _ => new TestCaseGeneratorNull()
+            };
         }
     }
 }

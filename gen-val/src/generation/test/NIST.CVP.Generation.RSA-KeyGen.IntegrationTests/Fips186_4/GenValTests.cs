@@ -18,7 +18,6 @@ namespace NIST.CVP.Generation.RSA_KeyGen.IntegrationTests
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
-
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
             var rand = new Random800_90();
