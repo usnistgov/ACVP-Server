@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[RequestGetNextID]
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO dbo.ExternalRequests DEFAULT VALUES
+
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS RequestId

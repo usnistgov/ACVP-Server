@@ -1,6 +1,0 @@
-﻿CREATE TABLE [acvp].[REQUEST_ACTION] (
-    [id]     INT            NOT NULL,
-    [status] NVARCHAR (256) NULL,
-    CONSTRAINT [PK_REQUEST_ACTION] PRIMARY KEY CLUSTERED ([id] ASC)
-);
-

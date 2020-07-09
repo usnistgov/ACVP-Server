@@ -8,7 +8,7 @@ using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
-    public class AddressProvider : IAddressProvider
+	public class AddressProvider : IAddressProvider
     {
         private readonly ILogger<AddressProvider> _logger;
         private readonly string _connectionString;
@@ -25,9 +25,9 @@ namespace Web.Public.Providers
 
             try
             {
-                var addressData = db.SingleFromProcedure("val.AddressGet", inParams: new
+                var addressData = db.SingleFromProcedure("dbo.AddressGet", inParams: new
                 {
-                    AddressID = id
+                    AddressId = id
                 });
 
                 if (addressData == null)
@@ -37,8 +37,8 @@ namespace Web.Public.Providers
                 
                 var result = new Address
                 {
-                    ID = addressData.ID,
-                    OrganizationID = addressData.OrganizationID,
+                    ID = addressData.AddressId,
+                    OrganizationID = addressData.OrganizationId,
                     Street1 = addressData.Street1,
                     Street2 = addressData.Street2,
                     Street3 = addressData.Street3,
@@ -63,9 +63,9 @@ namespace Web.Public.Providers
 
             try
             {
-                var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
+                var addressData = db.QueryFromProcedure("dbo.AddressesForOrganizationGet", inParams: new
                 {
-                    OrganizationID = vendorId
+                    OrganizationId = vendorId
                 });
 
                 if (addressData == null)
@@ -75,8 +75,8 @@ namespace Web.Public.Providers
                 
                 var addresses = addressData.ToList().Select(address => new Address
                     {
-                        ID = address.ID,
-                        OrganizationID = address.OrganizationID,
+                        ID = address.AddressId,
+                        OrganizationID = address.OrganizationId,
                         Street1 = address.Street1,
                         Street2 = address.Street2,
                         Street3 = address.Street3,

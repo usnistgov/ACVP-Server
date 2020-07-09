@@ -1,12 +1,12 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using NIST.CVP.Libraries.Shared.ExtensionMethods;
 
 namespace Web.Public.Providers
 {
-    public class TotpProvider : ITotpProvider
+	public class TotpProvider : ITotpProvider
     {
         private ILogger<TotpProvider> _logger;
         private readonly string _acvpConnectionString;
@@ -23,7 +23,7 @@ namespace Web.Public.Providers
             
             try
             {
-                var data = db.SingleFromProcedure("acvp.AcvpUserSeedGetByCertificate", new
+                var data = db.SingleFromProcedure("dbo.AcvpUserSeedGetByCertificate", new
                 {
                     Subject = userCertSubject
                 });
@@ -33,7 +33,7 @@ namespace Web.Public.Providers
                     throw new Exception("Certificate not found");
                 }
 
-                string base64Seed = data.seed;
+                string base64Seed = data.Seed;
                 return Convert.FromBase64String(base64Seed);
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace Web.Public.Providers
 
             try
             {
-                var data = db.SingleFromProcedure("acvp.PreviousComputedWindowByUserGet",
+                var data = db.SingleFromProcedure("dbo.PreviousComputedWindowByUserGet",
                     new
                     {
                         Subject = userCertSubject
@@ -77,7 +77,7 @@ namespace Web.Public.Providers
             try
             {
                 // Everything is successful, record the window used
-                db.ExecuteProcedure("acvp.PreviousComputedWindowByUserSet", new
+                db.ExecuteProcedure("dbo.PreviousComputedWindowByUserSet", new
                 {
                     Subject = userCertSubject,
                     LastUsedWindow = usedWindow

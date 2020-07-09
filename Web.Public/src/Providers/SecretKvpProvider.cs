@@ -26,7 +26,7 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var requestData = db.ExecuteProcedure("external.SecretKeyValuePairGet", 
+				var requestData = db.ExecuteProcedure("dbo.SecretKeyValuePairGet", 
 				new
 				{
 					ConfigKey = key

@@ -22,6 +22,5 @@ namespace Web.Public.Providers
         /// <param name="userID">The user id performing the action.</param>
         /// <param name="content">The object to be placed into the message queue.</param>
         void InsertIntoQueue(APIAction apiAction, long requestID, long userID, object content);
-        long GetNextRequestID();
     }
 }

@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.Algorithms.External;
-using NIST.CVP.Libraries.Shared.ExtensionMethods;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Options;
 using Mighty;
+using NIST.CVP.Libraries.Shared.Algorithms.External;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Configs;
 
 namespace Web.Public.Providers
 {
-    public class AlgorithmProvider : IAlgorithmProvider
+	public class AlgorithmProvider : IAlgorithmProvider
     {
         private readonly ILogger<AlgorithmProvider> _logger;
         private readonly string _acvpConnectionString;
@@ -36,7 +36,7 @@ namespace Web.Public.Providers
 
             try
             {
-                var algoList = db.QueryWithExpando("ref.AlgorithmsGet");
+                var algoList = db.QueryWithExpando("dbo.AlgorithmsGet");
                 _cachedAlgorithmList = algoList.Data;
                 return _cachedAlgorithmList;
             }

@@ -97,7 +97,7 @@ namespace Web.Public.Services
             };
         }
 
-        public Result SetTestSessionPublished(long testSessionId) => _testSessionProvider.SetTestSessionPublished(testSessionId);
+        public Result SetTestSessionSubmittedForApproval(long testSessionId) => _testSessionProvider.SetTestSessionSubmittedForApproval(testSessionId);
         public TestSessionResults GetTestSessionResults(long id)
         {
             var testSession = GetTestSession(id);

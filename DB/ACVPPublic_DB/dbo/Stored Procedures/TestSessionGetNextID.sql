@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[TestSessionGetNextID]
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO dbo.ExternalTestSessions DEFAULT VALUES
+
+SELECT CAST(SCOPE_IDENTITY() AS bigint) AS TestSessionId

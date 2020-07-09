@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
-using Mighty;
-using NIST.CVP.Libraries.Shared.Results;
-using Web.Public.Models;
-using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
-using Web.Public.Configs;
 using Microsoft.Extensions.Options;
+using Mighty;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.Results;
+using Web.Public.Configs;
+using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
-    public class TestSessionProvider : ITestSessionProvider
+	public class TestSessionProvider : ITestSessionProvider
     {
         private readonly ILogger _logger;
         private readonly string _connectionString;
@@ -31,10 +31,10 @@ namespace Web.Public.Providers
             
             try
             {
-                var result = db.ExecuteProcedure("acvp.TestSessionCheckOwner", new
+                var result = db.ExecuteProcedure("dbo.TestSessionCheckOwner", new
                 {
-                    TestSessionID = tsID,
-                    UserID = userID
+                    TestSessionId = tsID,
+                    ACVPUserId = userID
                 },
                 new
                 {
@@ -56,9 +56,9 @@ namespace Web.Public.Providers
 
             try
             {
-                var data = db.SingleFromProcedure("acvp.TestSessionGet", new
+                var data = db.SingleFromProcedure("dbo.TestSessionGet", new
                 {
-                    ID = id
+                    TestSessionId = id
                 });
 
                 if (data == null)
@@ -70,14 +70,14 @@ namespace Web.Public.Providers
                 {
                     ID = id,
                     CreatedOn = data.CreatedOn,
-                    IsSample = data.Sample,
+                    IsSample = data.IsSample,
                     Status = (TestSessionStatus)data.TestSessionStatusId,
                     ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
                 };
 
-                var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
+                var vsData = db.QueryFromProcedure("dbo.VectorSetGetFromTestSession", new
                 {
-                    TestSessionID = id
+                    TestSessionId = id
                 });
 
                 if (vsData == null)
@@ -85,7 +85,7 @@ namespace Web.Public.Providers
                     return null;
                 }
 
-                testSession.VectorSetIDs = vsData.Select(vs => (long)vs.ID).ToList();
+                testSession.VectorSetIDs = vsData.Select(vs => (long)vs.VectorSetId).ToList();
 
                 return testSession;
             }
@@ -102,7 +102,7 @@ namespace Web.Public.Providers
 
             try
             {
-                var data = db.ExecuteProcedure("[external].[TestSessionCheckIfExists]",
+                var data = db.ExecuteProcedure("dbo.ExternalTestSessionExists",
                     new
                     {
                         TestSessionId = id
@@ -132,7 +132,7 @@ namespace Web.Public.Providers
 
             try
             {
-                var data = db.QueryFromProcedure("acvp.TestSessionsGet", new
+                var data = db.QueryFromProcedure("dbo.TestSessionsGet", new
                 {
                     UserID = userID
                 });
@@ -144,18 +144,18 @@ namespace Web.Public.Providers
 
                 var testSessions = data.Select(ts => new TestSession
                 {
-                    ID = ts.ID,
+                    ID = ts.TestSessionId,
                     CreatedOn = ts.CreatedOn,
-                    IsSample = ts.Sample,
+                    IsSample = ts.IsSample,
                     Status = (TestSessionStatus)ts.TestSessionStatusId,
                     ExpiresOn = ((DateTime)ts.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
                 }).ToList();
 
                 foreach (var testSession in testSessions)
                 {
-                    var vsData = db.QueryFromProcedure("acvp.VectorSetGetFromTestSession", new
+                    var vsData = db.QueryFromProcedure("dbo.VectorSetGetFromTestSession", new
                     {
-                        TestSessionID = testSession.ID
+                        TestSessionId = testSession.ID
                     });
 
                     if (vsData == null)
@@ -163,7 +163,7 @@ namespace Web.Public.Providers
                         throw new Exception($"Could not find vector sets for test session: {testSession.ID}");
                     }
                     
-                    testSession.VectorSetIDs = vsData.Select(vs => (long)vs.ID).ToList();
+                    testSession.VectorSetIDs = vsData.Select(vs => (long)vs.VectorSetId).ToList();
                 }
 
                 return testSessions;
@@ -181,14 +181,14 @@ namespace Web.Public.Providers
 
             try
             {
-                var nextID = db.SingleFromProcedure("external.TestSessionGetNextID");
+                var nextID = db.SingleFromProcedure("dbo.TestSessionGetNextID");
 
                 if (nextID == null)
                 {
                     throw new Exception("Unable to get next ID");
                 }
 
-                return (long)nextID.ID;
+                return (long)nextID.TestSessionId;
             }
             catch (Exception ex)
             {
@@ -197,15 +197,15 @@ namespace Web.Public.Providers
             }
         }
 
-        public Result SetTestSessionPublished(long testSessionId)
+        public Result SetTestSessionSubmittedForApproval(long testSessionId)
         {
             var db = new MightyOrm(_connectionString);
         
             try
             {
-                db.ExecuteProcedure("acvp.TestSessionSetPublished", new
+                db.ExecuteProcedure("dbo.TestSessionSetSubmittedForApproval", new
                 {
-                    testSessionId
+                    TestSessionId = testSessionId
                 });
             }
             catch (Exception ex)

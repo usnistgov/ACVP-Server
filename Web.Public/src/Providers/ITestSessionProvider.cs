@@ -11,6 +11,6 @@ namespace Web.Public.Providers
         bool IsTestSessionQueued(long id);
         List<TestSession> GetTestSessionList(long userID);
         long GetNextTestSessionID();
-        Result SetTestSessionPublished(long testSessionId);
+        Result SetTestSessionSubmittedForApproval(long testSessionId);
     }
 }

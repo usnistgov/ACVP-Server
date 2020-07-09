@@ -169,7 +169,7 @@ namespace Web.Public.Controllers
             var requestId = _messageService.InsertIntoQueue(apiAction, GetCertSubjectFromJwt(), payload);
 
             // Set to ensure the certify request only happens once per ts. This table isn't replicated downwards
-            _testSessionService.SetTestSessionPublished(id);
+            _testSessionService.SetTestSessionSubmittedForApproval(id);
             
             // Build request object for response
             var requestObject = new RequestObject

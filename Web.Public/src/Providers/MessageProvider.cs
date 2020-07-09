@@ -68,26 +68,5 @@ namespace Web.Public.Providers
                 throw;
             }
         }
-
-        public long GetNextRequestID()
-        {
-            var db = new MightyOrm(_connectionString);
-
-            try
-            {
-                var data = db.SingleFromProcedure("external.RequestGetNextID");
-                if (data == null)
-                {
-                    throw new Exception("Unable to get next request ID");
-                }
-
-                return (long)data.ID;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting next Request ID");
-                throw;
-            }
-        }
     }
 }

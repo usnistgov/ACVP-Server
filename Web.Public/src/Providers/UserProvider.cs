@@ -1,11 +1,11 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 
 namespace Web.Public.Providers
 {
-    public class UserProvider : IUserProvider
+	public class UserProvider : IUserProvider
     {
         private readonly ILogger<UserProvider> _logger;
         private readonly string _connectionString;
@@ -22,7 +22,7 @@ namespace Web.Public.Providers
             
             try
             {
-                var data = db.SingleFromProcedure("acvp.AcvpUserGetByCertificate", new
+                var data = db.SingleFromProcedure("dbo.AcvpUserGetByCertificate", new
                 {
                     Subject = userCertSubject
                 });
@@ -32,7 +32,7 @@ namespace Web.Public.Providers
                     throw new Exception("Certificate not found");
                 }
 
-                return data.UserID;
+                return data.ACVPUserId;
             }
             catch (Exception ex)
             {

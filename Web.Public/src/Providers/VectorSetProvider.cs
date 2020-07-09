@@ -1,13 +1,13 @@
 using System;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
-    public class VectorSetProvider : IVectorSetProvider
+	public class VectorSetProvider : IVectorSetProvider
     {
         private readonly ILogger<VectorSetProvider> _logger;
         private readonly string _connectionString;
@@ -24,9 +24,9 @@ namespace Web.Public.Providers
 
             try
             {
-                var nextID = db.SingleFromProcedure("external.VectorSetGetNextID", new
+                var nextID = db.SingleFromProcedure("dbo.VectorSetGetNextID", new
                 {
-                    TestSessionID = tsID
+                    TestSessionId = tsID
                 });
 
                 if (nextID == null)
@@ -34,7 +34,7 @@ namespace Web.Public.Providers
                     throw new Exception("Unable to get next ID");
                 }
 
-                return (long)nextID.ID;
+                return (long)nextID.VectorSetId;
             }
             catch (Exception ex)
             {
@@ -49,9 +49,9 @@ namespace Web.Public.Providers
 
             try
             {
-                var statusData = db.SingleFromProcedure("acvp.VectorSetStatusGet", new
+                var statusData = db.SingleFromProcedure("dbo.VectorSetStatusGet", new
                 {
-                    VsID = vsID
+                    VectorSetId = vsID
                 });
 
                 if (statusData == null)
@@ -60,7 +60,7 @@ namespace Web.Public.Providers
                     return VectorSetStatus.Initial;
                 }
 
-                return (VectorSetStatus)statusData.Status;
+                return (VectorSetStatus)statusData.VectorSetStatusId;
             }
             catch (Exception ex)
             {
@@ -75,10 +75,10 @@ namespace Web.Public.Providers
 
             try
             {
-                var jsonData = db.SingleFromProcedure("acvp.VectorSetJsonGet", new
+                var jsonData = db.SingleFromProcedure("dbo.VectorSetJsonGet", new
                 {
-                    VsID = vsID,
-                    FileType = (int)fileType
+                    VectorSet = vsID,
+                    VectorSetJsonFileTypeId = (int)fileType
                 });
 
                 if (jsonData == null)
@@ -105,10 +105,10 @@ namespace Web.Public.Providers
 
             try
             {
-                db.ExecuteProcedure("acvp.VectorSetStatusSet", new
+                db.ExecuteProcedure("dbo.VectorSetStatusSet", new
                 {
-                    VectorSetID = vsID,
-                    Status = (int)status
+                    VectorSetId = vsID,
+                    VectorSetStatusId = (int)status
                 });
             }
             catch (Exception ex)
