@@ -25,6 +25,9 @@ namespace Web.Public.Models
 
 		public PagedResponse(long totalCount, List<T> data, string baseUrl, PagingOptions pagingOptions, string filterQuerystringPortion) : this(totalCount, data, baseUrl, pagingOptions)
 		{
+			//Since an unencoded chunk of querystring was passed in to this (since it is easier to work with it that way outside of this) need to re-encode it to escape spaces and other characters
+			filterQuerystringPortion = Uri.EscapeUriString(filterQuerystringPortion);
+
 			//Append a & and the filter querystring to all the links
 			if (!string.IsNullOrEmpty(filterQuerystringPortion))
 			{
