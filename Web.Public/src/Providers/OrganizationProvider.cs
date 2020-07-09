@@ -234,9 +234,15 @@ namespace Web.Public.Providers
 							ID = rawOrg.OrganizationId,
 							Name = rawOrg.OrganizationName,
 							Website = rawOrg.OrganizationUrl,
-							ParentOrganizationID = rawOrg.ParentOrganizationId,
-							Emails = rawEmailAddresses.Where(x => x.OrganizationId == rawOrg.OrganizationId).OrderBy(x => x.OrderIndex).Select(x => (string)x.EmailAddress).ToList()
+							ParentOrganizationID = rawOrg.ParentOrganizationId
 						};
+
+						//Add the email addresses, if they have any
+						List<string> emails = rawEmailAddresses.Where(x => x.OrganizationId == rawOrg.OrganizationId).OrderBy(x => x.OrderIndex).Select(x => (string)x.EmailAddress).ToList();
+						if (emails.Count > 0)
+						{
+							org.Emails = emails;
+						}
 
 						//Add the phone numbers collection, which takes some manipulation
 						var phoneNumbers = new List<PhoneNumber>();
@@ -255,8 +261,8 @@ namespace Web.Public.Providers
 							org.PhoneNumbers = phoneNumbers;
 						}
 
-						//Add the addresses
-						org.Addresses = rawAddresses.Where(x => x.OrganizationId == org.ID).Select(x => new Address
+						//Add the addresses, if they have any
+						List<Address> addresses = rawAddresses.Where(x => x.OrganizationId == org.ID).Select(x => new Address
 						{
 							ID = x.AddressId,
 							OrganizationID = x.OrganizationId,
@@ -268,6 +274,11 @@ namespace Web.Public.Providers
 							Country = x.Country,
 							PostalCode = x.PostalCode
 						}).ToList();
+
+						if (addresses.Count > 0)
+						{
+							org.Addresses = addresses;
+						}
 
 						//Finally add it to the collection
 						organizations.Add(org);
