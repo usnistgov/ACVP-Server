@@ -35,15 +35,15 @@ namespace NIST.CVP.Crypto.KAS.KDF.OneStep
                 case KasKdfOneStepAuxFunction.SHA2_D512_T224:
                     return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t224)));
                 case KasKdfOneStepAuxFunction.SHA2_D512_T256:
-                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t224)));
+                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d512t256)));
                 case KasKdfOneStepAuxFunction.SHA3_D224: 
                     return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224)));
                 case KasKdfOneStepAuxFunction.SHA3_D256:
-                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224)));
+                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d256)));
                 case KasKdfOneStepAuxFunction.SHA3_D384:
-                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224)));
+                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d384)));
                 case KasKdfOneStepAuxFunction.SHA3_D512:
-                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d224)));
+                    return new KdfSha(_shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d512)));
                 case KasKdfOneStepAuxFunction.HMAC_SHA2_D224:
                 case KasKdfOneStepAuxFunction.HMAC_SHA2_D256:
                 case KasKdfOneStepAuxFunction.HMAC_SHA2_D384:
