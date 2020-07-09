@@ -1,0 +1,139 @@
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS;
+using NIST.CVP.Crypto.HKDF;
+using NIST.CVP.Crypto.HMAC;
+using NIST.CVP.Crypto.SHAWrapper;
+using NIST.CVP.Math;
+using NIST.CVP.Math.Helpers;
+using NIST.CVP.Tests.Core.TestCategoryAttributes;
+using NUnit.Framework;
+
+namespace NIST.CVP.Crypto.TLS.Tests
+{
+	[TestFixture, FastCryptoTest]
+	public class TlsKdfv13Tests
+	{
+		private readonly ITLsKdfFactory_v1_3 _tlsFactory =
+			new TlsKdfFactoryV13(new HkdfFactory(new HmacFactory(new ShaFactory())), new ShaFactory());
+
+		/// <summary>
+		/// Test from https://tools.ietf.org/html/draft-ietf-tls-tls13-vectors-05#page-3 "Simple 1-RTT Handshake"
+		/// </summary>
+		[Test]
+		public void TestVectorIetfDraft_Simple1RttHandshake()
+		{
+			var kdf = (TlsKdfv13)_tlsFactory.GetInstance(HashFunctions.Sha2_d256);
+			var hashLengthBytes = 256 / 8;
+			
+			var clientHello = new BitString("16 03 01 00 be 01 00 00 ba 03 03 01 6a 95 72 55 63 a4 a5 2c 6a ae 5b 86 f8 ec a3 21 a9 a3 57 48 1e b7 84 7e 9a 9d a4 12 20 b6 66 00 00 06 13 01 13 03 13 02 01 00 00 8b 00 00 00 0b 00 09 00 00 06 73 65 72 76 65 72 ff 01 00 01 00 00 0a 00 14 00 12 00 1d 00 17 00 18 00 19 01 00 01 01 01 02 01 03 01 04 00 23 00 00 00 33 00 26 00 24 00 1d 00 20 2e 59 6f fe 6d 68 c4 f4 02 cb 0f 49 84 1f 11 f1 ff 97 32 1d 32 42 54 d3 18 52 9a 77 cc d9 88 06 00 2b 00 03 02 7f 1c 00 0d 00 20 00 1e 04 03 05 03 06 03 02 03 08 04 08 05 08 06 04 01 05 01 06 01 02 01 04 02 05 02 06 02 02 02 00 2d 00 02 01 01");
+			var serverHello = BitString.Empty();
+			
+			var early = kdf.GetDerivedEarlySecret(
+				true,
+				new BitString(32 * 8),
+				clientHello);
+			
+			Assert.AreEqual(
+				new BitString("33 ad 0a 1c 60 7e c0 3b 09 e6 cd 98 93 68 0c e2 10 ad f3 00 aa 1f 26 60 e1 b2 2e 10 f1 70 f9 2a").ToHex(), 
+				early.EarlySecret.ToHex(), 
+				"Early Secret");
+
+			var deriveSecretForHandshake = kdf.ExpandLabel(
+				early.EarlySecret, 
+				"derived",
+				new BitString("e3 b0 c4 42 98 fc 1c 14 9a fb f4 c8 99 6f b9 24 27 ae 41 e4 64 9b 93 4c a4 95 99 1b 78 52 b8 55"),
+				hashLengthBytes);
+			
+			Assert.AreEqual(
+				new BitString("6f 26 15 a1 08 c7 02 c5 67 8f 54 fc 9d ba b6 97 16 c0 76 18 9c 48 25 0c eb ea c3 57 6c 36 11 ba").ToHex(), 
+				deriveSecretForHandshake.ToHex(),
+				"Derive secret for handshake");
+
+			var dhSharedSecret =
+				new BitString("0b c3 7c 6e 7c 83 66 38 4b ad d8 e9 00 57 b9 c2 39 21 3e 19 8e f3 95 aa 2d 69 0a ae 1b 4e 9a 44");
+			var handshakeFromEarly = kdf.GetDerivedHandshakeSecret(
+				dhSharedSecret,
+				early.DerivedEarlySecret,
+				clientHello,
+				serverHello);
+			var handshake = kdf.GetDerivedHandshakeSecret(
+				dhSharedSecret,
+				deriveSecretForHandshake,
+				clientHello,
+				serverHello);
+
+			Assert.AreEqual(handshakeFromEarly.HandshakeSecret.ToHex(), handshake.HandshakeSecret.ToHex(), "Check handshake secret through normal process vs specific test.");
+			
+			var extractSecretHandshakeExpected = new BitString("ee ef ce 91 5d c4 8b 22 a7 ae 76 4a d2 82 ba 41 6f 97 fe 89 e5 d1 bc 89 5b 2d 91 62 35 aa a2 ae");
+			Assert.AreEqual(extractSecretHandshakeExpected, handshakeFromEarly.HandshakeSecret, "Extracted Handshake Secret");
+
+			var deriveSecretClientHandshakeTraffic = kdf.ExpandLabel(
+				handshakeFromEarly.HandshakeSecret,
+				"c hs traffic",
+				new BitString("df 94 98 64 2c c0 b3 7f 60 42 53 bf 34 1b b0 44 8e 3d b5 f5 c8 ab b2 39 31 9b 1c 7b 7b 2e ac 63"), 
+				hashLengthBytes);
+			
+			Assert.AreEqual(new BitString("a4 d4 cd ed fb 3c 07 d7 be 78 85 8c 0b 63 38 eb 48 02 f1 58 88 ad 14 c1 ef 56 20 74 35 84 06 04"), 
+				deriveSecretClientHandshakeTraffic,
+				"c hs traffic");
+		}
+
+		/// <summary>
+		/// Really just trying to figure out what the hash from the test vectors is made up of.
+		/// </summary>
+		[Test]
+		public void TestVectorIetfDraft_TranscriptHashEmptyPayload()
+		{
+			var shaFactory = new ShaFactory();
+			var sha = shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+
+			var emptyPayload = sha.HashMessage(BitString.Empty());
+			
+			var expectedHash =
+				new BitString("e3 b0 c4 42 98 fc 1c 14 9a fb f4 c8 99 6f b9 24 27 ae 41 e4 64 9b 93 4c a4 95 99 1b 78 52 b8 55");
+
+			Assert.AreEqual(expectedHash.ToHex(), emptyPayload.Digest.ToHex(), nameof(emptyPayload));
+		}
+		
+		/// <summary>
+		/// Really just trying to figure out what the hash from the test vectors is made up of.
+		/// </summary>
+		[Test]
+		public void TestVectorIetfDraft_TranscriptHashNonEmptyPayloadOneContribution()
+		{
+			var shaFactory = new ShaFactory();
+			var sha = shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+
+			var clientHello = new BitString("01 00 01 fc 03 03 eb ef 0b 92 25 8b ec d1 07 3d cf f0 bb a7 da ad c7 b4 e8 14 df dd 1b 77 4b 0d 43 53 95 2b c4 2b 00 00 06 13 01 13 03 13 02 01 00 01 cd 00 00 00 0b 00 09 00 00 06 73 65 72 76 65 72 ff 01 00 01 00 00 0a 00 14 00 12 00 1d 00 17 00 18 00 19 01 00 01 01 01 02 01 03 01 04 00 33 00 26 00 24 00 1d 00 20 a2 e0 04 93 2f 3c d0 b3 c6 a2 9a de 11 8b 46 7c 69 55 a6 c3 6a 1d 44 27 38 60 59 b2 26 f5 0c 0f 00 2a 00 00 00 2b 00 03 02 7f 1c 00 0d 00 20 00 1e 04 03 05 03 06 03 02 03 08 04 08 05 08 06 04 01 05 01 06 01 02 01 04 02 05 02 06 02 02 02 00 2d 00 02 01 01 00 15 00 5d 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 29 00 dd 00 b8 00 b2 0f 63 7d a7 09 04 33 70 d0 60 00 06 00 00 00 00 2d fe b5 7a a8 7b 9c f1 76 0a 8a b4 91 d4 fb 0f 00 70 3d 7a 42 b6 a9 87 ef d2 4a fb bd 2b c6 06 9d c9 03 d4 c2 d3 f0 4f dd 3d 8e 95 97 0a 7b 78 aa 2c e8 28 75 72 4f 8a 82 75 d1 65 e7 7b e4 7d 59 0e aa ab fa 5f 4c 2d f0 46 71 a0 44 d8 4c f5 cc da c5 88 7d 6b e7 fe 2e 52 80 d7 a5 0f 23 fc 9c d4 a5 43 01 9e 41 94 63 c4 ee 29 8f d3 2c 01 93 34 b7 ab bb 78 d4 f2 a1 cf 4e 0f e1 60 aa 72 86 19 3f da 28 8c 97 d5 ba 39 75 5f 25 b7 a4 a8 f0 63 01 24 88 3d 2c 66 78 78 75 d6 7a 0f 6e b0 ba 71 f4 34 71 a5 00 21 20 b1 da ce 1d 97 d7 ff bf 46 1d f9 4d ec 70 f1 30 08 f9 13 4b 9c c0 40 88 d9 6d 93 cf 73 18 5b d8");
+			
+			var expectedHash = new BitString("8a ec fe eb b4 23 6e fd 8b 78 bb 3f f1 c7 af e0 87 2b fb b2 60 0f 04 69 ed 58 6f 23 39 7a e0 2d");
+		
+			Assert.AreEqual(
+				expectedHash.ToHex(), 
+				sha.HashMessage(clientHello).Digest.ToHex(), 
+				"concatenate no lengths");
+		}
+		
+		/// <summary>
+		/// Really just trying to figure out what the hash from the test vectors is made up of.
+		/// </summary>
+		[Test]
+		public void TestVectorIetfDraft_TranscriptHashNonEmptyPayloadTwoContribution()
+		{
+			var shaFactory = new ShaFactory();
+			var sha = shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
+
+			var clientHello = new BitString("01 00 00 b6 03 03 82 97 3b d3 3b b4 81 f5 37 de c6 5a cd 48 5b d4 bd aa 20 f7 d2 2f 68 0c 89 2f 68 45 06 51 a5 0e 00 00 06 13 01 13 03 13 02 01 00 00 87 00 00 00 0b 00 09 00 00 06 73 65 72 76 65 72 ff 01 00 01 00 00 0a 00 14 00 12 00 1d 00 17 00 18 00 19 01 00 01 01 01 02 01 03 01 04 00 33 00 26 00 24 00 1d 00 20 79 fd 6e fb c1 92 04 40 aa 32 5c dc ea 3f 3c b7 07 8f ea 03 13 fa 76 6a c3 76 1e dc 62 ad 2c 31 00 2b 00 03 02 7f 1c 00 0d 00 20 00 1e 04 03 05 03 06 03 02 03 08 04 08 05 08 06 04 01 05 01 06 01 02 01 04 02 05 02 06 02 02 02 00 2d 00 02 01 01");
+			var serverHello = new BitString("02 00 00 56 03 03 e1 6b 86 5e 76 5e 84 ba 47 b4 2d f2 62 e3 8e 2d e6 1e 95 e3 75 3b ad fd 98 76 5c 62 98 4f 28 d3 00 13 01 00 00 2e 00 33 00 24 00 1d 00 20 c3 ec 4f 42 40 70 ce 83 c7 91 fa 32 8f e9 ae 00 96 ab fc cc 15 b9 aa ec eb f6 0b f4 8f 0b 0f 2e 00 2b 00 02 7f 1c");
+			
+			var expectedHash = new BitString("57 65 19 76 4b f9 ac e3 84 32 c8 6d 9e 0f 72 f2 ef 6b a3 7c 9f 76 30 6e fc bb e7 78 56 ad b3 41");
+			
+			Assert.AreEqual(
+				expectedHash.ToHex(), 
+				sha.HashMessage(clientHello.ConcatenateBits(serverHello)).Digest.ToHex(), 
+				"concatenate no lengths");
+		}
+	}
+}

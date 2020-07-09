@@ -894,6 +894,15 @@ namespace NIST.CVP.Math
             return this.ToHex().GetHashCode();
         }
 
+        /// <summary>
+        /// Get an empty bitstring, useful as a starting point of concatenation and/or to avoid null.
+        /// </summary>
+        /// <returns></returns>
+        public static BitString Empty()
+        {
+            return new BitString(0);
+        }
+        
         public static BitString Zero()
         {
             return Zeroes(1);
