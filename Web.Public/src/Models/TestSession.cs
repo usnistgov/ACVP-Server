@@ -30,7 +30,7 @@ namespace Web.Public.Models
         public bool Publishable => !IsSample;
 
         [JsonPropertyName("passed")]
-        public bool Passed => Status == TestSessionStatus.Passed;
+        public bool Passed => Status == TestSessionStatus.Passed || Status == TestSessionStatus.Published;
 
         [JsonPropertyName("isSample")]
         public bool IsSample { get; set; }
@@ -39,5 +39,8 @@ namespace Web.Public.Models
 
         [JsonIgnore]
         public TestSessionStatus Status { get; set; }
+
+        [JsonIgnore]
+        public DateTime LastTouched { get; set; }
     }
 }

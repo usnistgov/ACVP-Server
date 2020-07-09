@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Internal.ACVPCore;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
-using NIST.CVP.Libraries.Shared.Results;
 using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Internal.Algorithms.Persisted;
 using NIST.CVP.Libraries.Internal.LCAVPCore.Registration;
 using NIST.CVP.Libraries.Internal.LCAVPCore.Registration.Algorithms;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 {
@@ -32,11 +31,18 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 
 		public InsertResult Create(NewRegistrationContainer foo)
 		{
-			//Create the "Module"
-			var moduleResult = _moduleProcessor.Create(foo.Module);
+			//Though this is a create, odd cases of update submission can create new validations, in which case we'll already have a module ID and not need to create one
+			long moduleID = foo.Module.ID;
+
+			if (moduleID == 0)
+			{
+				//Create the "Module"
+				var moduleResult = _moduleProcessor.Create(foo.Module);
+				moduleID = moduleResult.ID;
+			}
 
 			//Create the validation
-			var validationCreateResult = _validationService.Create(ValidationSource.LCAVP, moduleResult.ID);
+			var validationCreateResult = _validationService.Create(ValidationSource.LCAVP, moduleID);
 
 			foreach (var scenario in foo.Scenarios)
 			{

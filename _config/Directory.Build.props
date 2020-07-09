@@ -48,6 +48,7 @@
         <NugetVersionMicrosoftAspNetCoreHostingWindowsServices>2.1.0</NugetVersionMicrosoftAspNetCoreHostingWindowsServices>
         <NuGetVersionSystemServiceProcessServiceController>4.5.0</NuGetVersionSystemServiceProcessServiceController>
         <NuGetVersionSystemDataSqlClient>4.8.1</NuGetVersionSystemDataSqlClient>
+        <NuGetVersionSerilogAspNetCore>3.1.0</NuGetVersionSerilogAspNetCore>
         <NuGetVersionSerilog>2.9.0</NuGetVersionSerilog>
         <NuGetVersionSerilogExtensionsHosting>3.0.0</NuGetVersionSerilogExtensionsHosting>
         <NuGetVersionSerilogExtensionsLogging>3.0.1</NuGetVersionSerilogExtensionsLogging>

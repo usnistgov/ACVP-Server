@@ -50,12 +50,36 @@ namespace NIST.CVP.Crypto.KAS.FixedInfo
                         BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyU.EphemeralData)));
                 return;
             }
+            
+            if (workingPiece.Equals("uPartyId", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyU.PartyId));
+                return;
+            }
+            
+            if (workingPiece.Equals("uEphemeralData", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyU.EphemeralData));
+                return;
+            }
 
             if (workingPiece.Equals("vPartyInfo", StringComparison.OrdinalIgnoreCase))
             {
                 fixedInfoParts.Add(workingPiece, BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyV.PartyId)
                     .ConcatenateBits(
                         BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyV.EphemeralData)));
+                return;
+            }
+            
+            if (workingPiece.Equals("vPartyId", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyV.PartyId));
+                return;
+            }
+            
+            if (workingPiece.Equals("vEphemeralData", StringComparison.OrdinalIgnoreCase))
+            {
+                fixedInfoParts.Add(workingPiece, BitString.GetAtLeastZeroLengthBitString(fixedInfoParameter.FixedInfoPartyV.EphemeralData));
                 return;
             }
 

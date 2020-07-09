@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
 using Serilog;
@@ -14,92 +15,67 @@ namespace Web.Public.Services
 {
     public class JsonReaderService : IJsonReaderService
     {
-        private readonly IMessagePayloadValidatorFactory _workflowItemValidatorFactory;
-
-        public JsonReaderService(IMessagePayloadValidatorFactory workflowItemValidatorFactory)
-        {
-            _workflowItemValidatorFactory = workflowItemValidatorFactory;
-        }
-        
-        public T GetObjectFromBodyJson<T>(string jsonBody) where T : IJsonObject
-        {
-            try
-            {
-                // Unwrap the array
-                var jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
-                
-                if (jsonObjects.Length != 2)
-                {
-                    throw new JsonReaderException("Unable to deserialize body into two objects");
-                }
-
-                // Extract and verify version info
-                var versionObject = JsonSerializer.Deserialize<VersionObject>(jsonObjects[0].ToString());
-                if (versionObject.AcvVersion != "1.0")
-                {
-                    throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
-                }
-
-                // Extract and verify object info
-                var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
-                var errorList = extractedObject.ValidateObject();
-                if (errorList.Any())
-                {
-                    throw new PayloadValidatorException(errorList);
-                }
-
-                return extractedObject;
-            }
-            catch (JsonReaderException ex)
-            {
-                Log.Error("Error parsing JSON", ex);
-                throw;
-            }
-        }
-
-        public T GetMessagePayloadFromBodyJson<T>(string jsonBody, APIAction apiAction)
-            where T : IMessagePayload
+        public async Task<T> GetObjectFromBodyJsonAsync<T>(Stream jsonBody) where T : IJsonObject
         {
             object[] jsonObjects;
             try
             {
-                jsonObjects = JsonSerializer.Deserialize<object[]>(jsonBody);
+                jsonObjects = await JsonSerializer.DeserializeAsync<object[]>(jsonBody);
             }
             catch (Exception e)
             {
                 throw new JsonReaderException($"Unable to parse payload into a valid json object. {e.Message}");
             }
             
+            if (jsonObjects.Length != 2)
+            {
+                throw new JsonReaderException("Unable to deserialize body into two objects");
+            }
+
+            // Extract and verify version info
+            var versionObject = JsonSerializer.Deserialize<VersionObject>(jsonObjects[0].ToString());
+            if (versionObject.AcvVersion != "1.0")
+            {
+                throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
+            }
+
+            // Extract and verify object info
+            var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
+            var errorList = extractedObject.ValidateObject();
+            if (errorList.Any())
+            {
+                throw new PayloadValidatorException(errorList);
+            }
+
+            return extractedObject;
+        }
+
+        public async Task<T> GetMessagePayloadFromBodyJsonAsync<T>(Stream jsonBody, APIAction apiAction)
+            where T : IMessagePayload
+        {
+            object[] jsonObjects;
             try
             {
-                if (jsonObjects.Length != 2)
-                {
-                    throw new JsonReaderException("Unable to deserialize body into two objects");
-                }
-
-                // Extract and verify version info
-                var versionObject = JsonSerializer.Deserialize<VersionObject>(jsonObjects[0].ToString());
-                if (versionObject.AcvVersion != "1.0")
-                {
-                    throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
-                }
-                
-                // Extract and verify object info
-                var extractedObject = JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
-
-                return extractedObject;
+                jsonObjects = await JsonSerializer.DeserializeAsync<object[]>(jsonBody);
             }
-            catch (JsonReaderException ex)
+            catch (Exception e)
             {
-                Log.Error("Error parsing JSON", ex.Message);
-                throw;
+                throw new JsonReaderException($"Unable to parse payload into a valid json object. {e.Message}");
             }
-        }
-        
-        public string GetJsonFromBody(Stream body)
-        {
-            var reader = new StreamReader(body, Encoding.UTF8);
-            return reader.ReadToEndAsync().Result;
+
+            if (jsonObjects.Length != 2)
+            {
+                throw new JsonReaderException("Unable to deserialize body into two objects");
+            }
+
+            // Extract and verify version info
+            var versionObject = JsonSerializer.Deserialize<VersionObject>(jsonObjects[0].ToString());
+            if (versionObject.AcvVersion != "1.0")
+            {
+                throw new JsonReaderException($"Invalid version provided: {versionObject.AcvVersion}");
+            }
+
+            return JsonSerializer.Deserialize<T>(jsonObjects[1].ToString());
         }
     }
 }

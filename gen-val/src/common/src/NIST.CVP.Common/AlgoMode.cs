@@ -132,10 +132,18 @@ namespace NIST.CVP.Common
         KAS_FFC_Component_v1_0,
         [EnumMember(Value = "KAS-FFC-Sp800-56Ar3")]
         KAS_FFC_Sp800_56Ar3,
+        [EnumMember(Value = "KAS-FFC-SSC-SP800-56Ar3")]
+        KAS_FFC_SSC_Sp800_56Ar3,
         [EnumMember(Value = "KAS-ECC-Sp800-56Ar3")]
         KAS_ECC_Sp800_56Ar3,
+        [EnumMember(Value = "KAS-ECC-SSC-SP800-56Ar3")]
+        KAS_ECC_SSC_Sp800_56Ar3,
         [EnumMember(Value = "KAS-IFC-Sp800-56Br2")]
         KAS_IFC_Sp800_56Br2,
+        [EnumMember(Value = "KAS-KDF-OneStep-Sp800-56Cr1")]
+        KAS_KDF_OneStep_Sp800_56Cr1,
+        [EnumMember(Value = "KAS-KDF-TwoStep-Sp800-56Cr1")]
+        KAS_KDF_TwoStep_Sp800_56Cr1,
         [EnumMember(Value = "KTS-IFC-Sp800-56Br2")]
         KTS_IFC_Sp800_56Br2,
         [EnumMember(Value = "KDF-1.0")]
@@ -146,8 +154,6 @@ namespace NIST.CVP.Common
         KDFComponents_IKEv1_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv2-1.0")]
         KDFComponents_IKEv2_v1_0,
-        [EnumMember(Value = "KDF-Components-PBKDF-1.0")]
-        KDFComponents_PBKDF_v1_0,
         [EnumMember(Value = "KDF-Components-SNMP-1.0")]
         KDFComponents_SNMP_v1_0,
         [EnumMember(Value = "KDF-Components-SRTP-1.0")]
@@ -168,6 +174,8 @@ namespace NIST.CVP.Common
         ParallelHash_128_v1_0,
         [EnumMember(Value = "ParallelHash-256-1.0")]
         ParallelHash_256_v1_0,
+        [EnumMember(Value = "PBKDF-1.0")]
+        PBKDF_v1_0,
         [EnumMember(Value = "RSA-DecryptionPrimitive-1.0")]
         RSA_DecryptionPrimitive_v1_0,
         [EnumMember(Value = "RSA-KeyGen-1.0")]

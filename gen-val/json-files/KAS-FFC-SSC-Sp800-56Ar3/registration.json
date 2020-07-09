@@ -1,0 +1,32 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-FFC-SSC",
+  "mode": "",
+  "revision": "Sp800-56Ar3",
+  "isSample": true,
+  "scheme": {
+    "dhEphem": {
+      "scheme": "dhEphem",
+      "underlyingAlgorithm": "Ffc",
+      "algoMode": "KAS-FFC-SSC-SP800-56Ar3",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    },
+    "mqv1": {
+      "scheme": "mqv1",
+      "underlyingAlgorithm": "Ffc",
+      "algoMode": "KAS-FFC-SSC-SP800-56Ar3",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    }
+  },
+  "domainParameterGenerationMethods": [
+    "ffdhe2048",
+    "FB"
+  ],
+  "hashFunctionZ": "None"
+}

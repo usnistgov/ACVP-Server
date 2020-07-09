@@ -16,7 +16,9 @@ using Microsoft.IdentityModel.Tokens;
 using Orleans.Runtime;
 using Serilog;
 using Web.Public.Configs;
+using Web.Public.Exceptions;
 using Web.Public.Providers;
+using Web.Public.Services;
 
 namespace Web.Public
 {
@@ -35,6 +37,8 @@ namespace Web.Public
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+            
             services
                 .AddAuthentication(options =>
                 {
@@ -72,6 +76,22 @@ namespace Web.Public
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(_jwtSigningKey)),
                         SaveSigninToken = true
                     };
+                    options.Events = new JwtBearerEvents()
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+
+                            if (context.Exception != null)
+                            {
+                                logger.LogDebug(context.Exception, "Failed JWT auth. Caught within Startup.");
+                                // Rethrow the exception so that it can be caught by the exception handling middleware.
+                                throw context.Exception;    
+                            }
+                            
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services
@@ -86,16 +106,21 @@ namespace Web.Public
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig, ISecretKvpProvider secretKvpProvider)
+        public void Configure(ILogger<Startup> logger, IApplicationBuilder app, IWebHostEnvironment env, IOptions<JwtConfig> jwtConfig, ISecretKvpProvider secretKvpProvider, IJsonWriterService jsonWriterService)
         {
             logger.LogInformation("Startup.Configure");
             
             _jwtConfig = jwtConfig.Value;
             _jwtSigningKey = secretKvpProvider.GetValueFromKey(SecretKvpProvider.JwtSigningKey);
-            
+
+            app.ConfigureExceptionMiddleware(logger, jsonWriterService);
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.UseSerilogRequestLogging();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

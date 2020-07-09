@@ -54,7 +54,7 @@ namespace NIST.CVP.Crypto.KAS.Sp800_56Ar3.Scheme
                 ? ThisPartyKeyingMaterial
                 : otherPartyKeyingMaterial;
             
-            if (_kdfParameter == null)
+            if (SchemeParameters.KasMode == KasMode.NoKdfNoKc)
             {
                 return new KeyAgreementResult(keyingMaterialPartyU, keyingMaterialPartyV, z);
             }

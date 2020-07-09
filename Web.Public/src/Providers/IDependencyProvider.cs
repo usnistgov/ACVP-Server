@@ -7,6 +7,6 @@ namespace Web.Public.Providers
 	{
 		Dependency GetDependency(long id);
 		bool Exists(long id);
-		(long TotalCount, List<Dependency> Organizations) GetFilteredList(string filter, long offset, long limit, string orDelimiter, string andDelimiter);
+		(long TotalCount, List<Dependency> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit);
 	}
 }

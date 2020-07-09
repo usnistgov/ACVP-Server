@@ -68,7 +68,7 @@ namespace NIST.CVP.Generation.ANSIX963.Tests.ContractResolvers
 
             Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Z, newTc.Z, nameof(newTc.Z));
+            Assert.AreEqual(tc.SharedSecret, newTc.SharedSecret, nameof(newTc.SharedSecret));
             Assert.AreEqual(tc.SharedInfo, newTc.SharedInfo, nameof(newTc.SharedInfo));
 
             Assert.AreNotEqual(tc.KeyData, newTc.KeyData, nameof(newTc.KeyData));

@@ -228,7 +228,7 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
-                Assert.Fail("Exception running Generator.");
+                Assert.Fail($"Exception running Generator.{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 return new GenerateResponse("Test fail", StatusCode.GeneratorError);
             }
         }
@@ -255,7 +255,7 @@ namespace NIST.CVP.Generation.Core.Tests
             {
                 Log.Error(ex.Message);
                 Log.Error(ex.StackTrace);
-                Assert.Fail("Exception running Validator.");
+                Assert.Fail($"Exception running Validator.{Environment.NewLine}{ex.Message}{Environment.NewLine}{ex.StackTrace}");
                 return new ValidateResponse("Test fail", StatusCode.ValidatorError);
             }
         }

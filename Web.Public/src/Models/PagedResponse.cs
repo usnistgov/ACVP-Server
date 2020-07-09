@@ -16,7 +16,7 @@ namespace Web.Public.Models
 			Data = data;
 			Links = new Links
 			{
-				FirstPage = $"{baseUrl}?offset=0&limit={Math.Min(pagingOptions.Limit, pagingOptions.Offset)}",          //If the current offset is less than the limit, if the first page brought back the simple limit it would include some duplicate rows
+				FirstPage = $"{baseUrl}?offset=0&limit={(pagingOptions.Offset == 0 ? pagingOptions.Limit : Math.Min(pagingOptions.Limit, pagingOptions.Offset))}",          //If the current offset is less than the limit, if the first page brought back the simple limit it would include some duplicate rows, so use the offset as the limit. Unless offset is 0, then the limit is the limit.
 				NextPage = pagingOptions.Offset + pagingOptions.Limit >= totalCount ? null : $"{baseUrl}?offset={pagingOptions.Offset + pagingOptions.Limit}&limit={pagingOptions.Limit}",    //If already at the end, don't have a next page
 				PreviousPage = pagingOptions.Offset == 0 ? null : $"{baseUrl}?offset={(pagingOptions.Offset - pagingOptions.Limit < 0 ? 0 : pagingOptions.Offset - pagingOptions.Limit)}&limit={(pagingOptions.Offset - pagingOptions.Limit < 0 ? pagingOptions.Offset : pagingOptions.Limit)}",      //If the previous full page would start with a negative value, need to start at 0 offset and get limit, so ends with the last before this page. If it would be a positive value, then we can get the full limit length
 				LastPage = $"{baseUrl}?offset={(totalCount - pagingOptions.Limit < 0 ? 0 : totalCount - pagingOptions.Limit)}&limit={pagingOptions.Limit}"            //Last page starts limit before the end, unless that is negative, then 0

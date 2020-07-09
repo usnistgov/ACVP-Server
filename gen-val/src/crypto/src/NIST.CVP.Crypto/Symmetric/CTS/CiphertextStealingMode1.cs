@@ -20,15 +20,20 @@ namespace NIST.CVP.Crypto.Symmetric.CTS
             }
 
             var bitsToAddForPadding = numberOfBlocks * engine.BlockSizeBits - originalPayloadBitLength;
-            var partialBlockBits = engine.BlockSizeBits - bitsToAddForPadding;
-
-            var partialBlockBytes = partialBlockBits / 8;
-
-            // remove the "padded amount" of bits from the second to last block, shifting the amount removed onto it
-            Array.Copy(outBuffer, outBuffer.Length - (1 * engine.BlockSizeBytes),
-                outBuffer, outBuffer.Length - (2 * engine.BlockSizeBytes) + partialBlockBytes,
-                engine.BlockSizeBytes
-            );
+            var blockBitsWithoutPadding = engine.BlockSizeBits - bitsToAddForPadding;
+            
+            var newPayload = new BitString(outBuffer);
+            var newPayloadUpToPadding = newPayload
+                // all the blocks up to the second to last block, which should only include the "non padded" bits
+                .GetMostSignificantBits(engine.BlockSizeBits * (numberOfBlocks - 2) + blockBitsWithoutPadding);
+            var finalBlock = newPayload.GetLeastSignificantBits(engine.BlockSizeBits);
+            var newPayloadBytes = newPayloadUpToPadding
+                .ConcatenateBits(finalBlock)
+                // Adding zero bits in the LSB to not add significant bits when converting to a byte array.
+                .ConcatenateBits(BitString.Zeroes(bitsToAddForPadding))
+                .ToBytes();
+            
+            Array.Copy(newPayloadBytes, 0, outBuffer, 0, newPayloadBytes.Length);
         }
 
         public byte[] HandleFinalFullPayloadBlockDecryption(BitString payload, IBlockCipherEngine engine, int numberOfBlocks, int originalPayloadBitLength)
@@ -36,28 +41,23 @@ namespace NIST.CVP.Crypto.Symmetric.CTS
             // When payload is not a multiple of the block size
             if (numberOfBlocks > 1 && payload.BitLength % engine.BlockSizeBits != 0)
             {
-                // decrypt the final block first, using ECB mode
-                var finalBlock = payload.GetLeastSignificantBits(engine.BlockSizeBits).ToBytes();
-                var finalBlockBuffer = new byte[engine.BlockSizeBytes];
+                var numberOfBitsToAdd = engine.BlockSizeBits - payload.BitLength % engine.BlockSizeBits;
+                
+                // Decrypt the last full payload block (in this case the last block)
+                var decryptedLastBlockBuffer = new byte[engine.BlockSizeBytes];
+                var lastBlock = payload.GetLeastSignificantBits(engine.BlockSizeBits).ToBytes();
 
-                engine.ProcessSingleBlock(finalBlock, finalBlockBuffer, 0);
+                engine.ProcessSingleBlock(lastBlock, decryptedLastBlockBuffer, 0);
 
-                var decryptedBlock = new BitString(finalBlockBuffer);
+                var paddedPayload = payload
+                    // The original payload minus the final full block 
+                    .GetMostSignificantBits(payload.BitLength - engine.BlockSizeBits)
+                    // Add the least significant bits of the decrypted last block to pad to a multiple of the block size
+                    .ConcatenateBits(new BitString(decryptedLastBlockBuffer).GetLeastSignificantBits(numberOfBitsToAdd))
+                    // Add the last block back onto the payload
+                    .ConcatenateBits(payload.GetLeastSignificantBits(engine.BlockSizeBits));
 
-                // Pad the ciphertext to the nearest multiple of the block size using the last B−M bits of the decrypted final block.
-                // These bits should be inserted after the penultimate block (full payload length minus a single block size).
-                var amountToPad = (engine.BlockSizeBits - payload.BitLength % engine.BlockSizeBits);
-                if (amountToPad > 0)
-                {
-                    //payload = payload.ConcatenateBits(BitString.Substring(decryptedBlock, 0, amountToPad));
-                    payload = payload.GetMostSignificantBits(payload.BitLength - engine.BlockSizeBits)
-                        .ConcatenateBits(decryptedBlock.GetLeastSignificantBits(amountToPad))
-                        .ConcatenateBits(new BitString(finalBlock));
-                }
-
-                var payloadBytes = payload.ToBytes();
-
-                return payloadBytes;
+                return paddedPayload.ToBytes();
             }
 
             return payload.ToBytes();

@@ -17,7 +17,7 @@
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 1000,
     "OverrideMinimumPoolLevel": 1,
-    "AllowPoolSpawn": false
+    "AllowPoolSpawn": true
   },
 
   "OrleansConfig": {

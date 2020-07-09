@@ -27,9 +27,9 @@ namespace Web.Public.Models
 		{
 			get => Type switch
 			{
-				ImplementationType.Software => "software",
-				ImplementationType.Hardware => "hardware",
-				ImplementationType.Firmware => "firmware",
+				ImplementationType.Software => "Software",
+				ImplementationType.Hardware => "Hardware",
+				ImplementationType.Firmware => "Firmware",
 				_ => "unknown"
 			};
 			set => Type = value.ToLower() switch
@@ -53,8 +53,8 @@ namespace Web.Public.Models
 		[JsonIgnore]
 		public long? AddressID { get; set; }
 
-		[JsonPropertyName("addressUrls")]
-		public string AddressURL => $"/acvp/v1/vendors/{OrganizationID}/addresses{AddressID}";
+		[JsonPropertyName("addressUrl")]
+		public string AddressURL => $"/acvp/v1/vendors/{OrganizationID}/addresses/{AddressID}";
 
 		[JsonIgnore]
 		public List<long> ContactIDs { get; set; }

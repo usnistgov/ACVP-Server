@@ -51,6 +51,9 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
             var minMax = new MathDomain();
             minMax.AddSegment(new RangeDomainSegment(null, 16, 65536));
 
+            var blockSize = new MathDomain();
+            blockSize.AddSegment(new RangeDomainSegment(null, 1, 128));
+            
             Parameters p = new Parameters
             {
                 Algorithm = "ParallelHash",
@@ -58,6 +61,7 @@ namespace NIST.CVP.Generation.ParallelHash.Tests
                 MessageLength = minMax,
                 IsSample = false,
                 OutputLength = minMax,
+                BlockSize = blockSize,
                 XOF = xof
             };
 

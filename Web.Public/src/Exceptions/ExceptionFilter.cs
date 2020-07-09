@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Web.Public.JsonObjects;
@@ -22,9 +23,20 @@ namespace Web.Public.Exceptions
         {
             ErrorObject error;
             HttpStatusCode statusCode;
+            bool logAsError = false;
 
             switch (context.Exception)
             {
+                // thrown by System.Json
+                case JsonException e:
+                    error = new ErrorObject()
+                    {
+                        Error = "Invalid JSON provided.",
+                        Context = e.Message
+                    };
+                    statusCode = HttpStatusCode.BadRequest;
+                    break;
+                // Thrown by our code, can contain multiple parameter parsing validation error messages
                 case JsonReaderException e:
                     error = new ErrorObject()
                     {
@@ -47,10 +59,15 @@ namespace Web.Public.Exceptions
                         Error = "Internal service error. Contact service provider."
                     };
                     statusCode = HttpStatusCode.InternalServerError;
+                    logAsError = true;
+                    
                     break;
             }
-            
-            _logger.LogError(context.Exception, $"Exception Handled.");
+
+            if (logAsError)
+            {
+                _logger.LogError(context.Exception, $"Exception Handled.");
+            }
             
             context.ExceptionHandled = true;
             context.Result = new JsonHttpStatusResult(_jsonWriter.BuildVersionedObject(error), statusCode);

@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using Moq;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.Models;
@@ -13,29 +15,17 @@ namespace Web.Public.Tests
     [TestFixture]
     public class JsonServiceTests
     {
-        private Mock<IMessagePayloadValidator> _mockWorkflowItemValidator = new Mock<IMessagePayloadValidator>();
-        private Mock<IMessagePayloadValidatorFactory> _mockWorkflowItemValidatorFactory = new Mock<IMessagePayloadValidatorFactory>();
-
-        [SetUp]
-        public void Setup()
-        {
-            _mockWorkflowItemValidator
-                .Setup(s => s.Validate(It.IsAny<IWorkflowItemPayload>()))
-                .Returns(new PayloadValidationResult(null));
-            _mockWorkflowItemValidatorFactory
-                .Setup(s => s.GetMessagePayloadValidator(It.IsAny<APIAction>()))
-                .Returns(_mockWorkflowItemValidator.Object);
-        }
-        
         [Test]
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\"}]")]
         [TestCase("[{\"acvVersion\": \"1.0\"},{\"name\": \"test\", \"phoneNumbers\": [{\"number\": \"555-555-0001\", \"type\": \"phone\"}, {\"number\": \"555-555-0002\", \"type\": \"fax\"}]}]")]
         public void ShouldDeserializeOrganizationObjects(string json)
         {
-            var jsonParser = new JsonReaderService(_mockWorkflowItemValidatorFactory.Object);
+            MemoryStream memoryStream = new MemoryStream( Encoding.UTF8.GetBytes( json ) );
+            
+            var jsonParser = new JsonReaderService();
             try
             {
-                jsonParser.GetMessagePayloadFromBodyJson<OrganizationCreatePayload>(json, APIAction.CreateVendor);
+                jsonParser.GetMessagePayloadFromBodyJsonAsync<OrganizationCreatePayload>(memoryStream, APIAction.CreateVendor);
             }
             catch (Exception ex)
             {

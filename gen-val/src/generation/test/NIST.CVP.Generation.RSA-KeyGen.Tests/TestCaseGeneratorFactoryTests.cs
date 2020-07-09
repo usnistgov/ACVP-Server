@@ -13,8 +13,8 @@ namespace NIST.CVP.Generation.RSA_KeyGen.Tests
         [TestCase("Aft", typeof(TestCaseGeneratorAft))]
         [TestCase("AFT", typeof(TestCaseGeneratorAft))]
         [TestCase("KaT", typeof(TestCaseGeneratorKat))]
-        [TestCase("GDT", typeof(TestCaseGeneratorAft))]
-        [TestCase("gdt", typeof(TestCaseGeneratorAft))]
+        [TestCase("GDT", typeof(TestCaseGeneratorGdt))]
+        [TestCase("gdt", typeof(TestCaseGeneratorGdt))]
         [TestCase("null", typeof(TestCaseGeneratorNull))]
         [TestCase("not relevant", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(string testType, Type expectedType)

@@ -26,15 +26,16 @@ namespace NIST.CVP.Math.Entropy
                 throw new Exception("No Entropy exists within provider");
             }
 
-            if (numberOfBits != _entropyBitStrings[0].BitLength)
+            if (numberOfBits > _entropyBitStrings[0].BitLength)
             {
-                throw new ArgumentException($"expected {nameof(numberOfBits)} ({numberOfBits}) does not match the number of bits in {nameof(_entropyBitStrings)} ({_entropyBitStrings[0].BitLength})");
+                throw new ArgumentException($"{nameof(numberOfBits)} ({numberOfBits}) requested does not meet the number of bits in {nameof(_entropyBitStrings)} ({_entropyBitStrings[0].BitLength})");
             }
 
             var entropy = _entropyBitStrings[0];
             _entropyBitStrings.RemoveAt(0);
 
-            return entropy;
+            return entropy.BitLength == numberOfBits ? 
+                entropy : entropy.GetMostSignificantBits(numberOfBits);
         }
 
         public BigInteger GetEntropy(BigInteger minInclusive, BigInteger maxInclusive)

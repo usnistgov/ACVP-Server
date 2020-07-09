@@ -10,6 +10,7 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
+using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
@@ -47,17 +48,14 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
         
         private static readonly KasDpGeneration[] ValidEccDpGeneration = 
         {
-            KasDpGeneration.P192,
             KasDpGeneration.P224,
             KasDpGeneration.P256,
             KasDpGeneration.P384,
             KasDpGeneration.P521,
-            KasDpGeneration.K163,
             KasDpGeneration.K233,
             KasDpGeneration.K283,
             KasDpGeneration.K409,
             KasDpGeneration.K571,
-            KasDpGeneration.B163,
             KasDpGeneration.B233,
             KasDpGeneration.B283,
             KasDpGeneration.B409,

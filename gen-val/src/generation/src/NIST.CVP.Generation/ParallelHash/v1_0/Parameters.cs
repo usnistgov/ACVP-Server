@@ -23,6 +23,10 @@ namespace NIST.CVP.Generation.ParallelHash.v1_0
 
         [JsonProperty(PropertyName = "hexCustomization")]
         public bool HexCustomization { get; set; } = false;
+        
+        // Hard assumption that this is just a single RangeSegment inside of a Domain
+        [JsonProperty(PropertyName = "blockSize")]
+        public MathDomain BlockSize { get; set; }
 
         // Hard assumption that this is just a single RangeSegment inside of a Domain
         [JsonProperty(PropertyName = "outputLen")]

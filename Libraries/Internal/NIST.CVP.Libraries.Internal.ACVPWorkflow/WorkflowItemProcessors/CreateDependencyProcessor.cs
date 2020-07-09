@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Internal.ACVPCore.Services;
+﻿using System;
+using NIST.CVP.Libraries.Internal.ACVPCore.Services;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
@@ -30,14 +31,14 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 			DependencyCreateParameters parameters = ((DependencyCreatePayload)workflowItem.Payload).ToDependencyCreateParameters();
 
 			//Create it
-			DependencyResult dependencyCreateResult = _dependencyService.Create(parameters);
+			DependencyResult result = _dependencyService.Create(parameters);
 
-			if (!dependencyCreateResult.IsSuccess)
+			if (!result.IsSuccess)
 			{
-				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}");
+				throw new ResourceProcessorException($"Failed approval on {nameof(workflowItem.APIAction)} {workflowItem.APIAction}.{Environment.NewLine}Reason: {result.ErrorMessage}");
 			}
 			
-			return dependencyCreateResult.ID;
+			return result.ID;
 		}
 
 		public void Reject(WorkflowItem workflowItem) { }

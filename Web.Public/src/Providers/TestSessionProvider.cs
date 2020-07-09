@@ -72,7 +72,8 @@ namespace Web.Public.Providers
                     CreatedOn = data.CreatedOn,
                     IsSample = data.IsSample,
                     Status = (TestSessionStatus)data.TestSessionStatusId,
-                    ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)
+                    LastTouched = (DateTime)data.LastTouched,
+                    ExpiresOn = ((DateTime)data.LastTouched).AddDays(_testSessionConfig.TestSessionExpirationAgeInDays)     //This is pretty lame to set both of these, but expiration is based on configuration, and don't want to pass config into a model class
                 };
 
                 var vsData = db.QueryFromProcedure("dbo.VectorSetGetFromTestSession", new
@@ -214,6 +215,23 @@ namespace Web.Public.Providers
             }
             
             return new Result();
+        }
+
+        public DateTime GetLastTouched(long testSessionID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                //Get the last touched date, but if the TS does not exist, or the LastTouched is somehow null (shouldn't be), return MinValue
+                var value = db.ScalarFromProcedure("acvp.TestSessionGetLastTouched", new { TestSessionId = testSessionID });
+                return (value == null || value == DBNull.Value) ? DateTime.MinValue : (DateTime)value;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving LastTouched for Test Session  {testSessionID}");
+                return DateTime.MinValue;
+            }
         }
     }
 }

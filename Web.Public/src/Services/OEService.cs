@@ -18,7 +18,7 @@ namespace Web.Public.Services
 
 		public bool IsUsed(long id) => _oeProvider.IsUsed(id);
 
-		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(string filter, PagingOptions pagingOptions, string orDelimiter, string andDelimiter)
-			=> _oeProvider.GetFilteredList(filter, pagingOptions.Offset, pagingOptions.Limit, orDelimiter, andDelimiter);
+		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions)
+			=> _oeProvider.GetFilteredList(orClauses, pagingOptions.Offset, pagingOptions.Limit);
 	}
 }

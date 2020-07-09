@@ -17,6 +17,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.2" />
 
         <PackageReference Include="Serilog" Version="$(NuGetVersionSerilog)" />
+        <PackageReference Include="Serilog.AspNetCore" Version="$(NuGetVersionSerilogAspNetCore)" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="$(NuGetVersionSerilogExtensionsHosting)" />
         <PackageReference Include="Serilog.Extensions.Logging" Version="$(NuGetVersionSerilogExtensionsLogging)" />
         <PackageReference Include="Serilog.Settings.Configuration" Version="$(NuGetVersionSerilogSettingsConfiguration)" />
@@ -288,6 +289,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="ClientApp\src\app\services\ajax\address\" />
       <Folder Include="ClientApp\src\app\services\ajax\validation\" />
       <Folder Include="ClientApp\src\app\services\ajax\product\" />
     </ItemGroup>

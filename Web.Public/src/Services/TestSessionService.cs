@@ -120,5 +120,7 @@ namespace Web.Public.Services
 
             return returnObject;
         }
+
+        public DateTime GetLastTouched(long testSessionID) => _testSessionProvider.GetLastTouched(testSessionID);
     }
 }

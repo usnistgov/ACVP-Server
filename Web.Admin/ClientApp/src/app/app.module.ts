@@ -55,6 +55,7 @@ import { DisclaimerRouteGuard } from './routing/disclaimer-route-guard.module';
 import { ValidationDbOrganizationsCreateComponent } from './components/validation-db-organizations/validation-db-organizations-create/validation-db-organizations-create.component';
 import { TestsessionsComponent } from './components/testsessions/testsessions.component';
 import { TestsessionComponent } from './components/testsessions/testsession/testsession.component';
+import { WorkflowsMultiApproveComponent } from './components/workflows/workflows-multi-approve/workflows-multi-approve.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { TestsessionComponent } from './components/testsessions/testsession/test
     DisclaimerComponent,
     ValidationDbOrganizationsCreateComponent,
     TestsessionsComponent,
-    TestsessionComponent
+    TestsessionComponent,
+    WorkflowsMultiApproveComponent
 
   ],
   imports: [

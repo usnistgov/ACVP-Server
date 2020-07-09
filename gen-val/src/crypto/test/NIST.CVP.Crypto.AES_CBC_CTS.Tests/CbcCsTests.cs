@@ -13,6 +13,8 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
     [TestFixture, FastCryptoTest]
     public class CbcCsTests
     {
+        private readonly CbcCtsBlockCipher _subjectCs1 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode1());
+        private readonly CbcCtsBlockCipher _subjectCs2 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode2());
         private readonly CbcCtsBlockCipher _subjectCs3 = new CbcCtsBlockCipher(new AesEngine(), new CiphertextStealingMode3());
 
         private static IEnumerable<object> _testData = new[]
@@ -102,6 +104,99 @@ namespace NIST.CVP.Crypto.AES_CBC_CTS.Tests
                 .ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv.GetDeepCopy(), key, encryptResult)).Result;
             
             Assert.AreEqual(pt.GetMostSignificantBits(pt.BitLength).ToHex(), decryptResult.GetMostSignificantBits(pt.BitLength).ToHex());
-        } 
+        }
+
+        [Test]
+        public void ShouldEncryptNotModEightCs1()
+        {
+            var payloadLen = 374;
+
+            var iv = new BitString("00000000000000000000000000000000");
+            var key = new BitString("00000000000000000000000000000000");
+            var pt = new BitString("F34481EC3CC627BACD5DC3FB08F273E600000000000000000000000000000000000000000000000000000000000000")
+                .GetMostSignificantBits(payloadLen);
+            
+            var encryptResult = _subjectCs1
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        pt.GetDeepCopy())).Result;
+            
+            var decryptResult = _subjectCs1
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        encryptResult.GetDeepCopy())).Result;
+            
+            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+        }
+        
+        [Test]
+        public void ShouldEncryptNotModEightCs2()
+        {
+            var payloadLen = 374;
+
+            var iv = new BitString("00000000000000000000000000000000");
+            var key = new BitString("00000000000000000000000000000000");
+            var pt = new BitString("F34481EC3CC627BACD5DC3FB08F273E600000000000000000000000000000000000000000000000000000000000000")
+                .GetMostSignificantBits(payloadLen);
+            
+            var encryptResult = _subjectCs2
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        pt.GetDeepCopy())).Result;
+            
+            var decryptResult = _subjectCs2
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        encryptResult.GetDeepCopy())).Result;
+            
+            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+        }
+        
+        [Test]
+        public void ShouldEncryptNotModEightCs3()
+        {
+            var payloadLen = 374;
+
+            var iv = new BitString("00000000000000000000000000000000");
+            var key = new BitString("00000000000000000000000000000000");
+            var pt = new BitString("F34481EC3CC627BACD5DC3FB08F273E600000000000000000000000000000000000000000000000000000000000000")
+                .GetMostSignificantBits(payloadLen);
+            
+            var expectedCtAsPerAegis = new BitString("0336763E966D92595A567CC9CE537F5ED9492AAFC53406FCD852F32A99EED2AD6EF1A3F88079814A8E7083AB12EB10")
+                .GetMostSignificantBits(payloadLen);
+            var expectedCtFromServer = new BitString("0336763E966D92595A567CC9CE537F5ED2AD6EF1A3F88079814A8E7083AB12EBD9492AAFC53406FCD852F32A99EE08")
+                .GetMostSignificantBits(payloadLen);
+            
+            var encryptResult = _subjectCs3
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Encrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        pt.GetDeepCopy())).Result;
+            
+            var decryptResult = _subjectCs3
+                .ProcessPayload(
+                    new ModeBlockCipherParameters(
+                        BlockCipherDirections.Decrypt,
+                        iv.GetDeepCopy(),
+                        key.GetDeepCopy(),
+                        encryptResult.GetDeepCopy())).Result;
+            
+            //Assert.AreEqual(expectedCtFromServer.ToHex(), encryptResult.ToHex(), "Expected CT");
+            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+        }
     }
 }

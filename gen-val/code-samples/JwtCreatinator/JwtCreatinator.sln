@@ -1,0 +1,118 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "refs", "refs", "{9F33E76B-653D-499B-85B3-38AF2F38158D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Internal.ACVPCore", "..\..\..\Libraries\Internal\NIST.CVP.Libraries.Internal.ACVPCore\NIST.CVP.Libraries.Internal.ACVPCore.csproj", "{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ACVPCore.Abstractions", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions\NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.csproj", "{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Common", "..\..\src\common\src\NIST.CVP.Common\NIST.CVP.Common.csproj", "{40625122-C1E0-413F-936B-11936F4C878E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Public", "..\..\..\Web.Public\src\Web.Public.csproj", "{FB0BC059-64B3-4916-A635-216041683409}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation", "..\..\src\generation\src\NIST.CVP.Generation\NIST.CVP.Generation.csproj", "{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Generation.Core", "..\..\src\generation\src\NIST.CVP.Generation.Core\NIST.CVP.Generation.Core.csproj", "{3C0C81DF-E730-4267-81D0-8D095C63775E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Algorithms.External", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.External\NIST.CVP.Libraries.Shared.Algorithms.External.csproj", "{E1CF4235-92E8-4A07-95A1-2B552397C5B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.DatabaseInterface", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.DatabaseInterface\NIST.CVP.Libraries.Shared.DatabaseInterface.csproj", "{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Enumerables", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Enumerables\NIST.CVP.Libraries.Shared.Enumerables.csproj", "{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.ExtensionMethods", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.ExtensionMethods\NIST.CVP.Libraries.Shared.ExtensionMethods.csproj", "{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.MessageQueue.Abstractions", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions\NIST.CVP.Libraries.Shared.MessageQueue.Abstractions.csproj", "{CFA93C21-ABB7-4E64-84AF-E3AAA1268192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Results", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Results\NIST.CVP.Libraries.Shared.Results.csproj", "{5EB9E5C3-EF3E-40C1-84C4-46C637790838}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Libraries.Shared.Algorithms.DataTypes", "..\..\..\Libraries\Shared\NIST.CVP.Libraries.Shared.Algorithms.DataTypes\NIST.CVP.Libraries.Shared.Algorithms.DataTypes.csproj", "{EAEF3752-0EC9-4402-BC21-305F94C4ED5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.Math", "..\..\src\common\src\NIST.CVP.Math\NIST.CVP.Math.csproj", "{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtCreatinator", "src\JwtCreatinator.csproj", "{E1F121E2-D4A2-47D6-9481-AD008334FECD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40625122-C1E0-413F-936B-11936F4C878E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0BC059-64B3-4916-A635-216041683409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0BC059-64B3-4916-A635-216041683409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0BC059-64B3-4916-A635-216041683409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0BC059-64B3-4916-A635-216041683409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C0C81DF-E730-4267-81D0-8D095C63775E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C0C81DF-E730-4267-81D0-8D095C63775E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C0C81DF-E730-4267-81D0-8D095C63775E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C0C81DF-E730-4267-81D0-8D095C63775E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1CF4235-92E8-4A07-95A1-2B552397C5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1CF4235-92E8-4A07-95A1-2B552397C5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1CF4235-92E8-4A07-95A1-2B552397C5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1CF4235-92E8-4A07-95A1-2B552397C5B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFA93C21-ABB7-4E64-84AF-E3AAA1268192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFA93C21-ABB7-4E64-84AF-E3AAA1268192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFA93C21-ABB7-4E64-84AF-E3AAA1268192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFA93C21-ABB7-4E64-84AF-E3AAA1268192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB9E5C3-EF3E-40C1-84C4-46C637790838}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB9E5C3-EF3E-40C1-84C4-46C637790838}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB9E5C3-EF3E-40C1-84C4-46C637790838}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB9E5C3-EF3E-40C1-84C4-46C637790838}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAEF3752-0EC9-4402-BC21-305F94C4ED5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEF3752-0EC9-4402-BC21-305F94C4ED5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEF3752-0EC9-4402-BC21-305F94C4ED5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEF3752-0EC9-4402-BC21-305F94C4ED5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1F121E2-D4A2-47D6-9481-AD008334FECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1F121E2-D4A2-47D6-9481-AD008334FECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1F121E2-D4A2-47D6-9481-AD008334FECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1F121E2-D4A2-47D6-9481-AD008334FECD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{64F9B7E6-9C86-4BEC-948F-EC4131953ED0} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{AEAB13A5-E45D-4133-8AA0-D6407B1B2FF1} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{40625122-C1E0-413F-936B-11936F4C878E} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{FB0BC059-64B3-4916-A635-216041683409} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{5F1ECC0E-79F6-4BE2-8A14-F7457343AF31} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{3C0C81DF-E730-4267-81D0-8D095C63775E} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{E1CF4235-92E8-4A07-95A1-2B552397C5B4} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{CB3E3873-F254-4236-91B3-6A3BB2B4FEF5} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{2D3E9329-0DF3-4C1D-8DBF-47AEBADCA442} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{EE7DFBE5-2723-4672-9DB1-B7EF0E83CDF4} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{CFA93C21-ABB7-4E64-84AF-E3AAA1268192} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{5EB9E5C3-EF3E-40C1-84C4-46C637790838} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{EAEF3752-0EC9-4402-BC21-305F94C4ED5A} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+		{9D3277E1-BEBF-4FBE-A697-B1D02D53D77B} = {9F33E76B-653D-499B-85B3-38AF2F38158D}
+	EndGlobalSection
+EndGlobal

@@ -12,6 +12,10 @@ import { TestSessionListParameters } from '../../models/testSession/TestSessionL
 export class TaskQueueComponent implements OnInit {
 
   taskQueue: TaskQueue;
+  autoRefreshEnabled = true;
+
+  // Used to store the interval object for eventual cleanup on component destruction
+  //interval;
 
   constructor(private AdministrativeAjax: AdministrativeAjaxProviderService,
     private TestSessionProvider: TestSessionProviderService) { }
@@ -24,10 +28,8 @@ export class TaskQueueComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-
+  getPageData() {
     let self = this;
-
     this.AdministrativeAjax.getTaskQueue().subscribe(
       data => {
         this.taskQueue = data;
@@ -49,5 +51,22 @@ export class TaskQueueComponent implements OnInit {
 
       });
   }
+
+  ngOnInit() {
+
+    // Get the initial data
+    this.getPageData();
+
+    // This sets the callback function to be run every second.
+    // The callback contains a boolean check
+    // 06/04/2020 - Commented out because it was generating tons of logs when users left it open on their machines.
+    //this.interval = setInterval(() => {
+    //  if (this.autoRefreshEnabled === true) {
+    //    this.getPageData();
+    //  }
+    //}, 1000);
+  }
+
+  //ngOnDestroy() { clearInterval(this.interval); }
 
 }

@@ -1,14 +1,16 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Mighty;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using NIST.CVP.Libraries.Shared.MessageQueue.Abstractions;
 using Serilog;
 using Web.Public.Services;
 
 namespace Web.Public.Providers
 {
-    public class MessageProvider : IMessageProvider
+	public class MessageProvider : IMessageProvider
     {
         private readonly ILogger<MessageProvider> _logger;
         private readonly string _connectionString;
@@ -21,7 +23,7 @@ namespace Web.Public.Providers
             _jsonWriter = jsonWriter;
         }
 
-        public void InsertIntoQueue(APIAction apiAction, long userID, object content)
+        public async Task InsertIntoQueueAsync(APIAction apiAction, long userID, object content)
         {
             // Build json message to go into table
             var json = _jsonWriter.BuildMessageObject(content);
@@ -30,12 +32,12 @@ namespace Web.Public.Providers
 
             try
             {
-                db.SingleFromProcedure("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
                 {
                     MessageType = apiAction,
                     userId = userID,
                     Payload = json
-                });
+                }, commandTimeout: 120);
                 Log.Information($"Added message to the message queue");
             }
             catch (Exception ex)
@@ -45,7 +47,7 @@ namespace Web.Public.Providers
             }
         }
 
-        public void InsertIntoQueue(APIAction apiAction, long requestID, long userID, object content)
+        public async Task InsertIntoQueueAsync(APIAction apiAction, long requestID, long userID, object content)
         {
             // Build json message to go into table
             var requestJson = _jsonWriter.BuildRequestWorkflowObject(requestID, content);
@@ -54,12 +56,12 @@ namespace Web.Public.Providers
 
             try
             {
-                db.SingleFromProcedure("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
                 {
                     MessageType = apiAction,
                     userId = userID,
                     Payload = requestJson
-                });
+                }, commandTimeout: 120);
                 Log.Information($"Added requestID: {requestID} to the message queue");
             }
             catch (Exception ex)

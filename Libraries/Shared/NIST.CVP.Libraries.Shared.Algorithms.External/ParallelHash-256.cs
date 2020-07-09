@@ -21,6 +21,9 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 		[JsonPropertyName("xof")]
 		public List<bool> XOF { get; set; }
 
+		[JsonPropertyName("blockSize")]
+		public Domain BlockSize { get; set; }
+
 		public ParallelHash_256()
 		{
 			Name = "PARALLELHASH-256";
