@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using Serilog;
-using Web.Public.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Web.Public.Helpers;
+using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
@@ -27,9 +26,9 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.PersonGet", new
+				var data = db.SingleFromProcedure("dbo.PersonGet", inParams: new
 				{
-					PersonID = id
+					PersonId = id
 				});
 
 				if (data == null)
@@ -40,13 +39,13 @@ namespace Web.Public.Providers
 				var result = new Person
 				{
 					ID = id,
-					Name = data.Name,
-					OrganizationID = data.OrganizationID
+					Name = data.FullName,
+					OrganizationID = data.OrganizationId
 				};
 
-				var emailData = db.QueryFromProcedure("val.PersonEmailsGet", new
+				var emailData = db.QueryFromProcedure("dbo.PersonEmailsGet", inParams: new
 				{
-					PersonID = id
+					PersonId = id
 				});
 
 				if (emailData != null)
@@ -59,9 +58,9 @@ namespace Web.Public.Providers
 					}
 				}
 
-				var phoneData = db.QueryFromProcedure("val.PersonPhonesGet", new
+				var phoneData = db.QueryFromProcedure("dbo.PersonPhonesGet", inParams: new
 				{
-					PersonID = id
+					PersonId = id
 				});
 
 				if (phoneData != null)
@@ -70,7 +69,7 @@ namespace Web.Public.Providers
 
 					foreach (var phone in phoneData)
 					{
-						phoneNumbers.Add(new PhoneNumber { Number = phone.PhoneNumber, Type = phone.PhoneType });
+						phoneNumbers.Add(new PhoneNumber { Number = phone.PhoneNumber, Type = phone.PhoneTypeType });
 					}
 
 					if (phoneNumbers.Count > 0)
@@ -94,14 +93,14 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.PersonExists",
+				var data = db.ExecuteProcedure("dbo.PersonExists", inParams:
 					new
 					{
-						personId = id
-					},
+						PersonId = id
+					}, outParams:
 					new
 					{
-						exists = false
+						Exists = false
 					});
 
 				return data.exists;
@@ -116,7 +115,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<Person> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = "SELECT id FROM val.Person P";
+			string query = "SELECT PersonId FROM dbo.People P";
 
 			if (orClauses.Count > 0)
 			{
@@ -131,16 +130,16 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "fullName":
-								andStrings.Add($"full_name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"FullName {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "vendorId":
-								andStrings.Add($"org_id {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
+								andStrings.Add($"OrganizationId {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
 								break;
 							case "phoneNumber":
-								andStrings.Add($"EXISTS (SELECT NULL FROM val.PERSON_PHONE PP WHERE PP.person_id = P.id AND PP.phone_number {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"EXISTS (SELECT NULL FROM dbo.PersonPhoneNumbers PP WHERE PP.PersonId = P.PersonId AND PP.PhoneNumber {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							case "email":
-								andStrings.Add($"EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"EXISTS (SELECT NULL FROM dbo.PersonEmails E WHERE E.PersonId = P.PersonId AND E.EmailAddress {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							default: break;
 						}
@@ -154,7 +153,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY P.id";
+			query += " ORDER BY P.PersonId";
 
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
@@ -165,7 +164,7 @@ namespace Web.Public.Providers
 				var people = new List<Person>();
 
 				//Get all the IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.PersonId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -179,7 +178,7 @@ namespace Web.Public.Providers
 
 					long[] pagedIDs = allIDs[startIndex..endIndex];
 
-					var data = db.QueryMultipleFromProcedure("val.PersonFilteredListDataGet", inParams: new
+					var data = db.QueryMultipleFromProcedure("dbo.PersonFilteredListDataGet", inParams: new
 					{
 						IDs = string.Join(",", pagedIDs)
 					});
@@ -191,7 +190,7 @@ namespace Web.Public.Providers
 					enumerator.MoveNext();
 					var resultSet = enumerator.Current;
 
-					var rawPeople = resultSet.Select(x => (x.Id, x.OrganizationId, x.Name)).ToList();
+					var rawPeople = resultSet.Select(x => (x.PersonId, x.OrganizationId, x.Name)).ToList();
 
 					//Move to the second result set, the email addresses
 					enumerator.MoveNext();
@@ -206,14 +205,14 @@ namespace Web.Public.Providers
 					var rawPhoneNumbers = resultSet.Select(x => (x.PersonId, x.PhoneNumber, x.PhoneNumberType, x.OrderIndex)).ToList();
 
 					//Build the list of Person objects
-					foreach (var rawPerson in rawPeople.OrderBy(x => x.Id))
+					foreach (var rawPerson in rawPeople.OrderBy(x => x.PersonId))
 					{
-						var emails = rawEmailAddresses.Where(x => x.PersonId == rawPerson.Id)?.OrderBy(x => x.OrderIndex)?.Select(x => (string)x.EmailAddress)?.ToList();
-						var phoneNumbers = rawPhoneNumbers.Where(x => x.PersonId == rawPerson.Id)?.OrderBy(x => x.OrderIndex)?.Select(x => new PhoneNumber { Number = x.PhoneNumber, Type = x.PhoneNumberType })?.ToList();
+						var emails = rawEmailAddresses.Where(x => x.PersonId == rawPerson.PersonId)?.OrderBy(x => x.OrderIndex)?.Select(x => (string)x.EmailAddress)?.ToList();
+						var phoneNumbers = rawPhoneNumbers.Where(x => x.PersonId == rawPerson.PersonId)?.OrderBy(x => x.OrderIndex)?.Select(x => new PhoneNumber { Number = x.PhoneNumber, Type = x.PhoneNumberType })?.ToList();
 
 						people.Add(new Person
 						{
-							ID = rawPerson.Id,
+							ID = rawPerson.PersonId,
 							Name = rawPerson.Name,
 							OrganizationID = rawPerson.OrganizationId,
 							Emails = emails.Count > 0 ? emails : null,

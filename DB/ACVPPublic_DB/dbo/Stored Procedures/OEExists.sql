@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[OEExists]
+	
+	@OEId BIGINT,
+	@Exists BIT OUTPUT
+
+AS
+
+SET NOCOUNT ON
+
+SET @Exists = CASE WHEN EXISTS (
+	SELECT	1
+	FROM	dbo.OEs
+	WHERE	OEId = @OEId
+) THEN 1 ELSE 0 END

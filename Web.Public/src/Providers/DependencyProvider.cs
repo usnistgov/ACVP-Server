@@ -26,16 +26,16 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.DependencyGet", new
+				var data = db.SingleFromProcedure("dbo.DependencyGet", inParams: new
 				{
-					DependencyID = id
+					DependencyId = id
 				});
 
 				if (data == null)
 				{
 					return null;
 				}
-				
+
 				var result = new Dependency
 				{
 					ID = id,
@@ -44,9 +44,9 @@ namespace Web.Public.Providers
 					DependencyType = data.DependencyType
 				};
 
-				var dataAttributes = db.QueryFromProcedure("val.DependencyAttributeGet", new
+				var dataAttributes = db.QueryFromProcedure("dbo.DependencyAttributeGet", inParams: new
 				{
-					DependencyID = id
+					DependencyId = id
 				});
 
 				if (dataAttributes != null)
@@ -73,17 +73,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.DependencyExists",
+				var data = db.ExecuteProcedure("dbo.DependencyExists", inParams:
 					new
 					{
-						dependencyId = id
-					},
+						DependencyId = id
+					}, outParams:
 					new
 					{
-						exists = false
+						Exists = false
 					});
 
-				return data.exists;
+				return data.Exists;
 			}
 			catch (Exception e)
 			{
@@ -95,7 +95,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<Dependency> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = "SELECT id FROM val.VALIDATION_OE_DEPENDENCY D";
+			string query = "SELECT DependencyId FROM dbo.Dependencies D";
 
 			if (orClauses.Count > 0)
 			{
@@ -110,13 +110,13 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "name":
-								andStrings.Add($"name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"Name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "type":
-								andStrings.Add($"dependency_type {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"DependencyType {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "description":
-								andStrings.Add($"description {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"Description {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							default: break;
 						}
@@ -130,7 +130,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY D.id";
+			query += " ORDER BY D.DependencyId";
 
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
@@ -141,7 +141,7 @@ namespace Web.Public.Providers
 				var dependencies = new List<Dependency>();
 
 				//Get all the IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.DependencyId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -158,7 +158,7 @@ namespace Web.Public.Providers
 
 				long[] pagedIDs = allIDs[startIndex..endIndex];
 
-				var data = db.QueryMultipleFromProcedure("val.DependencyFilteredListDataGet", inParams: new
+				var data = db.QueryMultipleFromProcedure("dbo.DependencyFilteredListDataGet", inParams: new
 				{
 					IDs = string.Join(",", pagedIDs)
 				});
@@ -170,7 +170,7 @@ namespace Web.Public.Providers
 				enumerator.MoveNext();
 				var resultSet = enumerator.Current;
 
-				var rawDependencies = resultSet.Select(x => (x.Id, x.DependencyType, x.Name, x.Description)).ToList();
+				var rawDependencies = resultSet.Select(x => (x.DependencyId, x.DependencyType, x.Name, x.Description)).ToList();
 
 				//Move to the second result set, the attributes
 				enumerator.MoveNext();
@@ -179,13 +179,13 @@ namespace Web.Public.Providers
 				var rawAttributes = resultSet.Select(x => (x.DependencyId, x.Name, x.Value)).ToList();
 
 				//Build the list of Dependency objects
-				foreach (var rawDependency in rawDependencies.OrderBy(x => x.Id))
+				foreach (var rawDependency in rawDependencies.OrderBy(x => x.DependencyId))
 				{
-					var attributes = rawAttributes.Where(x => x.DependencyId == rawDependency.Id)?.ToDictionary(x => (string)x.Name, x => (object)x.Value);
+					var attributes = rawAttributes.Where(x => x.DependencyId == rawDependency.DependencyId)?.ToDictionary(x => (string)x.Name, x => (object)x.Value);
 
 					dependencies.Add(new Dependency
 					{
-						ID = rawDependency.Id,
+						ID = rawDependency.DependencyId,
 						DependencyType = rawDependency.DependencyType,
 						Name = rawDependency.Name,
 						Description = rawDependency.Description,

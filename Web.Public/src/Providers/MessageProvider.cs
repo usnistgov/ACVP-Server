@@ -32,12 +32,13 @@ namespace Web.Public.Providers
 
             try
             {
-                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("dbo.MessageQueueInsert", new
                 {
-                    MessageType = apiAction,
-                    userId = userID,
+                    APIActionId = apiAction,
+                    ACVPUserId = userID,
                     Payload = json
                 }, commandTimeout: 120);
+
                 Log.Information($"Added message to the message queue");
             }
             catch (Exception ex)
@@ -56,12 +57,13 @@ namespace Web.Public.Providers
 
             try
             {
-                await db.ExecuteProcedureAsync("common.MessageQueueInsert", new
+                await db.ExecuteProcedureAsync("dbo.MessageQueueInsert", new
                 {
-                    MessageType = apiAction,
-                    userId = userID,
+                    APIActionId = apiAction,
+                    ACVPUserId = userID,
                     Payload = requestJson
                 }, commandTimeout: 120);
+
                 Log.Information($"Added requestID: {requestID} to the message queue");
             }
             catch (Exception ex)

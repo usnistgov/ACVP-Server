@@ -27,9 +27,9 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.ImplementationGet", new
+				var data = db.SingleFromProcedure("dbo.ImplementationGet", inParams: new
 				{
-					ID = id
+					ImplementationId = id
 				});
 
 				if (data == null)
@@ -41,25 +41,25 @@ namespace Web.Public.Providers
 				{
 					ID = id,
 					Name = data.ImplementationName,
-					Type = (ImplementationType)data.ImplementationType,
+					Type = (ImplementationType)data.ImplementationTypeId,
 					Version = data.ImplementationVersion,
 					Description = data.ImplementationDescription,
-					Website = data.Website,
-					AddressID = data.AddressID,
-					OrganizationID = data.OrganizationID
+					Website = data.Url,
+					AddressID = data.AddressId,
+					OrganizationID = data.OrganizationId
 				};
 
-				var personData = db.QueryFromProcedure("val.PersonsForImplementationGet", new
+				var contactData = db.QueryFromProcedure("dbo.ImplementationContactsGet", inParams: new
 				{
 					ImplementationID = id
 				});
 
-				if (personData != null)
+				if (contactData != null)
 				{
 					result.ContactIDs = new List<long>();
-					foreach (var person in personData)
+					foreach (var contact in contactData)
 					{
-						result.ContactIDs.Add(person.PersonID);
+						result.ContactIDs.Add(contact.PersonId);
 					}
 				}
 
@@ -78,17 +78,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.ImplementationExists",
+				var data = db.ExecuteProcedure("dbo.ImplementationExists", inParams:
 					new
 					{
-						implementationId = id
-					},
+						ImplementationId = id
+					}, outParams:
 					new
 					{
-						exists = false
+						Exists = false
 					});
 
-				return data.exists;
+				return data.Exists;
 			}
 			catch (Exception e)
 			{
@@ -103,17 +103,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.ImplementationIsUsed",
+				var data = db.ExecuteProcedure("dbo.ImplementationIsUsed",
 					new
 					{
-						implementationId = id
+						ImplementationId = id
 					},
 					new
 					{
-						inUse = false
+						InUse = false
 					});
 
-				return data.inUse;
+				return data.InUse;
 			}
 			catch (Exception e)
 			{
@@ -125,7 +125,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<Implementation> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = "SELECT P.id FROM val.PRODUCT_INFORMATION P INNER JOIN ref.MODULE_TYPE M ON P.module_type = M.id";
+			string query = "SELECT I.ImplementationId FROM dbo.Implementations I INNER JOIN dbo.ImplementationTypes T ON T.ImplementationTypeId = I.ImplementationTypeId";
 
 			if (orClauses.Count > 0)
 			{
@@ -140,22 +140,22 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "name":
-								andStrings.Add($"P.module_name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"I.ImplementationName {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "version":
-								andStrings.Add($"P.module_version {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"I.ImplementationVersion {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "website":
-								andStrings.Add($"P.product_url {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"I.[Url] {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "description":
-								andStrings.Add($"P.implementation_description {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"I.ImplementationDescription {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "type":
-								andStrings.Add($"M.[name] {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"T.ImplementationTypeName {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "vendorId":
-								andStrings.Add($"P.vendor_id {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
+								andStrings.Add($"I.OrganizationId {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, long.Parse(andClause.Value))}");
 								break;
 							default: break;
 						}
@@ -169,7 +169,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY P.id";
+			query += " ORDER BY I.ImplementationId";
 
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
@@ -180,7 +180,7 @@ namespace Web.Public.Providers
 				var implementations = new List<Implementation>();
 
 				//Get all the org IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.ImplementationId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -194,7 +194,7 @@ namespace Web.Public.Providers
 
 					long[] pagedIDs = allIDs[startIndex..endIndex];
 
-					var data = db.QueryMultipleFromProcedure("val.ImplementationFilteredListDataGet", inParams: new
+					var data = db.QueryMultipleFromProcedure("dbo.ImplementationFilteredListDataGet", inParams: new
 					{
 						IDs = string.Join(",", pagedIDs)
 					});
@@ -206,7 +206,7 @@ namespace Web.Public.Providers
 					enumerator.MoveNext();
 					var resultSet = enumerator.Current;
 
-					var rawImplementations = resultSet.Select(x => (x.Id, x.OrganizationId, x.Name, x.Version, x.Type, x.Website, x.Description, x.AddressId)).ToList();
+					var rawImplementations = resultSet.Select(x => (x.ImplementationId, x.OrganizationId, x.ImplementationName, x.ImplementationVersion, x.ImplementationTypeId, x.Url, x.ImplementationDescription, x.AddressId)).ToList();
 
 					//Move to the second result set, the contacts
 					enumerator.MoveNext();
@@ -215,18 +215,18 @@ namespace Web.Public.Providers
 					var rawContacts = resultSet.Select(x => (x.ImplementationId, x.PersonId, x.OrderIndex)).ToList();
 
 					//Build the list of Implementation objects
-					foreach (var rawImplementation in rawImplementations.OrderBy(x => x.Id))
+					foreach (var rawImplementation in rawImplementations.OrderBy(x => x.ImplementationId))
 					{
-						var contacts = rawContacts.Where(x => x.ImplementationId == rawImplementation.Id)?.OrderBy(x => x.OrderIndex)?.Select(x => (long)x.PersonId)?.ToList();
+						var contacts = rawContacts.Where(x => x.ImplementationId == rawImplementation.ImplementationId)?.OrderBy(x => x.OrderIndex)?.Select(x => (long)x.PersonId)?.ToList();
 
 						implementations.Add(new Implementation
 						{
-							ID = rawImplementation.Id,
-							Name = rawImplementation.Name,
-							Description = rawImplementation.Description,
-							Type = (ImplementationType)rawImplementation.Type,
-							Version = rawImplementation.Version,
-							Website = rawImplementation.Website,
+							ID = rawImplementation.ImplementationId,
+							Name = rawImplementation.ImplementationName,
+							Description = rawImplementation.ImplementationDescription,
+							Type = (ImplementationType)rawImplementation.ImplementationTypeId,
+							Version = rawImplementation.ImplementationVersion,
+							Website = rawImplementation.Url,
 							OrganizationID = rawImplementation.OrganizationId,
 							AddressID = rawImplementation.AddressId,
 							ContactIDs = contacts.Count > 0 ? contacts : null,

@@ -7,13 +7,20 @@ namespace Web.Public.Services
 	public class OrganizationService : IOrganizationService
 	{
 		private readonly IOrganizationProvider _organizationProvider;
+		private readonly IAddressProvider _addressProvider;
 
-		public OrganizationService(IOrganizationProvider organizationProvider)
+		public OrganizationService(IOrganizationProvider organizationProvider, IAddressProvider addressProvider)
 		{
 			_organizationProvider = organizationProvider;
+			_addressProvider = addressProvider;
 		}
 
-		public Organization Get(long organizationID) => _organizationProvider.Get(organizationID);
+		public Organization Get(long organizationID)
+		{
+			Organization org = _organizationProvider.Get(organizationID);
+			org.Addresses = _addressProvider.GetAddressList(organizationID);
+			return org;
+		}
 
 		public bool Exists(long organizationID) => _organizationProvider.Exists(organizationID);
 

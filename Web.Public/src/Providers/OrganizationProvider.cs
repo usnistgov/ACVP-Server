@@ -26,9 +26,9 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var orgData = db.SingleFromProcedure("val.OrganizationGet", inParams: new
+				var orgData = db.SingleFromProcedure("dbo.OrganizationGet", inParams: new
 				{
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 
 				if (orgData == null)
@@ -36,9 +36,10 @@ namespace Web.Public.Providers
 
 				var result = new Organization
 				{
-					ID = orgData.Id,
-					Name = orgData.Name,
-					Website = orgData.Website,
+					ID = organizationID,
+					Name = orgData.OrganizationName,
+					Website = orgData.OrganizationUrl,
+					ParentOrganizationID = orgData.ParentOrganizationId
 				};
 
 				var phoneNumbers = new List<PhoneNumber>();
@@ -57,35 +58,9 @@ namespace Web.Public.Providers
 					result.PhoneNumbers = phoneNumbers;
 				}
 
-				var addressData = db.QueryFromProcedure("val.AddressesForOrganizationGet", inParams: new
+				var emailData = db.QueryFromProcedure("dbo.OrganizationEmailsGet", inParams: new
 				{
-					OrganizationID = organizationID
-				});
-
-				if (addressData != null)
-				{
-					result.Addresses = new List<Address>();
-
-					foreach (var address in addressData)
-					{
-						result.Addresses.Add(new Address
-						{
-							ID = address.ID,
-							OrganizationID = organizationID,
-							Street1 = address.Street1,
-							Street2 = address.Street2,
-							Street3 = address.Street3,
-							Locality = address.Locality,
-							Region = address.Region,
-							Country = address.Country,
-							PostalCode = address.PostalCode
-						});
-					}
-				}
-
-				var emailData = db.QueryFromProcedure("val.OrganizationEmailsGet", inParams: new
-				{
-					OrganizationID = organizationID
+					OrganizationId = organizationID
 				});
 
 				if (emailData != null)
@@ -113,17 +88,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.OrganizationExists",
+				var data = db.ExecuteProcedure("dbo.OrganizationExists", inParams:
 					new
 					{
-						organizationId = id
-					},
+						OrganizationId = id
+					}, outParams:
 					new
 					{
-						exists = false
+						Exists = false
 					});
 
-				return data.exists;
+				return data.Exists;
 			}
 			catch (Exception e)
 			{
@@ -138,17 +113,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.OrganizationIsUsed",
+				var data = db.ExecuteProcedure("dbo.OrganizationIsUsed", inParams:
 					new
 					{
 						OrganizationId = id
-					},
+					}, outParams:
 					new
 					{
-						isUsed = false
+						IsUsed = false
 					});
 
-				return data.isUsed;
+				return data.IsUsed;
 			}
 			catch (Exception e)
 			{
@@ -161,7 +136,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<Organization> Organizations) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = "SELECT id FROM val.ORGANIZATION O";
+			string query = "SELECT OrganizationId FROM dbo.Organizations O";
 
 			if (orClauses.Count > 0)
 			{
@@ -176,16 +151,16 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "name":
-								andStrings.Add($"name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"OrganizationName {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "website":
-								andStrings.Add($"organization_url {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"OrganizationUrl {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "phoneNumber":
-								andStrings.Add($"(voice_number {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)} OR fax_number {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"(VoiceNumber {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)} OR FaxNumber {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							case "email":
-								andStrings.Add($"EXISTS (SELECT NULL FROM val.ORGANIZATION_EMAIL E WHERE E.organization_id = O.id AND E.email_address {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"EXISTS (SELECT NULL FROM dbo.OrganizationEmails E WHERE E.OrganizationId = O.OrganizationId AND E.EmailAddress {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							default: break;
 						}
@@ -199,7 +174,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY O.id";
+			query += " ORDER BY O.OrganizationId";
 
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -210,7 +185,7 @@ namespace Web.Public.Providers
 				var organizations = new List<Organization>();
 
 				//Get all the org IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.OrganizationId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -225,7 +200,7 @@ namespace Web.Public.Providers
 					long[] pagedIDs = allIDs[startIndex..endIndex];
 
 					//Query for the rest of the data, passing in the IDs for the current page
-					var data = db.QueryMultipleFromProcedure("val.OrganizationFilteredListDataGet", inParams: new
+					var data = db.QueryMultipleFromProcedure("dbo.OrganizationFilteredListDataGet", inParams: new
 					{
 						IDs = string.Join(",", pagedIDs)
 					});
@@ -237,13 +212,13 @@ namespace Web.Public.Providers
 					enumerator.MoveNext();
 					var resultSet = enumerator.Current;
 
-					var rawOrganizations = resultSet.Select(x => (x.Id, x.Name, x.Website, x.VoiceNumber, x.FaxNumber)).ToList();
+					var rawOrganizations = resultSet.Select(x => (x.OrganizationId, x.OrganizationName, x.OrganizationUrl, x.VoiceNumber, x.FaxNumber, x.ParentOrganizationId)).ToList();
 
 					//Move to the second result set, the addresses
 					enumerator.MoveNext();
 					resultSet = enumerator.Current;
 
-					var rawAddresses = resultSet.Select(x => (x.Id, x.OrganizationId, x.Street1, x.Street2, x.Street3, x.Locality, x.Region, x.Country, x.PostalCode)).ToList();
+					var rawAddresses = resultSet.Select(x => (x.AddressId, x.OrganizationId, x.Street1, x.Street2, x.Street3, x.Locality, x.Region, x.Country, x.PostalCode)).ToList();
 
 					//Move to the third result set, the email addresses
 					enumerator.MoveNext();
@@ -252,14 +227,15 @@ namespace Web.Public.Providers
 					var rawEmailAddresses = resultSet.Select(x => (x.OrganizationId, x.EmailAddress, x.OrderIndex)).ToList();
 
 					//Build the list of organization objects
-					foreach (var rawOrg in rawOrganizations.OrderBy(x => x.Id))
+					foreach (var rawOrg in rawOrganizations.OrderBy(x => x.OrganizationId))
 					{
 						var org = new Organization
 						{
-							ID = rawOrg.Id,
-							Name = rawOrg.Name,
-							Website = rawOrg.Website,
-							Emails = rawEmailAddresses.Where(x => x.OrganizationId == rawOrg.Id).OrderBy(x => x.OrderIndex).Select(x => (string)x.EmailAddress).ToList()
+							ID = rawOrg.OrganizationId,
+							Name = rawOrg.OrganizationName,
+							Website = rawOrg.OrganizationUrl,
+							ParentOrganizationID = rawOrg.ParentOrganizationId,
+							Emails = rawEmailAddresses.Where(x => x.OrganizationId == rawOrg.OrganizationId).OrderBy(x => x.OrderIndex).Select(x => (string)x.EmailAddress).ToList()
 						};
 
 						//Add the phone numbers collection, which takes some manipulation
@@ -282,7 +258,7 @@ namespace Web.Public.Providers
 						//Add the addresses
 						org.Addresses = rawAddresses.Where(x => x.OrganizationId == org.ID).Select(x => new Address
 						{
-							ID = x.Id,
+							ID = x.AddressId,
 							OrganizationID = x.OrganizationId,
 							Street1 = x.Street1,
 							Street2 = x.Street2,
@@ -310,7 +286,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<Person> Contacts) GetContactFilteredList(long organizationID, List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = $"SELECT id FROM val.PERSON P WHERE org_id = {organizationID}";
+			string query = $"SELECT PersonId FROM dbo.People P WHERE OrganizationId = {organizationID}";
 
 			if (orClauses.Count > 0)
 			{
@@ -325,13 +301,13 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "fullName":
-								andStrings.Add($"full_name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"FullName {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							case "phoneNumber":
-								andStrings.Add($"EXISTS (SELECT NULL FROM val.PERSON_PHONE PP WHERE PP.person_id = P.id AND PP.phone_number {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"EXISTS (SELECT NULL FROM dbo.PersonPhoneNumbers PP WHERE PP.PersonId = P.PersonId AND PP.PhoneNumber {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							case "email":
-								andStrings.Add($"EXISTS (SELECT NULL FROM val.PERSON_EMAIL E WHERE E.person_id = P.id AND E.email_address {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
+								andStrings.Add($"EXISTS (SELECT NULL FROM dbo.PersonEmails E WHERE E.PersonId = P.PersonId AND E.EmailAddress {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)})");
 								break;
 							default: break;
 						}
@@ -345,7 +321,7 @@ namespace Web.Public.Providers
 				query += $" AND ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY P.id";
+			query += " ORDER BY P.PersonId";
 
 			var db = new MightyOrm(_acvpConnectionString);
 
@@ -356,7 +332,7 @@ namespace Web.Public.Providers
 				var contacts = new List<Person>();
 
 				//Get all the IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.PersonId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -370,7 +346,7 @@ namespace Web.Public.Providers
 
 					long[] pagedIDs = allIDs[startIndex..endIndex];
 
-					var data = db.QueryMultipleFromProcedure("val.OrganizationContactsFilteredListDataGet", inParams: new
+					var data = db.QueryMultipleFromProcedure("dbo.OrganizationContactsFilteredListDataGet", inParams: new
 					{
 						IDs = string.Join(",", pagedIDs)
 					});

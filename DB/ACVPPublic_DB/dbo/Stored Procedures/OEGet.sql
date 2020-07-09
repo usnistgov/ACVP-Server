@@ -1,0 +1,11 @@
+﻿CREATE PROCEDURE [dbo].[OEGet]
+
+    @OEId BIGINT
+	
+AS
+
+SET NOCOUNT ON
+
+SELECT [Name]
+FROM dbo.OEs
+WHERE OEId = @OEId

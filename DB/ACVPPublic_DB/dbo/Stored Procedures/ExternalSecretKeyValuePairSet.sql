@@ -17,14 +17,14 @@ BEGIN
 	)
 		BEGIN
 			UPDATE	dbo.ExternalSecretKeyValuePairs
-			SET		ConfigValue = dbo.EncryptNVarchar(Key_Guid('ACVPKey'), @ConfigValue),
+			SET		ConfigValue = dbo.EncryptNvarchar(Key_Guid('ACVPKey'), @ConfigValue),
 					UpdatedOn = CURRENT_TIMESTAMP
 			WHERE	ConfigKey = @ConfigKey
 		END
 	ELSE
 		BEGIN
 		INSERT INTO dbo.ExternalSecretKeyValuePairs (ConfigKey, ConfigValue, UpdatedOn)
-		VALUES (@ConfigKey, dbo.EncryptNVarchar(Key_Guid('ACVPKey'), @ConfigValue), CURRENT_TIMESTAMP)
+		VALUES (@ConfigKey, dbo.EncryptNvarchar(Key_Guid('ACVPKey'), @ConfigValue), CURRENT_TIMESTAMP)
 	END
 
 	CLOSE SYMMETRIC KEY ACVPKey

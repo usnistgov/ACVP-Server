@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text.Json.Serialization;
 using Web.Public.Helpers;
-using Web.Public.JsonObjects;
 
 namespace Web.Public.Models
 {
@@ -13,6 +12,12 @@ namespace Web.Public.Models
 
 		[JsonPropertyName("url")]
 		public string URL => $"/acvp/v1/vendors/{ID}";
+
+		[JsonIgnore]
+		public long? ParentOrganizationID { get; set; }
+
+		[JsonPropertyName("parentUrl")]
+		public string ParentOrganizationURL => ParentOrganizationID == null ? null : $"/acvp/v1/vendors/{ParentOrganizationID}";
 
 		[JsonPropertyName("name")]
 		public string Name { get; set; }

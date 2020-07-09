@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Microsoft.Extensions.Logging;
 using Mighty;
-using Serilog;
-using Web.Public.Models;
+using NIST.CVP.Libraries.Shared.DatabaseInterface;
 using Web.Public.Helpers;
+using Web.Public.Models;
 
 namespace Web.Public.Providers
 {
@@ -29,9 +28,9 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.SingleFromProcedure("val.OEGet", new
+				var data = db.SingleFromProcedure("dbo.OEGet", inParams: new
 				{
-					OEID = id
+					OEId = id
 				});
 
 				if (data == null)
@@ -45,9 +44,9 @@ namespace Web.Public.Providers
 					Name = data.Name
 				};
 
-				var dependencyData = db.QueryFromProcedure("val.DependenciesForOEGet", new
+				var dependencyData = db.QueryFromProcedure("dbo.DependenciesForOEGet", inParams: new
 				{
-					OEID = id
+					OEId = id
 				});
 
 				if (dependencyData != null)
@@ -55,7 +54,7 @@ namespace Web.Public.Providers
 					result.Dependencies = new List<Dependency>();
 					foreach (var dependency in dependencyData)
 					{
-						result.Dependencies.Add(_dependencyProvider.GetDependency(dependency.DependencyID));
+						result.Dependencies.Add(_dependencyProvider.GetDependency(dependency.DependencyId));
 					}
 				}
 
@@ -74,17 +73,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.OEExists",
+				var data = db.ExecuteProcedure("dbo.OEExists", inParams:
 					new
 					{
-						oeId = id
-					},
+						OEId = id
+					}, outParams:
 					new
 					{
-						exists = false
+						Exists = false
 					});
 
-				return data.exists;
+				return data.Exists;
 			}
 			catch (Exception e)
 			{
@@ -99,17 +98,17 @@ namespace Web.Public.Providers
 
 			try
 			{
-				var data = db.ExecuteProcedure("val.OEIsUsed",
+				var data = db.ExecuteProcedure("dbo.OEIsUsed", inParams:
 					new
 					{
-						oeId = id
-					},
+						OEId = id
+					}, outParams:
 					new
 					{
-						isUsed = false
+						IsUsed = false
 					});
 
-				return data.isUsed;
+				return data.IsUsed;
 			}
 			catch (Exception e)
 			{
@@ -121,7 +120,7 @@ namespace Web.Public.Providers
 		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, long offset, long limit)
 		{
 			//Build the query to get all the matching org IDs
-			string query = "SELECT id FROM val.VALIDATION_OE OE";
+			string query = "SELECT OEId FROM dbo.OEs OE";
 
 			if (orClauses.Count > 0)
 			{
@@ -136,7 +135,7 @@ namespace Web.Public.Providers
 						switch (andClause.Property)
 						{
 							case "name":
-								andStrings.Add($"name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
+								andStrings.Add($"Name {FilterHelpers.GenerateOperatorAndValue(andClause.Operator, andClause.Value)}");
 								break;
 							default: break;
 						}
@@ -150,7 +149,7 @@ namespace Web.Public.Providers
 				query += $" WHERE ({string.Join(") OR (", orStrings)})";
 			}
 
-			query += " ORDER BY OE.id";
+			query += " ORDER BY OE.OEId";
 
 			var db = new MightyOrm(_acvpPublicConnectionString);
 
@@ -161,7 +160,7 @@ namespace Web.Public.Providers
 				var oes = new List<OperatingEnvironment>();
 
 				//Get all the org IDs that match the query
-				long[] allIDs = db.Query(query).Select(x => (long)x.id).ToArray();
+				long[] allIDs = db.Query(query).Select(x => (long)x.OEId).ToArray();
 
 				//Set the total records value since we have them all
 				totalRecords = allIDs.Length;
@@ -175,7 +174,7 @@ namespace Web.Public.Providers
 
 					long[] pagedIDs = allIDs[startIndex..endIndex];
 
-					var data = db.QueryMultipleFromProcedure("val.OEFilteredListDataGet", inParams: new
+					var data = db.QueryMultipleFromProcedure("dbo.OEFilteredListDataGet", inParams: new
 					{
 						IDs = string.Join(",", pagedIDs)
 					});
@@ -187,7 +186,7 @@ namespace Web.Public.Providers
 					enumerator.MoveNext();
 					var resultSet = enumerator.Current;
 
-					var rawOEs = resultSet.Select(x => (x.Id, x.Name)).ToList();
+					var rawOEs = resultSet.Select(x => (x.OEId, x.Name)).ToList();
 
 					//Move to the second result set, the dependencies
 					enumerator.MoveNext();
@@ -196,13 +195,13 @@ namespace Web.Public.Providers
 					var rawDependencies = resultSet.Select(x => (x.OEId, x.DependencyId)).ToList();
 
 					//Build the list of OE objects
-					foreach (var rawOE in rawOEs.OrderBy(x => x.Id))
+					foreach (var rawOE in rawOEs.OrderBy(x => x.OEId))
 					{
-						var dependencies = rawDependencies.Where(x => x.OEId == rawOE.Id)?.Select(x => (long)x.DependencyId)?.ToList();
+						var dependencies = rawDependencies.Where(x => x.OEId == rawOE.OEId)?.Select(x => (long)x.DependencyId)?.ToList();
 
 						oes.Add(new OperatingEnvironment
 						{
-							ID = rawOE.Id,
+							ID = rawOE.OEId,
 							Name = rawOE.Name,
 							DependencyIDs = dependencies.Count > 0 ? dependencies : null
 						});

@@ -1,0 +1,14 @@
+﻿CREATE PROCEDURE [dbo].[OEIsUsed]
+	
+	@OEId BIGINT,
+	@IsUsed BIT OUTPUT
+
+AS
+
+SET NOCOUNT ON
+
+SET @IsUsed = CASE WHEN EXISTS (
+	SELECT	1
+	FROM	dbo.ValidationOEAlgorithms
+	WHERE	OEId = @OEId
+) THEN 1 ELSE 0 END

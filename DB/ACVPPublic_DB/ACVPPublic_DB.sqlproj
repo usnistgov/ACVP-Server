@@ -58,41 +58,15 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="common\" />
-    <Folder Include="val\" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Functions\" />
-    <Folder Include="common\Stored Procedures\" />
     <Folder Include="Security\" />
-    <Folder Include="val\Stored Procedures" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Functions\EncryptNvarchar.sql" />
-    <Build Include="common\Stored Procedures\MessageQueueInsert.sql" />
-    <Build Include="Security\common.sql" />
-    <Build Include="Security\val.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
-    <Build Include="val\Stored Procedures\OrganizationGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationExists.sql" />
-    <Build Include="val\Stored Procedures\PersonExists.sql" />
-    <Build Include="val\Stored Procedures\ImplementationIsUsed.sql" />
-    <Build Include="val\Stored Procedures\ImplementationExists.sql" />
-    <Build Include="val\Stored Procedures\DependencyExists.sql" />
-    <Build Include="val\Stored Procedures\PersonsForImplementationGet.sql" />
-    <Build Include="val\Stored Procedures\PersonPhonesGet.sql" />
-    <Build Include="val\Stored Procedures\PersonGet.sql" />
-    <Build Include="val\Stored Procedures\PersonEmailsGet.sql" />
-    <Build Include="val\Stored Procedures\OEGet.sql" />
-    <Build Include="val\Stored Procedures\ImplementationGet.sql" />
-    <Build Include="val\Stored Procedures\DependencyGet.sql" />
-    <Build Include="val\Stored Procedures\DependencyAttributeGet.sql" />
-    <Build Include="val\Stored Procedures\DependenciesForOEGet.sql" />
-    <Build Include="val\Stored Procedures\OEIsUsed.sql" />
-    <Build Include="val\Stored Procedures\OEExists.sql" />
-    <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Tables\ExternalSecretKeyValuePairs.sql" />
     <Build Include="dbo\Tables\ExternalRequests.sql" />
@@ -144,5 +118,37 @@
     <Build Include="dbo\Stored Procedures\ExternalSecretKeyValuePairSet.sql" />
     <Build Include="dbo\Stored Procedures\RequestGetNextID.sql" />
     <Build Include="dbo\Stored Procedures\TestSessionGetLastTouched.sql" />
+    <Build Include="dbo\Stored Procedures\DependencyFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\DependencyExists.sql" />
+    <Build Include="dbo\Stored Procedures\DependencyGet.sql" />
+    <Build Include="dbo\Stored Procedures\DependencyAttributeGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationContactsGet.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationExists.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationIsUsed.sql" />
+    <Build Include="dbo\Stored Procedures\ImplementationFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\PersonPhonesGet.sql" />
+    <Build Include="dbo\Stored Procedures\PersonGet.sql" />
+    <Build Include="dbo\Stored Procedures\PersonEmailsGet.sql" />
+    <Build Include="dbo\Stored Procedures\PersonExists.sql" />
+    <Build Include="dbo\Stored Procedures\PersonFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationEmailsGet.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationGet.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationIsUsed.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationExists.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\OrganizationContactsFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\OEFilteredListDataGet.sql" />
+    <Build Include="dbo\Stored Procedures\DependenciesForOEGet.sql" />
+    <Build Include="dbo\Stored Procedures\OEExists.sql" />
+    <Build Include="dbo\Stored Procedures\OEGet.sql" />
+    <Build Include="dbo\Stored Procedures\OEIsUsed.sql" />
+    <Build Include="Security\ACVPKey.sql" />
+    <Build Include="Security\ACVPKeyProtectionCert.sql" />
+    <Build Include="dbo\Tables\Validations.sql" />
+    <Build Include="dbo\Tables\ValidationOEAlgorithms.sql" />
+    <Build Include="dbo\Tables\ImplementationTypes.sql" />
+    <Build Include="dbo\Tables\MessageQueue.sql" />
+    <Build Include="dbo\Stored Procedures\MessageQueueInsert.sql" />
   </ItemGroup>
 </Project>
