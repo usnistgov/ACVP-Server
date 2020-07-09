@@ -216,5 +216,26 @@ namespace Web.Public.Providers
 				throw;
 			}
 		}
+
+		public List<long> GetForValidation(long validationID)
+		{
+			var db = new MightyOrm(_acvpPublicConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("dbo.ValidationOEsGet", inParams:
+					new
+					{
+						ValidationId = validationID
+					});
+
+				return data.Select(x => (long)x.OEId).ToList();
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e, "Unable to get OEs for validation");
+				return new List<long>();
+			}
+		}
 	}
 }

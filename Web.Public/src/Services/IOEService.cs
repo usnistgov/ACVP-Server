@@ -9,5 +9,6 @@ namespace Web.Public.Services
 		bool Exists(long id);
 		bool IsUsed(long id);
 		(long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions);
+		List<long> GetForValidation(long validationID);
 	}
 }

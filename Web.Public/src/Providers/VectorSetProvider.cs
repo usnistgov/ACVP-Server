@@ -107,7 +107,7 @@ namespace Web.Public.Providers
 
             try
             {
-                var jsonData = await db.SingleFromProcedureAsync("acvp.VectorSetJsonGet", new
+                var jsonData = await db.SingleFromProcedureAsync("dbo.VectorSetJsonGet", new
                 {
                     VectorSetId = vsID,
                     VectorSetJsonFileTypeId = (int)fileType

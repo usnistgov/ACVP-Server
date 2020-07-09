@@ -20,5 +20,7 @@ namespace Web.Public.Services
 
 		public (long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, PagingOptions pagingOptions)
 			=> _oeProvider.GetFilteredList(orClauses, pagingOptions.Offset, pagingOptions.Limit);
+
+		public List<long> GetForValidation(long validationID) => _oeProvider.GetForValidation(validationID);
 	}
 }

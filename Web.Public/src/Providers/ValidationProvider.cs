@@ -10,25 +10,31 @@ namespace Web.Public.Providers
 	{
 		private readonly ILogger<ValidationProvider> _logger;
 		private readonly string _connectionString;
-		
+
 		public ValidationProvider(ILogger<ValidationProvider> logger, IConnectionStringFactory connectionStringFactory)
 		{
 			_logger = logger;
 			_connectionString = connectionStringFactory.GetMightyConnectionString("ACVPPublic");
 		}
-		
+
 		public Validation GetValidation(long id)
 		{
-			var db = new MightyOrm<Validation>(_connectionString);
-            
+			var db = new MightyOrm(_connectionString);
+
 			try
 			{
-				var data = db.SingleFromProcedure("val.ValidationGet", new
+				var data = db.SingleFromProcedure("dbo.ValidationGet", inParams: new
 				{
-					Id = id
+					ValidationId = id
 				});
 
-				return data;
+				return new Validation
+				{
+					Id = id,
+					ImplementationID = data.ImplementationId,
+					SourcePrefix = data.Prefix,
+					ValidationNumber = data.ValidationNumber
+				};
 			}
 			catch (Exception ex)
 			{

@@ -190,7 +190,7 @@ namespace Web.Public.Providers
 					enumerator.MoveNext();
 					var resultSet = enumerator.Current;
 
-					var rawPeople = resultSet.Select(x => (x.PersonId, x.OrganizationId, x.Name)).ToList();
+					var rawPeople = resultSet.Select(x => (x.PersonId, x.OrganizationId, x.FullName)).ToList();
 
 					//Move to the second result set, the email addresses
 					enumerator.MoveNext();
@@ -213,7 +213,7 @@ namespace Web.Public.Providers
 						people.Add(new Person
 						{
 							ID = rawPerson.PersonId,
-							Name = rawPerson.Name,
+							Name = rawPerson.FullName,
 							OrganizationID = rawPerson.OrganizationId,
 							Emails = emails.Count > 0 ? emails : null,
 							PhoneNumbers = phoneNumbers.Count > 0 ? phoneNumbers : null

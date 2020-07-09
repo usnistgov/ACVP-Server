@@ -63,7 +63,7 @@ namespace Web.Public.Providers
 					OrganizationId = organizationID
 				});
 
-				if (emailData != null)
+				if (emailData?.Count() > 0 )
 				{
 					result.Emails = new List<string>();
 

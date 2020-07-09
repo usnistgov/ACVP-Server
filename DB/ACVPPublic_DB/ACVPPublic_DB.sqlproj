@@ -150,5 +150,8 @@
     <Build Include="dbo\Tables\ImplementationTypes.sql" />
     <Build Include="dbo\Tables\MessageQueue.sql" />
     <Build Include="dbo\Stored Procedures\MessageQueueInsert.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationGet.sql" />
+    <Build Include="dbo\Tables\ValidationSources.sql" />
+    <Build Include="dbo\Stored Procedures\ValidationOEsGet.sql" />
   </ItemGroup>
 </Project>

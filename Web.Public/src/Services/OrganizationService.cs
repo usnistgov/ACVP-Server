@@ -18,7 +18,8 @@ namespace Web.Public.Services
 		public Organization Get(long organizationID)
 		{
 			Organization org = _organizationProvider.Get(organizationID);
-			org.Addresses = _addressProvider.GetAddressList(organizationID);
+			List<Address> addresses = _addressProvider.GetAddressList(organizationID);
+			org.Addresses = addresses?.Count > 0 ? addresses : null;
 			return org;
 		}
 

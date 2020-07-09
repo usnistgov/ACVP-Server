@@ -9,5 +9,6 @@ namespace Web.Public.Providers
 		bool Exists(long id);
 		bool IsUsed(long id);
 		(long TotalCount, List<OperatingEnvironment> OEs) GetFilteredList(List<OrClause> orClauses, long offset, long limit);
+		List<long> GetForValidation(long validationID);
 	}
 }
