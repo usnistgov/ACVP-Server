@@ -73,11 +73,6 @@
     <Build Include="common\Stored Procedures\MessageQueueInsert.sql" />
     <Build Include="Security\common.sql" />
     <Build Include="Security\val.sql" />
-    <Build Include="val\Stored Procedures\DependencyFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\ImplementationFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\OEFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\OrganizationFilteredListGet.sql" />
-    <Build Include="val\Stored Procedures\PersonFilteredListGet.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
     <Build Include="val\Stored Procedures\OrganizationGet.sql" />
     <Build Include="val\Stored Procedures\OrganizationEmailsGet.sql" />
@@ -98,7 +93,6 @@
     <Build Include="val\Stored Procedures\OEIsUsed.sql" />
     <Build Include="val\Stored Procedures\OEExists.sql" />
     <Build Include="val\Stored Procedures\OrganizationIsUsed.sql" />
-    <Build Include="val\Stored Procedures\OrganizationContactsFilteredListGet.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Tables\ExternalSecretKeyValuePairs.sql" />
     <Build Include="dbo\Tables\ExternalRequests.sql" />
@@ -149,5 +143,6 @@
     <Build Include="dbo\Stored Procedures\VectorSetStatusSet.sql" />
     <Build Include="dbo\Stored Procedures\ExternalSecretKeyValuePairSet.sql" />
     <Build Include="dbo\Stored Procedures\RequestGetNextID.sql" />
+    <Build Include="dbo\Stored Procedures\TestSessionGetLastTouched.sql" />
   </ItemGroup>
 </Project>

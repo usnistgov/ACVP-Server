@@ -30,7 +30,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			{
 				var data = db.SingleFromProcedure("dbo.ImplementationGet", inParams: new
 				{
-					implementationID = implementationID
+					ImplementationID = implementationID
 				});
 
 				if (data != null)
@@ -318,6 +318,32 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 				_logger.LogError(ex.Message);
 				return false;    //Default to false so we don't try do use it when we don't know if it exists
 			}
+		}
+
+		public List<Person> GetContacts(long implementationID)
+		{
+			List<Person> result = new List<Person>();
+			var db = new MightyOrm(_acvpConnectionString);
+
+			try
+			{
+				var data = db.QueryFromProcedure("dbo.ImplementationContactsGet", inParams: new { ImplementationID = implementationID });
+
+				foreach (var row in data)
+				{
+					result.Add(new Person
+					{
+						ID = row.PersonId,
+						Name = row.FullName
+					});
+				}
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex);
+			}
+
+			return result;
 		}
 	}
 }

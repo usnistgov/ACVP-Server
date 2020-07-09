@@ -1,8 +1,10 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Mighty;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.DatabaseInterface;
+using NIST.CVP.Libraries.Shared.ExtensionMethods;
 using Web.Public.Models;
 
 namespace Web.Public.Providers
@@ -77,9 +79,9 @@ namespace Web.Public.Providers
             {
                 var jsonData = db.SingleFromProcedure("dbo.VectorSetJsonGet", new
                 {
-                    VectorSet = vsID,
+                    VectorSetId = vsID,
                     VectorSetJsonFileTypeId = (int)fileType
-                });
+                }, commandTimeout: 120);
 
                 if (jsonData == null)
                 {
@@ -98,7 +100,37 @@ namespace Web.Public.Providers
                 throw;
             }
         }
-        
+
+        public async Task<VectorSet> GetJsonAsync(long vsID, VectorSetJsonFileTypes fileType)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                var jsonData = await db.SingleFromProcedureAsync("acvp.VectorSetJsonGet", new
+                {
+                    VectorSetId = vsID,
+                    VectorSetJsonFileTypeId = (int)fileType
+                }, commandTimeout: 120);
+
+                if (jsonData == null)
+                {
+                    // Prep for retry
+                    return null;
+                }
+
+                return new VectorSet
+                {
+                    JsonContent = jsonData.Content
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving vector set file. VsID: {vsID}, FileType: {fileType}");
+                throw;
+            }
+        }
+
         public void SetStatus(long vsID, VectorSetStatus status)
         {
             var db = new MightyOrm(_connectionString);

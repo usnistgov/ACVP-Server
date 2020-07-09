@@ -1,4 +1,5 @@
-﻿using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
+﻿using System.Collections.Generic;
+using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.Enumerables;
@@ -17,5 +18,6 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 		InsertResult Insert(string name, string description, ImplementationType type, string version, string website, long organizationID, long addressID, bool isITAR);
 		Result InsertContact(long implementationID, long personID, int orderIndex);
 		Result Update(long implementationID, string name, string description, ImplementationType type, string version, string website, long? organizationID, long? addressID, bool nameUpdated, bool descriptionUpdated, bool typeUpdated, bool versionUpdated, bool websiteUpdated, bool organizationIDUpdated, bool addressIDUpdated);
+		List<Person> GetContacts(long implementationID);
 	}
 }

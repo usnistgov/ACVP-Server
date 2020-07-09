@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Internal.ACVPCore.Providers;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Models.Parameters;
 using NIST.CVP.Libraries.Shared.ACVPCore.Abstractions.Results;
+using NIST.CVP.Libraries.Shared.Enumerables;
 using NIST.CVP.Libraries.Shared.Results;
 
 namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
@@ -21,12 +21,13 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 
 		public Implementation Get(long implementationID)
 		{
-			return _implementationProvider.Get(implementationID);
+			Implementation implementation = _implementationProvider.Get(implementationID);
+			implementation.Contacts = _implementationProvider.GetContacts(implementationID);
+			return implementation;
 		}
-		public PagedEnumerable<Implementation> ListImplementations(ImplementationListParameters param) 
-		{
-			return _implementationProvider.GetImplementations(param);
-		}
+
+		public PagedEnumerable<Implementation> ListImplementations(ImplementationListParameters param) => _implementationProvider.GetImplementations(param);
+
 		public DeleteResult Delete(long implementationID)
 		{
 			Result result;
@@ -116,15 +117,9 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 			return new ImplementationResult(parameters.ID);
 		}
 
-		public bool ImplementationIsUsed(long implementationID)
-		{
-			return _implementationProvider.ImplementationIsUsed(implementationID);
-		}
+		public bool ImplementationIsUsed(long implementationID) => _implementationProvider.ImplementationIsUsed(implementationID);
 
-		public bool ImplementationExists(long implementationID)
-		{
-			return _implementationProvider.ImplementationExists(implementationID);
-		}
+		public bool ImplementationExists(long implementationID) => _implementationProvider.ImplementationExists(implementationID);
 
 		public Result AddContact(long implementationID, long contactID, int orderIndex) => _implementationProvider.InsertContact(implementationID, contactID, orderIndex);
 	}

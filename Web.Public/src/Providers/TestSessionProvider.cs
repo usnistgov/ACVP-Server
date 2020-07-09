@@ -224,7 +224,7 @@ namespace Web.Public.Providers
             try
             {
                 //Get the last touched date, but if the TS does not exist, or the LastTouched is somehow null (shouldn't be), return MinValue
-                var value = db.ScalarFromProcedure("acvp.TestSessionGetLastTouched", new { TestSessionId = testSessionID });
+                var value = db.ScalarFromProcedure("dbo.TestSessionGetLastTouched", new { TestSessionId = testSessionID });
                 return (value == null || value == DBNull.Value) ? DateTime.MinValue : (DateTime)value;
             }
             catch (Exception ex)
