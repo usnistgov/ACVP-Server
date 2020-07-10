@@ -3,11 +3,60 @@ using NIST.CVP.Math.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.Common;
+using NIST.CVP.Common.Helpers;
 
 namespace NIST.CVP.Generation.Core
 {
     public abstract class ParameterValidatorBase
     {
+        /// <summary>
+        /// Get the <see cref="AlgoMode"/> from <see cref="IParameters"/>.
+        /// </summary>
+        /// <param name="parameters">The <see cref="IParameters"/> from which to determine the <see cref="AlgoMode"/></param>
+        /// <returns>The <see cref="AlgoMode"/></returns>
+        protected AlgoMode GetAlgoModeRevisionFromParameters(IParameters parameters)
+        {
+            return AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+        }
+
+        /// <summary>
+        /// Validates the <see cref="AlgoMode"/> derived from <see cref="allowedAlgoModes"/> exists within <see cref="allowedAlgoModes"/>.
+        ///
+        /// If the <see cref="AlgoMode"/> is not found, add to <see cref="errors"/>.
+        /// </summary>
+        /// <param name="parameters">The <see cref="IParameters"/> to parse for an <see cref="AlgoMode"/>.</param>
+        /// <param name="allowedAlgoModes">The allowed <see cref="AlgoMode"/>s.</param>
+        /// <param name="errors">The errors list that is added to in cases where the <see cref="AlgoMode"/> is not valid compared to the <see cref="allowedAlgoModes"/>.</param>
+        /// <returns>If the provided <see cref="AlgoMode"/> is valid when compared to <see cref="allowedAlgoModes"/>.</returns>
+        protected bool ValidateAlgoMode(IParameters parameters, IEnumerable<AlgoMode> allowedAlgoModes, List<string> errors)
+        {
+            var algoMode = GetAlgoModeRevisionFromParameters(parameters);
+
+            return ValidateAlgoMode(algoMode, allowedAlgoModes, errors);
+        }
+
+        /// <summary>
+        /// Validates the <see cref="algoMode"/> exists within <see cref="allowedAlgoModes"/>.
+        ///
+        /// If the <see cref="AlgoMode"/> is not found, add to <see cref="errors"/>.
+        /// </summary>
+        /// <param name="algoMode">The <see cref="AlgoMode"/> to check.</param>
+        /// <param name="allowedAlgoModes">The allowed <see cref="AlgoMode"/>s.</param>
+        /// <param name="errors">The errors list that is added to in cases where the <see cref="AlgoMode"/> is not valid compared to the <see cref="allowedAlgoModes"/>.</param>
+        /// <returns>If the provided <see cref="AlgoMode"/> is valid when compared to <see cref="allowedAlgoModes"/>.</returns>
+
+        protected bool ValidateAlgoMode(AlgoMode algoMode, IEnumerable<AlgoMode> allowedAlgoModes, List<string> errors)
+        {
+            if (!allowedAlgoModes.Contains(algoMode))
+            {
+                errors.Add($"Provided {nameof(algoMode)} {algoMode} in invalid.  Valid {nameof(algoMode)}s include: {string.Join(", ", allowedAlgoModes)}");
+                return false;
+            }
+
+            return true;
+        }
+        
         protected string ValidateArray(int[] supplied, int[] valid, string friendlyName)
         {
             if (supplied == null || supplied.Length == 0)

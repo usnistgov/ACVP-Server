@@ -269,7 +269,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<ISshFactory, SshFactory>();
             svc.AddSingleton<ITlsKdfFactory, TlsKdfFactory>();
             svc.AddSingleton<ITpmFactory, TpmFactory>();
-
+            
             svc.AddSingleton<IKeyWrapFactory, KeyWrapFactory>();
 
             svc.AddTransient<ISHA, SHA>();
@@ -306,6 +306,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
 
             svc.AddTransient<IHkdfFactory, HkdfFactory>();
+            svc.AddSingleton<ITLsKdfFactory_v1_3, TlsKdfFactoryV13>();
             #endregion Crypto Registrations
         }
 

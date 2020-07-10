@@ -248,6 +248,8 @@ namespace NIST.CVP.Common
         TDES_OFB_v1_0,
         [EnumMember(Value = "ACVP-TDES-OFBI-1.0")]
         TDES_OFBI_v1_0,
+        [EnumMember(Value = "TLS-v1.3-1.0")]
+        Tls_v1_3_v1_0,
         [EnumMember(Value = "TupleHash-128-1.0")]
         TupleHash_128_v1_0,
         [EnumMember(Value = "TupleHash-256-1.0")]

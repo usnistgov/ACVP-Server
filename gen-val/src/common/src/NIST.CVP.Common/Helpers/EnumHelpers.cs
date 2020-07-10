@@ -98,7 +98,7 @@ namespace NIST.CVP.Common.Helpers
 
             return descriptions;
         }
-
+        
         public static List<T> GetEnumsWithoutDefault<T>()
             where T : struct, IConvertible
         {

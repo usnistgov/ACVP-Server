@@ -21,5 +21,6 @@ namespace NIST.CVP.Common.Oracle
         
         Task<PbKdfResult> GetPbKdfCaseAsync(PbKdfParameters param);
         Task<HkdfResult> GetHkdfCaseAsync(HkdfParameters param);
+        Task<TlsKdfv13Result> GetTlsv13CaseAsync(TlsKdfv13Parameters param);
     }
 }
