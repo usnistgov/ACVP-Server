@@ -10,9 +10,9 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 
 		public TLS_v1_3()
 		{
-			Name = "kdf-components";
-			Mode = "tls";
-			Revision = "1.0";
+			Name = "TLS-v1.3";
+			Mode = "KDF";
+			Revision = "RFC8446";
 		}
 
 		public TLS_v1_3(External.TLS_v1_3 external) : this()

@@ -11,7 +11,8 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 		public TLS_v1_3()
 		{
 			Name = "TLS-v1.3";
-			Revision = "1.0";
+			Mode = "KDF";
+			Revision = "RFC8446";
 		}
 	}
 }

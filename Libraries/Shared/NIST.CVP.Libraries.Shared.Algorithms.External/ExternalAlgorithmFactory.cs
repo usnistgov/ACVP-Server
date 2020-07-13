@@ -132,7 +132,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("SHA3-512", null, "1.0") => JsonSerializer.Deserialize<SHA3_512>(algorithmRegistration),
 				("SHAKE-128", null, "1.0") => JsonSerializer.Deserialize<SHAKE_128>(algorithmRegistration),
 				("SHAKE-256", null, "1.0") => JsonSerializer.Deserialize<SHAKE_256>(algorithmRegistration),
-				("TLS-v1.3", null, "1.0") => JsonSerializer.Deserialize<TLS_v1_3>(algorithmRegistration),
+				("TLS-v1.3", "KDF", "RFC8446") => JsonSerializer.Deserialize<TLS_v1_3>(algorithmRegistration),
 				("TUPLEHASH-128", null, "1.0") => JsonSerializer.Deserialize<TupleHash_128>(algorithmRegistration),
 				("TUPLEHASH-256", null, "1.0") => JsonSerializer.Deserialize<TupleHash_256>(algorithmRegistration),
 				_ => null
