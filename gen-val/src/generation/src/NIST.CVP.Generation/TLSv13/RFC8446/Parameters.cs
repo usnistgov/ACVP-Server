@@ -1,15 +1,17 @@
-using System.Collections.Generic;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
-	public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
+	public class Parameters : IParameters
 	{
 		public int VectorSetId { get; set; }
 		public string Algorithm { get; set; }
 		public string Mode { get; set; }
 		public string Revision { get; set; }
 		public bool IsSample { get; set; }
-		public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
+		public string[] Conformances { get; set; }
+		
+		public HashFunctions[] HashAlg { get; set; }
 	}
 }

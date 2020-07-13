@@ -1,7 +1,7 @@
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Generation.Core.Async;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
 	public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
 	{

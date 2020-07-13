@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NIST.CVP.Common;
 using NIST.CVP.Common.ExtensionMethods;
@@ -6,7 +5,7 @@ using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
 	public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
 	{

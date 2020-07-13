@@ -31,7 +31,16 @@ namespace NIST.CVP.Generation.Core
         /// <returns>If the provided <see cref="AlgoMode"/> is valid when compared to <see cref="allowedAlgoModes"/>.</returns>
         protected bool ValidateAlgoMode(IParameters parameters, IEnumerable<AlgoMode> allowedAlgoModes, List<string> errors)
         {
-            var algoMode = GetAlgoModeRevisionFromParameters(parameters);
+            AlgoMode algoMode;
+            try
+            {
+                algoMode = GetAlgoModeRevisionFromParameters(parameters);
+            }
+            catch (Exception e)
+            {
+                errors.Add(e.Message);
+                return false;
+            }
 
             return ValidateAlgoMode(algoMode, allowedAlgoModes, errors);
         }
@@ -45,7 +54,6 @@ namespace NIST.CVP.Generation.Core
         /// <param name="allowedAlgoModes">The allowed <see cref="AlgoMode"/>s.</param>
         /// <param name="errors">The errors list that is added to in cases where the <see cref="AlgoMode"/> is not valid compared to the <see cref="allowedAlgoModes"/>.</param>
         /// <returns>If the provided <see cref="AlgoMode"/> is valid when compared to <see cref="allowedAlgoModes"/>.</returns>
-
         protected bool ValidateAlgoMode(AlgoMode algoMode, IEnumerable<AlgoMode> allowedAlgoModes, List<string> errors)
         {
             if (!allowedAlgoModes.Contains(algoMode))

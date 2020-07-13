@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Generation.Core.Async;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
 	public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {

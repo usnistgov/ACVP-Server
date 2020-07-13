@@ -99,6 +99,25 @@ namespace NIST.CVP.Common.Helpers
             return descriptions;
         }
         
+        public static List<T> GetEnums<T>()
+            where T : struct, IConvertible
+        {
+            var type = typeof(T);
+
+            if (!type.IsEnum)
+            {
+                throw new ArgumentException("Only Enum types allowed");
+            }
+
+            var enums = new List<T>();
+            foreach (var value in Enum.GetValues(type).Cast<T>())
+            {
+                enums.Add(value);
+            }
+
+            return enums;
+        }
+        
         public static List<T> GetEnumsWithoutDefault<T>()
             where T : struct, IConvertible
         {

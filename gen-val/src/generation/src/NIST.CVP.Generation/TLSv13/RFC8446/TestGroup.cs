@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
 	public class TestGroup : ITestGroup<TestGroup, TestCase>
 	{

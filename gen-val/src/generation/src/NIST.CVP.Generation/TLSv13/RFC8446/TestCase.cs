@@ -1,7 +1,7 @@
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Generation.TLSv13.v1_0
+namespace NIST.CVP.Generation.TLSv13.RFC8446
 {
 	public class TestCase : ITestCase<TestGroup, TestCase>
 	{

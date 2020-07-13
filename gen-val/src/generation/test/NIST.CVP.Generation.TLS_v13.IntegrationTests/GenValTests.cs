@@ -2,7 +2,7 @@ using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.TLSv13.v1_0;
+using NIST.CVP.Generation.TLSv13.RFC8446;
 using NIST.CVP.Math;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -13,7 +13,8 @@ namespace NIST.CVP.Generation.TLS_v13.IntegrationTests
 	public class GenValTests : GenValTestsSingleRunnerBase
 	{
 		public override string Algorithm => "TLS-v1.3";
-		public override string Mode => string.Empty;
+		public override string Mode => "KDF";
+		public override string Revision => "RFC8446";
 		public override AlgoMode AlgoMode => AlgoMode.Tls_v1_3_v1_0;
 
 		public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
