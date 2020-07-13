@@ -129,6 +129,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.TDES_KW x => new TDES_KW(x),
 				External.TDES_OFB x => new TDES_OFB(x),
 				External.TDES_OFBI x => new TDES_OFBI(x),
+				External.TLS_v1_3 x => new TLS_v1_3(x),
 				External.TupleHash_128 x => new TupleHash_128(x),
 				External.TupleHash_256 x => new TupleHash_256(x),
 				_ => null
