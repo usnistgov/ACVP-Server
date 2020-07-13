@@ -63,6 +63,9 @@ namespace NIST.CVP.Orleans.Grains.Rsa
                 // XP and XQ
                 entropyProvider.AddEntropy(_fullParam.AuxValues.XP);
                 entropyProvider.AddEntropy(_fullParam.AuxValues.XQ);
+
+                // RsaRunner needs these values from the fullParam set
+                _param.BitLens = _fullParam.BitLens;
             }
             else if (_param.KeyMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
             {
