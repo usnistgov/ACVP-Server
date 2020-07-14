@@ -31,6 +31,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 			if (string.IsNullOrEmpty(item.VendorURL))
 			{
 				errors.Add("module.vendorUrl must be provided.");
+				return new PayloadValidationResult(errors);
 			}
 
 			var vendor = _organizationService.Get(BasePayload.ParseIDFromURL(item.VendorURL));
