@@ -20,7 +20,8 @@ namespace Web.Public
             item.AddSingleton<IConnectionStringFactory, ConnectionStringFactory>();
             
             item.AddSingleton<ISecretKvpProvider, SecretKvpProvider>();
-            
+
+            item.AddSingleton<IMtlsCertValidatorService, MtlsCertValidatorService>();
             item.AddSingleton<ITotpService, TotpService>();
             item.AddSingleton<ITotpProvider, TotpProvider>();
             item.AddSingleton<IJwtService, JwtService>();
