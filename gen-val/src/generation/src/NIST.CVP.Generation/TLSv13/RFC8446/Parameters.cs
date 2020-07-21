@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Generation.Core;
 
@@ -12,6 +13,6 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		public bool IsSample { get; set; }
 		public string[] Conformances { get; set; }
 		
-		public HashFunctions[] HashAlg { get; set; }
+		public HashFunctions[] HmacAlg { get; set; }
 	}
 }

@@ -40,7 +40,7 @@ namespace NIST.CVP.Generation.TLS_v13.IntegrationTests
 				Algorithm = Algorithm,
 				Mode = Mode,
 				Revision = Revision,
-				HashAlg = new []
+				HmacAlg = new []
 				{
 					HashFunctions.Sha2_d256,
 					HashFunctions.Sha3_d256,
@@ -58,7 +58,7 @@ namespace NIST.CVP.Generation.TLS_v13.IntegrationTests
 				Algorithm = Algorithm,
 				Mode = Mode,
 				Revision = Revision,
-				HashAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>().ToArray(),
+				HmacAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>().ToArray(),
 				IsSample = false
 			};
 

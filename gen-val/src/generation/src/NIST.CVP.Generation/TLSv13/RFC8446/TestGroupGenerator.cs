@@ -21,13 +21,13 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		{
 			var testGroups = new List<TestGroup>();
 
-			foreach (var hashAlg in parameters.HashAlg)
+			foreach (var hashAlg in parameters.HmacAlg)
 			{
 				foreach (var payloadLength in GetPayloadLengths())
 				{
 					testGroups.Add(new TestGroup()
 					{
-						HashAlg = hashAlg,
+						HmacAlg = hashAlg,
 						RandomLength = payloadLength,
 						TestType = "AFT"
 					});

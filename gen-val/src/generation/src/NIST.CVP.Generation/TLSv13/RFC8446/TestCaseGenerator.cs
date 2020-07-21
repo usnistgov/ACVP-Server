@@ -32,7 +32,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		{
 			var param = new TlsKdfv13Parameters
 			{
-				HashAlg = group.HashAlg,
+				HashAlg = group.HmacAlg,
 				RandomLength = group.RandomLength
 			};
 

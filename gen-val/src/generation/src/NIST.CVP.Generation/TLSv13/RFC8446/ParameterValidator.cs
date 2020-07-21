@@ -17,7 +17,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 			List<string> errors = new List<string>();
 
 			ValidateAlgoModeRevision(parameters, errors);
-			ValidateHashAlgs(parameters.HashAlg, errors);
+			ValidateHashAlgs(parameters.HmacAlg, errors);
 			
 			return new ParameterValidateResponse(errors);
 		}

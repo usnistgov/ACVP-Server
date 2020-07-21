@@ -9,7 +9,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		public int TestGroupId { get; set; }
 		public string TestType { get; set; }
 		public List<TestCase> Tests { get; set; } = new List<TestCase>();
-		public HashFunctions HashAlg { get; set; }
+		public HashFunctions HmacAlg { get; set; }
 		public int RandomLength { get; set; }
 	}
 }

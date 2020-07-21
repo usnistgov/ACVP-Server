@@ -14,7 +14,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446.ContractResolvers
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.TestType),
-                nameof(TestGroup.HashAlg)
+                nameof(TestGroup.HmacAlg)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

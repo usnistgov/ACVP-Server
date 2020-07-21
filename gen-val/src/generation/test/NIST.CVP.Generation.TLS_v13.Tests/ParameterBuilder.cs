@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.TLS_v13.Tests
 				Algorithm = _algorithm,
 				Mode = _mode,
 				Revision = _revision,
-				HashAlg = _hashFunctions.ToArray()
+				HmacAlg = _hashFunctions.ToArray()
 			};
 		}
 	}
