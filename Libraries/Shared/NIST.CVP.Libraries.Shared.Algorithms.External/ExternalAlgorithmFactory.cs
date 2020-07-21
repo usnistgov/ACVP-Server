@@ -68,6 +68,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("EDDSA", "keyVer", "1.0") => JsonSerializer.Deserialize<EDDSAKeyVer>(algorithmRegistration),
 				("EDDSA", "sigGen", "1.0") => JsonSerializer.Deserialize<EDDSASigGen>(algorithmRegistration),
 				("EDDSA", "sigVer", "1.0") => JsonSerializer.Deserialize<EDDSASigVer>(algorithmRegistration),
+				("HKDF", null, "1.0") => JsonSerializer.Deserialize<HKDF>(algorithmRegistration),
 				("hashDRBG", null, "1.0") => JsonSerializer.Deserialize<HashDRBG>(algorithmRegistration),
 				("hmacDRBG", null, "1.0") => JsonSerializer.Deserialize<HMAC_DRBG>(algorithmRegistration),
 				("HMAC-SHA-1", null, "1.0") => JsonSerializer.Deserialize<HMAC_SHA_1>(algorithmRegistration),
@@ -133,6 +134,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("SHA3-512", null, "1.0") => JsonSerializer.Deserialize<SHA3_512>(algorithmRegistration),
 				("SHAKE-128", null, "1.0") => JsonSerializer.Deserialize<SHAKE_128>(algorithmRegistration),
 				("SHAKE-256", null, "1.0") => JsonSerializer.Deserialize<SHAKE_256>(algorithmRegistration),
+				("TLS-v1.3", "KDF", "RFC8446") => JsonSerializer.Deserialize<TLS_v1_3>(algorithmRegistration),
 				("TUPLEHASH-128", null, "1.0") => JsonSerializer.Deserialize<TupleHash_128>(algorithmRegistration),
 				("TUPLEHASH-256", null, "1.0") => JsonSerializer.Deserialize<TupleHash_256>(algorithmRegistration),
 				_ => null

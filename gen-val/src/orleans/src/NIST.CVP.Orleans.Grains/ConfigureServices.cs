@@ -110,9 +110,11 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
+using NIST.CVP.Crypto.Common.KDF.HKDF;
 using NIST.CVP.Crypto.Common.KTS;
 using NIST.CVP.Crypto.Common.Symmetric.AES;
 using NIST.CVP.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.Crypto.HKDF;
 using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
@@ -267,7 +269,7 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddSingleton<ISshFactory, SshFactory>();
             svc.AddSingleton<ITlsKdfFactory, TlsKdfFactory>();
             svc.AddSingleton<ITpmFactory, TpmFactory>();
-
+            
             svc.AddSingleton<IKeyWrapFactory, KeyWrapFactory>();
 
             svc.AddTransient<ISHA, SHA>();
@@ -303,6 +305,8 @@ namespace NIST.CVP.Orleans.Grains
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();
 
+            svc.AddTransient<IHkdfFactory, HkdfFactory>();
+            svc.AddSingleton<ITLsKdfFactory_v1_3, TlsKdfFactoryV13>();
             #endregion Crypto Registrations
         }
 

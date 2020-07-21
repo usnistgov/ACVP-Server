@@ -57,20 +57,20 @@
         <NuGetVersionSerilogSinksConsole>3.1.1</NuGetVersionSerilogSinksConsole>
         <NuGetVersionMicrosoftNETCoreTargets>3.1.0</NuGetVersionMicrosoftNETCoreTargets>
         <NuGetVersionMighty>3.1.2</NuGetVersionMighty>
-	<NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>3.1.1</NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>
-	<NuGetVersionMicrosoftExtensionsConfigurationJson>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationJson>
-	<NuGetVersionMicrosoftExtensionsDependencyInjections>3.1.2</NuGetVersionMicrosoftExtensionsDependencyInjections>
-	<NuGetVersionMicrosoftExtensionsLogging>3.1.2</NuGetVersionMicrosoftExtensionsLogging>
-	<NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>3.1.2</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
-	<NuGetVersionMicrosoftExtensionsHttp>3.1.2</NuGetVersionMicrosoftExtensionsHttp>
-	<NuGetVersionMicrosoftExtensionsConfiguration>3.1.2</NuGetVersionMicrosoftExtensionsConfiguration>
-	<NuGetVersionMicrosoftExtensionsConfigurationBinder>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationBinder>
-	<NuGetVersionSystemTextJson>4.7.1</NuGetVersionSystemTextJson>
-	<NuGetVersionMicrosoftExtensionsLoggingAbstractions>3.1.2</NuGetVersionMicrosoftExtensionsLoggingAbstractions>
-	<NuGetVersionSystemComponentModelAnnotations>4.7.0</NuGetVersionSystemComponentModelAnnotations>
-	<NuGetVersionMicrosoftExtensionsHosting>3.1.2</NuGetVersionMicrosoftExtensionsHosting>
-	<NuGetVersionMicrosoftExtensionsHostingWindowsServices>3.1.2</NuGetVersionMicrosoftExtensionsHostingWindowsServices>
-	<NuGetVersionSystemServiceProcessServiceController>4.7.0</NuGetVersionSystemServiceProcessServiceController>
+        <NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>3.1.1</NuGetVersionMicrosoftVisualStudioWebCodeGenerationDesign>
+        <NuGetVersionMicrosoftExtensionsConfigurationJson>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationJson>
+        <NuGetVersionMicrosoftExtensionsDependencyInjections>3.1.2</NuGetVersionMicrosoftExtensionsDependencyInjections>
+        <NuGetVersionMicrosoftExtensionsLogging>3.1.2</NuGetVersionMicrosoftExtensionsLogging>
+        <NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>3.1.2</NuGetVersionMicrosoftExtensionsOptionsConfigurationExtensions>
+        <NuGetVersionMicrosoftExtensionsHttp>3.1.2</NuGetVersionMicrosoftExtensionsHttp>
+        <NuGetVersionMicrosoftExtensionsConfiguration>3.1.2</NuGetVersionMicrosoftExtensionsConfiguration>
+        <NuGetVersionMicrosoftExtensionsConfigurationBinder>3.1.2</NuGetVersionMicrosoftExtensionsConfigurationBinder>
+        <NuGetVersionSystemTextJson>4.7.1</NuGetVersionSystemTextJson>
+        <NuGetVersionMicrosoftExtensionsLoggingAbstractions>3.1.2</NuGetVersionMicrosoftExtensionsLoggingAbstractions>
+        <NuGetVersionSystemComponentModelAnnotations>4.7.0</NuGetVersionSystemComponentModelAnnotations>
+        <NuGetVersionMicrosoftExtensionsHosting>3.1.2</NuGetVersionMicrosoftExtensionsHosting>
+        <NuGetVersionMicrosoftExtensionsHostingWindowsServices>3.1.2</NuGetVersionMicrosoftExtensionsHostingWindowsServices>
+        <NuGetVersionSystemServiceProcessServiceController>4.7.0</NuGetVersionSystemServiceProcessServiceController>
     </PropertyGroup>
 
 </Project>
