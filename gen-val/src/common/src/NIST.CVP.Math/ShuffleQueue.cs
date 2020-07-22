@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Common.ExtensionMethods;
@@ -6,12 +8,12 @@ namespace NIST.CVP.Math
 {
     public class ShuffleQueue<T>
     {
-        private readonly Queue<T> _queue;
+        private readonly ConcurrentQueue<T> _queue;
         private readonly List<T> _fullList;
             
         public ShuffleQueue(List<T> list, int requestedValues = 0)
         {
-            _queue = new Queue<T>();
+            _queue = new ConcurrentQueue<T>();
             _fullList = list.Shuffle();
 
             // Pre-load the queue
@@ -24,14 +26,34 @@ namespace NIST.CVP.Math
             }
         }
 
-        public T Pop() => _queue.Dequeue();
-        
+        public T Pop()
+        {
+            lock (_queue)
+            {
+                if (_queue.TryDequeue(out var result))
+                {
+                    return result;
+                }
+            }
+            
+            if (_fullList.Any())
+            {
+                AddElements(_fullList);
+                return Pop();
+            }
+
+            throw new ArgumentException("Initial list was empty.");
+        }
+
         private void AddElements(List<T> list)
         {
             var shuffledList = list.Shuffle();
-            foreach (var element in shuffledList)
+            lock (_queue)
             {
-                _queue.Enqueue(element);
+                foreach (var element in shuffledList)
+                {
+                    _queue.Enqueue(element);
+                }                
             }
         }
     }
