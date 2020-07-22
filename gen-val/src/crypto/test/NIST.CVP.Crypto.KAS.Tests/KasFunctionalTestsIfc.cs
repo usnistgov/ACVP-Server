@@ -32,6 +32,7 @@ using NIST.CVP.Math.Entropy;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 using System.Linq;
+using NIST.CVP.Crypto.HKDF;
 
 namespace NIST.CVP.Crypto.KAS.Tests
 {
@@ -67,7 +68,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new IkeV1Factory(),
                 new IkeV2Factory(new HmacFactory(new ShaFactory())),
-                new TlsKdfFactory());
+                new TlsKdfFactory(),
+                new HkdfFactory(new HmacFactory(new ShaFactory())));
             _rsaSve = new RsaSve(rsa, _entropyProvider);
 
             _kasBuilderPartyU = new KasIfcBuilder();

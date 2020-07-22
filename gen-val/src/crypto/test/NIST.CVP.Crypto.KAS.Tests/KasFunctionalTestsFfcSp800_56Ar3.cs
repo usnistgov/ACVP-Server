@@ -18,6 +18,7 @@ using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
 using NIST.CVP.Crypto.CSHAKE;
 using NIST.CVP.Crypto.DSA.ECC;
+using NIST.CVP.Crypto.HKDF;
 using NIST.CVP.Crypto.HMAC;
 using NIST.CVP.Crypto.IKEv1;
 using NIST.CVP.Crypto.IKEv2;
@@ -67,7 +68,8 @@ namespace NIST.CVP.Crypto.KAS.Tests
                 new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new IkeV1Factory(),
                 new IkeV2Factory(new HmacFactory(new ShaFactory())),
-                new TlsKdfFactory());
+                new TlsKdfFactory(),
+                new HkdfFactory(new HmacFactory(new ShaFactory())));
             _kdfFactory = new KdfFactory(kdfVisitor);
 
             var eccDh = new DiffieHellmanEcc();

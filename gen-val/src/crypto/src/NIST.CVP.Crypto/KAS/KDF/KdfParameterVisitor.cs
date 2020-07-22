@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using System;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
 
 namespace NIST.CVP.Crypto.KAS.KDF
 {
@@ -68,6 +69,28 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 MacMode = kdfConfiguration.MacMode,
                 CounterLen = kdfConfiguration.CounterLen,
                 CounterLocation = kdfConfiguration.CounterLocation,
+                // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
+                Context = kdfConfiguration.FixedInfoPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                AlgorithmId = kdfConfiguration.FixedInfoPattern.Contains(nameof(KdfParameterOneStep.AlgorithmId), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+                Label = kdfConfiguration.FixedInfoPattern.Contains(nameof(KdfParameterOneStep.Label), StringComparison.OrdinalIgnoreCase) ?
+                    _entropyProvider.GetEntropy(BitsOfEntropy) : null,
+            };
+        }
+
+        public IKdfParameter CreateParameter(HkdfConfiguration kdfConfiguration)
+        {
+            return new KdfParameterHkdf
+            {
+                HmacAlg = kdfConfiguration.HmacAlg,
+                L = kdfConfiguration.L,
+                FixedInfoPattern = kdfConfiguration.FixedInfoPattern,
+                FixedInputEncoding = kdfConfiguration.FixedInfoEncoding,
+                Salt = kdfConfiguration.SaltMethod == MacSaltMethod.Default ?
+                    new BitString(kdfConfiguration.SaltLen) :
+                    _entropyProvider.GetEntropy(kdfConfiguration.SaltLen),
+                
                 // If the fixedInfoPattern contains these optional context specific fields, make up a value for them
                 Context = kdfConfiguration.FixedInfoPattern.Contains(nameof(KdfParameterOneStep.Context), StringComparison.OrdinalIgnoreCase) ?
                     _entropyProvider.GetEntropy(BitsOfEntropy) : null,

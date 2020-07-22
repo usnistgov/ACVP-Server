@@ -19,6 +19,8 @@ using NIST.CVP.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.Crypto.Common.MAC.HMAC;
 using NIST.CVP.Math;
 using System;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
+using NIST.CVP.Crypto.Common.KDF.HKDF;
 using IKdfFactory = NIST.CVP.Crypto.Common.KDF.IKdfFactory;
 
 namespace NIST.CVP.Crypto.KAS.KDF
@@ -32,6 +34,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
         private readonly IIkeV1Factory _ikeV1Factory;
         private readonly IIkeV2Factory _ikeV2Factory;
         private readonly ITlsKdfFactory _tlsFactory;
+        private readonly IHkdfFactory _hkdfFactory;
 
         public KdfVisitor(IKdfOneStepFactory kdfOneStepFactory,
             IKdfFactory kdfTwoStepFactory,
@@ -39,7 +42,8 @@ namespace NIST.CVP.Crypto.KAS.KDF
             ICmacFactory cmacFactory,
             IIkeV1Factory ikeV1Factory,
             IIkeV2Factory ikeV2Factory,
-            ITlsKdfFactory tlsFactory)
+            ITlsKdfFactory tlsFactory,
+            IHkdfFactory hkdfFactory)
         {
             _kdfOneStepFactory = kdfOneStepFactory;
             _kdfTwoStepFactory = kdfTwoStepFactory;
@@ -48,6 +52,7 @@ namespace NIST.CVP.Crypto.KAS.KDF
             _ikeV1Factory = ikeV1Factory;
             _ikeV2Factory = ikeV2Factory;
             _tlsFactory = tlsFactory;
+            _hkdfFactory = hkdfFactory;
         }
 
         public KdfResult Kdf(KdfParameterOneStep param, BitString fixedInfo)
@@ -133,6 +138,20 @@ namespace NIST.CVP.Crypto.KAS.KDF
                 param.CounterLen);
 
             return new KdfResult(kdf.DeriveKey(randomnessExtraction.Mac, fixedInfo, param.L, param.Iv, 0).DerivedKey);
+        }
+
+        public KdfResult Kdf(KdfParameterHkdf param, BitString fixedInfo)
+        {
+            var kdf = _hkdfFactory.GetKdf(ShaAttributes.GetHashFunctionFromEnum(param.HmacAlg));
+
+            var result = kdf.DeriveKey(param.Salt, param.Z, fixedInfo, param.L);
+
+            if (result.Success)
+            {
+                return new KdfResult(result.DerivedKey);
+            }
+            
+            return new KdfResult(result.ErrorMessage);
         }
 
         public KdfResult Kdf(KdfParameterIkeV1 param, BitString fixedInfo = null)

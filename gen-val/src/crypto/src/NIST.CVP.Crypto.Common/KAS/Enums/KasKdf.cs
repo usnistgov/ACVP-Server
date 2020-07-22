@@ -17,5 +17,7 @@ namespace NIST.CVP.Crypto.Common.KAS.Enums
         Tls_v10_v11,
         [EnumMember(Value = "tls_v1.2")]
         Tls_v12,
+        [EnumMember(Value = "hkdf")]
+        Hkdf
     }
 }
