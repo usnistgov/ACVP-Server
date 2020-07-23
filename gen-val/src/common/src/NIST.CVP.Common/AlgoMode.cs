@@ -146,6 +146,8 @@ namespace NIST.CVP.Common
         KAS_KDF_OneStep_Sp800_56Cr1,
         [EnumMember(Value = "KAS-KDF-TwoStep-Sp800-56Cr1")]
         KAS_KDF_TwoStep_Sp800_56Cr1,
+        [EnumMember(Value = "KAS-KDF-HKDF-Sp800-56Cr1")]
+        KAS_KDF_HKDF_Sp800_56Cr1,
         [EnumMember(Value = "KTS-IFC-Sp800-56Br2")]
         KTS_IFC_Sp800_56Br2,
         [EnumMember(Value = "KDF-1.0")]

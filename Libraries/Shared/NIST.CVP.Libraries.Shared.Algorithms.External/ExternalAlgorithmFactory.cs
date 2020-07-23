@@ -92,6 +92,7 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 				("KAS-FFC", null, "Sp800-56Ar3") => JsonSerializer.Deserialize<KAS_FFC_SP800_56Ar3>(algorithmRegistration),
 				("KAS-FFC-SSC", null, "Sp800-56Ar3") => JsonSerializer.Deserialize<KAS_FFC_SSC_SP800_56Ar3>(algorithmRegistration),
 				("KAS-IFC", null, "Sp800-56Br2") => JsonSerializer.Deserialize<KAS_IFC>(algorithmRegistration),
+				("KAS-KDF", "HKDF", "Sp800-56Cr1") => JsonSerializer.Deserialize<KAS_KDF_HKDF_SP800_56Cr1>(algorithmRegistration),
 				("KAS-KDF", "OneStep", "Sp800-56Cr1") => JsonSerializer.Deserialize<KAS_KDF_OneStep_SP800_56Cr1>(algorithmRegistration),
 				("KAS-KDF", "TwoStep", "Sp800-56Cr1") => JsonSerializer.Deserialize<KAS_KDF_TwoStep_SP800_56Cr1>(algorithmRegistration),
 				("KDF", null, "1.0") => JsonSerializer.Deserialize<KDF>(algorithmRegistration),

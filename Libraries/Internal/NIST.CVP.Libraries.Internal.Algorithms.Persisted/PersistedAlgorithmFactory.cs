@@ -75,6 +75,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.KAS_FFC_SP800_56Ar3 x => new KAS_FFC_SP800_56Ar3(x),
 				External.KAS_FFC_SSC_SP800_56Ar3 x => new KAS_FFC_SSC_SP800_56Ar3(x),
 				External.KAS_IFC x => new KAS_IFC(x),
+				External.KAS_KDF_HKDF_SP800_56Cr1 x => new KAS_KDF_HKDF_SP800_56Cr1(x),
 				External.KAS_KDF_OneStep_SP800_56Cr1 x => new KAS_KDF_OneStep_SP800_56Cr1(x),
 				External.KAS_KDF_TwoStep_SP800_56Cr1 x => new KAS_KDF_TwoStep_SP800_56Cr1(x),
 				External.KDF x => new KDF(x),

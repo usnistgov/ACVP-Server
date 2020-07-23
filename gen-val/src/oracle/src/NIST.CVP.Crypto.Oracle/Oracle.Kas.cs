@@ -544,5 +544,39 @@ namespace NIST.CVP.Crypto.Oracle
                 return await GetKasKdfValTwoStepTestAsync(param);
             }
         }
+
+        public async Task<KasKdfAftHkdfResult> GetKasKdfAftHkdfTestAsync(KasKdfAftHkdfParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IObserverKasKdfAftHkdfCaseGrain, KasKdfAftHkdfResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+ 
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetKasKdfAftHkdfTestAsync(param);
+            }
+        }
+
+        public async Task<KasKdfValHkdfResult> GetKasKdfValHkdfTestAsync(KasKdfValHkdfParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IObserverKasKdfValHkdfCaseGrain, KasKdfValHkdfResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+ 
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetKasKdfValHkdfTestAsync(param);
+            }
+        }
     }
 }

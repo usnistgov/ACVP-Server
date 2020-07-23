@@ -1,3 +1,4 @@
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -19,11 +20,17 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <returns></returns>
         IKdfParameter CreateParameter(OneStepConfiguration kdfConfiguration);
         /// <summary>
-        /// Create an <see cref="IKdfParameter"/> based on a <see cref="OneStepConfiguration"/>
+        /// Create an <see cref="IKdfParameter"/> based on a <see cref="TwoStepConfiguration"/>
         /// </summary>
         /// <param name="kdfConfiguration">The <see cref="IKdfConfiguration"/> to create a <see cref="IKdfParameter"/> for.</param>
         /// <returns></returns>
         IKdfParameter CreateParameter(TwoStepConfiguration kdfConfiguration);
+        /// <summary>
+        /// Create an <see cref="IKdfParameter"/> based on a <see cref="HkdfConfiguration"/>
+        /// </summary>
+        /// <param name="kdfConfiguration">The <see cref="IKdfConfiguration"/> to create a <see cref="IKdfParameter"/> for.</param>
+        /// <returns></returns>
+        IKdfParameter CreateParameter(HkdfConfiguration kdfConfiguration);
         /// <summary>
         /// Create an <see cref="IKdfParameter"/> based on a <see cref="IkeV1Configuration"/>
         /// </summary>

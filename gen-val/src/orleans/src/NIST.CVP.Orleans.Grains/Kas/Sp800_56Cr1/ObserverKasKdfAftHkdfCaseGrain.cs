@@ -5,13 +5,13 @@ using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Cr1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Cr1;
 using NIST.CVP.Crypto.Common.KAS.FixedInfo;
 using NIST.CVP.Crypto.Common.KAS.KDF;
-using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Cr1;
 
 namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 {
-	public class ObserverKasKdfAftTwoStepCaseGrain : ObservableOracleGrainBase<KasKdfAftTwoStepResult>, IObserverKasKdfAftTwoStepCaseGrain
+	public class ObserverKasKdfAftHkdfCaseGrain : ObservableOracleGrainBase<KasKdfAftHkdfResult>, IObserverKasKdfAftHkdfCaseGrain
 	{
 		private const int LengthPartyId = 128;
 		
@@ -20,9 +20,10 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 		private readonly IEntropyProvider _entropyProvider;
 		private readonly IFixedInfoFactory _fixedInfoFactory;
 
-		private KasKdfAftTwoStepParameters _param;
+		private KasKdfAftHkdfParameters _param;
 		
-		public ObserverKasKdfAftTwoStepCaseGrain(
+
+		public ObserverKasKdfAftHkdfCaseGrain(
 			LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler, 
 			IKdfParameterVisitor kdfParameterVisitor, 
 			IKdfVisitor kdfVisitor,
@@ -36,7 +37,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 			_fixedInfoFactory = fixedInfoFactory;
 		}
 
-		public async Task<bool> BeginWorkAsync(KasKdfAftTwoStepParameters param)
+		public async Task<bool> BeginWorkAsync(KasKdfAftHkdfParameters param)
 		{
 			_param = param;
 
@@ -76,9 +77,9 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 
 				var result = kdfParam.AcceptKdf(_kdfVisitor, fixedInfo);
 
-				await Notify(new KasKdfAftTwoStepResult()
+				await Notify(new KasKdfAftHkdfResult()
 				{
-					KdfInputs = (KdfParameterTwoStep)kdfParam,
+					KdfInputs = (KdfParameterHkdf)kdfParam,
 					FixedInfoPartyU = fixedInfoPartyU,
 					FixedInfoPartyV = fixedInfoPartyV,
 					DerivedKeyingMaterial = result.DerivedKey
