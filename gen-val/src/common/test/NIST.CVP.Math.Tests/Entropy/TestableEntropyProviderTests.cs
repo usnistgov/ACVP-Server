@@ -42,17 +42,6 @@ namespace NIST.CVP.Math.Tests.Entropy
         }
         
         [Test]
-        public void ShouldReturnMsbWhenEntropySourceLargerThanRequest()
-        {
-            var testBitString = new BitString("01020304");
-            var bitsToPull = 16;
-            _subject.AddEntropy(testBitString.GetDeepCopy());
-            var result = _subject.GetEntropy(bitsToPull);
-            
-            Assert.AreEqual(testBitString.GetMostSignificantBits(bitsToPull), result);
-        }
-
-        [Test]
         public void ShouldReturnEntropyFirstInFirstOut()
         {
             _subject.AddEntropy(new BitString(1));
