@@ -110,13 +110,13 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
             if (requirements.GeneratesEphemeralNonce)
             {
                 builder.WithEphemeralNonce(
-                    entropyProvider.GetEntropy(curveAttributes.LengthN * 2));
+                    entropyProvider.GetEntropy(curveAttributes.LengthN.ValueToMod(BitString.BITSINBYTE)));
             }
 
             if (requirements.GeneratesDkmNonce)
             {
                 builder.WithDkmNonce(
-                    entropyProvider.GetEntropy(curveAttributes.LengthN * 2));
+                    entropyProvider.GetEntropy(curveAttributes.LengthN.ValueToMod(BitString.BITSINBYTE)));
             }
 
             builder.WithPartyId(partyId);
