@@ -26,6 +26,8 @@ namespace NIST.CVP.Math
             }
         }
 
+        public int OriginalListCount => _fullList?.Count ?? 0;
+        
         public T Pop()
         {
             lock (_queue)

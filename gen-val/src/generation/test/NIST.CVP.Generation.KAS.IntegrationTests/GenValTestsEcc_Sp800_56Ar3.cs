@@ -301,7 +301,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 //                        },
 //                    },
                 },
-                DomainParameterGenerationMethods = new[] { KasDpGeneration.P192 }
+                DomainParameterGenerationMethods = new[] { KasDpGeneration.P224 }
             };
 
             return CreateRegistration(folderName, p);
@@ -388,7 +388,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                     }
                 },
-                DomainParameterGenerationMethods = new[] { KasDpGeneration.P192 }
+                DomainParameterGenerationMethods = new[] { KasDpGeneration.P224 }
             };
 
             return CreateRegistration(folderName, p);

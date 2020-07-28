@@ -79,6 +79,6 @@
     }
   },
   "domainParameterGenerationMethods": [
-    "P-192"
+    "P-224"
   ]
 }
