@@ -38,6 +38,9 @@ namespace NIST.CVP.Pools.Enums
         TDES_MCT,
 
         [EnumMember(Value = "rsa_key")]
-        RSA_KEY
+        RSA_KEY,
+        
+        [EnumMember(Value = "safePrime_key")]
+        SafePrime_Key
     }
 }

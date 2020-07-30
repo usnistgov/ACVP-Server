@@ -118,7 +118,6 @@ using NIST.CVP.Crypto.HKDF;
 using NIST.CVP.Crypto.KAS.Builders.Ifc;
 using NIST.CVP.Crypto.KAS.FixedInfo;
 using NIST.CVP.Crypto.KAS.KDF.OneStep;
-using NIST.CVP.Crypto.KAS.SafePrimes;
 using NIST.CVP.Crypto.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.Crypto.KTS;
 using NIST.CVP.Crypto.Symmetric.BlockModes.Ffx;

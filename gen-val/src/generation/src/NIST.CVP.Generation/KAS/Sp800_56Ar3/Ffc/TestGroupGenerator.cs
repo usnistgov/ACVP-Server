@@ -9,6 +9,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 
@@ -61,12 +62,9 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
             };
         }
 
-        private async Task<FfcDomainParameters> GenerateSafePrimeDomainParametersAsync(SafePrime safePrime)
+        private Task<FfcDomainParameters> GenerateSafePrimeDomainParametersAsync(SafePrime safePrime)
         {
-            var task = _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = safePrime});
-            var result = await task;
-            
-            return new FfcDomainParameters(result.DomainParameters.P, result.DomainParameters.Q, result.DomainParameters.G);
+            return Task.FromResult(SafePrimesFactory.GetDomainParameters(safePrime));
         }
         
         private async Task<FfcDomainParameters> GenerateDomainParametersDsaAsync(int l, int n)

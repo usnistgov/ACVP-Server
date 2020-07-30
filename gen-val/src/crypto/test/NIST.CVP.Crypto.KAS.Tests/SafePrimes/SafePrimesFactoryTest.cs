@@ -3,7 +3,6 @@ using System.Linq;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
-using NIST.CVP.Crypto.KAS.SafePrimes;
 using NIST.CVP.Math.Helpers;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

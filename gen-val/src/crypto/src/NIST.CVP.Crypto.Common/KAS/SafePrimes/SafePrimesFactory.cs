@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
-using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Math;
 
-namespace NIST.CVP.Crypto.KAS.SafePrimes
+namespace NIST.CVP.Crypto.Common.KAS.SafePrimes
 {
     public class SafePrimesFactory : ISafePrimesGroupFactory
     {
         public FfcDomainParameters GetSafePrime(SafePrime safePrime)
+        {
+            return GetDomainParameters(safePrime);
+        }
+
+        public static FfcDomainParameters GetDomainParameters(SafePrime safePrime)
         {
             var result = SafePrimeDomainParameters.FirstOrDefault(f => f.Key == safePrime).Value;
 

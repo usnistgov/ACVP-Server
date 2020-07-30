@@ -20,6 +20,7 @@ using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Cr1;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
@@ -34,23 +35,6 @@ namespace NIST.CVP.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<FfcDomainParametersResult> GetSafePrimeGroupsDomainParameterAsync(SafePrimeParameters param)
-        {
-            try
-            {
-                var observableGrain =
-                    await GetObserverGrain<IObserverSafePrimesGroupDomainParameterGrain, FfcDomainParametersResult>();
-                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
-            
-                return await observableGrain.ObserveUntilResult();
-            }
-            catch (OriginalClusterNodeSuicideException ex)
-            {
-                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
-                return await GetSafePrimeGroupsDomainParameterAsync(param);
-            }
-        }
-
         public async Task<KasValResult> GetKasValTestAsync(KasValParameters param)
         {
             var keyTasks = new List<Task<IDsaKeyPair>>();
@@ -771,6 +755,14 @@ namespace NIST.CVP.Crypto.Oracle
                 _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetKasKdfValHkdfTestAsync(param);
             }
+        }
+
+        public virtual async Task<DsaKeyResult> GetSafePrimeKeyAsync(SafePrimesKeyGenParameters param)
+        {
+            return await GetDsaKeyAsync(new DsaKeyParameters()
+            {
+                DomainParameters = SafePrimesFactory.GetDomainParameters(param.SafePrime)
+            });
         }
     }
 }

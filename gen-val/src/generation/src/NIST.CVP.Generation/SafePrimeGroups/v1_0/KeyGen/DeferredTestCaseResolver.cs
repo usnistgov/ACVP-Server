@@ -5,6 +5,7 @@ using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
+using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Generation.Core.Async;
 
 namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
@@ -20,11 +21,9 @@ namespace NIST.CVP.Generation.SafePrimeGroups.v1_0.KeyGen
 
         public async Task<FfcKeyPairValidateResult> CompleteDeferredCryptoAsync(TestGroup serverTestGroup, TestCase serverTestCase, TestCase iutTestCase)
         {
-            var dp = await _oracle.GetSafePrimeGroupsDomainParameterAsync(new SafePrimeParameters() { SafePrime = serverTestGroup.SafePrimeGroup});
-            
             var param = new DsaKeyParameters
             {
-                DomainParameters = dp.DomainParameters
+                DomainParameters = SafePrimesFactory.GetDomainParameters(serverTestGroup.SafePrimeGroup)
             };
 
             var fullParam = new DsaKeyResult
