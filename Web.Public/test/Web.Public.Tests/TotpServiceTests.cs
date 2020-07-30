@@ -209,5 +209,34 @@ namespace Web.Public.Tests
             var window = unixTimestamp / _options.Value.Step;
             return window;
         }
+
+        [Test]
+        [TestCase("itsasecret")]
+        public void GenerateTotpFromSeed(string seed)
+        {
+            var seedBytes = Convert.FromBase64String(seed);
+            
+            var totpProvider = new Mock<ITotpProvider>();
+            totpProvider
+                .Setup(s => s.GetSeedFromUserCertificateSubject(It.IsAny<string>()))
+                .Returns(seedBytes);
+
+            var totpConfig = new TotpConfig
+            {
+                Digits = 8,
+                EnforceUniqueness = false,
+                Hmac = "SHA256",
+                Step = 30
+            };
+            
+            var options = new OptionsWrapper<TotpConfig>(totpConfig);
+
+            var totpService = new TotpService(_logger.Object, totpProvider.Object, options);
+
+            var password = totpService.GenerateTotp("");
+
+            Console.WriteLine(password);
+            Assert.Pass();
+        }
     }
 }
