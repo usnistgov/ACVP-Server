@@ -10,7 +10,7 @@ using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Ffc
 {

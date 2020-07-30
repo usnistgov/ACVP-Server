@@ -41,6 +41,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     KasScheme = group.Scheme,
                     KasAlgorithm = group.KasAlgorithm,
                     DomainParameters = group.DomainParameters,
+                    KasDpGeneration = group.DomainParameterGenerationMode,
                     KdfConfiguration = group.KdfConfiguration,
                     MacConfiguration = group.MacConfiguration,
                     PartyIdIut = group.IutId,

@@ -40,8 +40,12 @@ namespace NIST.CVP.Crypto.Oracle.Models
                 {
                     await GrainInvokeRetryWrapper.WrapGrainCall(Grain.Unsubscribe, GrainObserverReference, LoadSheddingRetries);
                     var exception = GrainObserver.GetException();
-                
-                    _logger.Error(exception, exception.Message);
+
+                    if (exception.GetType() != typeof(InitialValuesInvalidException))
+                    {
+                        _logger.Error(exception, exception.Message);                        
+                    }
+                    
                     throw exception;
                 }
             }

@@ -5,7 +5,7 @@ using NIST.CVP.Common.ExtensionMethods;
 using NIST.CVP.Common.Oracle;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 
 namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ecc
 {

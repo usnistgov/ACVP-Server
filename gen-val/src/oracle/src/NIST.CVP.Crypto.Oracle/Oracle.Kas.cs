@@ -18,8 +18,11 @@ using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Br2;
 using NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Cr1;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
 using NIST.CVP.Orleans.Grains.Interfaces.Exceptions;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar1;
 using NIST.CVP.Orleans.Grains.Interfaces.Kas.Sp800_56Ar3;
@@ -50,13 +53,70 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KasValResult> GetKasValTestAsync(KasValParameters param)
         {
+            var keyTasks = new List<Task<IDsaKeyPair>>();
+            Task<IDsaKeyPair> serverEphemeralKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                serverEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> serverStaticKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                serverStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverStaticKeyTask);
+            }
+            
+            Task<IDsaKeyPair> iutEphemeralKeyTask = null;
+            if (param.IutGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                iutEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(iutEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> iutStaticKeyTask = null;
+            if (param.IutGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                iutStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(iutStaticKeyTask);
+            }
+
+            await Task.WhenAll(keyTasks);
+
+            if (serverEphemeralKeyTask != null)
+            {
+                param.ServerEphemeralKey = serverEphemeralKeyTask.Result;
+            }
+            
+            if (serverStaticKeyTask != null)
+            {
+                param.ServerStaticKey = serverStaticKeyTask.Result;
+            }
+            
+            if (iutEphemeralKeyTask != null)
+            {
+                param.IutEphemeralKey = iutEphemeralKeyTask.Result;
+            }
+            
+            if (iutStaticKeyTask != null)
+            {
+                param.IutStaticKey = iutStaticKeyTask.Result;
+            }
+
             try
             {
                 var observableGrain =
                     await GetObserverGrain<IObserverKasValGrain, KasValResult>();
-                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param,
+                    LoadSheddingRetries);
 
                 return await observableGrain.ObserveUntilResult();
+            }
+            catch (InitialValuesInvalidException)
+            {
+                // This happens if the keys don't meet a testing expectation, try again to get new keys
+                return await GetKasValTestAsync(param);
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
@@ -67,6 +127,33 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KasAftResult> GetKasAftTestAsync(KasAftParameters param)
         {
+            var keyTasks = new List<Task<IDsaKeyPair>>();
+            Task<IDsaKeyPair> serverEphemeralKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                serverEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> serverStaticKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                serverStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverStaticKeyTask);
+            }
+
+            await Task.WhenAll(keyTasks);
+
+            if (serverEphemeralKeyTask != null)
+            {
+                param.ServerEphemeralKey = serverEphemeralKeyTask.Result;
+            }
+            
+            if (serverStaticKeyTask != null)
+            {
+                param.ServerStaticKey = serverStaticKeyTask.Result;
+            }
+            
             try
             {
                 var observableGrain =
@@ -80,6 +167,30 @@ namespace NIST.CVP.Crypto.Oracle
                 _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetKasAftTestAsync(param);
             }
+        }
+
+        private async Task<IDsaKeyPair> GetKasKeyAsync(IDsaDomainParameters domainParameters, KasAlgorithm kasAlgorithm, KasDpGeneration kasDpGeneration)
+        {
+            switch (kasAlgorithm)
+            {
+                case KasAlgorithm.Ecc:
+                    var eccKey = await GetEcdsaKeyAsync(new EcdsaKeyParameters()
+                    {
+                        Curve = KasEnumMapping.GetCurveFromKasDpGeneration(kasDpGeneration)
+                    });
+
+                    return eccKey.Key;
+                    
+                case KasAlgorithm.Ffc:
+                    var ffcKey = await GetDsaKeyAsync(new DsaKeyParameters()
+                    {
+                        DomainParameters = (FfcDomainParameters) domainParameters
+                    });
+
+                    return ffcKey.Key;
+            }
+
+            return null;
         }
 
         public async Task<NIST.CVP.Common.Oracle.ResultTypes.Kas.Sp800_56Ar3.KasAftDeferredResult> CompleteDeferredKasTestAsync(KasAftDeferredParameters param)
@@ -428,6 +539,33 @@ namespace NIST.CVP.Crypto.Oracle
 
         public async Task<KasSscAftResult> GetKasSscAftTestAsync(KasSscAftParameters param)
         {
+            var keyTasks = new List<Task<IDsaKeyPair>>();
+            Task<IDsaKeyPair> serverEphemeralKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                serverEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> serverStaticKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                serverStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverStaticKeyTask);
+            }
+
+            await Task.WhenAll(keyTasks);
+
+            if (serverEphemeralKeyTask != null)
+            {
+                param.ServerEphemeralKey = serverEphemeralKeyTask.Result;
+            }
+            
+            if (serverStaticKeyTask != null)
+            {
+                param.ServerStaticKey = serverStaticKeyTask.Result;
+            }
+            
             try
             {
                 var observableGrain =
@@ -462,6 +600,57 @@ namespace NIST.CVP.Crypto.Oracle
         
         public async Task<KasSscValResult> GetKasSscValTestAsync(KasSscValParameters param)
         {
+            var keyTasks = new List<Task<IDsaKeyPair>>();
+            Task<IDsaKeyPair> serverEphemeralKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                serverEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> serverStaticKeyTask = null;
+            if (param.ServerGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                serverStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(serverStaticKeyTask);
+            }
+            
+            Task<IDsaKeyPair> iutEphemeralKeyTask = null;
+            if (param.IutGenerationRequirements.GeneratesEphemeralKeyPair)
+            {
+                iutEphemeralKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(iutEphemeralKeyTask);
+            }
+            
+            Task<IDsaKeyPair> iutStaticKeyTask = null;
+            if (param.IutGenerationRequirements.GeneratesStaticKeyPair)
+            {
+                iutStaticKeyTask = GetKasKeyAsync(param.DomainParameters, param.KasAlgorithm, param.KasDpGeneration);
+                keyTasks.Add(iutStaticKeyTask);
+            }
+
+            await Task.WhenAll(keyTasks);
+
+            if (serverEphemeralKeyTask != null)
+            {
+                param.ServerEphemeralKey = serverEphemeralKeyTask.Result;
+            }
+            
+            if (serverStaticKeyTask != null)
+            {
+                param.ServerStaticKey = serverStaticKeyTask.Result;
+            }
+            
+            if (iutEphemeralKeyTask != null)
+            {
+                param.IutEphemeralKey = iutEphemeralKeyTask.Result;
+            }
+            
+            if (iutStaticKeyTask != null)
+            {
+                param.IutStaticKey = iutStaticKeyTask.Result;
+            }
+            
             try
             {
                 var observableGrain =
@@ -469,6 +658,11 @@ namespace NIST.CVP.Crypto.Oracle
                 await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
                 return await observableGrain.ObserveUntilResult();
+            }
+            catch (InitialValuesInvalidException)
+            {
+                // This happens if the keys don't meet a testing expectation, try again to get new keys
+                return await GetKasSscValTestAsync(param);
             }
             catch (OriginalClusterNodeSuicideException ex)
             {

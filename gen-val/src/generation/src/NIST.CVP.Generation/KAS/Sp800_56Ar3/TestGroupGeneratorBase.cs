@@ -17,7 +17,6 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
