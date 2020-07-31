@@ -34,13 +34,13 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Helpers
                 validityTestCaseOptions.Add(KasValTestDisposition.FailChangedOi, numberOfScenariosPerType);
                 validityTestCaseOptions.Add(KasValTestDisposition.FailChangedDkm, numberOfScenariosPerType);
                 validityTestCaseOptions.Add(KasValTestDisposition.FailChangedMacData, numberOfScenariosPerType);
-                validityTestCaseOptions.Add(KasValTestDisposition.SuccessLeadingZeroNibbleDkm, numberOfScenariosPerType);
+                validityTestCaseOptions.Add(KasValTestDisposition.SuccessLeadingZeroNibbleDkm, 1);
             }
 
             // Can always introduce errors/conditions into Z / tag (or hash tag)
             validityTestCaseOptions.Add(KasValTestDisposition.FailChangedZ, numberOfScenariosPerType);
-            validityTestCaseOptions.Add(KasValTestDisposition.SuccessLeadingZeroNibbleZ, numberOfScenariosPerType);
             validityTestCaseOptions.Add(KasValTestDisposition.FailChangedTag, numberOfScenariosPerType);
+            validityTestCaseOptions.Add(KasValTestDisposition.SuccessLeadingZeroNibbleZ, 1);
 
             // Conditions based on assurances
             if ((testGroup.Function.HasFlag(KasAssurance.KeyPairGen) || testGroup.Function.HasFlag(KasAssurance.FullVal)) 

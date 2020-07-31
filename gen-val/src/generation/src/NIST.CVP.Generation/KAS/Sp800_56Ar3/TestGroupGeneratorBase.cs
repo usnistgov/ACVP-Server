@@ -17,7 +17,6 @@ using NIST.CVP.Crypto.Common.KAS.KDF.KdfTwoStep;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
 
 namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
@@ -61,7 +60,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 return;
             }
 
-            var kasRolesQueue = new ShuffleQueue<KeyAgreementRole>(schemeBase.KasRole.ToList());
             var dpGenQueue = new ShuffleQueue<KasDpGeneration>(param.DomainParameterGenerationMethods.ToList());
             var kdfConfigQueue = new ShuffleQueue<IKdfConfiguration>(GetKdfConfigurations(schemeBase.KdfMethods, schemeBase.L));
 
@@ -74,7 +72,6 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
 
                 var lengthsMax = new[]
                 {
-                    kasRolesQueue.OriginalListCount,
                     dpGenQueue.OriginalListCount,
                     kdfConfigQueue.OriginalListCount,
                     macMethodsQueue.OriginalListCount,
@@ -82,45 +79,47 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                     kcRoleQueue.OriginalListCount
                 }.Max();
 
-                foreach (var testType in TestTypes)
+                foreach (var kasRole in schemeBase.KasRole.ToList())
                 {
-                    for (var i = 0; i < lengthsMax * 2; i++)
+                    foreach (var testType in TestTypes)
                     {
-                        var kasRole = kasRolesQueue.Pop();
-                        var dpGen = dpGenQueue.Pop();
-                        var kdfConfiguration = kdfConfigQueue.Pop();
-                        var macMethods = macMethodsQueue.Pop();
-                        var kcDirection = kcDirectionQueue.Pop();
-                        var kcRole = kcRoleQueue.Pop();
-                    
-                        if (new[] { KasScheme.EccOnePassDh, KasScheme.FfcDhOneFlow }.Contains(schemeBase.Scheme))
+                        for (var i = 0; i < lengthsMax; i++)
                         {
-                            if (kcDirection == KeyConfirmationDirection.Bilateral ||
-                                (kasRole == KeyAgreementRole.InitiatorPartyU &&
-                                 kcRole == KeyConfirmationRole.Provider) ||
-                                (kasRole == KeyAgreementRole.ResponderPartyV &&
-                                 kcRole == KeyConfirmationRole.Recipient))
+                            var dpGen = dpGenQueue.Pop();
+                            var kdfConfiguration = kdfConfigQueue.Pop();
+                            var macMethods = macMethodsQueue.Pop();
+                            var kcDirection = kcDirectionQueue.Pop();
+                            var kcRole = kcRoleQueue.Pop();
+                        
+                            if (new[] { KasScheme.EccOnePassDh, KasScheme.FfcDhOneFlow }.Contains(schemeBase.Scheme))
                             {
-                                continue;
+                                if (kcDirection == KeyConfirmationDirection.Bilateral ||
+                                    (kasRole == KeyAgreementRole.InitiatorPartyU &&
+                                     kcRole == KeyConfirmationRole.Provider) ||
+                                    (kasRole == KeyAgreementRole.ResponderPartyV &&
+                                     kcRole == KeyConfirmationRole.Recipient))
+                                {
+                                    continue;
+                                }
                             }
+                        
+                            groups.Add(new TTestGroup()
+                            {
+                                IsSample = param.IsSample,
+                                L = schemeBase.L,
+                                Scheme = schemeBase.Scheme,
+                                DomainParameterGenerationMode = dpGen,
+                                KasAlgorithm = schemeBase.UnderlyingAlgorithm,
+                                KasMode = KasMode.KdfKc,
+                                KasRole = kasRole,
+                                KdfConfiguration = kdfConfiguration,
+                                MacConfiguration = macMethods,
+                                TestType = testType,
+                                IutId = param.IutId,
+                                KeyConfirmationDirection = kcDirection,
+                                KeyConfirmationRole = kcRole,
+                            });
                         }
-                    
-                        groups.Add(new TTestGroup()
-                        {
-                            IsSample = param.IsSample,
-                            L = schemeBase.L,
-                            Scheme = schemeBase.Scheme,
-                            DomainParameterGenerationMode = dpGen,
-                            KasAlgorithm = schemeBase.UnderlyingAlgorithm,
-                            KasMode = KasMode.KdfKc,
-                            KasRole = kasRole,
-                            KdfConfiguration = kdfConfiguration,
-                            MacConfiguration = macMethods,
-                            TestType = testType,
-                            IutId = param.IutId,
-                            KeyConfirmationDirection = kcDirection,
-                            KeyConfirmationRole = kcRole,
-                        });
                     }
                 }
             }
@@ -128,36 +127,37 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
             {
                 var lengthsMax = new[]
                 {
-                    kasRolesQueue.OriginalListCount,
                     dpGenQueue.OriginalListCount,
                     kdfConfigQueue.OriginalListCount,
                 }.Max();
 
-                foreach (var testType in TestTypes)
+                foreach (var kasRole in schemeBase.KasRole.ToList())
                 {
-                    for (var i = 0; i < lengthsMax * 2; i++)
+                    foreach (var testType in TestTypes)
                     {
-                        var kasRole = kasRolesQueue.Pop();
-                        var dpGen = dpGenQueue.Pop();
-                        var kdfConfiguration = kdfConfigQueue.Pop();
-                    
-                        groups.Add(new TTestGroup()
+                        for (var i = 0; i < lengthsMax; i++)
                         {
-                            IsSample = param.IsSample,
-                            L = schemeBase.L,
-                            Scheme = schemeBase.Scheme,
-                            DomainParameterGenerationMode = dpGen,
-                            KasAlgorithm = schemeBase.UnderlyingAlgorithm,
-                            KasMode = KasMode.KdfNoKc,
-                            KasRole = kasRole,
-                            KdfConfiguration = kdfConfiguration,
-                            MacConfiguration = null,
-                            TestType = testType,
-                            IutId = param.IutId,
-                            KeyConfirmationDirection = KeyConfirmationDirection.None,
-                            KeyConfirmationRole = KeyConfirmationRole.None,
-                        });
-                    }
+                            var dpGen = dpGenQueue.Pop();
+                            var kdfConfiguration = kdfConfigQueue.Pop();
+                    
+                            groups.Add(new TTestGroup()
+                            {
+                                IsSample = param.IsSample,
+                                L = schemeBase.L,
+                                Scheme = schemeBase.Scheme,
+                                DomainParameterGenerationMode = dpGen,
+                                KasAlgorithm = schemeBase.UnderlyingAlgorithm,
+                                KasMode = KasMode.KdfNoKc,
+                                KasRole = kasRole,
+                                KdfConfiguration = kdfConfiguration,
+                                MacConfiguration = null,
+                                TestType = testType,
+                                IutId = param.IutId,
+                                KeyConfirmationDirection = KeyConfirmationDirection.None,
+                                KeyConfirmationRole = KeyConfirmationRole.None,
+                            });
+                        }
+                    }   
                 }
             }
         }

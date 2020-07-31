@@ -8,7 +8,6 @@ using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.KAS.v1_0;
 using NIST.CVP.Generation.KDF.v1_0;
 using NIST.CVP.Math;

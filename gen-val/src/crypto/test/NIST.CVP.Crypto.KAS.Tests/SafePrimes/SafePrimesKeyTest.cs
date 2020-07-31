@@ -4,7 +4,6 @@ using NIST.CVP.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes;
 using NIST.CVP.Crypto.Common.KAS.SafePrimes.Enums;
 using NIST.CVP.Crypto.DSA.FFC;
-using NIST.CVP.Crypto.KAS.SafePrimes;
 using NIST.CVP.Crypto.SHAWrapper;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;

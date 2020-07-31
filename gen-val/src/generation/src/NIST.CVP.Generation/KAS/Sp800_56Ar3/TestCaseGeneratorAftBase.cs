@@ -29,6 +29,7 @@ namespace NIST.CVP.Generation.KAS.Sp800_56Ar3
                 var result = await _oracle.GetKasAftTestAsync(new KasAftParameters()
                 {
                     DomainParameters = group.DomainParameters,
+                    KasDpGeneration = group.DomainParameterGenerationMode,
                     KasScheme = group.Scheme,
                     KasAlgorithm = group.KasAlgorithm,
                     IutGenerationRequirements = group.KeyNonceGenRequirementsIut,

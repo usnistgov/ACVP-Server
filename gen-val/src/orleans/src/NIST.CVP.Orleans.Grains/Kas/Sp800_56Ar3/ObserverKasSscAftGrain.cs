@@ -60,7 +60,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             _secretKeyingMaterialBuilder, 
                             _param.ServerGenerationRequirements,
                             (EccDomainParameters) _param.DomainParameters, 
-                            _dsaEccFactory, 
+                            _param.ServerEphemeralKey, _param.ServerStaticKey,
                             _entropyProvider,
                             null);
                         break;
@@ -69,7 +69,7 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3
                             _secretKeyingMaterialBuilder, 
                             _param.ServerGenerationRequirements,
                             (FfcDomainParameters) _param.DomainParameters, 
-                            _dsaFfcFactory, 
+                            _param.ServerEphemeralKey, _param.ServerStaticKey,
                             _entropyProvider,
                             null);
                         break;

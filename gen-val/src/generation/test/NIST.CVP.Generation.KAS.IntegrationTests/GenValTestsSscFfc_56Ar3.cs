@@ -1,8 +1,8 @@
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.Core.Tests;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3;
 using NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.Ffc;
 using NIST.CVP.Math;
