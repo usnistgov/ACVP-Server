@@ -153,5 +153,6 @@
     <Build Include="dbo\Stored Procedures\ValidationGet.sql" />
     <Build Include="dbo\Tables\ValidationSources.sql" />
     <Build Include="dbo\Stored Procedures\ValidationOEsGet.sql" />
+    <Build Include="dbo\Stored Procedures\VectorSetArchivedGet.sql" />
   </ItemGroup>
 </Project>

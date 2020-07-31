@@ -17,6 +17,7 @@ namespace Web.Public.Services
         [Obsolete]
         Task<VectorSet> GetValidationAsync(long vsID);
         VectorSetStatus GetStatus(long vectorSetID);
+        bool GetArchived(long vectorSetID);
         void SetStatus(long vectorSetID, VectorSetStatus status);
     }
 }

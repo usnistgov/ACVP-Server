@@ -29,6 +29,12 @@ namespace Web.Public.Services.MessagePayloadValidators
 				errors.Add($"Unable to submit results when vector set in '{EnumHelpers.GetEnumDescriptionFromEnum(vsStatus)}' status.");
 			}
 
+			//Check the archived flag - if the TS/VS expired, the status might still be processed, so it would have passed the status check
+			if (_vectorSetService.GetArchived(payload.VectorSetID))
+			{
+				errors.Add("Unable to submit results when vector set has been archived");
+			}
+
 			// Environment check done by controller
 			return new PayloadValidationResult(errors);
 		}

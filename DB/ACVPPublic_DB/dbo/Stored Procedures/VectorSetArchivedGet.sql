@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[VectorSetStatusGet]
+﻿CREATE PROCEDURE [dbo].[VectorSetArchivedGet]
 
     @VectorSetId BIGINT
 
 AS
 
-SELECT TOP 1 VectorSetStatusId
+SELECT TOP 1 Archived
 FROM dbo.VectorSets
 WHERE VectorSetId = @VectorSetId

@@ -105,6 +105,8 @@ namespace Web.Public.Services
 
         public VectorSetStatus GetStatus(long vectorSetID) => _vectorSetProvider.GetStatus(vectorSetID);
 
+        public bool GetArchived(long vectorSetID) => _vectorSetProvider.GetArchived(vectorSetID);
+
         public void SetStatus(long vectorSetID, VectorSetStatus status) => _vectorSetProvider.SetStatus(vectorSetID, status);
     }
 }

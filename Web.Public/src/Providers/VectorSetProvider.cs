@@ -71,6 +71,24 @@ namespace Web.Public.Providers
             }
         }
 
+        public bool GetArchived(long vsID)
+        {
+            var db = new MightyOrm(_connectionString);
+
+            try
+            {
+                return (bool)db.ScalarFromProcedure("dbo.VectorSetArchivedGet", new
+                {
+                    VectorSetId = vsID
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error retrieving VectorSet archived flag: {vsID}");
+                throw;
+            }
+        }
+
         public VectorSet GetJson(long vsID, VectorSetJsonFileTypes fileType)
         {
             var db = new MightyOrm(_connectionString);

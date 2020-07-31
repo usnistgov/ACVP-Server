@@ -12,6 +12,7 @@ namespace Web.Public.Providers
         [Obsolete]
         Task<VectorSet> GetJsonAsync(long vsID, VectorSetJsonFileTypes fileType);
         VectorSetStatus GetStatus(long vsID);
+        bool GetArchived(long vsID);
         void SetStatus(long vsID, VectorSetStatus status);
     }
 }
