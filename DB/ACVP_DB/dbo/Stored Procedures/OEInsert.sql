@@ -1,12 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[OEInsert]
 
-	@Name nvarchar(2048)
+	 @Name nvarchar(2048)
+	,@IsITAR bit
 
 AS
 
 SET NOCOUNT ON
 
-INSERT INTO dbo.OEs ([Name])
-VALUES (@Name)
+INSERT INTO dbo.OEs ([Name], ITAR)
+VALUES (@Name, @IsITAR)
 
 SELECT CAST(SCOPE_IDENTITY() AS bigint) AS OEId

@@ -43,7 +43,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Services
 		public OEResult Create(OECreateParameters oe)
 		{
 			//Insert the dependency record
-			InsertResult oeInsertResult = _oeProvider.Insert(oe.Name);
+			InsertResult oeInsertResult = _oeProvider.Insert(oe.Name, oe.IsITAR);
 
 			if (!oeInsertResult.IsSuccess)
 			{

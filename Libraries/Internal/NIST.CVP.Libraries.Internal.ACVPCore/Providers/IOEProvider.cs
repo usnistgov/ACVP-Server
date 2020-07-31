@@ -9,7 +9,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 {
 	public interface IOEProvider
 	{
-		InsertResult Insert(string name);
+		InsertResult Insert(string name, bool isITAR);
 		Result InsertDependencyLink(long oeID, long dependencyID);
 		Result Update(long oeID, string name);
 		Result Delete(long oeID);

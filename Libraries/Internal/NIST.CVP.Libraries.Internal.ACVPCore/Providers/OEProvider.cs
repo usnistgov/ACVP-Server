@@ -99,7 +99,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			return new Result();
 		}
 
-		public InsertResult Insert(string name)
+		public InsertResult Insert(string name, bool isITAR)
 		{
 			if (string.IsNullOrWhiteSpace(name)) return new InsertResult("Invalid name value");
 
@@ -109,7 +109,8 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 			{
 				var data = db.SingleFromProcedure("dbo.OEInsert", inParams: new
 				{
-					Name = name
+					Name = name,
+					IsITAR = isITAR
 				});
 
 				if (data == null)

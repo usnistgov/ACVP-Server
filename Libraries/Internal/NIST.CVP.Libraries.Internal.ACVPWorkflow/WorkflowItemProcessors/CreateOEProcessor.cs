@@ -33,6 +33,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPWorkflow.WorkflowItemProcessors
 
 			OECreatePayload oeCreatePayload = (OECreatePayload)workflowItem.Payload;
 			OECreateParameters parameters = oeCreatePayload.ToOECreateParameters();
+			parameters.IsITAR = false;	//TODO - something for ITARs, for now assume no ITARs
 
 			//If there were any new Dependencies in the OE, instead of just URLs, create those and add them to the collection of dependency IDs
 			if (oeCreatePayload.DependenciesToCreate != null)

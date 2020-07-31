@@ -52,6 +52,7 @@ namespace NIST.CVP.Libraries.Internal.LCAVPCore.Processors
 			OECreateParameters createParameters = new OECreateParameters
 			{
 				Name = oe.Name,
+				IsITAR = false,
 				DependencyIDs = dependencyIDs
 			};
 
