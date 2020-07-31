@@ -4,17 +4,17 @@
   },
 
   "ConnectionStrings": {
-    "Acvp": "Server=stvmtstsql02;Database=Acvp;Integrated Security=true;",
-    "AcvpPools": "Server=stvmtstsql02;Database=AcvpPools;Integrated Security=true;Max Pool Size=2000;",
-    "AcvpOrleans": "Server=stvmtstsql02;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
+    "Acvp": "Server=stvmtstacvpsql;Database=Acvp;Integrated Security=true;",
+    "AcvpPools": "Server=stvmtstacvpsql;Database=AcvpPools;Integrated Security=true;Max Pool Size=2000;",
+    "AcvpOrleans": "Server=stvmtstacvpsql;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
 
   },
 
   "PoolConfig": {
-    "RootUrl": "172.18.42.151",
+    "RootUrl": "stvmtstacvpqp",
     "Port": 5002,
     "ShouldRecyclePoolWater": true,
-    "PoolConfigFile": "D:\\Pools\\poolConfig.json",
+    "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
     "OverrideMinimumPoolLevel": 1,
@@ -25,11 +25,7 @@
   "OrleansConfig": {
     "OrleansNodeConfig": [
       {
-        "HostName": "172.18.42.165",
-        "NumberOfCores": 4
-      },
-      {
-        "HostName": "172.18.42.153",
+        "HostName": "10.208.76.168",
         "NumberOfCores": 4
       }
     ],

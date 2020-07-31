@@ -1,5 +1,7 @@
 using System.Linq;
 using System.Net;
+using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Public.Exceptions;
 using Web.Public.JsonObjects;
@@ -10,6 +12,7 @@ namespace Web.Public.Controllers
 {
 	[Route("acvp/v1/algorithms")]
 	[TypeFilter(typeof(ExceptionFilter))]
+	[Authorize(AuthenticationSchemes = CertificateAuthenticationDefaults.AuthenticationScheme)]
 	[ApiController]
 	public class AlgorithmController : ControllerBase
 	{

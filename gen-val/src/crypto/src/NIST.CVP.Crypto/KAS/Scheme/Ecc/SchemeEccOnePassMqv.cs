@@ -11,6 +11,7 @@ using NIST.CVP.Crypto.Common.KAS.Scheme;
 using NIST.CVP.Crypto.Common.KES;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
+using NIST.CVP.Math.Helpers;
 
 namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
 {
@@ -107,7 +108,7 @@ namespace NIST.CVP.Crypto.KAS.Scheme.Ecc
                 {
                     // Ephemeral nonce length is 2*CurveBits
                     var curveAttributes = CurveAttributesHelper.GetCurveAttribute(DomainParameters.CurveE.CurveName);
-                    EphemeralNonce = EntropyProvider.GetEntropy(curveAttributes.LengthN * 2);
+                    EphemeralNonce = EntropyProvider.GetEntropy(curveAttributes.LengthN.ValueToMod(BitString.BITSINBYTE));
                 }
             }
 

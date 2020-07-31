@@ -36,8 +36,8 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3.TestCaseExpectations
 
 				if (includeFailureTests)
 				{
-					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ), 2);
-					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble), 2);
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.FailChangedZ), 5);
+					expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.PassLeadingZeroNibble), 1);
 				}
 				
 				expectationReasons.Add(new TestCaseExpecttionReason(KasSscTestCaseExpectation.Pass), totalTests - expectationReasons.Count);

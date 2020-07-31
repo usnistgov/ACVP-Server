@@ -36,6 +36,7 @@ namespace NIST.CVP.Generation.KAS_SSC.Sp800_56Ar3
 				{
 					Disposition = disposition.GetReason(),
 					DomainParameters = group.DomainParameters,
+					KasDpGeneration = group.DomainParameterGenerationMode,
 					KasAlgorithm = group.KasAlgorithm,
 					KasScheme = group.Scheme,
 					HashFunctionZ = group.HashFunctionZ,

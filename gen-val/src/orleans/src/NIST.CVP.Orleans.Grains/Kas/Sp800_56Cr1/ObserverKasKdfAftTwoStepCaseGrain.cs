@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes.Kas.Sp800_56Cr1;
@@ -21,7 +22,6 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 
 		private KasKdfAftTwoStepParameters _param;
 		
-
 		public ObserverKasKdfAftTwoStepCaseGrain(
 			LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler, 
 			IKdfParameterVisitor kdfParameterVisitor, 
@@ -46,41 +46,48 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Cr1
 
 		protected override async Task DoWorkAsync()
 		{
-			var kdfParam = _kdfParameterVisitor.CreateParameter(_param.KdfConfiguration);
-			kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
-
-			var fixedInfoPartyU =
-				new PartyFixedInfo(
-					_entropyProvider.GetEntropy(LengthPartyId), 
-					IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
-			var fixedInfoPartyV =
-				new PartyFixedInfo(
-					_entropyProvider.GetEntropy(LengthPartyId), 
-					IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
-			var fixedInfoParam = new FixedInfoParameter()
+			try
 			{
-				Context = kdfParam.Context,
-				Encoding = kdfParam.FixedInputEncoding,
-				Iv = kdfParam.Iv,
-				L = kdfParam.L,
-				Label = kdfParam.Label,
-				Salt = kdfParam.Salt,
-				AlgorithmId = kdfParam.AlgorithmId,
-				FixedInfoPattern = kdfParam.FixedInfoPattern,
-			};
-			fixedInfoParam.SetFixedInfo(fixedInfoPartyU, fixedInfoPartyV);
+				var kdfParam = _kdfParameterVisitor.CreateParameter(_param.KdfConfiguration);
+				kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
+
+				var fixedInfoPartyU =
+					new PartyFixedInfo(
+						_entropyProvider.GetEntropy(LengthPartyId), 
+						IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
+				var fixedInfoPartyV =
+					new PartyFixedInfo(
+						_entropyProvider.GetEntropy(LengthPartyId), 
+						IncludeEphemeralData() ? _entropyProvider.GetEntropy(_param.ZLength) : null);
+				var fixedInfoParam = new FixedInfoParameter()
+				{
+					Context = kdfParam.Context,
+					Encoding = kdfParam.FixedInputEncoding,
+					Iv = kdfParam.Iv,
+					L = kdfParam.L,
+					Label = kdfParam.Label,
+					Salt = kdfParam.Salt,
+					AlgorithmId = kdfParam.AlgorithmId,
+					FixedInfoPattern = kdfParam.FixedInfoPattern,
+				};
+				fixedInfoParam.SetFixedInfo(fixedInfoPartyU, fixedInfoPartyV);
 			
-			var fixedInfo = _fixedInfoFactory.Get().Get(fixedInfoParam);
+				var fixedInfo = _fixedInfoFactory.Get().Get(fixedInfoParam);
 
-			var result = kdfParam.AcceptKdf(_kdfVisitor, fixedInfo);
+				var result = kdfParam.AcceptKdf(_kdfVisitor, fixedInfo);
 
-			await Notify(new KasKdfAftTwoStepResult()
+				await Notify(new KasKdfAftTwoStepResult()
+				{
+					KdfInputs = (KdfParameterTwoStep)kdfParam,
+					FixedInfoPartyU = fixedInfoPartyU,
+					FixedInfoPartyV = fixedInfoPartyV,
+					DerivedKeyingMaterial = result.DerivedKey
+				});
+			}
+			catch (Exception e)
 			{
-				KdfInputs = (KdfParameterTwoStep)kdfParam,
-				FixedInfoPartyU = fixedInfoPartyU,
-				FixedInfoPartyV = fixedInfoPartyV,
-				DerivedKeyingMaterial = result.DerivedKey
-			});
+				await Throw(e);
+			}
 		}
 
 		private bool IncludeEphemeralData()

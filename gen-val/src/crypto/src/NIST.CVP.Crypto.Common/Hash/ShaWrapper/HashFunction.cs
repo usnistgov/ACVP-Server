@@ -10,6 +10,9 @@ namespace NIST.CVP.Crypto.Common.Hash.ShaWrapper
         public ModeValues Mode { get; }
         public DigestSizes DigestSize { get; }
 
+        /// <summary>
+        /// Output length in bits.
+        /// </summary>
         [JsonIgnore]
         public int OutputLen { get; }
 

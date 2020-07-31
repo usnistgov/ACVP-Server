@@ -48,7 +48,7 @@ namespace Web.Public.Services.MessagePayloadValidators
 				APIAction.UpdatePerson => new PersonUpdatePayloadValidator(_personService, _organizationService),
 				APIAction.UpdateVendor => new OrganizationUpdatePayloadValidator(_organizationService, _addressService),
 				APIAction.RegisterTestSession => new RegisterTestSessionPayloadValidator(_parameterValidatorService),
-				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(_testSessionService),
+				APIAction.CertifyTestSession => new CertifyTestSessionPayloadValidator(this, _testSessionService, _oeService, _implementationService),
 				APIAction.CancelTestSession => new CancelTestSessionPayloadValidator(_testSessionService),
 				APIAction.CancelVectorSet => new CancelVectorSetPayloadValidator(_testSessionService),
 				APIAction.ResubmitVectorSetResults => new ResubmitVectorSetResultsPayloadValidator(_vectorSetService),

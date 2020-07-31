@@ -67,5 +67,41 @@ namespace NIST.CVP.Crypto.KAS.Tests.KDF
             
             Assert.Throws(typeof(ArgumentException), () => _subject.GetInstance(badType));
         }
+
+        [Test]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D224, ModeValues.SHA2, DigestSizes.d224)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D256, ModeValues.SHA2, DigestSizes.d256)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D384, ModeValues.SHA2, DigestSizes.d384)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D512, ModeValues.SHA2, DigestSizes.d512)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D512_T224, ModeValues.SHA2, DigestSizes.d512t224)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA2_D512_T256, ModeValues.SHA2, DigestSizes.d512t256)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA3_D224, ModeValues.SHA3, DigestSizes.d224)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA3_D256, ModeValues.SHA3, DigestSizes.d256)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA3_D384, ModeValues.SHA3, DigestSizes.d384)]
+        [TestCase(KasKdfOneStepAuxFunction.SHA3_D512, ModeValues.SHA3, DigestSizes.d512)]
+        public void ShaShouldReturnProperHashFunctionFromConstruction(KasKdfOneStepAuxFunction kdfOneStepAuxFunction, ModeValues mode, DigestSizes digestSize)
+        {
+            _subject.GetInstance(kdfOneStepAuxFunction);
+            
+            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize)));
+        }
+        
+        [Test]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D224, ModeValues.SHA2, DigestSizes.d224)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D256, ModeValues.SHA2, DigestSizes.d256)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D384, ModeValues.SHA2, DigestSizes.d384)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D512, ModeValues.SHA2, DigestSizes.d512)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T224, ModeValues.SHA2, DigestSizes.d512t224)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA2_D512_T256, ModeValues.SHA2, DigestSizes.d512t256)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA3_D224, ModeValues.SHA3, DigestSizes.d224)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA3_D256, ModeValues.SHA3, DigestSizes.d256)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA3_D384, ModeValues.SHA3, DigestSizes.d384)]
+        [TestCase(KasKdfOneStepAuxFunction.HMAC_SHA3_D512, ModeValues.SHA3, DigestSizes.d512)]
+        public void HmacShouldReturnProperHashFunctionFromConstruction(KasKdfOneStepAuxFunction kdfOneStepAuxFunction, ModeValues mode, DigestSizes digestSize)
+        {
+            _subject.GetInstance(kdfOneStepAuxFunction);
+            
+            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize)));
+        }
     }
 }

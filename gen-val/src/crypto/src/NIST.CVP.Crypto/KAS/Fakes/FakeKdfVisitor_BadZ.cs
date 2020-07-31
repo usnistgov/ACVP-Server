@@ -1,4 +1,5 @@
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -57,6 +58,23 @@ namespace NIST.CVP.Crypto.KAS.Fakes
                 Iv = param.Iv,
                 CounterLocation = param.CounterLocation,
                 CounterLen = param.CounterLen
+            };
+
+            // Modify a random byte within Z
+            modifiedParam.Z[_random.GetRandomInt(0, zBytesLen)] += 2;
+
+            return _kdfVisitor.Kdf(modifiedParam, fixedInfo);
+        }
+
+        public KdfResult Kdf(KdfParameterHkdf param, BitString fixedInfo)
+        {
+            var zBytesLen = param.Z.BitLength.CeilingDivide(BitString.BITSINBYTE);
+
+            var modifiedParam = new KdfParameterIkeV1()
+            {
+                L = param.L,
+                Z = param.Z.GetDeepCopy(),
+                HashFunction = param.HmacAlg
             };
 
             // Modify a random byte within Z

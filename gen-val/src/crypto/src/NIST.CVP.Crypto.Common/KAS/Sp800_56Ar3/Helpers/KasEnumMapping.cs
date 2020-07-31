@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.Helpers;
 using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
@@ -35,8 +36,8 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers
         
         public static (SchemeKeyNonceGenRequirement requirments, KasAlgorithm kasAlgo) GetSchemeRequirements(KasScheme scheme, KasMode kasMode, KeyAgreementRole thisPartyKeyAgreementRole, KeyConfirmationRole keyConfirmationRole, KeyConfirmationDirection keyConfirmationDirection)
         {
-            KasEnumMapping.FfcMap.TryFirst(f => f.Value == scheme, out var ffcResult);
-            KasEnumMapping.EccMap.TryFirst(f => f.Value == scheme, out var eccResult);
+            FfcMap.TryFirst(f => f.Value == scheme, out var ffcResult);
+            EccMap.TryFirst(f => f.Value == scheme, out var eccResult);
 
             if (ffcResult.Key == FfcScheme.None && eccResult.Key == EccScheme.None)
             {
@@ -55,6 +56,29 @@ namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Helpers
                 KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
                     eccResult.Key, kasMode, thisPartyKeyAgreementRole, keyConfirmationRole, keyConfirmationDirection), 
                 KasAlgorithm.Ecc);
+        }
+
+        public static Curve GetCurveFromKasDpGeneration(KasDpGeneration dpGeneration)
+        {
+            return dpGeneration switch
+            {
+                KasDpGeneration.P192 => Curve.P192,
+                KasDpGeneration.P224 => Curve.P224,
+                KasDpGeneration.P256 => Curve.P256,
+                KasDpGeneration.P384 => Curve.P384,
+                KasDpGeneration.P521 => Curve.P521,
+                KasDpGeneration.K163 => Curve.K163,
+                KasDpGeneration.K233 => Curve.K233,
+                KasDpGeneration.K283 => Curve.K283,
+                KasDpGeneration.K409 => Curve.K409,
+                KasDpGeneration.K571 => Curve.K571,
+                KasDpGeneration.B163 => Curve.B163,
+                KasDpGeneration.B233 => Curve.B233,
+                KasDpGeneration.B283 => Curve.B283,
+                KasDpGeneration.B409 => Curve.B409,
+                KasDpGeneration.B571 => Curve.B571,
+                _ => throw new ArgumentException(nameof(dpGeneration))
+            };
         }
     }
 }

@@ -35,6 +35,9 @@ namespace Web.Public.Helpers
 			//No filter => good
 			if (string.IsNullOrWhiteSpace(querystring)) return (true, querystring, orClauses);
 
+			// Escape "'", causes an error for invalid query when not escaped
+			querystring = querystring.Replace("'", "''");
+
 			//Split it on the &, which delimit the "query parameter elements"
 			var chunks = querystring.Split("&");
 
@@ -62,6 +65,9 @@ namespace Web.Public.Helpers
 				}
 			}
 
+			// Now that we've parsed out the chunks, the escaped "'" can be unescaped for use in the creation of the paging links
+			querystring = querystring.Replace("''", "'");
+			
 			//Check if we broke out of the loop - # of chunks and # of parsedChunks would be different
 			if (chunks.Length != parsedChunks.Count)
 			{

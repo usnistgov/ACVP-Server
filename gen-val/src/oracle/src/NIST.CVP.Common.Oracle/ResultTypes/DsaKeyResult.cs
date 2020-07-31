@@ -2,7 +2,7 @@
 
 namespace NIST.CVP.Common.Oracle.ResultTypes
 {
-    public class DsaKeyResult
+    public class DsaKeyResult : IResult
     {
         public FfcKeyPair Key { get; set; }
     }

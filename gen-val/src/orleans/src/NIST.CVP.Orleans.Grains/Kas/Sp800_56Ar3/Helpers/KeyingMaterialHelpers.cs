@@ -1,3 +1,4 @@
+using NIST.CVP.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.ECC.Helpers;
 using NIST.CVP.Crypto.Common.Asymmetric.DSA.FFC;
@@ -18,38 +19,23 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
         /// <param name="builder">The builder to hydrate.</param>
         /// <param name="requirements">The requirements of the party for the scheme.</param>
         /// <param name="dp">The domain parameters.</param>
-        /// <param name="dsaFactory">The dsa factory used for generating keys.</param>
+        /// <param name="ephemeralKey">The party ephemeral key.</param>
+        /// <param name="staticKey">The party static key.</param>
         /// <param name="entropyProvider">The entropy provider.</param>
         /// <param name="partyId">The party ID.</param>
         public static void SetSecretKeyingMaterialBuilderInformation(
             ISecretKeyingMaterialBuilder builder, 
             SchemeKeyNonceGenRequirement requirements, 
             FfcDomainParameters dp, 
-            IDsaFfcFactory dsaFactory, 
+            IDsaKeyPair ephemeralKey,
+            IDsaKeyPair staticKey,
             IEntropyProvider entropyProvider,
             BitString partyId)
         {
-            builder.WithDomainParameters(dp);
-            
-            if (requirements.GeneratesEphemeralKeyPair)
-            {
-                var key = dsaFactory.GetInstance(
-                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                    EntropyProviderTypes.Random).GenerateKeyPair(dp); 
-                
-                builder
-                    .WithEphemeralKey(key.KeyPair);
-            }
-
-            if (requirements.GeneratesStaticKeyPair)
-            {
-                var key = dsaFactory.GetInstance(
-                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                    EntropyProviderTypes.Random).GenerateKeyPair(dp);
-                
-                builder
-                    .WithStaticKey(key.KeyPair);
-            }
+            builder
+                .WithDomainParameters(dp)
+                .WithEphemeralKey(ephemeralKey)
+                .WithStaticKey(staticKey);
 
             if (requirements.GeneratesEphemeralNonce)
             {
@@ -72,51 +58,36 @@ namespace NIST.CVP.Orleans.Grains.Kas.Sp800_56Ar3.Helpers
         /// <param name="builder">The builder to hydrate.</param>
         /// <param name="requirements">The requirements of the party for the scheme.</param>
         /// <param name="dp">The domain parameters.</param>
-        /// <param name="dsaFactory">The dsa factory used for generating keys.</param>
+        /// <param name="ephemeralKey">The party ephemeral key.</param>
+        /// <param name="staticKey">The party static key.</param>
         /// <param name="entropyProvider">The entropy provider.</param>
         /// <param name="partyId">The party ID.</param>
         public static void SetSecretKeyingMaterialBuilderInformation(
             ISecretKeyingMaterialBuilder builder, 
             SchemeKeyNonceGenRequirement requirements, 
             EccDomainParameters dp, 
-            IDsaEccFactory dsaFactory, 
+            IDsaKeyPair ephemeralKey,
+            IDsaKeyPair staticKey,
             IEntropyProvider entropyProvider,
             BitString partyId)
         {
             var curveAttributes = CurveAttributesHelper.GetCurveAttribute(dp.CurveE.CurveName);
 
-            builder.WithDomainParameters(dp);
+            builder
+                .WithDomainParameters(dp)
+                .WithEphemeralKey(ephemeralKey)
+                .WithStaticKey(staticKey);
             
-            if (requirements.GeneratesEphemeralKeyPair)
-            {
-                var key = dsaFactory.GetInstance(
-                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                    EntropyProviderTypes.Random).GenerateKeyPair(dp);
-                
-                builder
-                    .WithEphemeralKey(key.KeyPair);
-            }
-
-            if (requirements.GeneratesStaticKeyPair)
-            {
-                var key = dsaFactory.GetInstance(
-                    new HashFunction(ModeValues.SHA2, DigestSizes.d512), // hash does not matter for this case
-                    EntropyProviderTypes.Random).GenerateKeyPair(dp); 
-                
-                builder
-                    .WithStaticKey(key.KeyPair);
-            }
-
             if (requirements.GeneratesEphemeralNonce)
             {
                 builder.WithEphemeralNonce(
-                    entropyProvider.GetEntropy(curveAttributes.LengthN * 2));
+                    entropyProvider.GetEntropy(curveAttributes.LengthN.ValueToMod(BitString.BITSINBYTE)));
             }
 
             if (requirements.GeneratesDkmNonce)
             {
                 builder.WithDkmNonce(
-                    entropyProvider.GetEntropy(curveAttributes.LengthN * 2));
+                    entropyProvider.GetEntropy(curveAttributes.LengthN.ValueToMod(BitString.BITSINBYTE)));
             }
 
             builder.WithPartyId(partyId);

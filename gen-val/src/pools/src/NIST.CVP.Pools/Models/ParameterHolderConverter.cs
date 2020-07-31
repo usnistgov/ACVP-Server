@@ -78,6 +78,9 @@ namespace NIST.CVP.Pools.Models
 
                 case PoolTypes.SHA3_MCT:
                     return jo.ToObject<Sha3Parameters>(serializer);
+                
+                case PoolTypes.SafePrime_Key:
+                    return jo.ToObject<SafePrimesKeyGenParameters>(serializer);
 
                 default:
                     throw new Exception("Unable to parse parameters");

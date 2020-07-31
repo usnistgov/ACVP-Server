@@ -1,12 +1,15 @@
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 using NIST.CVP.Common;
 using NIST.CVP.Crypto.Common.KAS.Enums;
 using NIST.CVP.Crypto.Common.KAS.KDF;
+using NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Crypto.Common.KDF.Enums;
 using NIST.CVP.Generation.Core.JsonConverters;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3;
 using NIST.CVP.Generation.KAS.Sp800_56Ar3.Ecc;
-using NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
@@ -301,7 +304,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
 //                        },
 //                    },
                 },
-                DomainParameterGenerationMethods = new[] { KasDpGeneration.P192 }
+                DomainParameterGenerationMethods = new[] { KasDpGeneration.P224 }
             };
 
             return CreateRegistration(folderName, p);
@@ -388,7 +391,7 @@ namespace NIST.CVP.Generation.KAS.IntegrationTests
                         },
                     }
                 },
-                DomainParameterGenerationMethods = new[] { KasDpGeneration.P192 }
+                DomainParameterGenerationMethods = new[] { KasDpGeneration.P224 }
             };
 
             return CreateRegistration(folderName, p);

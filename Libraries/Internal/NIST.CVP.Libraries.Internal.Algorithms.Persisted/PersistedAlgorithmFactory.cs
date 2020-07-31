@@ -51,6 +51,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.EDDSAKeyVer x => new EDDSAKeyVer(x),
 				External.EDDSASigGen x => new EDDSASigGen(x),
 				External.EDDSASigVer x => new EDDSASigVer(x),
+				External.HKDF x => new HKDF(x),
 				External.HashDRBG x => new HashDRBG(x),
 				External.HMAC_DRBG x => new HMAC_DRBG(x),
 				External.HMAC_SHA_1 x => new HMAC_SHA_1(x),
@@ -74,6 +75,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.KAS_FFC_SP800_56Ar3 x => new KAS_FFC_SP800_56Ar3(x),
 				External.KAS_FFC_SSC_SP800_56Ar3 x => new KAS_FFC_SSC_SP800_56Ar3(x),
 				External.KAS_IFC x => new KAS_IFC(x),
+				External.KAS_KDF_HKDF_SP800_56Cr1 x => new KAS_KDF_HKDF_SP800_56Cr1(x),
 				External.KAS_KDF_OneStep_SP800_56Cr1 x => new KAS_KDF_OneStep_SP800_56Cr1(x),
 				External.KAS_KDF_TwoStep_SP800_56Cr1 x => new KAS_KDF_TwoStep_SP800_56Cr1(x),
 				External.KDF x => new KDF(x),
@@ -130,6 +132,7 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 				External.TDES_KW x => new TDES_KW(x),
 				External.TDES_OFB x => new TDES_OFB(x),
 				External.TDES_OFBI x => new TDES_OFBI(x),
+				External.TLS_v1_3 x => new TLS_v1_3(x),
 				External.TupleHash_128 x => new TupleHash_128(x),
 				External.TupleHash_256 x => new TupleHash_256(x),
 				_ => null

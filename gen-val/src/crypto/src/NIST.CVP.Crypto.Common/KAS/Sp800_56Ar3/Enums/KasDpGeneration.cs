@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace NIST.CVP.Generation.KAS.Sp800_56Ar3.Enums
+namespace NIST.CVP.Crypto.Common.KAS.Sp800_56Ar3.Enums
 {
     /// <summary>
     /// Enum represents the different methods of getting domain parameters.

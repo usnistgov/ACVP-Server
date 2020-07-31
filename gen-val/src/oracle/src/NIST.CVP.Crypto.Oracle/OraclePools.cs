@@ -166,7 +166,19 @@ namespace NIST.CVP.Crypto.Oracle
                 new PrimePair {P = poolResult.Key.PrivKey.P, Q = poolResult.Key.PrivKey.Q});
 
             return poolResult;
+        }
 
+        public override async Task<DsaKeyResult> GetSafePrimeKeyAsync(SafePrimesKeyGenParameters param)
+        {
+            // Only works with random public exponent
+            var poolBoy = new PoolBoy<DsaKeyResult>(_poolConfig, _httpClientFactory);
+            var poolResult = await poolBoy.GetObjectFromPoolAsync(param, PoolTypes.SafePrime_Key);
+
+            // No pool available, generate on-demand
+            if (poolResult == null) 
+                return await base.GetSafePrimeKeyAsync(param);
+            
+            return poolResult;
         }
     }
 }

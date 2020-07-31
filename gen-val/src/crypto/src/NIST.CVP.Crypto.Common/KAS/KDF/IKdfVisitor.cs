@@ -1,3 +1,4 @@
+using NIST.CVP.Crypto.Common.KAS.KDF.KdfHkdf;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV1;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfIkeV2;
 using NIST.CVP.Crypto.Common.KAS.KDF.KdfOneStep;
@@ -27,6 +28,13 @@ namespace NIST.CVP.Crypto.Common.KAS.KDF
         /// <param name="fixedInfo"> The fixed info constructed for the kdf.</param>
         /// <returns>The derived key.</returns>
         KdfResult Kdf(KdfParameterTwoStep param, BitString fixedInfo);
+        /// <summary>
+        /// Derive a key for Kas HKDF.
+        /// </summary>
+        /// <param name="param">The parameters required for invoking a HKDF.</param>
+        /// <param name="fixedInfo"> The fixed info constructed for the kdf.</param>
+        /// <returns>The derived key.</returns>
+        KdfResult Kdf(KdfParameterHkdf param, BitString fixedInfo);
         /// <summary>
         /// Derive a key using IKE v1.
         /// </summary>

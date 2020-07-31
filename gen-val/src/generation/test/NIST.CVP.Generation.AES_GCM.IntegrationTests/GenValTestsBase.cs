@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace NIST.CVP.Generation.AES_GCM.IntegrationTests
 {
-    [TestFixture, LongRunningIntegrationTest]
+    [TestFixture, FastIntegrationTest]
     public abstract class GenValTestsBase : GenValTestsSingleRunnerBase
     {
         public override string Mode { get; } = string.Empty;

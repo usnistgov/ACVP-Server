@@ -52,6 +52,19 @@ namespace Web.Public
                     options.RevocationMode = X509RevocationMode.NoCheck;
                     options.Events = new CertificateAuthenticationEvents()
                     {
+                        OnCertificateValidated = context =>
+                        {
+                            var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();
+                            var certValidatorService =
+                                context.HttpContext.RequestServices.GetService<IMtlsCertValidatorService>();
+
+                            if (!certValidatorService.IsValid(context.ClientCertificate))
+                            {
+                                context.Fail("Certificate did not pass validation procedure.");
+                            }
+                            
+                            return Task.CompletedTask;
+                        },
                         OnAuthenticationFailed = context =>
                         {
                             var logger = context.HttpContext.RequestServices.GetService<ILogger<Startup>>();

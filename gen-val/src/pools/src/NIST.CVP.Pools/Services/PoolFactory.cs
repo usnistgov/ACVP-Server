@@ -86,6 +86,9 @@ namespace NIST.CVP.Pools.Services
                 case PoolTypes.RSA_KEY:
                     return new RsaKeyPool(GetConstructionParameters(param as RsaKeyParameters, poolProperties));
 
+                case PoolTypes.SafePrime_Key:
+                    return new SafePrimesKeyPool(GetConstructionParameters(param as SafePrimesKeyGenParameters, poolProperties));
+                
                 default:
                     throw new Exception("No pool model found");
             }

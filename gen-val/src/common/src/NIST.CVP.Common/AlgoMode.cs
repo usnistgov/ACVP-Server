@@ -98,6 +98,8 @@ namespace NIST.CVP.Common
         EDDSA_SigGen_v1_0,
         [EnumMember(Value = "EDDSA-SigVer-1.0")]
         EDDSA_SigVer_v1_0,
+        [EnumMember(Value = "HKDF-1.0")]
+        HKDF_v1_0,
         [EnumMember(Value = "HMAC-SHA-1-1.0")]
         HMAC_SHA1_v1_0,
         [EnumMember(Value = "HMAC-SHA2-224-1.0")]
@@ -144,6 +146,8 @@ namespace NIST.CVP.Common
         KAS_KDF_OneStep_Sp800_56Cr1,
         [EnumMember(Value = "KAS-KDF-TwoStep-Sp800-56Cr1")]
         KAS_KDF_TwoStep_Sp800_56Cr1,
+        [EnumMember(Value = "KAS-KDF-HKDF-Sp800-56Cr1")]
+        KAS_KDF_HKDF_Sp800_56Cr1,
         [EnumMember(Value = "KTS-IFC-Sp800-56Br2")]
         KTS_IFC_Sp800_56Br2,
         [EnumMember(Value = "KDF-1.0")]
@@ -250,6 +254,8 @@ namespace NIST.CVP.Common
         TDES_OFB_v1_0,
         [EnumMember(Value = "ACVP-TDES-OFBI-1.0")]
         TDES_OFBI_v1_0,
+        [EnumMember(Value = "TLS-v1.3-KDF-RFC8446")]
+        Tls_v1_3_v1_0,
         [EnumMember(Value = "TupleHash-128-1.0")]
         TupleHash_128_v1_0,
         [EnumMember(Value = "TupleHash-256-1.0")]

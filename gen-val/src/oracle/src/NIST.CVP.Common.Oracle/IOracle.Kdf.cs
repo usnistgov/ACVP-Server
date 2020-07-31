@@ -13,11 +13,14 @@ namespace NIST.CVP.Common.Oracle
         Task<AnsiX942KdfResult> GetAnsiX942KdfCaseAsync(AnsiX942Parameters param);
         Task<IkeV1KdfResult> GetIkeV1KdfCaseAsync(IkeV1KdfParameters param);
         Task<IkeV2KdfResult> GetIkeV2KdfCaseAsync(IkeV2KdfParameters param);
-        Task<PbKdfResult> GetPbKdfCaseAsync(PbKdfParameters param);
         Task<SnmpKdfResult> GetSnmpKdfCaseAsync(SnmpKdfParameters param);
         Task<SrtpKdfResult> GetSrtpKdfCaseAsync(SrtpKdfParameters param);
         Task<SshKdfResult> GetSshKdfCaseAsync(SshKdfParameters param);
         Task<TlsKdfResult> GetTlsKdfCaseAsync(TlsKdfParameters param);
         Task<TpmKdfResult> GetTpmKdfCaseAsync();
+        
+        Task<PbKdfResult> GetPbKdfCaseAsync(PbKdfParameters param);
+        Task<HkdfResult> GetHkdfCaseAsync(HkdfParameters param);
+        Task<TlsKdfv13Result> GetTlsv13CaseAsync(TlsKdfv13Parameters param);
     }
 }

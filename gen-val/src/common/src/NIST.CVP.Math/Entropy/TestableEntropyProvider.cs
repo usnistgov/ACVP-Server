@@ -34,8 +34,7 @@ namespace NIST.CVP.Math.Entropy
             var entropy = _entropyBitStrings[0];
             _entropyBitStrings.RemoveAt(0);
 
-            return entropy.BitLength == numberOfBits ? 
-                entropy : entropy.GetMostSignificantBits(numberOfBits);
+            return entropy;
         }
 
         public BigInteger GetEntropy(BigInteger minInclusive, BigInteger maxInclusive)
