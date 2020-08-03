@@ -51,36 +51,43 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
 
         protected override async Task DoWorkAsync()
         {
-            var curve = _curveFactory.GetCurve(_param.Curve);
-            var domainParams = new EccDomainParameters(curve);
-            var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
-
-            var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
-
-            BitString randomValue = null;
-            var messageCopy = message.GetDeepCopy();
-            if (_param.IsMessageRandomized)
+            try
             {
-                randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
-                var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
-                entropyProvider.AddEntropy(randomValue);
-                messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
-                    .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
+                var curve = _curveFactory.GetCurve(_param.Curve);
+                var domainParams = new EccDomainParameters(curve);
+                var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
+
+                var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
+
+                BitString randomValue = null;
+                var messageCopy = message.GetDeepCopy();
+                if (_param.IsMessageRandomized)
+                {
+                    randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
+                    var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
+                    entropyProvider.AddEntropy(randomValue);
+                    messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
+                        .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
+                }
+
+                var result = eccDsa.Sign(domainParams, _param.Key, messageCopy, _param.PreHashedMessage);
+                if (!result.Success)
+                {
+                    throw new Exception();
+                }
+
+                // Notify observers of result
+                await Notify(new EcdsaSignatureResult
+                {
+                    Message = message,
+                    RandomValue = randomValue,
+                    Signature = result.Signature
+                });
             }
-
-            var result = eccDsa.Sign(domainParams, _param.Key, messageCopy, _param.PreHashedMessage);
-            if (!result.Success)
+            catch (Exception e)
             {
-                throw new Exception();
+                await Throw(e);
             }
-
-            // Notify observers of result
-            await Notify(new EcdsaSignatureResult
-            {
-                Message = message,
-                RandomValue = randomValue,
-                Signature = result.Signature
-            });
         }
     }
 }

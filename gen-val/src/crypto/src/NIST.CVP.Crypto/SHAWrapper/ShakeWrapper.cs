@@ -13,8 +13,8 @@ namespace NIST.CVP.Crypto.SHAWrapper
     {
         private readonly ISHA3Factory _iSha3Factory;
         private readonly Common.Hash.SHA3.HashFunction _mappedHashFunction;
-        private
-            List<(string algo, ModeValues wrapperMode, DigestSizes wrapperSizes, int mappedDigestSize)> ShakeMappings =
+        private readonly
+            List<(string algo, ModeValues wrapperMode, DigestSizes wrapperSizes, int mappedDigestSize)> _shakeMappings =
                 new List<(string algo, ModeValues wrapperMode, DigestSizes wrapperSizes, int mappedDigestSize)>()
                 {
                     ("SHAKE-128", ModeValues.SHAKE, DigestSizes.d128, 128),
@@ -32,6 +32,14 @@ namespace NIST.CVP.Crypto.SHAWrapper
 
         public HashResult HashMessage(BitString message, int outLen = 0)
         {
+            // This is making an assumption that the XOF is being called generically as a hash function.
+            // When the outLen is not provided, use the capacity.
+            // This is being assumed from section 6.4 https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-5-draft.pdf
+            if (outLen == 0)
+            {
+                outLen = _mappedHashFunction.Capacity;
+            }
+            
             try
             {
                 var sha = _iSha3Factory.GetSHA(_mappedHashFunction);
@@ -57,7 +65,7 @@ namespace NIST.CVP.Crypto.SHAWrapper
 
         private Common.Hash.SHA3.HashFunction ToSha3HashFunction(Common.Hash.ShaWrapper.HashFunction wrapperHashFunction)
         {
-            if (!ShakeMappings
+            if (!_shakeMappings
                 .TryFirst(
                     w => w.wrapperMode == wrapperHashFunction.Mode && w.wrapperSizes == wrapperHashFunction.DigestSize,
                     out var result))
