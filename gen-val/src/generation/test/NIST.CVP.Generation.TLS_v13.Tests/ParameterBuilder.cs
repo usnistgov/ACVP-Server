@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.TLSv13.RFC8446;
 
 namespace NIST.CVP.Generation.TLS_v13.Tests
@@ -11,6 +12,7 @@ namespace NIST.CVP.Generation.TLS_v13.Tests
 		private string _mode = "KDF";
 		private string _revision = "RFC8446";
 		private IEnumerable<HashFunctions> _hashFunctions = new[] {HashFunctions.Sha1};
+		private IEnumerable<TlsModes1_3> _runningModes = new[] {TlsModes1_3.DHE};
 
 		public ParameterBuilder WithAlgorithm(string value)
 		{
@@ -36,6 +38,12 @@ namespace NIST.CVP.Generation.TLS_v13.Tests
 			return this;
 		}
 
+		public ParameterBuilder WithRunningMode(IEnumerable<TlsModes1_3> value)
+		{
+			_runningModes = value;
+			return this;
+		}
+
 		public Parameters Build()
 		{
 			return new Parameters()
@@ -43,7 +51,8 @@ namespace NIST.CVP.Generation.TLS_v13.Tests
 				Algorithm = _algorithm,
 				Mode = _mode,
 				Revision = _revision,
-				HmacAlg = _hashFunctions.ToArray()
+				HmacAlg = _hashFunctions.ToArray(),
+				RunningModes = _runningModes.ToArray()
 			};
 		}
 	}

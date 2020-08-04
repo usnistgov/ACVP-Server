@@ -33,6 +33,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 			var param = new TlsKdfv13Parameters
 			{
 				HashAlg = group.HmacAlg,
+				RunningMode = group.RunningMode,
 				RandomLength = group.RandomLength
 			};
 
@@ -43,7 +44,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 				var testCase = new TestCase
 				{
 					Dhe = result.Dhe,
-					Psk = result.Dhe,
+					Psk = result.Psk,
 					
 					HelloClientRandom = result.HelloClientRandom,
 					HelloServerRandom = result.HelloServerRandom,

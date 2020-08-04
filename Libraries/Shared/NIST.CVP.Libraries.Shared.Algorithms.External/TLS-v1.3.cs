@@ -5,8 +5,11 @@ namespace NIST.CVP.Libraries.Shared.Algorithms.External
 {
 	public class TLS_v1_3 : AlgorithmBase, IExternalAlgorithm
 	{
-		[JsonPropertyName("hashAlg")]
-		public List<string> HashAlgorithms { get; set; }
+		[JsonPropertyName("hmacAlg")]
+		public List<string> HmacAlgorithms { get; set; }
+		
+		[JsonPropertyName("runningMode")]
+		public List<string> RunningMode { get; set; }
 
 		public TLS_v1_3()
 		{

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLSv13.RFC8446
@@ -14,5 +15,6 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		public string[] Conformances { get; set; }
 		
 		public HashFunctions[] HmacAlg { get; set; }
+		public TlsModes1_3[] RunningModes { get; set; }
 	}
 }

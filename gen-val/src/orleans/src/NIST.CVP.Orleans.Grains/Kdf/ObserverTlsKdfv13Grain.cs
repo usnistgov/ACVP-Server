@@ -1,9 +1,12 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common;
 using NIST.CVP.Common.Oracle.ParameterTypes;
 using NIST.CVP.Common.Oracle.ResultTypes;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.Crypto.Common.KDF.Components.TLS;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Entropy;
 using NIST.CVP.Orleans.Grains.Interfaces.Kdf;
@@ -41,9 +44,21 @@ namespace NIST.CVP.Orleans.Grains.Kdf
 			{
 				var kdf = _tlsFactory.GetInstance(_param.HashAlg);
 
-				var psk = _entropyProvider.GetEntropy(_param.RandomLength);
-				var dhe = _entropyProvider.GetEntropy(_param.RandomLength);
-			
+				var digestLengthBits = ShaAttributes.GetHashFunctionFromEnum(_param.HashAlg).OutputLen;
+				
+				var psk = new BitString(digestLengthBits);
+				var dhe = new BitString(digestLengthBits);
+
+				if (new[] {TlsModes1_3.PSK, TlsModes1_3.PSK_DHE}.Contains(_param.RunningMode))
+				{
+					psk = _entropyProvider.GetEntropy(_param.RandomLength);
+				}
+
+				if (new[] {TlsModes1_3.DHE, TlsModes1_3.PSK_DHE}.Contains(_param.RunningMode))
+				{
+					dhe = _entropyProvider.GetEntropy(_param.RandomLength);
+				}
+				
 				var helloClientRandom = _entropyProvider.GetEntropy(_param.RandomLength);
 				var helloServerRandom = _entropyProvider.GetEntropy(_param.RandomLength);
 			
