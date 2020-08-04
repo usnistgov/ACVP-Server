@@ -1,5 +1,6 @@
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.TLSv13.RFC8446;
 using NIST.CVP.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -61,6 +62,19 @@ namespace NIST.CVP.Generation.TLS_v13.Tests
 		{
 			var p = new ParameterBuilder()
 				.WithHashAlgs(hashFunctions)
+				.Build();
+			
+			Assert.AreEqual(shouldPass, _subject.Validate(p).Success);
+		}
+		
+		[Test]
+		[TestCase(true, new[] { TlsModes1_3.DHE, TlsModes1_3.PSK, TlsModes1_3.PSK_DHE })]
+		[TestCase(false, new[] {TlsModes1_3.DHE, TlsModes1_3.None})]
+		[TestCase(false, new[] {TlsModes1_3.DHE, TlsModes1_3.None, TlsModes1_3.None})]
+		public void ShouldErrorOnInvalidRunningModes(bool shouldPass, TlsModes1_3[] runningModes)
+		{
+			var p = new ParameterBuilder()
+				.WithRunningMode(runningModes)
 				.Build();
 			
 			Assert.AreEqual(shouldPass, _subject.Validate(p).Success);

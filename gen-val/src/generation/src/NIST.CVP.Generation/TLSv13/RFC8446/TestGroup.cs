@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core;
 
 namespace NIST.CVP.Generation.TLSv13.RFC8446
@@ -10,6 +11,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		public string TestType { get; set; }
 		public List<TestCase> Tests { get; set; } = new List<TestCase>();
 		public HashFunctions HmacAlg { get; set; }
+		public TlsModes1_3 RunningMode { get; set; }
 		public int RandomLength { get; set; }
 	}
 }
