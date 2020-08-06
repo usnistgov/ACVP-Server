@@ -185,7 +185,7 @@ namespace NIST.CVP.Libraries.Internal.ACVPCore.Providers
 					result.Add(new VectorSetJsonFile
 					{
 						Type = (VectorSetJsonFileTypes)item.VectorSetJsonFileTypeId,
-						CreatedOn = item.createdOn
+						CreatedOn = item.CreatedOn
 					});
 				}
 
