@@ -6,14 +6,14 @@
   "ConnectionStrings": {
     "Acvp": "Server=localhost;Database=Acvp;Integrated Security=true;",
     "AcvpPools": "Server=localhost;Database=AcvpPools;Integrated Security=true;Max Pool Size=250;",
-    "AcvpOrleans": "Server=localhost\\SQLEXPRESS;Database=AcvpOrleans;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
+    "AcvpOrleans": "Server=stvmdevsql03;Database=AcvpOrleansTC;Integrated Security=true;Pooling=False;Max Pool Size=200;MultipleActiveResultSets=True"
   },
 
   "PoolConfig": {
-    "RootUrl": "129.6.164.132",
+    "RootUrl": "172.17.42.151",
     "Port": 5002,
     "ShouldRecyclePoolWater": true,
-    "PoolConfigFile": "D:\\Pools\\poolConfig.json",
+    "PoolConfigFile": "C:\\Pools\\poolConfig.json",
     "ShouldLogPoolValueUse": true,
     "PoolResultLogLength": 0,
     "OverrideMinimumPoolLevel": 1,
