@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.Common.ExtensionMethods;
+using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core;
 using NIST.CVP.Math;
 using NIST.CVP.Math.Domain;
@@ -21,14 +23,20 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 		{
 			var testGroups = new List<TestGroup>();
 
+			var payloadLengthQueue = new ShuffleQueue<int>(GetPayloadLengths());
+			var runningModeQueue = new ShuffleQueue<TlsModes1_3>(parameters.RunningModes.ToList());
+
+			var maxCount = new[] {payloadLengthQueue.OriginalListCount, runningModeQueue.OriginalListCount}.Max();
+			
 			foreach (var hashAlg in parameters.HmacAlg)
 			{
-				foreach (var payloadLength in GetPayloadLengths())
+				for (var i = 0; i < maxCount; i++)
 				{
 					testGroups.Add(new TestGroup()
 					{
 						HmacAlg = hashAlg,
-						RandomLength = payloadLength,
+						RandomLength = payloadLengthQueue.Pop(),
+						RunningMode = runningModeQueue.Pop(),
 						TestType = "AFT"
 					});
 				}
@@ -37,7 +45,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 			return Task.FromResult(testGroups);
 		}
 
-		private IEnumerable<int> GetPayloadLengths()
+		private List<int> GetPayloadLengths()
 		{
 			var domain = new MathDomain().AddSegment(new RangeDomainSegment(_random, 256, 2048, 8));
 
@@ -47,7 +55,7 @@ namespace NIST.CVP.Generation.TLSv13.RFC8446
 			values.AddRangeIfNotNullOrEmpty(domain.GetValues(v => v < 1024, 2, false));
 			values.AddRangeIfNotNullOrEmpty(domain.GetValues(1));
 
-			return values.Shuffle().Take(5);
+			return values.Shuffle().Take(5).ToList();
 		}
 	}
 }

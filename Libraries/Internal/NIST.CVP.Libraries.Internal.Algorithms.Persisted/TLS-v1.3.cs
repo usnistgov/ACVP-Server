@@ -5,8 +5,11 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 {
 	public class TLS_v1_3 : PersistedAlgorithmBase
 	{
-		[AlgorithmProperty("hashAlg")]
-		public List<string> HashAlgorithms { get; set; }
+		[AlgorithmProperty("hmacAlg")]
+		public List<string> HmacAlgorithms { get; set; }
+
+		[AlgorithmProperty("runningMode")]
+		public List<string> RunningMode { get; set; }
 
 		public TLS_v1_3()
 		{
@@ -17,7 +20,8 @@ namespace NIST.CVP.Libraries.Internal.Algorithms.Persisted
 
 		public TLS_v1_3(External.TLS_v1_3 external) : this()
 		{
-			HashAlgorithms = external.HashAlgorithms;
+			HmacAlgorithms = external.HmacAlgorithms;
+			RunningMode = external.RunningMode;
 		}
 	}
 

@@ -35,11 +35,8 @@ namespace NIST.CVP.Crypto.Oracle.Builders
             );
 
             await oracle.InitializeClusterClient();
-            
-            return new Oracle(
-                new ClusterClientFactory(_dbConnectionStringFactory, _environmentConfig, _orleansConfig), 
-                _orleansConfig
-            );
+
+            return oracle;
         }
     }
 }

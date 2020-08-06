@@ -156,10 +156,10 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         }
 
         [Test]
-        public void ShouldReturnErrorWithInvalidModulusTagLen()
+        public void ShouldReturnErrorWithInvalidTagLen()
         {
             Parameters p = new ParameterBuilder().Build();
-            p.TagLen = new MathDomain().AddSegment(new ValueDomainSegment(7));
+            p.TagLen = new[] {7};
 
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);

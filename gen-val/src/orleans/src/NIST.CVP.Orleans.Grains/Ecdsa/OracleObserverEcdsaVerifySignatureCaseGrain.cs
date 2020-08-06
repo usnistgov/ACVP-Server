@@ -53,64 +53,71 @@ namespace NIST.CVP.Orleans.Grains.Ecdsa
 
         protected override async Task DoWorkAsync()
         {
-            var curve = _curveFactory.GetCurve(_param.Curve);
-            var domainParams = new EccDomainParameters(curve);
-            var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
+            try
+            {
+                var curve = _curveFactory.GetCurve(_param.Curve);
+                var domainParams = new EccDomainParameters(curve);
+                var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
 
-            var message = _rand.GetRandomBitString(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
-            var messageCopy = message.GetDeepCopy();
+                var message = _rand.GetRandomBitString(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
+                var messageCopy = message.GetDeepCopy();
 
-            BitString randomValue = null;
-            if (_param.IsMessageRandomized)
-            {
-                randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
-                var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
-                entropyProvider.AddEntropy(randomValue);
-                messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
-                    .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
-            }
+                BitString randomValue = null;
+                if (_param.IsMessageRandomized)
+                {
+                    randomValue = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
+                    var entropyProvider = _entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Testable);
+                    entropyProvider.AddEntropy(randomValue);
+                    messageCopy = _messageRandomizer.WithEntropyProvider(entropyProvider).Build()
+                        .RandomizeMessage(messageCopy, _param.HashAlg.OutputLen);
+                }
 
-            var result = eccDsa.Sign(domainParams, _key.Key, messageCopy, _param.PreHashedMessage);
-            if (!result.Success)
-            {
-                throw new Exception();
-            }
+                var result = eccDsa.Sign(domainParams, _key.Key, messageCopy, _param.PreHashedMessage);
+                if (!result.Success)
+                {
+                    throw new Exception();
+                }
 
-            var sigResult = new EcdsaSignatureResult
-            {
-                Message = message,
-                RandomValue = randomValue,
-                Key = _key.Key,
-                Signature = result.Signature
-            };
+                var sigResult = new EcdsaSignatureResult
+                {
+                    Message = message,
+                    RandomValue = randomValue,
+                    Key = _key.Key,
+                    Signature = result.Signature
+                };
 
-            if (_param.Disposition == EcdsaSignatureDisposition.ModifyMessage)
-            {
-                // Generate a different random message
-                sigResult.Message = _rand.GetDifferentBitStringOfSameSize(message);
-            }
-            else if (_param.Disposition == EcdsaSignatureDisposition.ModifyKey)
-            {
-                // Generate a different key pair for the test case
-                sigResult.Key = _badKey.Key;
-            }
-            else if (_param.Disposition == EcdsaSignatureDisposition.ModifyR)
-            {
-                var modifiedRSignature = new EccSignature(sigResult.Signature.R + 1, sigResult.Signature.S);
-                sigResult.Signature = modifiedRSignature;
-            }
-            else if (_param.Disposition == EcdsaSignatureDisposition.ModifyS)
-            {
-                var modifiedSSignature = new EccSignature(sigResult.Signature.R, sigResult.Signature.S + 1);
-                sigResult.Signature = modifiedSSignature;
-            }
+                if (_param.Disposition == EcdsaSignatureDisposition.ModifyMessage)
+                {
+                    // Generate a different random message
+                    sigResult.Message = _rand.GetDifferentBitStringOfSameSize(message);
+                }
+                else if (_param.Disposition == EcdsaSignatureDisposition.ModifyKey)
+                {
+                    // Generate a different key pair for the test case
+                    sigResult.Key = _badKey.Key;
+                }
+                else if (_param.Disposition == EcdsaSignatureDisposition.ModifyR)
+                {
+                    var modifiedRSignature = new EccSignature(sigResult.Signature.R + 1, sigResult.Signature.S);
+                    sigResult.Signature = modifiedRSignature;
+                }
+                else if (_param.Disposition == EcdsaSignatureDisposition.ModifyS)
+                {
+                    var modifiedSSignature = new EccSignature(sigResult.Signature.R, sigResult.Signature.S + 1);
+                    sigResult.Signature = modifiedSSignature;
+                }
 
-            // Notify observers of result
-            await Notify(new VerifyResult<EcdsaSignatureResult>
+                // Notify observers of result
+                await Notify(new VerifyResult<EcdsaSignatureResult>
+                {
+                    Result = _param.Disposition == EcdsaSignatureDisposition.None,
+                    VerifiedValue = sigResult
+                });
+            }
+            catch (Exception e)
             {
-                Result = _param.Disposition == EcdsaSignatureDisposition.None,
-                VerifiedValue = sigResult
-            });
+                await Throw(e);
+            }
         }
     }
 }

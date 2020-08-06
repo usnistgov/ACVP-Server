@@ -43,7 +43,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
             parameters.AadLen.SetMaximumAllowedValue(32 * 8);
             AadLens = parameters.AadLen.GetValues(33).ToArray();
 
-            TagLens = parameters.TagLen.GetValues(ParameterValidator.VALID_TAG_LENGTHS.Length).ToArray();
+            TagLens = parameters.TagLen;
 
             Supports2pow16bytes = parameters.SupportsAad2Pow16;
         }

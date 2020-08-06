@@ -64,8 +64,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             MathDomain aadDomain = new MathDomain();
             aadDomain.AddSegment(new ValueDomainSegment(8));
 
-            MathDomain tagDomain = new MathDomain();
-            tagDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First()));
+            var tagLen = new[] { ParameterValidator.VALID_TAG_LENGTHS.First() };
 
             MathDomain nonceDomain = new MathDomain();
             nonceDomain.AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First()));
@@ -78,7 +77,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 KeyLen = new int[] { ParameterValidator.VALID_KEY_SIZES.First() },
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,
-                TagLen = tagDomain,
+                TagLen = tagLen,
                 IvLen = nonceDomain,
                 IsSample = true
             };
@@ -96,11 +95,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             MathDomain aadDomain = new MathDomain();
             aadDomain.AddSegment(new RangeDomainSegment(random, 0, (1 << 19), 8));
 
-            MathDomain tagDomain = new MathDomain();
-            foreach (var length in ParameterValidator.VALID_TAG_LENGTHS)
-            {
-                tagDomain.AddSegment(new ValueDomainSegment(length));
-            }
+            var tagLen = ParameterValidator.VALID_TAG_LENGTHS;
 
             MathDomain nonceDomain = new MathDomain();
             foreach (var length in ParameterValidator.VALID_NONCE_LENGTHS)
@@ -116,7 +111,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 KeyLen = ParameterValidator.VALID_KEY_SIZES,
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,
-                TagLen = tagDomain,
+                TagLen = tagLen,
                 IvLen = nonceDomain,
                 IsSample = false
             };

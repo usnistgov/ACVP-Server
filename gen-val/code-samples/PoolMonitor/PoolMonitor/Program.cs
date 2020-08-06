@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,25 +20,25 @@ namespace PoolMonitor
 
             if (args.Contains("--poolUrl"))
             {
-                var index = args.IndexOf("--poolUrl");
+                var index = IndexOf(args, "--poolUrl");
                 PoolUrl = args[index + 1];
             }
 
             if (args.Contains("--output"))
             {
-                var index = args.IndexOf("--output");
+                var index = IndexOf(args, "--output");
                 OutputFilePath = args[index + 1];
             }
 
             if (args.Contains("--interval"))
             {
-                var index = args.IndexOf("--interval");
+                var index = IndexOf(args, "--interval");
                 IntervalSeconds = int.Parse(args[index + 1]);
             }
 
             if (args.Contains("--error"))
             {
-                var index = args.IndexOf("--error");
+                var index = IndexOf(args, "--error");
                 ErrorFilePath = args[index + 1];
             }
 
@@ -58,6 +56,19 @@ namespace PoolMonitor
             {
                 await builder.RunConsoleAsync();
             }
+        }
+
+        private static int IndexOf(string[] array, string value)
+        {
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (array[i] == value)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     }
 }

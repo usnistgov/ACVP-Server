@@ -1,6 +1,7 @@
 using NIST.CVP.Common;
 using NIST.CVP.Common.Helpers;
 using NIST.CVP.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.Generation.Core.Tests;
 using NIST.CVP.Generation.TLSv13.RFC8446;
 using NIST.CVP.Math;
@@ -45,6 +46,7 @@ namespace NIST.CVP.Generation.TLS_v13.IntegrationTests
 					HashFunctions.Sha2_d256,
 					HashFunctions.Sha3_d256,
 				},
+				RunningModes = EnumHelpers.GetEnumsWithoutDefault<TlsModes1_3>().ToArray(),
 				IsSample = true
 			};
 
@@ -59,6 +61,7 @@ namespace NIST.CVP.Generation.TLS_v13.IntegrationTests
 				Mode = Mode,
 				Revision = Revision,
 				HmacAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>().ToArray(),
+				RunningModes = EnumHelpers.GetEnumsWithoutDefault<TlsModes1_3>().ToArray(),
 				IsSample = false
 			};
 
