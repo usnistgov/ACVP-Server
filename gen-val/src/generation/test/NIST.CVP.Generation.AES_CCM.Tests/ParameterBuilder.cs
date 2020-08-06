@@ -13,7 +13,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
         private MathDomain _ptLen;
         private MathDomain _nonceLen;
         private MathDomain _aadLen;
-        private MathDomain _tagLen;
+        private int[] _tagLen;
 
         public ParameterBuilder()
         {
@@ -29,10 +29,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             _aadLen = new MathDomain();
             _aadLen.AddSegment(new RangeDomainSegment(random, 0, (1 << 19), 8));
 
-            _tagLen = new MathDomain();
-            ParameterValidator.VALID_TAG_LENGTHS
-                .ToList()
-                .ForEach(fe => _tagLen.AddSegment(new ValueDomainSegment(fe)));
+            _tagLen = ParameterValidator.VALID_TAG_LENGTHS;
             
             _nonceLen = new MathDomain();
             ParameterValidator.VALID_NONCE_LENGTHS
@@ -70,7 +67,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             return this;
         }
 
-        public ParameterBuilder WithTagLen(MathDomain value)
+        public ParameterBuilder WithTagLen(int[] value)
         {
             _tagLen = value;
             return this;

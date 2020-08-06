@@ -35,7 +35,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     new MathDomain().AddSegment(new ValueDomainSegment(0)),
                     new MathDomain().AddSegment(new ValueDomainSegment(0)),
                     new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
-                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                    new[] {ParameterValidator.VALID_TAG_LENGTHS.First()},
                 },
                 new object[]
                 {
@@ -44,7 +44,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     new MathDomain().AddSegment(new ValueDomainSegment(0)),
                     new MathDomain().AddSegment(new ValueDomainSegment(0)),
                     new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
-                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                    new[] {ParameterValidator.VALID_TAG_LENGTHS.First()},
                 },
                 new object[]
                 {
@@ -53,7 +53,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
                     new MathDomain().AddSegment(new ValueDomainSegment(0)),
                     new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_NONCE_LENGTHS.First())),
-                    new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.VALID_TAG_LENGTHS.First())),
+                    new[] {ParameterValidator.VALID_TAG_LENGTHS.First()}
                 },
                 new object[]
                 {
@@ -63,8 +63,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
                     new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
                         ParameterValidator.VALID_NONCE_LENGTHS.First(), ParameterValidator.VALID_NONCE_LENGTHS.Last(), 8)),
-                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
-                        ParameterValidator.VALID_TAG_LENGTHS.First(), ParameterValidator.VALID_TAG_LENGTHS.Last(), 16)),
+                    new[] {ParameterValidator.VALID_TAG_LENGTHS}
                 },
                 new object[]
                 {
@@ -74,8 +73,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
                     new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 32 * 8, 8)),
                     new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
                         ParameterValidator.VALID_NONCE_LENGTHS.First(), ParameterValidator.VALID_NONCE_LENGTHS.Last(), 8)),
-                    new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(),
-                        ParameterValidator.VALID_TAG_LENGTHS.First(), ParameterValidator.VALID_TAG_LENGTHS.Last(), 16)),
+                    new[] {ParameterValidator.VALID_TAG_LENGTHS}
                 }
             };
 
@@ -113,7 +111,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain aadLen,
             MathDomain ptLen,
             MathDomain ivLen,
-            MathDomain tagLen
+            int[] tagLen
         )
         {
             InternalTestTypes testType = InternalTestTypes.DecryptionVerification;
@@ -156,7 +154,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain aadLen,
             MathDomain ptLen,
             MathDomain ivLen,
-            MathDomain tagLen
+            int[] tagLen
         )
         {
             InternalTestTypes testType = InternalTestTypes.VariableAssociatedData;
@@ -201,7 +199,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain aadLen,
             MathDomain ptLen,
             MathDomain ivLen,
-            MathDomain tagLen
+            int[] tagLen
         )
         {
             InternalTestTypes testType = InternalTestTypes.VariableNonce;
@@ -242,7 +240,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain aadLen,
             MathDomain ptLen,
             MathDomain ivLen,
-            MathDomain tagLen
+            int[] tagLen
         )
         {
             InternalTestTypes testType = InternalTestTypes.VariablePayload;
@@ -286,7 +284,7 @@ namespace NIST.CVP.Generation.AES_CCM.Tests
             MathDomain aadLen,
             MathDomain ptLen,
             MathDomain ivLen,
-            MathDomain tagLen
+            int[] tagLen
         )
         {
             InternalTestTypes testType = InternalTestTypes.VariableTag;

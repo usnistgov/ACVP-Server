@@ -45,7 +45,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
 
             if (parameters.Conformances.Contains("ecma", StringComparer.OrdinalIgnoreCase))
             {
-                if (!parameters.TagLen.IsWithinDomain(8 * 8))
+                if (!parameters.TagLen.Contains(8 * 8))
                 {
                     errorResults.Add("ECMA must support tagLen of 64 bits");
                 }
@@ -139,24 +139,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
 
         private void ValidateTagSizes(Parameters parameters, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(parameters.TagLen, "Tag Domain");
-            errorResults.AddIfNotNullOrEmpty(segmentCheck);
-            if (!string.IsNullOrEmpty(segmentCheck))
-            {
-                return;
-            }
-
-            var domain = parameters.TagLen.GetDomainMinMax();
-            var rangeCheck = ValidateRange(
-                new long[] { domain.Minimum, domain.Maximum },
-                VALID_TAG_LENGTHS.Min(),
-                VALID_TAG_LENGTHS.Max(),
-                "Tag Range"
-            );
-            errorResults.AddIfNotNullOrEmpty(rangeCheck);
-
-            var modCheck = ValidateMultipleOf(parameters.TagLen, 16, "Tag Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.TagLen, VALID_TAG_LENGTHS, "tagLen"));
         }
     }
 }

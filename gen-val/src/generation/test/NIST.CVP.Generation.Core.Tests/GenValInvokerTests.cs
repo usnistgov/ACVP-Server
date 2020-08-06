@@ -14,13 +14,16 @@ namespace NIST.CVP.Generation.Core.Tests
         [Test]
         public void EachAlgoModeRevisionShouldHaveAnISupportedAlgoModeRevision()
         {
-            foreach (AlgoMode algoMode in Enum.GetValues(typeof(AlgoMode)))
+            Assert.Multiple(() =>
             {
-                var result = GenValInvoker.GetAlgoModeRevisionInjectables(algoMode);
+                foreach (AlgoMode algoMode in Enum.GetValues(typeof(AlgoMode)))
+                {
+                    var result = GenValInvoker.GetAlgoModeRevisionInjectables(algoMode);
 
-                Assert.IsNotNull(result, $"{nameof(algoMode)}: {algoMode}");
-                Assert.IsInstanceOf(typeof(ISupportedAlgoModeRevisions), result);
-            }
+                    Assert.IsNotNull(result, $"{nameof(algoMode)}: {algoMode}");
+                    Assert.IsInstanceOf(typeof(ISupportedAlgoModeRevisions), result);
+                }                
+            });
         }
 
         [Test]
