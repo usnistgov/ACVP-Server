@@ -3,6 +3,7 @@
     [VectorSetJsonFileTypeId]  BIGINT        NOT NULL,
     [Content]   VARCHAR (MAX) NOT NULL,
     [CreatedOn] DATETIME      NOT NULL,
+    [ShouldReplicate] BIT CONSTRAINT [DF_VectorSetJson_ShouldReplicate]  DEFAULT ((1)) NOT NULL,
     CONSTRAINT [PK_VectorSetJson] PRIMARY KEY CLUSTERED ([VectorSetId] ASC, [VectorSetJsonFileTypeId] ASC),
     CONSTRAINT [FK_VectorSetJson_VectorSets] FOREIGN KEY ([VectorSetId]) REFERENCES [dbo].[VectorSets] ([VectorSetId]),
     CONSTRAINT [FK_VectorSetJson_VectorSetJsonFileTypes] FOREIGN KEY ([VectorSetJsonFileTypeId]) REFERENCES [dbo].[VectorSetJsonFileTypes] ([VectorSetJsonFileTypeId])

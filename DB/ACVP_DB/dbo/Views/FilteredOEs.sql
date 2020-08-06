@@ -1,0 +1,14 @@
+﻿
+CREATE VIEW [dbo].[FilteredOEs]
+WITH SCHEMABINDING
+AS
+
+SELECT OEId, [Name]
+FROM dbo.OEs
+WHERE ITAR = 0
+
+
+GO
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredOEs]
+    ON [dbo].[FilteredOEs]([OEId] ASC);
+

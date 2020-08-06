@@ -1,5 +1,5 @@
 ﻿
-CREATE VIEW [csrc].[ImplementationContacts]
+CREATE VIEW [dbo].[FilteredImplementationContacts]
 WITH SCHEMABINDING
 AS
 
@@ -14,6 +14,6 @@ FROM dbo.ImplementationContacts C
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_VALIDATION_CONTACT]
-    ON [csrc].[ImplementationContacts]([ImplementationContactId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredImplementationContacts]
+    ON [dbo].[FilteredImplementationContacts]([ImplementationContactId] ASC);
 

@@ -60,8 +60,6 @@
     <Folder Include="Properties" />
     <Folder Include="lcavp\" />
     <Folder Include="lcavp\Tables\" />
-    <Folder Include="csrc\" />
-    <Folder Include="csrc\Views\" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Functions\" />
     <Folder Include="lcavp\Stored Procedures\" />
@@ -73,22 +71,6 @@
   <ItemGroup>
     <Build Include="lcavp\Tables\SubmissionLog.sql" />
     <Build Include="lcavp\Tables\SubmissionRegistrations.sql" />
-    <Build Include="csrc\Views\Addresses.sql" />
-    <Build Include="csrc\Views\Organizations.sql" />
-    <Build Include="csrc\Views\OrganizationEmails.sql" />
-    <Build Include="csrc\Views\People.sql" />
-    <Build Include="csrc\Views\PersonEmails.sql" />
-    <Build Include="csrc\Views\PersonPhoneNumbers.sql" />
-    <Build Include="csrc\Views\Implementations.sql" />
-    <Build Include="csrc\Views\AlgorithmPropertyStringValueDisplayMapping.sql" />
-    <Build Include="csrc\Views\ImplementationContacts.sql" />
-    <Build Include="csrc\Views\OEs.sql" />
-    <Build Include="csrc\Views\Dependencies.sql" />
-    <Build Include="csrc\Views\DependencyAttributes.sql" />
-    <Build Include="csrc\Views\OEDependencies.sql" />
-    <Build Include="csrc\Views\Prerequisites.sql" />
-    <Build Include="csrc\Views\ValidationOEAlgorithms.sql" />
-    <Build Include="csrc\Views\ValidationSources.sql" />
     <Build Include="dbo\Functions\DecryptNvarchar.sql" />
     <Build Include="dbo\Functions\DelimitedListToTable.sql" />
     <Build Include="lcavp\Stored Procedures\AlgorithmsOnValidationGet.sql" />
@@ -181,13 +163,7 @@
     <Build Include="dbo\Stored Procedures\VectorSetArchive.sql" />
     <Build Include="dbo\Stored Procedures\VectorSetCancel.sql" />
     <Build Include="dbo\Stored Procedures\VectorSetInsert.sql" />
-    <Build Include="csrc\Views\AlgorithmProperties.sql" />
-    <Build Include="csrc\Views\Algorithms.sql" />
-    <Build Include="csrc\Views\Capabilities.sql" />
-    <Build Include="csrc\Views\ImplementationTypes.sql" />
-    <Build Include="csrc\Views\Validations.sql" />
     <Build Include="dbo\Tables\ValidationSources.sql" />
-    <Build Include="dbo\Views\FilteredVectorSetJson.sql" />
     <Build Include="dbo\Stored Procedures\VectorSetUpdateStatusAndMessage.sql" />
     <Build Include="dbo\Stored Procedures\VectorSetsForTestSessionGet.sql" />
     <Build Include="dbo\Stored Procedures\VectorSetGet.sql" />
@@ -299,6 +275,17 @@
     <Build Include="dbo\Tables\ACVVersions.sql" />
     <Build Include="dbo\Tables\VectorSetStatuses.sql" />
     <Build Include="dbo\Stored Procedures\ImplementationContactsGet.sql" />
+    <Build Include="dbo\Views\FilteredCapabilities.sql" />
+    <Build Include="dbo\Views\FilteredDependencyAttributes.sql" />
+    <Build Include="dbo\Views\FilteredImplementationContacts.sql" />
+    <Build Include="dbo\Views\FilteredImplementations.sql" />
+    <Build Include="dbo\Views\FilteredOEDependencies.sql" />
+    <Build Include="dbo\Views\FilteredOEs.sql" />
+    <Build Include="dbo\Views\FilteredPrerequisites.sql" />
+    <Build Include="dbo\Views\FilteredValidationOEAlgorithms.sql" />
+    <Build Include="dbo\Views\FilteredValidations.sql" />
+    <Build Include="dbo\Functions\DependencyIsITAR.sql" />
+    <Build Include="dbo\Views\FilteredDependencies.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ACVP_DB.refactorlog" />

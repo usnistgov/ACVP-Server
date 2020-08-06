@@ -1,5 +1,5 @@
 ﻿
-CREATE VIEW [csrc].[Prerequisites]
+CREATE VIEW [dbo].[FilteredPrerequisites]
 WITH SCHEMABINDING
 AS
 
@@ -16,6 +16,6 @@ FROM dbo.Prerequisites Q
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_Prerequisites]
-    ON [csrc].[Prerequisites]([PrerequisiteId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredPrerequisites]
+    ON [dbo].[FilteredPrerequisites]([PrerequisiteId] ASC);
 

@@ -1,4 +1,4 @@
-﻿CREATE VIEW [csrc].[ValidationOEAlgorithms]
+﻿CREATE VIEW [dbo].[FilteredValidationOEAlgorithms]
 WITH SCHEMABINDING
 AS
 
@@ -19,6 +19,6 @@ FROM dbo.ValidationOEAlgorithms VOA
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_ValidationOEAlgorithms]
-    ON [csrc].[ValidationOEAlgorithms]([ValidationOEAlgorithmId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredValidationOEAlgorithms]
+    ON [dbo].[FilteredValidationOEAlgorithms]([ValidationOEAlgorithmId] ASC);
 

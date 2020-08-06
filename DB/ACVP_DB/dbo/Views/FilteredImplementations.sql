@@ -1,4 +1,4 @@
-﻿CREATE VIEW [csrc].[Implementations]
+﻿CREATE VIEW [dbo].[FilteredImplementations]
 WITH SCHEMABINDING
 AS
 
@@ -8,6 +8,6 @@ WHERE ITAR = 0
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_Implementations]
-    ON [csrc].[Implementations]([ImplementationId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredImplementations]
+    ON [dbo].[FilteredImplementations]([ImplementationId] ASC);
 

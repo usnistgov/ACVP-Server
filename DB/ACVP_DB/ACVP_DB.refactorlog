@@ -819,4 +819,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="OrganizationId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6990ead1-04ec-4d7f-91e5-960094d7f075" ChangeDateTime="08/06/2020 02:51:15">
+    <Property Name="ElementName" Value="[dbo].[VectorSetJson].[Replicate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSetJson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Replicated" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3ad4dbf7-34de-469c-9d9b-61fa2bf4f7f6" ChangeDateTime="08/06/2020 02:52:02">
+    <Property Name="ElementName" Value="[dbo].[VectorSetJson].[Replicated]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VectorSetJson]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ShouldReplicate" />
+  </Operation>
 </Operations>

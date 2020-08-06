@@ -89,7 +89,6 @@
     <Build Include="dbo\Tables\DependencyAttributes.sql" />
     <Build Include="dbo\Tables\Dependencies.sql" />
     <Build Include="dbo\Tables\Algorithms.sql" />
-    <Build Include="dbo\Tables\AlgorithmProperties.sql" />
     <Build Include="dbo\Tables\Addresses.sql" />
     <Build Include="dbo\Tables\ACVPUsers.sql" />
     <Build Include="dbo\Stored Procedures\AcvpUserGetByCertificate.sql" />

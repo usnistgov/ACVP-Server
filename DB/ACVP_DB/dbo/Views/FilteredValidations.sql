@@ -1,4 +1,4 @@
-﻿CREATE VIEW [csrc].[Validations]
+﻿CREATE VIEW [dbo].[FilteredValidations]
 WITH SCHEMABINDING
 AS
 
@@ -15,6 +15,6 @@ FROM dbo.Validations V
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_Validations]
-    ON [csrc].[Validations]([ValidationId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredValidations]
+    ON [dbo].[FilteredValidations]([ValidationId] ASC);
 

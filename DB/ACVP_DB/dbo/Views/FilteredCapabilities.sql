@@ -1,6 +1,6 @@
 ﻿
 
-CREATE VIEW [csrc].[Capabilities]
+CREATE VIEW [dbo].[FilteredCapabilities]
 WITH SCHEMABINDING
 AS
 
@@ -24,6 +24,6 @@ FROM dbo.Capabilities C
 
 
 GO
-CREATE UNIQUE CLUSTERED INDEX [PK_CSRC_Capabilities]
-    ON [csrc].[Capabilities]([CapabilityId] ASC);
+CREATE UNIQUE CLUSTERED INDEX [PK_FilteredCapabilities]
+    ON [dbo].[FilteredCapabilities]([CapabilityId] ASC);
 
