@@ -6,8 +6,8 @@ export class AcvpUser {
   seed: string;
   expiresOn: Date;
   issuer: string;
-  acvpUserId: number;
-  personId: number;
+  acvpUserID: number;
+  personID: number;
   person: Person;
   fullName: string;
   companyId: number;

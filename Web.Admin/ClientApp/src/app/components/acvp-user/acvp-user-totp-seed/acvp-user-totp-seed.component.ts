@@ -35,12 +35,12 @@ export class AcvpUserTotpSeedComponent implements OnInit {
   }
 
   submitRefreshSeedModal() {
-    this.UserService.refreshSeed(this.selectedUser.acvpUserId).subscribe(
+    this.UserService.refreshSeed(this.selectedUser.acvpUserID).subscribe(
       data => { this.hideRefreshSeedConfirmation(); this.notifyParentComponent.emit(data); });
   }
 
   submitEditSeedModal() {
-    this.UserService.updateSeed(this.selectedUser.acvpUserId, new AcvpUserSeedUpdateParameters(this.editSeedValue)).subscribe(
+    this.UserService.updateSeed(this.selectedUser.acvpUserID, new AcvpUserSeedUpdateParameters(this.editSeedValue)).subscribe(
       data => { this.hideEditSeedModal(); this.notifyParentComponent.emit(data); });
   }
 

@@ -15,7 +15,7 @@ export class AcvpUserComponent implements OnInit {
   constructor(private AcvpUserDataService: AcvpUserDataProviderService, private route: ActivatedRoute) { }
 
   refreshPageData() {
-    this.AcvpUserDataService.getAcvpUser(this.selectedUser.acvpUserId).subscribe(
+    this.AcvpUserDataService.getAcvpUser(this.selectedUser.acvpUserID).subscribe(
       data => {
         this.selectedUser = data;
 

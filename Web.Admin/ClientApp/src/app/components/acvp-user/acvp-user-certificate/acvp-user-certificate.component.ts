@@ -35,7 +35,7 @@ export class AcvpUserCertificateComponent implements OnInit {
   set user(user: AcvpUser) {
     if (typeof user !== "undefined") {
       this.selectedUser = user;
-      this.PersonService.getPerson(user.personId).subscribe(
+      this.PersonService.getPerson(user.personID).subscribe(
         data => {
           this.selectedUser.person = data;
           this.generateEmailBody();
@@ -122,7 +122,7 @@ export class AcvpUserCertificateComponent implements OnInit {
       // Parse the result and split it to get only the Base64 portion
       let param = new AcvpUserCertificateUpdateParameters(reader.result.toString().split(',')[1]);
 
-      self.UserService.updateCertificate(self.selectedUser.acvpUserId, param)
+      self.UserService.updateCertificate(self.selectedUser.acvpUserID, param)
         .subscribe(data => {
 
           // This hides the modal that is part of this component
