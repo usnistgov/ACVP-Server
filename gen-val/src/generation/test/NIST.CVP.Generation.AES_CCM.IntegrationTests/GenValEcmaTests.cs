@@ -63,8 +63,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             var aadDomain = new MathDomain();
             aadDomain.AddSegment(new ValueDomainSegment(16 * 8));
 
-            var tagDomain = new MathDomain();
-            tagDomain.AddSegment(new ValueDomainSegment(8 * 8));
+            var tagLen = new[] {8 * 8};
 
             var nonceDomain = new MathDomain();
             nonceDomain.AddSegment(new ValueDomainSegment(13 * 8));
@@ -77,7 +76,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 KeyLen = new [] { 128 },
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,
-                TagLen = tagDomain,
+                TagLen = tagLen,
                 IvLen = nonceDomain,
                 Conformances = new [] {"ecma"},
                 IsSample = true
@@ -96,8 +95,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
             var aadDomain = new MathDomain();
             aadDomain.AddSegment(new RangeDomainSegment(random, 14 * 8, 4109 * 8, 8));
 
-            var tagDomain = new MathDomain();
-            tagDomain.AddSegment(new ValueDomainSegment(8 * 8));
+            var tagLen = new[] {8 * 8};
 
             var nonceDomain = new MathDomain();
             nonceDomain.AddSegment(new ValueDomainSegment(13 * 8));
@@ -110,7 +108,7 @@ namespace NIST.CVP.Generation.AES_CCM.IntegrationTests
                 KeyLen = new [] { 128 },
                 PayloadLen = ptDomain,
                 AadLen = aadDomain,
-                TagLen = tagDomain,
+                TagLen = tagLen,
                 IvLen = nonceDomain,
                 Conformances = new [] {"ecma"},
                 IsSample = false

@@ -15,7 +15,7 @@ namespace NIST.CVP.Generation.AES_CCM.v1_0
         public MathDomain PayloadLen { get; set; }
         public MathDomain IvLen { get; set; }
         public MathDomain AadLen { get; set; }
-        public MathDomain TagLen { get; set; }
+        public int[] TagLen { get; set; }
         public bool SupportsAad2Pow16 { get; set; }
     }
 }
