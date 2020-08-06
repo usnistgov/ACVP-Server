@@ -4,7 +4,7 @@ export class Validation {
   updated: Date;
   vendorId: number;
   validationLabel: string;
-  productName: string;
-  created: Date;
+  implementationName: string;
+  createdOn: Date;
   implementationID: number;
 }
