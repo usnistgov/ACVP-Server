@@ -12,9 +12,13 @@ Please report issues found on the Demo or Prod servers on this repository. Issue
 
 * Errors generating or validating vector sets
 * Questions about the server/implementation
+* Questions about authentication
 * Noticed differences from the protocol specifications
+* Suggestions for improved tests
 
 Questions or problems with the specifications, can be raised with issues on the protocol repository. Questions or problems with the CAVP's use of ACVP or how ACVP fits into the larger CMVP should be raised via email to a member of the CAVP. 
+
+When creating an issue, DO NOT share any secret values used for authentication. DO NOT share a JWT, and DO NOT share a TOTP seed. 
 
 ## Disclaimer
 
