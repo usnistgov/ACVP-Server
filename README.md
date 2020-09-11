@@ -2,6 +2,20 @@
 
 An implementation of the [Automated Cryptographic Validation Protocol (ACVP)](https://github.com/usnistgov/acvp) for NIST. This repository will be used to track deployments and issues of the Demo and Production ACVP Servers hosted by NIST. The server implementation *MAY* differ from the protocol specification. We will track those differences in this repository. Some modifications may be additional requirements on top of the protocol that are NIST specific. The protocol is intended to be general purpose for any testing body to host a compliant instance. 
 
+## Releases
+
+Release notes will often be posted on this repository for both the Demo and Production NIST ACVP servers. Release notes marked as "prerelease" are for the Demo server. Notes marked as "release" are for the Prod server. 
+
+## Issues
+
+Please report issues found on the Demo or Prod servers on this repository. Issues that can be reported here include
+
+* Errors generating or validating vector sets
+* Questions about the server/implementation
+* Noticed differences from the protocol specifications
+
+Questions or problems with the specifications, can be raised with issues on the protocol repository. Questions or problems with the CAVP's use of ACVP or how ACVP fits into the larger CMVP should be raised via email to a member of the CAVP. 
+
 ## Disclaimer
 
 ```
