@@ -6,6 +6,11 @@ An implementation of the [Automated Cryptographic Validation Protocol (ACVP)](ht
 
 Release notes will often be posted on this repository for both the Demo and Production NIST ACVP servers. Release notes marked as "prerelease" are for the Demo server. Notes marked as "release" are for the Prod server. 
 
+## Wiki
+
+* See the [ACVP-Server Wiki](https://github.com/usnistgov/ACVP-Server/wiki) for information such as documentation on ACVP Server specific endpoints.
+* See the [ACVP Protocol Wiki](https://github.com/usnistgov/ACVP/wiki) for information regarding protocol specific usage / FAQs.
+
 ## Issues
 
 Please report issues found on the Demo or Prod servers on this repository. Issues that can be reported here include
