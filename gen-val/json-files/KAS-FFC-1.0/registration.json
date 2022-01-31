@@ -1,0 +1,82 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-FFC",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "function": [
+    "dpGen",
+    "dpVal",
+    "keyPairGen",
+    "fullVal",
+    "keyRegen"
+  ],
+  "scheme": {
+    "dhHybrid1": {
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "noKdfNoKc": {
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
+              "SHA-1",
+              "SHA2-224"
+            ]
+          }
+        }
+      },
+      "kdfNoKc": {
+        "kdfOption": {
+          "asn1": "uPartyInfo||vPartyInfo||literal[cafecafe]"
+        },
+        "parameterSet": {
+          "fb": {
+            "hashAlg": [
+              "SHA-1",
+              "SHA2-224"
+            ],
+            "macOption": {
+              "aeS-CCM": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 104
+              },
+              "cmac": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA-1": {
+                "keyLen": [
+                  160
+                ],
+                "macLen": 160,
+                "nonceLen": 0
+              },
+              "hmaC-SHA2-512/224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              },
+              "hmaC-SHA3-224": {
+                "keyLen": [
+                  128
+                ],
+                "macLen": 128,
+                "nonceLen": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

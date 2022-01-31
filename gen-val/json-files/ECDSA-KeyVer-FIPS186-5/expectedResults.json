@@ -1,0 +1,94 @@
+{
+  "vsId": 0,
+  "algorithm": "ECDSA",
+  "mode": "KeyVer",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": true
+        },
+        {
+          "tcId": 2,
+          "testPassed": false
+        },
+        {
+          "tcId": 3,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 4,
+          "testPassed": false
+        },
+        {
+          "tcId": 5,
+          "testPassed": false
+        },
+        {
+          "tcId": 6,
+          "testPassed": true
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 7,
+          "testPassed": false
+        },
+        {
+          "tcId": 8,
+          "testPassed": true
+        },
+        {
+          "tcId": 9,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 10,
+          "testPassed": false
+        },
+        {
+          "tcId": 11,
+          "testPassed": true
+        },
+        {
+          "tcId": 12,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "tests": [
+        {
+          "tcId": 13,
+          "testPassed": false
+        },
+        {
+          "tcId": 14,
+          "testPassed": true
+        },
+        {
+          "tcId": 15,
+          "testPassed": false
+        }
+      ]
+    }
+  ]
+}

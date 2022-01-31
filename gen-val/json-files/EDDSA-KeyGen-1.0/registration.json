@@ -1,0 +1,16 @@
+{
+  "vsId": 0,
+  "algorithm": "EDDSA",
+  "mode": "KeyGen",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "curve": [
+    "ED-25519",
+    "ED-448"
+  ],
+  "secretGenerationMode": [
+    "testing candidates",
+    "extra bits"
+  ]
+}

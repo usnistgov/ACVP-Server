@@ -1,0 +1,79 @@
+{
+  "vsId": 0,
+  "algorithm": "EDDSA",
+  "mode": "KeyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "curve": "ED-25519",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": true,
+          "reason": "none",
+          "d": "9C3B5567D9D652CA64A2CF93DAB6E24CE41D8E5AD479454468DBD3E303890CDA",
+          "q": "747D32521AB36450655FF170916B68B992BF47E264B745829FA41F93A9971411"
+        },
+        {
+          "tcId": 2,
+          "testPassed": true,
+          "reason": "none",
+          "d": "19DB5DAB68F0D84500281ED7D292B3EAEA894BC5BAEC010869C99E902BC93746",
+          "q": "DAF4EB4231E819F0A80CD11774862C00E01AE6BE661C6CF87058129305E09C15"
+        },
+        {
+          "tcId": 3,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "7D9E82D3249EF9D1B38FF87F8D9163EB1366BA6B8F34B868418EAD513FB55FC1",
+          "q": "6FC94DABE8C50F71CC9EE597D08565C13CD73EF5F2C729A48B0A44711F8EA995"
+        },
+        {
+          "tcId": 4,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "4DB4A3E7A1751E76A40E9B7A35B80264D7D73E85A74C06AA88FD28496F6F5487",
+          "q": "DF3A099665300DDE2689FF25A154682014457AA368EFA5F620A1B204ED0D2691"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "curve": "ED-448",
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 5,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "D10A6C38E7E27D8B9491C7DE1077366B7544695892FF69C772173D287D2078A1CF719B259477FAC407323AD909DAC46220F0E833BE05716C30",
+          "q": "5A36BAFBDEDC4324350D2B64EEDC1E3F8CBD5DA94C27E1312FA8606C50F98AFF7DCA29E76D12DFEEE5E27D493588156FC0BA27378FBCF7CE00"
+        },
+        {
+          "tcId": 6,
+          "testPassed": true,
+          "reason": "none",
+          "d": "4900336BB082FFBA308BCC0AC9731515067F4453A9DFFBBC97D3428A14D450201F84E8C13436176B21900975DC94A8DB6D33D56BF0830431C3",
+          "q": "656E10A2D9BB1EC71EBF4233BD228D554C5A0F80B9B686C51AFE9690E1F9572D70469744B4842D8EE4C7FAC0090E76194A344FB59399BE7680"
+        },
+        {
+          "tcId": 7,
+          "testPassed": true,
+          "reason": "none",
+          "d": "22373DABD6AC8F7115F6F08E722CBEAC403428A6B3F582E2B27B96B19B125F3F2D71CCCBFC25AFFE3B4D8711E0F40604C3A5BEFA2C8371EF03",
+          "q": "2B78D06371EA4C2CD7E98C0F377AC17739656D6674756D5D0F3FF4B103991D9D0A10FD3622612B3CEA712FC0BEF1AA5122F9D3BB48768CC380"
+        },
+        {
+          "tcId": 8,
+          "testPassed": false,
+          "reason": "point not on curve",
+          "d": "5093507254E981D6A4C8EA7206CAE52194EDF040FF610C0A2ED104BD07E0C5839717EECA227724385B74E2327DF80C3ED3DD3EA07C8D173E5F",
+          "q": "66A5DC3A57FCA65B2C73B5DC48BC3A37562BD296DC35666FAF87ED450D9923F075F3D9C442EC772168BF6F9B3F9F8A20AD25B5019B42968900"
+        }
+      ]
+    }
+  ]
+}

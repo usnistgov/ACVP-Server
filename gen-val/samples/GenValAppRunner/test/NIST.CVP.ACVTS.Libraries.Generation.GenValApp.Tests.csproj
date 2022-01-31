@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="Autofac" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\src\NIST.CVP.ACVTS.Generation.GenValApp.csproj" />  
+  </ItemGroup>
+  
+  
+  <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+    <ProjectReference Include="..\..\..\src\common\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+    <ProjectReference Include="..\..\..\src\common\test\NIST.CVP.ACVTS.Tests.Core\NIST.CVP.ACVTS.Tests.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+    <PackageReference Include="NIST.CVP.ACVTS.Tests.Core" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,145 @@
+{
+  "vsId": 0,
+  "algorithm": "ECDSA",
+  "mode": "KeyGen",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1
+        },
+        {
+          "tcId": 2
+        },
+        {
+          "tcId": 3
+        }
+      ],
+      "curve": "P-224",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 4
+        },
+        {
+          "tcId": 5
+        },
+        {
+          "tcId": 6
+        }
+      ],
+      "curve": "P-224",
+      "secretGenerationMode": "extra bits"
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 7
+        },
+        {
+          "tcId": 8
+        },
+        {
+          "tcId": 9
+        }
+      ],
+      "curve": "P-256",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 10
+        },
+        {
+          "tcId": 11
+        },
+        {
+          "tcId": 12
+        }
+      ],
+      "curve": "P-256",
+      "secretGenerationMode": "extra bits"
+    },
+    {
+      "tgId": 5,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 13
+        },
+        {
+          "tcId": 14
+        },
+        {
+          "tcId": 15
+        }
+      ],
+      "curve": "P-384",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 6,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 16
+        },
+        {
+          "tcId": 17
+        },
+        {
+          "tcId": 18
+        }
+      ],
+      "curve": "P-384",
+      "secretGenerationMode": "extra bits"
+    },
+    {
+      "tgId": 7,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 19
+        },
+        {
+          "tcId": 20
+        },
+        {
+          "tcId": 21
+        }
+      ],
+      "curve": "P-521",
+      "secretGenerationMode": "testing candidates"
+    },
+    {
+      "tgId": 8,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 22
+        },
+        {
+          "tcId": 23
+        },
+        {
+          "tcId": 24
+        }
+      ],
+      "curve": "P-521",
+      "secretGenerationMode": "extra bits"
+    }
+  ]
+}

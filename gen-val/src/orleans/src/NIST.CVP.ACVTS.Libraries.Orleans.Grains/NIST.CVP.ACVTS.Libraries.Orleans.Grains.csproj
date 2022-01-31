@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>$(GenValPackageVersion)</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Constains implementations for generating/validating cryptographic test cases against an Orleans cluster.</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" />
+    <PackageReference Include="Microsoft.Orleans.CodeGenerator.MSBuild" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+		<ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Math\NIST.CVP.ACVTS.Libraries.Math.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto\NIST.CVP.ACVTS.Libraries.Crypto.csproj" />
+    <ProjectReference Include="..\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Math" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces" />
+	</ItemGroup>
+  
+</Project>

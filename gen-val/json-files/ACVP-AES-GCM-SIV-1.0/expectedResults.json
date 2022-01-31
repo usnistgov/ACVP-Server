@@ -1,0 +1,527 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-GCM-SIV",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "ct": "13CE3DB5A8B24930F03CE4E451FF15A1"
+        },
+        {
+          "tcId": 2,
+          "ct": "D15CBD8D955938EB63DA35E92C0E06D8"
+        },
+        {
+          "tcId": 3,
+          "ct": "1875420A6CFA07E9943BBC68197FB7EE"
+        },
+        {
+          "tcId": 4,
+          "ct": "0AF9BA2CE3C940253BD2189F1EE97216"
+        },
+        {
+          "tcId": 5,
+          "ct": "DEC024B66906B3B79710B192DCDABABA"
+        },
+        {
+          "tcId": 6,
+          "ct": "1BCB4BD85ED0B25CBF14825630A8401D"
+        },
+        {
+          "tcId": 7,
+          "ct": "9BB78DCCAAF4A774E58EBBA367F3F4A8"
+        },
+        {
+          "tcId": 8,
+          "ct": "E78205EACB3FE643439805726D3655FB"
+        },
+        {
+          "tcId": 9,
+          "ct": "FFD5E313FEA58CEC747E8855ABA2F650"
+        },
+        {
+          "tcId": 10,
+          "ct": "368CC98C41EAE144127C3281AC2FB13D"
+        },
+        {
+          "tcId": 11,
+          "ct": "0D612E31640326F12165E520A68B3A17"
+        },
+        {
+          "tcId": 12,
+          "ct": "1341497C4F29FAADE5AAE916AF0509E6"
+        },
+        {
+          "tcId": 13,
+          "ct": "E0AD56AFB5CA5DC88D437F52EE887BC2"
+        },
+        {
+          "tcId": 14,
+          "ct": "3BE3CC31577A959EBCDCE638C86CEB6B"
+        },
+        {
+          "tcId": 15,
+          "ct": "DB9B3E18B0E0D01C69AAF950AC5DA7E3"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 16,
+          "ct": "D6295FC32D890EFAD36402EC59311BBB"
+        },
+        {
+          "tcId": 17,
+          "ct": "4664B92B1ADA2FD75C32966A92EC9883"
+        },
+        {
+          "tcId": 18,
+          "ct": "01C185C66D24DF67A0B51F2CD4820910"
+        },
+        {
+          "tcId": 19,
+          "ct": "3A2450F316899E80B72DCEFFE66539F6"
+        },
+        {
+          "tcId": 20,
+          "ct": "4391B1B969CC537EDA49D510B30FBF1E"
+        },
+        {
+          "tcId": 21,
+          "ct": "A35C8793262FEC6443E420E16E0A03F8"
+        },
+        {
+          "tcId": 22,
+          "ct": "9184F9371D2CC715D3600C9C87B4416E"
+        },
+        {
+          "tcId": 23,
+          "ct": "F6F4F86355E6BF0FCD58F4359FCA6E81"
+        },
+        {
+          "tcId": 24,
+          "ct": "DB528A04E519D8A6F1428E0493B23177"
+        },
+        {
+          "tcId": 25,
+          "ct": "023FB4A52A99D45CCFE71C7861BB366D"
+        },
+        {
+          "tcId": 26,
+          "ct": "78070D14D7DE6BC207B6A3E657C83AA5"
+        },
+        {
+          "tcId": 27,
+          "ct": "B2C6F35109E016A84C53476D6863A408"
+        },
+        {
+          "tcId": 28,
+          "ct": "361AADE7AE1EA349FA6F391F1ED454E3"
+        },
+        {
+          "tcId": 29,
+          "ct": "FC45FD2B89DA916FACB0969290D7FE66"
+        },
+        {
+          "tcId": 30,
+          "ct": "554A9C47FE5A816ED116253C313A55EC"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 31,
+          "ct": "23E08E1DE838422C361128A3492C3340FDB0250A3578E0B763B2D1AAD674F9"
+        },
+        {
+          "tcId": 32,
+          "ct": "E520C78D63B12086C3883B4AFA6310B77252092494D56BCCCFDCA2D56EDD77"
+        },
+        {
+          "tcId": 33,
+          "ct": "DA0603070663F62541DC40D3D5A52093A63DC1DB43C96A9E23F20B1E07EAAA"
+        },
+        {
+          "tcId": 34,
+          "ct": "0B752CC5235F04DCB3EB8C45C3A2BD7EF855B25B3CBEA64145BC016E2E96DA"
+        },
+        {
+          "tcId": 35,
+          "ct": "33A4ABCA3AF61A9736F511E5F8A912DDCCBED8EBE54EAC7C074009A18FF0AB"
+        },
+        {
+          "tcId": 36,
+          "ct": "D9F7BF3B40D6D2EB681CCADB95B23AA30289D9986EF6811D1D06C5DA657712"
+        },
+        {
+          "tcId": 37,
+          "ct": "A91F1130C94B256E6E27360CF59C84640B9AEC08BD2B2BEDA721DED6855883"
+        },
+        {
+          "tcId": 38,
+          "ct": "69CFF12B5083521EB067E2169997A73879FD0C3A76AAA7F759B42076434CCC"
+        },
+        {
+          "tcId": 39,
+          "ct": "31CE48D5D8012FF70B13C6285691AB58B5BFE7A3E51475604CAE3D6B67E21C"
+        },
+        {
+          "tcId": 40,
+          "ct": "99D58758769D2B0C2B02E3E27000027E68068AF7D623F91C044675EB76A4AB"
+        },
+        {
+          "tcId": 41,
+          "ct": "41C956165A665EE2DC25E15BF3063798A2EFB84D3CD600FCCBA75714B1A8FF"
+        },
+        {
+          "tcId": 42,
+          "ct": "FFE15FA9CB98ED0CAE3B0ABC09CAE1DA960A13C8E18AD63D9F0B5119788698"
+        },
+        {
+          "tcId": 43,
+          "ct": "2A47B41A0B00DA32DD88A8D8B749EAF977173D4270309556AF91D007693B7C"
+        },
+        {
+          "tcId": 44,
+          "ct": "666332D2DD8A9AFE25CB4508A922998BB45B93BF97FE470080B87DF28DC985"
+        },
+        {
+          "tcId": 45,
+          "ct": "2383C0BE5AD1C883367247BF7F83406EEAF32A7E6EEFD7DE9808C82960D9FA"
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 46,
+          "ct": "4228997B6C6CC6680DE2A54DA1D16E0199DF30E1CA57F0E2BC8A0C8469ACB6"
+        },
+        {
+          "tcId": 47,
+          "ct": "B9AD2F0BAF95E1A43D464E1FDF18C8B87882A99962F681ED2506A349E30D86"
+        },
+        {
+          "tcId": 48,
+          "ct": "953E595995A60809F56F021395B424D993093A0048CF9F13A224F25BE91BFA"
+        },
+        {
+          "tcId": 49,
+          "ct": "C8DF201F03AB8AA65431607CBAF6083E5D7F46E1F08C84EF0E20E5ABFEBBE4"
+        },
+        {
+          "tcId": 50,
+          "ct": "64288667785F3DDB9CC83E24E9F30D5265436C2FEF8A8E3A537749E9B25C0D"
+        },
+        {
+          "tcId": 51,
+          "ct": "4C2F8CA91F94C94586DCA3926F79F1E7F4C21C78EAD4C8132BCE2119EF130A"
+        },
+        {
+          "tcId": 52,
+          "ct": "8791EADED64E669378DE23DA45C45DFCD0E0DC928D05D9BB8980A107CE3038"
+        },
+        {
+          "tcId": 53,
+          "ct": "977E963D118DCC3207B64402FE83D72B41E1D40B115D17151C9AE757980E04"
+        },
+        {
+          "tcId": 54,
+          "ct": "F0C2E1491ECEDA27609F574107EE4C6D5DE839A90D52E3DCBDBFB6EDA066B1"
+        },
+        {
+          "tcId": 55,
+          "ct": "22BE8C29B1D34272C3C2ED547E57B03E2619181B6E09EBA944110D1832D2B8"
+        },
+        {
+          "tcId": 56,
+          "ct": "B705761FD6F36882C7093CF679881D0303E1A914EC59F7C27B628C3F6FA46B"
+        },
+        {
+          "tcId": 57,
+          "ct": "E0462849D0AE335A91E323FBE95AD0ED4A191FF8FD2C07E078B0E9B08B0C82"
+        },
+        {
+          "tcId": 58,
+          "ct": "EE61461CF84CB8629834AD2E6A48F39A5BC1DE7259AB053D66B14E3E3EC6FF"
+        },
+        {
+          "tcId": 59,
+          "ct": "8C4B29F34EA6206A67B4084934004415C9DA118BBB915551D85683EDFDCB90"
+        },
+        {
+          "tcId": 60,
+          "ct": "942E7B05B265D8B0C9CA33755212BC48DFDB41F2E355918AB15D68E62B9F91"
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "tests": [
+        {
+          "tcId": 61,
+          "pt": ""
+        },
+        {
+          "tcId": 62,
+          "pt": ""
+        },
+        {
+          "tcId": 63,
+          "pt": ""
+        },
+        {
+          "tcId": 64,
+          "pt": ""
+        },
+        {
+          "tcId": 65,
+          "pt": ""
+        },
+        {
+          "tcId": 66,
+          "pt": ""
+        },
+        {
+          "tcId": 67,
+          "pt": ""
+        },
+        {
+          "tcId": 68,
+          "pt": ""
+        },
+        {
+          "tcId": 69,
+          "pt": ""
+        },
+        {
+          "tcId": 70,
+          "pt": ""
+        },
+        {
+          "tcId": 71,
+          "pt": ""
+        },
+        {
+          "tcId": 72,
+          "pt": ""
+        },
+        {
+          "tcId": 73,
+          "pt": ""
+        },
+        {
+          "tcId": 74,
+          "pt": ""
+        },
+        {
+          "tcId": 75,
+          "pt": ""
+        }
+      ]
+    },
+    {
+      "tgId": 6,
+      "tests": [
+        {
+          "tcId": 76,
+          "pt": ""
+        },
+        {
+          "tcId": 77,
+          "pt": ""
+        },
+        {
+          "tcId": 78,
+          "pt": ""
+        },
+        {
+          "tcId": 79,
+          "pt": ""
+        },
+        {
+          "tcId": 80,
+          "pt": ""
+        },
+        {
+          "tcId": 81,
+          "pt": ""
+        },
+        {
+          "tcId": 82,
+          "pt": ""
+        },
+        {
+          "tcId": 83,
+          "pt": ""
+        },
+        {
+          "tcId": 84,
+          "pt": ""
+        },
+        {
+          "tcId": 85,
+          "pt": ""
+        },
+        {
+          "tcId": 86,
+          "pt": ""
+        },
+        {
+          "tcId": 87,
+          "pt": ""
+        },
+        {
+          "tcId": 88,
+          "pt": ""
+        },
+        {
+          "tcId": 89,
+          "pt": ""
+        },
+        {
+          "tcId": 90,
+          "pt": ""
+        }
+      ]
+    },
+    {
+      "tgId": 7,
+      "tests": [
+        {
+          "tcId": 91,
+          "pt": "E3AEC1290A2E52EC57F24C7BB020CE"
+        },
+        {
+          "tcId": 92,
+          "pt": "0C83EA1EFE61FD15AE5E587BE2EF33"
+        },
+        {
+          "tcId": 93,
+          "pt": "DEEA93D9F51C8F04A96795F5F7187F"
+        },
+        {
+          "tcId": 94,
+          "pt": "16836032C06209C22975E67084FEE1"
+        },
+        {
+          "tcId": 95,
+          "pt": "FFC24AE36C9B9C2FA12EB59320B2A9"
+        },
+        {
+          "tcId": 96,
+          "pt": "03820AC7997789AA570CD337330FB2"
+        },
+        {
+          "tcId": 97,
+          "pt": "1B67ACF22D704892B061C3907988AD"
+        },
+        {
+          "tcId": 98,
+          "pt": "210B7D5CE940C3F1522532914EC2C0"
+        },
+        {
+          "tcId": 99,
+          "pt": "E4A9D6212BEC7B36893C9E5F2315F5"
+        },
+        {
+          "tcId": 100,
+          "pt": "76063905CCD0571E1BD874A8F35F07"
+        },
+        {
+          "tcId": 101,
+          "pt": "38F5DD683294A359E087F261D46013"
+        },
+        {
+          "tcId": 102,
+          "pt": "D6FF04E742971AEFB8C337FA7D7C53"
+        },
+        {
+          "tcId": 103,
+          "pt": "E34568A427B1E3D0BB16552A50A0A0"
+        },
+        {
+          "tcId": 104,
+          "pt": "587906A29743FB1E161D5D7063EE97"
+        },
+        {
+          "tcId": 105,
+          "pt": "F476EEDCB953CA0D86CA29E017303F"
+        }
+      ]
+    },
+    {
+      "tgId": 8,
+      "tests": [
+        {
+          "tcId": 106,
+          "pt": "3002CD596E5497952DCD42CDB27376"
+        },
+        {
+          "tcId": 107,
+          "pt": "0AB834EC0043D34F021164BD048CD5"
+        },
+        {
+          "tcId": 108,
+          "pt": "CC6A79D07C3D2C92C644681CEE226C"
+        },
+        {
+          "tcId": 109,
+          "pt": "23850D5977F69D52C67E8C4E2ED0FB"
+        },
+        {
+          "tcId": 110,
+          "pt": "693EF9BB11242411FF395189F28FC4"
+        },
+        {
+          "tcId": 111,
+          "pt": "D009D2935A9E47BE276E5FEB2D8655"
+        },
+        {
+          "tcId": 112,
+          "pt": "455016A3CE17E5D83B84579B17E057"
+        },
+        {
+          "tcId": 113,
+          "pt": "212663ADA5ACF7F49BC6AF8E74530D"
+        },
+        {
+          "tcId": 114,
+          "pt": "4FE53279A71884BAEA0AF879E90E22"
+        },
+        {
+          "tcId": 115,
+          "pt": "7E19575882F58657D838195C8044D3"
+        },
+        {
+          "tcId": 116,
+          "pt": "AFDDE6646303BE0B89AAB48220653F"
+        },
+        {
+          "tcId": 117,
+          "pt": "14432BD780524F73A7C93A3AF0DB3F"
+        },
+        {
+          "tcId": 118,
+          "pt": "C989651293760692D79678EFA69070"
+        },
+        {
+          "tcId": 119,
+          "pt": "1676C6F7A7BBB75CF40C930BC1154D"
+        },
+        {
+          "tcId": 120,
+          "pt": "8D945186BC47892649D5480EB98E14"
+        }
+      ]
+    }
+  ]
+}

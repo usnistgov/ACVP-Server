@@ -1,0 +1,29 @@
+{
+  "vsId": 0,
+  "algorithm": "TUPLEHASH-128",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [],
+  "digestSize": [
+    128
+  ],
+  "xof": [
+    true,
+    false
+  ],
+  "hexCustomization": false,
+  "outputLen": [
+    {
+      "min": 256,
+      "max": 512,
+      "increment": 8
+    }
+  ],
+  "msgLen": [
+    {
+      "min": 0,
+      "max": 1024,
+      "increment": 8
+    }
+  ]
+}

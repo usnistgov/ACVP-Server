@@ -1,0 +1,365 @@
+{
+  "vsId": 0,
+  "algorithm": "PBKDF",
+  "revision": "1.0",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "hmacAlg": "SHA2-224",
+      "tests": [
+        {
+          "tcId": 1,
+          "keyLen": 904,
+          "salt": "DFBEB6191A791DBE3E045A3919F0623E8861B94D24BC02C93F05345AFF8FCCAE0BAADD6EFD812FA1C4",
+          "password": "apfGasHPUZUdRRnawk",
+          "iterationCount": 3890
+        },
+        {
+          "tcId": 2,
+          "keyLen": 1304,
+          "salt": "2210A155E39A8C36B3CEF3B2F7204C91A605EEC7B8F01E93CF1A9C0C2FC8C4DC441326EABB3C4051C753D291EC0CBF",
+          "password": "mypTVZDdEwsiuiIgXIYWgFubalNhFNPstjxOdS",
+          "iterationCount": 3464
+        },
+        {
+          "tcId": 3,
+          "keyLen": 744,
+          "salt": "0D1A887B5E9DDBEC04FFF4D154FEDC2096FE62",
+          "password": "rBPNUiZTLeDOCLThHUdbvFOBEGNZfjylLXeffYlRSFNhjNkEajCp",
+          "iterationCount": 6455
+        },
+        {
+          "tcId": 4,
+          "keyLen": 456,
+          "salt": "AD00BFC625FA46104125E6B29A5FD1A077D02972D3623C01D8A3367DE1E6459DE4A81FC55758944FAB315EA24211DCB8320B5706873D06CCC6171FBA49F1429F",
+          "password": "HQjwnmbkpFQRQLbEvnbGNsxwuLdwOGhVaAsqcghvnvohFvqQjxSvBfP",
+          "iterationCount": 8792
+        },
+        {
+          "tcId": 5,
+          "keyLen": 1360,
+          "salt": "DE057FCDBFA1BD15517035B1F5E73766715A2D4ADB19606D75D2B72D6953EE752A8BD72E24058A8649EE0E2E11972F436D44C54D87F91EB633A4D2492707",
+          "password": "QMRHBjdlnJqenEFaZSrTdRWgnbNqeWzGKCWHoQauaBWNHdttnrjNPiSYP",
+          "iterationCount": 8924
+        },
+        {
+          "tcId": 6,
+          "keyLen": 648,
+          "salt": "045266A91924797905E5AE6E09402581CCF4A524307F344D5C691B10D6B4CE9BDADD795E576E2A77717110A6AB6BC46D",
+          "password": "QFlVvBAPrZUqSDkNkXUQdOS",
+          "iterationCount": 9537
+        },
+        {
+          "tcId": 7,
+          "keyLen": 896,
+          "salt": "B39A4A1AE29C4A44C6C219814F620382F1DE2F792F7DDA504E3C9BDA1074CEC45FBD6085B292A30D856F",
+          "password": "wRRkBRKFXlgTGRiP",
+          "iterationCount": 5653
+        },
+        {
+          "tcId": 8,
+          "keyLen": 1976,
+          "salt": "0C8DA55B093A38A12FDD134DE52603901B4625494B4E2D6D83CDB150A5DCACEAFD94003293343E83CABA72B47B4A76D0876FE0D3",
+          "password": "qeFljTbJtEyRRaJgiLsYEioHBAXINiLQ",
+          "iterationCount": 365
+        },
+        {
+          "tcId": 9,
+          "keyLen": 1024,
+          "salt": "140300B63082CB097D6D05492D66B45CAB8D3BE9CB795FDDB04AC3DAFDAB33A4138A5FCDADED3C",
+          "password": "DQooLrbPahioRxdjHNqJCwIdPSPsULwdsMJDhPnhBUYtBXPymZgbpv",
+          "iterationCount": 8699
+        },
+        {
+          "tcId": 10,
+          "keyLen": 1664,
+          "salt": "520DD6A9EC77EE6F5B78F16BCAF94D4435E4801F00EFB2CD952F23F239D44C8E2021FEA4E8961F8B4C43ECE428A445B8CB4C",
+          "password": "QEopRaKjPG",
+          "iterationCount": 6029
+        },
+        {
+          "tcId": 11,
+          "keyLen": 288,
+          "salt": "FD54D82A5E16E80373B40C9FC5FAA46D6814BF0B7A9BE1590CBE4BE2D331EE8183BAFC",
+          "password": "rxWSgbcuzPIXNaKdLPGWhjgtEvNnLiYHfTdINRnOyGFVQSTKtAZVK",
+          "iterationCount": 7993
+        },
+        {
+          "tcId": 12,
+          "keyLen": 128,
+          "salt": "11B7ACE1D840DAB4E61FE74829FE26B9447D59CAA031274F",
+          "password": "ZvnmqNLtULcWpfFmIZFJKDZwyVDpVMxkeVcgVsfVMBWFqOmjAuKszFgvvROukvx",
+          "iterationCount": 7318
+        },
+        {
+          "tcId": 13,
+          "keyLen": 880,
+          "salt": "84FE047AB26A57AFE52DB02DF3AA6EA9555421E1F9C867A30415E7CB",
+          "password": "ColxgnUXJatRSeoPcTbPvETeMHjVzdezNLiWsnYXAvSCITHxONc",
+          "iterationCount": 3172
+        },
+        {
+          "tcId": 14,
+          "keyLen": 1256,
+          "salt": "1C639CAEDC1F18E3AC0D82A559FEBD6F89B5D07C4D7F1C45E0",
+          "password": "xLzegXVWuazf",
+          "iterationCount": 8413
+        },
+        {
+          "tcId": 15,
+          "keyLen": 1048,
+          "salt": "C1FE95ECDD6A5890725D3049AB04D6FCB507AFB41F11D83C549A0E7A993384A01869E5DBC9394115F7C9B761C8EB07DF914D6256643C49A7D95F251F7F",
+          "password": "VGujmstubvQqAVTLspzJKsUoYRZRRZKpPysOYmkOgwhxhK",
+          "iterationCount": 4226
+        },
+        {
+          "tcId": 16,
+          "keyLen": 312,
+          "salt": "146EBA3027E0B12E7A9414511CA9FF7ADD76E0A2055CC0699B59B7790E723BB8F6690FB33C69793791FC881428B946FA55B03658D2FB87",
+          "password": "JfEfZBjjWxhOeTHbKepZqODogOMCqCbdIe",
+          "iterationCount": 1910
+        },
+        {
+          "tcId": 17,
+          "keyLen": 1632,
+          "salt": "ABD1BD972C5D6EBC709B9361A965E88122FE1F42690F53B0B41779CF780A69DC23B39716396559BEFA8AA0ECA801A15E6595DA",
+          "password": "WaWVJjADbXwaXTEwXGt",
+          "iterationCount": 7532
+        },
+        {
+          "tcId": 18,
+          "keyLen": 984,
+          "salt": "3264A123F3C828C0055C02066F72B354CFA45D3A33833983D4308CCB4999D5158333AB60056AA914FE5D91726936FA65F78A19BB1CBF3DDDC5A6",
+          "password": "ydEiXVwDVqiWGunlexrQByfehDqXcIYyTlKpPSshdUl",
+          "iterationCount": 3590
+        },
+        {
+          "tcId": 19,
+          "keyLen": 328,
+          "salt": "93F0CC1253984750214B94947DFD1C80FD58270851C5A81761A999F77073D346246F6B11AD29C8A0FD7B1AEBAAB25389E1202F21FD",
+          "password": "ltUZoqtNjNRBVjc",
+          "iterationCount": 8991
+        },
+        {
+          "tcId": 20,
+          "keyLen": 1784,
+          "salt": "BE18439CEBEA158B59DACEADB7AD2C30BB8A48FDE50B75ADB7FCC1CA59F4B4AC2616059A5A32FCB90D8CB7E172248EED29960A1AC3A4C7C3",
+          "password": "nGtNHhdrY",
+          "iterationCount": 10000
+        },
+        {
+          "tcId": 21,
+          "keyLen": 568,
+          "salt": "3FA4CB3A0BA58AD72CF35198D1F9BEFE57003B6DA7AC4FA093470BAD55A264B0C368",
+          "password": "IFurZYtgaTxIQOvDXiUnDQwDgdvwIptsBTSzi",
+          "iterationCount": 1657
+        },
+        {
+          "tcId": 22,
+          "keyLen": 448,
+          "salt": "40FFD631A894CF34C017794AC1CEB54572D61052BBE58196CE2B9FB388C9A57118B44049DE3AA6F94406461E16A98B6F3E",
+          "password": "YAYNprNrWzAIUfymaJLfhPQnmeaRpawlvXigNzaSWGcmHHYmvYaQYNijKKBlr",
+          "iterationCount": 2568
+        },
+        {
+          "tcId": 23,
+          "keyLen": 2048,
+          "salt": "70136366C26D5B41C099FD8A66711C7277BFA8378C9BD15C9B7552C38AD8F7",
+          "password": "UdeuMdViHUlAJflbIMNLRKOZFaxMGggZAshr",
+          "iterationCount": 3306
+        },
+        {
+          "tcId": 24,
+          "keyLen": 1848,
+          "salt": "40331D888D24B54F10F9EEDCA9EC08B25BA5AAACDACE97186976",
+          "password": "pyREHlFrKMLtwoSvUfRaKeMbmPUQCOWMGERwVgXEJYFi",
+          "iterationCount": 893
+        },
+        {
+          "tcId": 25,
+          "keyLen": 1032,
+          "salt": "EB43AC03C979D39CB5570556A3603B0A2D43FD315A",
+          "password": "RUDkQkfUWlhIvcdMTkKaKXOwCNBqlefaUJaeKlHDXIMWcFuKVUcuyUmU",
+          "iterationCount": 3347
+        },
+        {
+          "tcId": 26,
+          "keyLen": 192,
+          "salt": "F512491B0F02A19FDB01231C80CA90D9D7305A33BB3F6B1C54334B398D3374F5",
+          "password": "oIldjexmJjaswAepYfmeeBDlVtTKVQUApmI",
+          "iterationCount": 1171
+        },
+        {
+          "tcId": 27,
+          "keyLen": 1096,
+          "salt": "F90E184DE3523C179997B7C60D4C05A9A8674F711DFF90E972A98F520EE20310B3BA6C14C0CC757560D0AEBAF7A42489C2374F3F55332F6623D91959C79DE8",
+          "password": "sedjKBTahmCMDSzjh",
+          "iterationCount": 5772
+        },
+        {
+          "tcId": 28,
+          "keyLen": 1200,
+          "salt": "373E46D087FEA12D7A256D0EC3AA919DC4D23C3CAF0B856A40F20F",
+          "password": "SAUDCpfiCOZ",
+          "iterationCount": 6956
+        },
+        {
+          "tcId": 29,
+          "keyLen": 1792,
+          "salt": "80A3AF8C3D5D8328A5ED2F8C54B758F777E6159E380A027C3A2A9A977914AAA57F300A95F2A777E6E677E4",
+          "password": "TBXmGOPAAwpnYabqlcJSAsSLFKyG",
+          "iterationCount": 1
+        },
+        {
+          "tcId": 30,
+          "keyLen": 2040,
+          "salt": "E31F5226CC080143D30E32D0410A70C80432B74A4F5501AF1F5188B190F26DF42C2C6F78",
+          "password": "gMeFUZgLKKvsnMnbRMSGQ",
+          "iterationCount": 2063
+        },
+        {
+          "tcId": 31,
+          "keyLen": 1400,
+          "salt": "5B884A712D849896AC8EF46EAFAB360B84277BBF40AA28DEB93931EE38103EB7D70462F31B",
+          "password": "WquFTZJIwaKJMXpBgmQJTI",
+          "iterationCount": 8672
+        },
+        {
+          "tcId": 32,
+          "keyLen": 1608,
+          "salt": "F3BF715BD64FFF8D33FE9EAD385524C0B3CB3247D34E641C08B01D96A69C749B6FB38EE8AA06F5411343FAD596FF",
+          "password": "QlsnRwZIuOiGJHpbtHbJEFFb",
+          "iterationCount": 4227
+        },
+        {
+          "tcId": 33,
+          "keyLen": 480,
+          "salt": "9B1ECAED61640862B9A8322303DF89FEC6D7960C23C005E7A95A1A0D79",
+          "password": "BIMOSofSmxQZIYSiuJUOVFcoMSKdVXoPNowWQqBYdheUW",
+          "iterationCount": 4540
+        },
+        {
+          "tcId": 34,
+          "keyLen": 1992,
+          "salt": "808C2012FB37EA953A06703E838C00A20F6DA3845FD873BBA54B33CE2ED93A5855498C6FD550B6F1C25173F3DA25F480BCEF45272133",
+          "password": "iQIMiHxhRETNVVuopwKy",
+          "iterationCount": 1585
+        },
+        {
+          "tcId": 35,
+          "keyLen": 112,
+          "salt": "39860ABDAA725316071089B09D2364A3BFC68969D25097C5FE7CB8EF6CCDD62EBC",
+          "password": "snhnOmRjLgUODAamfGWhhGNGOnpMQXUCQKpshHpy",
+          "iterationCount": 445
+        },
+        {
+          "tcId": 36,
+          "keyLen": 616,
+          "salt": "717992318B922B1D6E6138C2556A419A6634",
+          "password": "PVQZNSww",
+          "iterationCount": 1830
+        },
+        {
+          "tcId": 37,
+          "keyLen": 808,
+          "salt": "792DC7C2D0DB010C027E3D8E1B8D9B9A00ABE962E3059D062D40ED911041FF874487DC29AE3AB220F2D853DCFA",
+          "password": "xBWGULgEDUjQWjEnaEYjoAGIuNeurnK",
+          "iterationCount": 8419
+        },
+        {
+          "tcId": 38,
+          "keyLen": 1232,
+          "salt": "FD83FBF3E4555B386C3D62CD023B103CF3A55AF4",
+          "password": "yZwBYDVtCCLOB",
+          "iterationCount": 7781
+        },
+        {
+          "tcId": 39,
+          "keyLen": 280,
+          "salt": "9538BF1AF21885FD5B6350633FE4551CF2284FB23FF39D55F5D91F9E259E4C4760C500BE6402B18C1489B7EB6DF3BE45FAB7F088EE116395F6231DA3",
+          "password": "SnPZZhMNGQFGashHzveCZGgvhHjmnT",
+          "iterationCount": 5007
+        },
+        {
+          "tcId": 40,
+          "keyLen": 1232,
+          "salt": "813B2B0AF0A70681D125C63D15F7496B58ECAC200F1724",
+          "password": "rDNJLCYBhReUdqiUEnsmqaqUuBRcjBgzMfeLLQfozILTiWXFtOtPqhNrnSpkKWsF",
+          "iterationCount": 1830
+        },
+        {
+          "tcId": 41,
+          "keyLen": 288,
+          "salt": "439783EE59510928CCB8E2C6BA801DEDD2B3E9ACA39F8651BEDA3F13E1A380DAA6DE57E79B924FFBE4989F34E717C6FF",
+          "password": "rWnpOXiMserLcLgvELtfXFRIDXLleMOwGrDpqTMaBiGCaKHpYM",
+          "iterationCount": 3890
+        },
+        {
+          "tcId": 42,
+          "keyLen": 1096,
+          "salt": "A71594DD793925E39DEDD08E05CDC48CA79E35B188A2A8C461B13775E23A3218940E789711026FF599A82583A0EA8D64C706837F39AFAF20AC",
+          "password": "dZxCPmySWwsXQXMYxWBdFJuXUJtUkpkOgfRTkIUVDqzwErja",
+          "iterationCount": 9537
+        },
+        {
+          "tcId": 43,
+          "keyLen": 432,
+          "salt": "7C59638C2EF0DE3804CD5CC5EE8CA6275C09FCE12863075DD89268ECF59623F18BA6B78C970E",
+          "password": "KwgYDwLEuSKLTqHKsLsVObzfMyktMyKcXxqPyjNukb",
+          "iterationCount": 8394
+        },
+        {
+          "tcId": 44,
+          "keyLen": 1424,
+          "salt": "3C422033E6FA9A3FEA1DDD7E5CED413BB6",
+          "password": "sYvMfZhQkNrTpA",
+          "iterationCount": 6626
+        },
+        {
+          "tcId": 45,
+          "keyLen": 768,
+          "salt": "2540887CA32F4919119FA0803FA992ABC04AF3F5BFACD6C1C8AE4CAD2EFDB83337E27BA0E8035FF0CAE34FED",
+          "password": "RIIWSvRrRkJnMLJSttQwFNpWZzdYmUdqdzeKiyyHSkjmwLQ",
+          "iterationCount": 2916
+        },
+        {
+          "tcId": 46,
+          "keyLen": 576,
+          "salt": "14F5A8D00C38697DAFAA77CB48D11C8546CEE32D585609EBCAE1CF691611",
+          "password": "NBisZptuZsTesFAqtoBvblOLVBj",
+          "iterationCount": 141
+        },
+        {
+          "tcId": 47,
+          "keyLen": 344,
+          "salt": "415F579B866F25E75F7C108493AB1CA8",
+          "password": "gioxRuKWioCjudinjOpcAjUHVhYOzyNjCQLPXVTzyDxmiWKwPWDtGZeXoG",
+          "iterationCount": 2701
+        },
+        {
+          "tcId": 48,
+          "keyLen": 848,
+          "salt": "243B769D0C254A94A97FB0A6B4491590775B0B5BEAF8FA848C1F66CB199107E3532C387472505FAEEEA42B22862B99F67BE1E6B350F6965DAFE9ED",
+          "password": "tpPDFPjUwvzJJFfjEVaLpvInncoFMkNkBQpexhIUqLEbBMpVxgXlyFfYGBqC",
+          "iterationCount": 5502
+        },
+        {
+          "tcId": 49,
+          "keyLen": 1472,
+          "salt": "D6456B18A90CBBAA6872E15DF98480AF4C1F5FC25CEA",
+          "password": "BUQPMGgYLtTVveKnGeoEWDIyeSxGtkINQWgAByimZPvtanyMKkVfEvSYmsK",
+          "iterationCount": 3311
+        },
+        {
+          "tcId": 50,
+          "keyLen": 1832,
+          "salt": "B0BD79F6FC30921E2C49B57981DFF83846A1CD570D016F39360733CED174A6CF89919111C9A67D73",
+          "password": "YLPTeWSwxNKSqDSuKkiWjmSjSyLDNzDmbgCxVpy",
+          "iterationCount": 9794
+        }
+      ]
+    }
+  ]
+}

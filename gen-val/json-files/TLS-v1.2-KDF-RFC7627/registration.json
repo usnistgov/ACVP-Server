@@ -1,0 +1,13 @@
+{
+  "vsId": 0,
+  "algorithm": "TLS-v1.2",
+  "mode": "KDF",
+  "revision": "RFC7627",
+  "isSample": true,
+  "conformances": [],
+  "hashAlg": [
+    "SHA2-256",
+    "SHA2-384",
+    "SHA2-512"
+  ]
+}

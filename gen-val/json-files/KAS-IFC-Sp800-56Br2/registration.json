@@ -1,0 +1,206 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-IFC",
+  "revision": "Sp800-56Br2",
+  "isSample": true,
+  "iutId": "123456ABCD",
+  "scheme": {
+    "kaS1-basic": {
+      "scheme": "KAS1-basic",
+      "kasMode": "kdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "SHA2-224"
+            },
+            {
+              "auxFunctionName": "SHA2-256"
+            },
+            {
+              "auxFunctionName": "SHA2-384"
+            },
+            {
+              "auxFunctionName": "SHA2-512"
+            },
+            {
+              "auxFunctionName": "SHA3-224"
+            },
+            {
+              "auxFunctionName": "SHA3-256"
+            },
+            {
+              "auxFunctionName": "SHA3-384"
+            },
+            {
+              "auxFunctionName": "SHA3-512"
+            },
+            {
+              "auxFunctionName": "HMAC-SHA2-224",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA2-256",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA2-384",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA2-512",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA3-224",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA3-256",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA3-384",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "HMAC-SHA3-512",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "KMAC-128",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            },
+            {
+              "auxFunctionName": "KMAC-256",
+              "macSaltMethods": [
+                "default",
+                "random"
+              ]
+            }
+          ],
+          "fixedInfoPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        }
+      },
+      "l": 512
+    },
+    "kaS1-Party_V-confirmation": {
+      "scheme": "KAS1-Party_V-confirmation",
+      "kasMode": "kdfKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "kdfMethods": {
+        "twoStepKdf": {
+          "kdfType": "twoStep",
+          "capabilities": [
+            {
+              "macSaltMethods": [
+                "random"
+              ],
+              "fixedInfoPattern": "l||label||uPartyInfo||vPartyInfo||context",
+              "encoding": [
+                "concatenation"
+              ],
+              "kdfMode": "feedback",
+              "macMode": [
+                "HMAC-SHA3-224"
+              ],
+              "customKeyInLength": 0,
+              "supportedLengths": [
+                512
+              ],
+              "fixedDataOrder": [
+                "after fixed data"
+              ],
+              "counterLength": [
+                32
+              ],
+              "requiresEmptyIv": false,
+              "supportsEmptyIv": false
+            }
+          ]
+        }
+      },
+      "macMethods": {
+        "kmaC-128": {
+          "macType": "KMAC-128",
+          "keyLen": 128,
+          "macLen": 224
+        }
+      },
+      "l": 512
+    },
+    "kaS2-basic": {
+      "scheme": "KAS2-basic",
+      "kasMode": "kdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "KMAC-128",
+              "macSaltMethods": [
+                "default"
+              ]
+            }
+          ],
+          "fixedInfoPattern": "algorithmId||l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        }
+      },
+      "l": 512
+    }
+  },
+  "keyGenerationMethods": [
+    "rsakpg2-basic",
+    "rsakpg1-basic",
+    "rsakpg2-crt"
+  ],
+  "modulo": [
+    2048
+  ],
+  "fixedPubExp": "010003"
+}

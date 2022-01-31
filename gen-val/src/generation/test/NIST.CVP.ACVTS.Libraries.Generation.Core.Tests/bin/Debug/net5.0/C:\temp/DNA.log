@@ -1,0 +1,10 @@
+2021-12-02 11:26:37.3687 Error NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers.DynamicParser Newtonsoft.Json.JsonReaderException: Unexpected character encountered while parsing value: T. Path '', line 0, position 0.
+   at Newtonsoft.Json.JsonTextReader.ParseValue()
+   at Newtonsoft.Json.JsonReader.ReadAndMoveToContent()
+   at Newtonsoft.Json.JsonReader.ReadForType(JsonContract contract, Boolean hasConverter)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers.DynamicParser.Parse(String path) in /Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/Parsers/DynamicParser.cs:line 30

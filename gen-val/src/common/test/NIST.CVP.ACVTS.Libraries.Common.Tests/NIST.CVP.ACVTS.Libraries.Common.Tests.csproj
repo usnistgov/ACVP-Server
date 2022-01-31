@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="dotnet-test-nunit" />
+    <PackageReference Include="TeamCity.VSTest.TestAdapter" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="NLog" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.ACVTS.Tests.Core\NIST.CVP.ACVTS.Tests.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+    <PackageReference Include="NIST.CVP.ACVTS.Tests.Core" />
+  </ItemGroup>
+
+</Project>

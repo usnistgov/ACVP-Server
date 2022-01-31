@@ -1,0 +1,16 @@
+{
+  "vsId": 0,
+  "algorithm": "TLS-v1.3",
+  "mode": "KDF",
+  "revision": "RFC8446",
+  "isSample": false,
+  "hmacAlg": [
+    "SHA2-256",
+    "SHA2-384"
+  ],
+  "runningMode": [
+    "DHE",
+    "PSK",
+    "PSK-DHE"
+  ]
+}

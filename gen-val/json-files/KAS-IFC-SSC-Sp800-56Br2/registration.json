@@ -1,0 +1,35 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-IFC-SSC",
+  "revision": "Sp800-56Br2",
+  "isSample": true,
+  "scheme": {
+    "kaS1": {
+      "scheme": "KAS1",
+      "kasMode": "noKdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    },
+    "kaS2": {
+      "scheme": "KAS2",
+      "kasMode": "noKdfNoKc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    }
+  },
+  "keyGenerationMethods": [
+    "rsakpg2-basic",
+    "rsakpg2-crt",
+    "rsakpg1-crt"
+  ],
+  "modulo": [
+    2048,
+    3072
+  ],
+  "fixedPubExp": "010003",
+  "hashFunctionZ": "None"
+}

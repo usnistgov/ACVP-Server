@@ -1,0 +1,99 @@
+{
+  "vsId": 0,
+  "algorithm": "safePrimes",
+  "mode": "keyVer",
+  "revision": "1.0",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": true
+        },
+        {
+          "tcId": 2,
+          "testPassed": false
+        },
+        {
+          "tcId": 3,
+          "testPassed": true
+        },
+        {
+          "tcId": 4,
+          "testPassed": false
+        },
+        {
+          "tcId": 5,
+          "testPassed": true
+        },
+        {
+          "tcId": 6,
+          "testPassed": true
+        },
+        {
+          "tcId": 7,
+          "testPassed": true
+        },
+        {
+          "tcId": 8,
+          "testPassed": true
+        },
+        {
+          "tcId": 9,
+          "testPassed": true
+        },
+        {
+          "tcId": 10,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 11,
+          "testPassed": true
+        },
+        {
+          "tcId": 12,
+          "testPassed": true
+        },
+        {
+          "tcId": 13,
+          "testPassed": true
+        },
+        {
+          "tcId": 14,
+          "testPassed": true
+        },
+        {
+          "tcId": 15,
+          "testPassed": false
+        },
+        {
+          "tcId": 16,
+          "testPassed": false
+        },
+        {
+          "tcId": 17,
+          "testPassed": true
+        },
+        {
+          "tcId": 18,
+          "testPassed": true
+        },
+        {
+          "tcId": 19,
+          "testPassed": true
+        },
+        {
+          "tcId": 20,
+          "testPassed": false
+        }
+      ]
+    }
+  ]
+}

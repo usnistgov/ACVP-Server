@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "NIST.CVP.Generation.GenValApp": {
+      "commandName": "Project"
+    },
+    "Generate": {
+      "commandName": "Project",
+      "commandLineArgs": "-g \"C:\\workspace\\logs\\demo\\1\\registration.json\""
+    },
+    "Validate": {
+      "commandName": "Project",
+      "commandLineArgs": "-n /Users/ctc/Documents/internalProjection.json -r /Users/ctc/Documents/submitted.json"
+    }
+  }
+}

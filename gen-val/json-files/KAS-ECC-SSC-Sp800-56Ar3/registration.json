@@ -1,0 +1,32 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-ECC-SSC",
+  "revision": "Sp800-56Ar3",
+  "isSample": true,
+  "scheme": {
+    "fullMqv": {
+      "scheme": "fullMqv",
+      "underlyingAlgorithm": "Ecc",
+      "algoMode": "KAS-ECC-SSC-SP800-56Ar3",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    },
+    "staticUnified": {
+      "scheme": "staticUnified",
+      "underlyingAlgorithm": "Ecc",
+      "algoMode": "KAS-ECC-SSC-SP800-56Ar3",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ]
+    }
+  },
+  "domainParameterGenerationMethods": [
+    "K-233",
+    "K-283",
+    "K-409"
+  ],
+  "hashFunctionZ": "None"
+}

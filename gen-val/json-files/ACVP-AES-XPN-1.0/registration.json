@@ -1,0 +1,30 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-XPN",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128,
+    256
+  ],
+  "payloadLen": [
+    128,
+    256
+  ],
+  "ivGen": "external",
+  "ivGenMode": "8.2.2",
+  "saltGen": "external",
+  "aadLen": [
+    128,
+    120
+  ],
+  "tagLen": [
+    64,
+    128
+  ]
+}

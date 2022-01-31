@@ -1,0 +1,3476 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-KC",
+  "revision": "Sp800-56",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 1,
+          "macDataServer": {
+            "partyId": "79AE3FC0395A92A8634DA2744A9A04E0",
+            "ephemeralData": "75E8A1CD81B610030A860AF3B9FB689A6661C3AE465EE9799E9C9E7BF678E21C"
+          },
+          "macDataIut": {
+            "partyId": "683126C808EE97E08EBB10A2AB6DD3AC"
+          },
+          "macKey": "D8D11AE86BF36E5B118D0A7E45A55AD897E362056328D5AEFB89E9F04E094644"
+        },
+        {
+          "tcId": 2,
+          "macDataServer": {
+            "partyId": "E0F41D7C6AC687B6CBA921321B427BF3"
+          },
+          "macDataIut": {
+            "partyId": "F1E0371C2EAD7628543630BB923E55E4",
+            "ephemeralData": "810BD7CB6A34DB73ABC3AFC7617EC4187F408C0F8C8978FB54DC7D4E9B3DFD96"
+          },
+          "macKey": "6D238972487228913AE73F7F765863EB86FAA73E20A836C666FEA556A23A8526"
+        },
+        {
+          "tcId": 3,
+          "macDataServer": {
+            "partyId": "22982C2D61B95A5A288BE87D44900095",
+            "ephemeralData": "0A516B99C25CD20835450A72FA8CD610872E91DB911CD7A5AE6C86321BC26C38"
+          },
+          "macDataIut": {
+            "partyId": "235CAE32702CEA97C724152D625ED0F3"
+          },
+          "macKey": "0914A92A5F128D272DAF4F95C21CA633277FC80CB343CFD809CD7961EF761026"
+        },
+        {
+          "tcId": 4,
+          "macDataServer": {
+            "partyId": "1AA616A1ACF53DF05A45F59D89A589C8",
+            "ephemeralData": "4C25F3D52D60134499DA44F96B5869A0100F95BFCF1D19E3144A36B8EF241B51"
+          },
+          "macDataIut": {
+            "partyId": "1015B9582666CC0976D9555035F42039"
+          },
+          "macKey": "F03E1CD6A5AB8A400D0248C13D75909C5F7E203D2B11883F6ED1D8ECF9685C71"
+        },
+        {
+          "tcId": 5,
+          "macDataServer": {
+            "partyId": "CCD46CFEE623B82DADD61ADD9953486C",
+            "ephemeralData": "A739DAC27FC870C054D011D5557C2D07B563911A39E7DAC52EF85E625008A165"
+          },
+          "macDataIut": {
+            "partyId": "67773ACB43740E46C166EC29ED01A62B"
+          },
+          "macKey": "EB6B7996F190B4D054D87B50A7644982929EF3C6FC55AFA0F4E51B5ED6D51D72"
+        },
+        {
+          "tcId": 6,
+          "macDataServer": {
+            "partyId": "D78FA25C82F40A17BD25E33366604228"
+          },
+          "macDataIut": {
+            "partyId": "6911FBCDE0B73AE33802E2DF9903ED77",
+            "ephemeralData": "AA40DC80EDD58246C7930182D0F078A79636FC71B28EA17E5843DBDBDEDBFA91"
+          },
+          "macKey": "61A1D85606599713678F7D069F2AB4ECBD0EA50A9641B50D1D664C8B35003CE1"
+        },
+        {
+          "tcId": 7,
+          "macDataServer": {
+            "partyId": "6D31BE4955D664DFA59E45411998BA88"
+          },
+          "macDataIut": {
+            "partyId": "DE0D79E39CB29314B8C035F91F968A47",
+            "ephemeralData": "62556E6A5F9540F1EC02100F9F10BA8ED9AE49549246521A2F014A11D43BEB5C"
+          },
+          "macKey": "FDACC4A2B5D1E34FE84B73CD2004BB7C271A8A1358F226E99670770AD18D8719"
+        },
+        {
+          "tcId": 8,
+          "macDataServer": {
+            "partyId": "DECD1145F426C5D98442116AC621F5E3"
+          },
+          "macDataIut": {
+            "partyId": "3BF585897925C766203552E5C14FDD1B"
+          },
+          "macKey": "46F955DB402B1FE7CB9A095DFF800114B91977461B2199BE04B0A0B173EE68F4"
+        },
+        {
+          "tcId": 9,
+          "macDataServer": {
+            "partyId": "112C1606EBAEB434196DC54A26BF5491",
+            "ephemeralData": "20D94EAE0C32D6D19AC51DAC3A6553B47132A8D349378FCE16D0EA8069BEE5D8"
+          },
+          "macDataIut": {
+            "partyId": "784D5906DA0F9C83E7F5A82BA93A7FC5",
+            "ephemeralData": "706DE009FA77742112005BE464F1B0B3373D818C45238DBA58A883A7F7E49A21"
+          },
+          "macKey": "7F68C4B7AA98231FBB5135078D558845CC4DC8C8CB164E21C632CE7E9CB348B2"
+        },
+        {
+          "tcId": 10,
+          "macDataServer": {
+            "partyId": "4031CC862753D715ADE3E0A80A93FEAB",
+            "ephemeralData": "BF26CDF89ED3AA72BFCB2B03105826DC27DBC7980A655280E86E491E8F9A9711"
+          },
+          "macDataIut": {
+            "partyId": "5B87AF2B750058997EC52682876DAF0C"
+          },
+          "macKey": "B3EFCF75741DDACBE57D5BE80BEF5E4B8B3E0A479160C09C4AE01BC1EF9EAA09"
+        },
+        {
+          "tcId": 11,
+          "macDataServer": {
+            "partyId": "AE4573C5ECFACFA62AFA38930E8362F0",
+            "ephemeralData": "FCA62ED72E34D39E1A054E09CF85EFC6DFE960455E83CFA951B1D00D8C531F0E"
+          },
+          "macDataIut": {
+            "partyId": "A2AB1412FE7B522CE223545292EB7ADF",
+            "ephemeralData": "0DB81D365A83ECC080A6ECA1A475EED6261AE645E59BB4C36432B120941EC1F2"
+          },
+          "macKey": "7B7A839B39EE3819C0C33D332E6F7B998B7A22221CF752C31EC899C7C637178E"
+        },
+        {
+          "tcId": 12,
+          "macDataServer": {
+            "partyId": "1DED541BD02B9E4FDDBA3799E144ED15"
+          },
+          "macDataIut": {
+            "partyId": "EC392021AF7FCC6DEE3531A8243C6D20",
+            "ephemeralData": "DF19D2640609D45EB2E8BD4C384D34DA2417FDE9941DF4A63B003B306BF5B572"
+          },
+          "macKey": "00D4D6FA315B0D42CCB4F6E49F1F41AC14A065489D42F2A643B1E581436BAF6B"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 13,
+          "macDataServer": {
+            "partyId": "FF6E42DFC240421C73810C946552C1F9"
+          },
+          "macDataIut": {
+            "partyId": "5D9CFC1FE8DFB70E6B3A4B3FF5A5A831",
+            "ephemeralData": "48CB8C770BFDD932272508BB1C522640D38435615EDB2593668F5D9966B0A92D"
+          },
+          "macKey": "5907EE8360C034888424E9E21B1C9EEFBB0CBA14A6E701FEC26360F6EC52F143"
+        },
+        {
+          "tcId": 14,
+          "macDataServer": {
+            "partyId": "49808A73009EFA747E3FF991B8F1686F"
+          },
+          "macDataIut": {
+            "partyId": "1615A5CAA6F49C4E59E0AC4E7E323EDB"
+          },
+          "macKey": "AB1BC3E6DF0D540AB3FEE2431E08C8EBF72D26EA50EF03D1E7CB6851E7165E66"
+        },
+        {
+          "tcId": 15,
+          "macDataServer": {
+            "partyId": "1E1F9498557EB41E237955E9483AF9A3"
+          },
+          "macDataIut": {
+            "partyId": "925DC1404224CFAED448E4398C2E65E7",
+            "ephemeralData": "B0193BF265856D0BEB928679A0050DE0761B017A9682E0D9F069428218BB1400"
+          },
+          "macKey": "C79DFD03BC150DCF82793F7D1A86B8DF63B2A48CF6741057D0B72179A2AD4089"
+        },
+        {
+          "tcId": 16,
+          "macDataServer": {
+            "partyId": "2F734D2020D5492923180A1BA1D1CA05"
+          },
+          "macDataIut": {
+            "partyId": "2B98209AA31F0F30529BFC566B8A173E"
+          },
+          "macKey": "F09BE3327B260C4167FE348377A5D3B7BE6C80FB5F5C78D84695DAC049BBBBA6"
+        },
+        {
+          "tcId": 17,
+          "macDataServer": {
+            "partyId": "A2BD2F90407F07732AF2654F2C1103E5",
+            "ephemeralData": "5633CE67DF7AF77A53C6B67033CFED4C7F860F959878E90C1C06D2AF7BE0D95B"
+          },
+          "macDataIut": {
+            "partyId": "573BDF249CF8F0FDF720F9FFEE7EB91C"
+          },
+          "macKey": "3EB42658B7018D13A48C62D2D0E310BA7072DBB2095933263E546A7761842705"
+        },
+        {
+          "tcId": 18,
+          "macDataServer": {
+            "partyId": "6EE5488F7C0CC99061FCBA046C0A059C"
+          },
+          "macDataIut": {
+            "partyId": "6A6ED23ED487AC027AEE56239D0B90DA"
+          },
+          "macKey": "18C7BAEA724A5A0DA9941F002DAC9C92664745C517607B50A4A8DE6FED8BD834"
+        },
+        {
+          "tcId": 19,
+          "macDataServer": {
+            "partyId": "993FD14D34E37D1F1287C76CE12B62E1"
+          },
+          "macDataIut": {
+            "partyId": "2841F7A520B3F6AF3C32B4C8426563A5"
+          },
+          "macKey": "1AB7DEEEFDD14A2352DBDE585C6061BB51244A5666FDDEF40CCB941F1D571EA8"
+        },
+        {
+          "tcId": 20,
+          "macDataServer": {
+            "partyId": "C6131BE5FA3F6C7572CEBC758A1A2613",
+            "ephemeralData": "FD377B9BA064C0E48F19E257D2AADE92EBAF4207F851AD6A0EB0BD2CE6316D98"
+          },
+          "macDataIut": {
+            "partyId": "39A4444FCBC34A96819BA32C5A02E89E"
+          },
+          "macKey": "EF720F596B02A154B664DB1C3588F94BFD647C21215166DA5CFA2C0837AB941C"
+        },
+        {
+          "tcId": 21,
+          "macDataServer": {
+            "partyId": "AE6838482803C07B63267464860100BE"
+          },
+          "macDataIut": {
+            "partyId": "D174AC430883D770B9BF8B4EA39527F0"
+          },
+          "macKey": "D56E387197878D2732007C014BF0227101B23027ED5EE0EA1BA3682C8B0E14F3"
+        },
+        {
+          "tcId": 22,
+          "macDataServer": {
+            "partyId": "151DCDC3D5F90542C9478438DE16FC10",
+            "ephemeralData": "FEF5B22CB42076946B014F4D2BE08BB08FC80FBE4E3D6FBE1F7C0E9ED4923380"
+          },
+          "macDataIut": {
+            "partyId": "9926B915A8D25F169742C4D1234E053F",
+            "ephemeralData": "4248D36DCACBE084BDBBE1D8C8F2ED38246A3C330BF946C91FF78001FB5126E2"
+          },
+          "macKey": "0BF2C7EE273F2731316F166748BC3A02D1C66E7D711AA875DE9A50D709B24EB6"
+        },
+        {
+          "tcId": 23,
+          "macDataServer": {
+            "partyId": "DAEFD057F42B12F905C047FCCDE57CFF",
+            "ephemeralData": "3F63121ECDF5B9E790EAF4251F3E9CBC89C2CDDF064AAFFB450860821948D3FE"
+          },
+          "macDataIut": {
+            "partyId": "EC152A3ED0D58D8D41B4ACB9A1B6D599",
+            "ephemeralData": "9DBDE9BF81A6A8B0145281DDB5D091BB38A2502C25B9FD4CD2A0739E6AFCE26B"
+          },
+          "macKey": "E8263A6BC932B8E909D57E7E4C03F8E3DBD10E07D1E16FC830381E597D2E2A1C"
+        },
+        {
+          "tcId": 24,
+          "macDataServer": {
+            "partyId": "2529F87D9866B78C240FA7622EE4CC65"
+          },
+          "macDataIut": {
+            "partyId": "68A5F977DDD963F03F482D6C9EF08534",
+            "ephemeralData": "39F8C2B0C6B412CC758CE660C9594F9A709BA1BE7CB1F9A42E6E6A3051688354"
+          },
+          "macKey": "00E27DA8B61D85F3F76DDC5CD0A8E327CB16CDA75EADBDFF766234163C7523A0"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 25,
+          "macDataServer": {
+            "partyId": "25772329FAC03125A5843E844BB373F5"
+          },
+          "macDataIut": {
+            "partyId": "224A93E916B1FF0AD59FF2279897C02A",
+            "ephemeralData": "87E6ABA531F672F23CECCD649E61F870FB0354B5FF4923FE9FC3DD69A7F9CED3"
+          },
+          "macKey": "3D52FA91E6F6B5BCE205A886152BB9FEBDDD6FA53B1A85ABEF968C7B50C51608"
+        },
+        {
+          "tcId": 26,
+          "macDataServer": {
+            "partyId": "B8821A6D4B08A7280F9DDAD39E4A7DFB",
+            "ephemeralData": "625229F9A3BFFCC3E29AC815C01F0C8843EA1E73FE42AC89834857720FEB2221"
+          },
+          "macDataIut": {
+            "partyId": "81CE3395E235FE4F4136D6390D219940",
+            "ephemeralData": "7B35D3EBCD91E412FB66D8F9A2C1FB61C2C4BC099B9F972614C735A40EBF4873"
+          },
+          "macKey": "E089A597764B09875867BB16C6628AA7C69EFD232B6F1F79A3EEB2D99AE81E23"
+        },
+        {
+          "tcId": 27,
+          "macDataServer": {
+            "partyId": "E97BD56009716B3EA8B14BCCBF465AE8",
+            "ephemeralData": "EE7767B8ABB052BC59684C3AB3DFCC4605DD939A72DEC7DC4CC815BA43B88B1C"
+          },
+          "macDataIut": {
+            "partyId": "59DBDD621AEA3054ED85B25161F48C16",
+            "ephemeralData": "B47E8D7B40E6224CDBCB6EB1AEC7F694C36C8DAA0D3F6D04E3F991D39E9724D7"
+          },
+          "macKey": "74931C6468875E23CFC7009EC1343B088EB168ECA7D561FFE1D97FB4028E0C8A"
+        },
+        {
+          "tcId": 28,
+          "macDataServer": {
+            "partyId": "E54A7DAB77F0A04CDDDF6B2AC229A17F",
+            "ephemeralData": "C084A2AC10B2D59CBC2D646B14922589A4D7F0D13A32D1E17DFB573C13F61DA1"
+          },
+          "macDataIut": {
+            "partyId": "9DF391B690A5CE205887A376E89A0DCF"
+          },
+          "macKey": "0ED0EAA4677639EF3C2F005324F406A0FFCF11AB0E89ADC6D1656CA6D6F01B7B"
+        },
+        {
+          "tcId": 29,
+          "macDataServer": {
+            "partyId": "5FA8A0F4F45ECF96EAABD3467A763516",
+            "ephemeralData": "42B3FF065F01D9F37B90A673B3537E78B1DAB420409275B96CE938534F2A8DB9"
+          },
+          "macDataIut": {
+            "partyId": "7767AF1ABEA25B9FFA535FA98A653B7A"
+          },
+          "macKey": "BA668A37795CAFFD123DA10C29284219A9AF56573619DA903DE2C64CDAF56969"
+        },
+        {
+          "tcId": 30,
+          "macDataServer": {
+            "partyId": "09BF0BCA445BC16F93959064A0ACEAC5",
+            "ephemeralData": "126522C416E0FC9C32802FD3029D02DDD6ADE4503234A2B52D6ECA57F2D8A92E"
+          },
+          "macDataIut": {
+            "partyId": "F4308315CF1C252D8E5A3BBD0CC516C0"
+          },
+          "macKey": "936958EA5B55A628FF02736BBC2DF39676703D5FF3DB3732E292D21B87553F59"
+        },
+        {
+          "tcId": 31,
+          "macDataServer": {
+            "partyId": "436AB1689C18296C2D9F8B054B94F173"
+          },
+          "macDataIut": {
+            "partyId": "ADD95E83CBCB5FAE4F9FC637CB057E3F",
+            "ephemeralData": "F4FDE702AE0D5FD8DEB4AF4D64FD7D9C282791742DD7E06BB862972F539423E4"
+          },
+          "macKey": "E383B6B389D07BB56F3404DE6C33CB74F098F7FFC7AB9992325A4359453B9F7A"
+        },
+        {
+          "tcId": 32,
+          "macDataServer": {
+            "partyId": "A3ADC34124F25674EC2CA09103D0AA06",
+            "ephemeralData": "16179532EB9B6748B3B6C5A32DC74068F7AE537CA8E6D0CE2B4CC89BFD4332FD"
+          },
+          "macDataIut": {
+            "partyId": "086E953432B9C458730F8DBDBCA0E365"
+          },
+          "macKey": "00F9612C34B58F7B38D795DB6D5A49759ED9CB055BD165B7080E09C53C97B970"
+        },
+        {
+          "tcId": 33,
+          "macDataServer": {
+            "partyId": "A0082B532D43AE9A830BD6DD15A11152",
+            "ephemeralData": "EF69412B1C17962E41ED4B94FD6BE10329B554D0C07E7C29348357838C234FE8"
+          },
+          "macDataIut": {
+            "partyId": "82E8EE30048F26944AD8851F7DEC395F",
+            "ephemeralData": "1D68F7AA4171E3682D89F3D00C0BBF712A1AF945B34B5760EC6C8DFAFE5BCAE0"
+          },
+          "macKey": "E8096740ED5EE2619D5B20FC15A717BC8E976C0B76A7D78767EE9DF6A95CC32D"
+        },
+        {
+          "tcId": 34,
+          "macDataServer": {
+            "partyId": "EFDEBD968E44748666BD0F26F30A0003"
+          },
+          "macDataIut": {
+            "partyId": "8DE86FA328C5F87E394B05E38D52802C",
+            "ephemeralData": "1AC0A3BDC06E07ECC21CB508B94F023E6575792C545A763CB6B05F51EE4931F6"
+          },
+          "macKey": "B598F9EFF04A02861440F9368EBB5828CEFB59126399EA3C59A1B29F9F3EAD26"
+        },
+        {
+          "tcId": 35,
+          "macDataServer": {
+            "partyId": "10C16AEE166E9E93DA4E696758BDB5E4",
+            "ephemeralData": "5C742069B2FFC393EF7223E970D1DB237DFFE37DAA7334580DFDEC665DCEDB88"
+          },
+          "macDataIut": {
+            "partyId": "A639F07112FB8203ADF5B5A38C56979B",
+            "ephemeralData": "C098BEDF4605F87C4832236626519813F2F19FAF5CA4F533FFB0B8F840DB2296"
+          },
+          "macKey": "38A34AEDA2CADE68650150C7E3BBC80615FE9EBFEE0D1953ACAD9422C32671E4"
+        },
+        {
+          "tcId": 36,
+          "macDataServer": {
+            "partyId": "FBE6973CC4AC055A39662411107F8F33",
+            "ephemeralData": "B5E9F5463BC0C24612C7D71C39D6AC4A0ED2873D5FC12C4236F1A2D39110F877"
+          },
+          "macDataIut": {
+            "partyId": "86CFBC5E12B1D08D83006CC7A14B2DFB"
+          },
+          "macKey": "4CF0B6E2114BFD31A0984A253A4D2EF225C7FB7739E2DA1EDDBBA176D644A88E"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 37,
+          "macDataServer": {
+            "partyId": "B2EA2ABAF754E3A55303F445548A93D9",
+            "ephemeralData": "7562484E2211693DADAD935BEF4AEB56380452E1890DFDD40D0618E6F7D98EA3"
+          },
+          "macDataIut": {
+            "partyId": "B55507F72DCF319B9F2E824D55B92374",
+            "ephemeralData": "4770E5372E6AAF652080BBF656FAE0CEA01CDE527279E6477F7C8CC1CE5E2E68"
+          },
+          "macKey": "8BBFE4067DBA2CE110C15726F9E0F5655C849773BD2148F4C8E8A9424FAE5532"
+        },
+        {
+          "tcId": 38,
+          "macDataServer": {
+            "partyId": "3C27697FB0CF1706242D712171B0F865",
+            "ephemeralData": "D1865DBBDE405F8E6788A24BA5D8C91BEA63A23783CCF95D173200DE78530185"
+          },
+          "macDataIut": {
+            "partyId": "4C1325DBA40DADC73A8F0F77958BB613"
+          },
+          "macKey": "FF5B54C07EE9EC78E354F1645E4D954D2DDF825734130A3FB01AEDF8119F3B0D"
+        },
+        {
+          "tcId": 39,
+          "macDataServer": {
+            "partyId": "5A591A36CC4AD4BE04945940CA9DBB9D"
+          },
+          "macDataIut": {
+            "partyId": "9DCBF3D5EB21171F0C48CA282BFE1031",
+            "ephemeralData": "BD04D67B80546DFA7CD8D74E62588BEA6BF0938AAE5CD1343F85FA924E04309B"
+          },
+          "macKey": "CC5DC404A625548757C415F7018F4B615940335537880C8A17C10A4EC7C33988"
+        },
+        {
+          "tcId": 40,
+          "macDataServer": {
+            "partyId": "8FAB148B177A3B940979A68B6E593976"
+          },
+          "macDataIut": {
+            "partyId": "7B2F1B7F515771B5820F6E4B91D90EED"
+          },
+          "macKey": "C7C5A1F6F7F40FFCD09547602424E5F296343E460F80FF80C408390423966ECB"
+        },
+        {
+          "tcId": 41,
+          "macDataServer": {
+            "partyId": "8EC56FECA19324549DC1160F26EA1AE8",
+            "ephemeralData": "F4B33BECC1BBD7B34F20493E748E9372C22D3475512DAA5D4CDECCB58B92196C"
+          },
+          "macDataIut": {
+            "partyId": "D9881813B5560E649E2F459FB5EA0A4C",
+            "ephemeralData": "48F4B18DB17A604C4935D9FF5050E0582FD0F61F2870E865C99E3B1B23FC85F9"
+          },
+          "macKey": "215F1D10DED843F92289D4651D1BEF4D2BD6F7082EA2047214A3A33EDCB36027"
+        },
+        {
+          "tcId": 42,
+          "macDataServer": {
+            "partyId": "E55CB0E471A54A5594655E448C8552D1"
+          },
+          "macDataIut": {
+            "partyId": "F2C350F01BCCEFE7A0C965799573845E"
+          },
+          "macKey": "E69237BC57C02E40DE1E0043B4125E6EEB701F13643D13258FA8D93DF9850E70"
+        },
+        {
+          "tcId": 43,
+          "macDataServer": {
+            "partyId": "4F3559174D437123531929E421C02A69",
+            "ephemeralData": "C98DFD1FF66F12B1D8FCF7B863D2F326E698CB04CD13D30F98C6ED0538B0D2A6"
+          },
+          "macDataIut": {
+            "partyId": "C8B63D316B19C3563643B284D52C1620"
+          },
+          "macKey": "1179D07EF287D8D6AFE8F07C423230B4776D564046194B5BD3253017E3969017"
+        },
+        {
+          "tcId": 44,
+          "macDataServer": {
+            "partyId": "FFE493E1BB7FFA0980980417DAC78F8A",
+            "ephemeralData": "686B75FDC4095FEA571FF7F44AFCD7636F7BC86B11ECC9FD3E5DBA9FC88C8FFC"
+          },
+          "macDataIut": {
+            "partyId": "32A44B4BF2674F08DF7F885AF4D8B8FC"
+          },
+          "macKey": "084098B03FDD346F048009020C30713FB68EF893CF07D97D0DF0C2A6154FD59E"
+        },
+        {
+          "tcId": 45,
+          "macDataServer": {
+            "partyId": "69297074918B23CDEA5A3A5ECCFC8BDA",
+            "ephemeralData": "44F20AC043CD3FFED7F17210D90AF8F062BADC3363515F0F571F4EC809E18809"
+          },
+          "macDataIut": {
+            "partyId": "AF7FBE63A953661581446F4C8D91D13F",
+            "ephemeralData": "3CA50CB2E428BFA67604E82D584F657CA02968F1B6F7E9FFBDA46C8CE675DCDA"
+          },
+          "macKey": "0596DB80890A099797D9629A14C1826EE27312B3891D013017B39647DFE8CCBA"
+        },
+        {
+          "tcId": 46,
+          "macDataServer": {
+            "partyId": "55962A8B3D4851F357A9DD483ED5EACC"
+          },
+          "macDataIut": {
+            "partyId": "EC2468540FA9F3445A1ADAF367A90C6D"
+          },
+          "macKey": "545C1ACEDC91A27351638FBD580595BD1EE52E42CAB9A7D0676793EF0C69A61B"
+        },
+        {
+          "tcId": 47,
+          "macDataServer": {
+            "partyId": "AEF07210AFD780DEA096ACF5F2B24EAF"
+          },
+          "macDataIut": {
+            "partyId": "26ED8F34A4B501F060B8BF5D6F973F7A"
+          },
+          "macKey": "00117E4F08E7DD90F7A9CD15FF159F781939A1FDCB6166575C81437457D63DF7"
+        },
+        {
+          "tcId": 48,
+          "macDataServer": {
+            "partyId": "0D795B97C6DE9429F8B69851FAF77635",
+            "ephemeralData": "8CF7134291711B6F2D376EBF845792B15A7DB878787C8EA6C520C88909D6DD5A"
+          },
+          "macDataIut": {
+            "partyId": "82133E305599706FDA5850B09826EE07"
+          },
+          "macKey": "92828E576D99A9A5EC9554B5E6A93D48261BB17B28F28CD92EED2CAC36E4DB7C"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 5,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 49,
+          "macDataServer": {
+            "partyId": "9191B11AA5709AF1B409F7458E22B58E",
+            "ephemeralData": "259430203DC2124259A81B4C6D5FA596151E8F174FD0EC5A63D920C520C304CF"
+          },
+          "macDataIut": {
+            "partyId": "9F54558509B626E13BE232AD340DB212"
+          },
+          "macKey": "2A439C5EB2DD695BB4299231EC1B0586E182A1E31D9DE1B501EF6EDC50850F08"
+        },
+        {
+          "tcId": 50,
+          "macDataServer": {
+            "partyId": "4BD77F930290F84628D6106A05494B00",
+            "ephemeralData": "1C32E44B7627E2710B378C06CA12B60BFA87E47E49CF457547F98107267E1B29"
+          },
+          "macDataIut": {
+            "partyId": "BDB10F7B33AA28A584AE47D49DFBF096",
+            "ephemeralData": "5125F1ABB6DB57D31A85287D450C6DDCF7967061A98D41248F01527EB68B915F"
+          },
+          "macKey": "91FC825A24B572E49D5887123B9FBC537254D1B6E207FD13EBD5D01854374A3B"
+        },
+        {
+          "tcId": 51,
+          "macDataServer": {
+            "partyId": "F8FA7517CDC44FBA8742796CF1035AF7"
+          },
+          "macDataIut": {
+            "partyId": "C8FB839BD4FE569D9C84638418FA1220"
+          },
+          "macKey": "065B2785B79F345E72D0A61F55039992FCE623318F9AA1507EFBAFE81FFBD497"
+        },
+        {
+          "tcId": 52,
+          "macDataServer": {
+            "partyId": "FB98F6D3DAE69251656F39C6477F4CFA",
+            "ephemeralData": "319E5A07C094B554F2D776AED30B597A084063292537434584BFA11F80835C3A"
+          },
+          "macDataIut": {
+            "partyId": "E0042AA2A22D3650DA9A7B48A55746AF"
+          },
+          "macKey": "007CFE0C6A2C9184C45474EF3E7BCA9982692B2E2BF34287DD2C795DA7EF9E59"
+        },
+        {
+          "tcId": 53,
+          "macDataServer": {
+            "partyId": "EC731003E2AAB1B9CEE8440FDC1966EC"
+          },
+          "macDataIut": {
+            "partyId": "6844A9AC9B927F334924D6364F574F99"
+          },
+          "macKey": "A60B2345422B8596886754BF11A24D50AF50326360C70D3572583271443C9B6E"
+        },
+        {
+          "tcId": 54,
+          "macDataServer": {
+            "partyId": "9082B59CBF6D385CD55CD231098DC1BC"
+          },
+          "macDataIut": {
+            "partyId": "90B94F8AFBB3E5C258B83141477A60D8"
+          },
+          "macKey": "23620DBCF8C408EBA40305A2B671D31C9B5D632117EF7AFB0EEED816F98A00D7"
+        },
+        {
+          "tcId": 55,
+          "macDataServer": {
+            "partyId": "41600FB98389F73A84AC18C7DD28A7B6"
+          },
+          "macDataIut": {
+            "partyId": "94D85E158F6CBBFA240994B705AAEF60"
+          },
+          "macKey": "2A5AEB6B850ABFCA264248A0F5BFA8468C901C857DA6D476FBD67DD29CB23808"
+        },
+        {
+          "tcId": 56,
+          "macDataServer": {
+            "partyId": "2DF3B80B0B95E7D7544921AC54481D87",
+            "ephemeralData": "FDE1B8AA9171B15B4B39288876174C9B35E5360F7C61F6EDAAB2114770640151"
+          },
+          "macDataIut": {
+            "partyId": "AAF0738824E2667BDFBB89C1DB066DE4",
+            "ephemeralData": "72C2D4AFF4D903B124C34CAAA47DA1BF706001A144CCBFB5679E6A7563800E86"
+          },
+          "macKey": "3400219F951418C8282CFCAB8713BEF3CCA1A76155BDF9CA9078FFFCFF4F8F59"
+        },
+        {
+          "tcId": 57,
+          "macDataServer": {
+            "partyId": "02C21C28CAE18A14DC2FC26B019BE79B"
+          },
+          "macDataIut": {
+            "partyId": "C51CCC69306CE09E89CD66F9B956821C",
+            "ephemeralData": "1E826002846EA47A53593839CC5CE23F3C3F0D1E06DEC4D36DC4B57A12882E5B"
+          },
+          "macKey": "41736A3F47D59735D4228F356539E98DA27CF6D650FE9794D73120B3939E0E67"
+        },
+        {
+          "tcId": 58,
+          "macDataServer": {
+            "partyId": "2B4AB7E21798A0FD8DDC35D8444D6259"
+          },
+          "macDataIut": {
+            "partyId": "95023591FA7256082215DF3806849D41"
+          },
+          "macKey": "460C5140FE479808F6C00B799C92B4AC14EB2B998B7E1453A056857AF054763B"
+        },
+        {
+          "tcId": 59,
+          "macDataServer": {
+            "partyId": "2998EA4A1B5EC9EBD734B9497674E2F2",
+            "ephemeralData": "7C5C41777049D713DE6606F7FCF65D5428F3327982E9413A765DE5007D403A90"
+          },
+          "macDataIut": {
+            "partyId": "ADA4025BA0A5F42BC28CA8A1FFB69BBF"
+          },
+          "macKey": "08FFEC9B286961D38AC527333B9522282B5069EDF37ED2198FE1756D69719D7C"
+        },
+        {
+          "tcId": 60,
+          "macDataServer": {
+            "partyId": "6352DDB24FB6CE56E1927C9F605F2167"
+          },
+          "macDataIut": {
+            "partyId": "C1961A858C24B2BFA4818E8F459BC7EE"
+          },
+          "macKey": "C060E1F132D7C1EEBA3471D90A1326CCAE695E9377BDF684AE6267016EC1A89C"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 6,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 61,
+          "macDataServer": {
+            "partyId": "8234AD164640C3E461B54782721EA2A5",
+            "ephemeralData": "90B15C0BFB53CFC9D6941B50037D052725C972882734830E7AC273E65E39711E"
+          },
+          "macDataIut": {
+            "partyId": "AE750A3C7C103E2F624ED8A7C3590342",
+            "ephemeralData": "0A814C0798E4DEF74DFB364232302F101E1AF971D98D12FE64A3E032C717D1CA"
+          },
+          "macKey": "016FC720169463DD033D060347E0721B6C6F25C6B234B86EBC2ABFE188534B83"
+        },
+        {
+          "tcId": 62,
+          "macDataServer": {
+            "partyId": "13F399DBBA288BC49FDE1EEFBE06F263"
+          },
+          "macDataIut": {
+            "partyId": "FEA9ED5018957C7C015452269330FDDD",
+            "ephemeralData": "88E3259A2A9BCF901EBE90E347B137283EA095A385CB9BDBEAFE708D2444F47D"
+          },
+          "macKey": "B8B550D3D5BE942535EDE9CC4161B27C87F5201A138213D30882D5DA65F9D24A"
+        },
+        {
+          "tcId": 63,
+          "macDataServer": {
+            "partyId": "0505053ED1C08D4C2F24E91125B63069",
+            "ephemeralData": "A67874C9CE613EC2082480041C0E918975A79AA0AAE63D737CC42E856887BF6B"
+          },
+          "macDataIut": {
+            "partyId": "16C1139DDFAB7E7A089F22CB0F37486A"
+          },
+          "macKey": "FEB3F6CC46A57F9AEBB070F6747BC82925EDA248E676956088AB018E02A8E753"
+        },
+        {
+          "tcId": 64,
+          "macDataServer": {
+            "partyId": "35C75FF3F32199AD63DA0B1628942FC6"
+          },
+          "macDataIut": {
+            "partyId": "DC3C31514C74B3892B1C6036C090D2E4"
+          },
+          "macKey": "00EC2937283F9C122CF7D84A7843263F7D5BE21642085215FF978B874D1538B2"
+        },
+        {
+          "tcId": 65,
+          "macDataServer": {
+            "partyId": "222170863CB67FDBF950CE889E8C12A4",
+            "ephemeralData": "47929AB0B2154F6E16B274F17DB7C5AE1AD7038902E5D3EB91922B551804129E"
+          },
+          "macDataIut": {
+            "partyId": "090B6AFAEC6AB40A37EECBCE4A100242"
+          },
+          "macKey": "51E0E01605AAED602A85F06B5CC26B64B2F6D9147DE2F70B60BD8C05F8CB837E"
+        },
+        {
+          "tcId": 66,
+          "macDataServer": {
+            "partyId": "7B6DAFCC8332532804FC728412A42790",
+            "ephemeralData": "292A777A4658EFA3976BCB8EC766426F13A9ABC554FA782D406ACD4879B3E3C2"
+          },
+          "macDataIut": {
+            "partyId": "29137399E5A5982746C98B42CC9C683D"
+          },
+          "macKey": "B5C5247459D61B78F7F391142B40B8D9878ED30A834544A7D6DF16762FB0188C"
+        },
+        {
+          "tcId": 67,
+          "macDataServer": {
+            "partyId": "2D7080BEB65034E94F9DC74414BBA12C"
+          },
+          "macDataIut": {
+            "partyId": "E87A71F03529D6610855CE4608FECC76",
+            "ephemeralData": "66E14A9F7E111FAF2EAFE7B928E2DBF8DA84A031F8B7564E4C195B87DB4F4C61"
+          },
+          "macKey": "7504AD9A49672C209D79E2048DA4C5DCCB94B756E670F5C7A245A40C2A248F99"
+        },
+        {
+          "tcId": 68,
+          "macDataServer": {
+            "partyId": "35C4AC8EE6F6776DF0E8BFC52E071CED"
+          },
+          "macDataIut": {
+            "partyId": "22DD73326A0D89FEAC692C7E8B1033AB",
+            "ephemeralData": "C4521E8336061D204BEC77D1AECDE20DEFD11559DA07CC3AC70D594203B97066"
+          },
+          "macKey": "7A1B44D75224E26D83EF4F87F6C980F624621415E1F28A66F9C2AB1E2402CB49"
+        },
+        {
+          "tcId": 69,
+          "macDataServer": {
+            "partyId": "6AC2928E94D97073163F6DE085B96573",
+            "ephemeralData": "74ADCA59220E81FB2FB1A85F3BA781659C5CF90580C4479946DEC3BE13C48DB8"
+          },
+          "macDataIut": {
+            "partyId": "D923A28EF6C658C679B5F3D615AF531B",
+            "ephemeralData": "9534EB201965A19913AE4F950A87EB0C2F3C147A11BFA898EB7287B01A0FDE01"
+          },
+          "macKey": "CEEDBCB43D1795DB10FB5A8C69BB7C08A89493EA08FBC4A8284D1B7886C2B529"
+        },
+        {
+          "tcId": 70,
+          "macDataServer": {
+            "partyId": "00E69D69EA4DDF9AA38362EB57250985",
+            "ephemeralData": "3C89E8BD3A3058F000C722FF976B07FEF7984A4D412BE95090238156116942BD"
+          },
+          "macDataIut": {
+            "partyId": "9EA1BC5D3C0D9198E108258A6E9222B6",
+            "ephemeralData": "AAFB781ED7AAD3EF9E53535C004E3162EB564750554137010795E504488F531A"
+          },
+          "macKey": "E8D2E850FD20697A9B0D138F7120E01189A25C27690C6F2AB00CD9ED04934897"
+        },
+        {
+          "tcId": 71,
+          "macDataServer": {
+            "partyId": "614A1DAC4764DAFB3F97051E68CFC1CF"
+          },
+          "macDataIut": {
+            "partyId": "C90A2BC7DBCAEC0D6F7E3B7DEC3104AA",
+            "ephemeralData": "A1F0C237D6A3F1F16DA4FB9D9CC7047038159B319D84ED6DC238DD27AD414621"
+          },
+          "macKey": "FCAA8B613936BBD4A126FEC482183B0E4E3EC9A21217B0A597E4A81BC8E4A53F"
+        },
+        {
+          "tcId": 72,
+          "macDataServer": {
+            "partyId": "CE6EF72586D5CAE550D16E4FDE759AF7",
+            "ephemeralData": "F8BE3E2D353914B24DAE8D6B6AA2D78B83FB0431B10F3CE5E251296B8CF5CDB0"
+          },
+          "macDataIut": {
+            "partyId": "0B422C182F5CAB5E79413ADE7ADCD458",
+            "ephemeralData": "3D6754BA6413948B03E99CF16303544EFB51CFE01F205F13F99249CE9FB5374A"
+          },
+          "macKey": "A6B41BEF57DAA71E2221D2C47D2FE1188F5A52DA5F0B80B22BE26E5C013091E2"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 7,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 73,
+          "macDataServer": {
+            "partyId": "D40B7867D0138FB7684C8CC66FFCF95E"
+          },
+          "macDataIut": {
+            "partyId": "C5BE6F58F6477B1ED569503655DADF5A",
+            "ephemeralData": "6FA66E993CA69D7292CD9919A89E17864A170070749AA88C20568F482243D10F"
+          },
+          "macKey": "011D861AE9ABB0B003767C2B6D60E086FB8F47F4B2E33A4FA56915A37B9E4861"
+        },
+        {
+          "tcId": 74,
+          "macDataServer": {
+            "partyId": "B05EAF95C594E3105F0572BAF2A77419"
+          },
+          "macDataIut": {
+            "partyId": "024C01D147B9AECB6BF5AA3D3EAD73C1",
+            "ephemeralData": "4F1BD52F165A2D4E6D4F8260531CCDF468BA10BEEFD84AC0C3537F9FC23279DD"
+          },
+          "macKey": "2EEA933D257173C4295AD35D42E1A15CD9D252702D27FA2E53F47A401A88F414"
+        },
+        {
+          "tcId": 75,
+          "macDataServer": {
+            "partyId": "552BFF5C155F16E8D2223A555B556978",
+            "ephemeralData": "C8B6C9342BD194612A5C80E662D9FB2DD97DD6DE0194F5D0EC986D4A7B217989"
+          },
+          "macDataIut": {
+            "partyId": "864AD3825A1EE1C9904131AA49FD7FBA"
+          },
+          "macKey": "07B86C9CB61AF71C09BC097B2FD282978837E73E2D6969C2E71EFD65D149DEEE"
+        },
+        {
+          "tcId": 76,
+          "macDataServer": {
+            "partyId": "E01979FC86BC47CBE21EA3FD6115E835"
+          },
+          "macDataIut": {
+            "partyId": "B13DB6DC34C21B64DCBE4B31067593AB",
+            "ephemeralData": "01EBDF388EEA3B927507238362A16E152A16CE01CD17D9117C4F8BCD935CB88D"
+          },
+          "macKey": "EE3143C1A19100E6B0692C7D780AE65CA679C91506CAEBE5C55D671DE1FE4E85"
+        },
+        {
+          "tcId": 77,
+          "macDataServer": {
+            "partyId": "6ABB645C0F67BD37E2AF03F900A43C51",
+            "ephemeralData": "0DC70B46FEB3D6785F732E172B70D7500ADBF62E4075051E1F091DD5B61C918D"
+          },
+          "macDataIut": {
+            "partyId": "20BF3D096FBB86E688E6A5F2B8573FC5",
+            "ephemeralData": "CB812CD63E3581748FC105B3528FF484BF5DE140B46F8EF3E28433344A082178"
+          },
+          "macKey": "93D90B69FF3DBD1E5F3A9F10558634598B454F4B00943286D7AF094050B362A4"
+        },
+        {
+          "tcId": 78,
+          "macDataServer": {
+            "partyId": "A69B132B7DAA500E7C8C6A7C98E0E760"
+          },
+          "macDataIut": {
+            "partyId": "A40FE1E69795C1DB6744411F3CA4A3D2",
+            "ephemeralData": "25C83CC696CE2E27166834D6E739B6F053FB1CA571426B782EDA4C328022DF83"
+          },
+          "macKey": "A33B68437E04590B774E72BF625C3A2AAF33680B4AFE046A069A2D23ED02634E"
+        },
+        {
+          "tcId": 79,
+          "macDataServer": {
+            "partyId": "E5AE7873213D192D5DEFC741E3CF7038"
+          },
+          "macDataIut": {
+            "partyId": "CE77F2A101AEDDEFF6584FA5B88EC5CF"
+          },
+          "macKey": "002F778337128C8B31D508DB21AD07DE15F76848CB834A2AD910A4C74B1D140B"
+        },
+        {
+          "tcId": 80,
+          "macDataServer": {
+            "partyId": "28F9440FB3C08804F051F7F461E31AE6"
+          },
+          "macDataIut": {
+            "partyId": "A11D2AECA129EDF65472D8CD26EB2B88"
+          },
+          "macKey": "00F4B144BE174522FADA9111F9446BD0FD1634862E7D315FAE26B92FBF380607"
+        },
+        {
+          "tcId": 81,
+          "macDataServer": {
+            "partyId": "40D6C7FEFB333186E5732700A758D45B"
+          },
+          "macDataIut": {
+            "partyId": "DD658864C63A4AB9383121044D73D98A",
+            "ephemeralData": "73F13935EED3C68E6563076C9B8ABA978D399980D84B4E9D87B935782A2F48F9"
+          },
+          "macKey": "5C6351CB61B19BC9E5F126A54C0C666EF998050C27D862209E9EE3B3353F6A33"
+        },
+        {
+          "tcId": 82,
+          "macDataServer": {
+            "partyId": "18A33D9072F4D0E675F4A8141BB6E090",
+            "ephemeralData": "C05B05DE9E5A8883165D7632241B537E249A289A2170214FFE0815463CC50BCD"
+          },
+          "macDataIut": {
+            "partyId": "A0758B7E6BB85DB52739CE090747AA57",
+            "ephemeralData": "BA7797C6D93920D1B6AF1527E57E223CF4CF36BDDAD337F3CBB8D77A5A39C572"
+          },
+          "macKey": "4A1F69BBBDB8AFAD566D955C4348B49FF736943FF3D7E7750DF6B80A2BF03A18"
+        },
+        {
+          "tcId": 83,
+          "macDataServer": {
+            "partyId": "8A5432A93E0DE7A7264D4ACAEE41F7A5"
+          },
+          "macDataIut": {
+            "partyId": "5A98B6DD6C08FFCDF5CFB53574B54945"
+          },
+          "macKey": "7DAA9A4C90A74DCD8EFCFB478A8E874D2C3F20D17CE87C753C61FF42F8A1F600"
+        },
+        {
+          "tcId": 84,
+          "macDataServer": {
+            "partyId": "EDD351190EB8A6EF703AE4D2FE41F801"
+          },
+          "macDataIut": {
+            "partyId": "8537F0575239B5E3AB15D76CB4DF7282"
+          },
+          "macKey": "0BE19291071FC6C46E379E1494F5C3563AF74F87CCC68ED06748967EBB40A1E2"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 8,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 85,
+          "macDataServer": {
+            "partyId": "5403C4CBFBE291D7538E9620FD748F00",
+            "ephemeralData": "AE762C02896EEF3DD7AA600062A981DD1CFB087B4FD1EB2C4C6AFCAAC1CDCE37"
+          },
+          "macDataIut": {
+            "partyId": "BB47F1A73A027AF0CE845181142A39F7"
+          },
+          "macKey": "004AE08DBA84F624D68042AB82E6AEFFDA168881A369D39278E53EED78BA2695"
+        },
+        {
+          "tcId": 86,
+          "macDataServer": {
+            "partyId": "E27C70F855DFBE44894FB6337DA321A0",
+            "ephemeralData": "4C9EEF2F42D9235DBD20B7693AA7C4647D66553DAFE7C59377987CD16F6A150A"
+          },
+          "macDataIut": {
+            "partyId": "536CC177D8B4FEF2C750DB058EE7EF50",
+            "ephemeralData": "8181CEFAFC47495D9F9940167942C833F16158EE4CA0CE6DEA2C892381FD5761"
+          },
+          "macKey": "A44756A2AE12ACF5526747DA0A967FE1F420F0B17B8201AA4C6182F742E47A1F"
+        },
+        {
+          "tcId": 87,
+          "macDataServer": {
+            "partyId": "3574111831CDDC3EA5EDABE181D54191"
+          },
+          "macDataIut": {
+            "partyId": "E1BC8F72C79631014829B6CD45FABC2C"
+          },
+          "macKey": "00BCF030F7E9F00754CE81265C3243665C4EFB9B4E9A33530E9ED3C7C72D9914"
+        },
+        {
+          "tcId": 88,
+          "macDataServer": {
+            "partyId": "88297EC7B9B1FA1581DBD4660142AE4D",
+            "ephemeralData": "7C2DAEB70E32F00730E38640CBB7CF178921B42084B8A768E4D8E67E307347C1"
+          },
+          "macDataIut": {
+            "partyId": "A908CCD51F05562C7EC7E4EA1CB2BF5B"
+          },
+          "macKey": "BA2DC9B38E2842633AFF34D059673D98FCDA90C9346C81295C2F1C36C10A951E"
+        },
+        {
+          "tcId": 89,
+          "macDataServer": {
+            "partyId": "693A09F66AD93C1323C631CD6636D03C"
+          },
+          "macDataIut": {
+            "partyId": "97D7C28A8AF1A039610B02FD8B3F5FDD",
+            "ephemeralData": "652F6AA128C0771B99ACCFA09C2679E294447B5B3B2EB8E6821DA0FD9BF94EB6"
+          },
+          "macKey": "897BE1F4DF85805FA2E672CD138F14D594C1B8E89878E7E318303FFBDE74D477"
+        },
+        {
+          "tcId": 90,
+          "macDataServer": {
+            "partyId": "743D4B13E5E9F4118324E6111FE357F9",
+            "ephemeralData": "B45CE6664D37B356203291E9DC1BFF9681773A41EB9A2C7C0EB730A60C34F158"
+          },
+          "macDataIut": {
+            "partyId": "2980CCDAB4299A32793221A868A35677"
+          },
+          "macKey": "96A869F8F2B514BEC74CC5593EB5926EAEB326E8F7690268B3B0EDF48E74A512"
+        },
+        {
+          "tcId": 91,
+          "macDataServer": {
+            "partyId": "5E87D50D0D2CEE2019485E3D4F7AB175"
+          },
+          "macDataIut": {
+            "partyId": "314A19202630AC18F5B454DBA4264CB5"
+          },
+          "macKey": "D22543E7A728EC830C0456CE3E89173E0A4488EDA013B41F5E3CA34E8E2E5DB7"
+        },
+        {
+          "tcId": 92,
+          "macDataServer": {
+            "partyId": "F1F0892A980393AAE720FF3F107EAAEA",
+            "ephemeralData": "314F94C38DCAA41D104B21A1E291AF995261AFB41AC3ED0C6782AB17C93B8581"
+          },
+          "macDataIut": {
+            "partyId": "9458FEF168B8CD932C07572E1FBF92B2",
+            "ephemeralData": "DC09026F539B74D871B31FC5500EF87AFEB131FB33063B520317283F7C8FC36B"
+          },
+          "macKey": "78A3F4E073AC2B395F26FA7853D50139C42457EF32B8E98C4D623575AC796C2A"
+        },
+        {
+          "tcId": 93,
+          "macDataServer": {
+            "partyId": "DDA6EAD6BFD8CB92AFB50331AABBE2D2"
+          },
+          "macDataIut": {
+            "partyId": "40EF0AB957D3E3027ACAB3227B9CB560",
+            "ephemeralData": "3C17A30ADB57E8ECFF5D8B46751517AF1749142A537930C89CA92C7FFF983976"
+          },
+          "macKey": "182592CDD4971299DCEB1D6890D327A78EB6685C3BD3680D12B6524156D142F3"
+        },
+        {
+          "tcId": 94,
+          "macDataServer": {
+            "partyId": "3CCA2E9618929828D15F0C07C4FCB028",
+            "ephemeralData": "200DBE28F13D1CECFF187588C9CD083B2D6DAE6495AD23F999E65FFBD99D6266"
+          },
+          "macDataIut": {
+            "partyId": "451DC250635DD7ECBE0ACFB515D07882"
+          },
+          "macKey": "3B70F421DEED9E49F0C4F86FC1F268ABE33492233B126EDE9DB44EA8BB5C03A1"
+        },
+        {
+          "tcId": 95,
+          "macDataServer": {
+            "partyId": "4998A4517A5F57E844705CD165921AE3"
+          },
+          "macDataIut": {
+            "partyId": "EB6D45169EE4B34B78C9F10F84E927E5"
+          },
+          "macKey": "9A1AA6274F91B89BA5B789E29FE7C9AE7F65EB5648B6997734DABBD91DA5CAA3"
+        },
+        {
+          "tcId": 96,
+          "macDataServer": {
+            "partyId": "8CAA0261359E3B59D4B30C090EBAC089",
+            "ephemeralData": "A9C281A550B5D5CB731894193164FEDA006EEB8743FEA76389F4AE8DD5D38F3D"
+          },
+          "macDataIut": {
+            "partyId": "CCBDD830AEE41666015F2AB77F3DD09E",
+            "ephemeralData": "6B649F298B7B25691C9188DC73789D635B9DCD6D4C700D62AB31CCDA3EE705A1"
+          },
+          "macKey": "01E3A4F9B80A5F77A83E39FFA14F8A0D39E1D993E178EA84EED586CA3D2FF504"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 9,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 97,
+          "macDataServer": {
+            "partyId": "34F64BE003C845055872F26EEFADB8AE"
+          },
+          "macDataIut": {
+            "partyId": "461B3016FC03F3EC824CEBC8543F61A4",
+            "ephemeralData": "FDA1A24922834FE7EEB1D0FEB39B1E8853AAA21EA2A909A6DF90FD1E79D8271F"
+          },
+          "macKey": "6804956D7ACF92E9764E4D815A2C57AF1DA2E6B5C8E9C80F1CBA90CC4308F7B1"
+        },
+        {
+          "tcId": 98,
+          "macDataServer": {
+            "partyId": "B23C0A0387E1BBF2BFB05A695D4FD51C"
+          },
+          "macDataIut": {
+            "partyId": "E5CBF10C0923279387D70D2C9707CE18"
+          },
+          "macKey": "70EB89834F2B70A4471DBDE85B0CD88B222D1817A2F469C2F350102D00297ECE"
+        },
+        {
+          "tcId": 99,
+          "macDataServer": {
+            "partyId": "8204F7B99A744EBFC4C23461FE623308",
+            "ephemeralData": "3A806E191544E248757C640B9FFB9092AE3FF1F5420B1E0004437D09778EF262"
+          },
+          "macDataIut": {
+            "partyId": "DD079C9ED5BD8465D2B0B93107393E98"
+          },
+          "macKey": "92EB2E39262F1876FD1C308773640A5B83597CB8A3335CBBE429914E15397605"
+        },
+        {
+          "tcId": 100,
+          "macDataServer": {
+            "partyId": "D0C24CCB232A49E5425FDF3D26124C28",
+            "ephemeralData": "5D6BB4E0754A41E6C2450B3FD8FA1D04CDD942E828C111791E010EDE60288608"
+          },
+          "macDataIut": {
+            "partyId": "C3AB826C4B2E2D01AB98748BCB05A5EB"
+          },
+          "macKey": "C43E8BC39C7A6641FC86B0D5A448FE49E860BD814E651F25036DC79A247AA6C3"
+        },
+        {
+          "tcId": 101,
+          "macDataServer": {
+            "partyId": "1408CFFFB949D4AB92495790166FFC33"
+          },
+          "macDataIut": {
+            "partyId": "8AEF7F03F3663108CAFCB6BBD3BF3A9C"
+          },
+          "macKey": "522838CB436DE6272DF144D967D2EF3744306AC632AEACA5FC02B73CFD91D0E9"
+        },
+        {
+          "tcId": 102,
+          "macDataServer": {
+            "partyId": "9C1C319698B7F20501FD94C3EB4280C6"
+          },
+          "macDataIut": {
+            "partyId": "652FDDA34CAE2FFC422504CF111C3556",
+            "ephemeralData": "12CAAC8D4DDD0C1A38C2C85A16E88347AE7E7949FB565576B0F8EE7C46FC5FB0"
+          },
+          "macKey": "8ACA23AB11702BC49DE8038533AE4FE93878BC06A73F4C3A4992491F327DF3EE"
+        },
+        {
+          "tcId": 103,
+          "macDataServer": {
+            "partyId": "FBA9431CE3A9501B037C98BFFF5608E0"
+          },
+          "macDataIut": {
+            "partyId": "BAF5D90CAA15AFAFA5B7E4935C658A00"
+          },
+          "macKey": "19056C89D43A4340620D6770FADD41735A13DF45F03BA1CED3F1E68AA53C08A7"
+        },
+        {
+          "tcId": 104,
+          "macDataServer": {
+            "partyId": "DD7AEB0A06F8262BB3B1721B1103CB12"
+          },
+          "macDataIut": {
+            "partyId": "C8F368DCCE2AA23DAA2E03BCD887B0D6"
+          },
+          "macKey": "0C28529F270B96ACD4FF648468FCFFBA5D1B62DD438AC49138B80AA85A4B4B0C"
+        },
+        {
+          "tcId": 105,
+          "macDataServer": {
+            "partyId": "2FDE6E67D3C84960D6758F4FF38F3553",
+            "ephemeralData": "F2A4992E5177D16A949CF6EA211AF50CD26395650C2E11B98580F40CB45CFA2E"
+          },
+          "macDataIut": {
+            "partyId": "402991C7A221830896253F1ACA6B1185"
+          },
+          "macKey": "00572E7D3B4AC75E371F9814E962957032E354A863D5C9729A289EE32E63BDE8"
+        },
+        {
+          "tcId": 106,
+          "macDataServer": {
+            "partyId": "E85FAC2F8B9BF871A1DFB7CB14DE1A24",
+            "ephemeralData": "98FFDA04826F0D3DD9B8A511FBD758E6DB0D24F3CBDC1135CD65A7686B10F80A"
+          },
+          "macDataIut": {
+            "partyId": "CB8B5B9CDC815E86340E0B05AE7A985C"
+          },
+          "macKey": "5BC8E2385A2E363F65E5491007C6547D7704A5C4CD81FEAE36B2B8BB9250A597"
+        },
+        {
+          "tcId": 107,
+          "macDataServer": {
+            "partyId": "7590BE77DCBE42C65CE179CC9BDF64FC"
+          },
+          "macDataIut": {
+            "partyId": "3D13D7E63AD79E9A3C614CA93D77221E",
+            "ephemeralData": "0EDCC4848E66771B40A4EC06E80EDBEAD39AF8B67F5EBE8CCAE0B51832CCA384"
+          },
+          "macKey": "E1C746524EA1168BFE98528C81E38D0923490FDC82BA40D0FFAEE30B473462E1"
+        },
+        {
+          "tcId": 108,
+          "macDataServer": {
+            "partyId": "5981EFA56FD7D0E7837F8EF467F26D9E",
+            "ephemeralData": "EE69EAC186FD9C4BD96D93C8C0FC25A52C09B4012CDBE01FA9B8303C5C81A05D"
+          },
+          "macDataIut": {
+            "partyId": "4FB6FF5FD773ADB550CC5EFF57F98D32",
+            "ephemeralData": "2BC5AB5C872E70760EA352E691C1F37FC9ABC7328253B3144748B56E12597DBF"
+          },
+          "macKey": "B5E83132A010A732CA516AC885B75B25BB74E2C871C6E708C2426C2927D46828"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 10,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 109,
+          "macDataServer": {
+            "partyId": "597A9A23645C9DAF669E515E36C5BAE0"
+          },
+          "macDataIut": {
+            "partyId": "F748720E29A0C81E52F62C1C598DA946"
+          },
+          "macKey": "C64D842F92CF7FAA270AF501686513A7B5C50CE7B006C7DEB18175EE81F8F178"
+        },
+        {
+          "tcId": 110,
+          "macDataServer": {
+            "partyId": "DB33FDEF11C90DA9BBE38C99797F5426",
+            "ephemeralData": "26055716DDF404DBFA06E61DBD264398D6E959A56761A2C1931FE070AA1AF0B0"
+          },
+          "macDataIut": {
+            "partyId": "EB3F801E3C1F0602E0719F65FB329CF8",
+            "ephemeralData": "D204F15FD5575176B86B28A4BD75D6AB78F3234F167B2BF6B7EB34457B94652E"
+          },
+          "macKey": "6A7D42EC6BCF20EACA2615DDADC7FF6DF7D1500A86E22956F53BCED9339ED2A8"
+        },
+        {
+          "tcId": 111,
+          "macDataServer": {
+            "partyId": "6D842A3E63675071D23111216960B45E",
+            "ephemeralData": "F164BA70A10AEE679A6FDE0EE63702FC663ADCB6302400B331BF47B864312852"
+          },
+          "macDataIut": {
+            "partyId": "B8F18FA1A85EE8E4AE05713ED96CA0EF"
+          },
+          "macKey": "00C11E3DC9FC97B873428C35812DD7288A9A40AE305EEFA918FCFA86C93D5035"
+        },
+        {
+          "tcId": 112,
+          "macDataServer": {
+            "partyId": "0D01EB5AFDDD626084DBB240B79F7CD3"
+          },
+          "macDataIut": {
+            "partyId": "7710238F3C27AAEC891788FFB73FACD5",
+            "ephemeralData": "A9012E19AB9C56BAD1236A6424690B9544E624C1BB98317EB163F776E73D7B43"
+          },
+          "macKey": "2F4F98B75A1F2C6B57D982E997DFC5B9F63E9EC94281C2053B845D90D2A84B55"
+        },
+        {
+          "tcId": 113,
+          "macDataServer": {
+            "partyId": "58EAB3AB62BB7F4AB846E2788535FF67"
+          },
+          "macDataIut": {
+            "partyId": "DB534D7FA41F263BCD97A9F15FF04144",
+            "ephemeralData": "3C872134ED721537FA626F5E41C16E5FF3DD38C54E3AD8280B4231FEFEF4F16E"
+          },
+          "macKey": "5007D655BFE8C6FA8EFFF41728444B6FDD4784690C0A4F79F2CE69DC5F5C1051"
+        },
+        {
+          "tcId": 114,
+          "macDataServer": {
+            "partyId": "0F3E03A0C263CECD59FD2CAFED874FF0"
+          },
+          "macDataIut": {
+            "partyId": "1E1D813D06BC5AEFC54AE631431E7E92"
+          },
+          "macKey": "AC1BEB2588826376C48065AA19673370A11607471D2D882C5654098AC99C9613"
+        },
+        {
+          "tcId": 115,
+          "macDataServer": {
+            "partyId": "92052D5E8869F6D7E9AD4E3A70E86C0C"
+          },
+          "macDataIut": {
+            "partyId": "D55B57BD722F269C72A80765583DF88C"
+          },
+          "macKey": "9C206F141F9E6F80544A3E9233FEA0DB9C8E0C59DBCAC56E83627D32C09666B1"
+        },
+        {
+          "tcId": 116,
+          "macDataServer": {
+            "partyId": "396F00E4BC5CE16011A4EEA5647EE15A"
+          },
+          "macDataIut": {
+            "partyId": "C9A450CB4797750C3EA71CBC4D237FBF",
+            "ephemeralData": "060B5AEABFDAEC12DAD1CA870AA2F561CB537CD525724FCD306F66DFF497E283"
+          },
+          "macKey": "037345AF8CF3E2BC10B8F62FCC0B83F108658BEB329ED8330F7A7AD50C6E47C9"
+        },
+        {
+          "tcId": 117,
+          "macDataServer": {
+            "partyId": "59CDFA0B6CD32AC649889692831302D3"
+          },
+          "macDataIut": {
+            "partyId": "C97EF41D7622CF4EEC66D36EC1F190D2",
+            "ephemeralData": "0253E0F90043FAA7073C3419EA01E94B8EDA65021DAECC9A510CF5F1B2FC24AD"
+          },
+          "macKey": "78B9580CB1F60AF4E779596FCB10C0DEF8C5C32CDACAF831070DE21682D06F03"
+        },
+        {
+          "tcId": 118,
+          "macDataServer": {
+            "partyId": "40828EAB8FAC775451C878BE5C94A859",
+            "ephemeralData": "CBE497818876B1D97EBEB1BD1DEEF3E0724030680C30CC07436375624C529BF3"
+          },
+          "macDataIut": {
+            "partyId": "7BF7E957B60C66262C1723292DCF8729"
+          },
+          "macKey": "70C1DAFFB073D3DD42BDBB528EAD394E7C0E4720FC707BF91E450C295CF6DCDE"
+        },
+        {
+          "tcId": 119,
+          "macDataServer": {
+            "partyId": "A29D0F801665CD105CAF1342D6C50F2B",
+            "ephemeralData": "41B1E4856C2EB41717D8EA0D3011469357F80B36DF10C9353FC8DB5C1F10E20E"
+          },
+          "macDataIut": {
+            "partyId": "90CDEE581FE44EF305839381277487FE"
+          },
+          "macKey": "51B95BADA808F80923AC1791567B281D5997314CE6DE030DE9B20C80EBDF9FD7"
+        },
+        {
+          "tcId": 120,
+          "macDataServer": {
+            "partyId": "D1BF1BE18F58589C3CD96A0B4D7BFD4F",
+            "ephemeralData": "3A32D13C183C73BCD7F33293EA6CC6B677E797092288F45B5BF0449815E39216"
+          },
+          "macDataIut": {
+            "partyId": "2BFC20B0870BF1EC1DA794CB5814CC9D"
+          },
+          "macKey": "891FD80825580C9EE34D3264F96469A7C04E79B4E40FB05C376439476A09CF6A"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 11,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 121,
+          "macDataServer": {
+            "partyId": "55661EA002B3261AAD5ECE93FD9C0D2E"
+          },
+          "macDataIut": {
+            "partyId": "281F32CE4BB0597D552F143DCDA509FD",
+            "ephemeralData": "F35FB52C6017B3F8AB2FB2645A7FC7AFD30236ACD275EF43F6197B25831CE4AC"
+          },
+          "macKey": "908DCAB864728B71B5F90AFBE657F12FB0EF6DDAE8DE4F07839208A4034D21DC"
+        },
+        {
+          "tcId": 122,
+          "macDataServer": {
+            "partyId": "E70B25A8D1737FCB05EA6986000E96D5"
+          },
+          "macDataIut": {
+            "partyId": "E8C4D915F3690AF1AD38A6300263DA4E",
+            "ephemeralData": "FECC056633B0365EEFE5D6588E6BCA5B497FC4B5C5BF897DE2D34C5E68886632"
+          },
+          "macKey": "BD787C9F9C280A98815B53589F5A4C88F3BA163F2BDF091E3A49767F3B73E248"
+        },
+        {
+          "tcId": 123,
+          "macDataServer": {
+            "partyId": "79EA4B8B278AE9EFCD9B402C732A1A92"
+          },
+          "macDataIut": {
+            "partyId": "EF87F458CA357EB5BE55DEA457D9D86A"
+          },
+          "macKey": "BC936A332D53BB670B3C2A0FE06284B34FCA1811C847EF0A1E46C4BF461AA877"
+        },
+        {
+          "tcId": 124,
+          "macDataServer": {
+            "partyId": "FFEEE3157AB02543B89DA5FF559918F0",
+            "ephemeralData": "89E0AAE0D83CFFA1FBFB9910B59F586011C61B015E7E1C4DF467ECBC6353883A"
+          },
+          "macDataIut": {
+            "partyId": "3A9F338150BDB08117D774FE0A373889",
+            "ephemeralData": "C29E025CC4D8C77F9AE3FC7CEF3943BC1A9E5E27B73F27E207A5B1047E3CDFF8"
+          },
+          "macKey": "A3138EAFBCC1578DA0AD0DFEA9FCB211AC7E3C65E02EFBD15700B64BD5EDFA7D"
+        },
+        {
+          "tcId": 125,
+          "macDataServer": {
+            "partyId": "93131DF681F3F7B939F6A2FB73A91F2C",
+            "ephemeralData": "77ECC2BAF41FC1AEC8F15EDD5E71C93F526A38306FFF7E66F5E3C5DD7C5F1C62"
+          },
+          "macDataIut": {
+            "partyId": "A10422E11D0BFFDFB07612B96702E801"
+          },
+          "macKey": "A33BEEA51CCE972A0372A62249DEA317BAC7493A783C058FE441AF41E7C09219"
+        },
+        {
+          "tcId": 126,
+          "macDataServer": {
+            "partyId": "D9FA5BEB0B8DE8F6AA583642201B077E",
+            "ephemeralData": "0FE8981B297E21FF55FC7535993C0532BF8FC7753C708CD7098AD2EECFC4D72E"
+          },
+          "macDataIut": {
+            "partyId": "367B2D723CE8E3F407350C0AF6FF54AB"
+          },
+          "macKey": "3FED6153CDCF6FDBB91BA59CF5292C7CC672B939CC5E39954918AF72A3FE20FD"
+        },
+        {
+          "tcId": 127,
+          "macDataServer": {
+            "partyId": "9A25DBEF8BD1BAEED347804E89808A22",
+            "ephemeralData": "DFD295C60CC352E70199233614A230DB257DCAF42A01F14E69D436290FE80B02"
+          },
+          "macDataIut": {
+            "partyId": "C6CCDA58B2C28F7B79302265181E1C70",
+            "ephemeralData": "6A9F89A450AA294AD4EFB28B641139BEAFAC3D24DE1D7E5C3A17B6EC9DBCF14C"
+          },
+          "macKey": "B8A2C772D728E772DFF156FD59C92B2C5E56AAEEC13DFB3C03959FC33121B7B2"
+        },
+        {
+          "tcId": 128,
+          "macDataServer": {
+            "partyId": "1BFE664A2B21D2FF5B1A64570F462AA1",
+            "ephemeralData": "2D3B2C23CAC621524514C01DFD4C91CD24FD68DFD536387285C25317293749C5"
+          },
+          "macDataIut": {
+            "partyId": "2D32F028B04839926DF6E7F351A02F24"
+          },
+          "macKey": "4662F78CF5D7F23505F882CF6D99252DB8F22925E2F2D24DF21377F5E82B1230"
+        },
+        {
+          "tcId": 129,
+          "macDataServer": {
+            "partyId": "EE5FEE87F24F5D8FD32F39FFD6F9B675"
+          },
+          "macDataIut": {
+            "partyId": "6126A832F253FA277A8CBEE5340BC66C",
+            "ephemeralData": "9B38F3996E87A5389732439C4BF81792BB14DEC6A234A591F73223307F24C65B"
+          },
+          "macKey": "EC9E5DC39B8B478D9318C8A266D7F4373B7FC830FB946EDFC79344E102E2D78C"
+        },
+        {
+          "tcId": 130,
+          "macDataServer": {
+            "partyId": "3DF4B5322E11FF9EE64D0AB274DFE43A",
+            "ephemeralData": "2B4C0E437A89BC0D1A7F639366A6F43A0AE02FA7C91378D1D0634676B472DF65"
+          },
+          "macDataIut": {
+            "partyId": "34348B1A7900FB801FC1DC0507E8BF08",
+            "ephemeralData": "06CAEC93CB06690171FDBBAFA98E0E3DF3061F6E3F84F639A20E80F3BE7F183B"
+          },
+          "macKey": "C28DE9BDB9A7575F012FA024F858C125395AA8E942DDD82AC7C73F9440087C7D"
+        },
+        {
+          "tcId": 131,
+          "macDataServer": {
+            "partyId": "410A0D973CE0064CDC0754B681545062"
+          },
+          "macDataIut": {
+            "partyId": "64303D86BA3BDE2DFB76A0272B4CE82C",
+            "ephemeralData": "D31F6339BF20DE6FE0D70C0B946C574226217B746445CA5D4B85122E5C01161A"
+          },
+          "macKey": "0BF911C5F150ED213E0E3FAC9DB55415BE8BD878C1895836CF3E33082F276B6F"
+        },
+        {
+          "tcId": 132,
+          "macDataServer": {
+            "partyId": "43A744F5F3484C4C708A36AE2DC78F81",
+            "ephemeralData": "9F9F13B4D3A8E1BA716B04F5E5C7203A5CC17235982AB75153EC207E775B70A4"
+          },
+          "macDataIut": {
+            "partyId": "65961A6A15E34757A9C6F12D07E1F53B"
+          },
+          "macKey": "009E19779DBCEA05A095037C87099831D616B445D2E45B41A7100A0A2576DF2C"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 12,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 133,
+          "macDataServer": {
+            "partyId": "250A4CE21A0DE85D304D35690F230095",
+            "ephemeralData": "8D4EF934B3C8FEF1149C753745F198240BF703C565C6D8F5053C1A32E9CE6E54"
+          },
+          "macDataIut": {
+            "partyId": "06F71E4DB4D4C42E243AF7FA10046A71",
+            "ephemeralData": "BAE1421FE911B2D41C3B41E9EDC45B49F602F15A6AE86F91191DC47BD30D50DE"
+          },
+          "macKey": "0BD1885233F7B9D2DF7774F0A9FADE1AAF0EB67569F4E78840170C348205BA2D"
+        },
+        {
+          "tcId": 134,
+          "macDataServer": {
+            "partyId": "A03E25E1A9BCBC207255A2E416DD64F9",
+            "ephemeralData": "2E4E62AE67C6BB7DE432EFBF241141226908B1E29AD795C24E9294422AF2B2E5"
+          },
+          "macDataIut": {
+            "partyId": "658E7921D7CE8C87901182779D568792"
+          },
+          "macKey": "5F9F2ACE87AC0E7FF6D9A68FFD0378A10BDA859BBFE096844922CF72DC94880C"
+        },
+        {
+          "tcId": 135,
+          "macDataServer": {
+            "partyId": "06F19FD3A2B35B9A6D118920FFDB77F6",
+            "ephemeralData": "8F0611DCEC0386030B0B79A834DE6FAFCD38C14B67202C5E14116F284C7E8C23"
+          },
+          "macDataIut": {
+            "partyId": "820EA81A8C95F8B0AF8EB6E19E791C03"
+          },
+          "macKey": "0038256CA2487280A94CBE2882EF056AF110334DE42B0BED6C4EAA048285259A"
+        },
+        {
+          "tcId": 136,
+          "macDataServer": {
+            "partyId": "0181173DC07A0B9A803F3D31238811A0",
+            "ephemeralData": "0AA4056D39F17802A0053F3C55A0B989CF561F0F79C04B56957D83B19130DDE1"
+          },
+          "macDataIut": {
+            "partyId": "814F75B36866FB8A7F880065C6D7FBE0",
+            "ephemeralData": "797241C785592B57BCA3D048C42C768437ABB57B70C67CE5CDF2931DCFBE44D5"
+          },
+          "macKey": "50284391388E8FD8A12824D2883EB6030C4742E384F22FAEF3D3A67AD79A0B4C"
+        },
+        {
+          "tcId": 137,
+          "macDataServer": {
+            "partyId": "07C1D3AA5874E7802932D4C66588D3C4",
+            "ephemeralData": "9587400F701A3B114041DEDB18708DEBF11216476F2A7C76FF0AE92A2410DE0C"
+          },
+          "macDataIut": {
+            "partyId": "A8B80308D9F96DE86D07EE3F416BB487",
+            "ephemeralData": "AB15C2AE7957C04282B2E7EF2CA9631D6C83D46AE1C3AA49EF88C8DB7D94F329"
+          },
+          "macKey": "35F09ACEEF12CF9C2D1692A435C28845AAFA13886B782C9E7AF24873F55EEF17"
+        },
+        {
+          "tcId": 138,
+          "macDataServer": {
+            "partyId": "7D33D8B83CAB3E872A4BCDA8F1339C38",
+            "ephemeralData": "25FE36BCF104DE0F9E7C950AFB3D7F72B3DEE4A5503A472C2E6C6E98D74DBB6A"
+          },
+          "macDataIut": {
+            "partyId": "A14746D6547B74461ACBF47C4D55AC28",
+            "ephemeralData": "406D628F493EC62A605A9F5473379B38CAF860A385FB9360C50530CA0870F91B"
+          },
+          "macKey": "F6717A69B9C7AE3FD5F34430E21C955FE1841020572845CB2D9FF2AAA43887BA"
+        },
+        {
+          "tcId": 139,
+          "macDataServer": {
+            "partyId": "24F4BBA62782A43BA5764250B2EE377A"
+          },
+          "macDataIut": {
+            "partyId": "B5DD9310EA2609A042830720C23A4DE3"
+          },
+          "macKey": "0115E59C5C857B8695D6A1ACF9D66A3A1B05BBD8614DC47FC1377407584FC575"
+        },
+        {
+          "tcId": 140,
+          "macDataServer": {
+            "partyId": "763F1329B113890D09AF43B12C96E7C9",
+            "ephemeralData": "2C197C7A268BD998B7018DEB6E804C4628124AD84D067C3376178DD2C4FC89A7"
+          },
+          "macDataIut": {
+            "partyId": "CF19CCA64D564C24442CB933BE2C6C5C",
+            "ephemeralData": "0D101A7BA5AAB023BC181B188BD093DC6AEA77C230623D34F81FD03BFD54CF1C"
+          },
+          "macKey": "B7FCF102F82C45871AF39E90CE347D98654A6F129EE414B8050AA6EEED1A5155"
+        },
+        {
+          "tcId": 141,
+          "macDataServer": {
+            "partyId": "E068A11E685FC88F24F3D7AF9EB7BE5A",
+            "ephemeralData": "233A1BCA895E6D15649CDE64C5AFE69BD5B1CC9EFB307DFA671BAA4F44A9E6E7"
+          },
+          "macDataIut": {
+            "partyId": "5D10CE5EE703A3BDE9F2BD35A58890B6"
+          },
+          "macKey": "DE9C914CE22E444909042630820649B6932994F476DD47830C6E16B42AE6F5FA"
+        },
+        {
+          "tcId": 142,
+          "macDataServer": {
+            "partyId": "53AAB3704A4D9112D8729458B061E503"
+          },
+          "macDataIut": {
+            "partyId": "6D0BA535678F5B62E1852371C28F9B27"
+          },
+          "macKey": "3CB1AE713AD6DFB0B728924B97F5BCAAA4A1501D00B77EA7B4FABD825D601653"
+        },
+        {
+          "tcId": 143,
+          "macDataServer": {
+            "partyId": "5D0F88365B7CF7F67D184CF925C66689"
+          },
+          "macDataIut": {
+            "partyId": "08D1F9065E199F21E5F296F58B9717B6",
+            "ephemeralData": "9098AF9719FD941AFF6A8542FD51208F5125B5F21C686C6F96AED7C131B11597"
+          },
+          "macKey": "D3BFFF95D92C17B2AB12A35FBD67A60957410460AFDF8A8F188EC8D720E46E78"
+        },
+        {
+          "tcId": 144,
+          "macDataServer": {
+            "partyId": "FEBBBE37E0D0AD594D5B1E30D4DE8800"
+          },
+          "macDataIut": {
+            "partyId": "30383A28E673674EA98CE8C69BD8E6CF"
+          },
+          "macKey": "75AC8F71AB1819428B8BB165D48B6FF184DB849E6551F1F00C0585E7174D0127"
+        }
+      ],
+      "kasRole": "initiator",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 13,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 145,
+          "macDataServer": {
+            "partyId": "EE52F5140E0EE5FCD169141EAE980061"
+          },
+          "macDataIut": {
+            "partyId": "0A1744E5E1D6221BB5ABC206B8787E30",
+            "ephemeralData": "D025A19DB420BBA6141B04B374BB96B9F0A6BF212E7F9BBB285A95A5EBA2E6CC"
+          },
+          "macKey": "751A8BA574E9448ECBC76479965E5A1D6826DBA2EA7962863E6BBC1E745E19C9"
+        },
+        {
+          "tcId": 146,
+          "macDataServer": {
+            "partyId": "8A90507313D28BF5C004A782B7C82CF3",
+            "ephemeralData": "35DD12E5534532A73FD3D76651BDD6C6C4428B1930BA6DE39B8103A55E31625E"
+          },
+          "macDataIut": {
+            "partyId": "6C72BCDDD8A2CC07ABD419E2A05571F2",
+            "ephemeralData": "3BB737C14756AA946C4BA8A2233E929D4C0D496AA6D4ED14D32CAAF0C7148A7B"
+          },
+          "macKey": "D1B62EBD72B7F18E87B1EAFA61FA83141F7B3C903BBF87BC8FF8EEDBE70B8E98"
+        },
+        {
+          "tcId": 147,
+          "macDataServer": {
+            "partyId": "8ED18536E95883DDAE3B7B17623E26B7",
+            "ephemeralData": "2B7F9BB6A343BCC297347D9F3ACAE9A760140B586EF7F6C78586C7C4A3EC2A0D"
+          },
+          "macDataIut": {
+            "partyId": "6AAF9717DE942DDDD8E85B808A97848F",
+            "ephemeralData": "5B58A2FE02FCADE94914B954EF97BB4C42F76FD255CC83219AB99FF0A50BABED"
+          },
+          "macKey": "2BCEE38308E055F59066218DB857A2E7A190DA1CC38C6A10F4889E0B45C44F70"
+        },
+        {
+          "tcId": 148,
+          "macDataServer": {
+            "partyId": "C76F4BEA3AE940D9959BF1A01F76983E",
+            "ephemeralData": "7DC188D993BECB6C7D19E105DE4BD19218D1F761B2B72158BF41DBDC6090220A"
+          },
+          "macDataIut": {
+            "partyId": "826A5B88F6179009A779C6047E70383E",
+            "ephemeralData": "21BDBC3EDCC3A4DA9D4C4C0AC1900019A8D16FE233E83A7EC6B65663A509CA65"
+          },
+          "macKey": "00E6AE1C11F4120829494271EBABC4F1AD78EA952AB1014E253D47404CD7E4C6"
+        },
+        {
+          "tcId": 149,
+          "macDataServer": {
+            "partyId": "F671D235B3488708D285209648B6C68D",
+            "ephemeralData": "E218B86CB799F3AE4578C0058DA6F5E2C8A8B33CDD7F7F94B5C99C7190274A21"
+          },
+          "macDataIut": {
+            "partyId": "C968079110BA249133AEDDCD6036AEBA",
+            "ephemeralData": "B2BEFEFA94455763299ACE2EF0E32B40D17FDF5596A7A016B301FDF157D8DF46"
+          },
+          "macKey": "DB4911037EE1E2D161BD24170918CC9CA4274C1A4E9A3B1A8FCE41579433D2F5"
+        },
+        {
+          "tcId": 150,
+          "macDataServer": {
+            "partyId": "B3F518D7AE14C5E682F97EB4D0384207"
+          },
+          "macDataIut": {
+            "partyId": "69539CF03CC1F2FBA8D688651DB87021"
+          },
+          "macKey": "0DFCE3D128749F363676A3330AC6D3BD3D0CE645AD687CED08F14B5A9C730881"
+        },
+        {
+          "tcId": 151,
+          "macDataServer": {
+            "partyId": "973C8B94B4E20D6F1034410F4C1DAAB9",
+            "ephemeralData": "203A68877216C730BEE23B9767FD459D7934CFA0371A4D8913B91EBBBA83C3E2"
+          },
+          "macDataIut": {
+            "partyId": "60734E81EAB777F41C27F9D4A0CE167D"
+          },
+          "macKey": "008B4607F389C5E1A7CD6499F7EE1B80136C38F5E7B8FB93FFEEFFDCAF6B1C1E"
+        },
+        {
+          "tcId": 152,
+          "macDataServer": {
+            "partyId": "0260573EE1E75EB630177A98960BCD2B"
+          },
+          "macDataIut": {
+            "partyId": "6C07720FC8E237EEC7E868408BF900E3",
+            "ephemeralData": "D796890681E1D4C8E969AD764672D2DA9196E6F72841ADCACB43D4603198A738"
+          },
+          "macKey": "1641C5C1F38C69AE3D8A91BCED8464505077BE07D5CCCECAC7F8CA3A6FCAD7C0"
+        },
+        {
+          "tcId": 153,
+          "macDataServer": {
+            "partyId": "82B2227A89CE1C5EB712229966C8A221",
+            "ephemeralData": "C4B5F24A213977463997C0CA66E0D88364C00DEBC1CBA2FD21E635B280F29ABB"
+          },
+          "macDataIut": {
+            "partyId": "B290DC0E13E39FB5BBFF2BB61040DBD3",
+            "ephemeralData": "ED9241765C9AB189C9B0DD96B84B42A1056A5B51CB5057F668A6BCEB000FEA74"
+          },
+          "macKey": "8BD7C4FC3A39B803FB9786B268F2F8D9A39D08E43A9996640CEF8578C0956A63"
+        },
+        {
+          "tcId": 154,
+          "macDataServer": {
+            "partyId": "B6988B014C9817428C5B124F006D6D58"
+          },
+          "macDataIut": {
+            "partyId": "1A0E289E010DE0D641FBC0837E4C3BA4",
+            "ephemeralData": "474B40AE276C3BC0DF92045BAC618377934AB36182DC81C39AFC9B67E1072564"
+          },
+          "macKey": "3683ECD52F2B2127935FEF0937078AB94D63E0097E908B6670D2F138070339B6"
+        },
+        {
+          "tcId": 155,
+          "macDataServer": {
+            "partyId": "AD6968A2EA9D3D2B76834CE48E74129D"
+          },
+          "macDataIut": {
+            "partyId": "8C02D5731F98463A29EB27691723575A",
+            "ephemeralData": "DDD28601892BECADD40E1B653C32218A424D87BBF8CABE1A7FA994FE112ED37D"
+          },
+          "macKey": "EB937E1F6912645AC561D771364718A750B5707DB88EC90ECB7D9E7BD401F6E1"
+        },
+        {
+          "tcId": 156,
+          "macDataServer": {
+            "partyId": "0CB076178540356E43B64AB3FC0A53A7"
+          },
+          "macDataIut": {
+            "partyId": "CC7A192EA1551B8E50DE330B4D017E2E",
+            "ephemeralData": "6B173858F3D6DEBDC7E450556B4D9AE221D6334FBDE0254277E2F6AAB7953462"
+          },
+          "macKey": "0D091FEE20CBF9CD4F115BA162DB346369021E85D6247084285CFD14E5E4CCF0"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 14,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 157,
+          "macDataServer": {
+            "partyId": "CA038E2A66E2F53041E102F2A255665C"
+          },
+          "macDataIut": {
+            "partyId": "676EF790F0F84DE366E3789673DC5475"
+          },
+          "macKey": "2D4A553B7D95A1439B7272FCCFB9F20E9A335C2673E2CE512215D266F0A0CDAC"
+        },
+        {
+          "tcId": 158,
+          "macDataServer": {
+            "partyId": "3BC94071149C3C2BECF345AB8C2D19BA",
+            "ephemeralData": "83E67DC13F3E55C96193DFF0A3B577869B17DEADC8B93D090797A79E763FEFFC"
+          },
+          "macDataIut": {
+            "partyId": "B5030C22F8BFAFBD3354DA91F44E8724"
+          },
+          "macKey": "0B46586949ACDD5C1D96A98651B9D6FDBD8E6332B63CA4F4867B4376130F9BAB"
+        },
+        {
+          "tcId": 159,
+          "macDataServer": {
+            "partyId": "DBD95436C05FE1DA3AA93AE975FD8D7C",
+            "ephemeralData": "F01B518534349F92995B6AAC321C53A01A48BA1D6E3ED1711A77E978B85AD21F"
+          },
+          "macDataIut": {
+            "partyId": "AD5AF33E75BF315F3272BBC338D0B939",
+            "ephemeralData": "570AFBB15CE15E960FFF10EB2FA738E22045991F1C3BFB1703E2169235A2986B"
+          },
+          "macKey": "209542B5D926C176B53724EEA8114299A378A1C03E7A142F4E6A67EAC6FF38E3"
+        },
+        {
+          "tcId": 160,
+          "macDataServer": {
+            "partyId": "5C47F85E74A2D3342D8B04DA7AECB4E5"
+          },
+          "macDataIut": {
+            "partyId": "94B5003D8C970833485C8E80E65447B8",
+            "ephemeralData": "C13AEAE8EBACB227BCB43BDABF5F9112D6332203D402E581D52BA395B8B40628"
+          },
+          "macKey": "AB97EC3FF6E290F852ECD19DE7674B9D6EB13058881E59A4C11050DC00F914E1"
+        },
+        {
+          "tcId": 161,
+          "macDataServer": {
+            "partyId": "836286405BB7B925FB14FF36C26CD160",
+            "ephemeralData": "9C2DDC1842C14087CCBB4E7E03B7A3F8068D9070A87185C8E81A608DE10B3935"
+          },
+          "macDataIut": {
+            "partyId": "D08DE7864A208F62589D79FAADC8D04D"
+          },
+          "macKey": "EBCFD89E4C593E7EE7107BCBBE8D3ACD27487C8A8F364EA70C447EC453B1F6CB"
+        },
+        {
+          "tcId": 162,
+          "macDataServer": {
+            "partyId": "300DA76A64690A265269B6A182CD89E7"
+          },
+          "macDataIut": {
+            "partyId": "6DB736745D67AAAEC0CBD5BB005410DA"
+          },
+          "macKey": "B79D0655666BB0D901A6244C41D177783DF465D306D26C7E8CADB38D0A3D56D2"
+        },
+        {
+          "tcId": 163,
+          "macDataServer": {
+            "partyId": "4909CBF9D91752A273D2EE1DA7558AC3"
+          },
+          "macDataIut": {
+            "partyId": "EACB3925DC43DD9E2ECD779047B7EA50",
+            "ephemeralData": "D3D335F45F3DA543176184A2716F4D1F3A228E837A8E0FF323C4E4060CC1C2E0"
+          },
+          "macKey": "3CBD2F65A660C8AA605CB3D7997DD99EF5C41EF944DF2A8490A6BDDD09774486"
+        },
+        {
+          "tcId": 164,
+          "macDataServer": {
+            "partyId": "6FBC198F1CD726FADA95FB005948484D"
+          },
+          "macDataIut": {
+            "partyId": "3EC80EE1A406D9BE3BC2AF879A8C5477",
+            "ephemeralData": "1DA5ABA5D861A0B1BF7C8C9F64A34E5D63B3AAEDDED6BC0050EDD8473DF3DB1D"
+          },
+          "macKey": "1654AB1477A78C335F906C0B18CA31B9247B0CFCBF3F00085B700500D532C499"
+        },
+        {
+          "tcId": 165,
+          "macDataServer": {
+            "partyId": "0C5139FF5A7D99CD826317BC29FF6251"
+          },
+          "macDataIut": {
+            "partyId": "EED76A9E4BAE0E5DC51A6E386008B0C6",
+            "ephemeralData": "BC24C6C0F09E93864CAE8DF669596BCAD843B822E64DE6829A30BFD68B8E2D8D"
+          },
+          "macKey": "C2BBDA3F214305427EFFD1A2F8CD35813AE1AB9B16313A8FCFA27B62483D1083"
+        },
+        {
+          "tcId": 166,
+          "macDataServer": {
+            "partyId": "554B68E36DB43F22E44C86F7B194485C",
+            "ephemeralData": "DF5506F2AD5BA7F23351AB7DF80D4362C74CE27AC33255A4AA4D23A57A42B5CB"
+          },
+          "macDataIut": {
+            "partyId": "79EC2F167D9FF2DC3074AC8DFF12CC3F",
+            "ephemeralData": "A6744C07F84DDD2D7FB91006D7535AA00BECF23F6A8953A10DEAFB38D471ED61"
+          },
+          "macKey": "9EB8A0C8FD870E6420CBAE6609A53001FAB2BB86BB612D0536FB91AA3D7320E3"
+        },
+        {
+          "tcId": 167,
+          "macDataServer": {
+            "partyId": "7BB0FE161E001D38B07AB04F03F02264",
+            "ephemeralData": "8399A2024FCD772BF5AB1E489926410878F4829F44A1288CAFEB348749151ADE"
+          },
+          "macDataIut": {
+            "partyId": "E9E95BC01EFE49A0196DCD9563A626CE"
+          },
+          "macKey": "00AC9C670F1D206EC058EA546EF59E2A7E7DF30F52239F18BB9B1BD4CE7C1F9A"
+        },
+        {
+          "tcId": 168,
+          "macDataServer": {
+            "partyId": "9CF5BF43E2CFB1CD76257827429D272F"
+          },
+          "macDataIut": {
+            "partyId": "7567D3903078F18294E99B00B3927A92"
+          },
+          "macKey": "DCFBC35006CC4EE51C541952F47501B543DF41C95DD2FDB22FC463DC2A91DA80"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 15,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 169,
+          "macDataServer": {
+            "partyId": "3ED64177B8F6D26A4342EBF80FFADF17",
+            "ephemeralData": "D4957333C14E732BCBBEE752D297B1EFB6A7A1C48B8BA8DF4A4A10F4614186F9"
+          },
+          "macDataIut": {
+            "partyId": "681E23AAAC136BB5AA794545950E00D2"
+          },
+          "macKey": "6C1788C2813676C81228DAA62451C110550DDFB7990BAEC5E9EAB527972A2EFF"
+        },
+        {
+          "tcId": 170,
+          "macDataServer": {
+            "partyId": "1A35AA725FF4437F41A31FD887298764"
+          },
+          "macDataIut": {
+            "partyId": "274F5A8C4BF805E35C546F30F5F234E3",
+            "ephemeralData": "CF39EAF47BED76B090C4242362DAD50E6C7914DB05BF9EBBE69E1E49D76E2F1B"
+          },
+          "macKey": "05D1F22230D327DD6BF6E1B75BD563F37A2EA43BE4801CA08A691B4FE12B7145"
+        },
+        {
+          "tcId": 171,
+          "macDataServer": {
+            "partyId": "76B9C5D9D41C8282580574D385909B9B",
+            "ephemeralData": "F9D19EE2F1E2FCB68C3B144706D3F1B8FE2C5258055B36D8DF30DB8133CEABBA"
+          },
+          "macDataIut": {
+            "partyId": "1F71F8280BA481E5A5E3EBFC5FFA8C12",
+            "ephemeralData": "C820CB0ECE7ADCA1879D403C2EB2F1E81C1E553000FF199DADB06BBF9E3E2A7C"
+          },
+          "macKey": "3AFD3FF8847C4170A5E5C14DDA55D04D8A4981420A644F821666E850AA75D337"
+        },
+        {
+          "tcId": 172,
+          "macDataServer": {
+            "partyId": "EBF09B040C99BCE71C6D27102690137F"
+          },
+          "macDataIut": {
+            "partyId": "0C0F548E416627AE2EF15103FB76FB73"
+          },
+          "macKey": "FA371329E4B846145A8E4BEE35C3ADFEDCDD2454138B3CAF1FA3FC29E40C5CC1"
+        },
+        {
+          "tcId": 173,
+          "macDataServer": {
+            "partyId": "C0BE172301B969C89743AE9589C484C1"
+          },
+          "macDataIut": {
+            "partyId": "202AC22F133A331EBA643881EE45E1F9"
+          },
+          "macKey": "7A750797637F1825AE9D4A475DBE8EC93FF2A279DEFA5DD93DAA84C94CEB7DC5"
+        },
+        {
+          "tcId": 174,
+          "macDataServer": {
+            "partyId": "2BFBD01217F3D2C3DF488B4009F195A9",
+            "ephemeralData": "72A3DD58164A7D89FC6F04BF2FAD26C6A02FD2D0B4614914FCF6405482917E4E"
+          },
+          "macDataIut": {
+            "partyId": "3C04706EDF9E9EAD6A2D3E4F4CDCB78F"
+          },
+          "macKey": "37A4E0F5D6F9950E4A6D547ED40971E820010E7EFF774413B04127AB8621415A"
+        },
+        {
+          "tcId": 175,
+          "macDataServer": {
+            "partyId": "56D9923BC0EC3E03C4E538A7995D29D4",
+            "ephemeralData": "E9EEC6A1709F0BBB2A94D531CB547F98940D985097B54AA7F8955288921E88E9"
+          },
+          "macDataIut": {
+            "partyId": "D062D9A49C67D22AA9ECB063E601FAC8",
+            "ephemeralData": "F9986E2BC324E23C159087DD250E3DBB2857316B734E825DF265948247D0BB1B"
+          },
+          "macKey": "E05725B27DD7F3F413E02E44EF932E164AEB7EDA3D362C78EA329639A8816255"
+        },
+        {
+          "tcId": 176,
+          "macDataServer": {
+            "partyId": "E843C706137922E36E07A218F2F39C87",
+            "ephemeralData": "53CD1639A92126E15C888045A444A246D6A4463512B957166AA454703571913A"
+          },
+          "macDataIut": {
+            "partyId": "EA2B2904797F835CF9D8C971F5C21BFE",
+            "ephemeralData": "3F95F2C5504E1153145BEABEA39E8363CCA27E9C39F5E8C0DB89F73379F5B872"
+          },
+          "macKey": "0030FA334A531409B9529A50507E79A9CA1D01A292A738FA2EF39631EC62A2B6"
+        },
+        {
+          "tcId": 177,
+          "macDataServer": {
+            "partyId": "671FC81879280E1FDAC81B435AFAAC9E",
+            "ephemeralData": "48E2B5DD5A9C801232FAC15B092F9B0BA7E7048B02A14C718B0E0728153D7C3A"
+          },
+          "macDataIut": {
+            "partyId": "70DC33B03AA0FDF92DADBA5219A27DDE",
+            "ephemeralData": "DD3015339243FAC7B4C3393E0C16997C6E80261A4FC679F7E86F9D9748C7F534"
+          },
+          "macKey": "BCADB46AA7020B8179DDD3017927EA5CF63BB121EDCC800892535943AAE016E8"
+        },
+        {
+          "tcId": 178,
+          "macDataServer": {
+            "partyId": "5A551AB47D420DDDEC04A272F6A7E34A",
+            "ephemeralData": "BFB284E55561BD235BD430DCC4740CA11BA4DE9EE48C50221D3D25C2C6408BEA"
+          },
+          "macDataIut": {
+            "partyId": "B49BFCCB291A079E99D2A3CA0047D8D3"
+          },
+          "macKey": "9E37E8C305A2E4B7B9A993E6487898D9646EF85FB37F54B9822084740F1246D0"
+        },
+        {
+          "tcId": 179,
+          "macDataServer": {
+            "partyId": "C63E546251EA0CAEC5937DA000C9BB55"
+          },
+          "macDataIut": {
+            "partyId": "1DB0CE91FB5D4D36229644FDF87C2A36",
+            "ephemeralData": "0EE2C0455AF14AB797B8B4CFB4F7EAAEA2687BF107959881E0BCA3F355BD635E"
+          },
+          "macKey": "B6C09A62B1A89E26ABA982114669B4AF8290BDBDFEE41F1F0C1761C8F36A33A9"
+        },
+        {
+          "tcId": 180,
+          "macDataServer": {
+            "partyId": "842E3FE13ACB268138D5396CD2707B24",
+            "ephemeralData": "764D4477CA5C41EF9967441CA13ECB513B661693A5A1839946480F81BBEC9E51"
+          },
+          "macDataIut": {
+            "partyId": "42220E23E28D34617C307D8D3AB84DC2",
+            "ephemeralData": "06219BF5B267B88077891D4C678D0015E990BF6AA42F97E839293214C1672285"
+          },
+          "macKey": "54CF7DB240CB52360CEC64E2CFA47701A1ECD1E899B32144F1942EA421199A29"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 16,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 181,
+          "macDataServer": {
+            "partyId": "1A07FC3DDF0A8615B7F7D83D84C3B37D",
+            "ephemeralData": "4F73CD8791883E561BC3712F20303D0B31278DC679E8D0AA9647FA48FDB44300"
+          },
+          "macDataIut": {
+            "partyId": "6858483EF1F1869C37ECAF601098FC51",
+            "ephemeralData": "7EA0F90CA5D9FBE10478377FEAE7CBFFD4D85F88F07DF06DD92C6B831F5A94FB"
+          },
+          "macKey": "DD0FB6720AA798808FA75E70BC0173B26D1A8A9067D4539FD1B6D6231B8718FF"
+        },
+        {
+          "tcId": 182,
+          "macDataServer": {
+            "partyId": "CCFE57898453EBBF4D87F713B004F809"
+          },
+          "macDataIut": {
+            "partyId": "9714EB23134CA1A52E1F7AD34E344312"
+          },
+          "macKey": "FFA24EA49A27E88EE6BB1B4717DD3F5196215441D1FD6F61973403A3B67180BB"
+        },
+        {
+          "tcId": 183,
+          "macDataServer": {
+            "partyId": "DF54FF5D3721B8E4FF65DC146C362C04"
+          },
+          "macDataIut": {
+            "partyId": "27DB81F915ADAEE7707E8C7C371A85CA"
+          },
+          "macKey": "CD5AE713466AC4521B1FED4E69E623636684963E286D347C5DAD8AC3EFA64C35"
+        },
+        {
+          "tcId": 184,
+          "macDataServer": {
+            "partyId": "DB7ED072DE8FCB6A75A988C91B8EBD74"
+          },
+          "macDataIut": {
+            "partyId": "67D9170815BA32A33A42E3ECF1FAA5E3",
+            "ephemeralData": "B3D2C76354208785FB5A196828F61469A19E671E49ACC8F9899003A7FC5AE4C8"
+          },
+          "macKey": "F532253BE220775E89AEADB388BB093DF1644B2CFCBFCF92FEBACD6A7E333FFF"
+        },
+        {
+          "tcId": 185,
+          "macDataServer": {
+            "partyId": "0937C8D6BB663C92DEC3BCED215A99A2"
+          },
+          "macDataIut": {
+            "partyId": "2D8038197D90ABDFEDE86AF64B1BF976",
+            "ephemeralData": "7416162C04BAB83D35B91FDA893786461FFD1DF813872BD9EB5247C0CB4C375B"
+          },
+          "macKey": "04C2BF4E8C078D177E3BA580FF42909C681F99CB3C9114360752E1623301BEFE"
+        },
+        {
+          "tcId": 186,
+          "macDataServer": {
+            "partyId": "1DB7FE1AE78C4B0035055EE1D5043ABD"
+          },
+          "macDataIut": {
+            "partyId": "3F54FE5EBB4E16A9625B2A953965BECF",
+            "ephemeralData": "5FAA47749E4A3830B8705D3285D681D2750996F75D8FEDF1226C7E288024AD93"
+          },
+          "macKey": "00A9AECE34EF506B3C35EC98E07C477282B409D77671EFB297BC95BE3051CB9C"
+        },
+        {
+          "tcId": 187,
+          "macDataServer": {
+            "partyId": "A0EA187004DE0E6B4D2D051765983B5C"
+          },
+          "macDataIut": {
+            "partyId": "71D72785AC350E2D655B4CD4DE7D1BE4",
+            "ephemeralData": "2315F5566EC5722FEEDEA52ED2F8D1E2E3408590F401B2FC29667BEC9BF6E48B"
+          },
+          "macKey": "9D07D2F7B6796B0706E62DCEF2478E209D89DB582C531A3C31BF70D6E143FA50"
+        },
+        {
+          "tcId": 188,
+          "macDataServer": {
+            "partyId": "9A15CF08CC555E9A41AB0D3933D23C87",
+            "ephemeralData": "96EA574BE7F8D482693B7AF4B6C1019D96958402D1A25D1A8EED0EA7B6A889A4"
+          },
+          "macDataIut": {
+            "partyId": "DBDE40278831002753B34E321CAAE688"
+          },
+          "macKey": "C2420615D2333F4E2A0459D914327237D15CC89F4DF3AB46C495D132549B2E78"
+        },
+        {
+          "tcId": 189,
+          "macDataServer": {
+            "partyId": "A29AAD4E75A3F286F4295E71B8DE40F5",
+            "ephemeralData": "08000A0FCD7D30E308D5D1043B074688CF76F7DA25E16A4763591C76225AE33B"
+          },
+          "macDataIut": {
+            "partyId": "201EC405CC39542254DB0D0CE16D43C0",
+            "ephemeralData": "B97406666A195B7819624CBF9D5FA607ECD47B8F19047D06717AE7D9A9FC6A22"
+          },
+          "macKey": "3C548C9E453E520D6A927D6DC0DD9BA3639DF480E1783A058991C9799853824B"
+        },
+        {
+          "tcId": 190,
+          "macDataServer": {
+            "partyId": "9753EF79A6D2DF8AA71FB9D65A4686A3",
+            "ephemeralData": "30263B444F7EF7670E992807AF9BBDAE8A7F716732A46AADDB89D0779634F9B5"
+          },
+          "macDataIut": {
+            "partyId": "E78243C09E8928D3BE17F88DDF20A3B8",
+            "ephemeralData": "D4E4457125AD547984FF2DC090A354BCF74860183FEC146BAC6AFDD370EC0EC6"
+          },
+          "macKey": "719739517F2E26608CEA244987C29B2DE311515BC213B41A8445601366634E17"
+        },
+        {
+          "tcId": 191,
+          "macDataServer": {
+            "partyId": "FFAB619101DBD8DC668421D6821175D0",
+            "ephemeralData": "7276A337B4604DF02AA02B62A25A2D77B4595BAF77B660EA3CB4B5E965BBBFDE"
+          },
+          "macDataIut": {
+            "partyId": "BE264D9D46722105C9B53C26CD91254C"
+          },
+          "macKey": "460400549B75901EB37025A57EEADDA77F2965B0243699CE5C8C6A03676FCA7E"
+        },
+        {
+          "tcId": 192,
+          "macDataServer": {
+            "partyId": "0605686A9CDDE32BC83689D6C3465729"
+          },
+          "macDataIut": {
+            "partyId": "9D235A8D9922169CB26500BEB6D750C2",
+            "ephemeralData": "103347C823DB8B0E1A38E3A343E04FBE8BA285A47EF58D76DD18EBF97F07735F"
+          },
+          "macKey": "592E15F4106D70ED3B7BD0C22518AB113A5D874940FB60E52D6B301E1CE62E25"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 17,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 193,
+          "macDataServer": {
+            "partyId": "4B9F157B58768E979EE0FC404C4D3120",
+            "ephemeralData": "A3B3D35E53B2220574EC47686DCC64D58BAA64B9B58EF9FE12065E939E863DAB"
+          },
+          "macDataIut": {
+            "partyId": "0D6663EE59ED6BDF0ED25266A6F6A364",
+            "ephemeralData": "CBCA937ADBD80E57C268C465E332481682EAE332E52A6D474E3A2BC17AC8DCB1"
+          },
+          "macKey": "2AB4B3AC7098125064395EFE2EA44F2DAA9E0CD9CA66D02BEA83E464A686435E"
+        },
+        {
+          "tcId": 194,
+          "macDataServer": {
+            "partyId": "B83157DCCC3646AA25EFA950FE1A4B35"
+          },
+          "macDataIut": {
+            "partyId": "B60A665693FA8997ABD1A0B01F1EE61B"
+          },
+          "macKey": "41573FCF056A6A74F8F772FAF5125F0CF8FA18FB6D90FD472FA850916B747631"
+        },
+        {
+          "tcId": 195,
+          "macDataServer": {
+            "partyId": "F843BFE7A3ADA9EDC192235EED09CBA9",
+            "ephemeralData": "EB95990934A56E02C89D0A539C2E0D370F12B81BEB420C940633FCFEADC0A525"
+          },
+          "macDataIut": {
+            "partyId": "FC741220F3ECA3B5A363A60CF45156AD",
+            "ephemeralData": "60F5BCBFF9630690C38ADDC3A5A690D96B9D9635A6A7E151590398ACFEC6527B"
+          },
+          "macKey": "FAFCFE568FAAF7071BA0C4C6AE88E9514E75D848D02F9E7394DBBEDDF10FB247"
+        },
+        {
+          "tcId": 196,
+          "macDataServer": {
+            "partyId": "DC77957B620B2259606903D5709603C9"
+          },
+          "macDataIut": {
+            "partyId": "A3018006933FDE13D762E602EC62E8E3",
+            "ephemeralData": "677D5C00DBE092017EDFFDB4ACE4DE84EA03067017EF2BB1B45807582605BC41"
+          },
+          "macKey": "AE55B47C27C62487DC44DA3093B7F677071CE9497AD723BB3EFB707DFCC3C404"
+        },
+        {
+          "tcId": 197,
+          "macDataServer": {
+            "partyId": "CEAB1791497DB6C357694FDE89FA9E45"
+          },
+          "macDataIut": {
+            "partyId": "2417DE296152F71B8333267E1EC87801",
+            "ephemeralData": "4C04F2EAA8C85A700FB104F4AD18D861DB18447B09D88D60F3A597AFDFE5ACDA"
+          },
+          "macKey": "006D09FDCF556ED6FAD68C20923E2F6D6572484E90C27E955506954531324EDF"
+        },
+        {
+          "tcId": 198,
+          "macDataServer": {
+            "partyId": "D00D8B2A208100121AE49162CFF6D114",
+            "ephemeralData": "148FFFAC20444490876CDC384BB0553A1CB7FB17E0A445131087E83AC34906D9"
+          },
+          "macDataIut": {
+            "partyId": "7400A08DD6E59C8BD641C545A2A1506E"
+          },
+          "macKey": "136467A4F533C29AFDE23320B7500D6885E932769E7D51470D97512AF9C67257"
+        },
+        {
+          "tcId": 199,
+          "macDataServer": {
+            "partyId": "D10DB9D0E94D7FA03A79B6A73B7B7FEA",
+            "ephemeralData": "9A1E6DFFAE66D69001C12E3FFB2772B998D7BB1D96F08E572180E27348AAC54B"
+          },
+          "macDataIut": {
+            "partyId": "43627040556B2C26D097B355303B3BE4"
+          },
+          "macKey": "EA21D27C9DB7A8041C2C00AA9BFF38129261094AEA5F85BA990BA1999C24D559"
+        },
+        {
+          "tcId": 200,
+          "macDataServer": {
+            "partyId": "A104BCD51CFA4DE5596589E0F9DCE871"
+          },
+          "macDataIut": {
+            "partyId": "727D6E3D379D9D4307F849187F7CEA15",
+            "ephemeralData": "998731DB4FCA9A22858B0D3867D82F1F837872328EDF3403EE128DF94D2AF0DB"
+          },
+          "macKey": "0DD113C3C35F2AA464CD81392B8CB69981DBB2CB8555DD0AC95B7724527D627D"
+        },
+        {
+          "tcId": 201,
+          "macDataServer": {
+            "partyId": "1CC6ECE1F02ABE860CD3FDEC6690772A"
+          },
+          "macDataIut": {
+            "partyId": "A44E1A009E2F70AF7D50C2563B73EEFA",
+            "ephemeralData": "A9C29C609797B5661BFD9468FF05DAC0F62A3E917D4E9A913D2D156E4996C562"
+          },
+          "macKey": "D7F5DD957DB8E27BC8CDC61CC11120F9007FF48F84625A296362BB5BB8559E6F"
+        },
+        {
+          "tcId": 202,
+          "macDataServer": {
+            "partyId": "E1AA9591DF58EEA23D76573F1D739BAD"
+          },
+          "macDataIut": {
+            "partyId": "C6CF5AFF0C45223C3B9962282AADDCA8"
+          },
+          "macKey": "6477A7AAB90A3987706550CB314A62DECA518E869AAB669D1B8C3FEDD0F86E23"
+        },
+        {
+          "tcId": 203,
+          "macDataServer": {
+            "partyId": "3FAFC29DF30671291EBCD625D9AF2778"
+          },
+          "macDataIut": {
+            "partyId": "BACAED874870FC6BCB6340E9D3590B72",
+            "ephemeralData": "4DA82D6F3A78AA3A4F9C9D6957ED5A797561A2BBE8DDA8670EF7E7886E93DB30"
+          },
+          "macKey": "00399EBC6FDD33433F93FFE8C167247EA4CE6D36DE2DBECAB840EF4B361156DF"
+        },
+        {
+          "tcId": 204,
+          "macDataServer": {
+            "partyId": "C888A56EC41496AF987E2D00011B962E",
+            "ephemeralData": "249247A580A434AB94B115A9ADB39DC0F7293DC76CAAC690342DCAE9AEAA462E"
+          },
+          "macDataIut": {
+            "partyId": "5942FF6E7FED1AEC1344B8CA5B2C2F42"
+          },
+          "macKey": "498EAD26B4021694199C5615EAE4779BD7CF42EEB89DCBD350AD80AEFBD1287B"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 18,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 205,
+          "macDataServer": {
+            "partyId": "3F91A6DA95374570768383478ED1D338",
+            "ephemeralData": "18A4856205D50CA9F809AA1F54931567B72A2BC65B58561BDE648CBD818964D1"
+          },
+          "macDataIut": {
+            "partyId": "3FDA640C6557362C3D9B0C511A6E8D2D"
+          },
+          "macKey": "967C5EB7B1D7905A27B808AB7C3F236A0C7F151D2C67692A4516B7B676933409"
+        },
+        {
+          "tcId": 206,
+          "macDataServer": {
+            "partyId": "35CBC28435A9F34106147B275984D325",
+            "ephemeralData": "014397797B0A84290A9A8B5CB5BAB9C3D09CD94530FD2499E5C8489C2E91BBF4"
+          },
+          "macDataIut": {
+            "partyId": "4A2F549FF276583F445ECF83142FEC34",
+            "ephemeralData": "8C7CBF28268FD229D7B84972D81607CB72D95768C0E47E03BF9F0ADDAE00C2E4"
+          },
+          "macKey": "026B4C3D1705872168E4D7C1066555F3F9E3A7BA25D8F34EBF2F43479B747F58"
+        },
+        {
+          "tcId": 207,
+          "macDataServer": {
+            "partyId": "C7021179A965005DB69C4B47FC8D258E"
+          },
+          "macDataIut": {
+            "partyId": "28A463A9D6B57B42A03A243086F8D962"
+          },
+          "macKey": "0E78302691BE2F29413D166FFF63DD6903A024711CE8158B94427435C376383C"
+        },
+        {
+          "tcId": 208,
+          "macDataServer": {
+            "partyId": "976CEF894A721A4630B8FCBEC2530680",
+            "ephemeralData": "A997914173DBA885F48664F792FCA23E5123D78B83F64C9DCF77A35DC1832871"
+          },
+          "macDataIut": {
+            "partyId": "C5201968B755434C63DCB53547EF919D",
+            "ephemeralData": "D75DDA92431B01BFD8A0B9E1A0D9F3E60B20F66EA434067124848EDC685E9540"
+          },
+          "macKey": "0B8E04C8B43B8EA10DC644603853F1F8293354AA6D43D1624F89499CCEFCE75D"
+        },
+        {
+          "tcId": 209,
+          "macDataServer": {
+            "partyId": "190A3F30434E015DFAA9043B75177A4B",
+            "ephemeralData": "8A5EE1A5B8A0F439C80D00DBA4D8767951A2B5AA039ADF564219F7447D02F764"
+          },
+          "macDataIut": {
+            "partyId": "F617454461A36920D6FCEEF597C2B705"
+          },
+          "macKey": "759C605750443AEA64F70A4094C5DEA198565A5FC9ADF85C1F35CEF41FE171B2"
+        },
+        {
+          "tcId": 210,
+          "macDataServer": {
+            "partyId": "583640D75B38785264B9C5C27C425611",
+            "ephemeralData": "FBCE73D1FF64A9317565FE9EBDFD8B032C27259B38C8AFB9C3D964587AB575D4"
+          },
+          "macDataIut": {
+            "partyId": "227EEE855F5711421BAAE5F59B848C89",
+            "ephemeralData": "DB01444FAD7D4820D2C3AB8DBA79434B570B502DC880FC13C37F7CADC9043910"
+          },
+          "macKey": "45F1DAFFAF493F0FD5601D04B94C815522859AFBFCD3F69FDFF2DC56DB59C9A5"
+        },
+        {
+          "tcId": 211,
+          "macDataServer": {
+            "partyId": "7D0E527B0FBD5DA7C34177EA9A27ADDA"
+          },
+          "macDataIut": {
+            "partyId": "289F69E287387BE7FB3D5B43AC9DA47B"
+          },
+          "macKey": "BA6D947F2D9DE504D96204DD09A7F7FA861D0174BE887FBD92668F5BCB90DE25"
+        },
+        {
+          "tcId": 212,
+          "macDataServer": {
+            "partyId": "D0385BC2AD2FABB25459EA1A9CB7E97E",
+            "ephemeralData": "ECDD185CF33E11A42A09FA3F915E0B9269AB13FEF713ACB1F90AA27E0508E65B"
+          },
+          "macDataIut": {
+            "partyId": "04C4D93C83BD16741FA06EBC577E62E5"
+          },
+          "macKey": "989D17636D61DDDD6062A0722DC958021CACBB41AD392192146B78FCDE7E9A51"
+        },
+        {
+          "tcId": 213,
+          "macDataServer": {
+            "partyId": "431EE16B0E39D0ED75ABF64812A458B2"
+          },
+          "macDataIut": {
+            "partyId": "354931B0F884BC8AD0AD82DC84CE6265"
+          },
+          "macKey": "C19EA8659F480B9759B66FF1EA9BA0D247F73FF5EC3D90508522CAAEC4B2E0A4"
+        },
+        {
+          "tcId": 214,
+          "macDataServer": {
+            "partyId": "5B6DB1B5059A34FA25BD186425A77608"
+          },
+          "macDataIut": {
+            "partyId": "418E40CE87C0B3BA19EFCAB26C277CBE"
+          },
+          "macKey": "00460863E92F7D7101BEA5895288AF887DA0E872B656BB454AED9F5034FDF55E"
+        },
+        {
+          "tcId": 215,
+          "macDataServer": {
+            "partyId": "E81C6EEAF09808A858EF836DC79BD374"
+          },
+          "macDataIut": {
+            "partyId": "87B7D7CFB9418D6618FF3A96483D566F"
+          },
+          "macKey": "5870F72D0EA18E9FE467EC7D5936A8282FF12C4D72BF1C35E739D7FB18CCF37B"
+        },
+        {
+          "tcId": 216,
+          "macDataServer": {
+            "partyId": "C88B806AF3CA9AD2E44702458D134017",
+            "ephemeralData": "0278B597EF04DFE42AB928BB8F73D9D15431D01916B127385EFEB782D737F387"
+          },
+          "macDataIut": {
+            "partyId": "567EE0EA5FCA033501E2CF79B70F012B"
+          },
+          "macKey": "83C70EB2A3F20D395E258C54B1AE15C1FA81BB331FCAE68F5CBE3F1E8B590843"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "provider",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 19,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 217,
+          "macDataServer": {
+            "partyId": "4AEC275316FCA24A2C64370BE3FF33D9",
+            "ephemeralData": "51397076F36117281D4AF5BB090D2EDF35A76EB06C3E6DE142514A433EBF78ED"
+          },
+          "macDataIut": {
+            "partyId": "964FD8B17D9C2597C90A5DB97349AE2D"
+          },
+          "macKey": "01CB5DE92C16A22DF75A363DBD481D6F8EF1DEEDF655C992B5EF9AD7D7EB9C3C"
+        },
+        {
+          "tcId": 218,
+          "macDataServer": {
+            "partyId": "548BFDB360BCC6AF2E2AAC64244FF937"
+          },
+          "macDataIut": {
+            "partyId": "E659FBA9816AA6EDA4250580AA1E8FEA"
+          },
+          "macKey": "161AEFF0C548B9FBEF643E48771815E63914C5AF69E9C808FA0478FD49F0C238"
+        },
+        {
+          "tcId": 219,
+          "macDataServer": {
+            "partyId": "3DBA2A356D79E78C8FF70AB27446BAFF",
+            "ephemeralData": "10CA638E6AE2D437CC634BA6FCB0720E35D4694B949DF8CB72D0CB742DD1F31D"
+          },
+          "macDataIut": {
+            "partyId": "6BBA3598D24E858EC4D85CBBC35B5A55"
+          },
+          "macKey": "67E365E9A0F6058FD2C1AF8C471BFF990F9BF7F1FE3E40A47A46D19AC7183126"
+        },
+        {
+          "tcId": 220,
+          "macDataServer": {
+            "partyId": "2F483C8512AFCFE7C9C0AC1F1DA10615",
+            "ephemeralData": "022F4BCE9A141CF37B99F967E63E3B8A1D403DD3A6DD02C2CB1A02804710E064"
+          },
+          "macDataIut": {
+            "partyId": "2FF5EA8EFC31778854ACC4EBDB4459A6"
+          },
+          "macKey": "76FD80ED635495466A64AFF00CB267D172FB40EBBDEA54039F86CE1E1586C366"
+        },
+        {
+          "tcId": 221,
+          "macDataServer": {
+            "partyId": "3E9991FF11AE774CA87C54E07A30ADEB"
+          },
+          "macDataIut": {
+            "partyId": "9648E828ECE0E358F922B77DA75BDB11"
+          },
+          "macKey": "A24AC7FA1109065BB35FBD6BAD21F13C744DC3AB1283A01003DC02DF73060131"
+        },
+        {
+          "tcId": 222,
+          "macDataServer": {
+            "partyId": "F7059818F9AE1895FCC26DFA7B41CDEF",
+            "ephemeralData": "3698E5A00181E17AB7CFD9B356D1F6D377D3A32E9D539BAED4BB6887CBFE393E"
+          },
+          "macDataIut": {
+            "partyId": "E7570036302D9E7DB8FB30FA0FB49146"
+          },
+          "macKey": "C933B9E6A650466A65F4B6250EC4A0250AEAF7A926BE26C0D84524E81DC18F23"
+        },
+        {
+          "tcId": 223,
+          "macDataServer": {
+            "partyId": "CE07F0F57249BB5959CDF7B95A0CE024",
+            "ephemeralData": "06F7B0173FA8308B9F76F28DAAF37377E916A1BEA750A6DDDD2CB592446C6D39"
+          },
+          "macDataIut": {
+            "partyId": "8B797CF4C8D4FEA00CB1F2ECE5F843EA"
+          },
+          "macKey": "00C6ED0D61B8CCF64662E9DA93780C5BA8FDB208261ADB2D574EE01F0C430434"
+        },
+        {
+          "tcId": 224,
+          "macDataServer": {
+            "partyId": "04AB0335A35830D984F0517E862B7041",
+            "ephemeralData": "754A966DD9C4887ED2A4A4B7696E5EAD1417C6C86818AE9B1F0A28F1A2BCF376"
+          },
+          "macDataIut": {
+            "partyId": "FDB8D665AE7AF59AA37D1DB8575795F5"
+          },
+          "macKey": "04B130636923E94ED18BD2954D55218C9267716B41B55E7C037E9E41C5602271"
+        },
+        {
+          "tcId": 225,
+          "macDataServer": {
+            "partyId": "783E124C5256220AFFA4842F0F250884"
+          },
+          "macDataIut": {
+            "partyId": "F99A22E09841E1E1F12704DE7557EB45"
+          },
+          "macKey": "C8A3CEA4D5AEBC6B5746C1FBA48DA3EB9F772D83A11D1C4CB32829CB28B5EE84"
+        },
+        {
+          "tcId": 226,
+          "macDataServer": {
+            "partyId": "281238F175C6B67B20766FD61658F5F2",
+            "ephemeralData": "DA6AC9A00C179ACF0FEABBED88FC1078AA17DBD6F199C6706E0795FE02396CB0"
+          },
+          "macDataIut": {
+            "partyId": "BCE8E83AC2BA583397510F97C0448E0F",
+            "ephemeralData": "45FBA5DC49E1442317A0E3563B8A3BE1FC1C9FA04A85D510A5EAEE5CBDE6AFCE"
+          },
+          "macKey": "A6CDFA7D64332981F5A4BDFE95639FCA694D25061DE5CD83A6E3FAE233F0B93F"
+        },
+        {
+          "tcId": 227,
+          "macDataServer": {
+            "partyId": "12D1BEF536920504F00F0F53A6F05DD9",
+            "ephemeralData": "44763B6CE5A9300810628BA9228173660B483A274A99EEC8649295CCA43D2317"
+          },
+          "macDataIut": {
+            "partyId": "07C22FC7164ED8EFE4D8B1EA9FFA24F0",
+            "ephemeralData": "0630EEA11EE59A0A14E1417369AF3C81D086BCCAC8C57564DD8BCA443A1DF1A3"
+          },
+          "macKey": "8DF8ACEB9C9C2CC18B92E4AF7A3B139C60E2CA4753AA041CA7B52B4998B28CBE"
+        },
+        {
+          "tcId": 228,
+          "macDataServer": {
+            "partyId": "32BA6A2D1577D7D305F4CED3E72D297C"
+          },
+          "macDataIut": {
+            "partyId": "7A7D708D7B1CFDE59FF5A9B08F59EEA6",
+            "ephemeralData": "427B71E031D9BB53FAD764BCB2CC5A7F179EBDF23781EE6A7B3F6F71B590593F"
+          },
+          "macKey": "73F99B0D96B6619581DBE280EE10AEFDD919E1CD73E0686BEEB90AC5ED174DDB"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 20,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 229,
+          "macDataServer": {
+            "partyId": "B619DF2592F3FC2D40C21B9DB26D5D70",
+            "ephemeralData": "5EA52A516FECC3F8DAF88F37EF4394186183DADBBCCB02F69591A420A45EAFAC"
+          },
+          "macDataIut": {
+            "partyId": "B983C5D71CFE8FD11B2479580D16A8A8",
+            "ephemeralData": "75F2F691865CDFD5E68C2EDF7F2A9C90799279536405509BBCD7CBCB99DE6727"
+          },
+          "macKey": "CC4421B85CAB83B61D0F86AE617825D804F929C12CE9E998F770D434CAA61D8F"
+        },
+        {
+          "tcId": 230,
+          "macDataServer": {
+            "partyId": "A0AE7785B2501034D3BAB2613B9C0843"
+          },
+          "macDataIut": {
+            "partyId": "17517BC7D9FBD79DD0B3EC37D75E90E1"
+          },
+          "macKey": "5A29264B009B26A28BD62F0F57261F4D02FB4D7C2BF2B88DAA3E75B55170D28F"
+        },
+        {
+          "tcId": 231,
+          "macDataServer": {
+            "partyId": "E032C532ED06D764F2E69F79A9229AE5"
+          },
+          "macDataIut": {
+            "partyId": "16B3D715529516774D76190D181B7443",
+            "ephemeralData": "E4B21B881336B4288DA4F8ED17B79A18738976988F320F742514D5F836E67EA1"
+          },
+          "macKey": "5D599C019F440E59D9A82FC97B2B1A7A7C61CC63B48F04830DC5ECE0CC587434"
+        },
+        {
+          "tcId": 232,
+          "macDataServer": {
+            "partyId": "D0E1235463579571F869536BC3E258BF"
+          },
+          "macDataIut": {
+            "partyId": "DA8687F7FB51C3124FB92A8770174D3F",
+            "ephemeralData": "E2EEFB56D2F1FE1EE3EB0835B9B4D6DBDB0E8AE091BCDCC0F4D351A9CA80336C"
+          },
+          "macKey": "EDC49E015FABAB9C486439172C4D7888490A9167AD76AACE0E06151006538A8C"
+        },
+        {
+          "tcId": 233,
+          "macDataServer": {
+            "partyId": "022350B97B7ED1EE05BA52A055CB94FE"
+          },
+          "macDataIut": {
+            "partyId": "BF330133E7BD83F63AE7B6D0A6E4B3C8",
+            "ephemeralData": "5FA5816B38FEB8DEF876E9251560E1C54C5E6EFEB54A1D542D1FC41BD435CFEF"
+          },
+          "macKey": "77D3C1E7C563F53C590646EDC36FF32E1F63EF5070344B28ACCFE3EBFE31447B"
+        },
+        {
+          "tcId": 234,
+          "macDataServer": {
+            "partyId": "80A91B4C1152FBE2B6ADC706812D0A5D",
+            "ephemeralData": "7F6D004524547A2E1D01E87C46E0A745C9169FFF508C3D961BE01B8370E78470"
+          },
+          "macDataIut": {
+            "partyId": "29F6995ED500171B9235A67610D3AFAF"
+          },
+          "macKey": "96D6BBC70841CA8288CBD89F02D583FBB2FB912A7031EBA11286ED41722917B6"
+        },
+        {
+          "tcId": 235,
+          "macDataServer": {
+            "partyId": "098B505F75C2D215D0CA0FA0A01AF4CC",
+            "ephemeralData": "0C365F3678694CA98F8348127D9EE0BF1A97221ECA2C284492CF0EFEAE4367D8"
+          },
+          "macDataIut": {
+            "partyId": "622B2A25CA731726A070147F69E89D67",
+            "ephemeralData": "8BD641FB51AC5417D3583BA9F60EB17FB6A73BF2B1FFE2775B8825BD637CE7BE"
+          },
+          "macKey": "005B57A5B205B4E390560E37613C361532F9082B1264643EA3810764D41A4773"
+        },
+        {
+          "tcId": 236,
+          "macDataServer": {
+            "partyId": "38485FD69E0812D051B8D42B0B9E660E"
+          },
+          "macDataIut": {
+            "partyId": "B89AD10F2D4127685A97471E5A5FCE05"
+          },
+          "macKey": "88DE0884F83E0B8A0E1631655556C78A940D275640DFF03DF909563C57EB54D6"
+        },
+        {
+          "tcId": 237,
+          "macDataServer": {
+            "partyId": "DEE65EEF18E24A38BCC2C69F0E51E264",
+            "ephemeralData": "34A1011EA9115579120A8AA2F7A5BBDC36568D2191D85A0538803B4D1D8B95AA"
+          },
+          "macDataIut": {
+            "partyId": "77B906C10437A719931FDC044F90E52E",
+            "ephemeralData": "C0BAA307FAB917D3226821CF3CEEB9343BABF4AA9B31EE4409186229299C7A2B"
+          },
+          "macKey": "031AD72AF7A4798B20B7C814E82AC4628AB2918FC7CA036E7DE71D1F5E004170"
+        },
+        {
+          "tcId": 238,
+          "macDataServer": {
+            "partyId": "4BCEE402783C8CD0A8F6E8B07B669618"
+          },
+          "macDataIut": {
+            "partyId": "C1D7969A393F9CA31F653ED5A0226AA4",
+            "ephemeralData": "CEBE1CEC0148D07A74BC267977FE65F70AE52E9486801DF2BBBB2BDFD124DF8B"
+          },
+          "macKey": "5FD6CEB9E20E57AF2364ECD3CF7F0B6E575E3C2175CABEC0AA6B38EFB3B60FD4"
+        },
+        {
+          "tcId": 239,
+          "macDataServer": {
+            "partyId": "675E3DDA8EAEE5FC5F32A8798E2982B6",
+            "ephemeralData": "9AB308179AF9D5A521B7F56A96F341FB153A2755D94E79C2CE2639A09CB74871"
+          },
+          "macDataIut": {
+            "partyId": "029309E00124B6FD2653F2A67FEB84D9",
+            "ephemeralData": "57BF4CC443C1828C5130E09AFCC84A989399AAD40A595A00CC5B5B7C62F75197"
+          },
+          "macKey": "09B68C3FCAF696917C53C1CC0BC92E875B3678E266D82EA110F7F6E261624C01"
+        },
+        {
+          "tcId": 240,
+          "macDataServer": {
+            "partyId": "DAF7367D745E553DE5A7A8F4D07F698B",
+            "ephemeralData": "F5C33A8C46C739D3F279939E98D880D0F5D49BAB65A3B04B233870E75F643EB6"
+          },
+          "macDataIut": {
+            "partyId": "5FD28D549CCFBB700ABA268F10D8213C"
+          },
+          "macKey": "1196F2A8AD8C71C422A93501776587A0C3AAD742F75CD0970E822BFB94D60CCE"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 21,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 241,
+          "macDataServer": {
+            "partyId": "A465D49F89CFB36398F44CD404A5048F"
+          },
+          "macDataIut": {
+            "partyId": "FCB08236CD01CAFEA5FA3FC59E97ADEC",
+            "ephemeralData": "6429057070113BFFB9A03D924CA41D8FC042ECDB343778C08D60FD0B3F940A4B"
+          },
+          "macKey": "4EBB1CF0ECCF3FDA6A0EA757C1B70FC88DC78763BDD41377450683BD1C77EB93"
+        },
+        {
+          "tcId": 242,
+          "macDataServer": {
+            "partyId": "F1C08CE86FE0DCF0D3F2B81581D3CA43",
+            "ephemeralData": "51E2EA9CB0A509B92C1A89C81BBE819FACD42308E7E48E0B81282FAD8093E734"
+          },
+          "macDataIut": {
+            "partyId": "817026001D42A277842086E6A9000C42"
+          },
+          "macKey": "A0E47889A4C667CCAA368F323EED3B9BBDD408EF64AD9358A31DC3ED89F10172"
+        },
+        {
+          "tcId": 243,
+          "macDataServer": {
+            "partyId": "B2A90CE09F63DB147719FEBD45C64675",
+            "ephemeralData": "929E1A6E560736EF707148407EEB2CAAC8AE5885619666F68808235C9A5D7BD3"
+          },
+          "macDataIut": {
+            "partyId": "D3988D04458949E299D333C35FB928BE",
+            "ephemeralData": "9FD6B834CFE74B410FBF1729712A21B4F49A2DBBF2B768574F3E3D5277FE2F89"
+          },
+          "macKey": "DB19B21B25ABED0A8A9620EB8C890739F2BBAD28B132E921FE585A3CB1E71A18"
+        },
+        {
+          "tcId": 244,
+          "macDataServer": {
+            "partyId": "656DFD099CD9525434784C61C1AC60F4"
+          },
+          "macDataIut": {
+            "partyId": "36AD954950F2D748D01D0F6F5AE053FF",
+            "ephemeralData": "694BC780351C06ABDAB33DF6F368095161CED77BBB8EC0D413F18B58DB33BBC3"
+          },
+          "macKey": "050C92BC6E512F5807867E7205F3B83A0B7BD878EA8B8CAEBAD59C5B79DA85DA"
+        },
+        {
+          "tcId": 245,
+          "macDataServer": {
+            "partyId": "C5DF439316CB836887F715274FA94123",
+            "ephemeralData": "573D5493BE8149690AD6CB1EA230BD8BB3C5A6AAB900E62125AB0855B3072E1B"
+          },
+          "macDataIut": {
+            "partyId": "967A692BA71D1D9826D54CCCD192CDE0"
+          },
+          "macKey": "CC92ED870C4AFC58506F629522B7E05124D8AF8710F301A4A0EC708E4B4D9DA3"
+        },
+        {
+          "tcId": 246,
+          "macDataServer": {
+            "partyId": "6DC2D7ADF220A991512B2A16BD2663BC"
+          },
+          "macDataIut": {
+            "partyId": "3B58FE9B49D52A3C47FE236B271E6AF9",
+            "ephemeralData": "6764990B03C195CD3ECEDF74FED826E51F60EE64D8894C740B19863D2CC103C9"
+          },
+          "macKey": "E7DBFF16C4A75F8235EA296EE9B0C8D3C0BA2C79A2DEA2B20CDC7E0E96FAD1AB"
+        },
+        {
+          "tcId": 247,
+          "macDataServer": {
+            "partyId": "67C50A80F6C1D73E35CC9C368D3D189B",
+            "ephemeralData": "ABF535549C4F1E26387B30E3F6E0E68F0DBED6EC476AC4745C26605C39028426"
+          },
+          "macDataIut": {
+            "partyId": "C88E88419EFD6890FDDA4E2D2983FBEA",
+            "ephemeralData": "A3867CE38C56EA4D2E4D414684CE2A9A66B418674984327119E0F23A6B5586BD"
+          },
+          "macKey": "3E088A113E12CA08F5B2ACA696547E971461E6E37DD127A8C93D2DB19441B3E1"
+        },
+        {
+          "tcId": 248,
+          "macDataServer": {
+            "partyId": "7B44E1BB2EBDF457D68EAB447C624CA0"
+          },
+          "macDataIut": {
+            "partyId": "8090C4892238635FC46EC178D1365C3C",
+            "ephemeralData": "1F7E093F03847A5FCE91D4A82F81341782D452C8E404310EB9E616E432FFFEBB"
+          },
+          "macKey": "B30479E3916AD3306DE69B4CC2ACA3ACE8A18FF2897A35C37C36BB4D90C5CEDF"
+        },
+        {
+          "tcId": 249,
+          "macDataServer": {
+            "partyId": "8AAC5F41F4BB36C98FD58CF9377B6A1D"
+          },
+          "macDataIut": {
+            "partyId": "673EBDE9AB36E960F7DE8C6696D41D50"
+          },
+          "macKey": "003C00B5EAD02FCC4547C4E890CBE7313AD8CD14EC1CA321EBAE7CBDB33BBF32"
+        },
+        {
+          "tcId": 250,
+          "macDataServer": {
+            "partyId": "A9F0E2EAE33727625D5259A4EB9DA50F",
+            "ephemeralData": "C2C7305F2603BFEC84F8E426F55C8AB55269C40B2EA52C6590BEEE2EECA2E295"
+          },
+          "macDataIut": {
+            "partyId": "B4EAE36A8FAB86D49B38E5E680226315",
+            "ephemeralData": "96F1B055AEBF1EC511BB901483FA86602EE5BD9D5124B377850DE62185FD4088"
+          },
+          "macKey": "343098EA6E001DE9B1DBA095269F5C5659B9E31663AFF33B97324142DB074F8D"
+        },
+        {
+          "tcId": 251,
+          "macDataServer": {
+            "partyId": "FDCE02B0F089F065D4D423FF633653A0",
+            "ephemeralData": "CF7A7FAB3BC1C003BDADF28F6F9D607DDD489598D29E7F100C31EE585065A657"
+          },
+          "macDataIut": {
+            "partyId": "6370E4AE3EFB5EB7B6C308D75620F2E5",
+            "ephemeralData": "90B506D27EE6F14B1DC15BF46E5F645072ABA7CF3C028580522A21B20B207F08"
+          },
+          "macKey": "9060F52D984CA7F8656E2017A554A09D5BB24B23DCE3612E76F7224601773E72"
+        },
+        {
+          "tcId": 252,
+          "macDataServer": {
+            "partyId": "944A671FFF9C8A2D478FCEF9319BF6B3",
+            "ephemeralData": "CC6C588B6878F661048C0ED4284C1C93E04A9789EE8D97AA3BBA4EE4F54A224B"
+          },
+          "macDataIut": {
+            "partyId": "8A7ABB913160B6BFAB6815818F4C1BDC"
+          },
+          "macKey": "51B051D5EE9346963DCBB1482ED43FB505013FBAF824BE764D11BD40576FF156"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "bilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    },
+    {
+      "tgId": 22,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 253,
+          "macDataServer": {
+            "partyId": "4EC3BD2BD50149C1C5F93FA8EF3FC9F2",
+            "ephemeralData": "1840FEF71130459BEF4B7D0508E7F4DA44C79C16EFC8179E7111FA12C1FE1637"
+          },
+          "macDataIut": {
+            "partyId": "15D91755246604BB23E6328F5DB445BD"
+          },
+          "macKey": "007900CACC250FCAB912B466CEE2E60D6533D2FCE2A036DE44B73016C3DF3E67"
+        },
+        {
+          "tcId": 254,
+          "macDataServer": {
+            "partyId": "A7208281A22D592A353867A77E0F2316"
+          },
+          "macDataIut": {
+            "partyId": "FADB00371AA6C3EFD9A9ED82698C86A6"
+          },
+          "macKey": "FEA26D5807C0283F574E3F99209941884E3096219CC82EFAC1F6E4C58EB26F46"
+        },
+        {
+          "tcId": 255,
+          "macDataServer": {
+            "partyId": "4B6BB68063063AA8F689F1212E61F2E1",
+            "ephemeralData": "8F17E2124DC3DD3D7A51CD5E0D11047F4EE9E8A9B31DDDB22F524155545FC028"
+          },
+          "macDataIut": {
+            "partyId": "494AA3C8839545FAADFD258D850C41BB",
+            "ephemeralData": "DA442C991F52DC16B8C9B68DED5DA47CE4B751C04CD5D3447C31A0A0F3F54408"
+          },
+          "macKey": "001D047D7817E46F5AEACD32281AD069F46C04ACD9DBBD0B63268F58909803FA"
+        },
+        {
+          "tcId": 256,
+          "macDataServer": {
+            "partyId": "DC2DFDF56CE6B3EC7B6C5FAEA570B205"
+          },
+          "macDataIut": {
+            "partyId": "8A111FDABE4DC0C01DFE0000B5BE714D"
+          },
+          "macKey": "7192C328911A4DC94305ED902A7AF161EC28CF6271B39363D6089FFF195339C1"
+        },
+        {
+          "tcId": 257,
+          "macDataServer": {
+            "partyId": "85A965B929CCBF892785C8790C96D760"
+          },
+          "macDataIut": {
+            "partyId": "8DF998D395AFA8E089E5AEFD48477086"
+          },
+          "macKey": "2AFE7ACFBBE23DBE1FEBBE3DB3038B501BA58DD714D36966E0CE008448764D77"
+        },
+        {
+          "tcId": 258,
+          "macDataServer": {
+            "partyId": "15D02DFF4BD0E6F93FCEA83FE8129E9F",
+            "ephemeralData": "A4BF14A7B81F074981A3A99A2F0136F48E86E172E4E67AED6307708D10B0FEC3"
+          },
+          "macDataIut": {
+            "partyId": "2D3E501C3BF4E2490433D8C408D8B3C6",
+            "ephemeralData": "111C04E707DE0E98E41E7ACE7AA12BC957415F17CCE9C1C4FBAF972E9F2EA01E"
+          },
+          "macKey": "D8BB4E5085C62E5A1944E21BCEF279572D250037FFE0179ABB3C47916154EDD8"
+        },
+        {
+          "tcId": 259,
+          "macDataServer": {
+            "partyId": "D5C70BC65DF272F01A55215A326CFBA4"
+          },
+          "macDataIut": {
+            "partyId": "9A2EC4DF9921DE9A8573B91B72387F9D",
+            "ephemeralData": "178FBF16C7A8811E2A7C878ED921A43D434510E78D2904BA28B5811541A271C8"
+          },
+          "macKey": "74FB12EDD9942278F54167FBA5668819AD62098C2C1CA00AB7798E598B5316A4"
+        },
+        {
+          "tcId": 260,
+          "macDataServer": {
+            "partyId": "CB8D64E0251B6B7C006C28463E9BC88C",
+            "ephemeralData": "5EC09ACFDB992C1551D38A503DC3EE2443B67DE402DE5D7C9022B674EDC3DD7A"
+          },
+          "macDataIut": {
+            "partyId": "93DADC43B62A4EFFAF01B497915240B2"
+          },
+          "macKey": "E2C0461D48D8720AEF81AF089F409C6E9D877A220EABB61CE4539ED0FC6271C9"
+        },
+        {
+          "tcId": 261,
+          "macDataServer": {
+            "partyId": "5AAB61CA97E1519371DD93B98350D7E7",
+            "ephemeralData": "C3B0EC518E606315A164479C0CA92E14C9B8423EF97701677622D6F2FBB46837"
+          },
+          "macDataIut": {
+            "partyId": "59596B121E1D5B4E1B2641B5A91342DB"
+          },
+          "macKey": "7A2593768FE51203EF86CEB17C4D01DE9E129AFADC2C426179E5ECA5F134EE43"
+        },
+        {
+          "tcId": 262,
+          "macDataServer": {
+            "partyId": "1AFEE250EFD5FC5174647FE1D76D2EB8"
+          },
+          "macDataIut": {
+            "partyId": "954F74E4A0C866C81CF2064B0F3CBF76",
+            "ephemeralData": "67E5CB02304EBDC85BF64582FC8338243F1F0F521775BC4D745261DDD35EEA3C"
+          },
+          "macKey": "D6827121121F0A02F4F76E1E7BA92CB0B5ECFE5CEEC394631ACDDBC2F18AA8AF"
+        },
+        {
+          "tcId": 263,
+          "macDataServer": {
+            "partyId": "CD02560692ED44687512339F4FB0C150",
+            "ephemeralData": "40044B3EC6DBA4A56DD547EA4D179C2771703B5391FF7A7298308D9660FC6A3C"
+          },
+          "macDataIut": {
+            "partyId": "7BA7871B59AB2F492724C60E50B5B351",
+            "ephemeralData": "2DF32191D9C9E73FA11DDBD5E2B53E6A6B7BD42C22813325DD1790C2E4478BB1"
+          },
+          "macKey": "26596AB2F1BA8F94F4F2E0DB84696759ACEC101D60624A84B1D40B7F6AF04454"
+        },
+        {
+          "tcId": 264,
+          "macDataServer": {
+            "partyId": "6A629A17EBFFF8E228371BC6B636E530",
+            "ephemeralData": "3B4A4BCB697E8B21047E8B89710DAC08CFD258541A7D25A25B62848743162DDD"
+          },
+          "macDataIut": {
+            "partyId": "BFBD804D0DA6ACE6E2547E84042CB6A7"
+          },
+          "macKey": "D690F905FB2212AE5117955DB6924818A7A4C8AA12796B53B15DECA990A2AB06"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "CMAC",
+      "keyLen": 256,
+      "macLen": 64
+    },
+    {
+      "tgId": 23,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 265,
+          "macDataServer": {
+            "partyId": "5337B5BF45B36E8227A5FF327259551F"
+          },
+          "macDataIut": {
+            "partyId": "3D50569F0452694C015B6516EE41CB5B",
+            "ephemeralData": "31974215B2A76C1A255BAEE4CB5D5D9AA39D74DCDBDAA291D3B033FD3C0EE155"
+          },
+          "macKey": "8B4FBDFE8C9021E886A7F188DA5725A216FAA64BCB5CA19EA92122004174492E"
+        },
+        {
+          "tcId": 266,
+          "macDataServer": {
+            "partyId": "77364748DD303BAFAE3CA45E952E2D70"
+          },
+          "macDataIut": {
+            "partyId": "04371F80FD3714D519FBDC306064EB77"
+          },
+          "macKey": "C0DD8ED11DABF5B1B6AFD2D807D828F56678B981A9EC376CB77C9B0D9300E78F"
+        },
+        {
+          "tcId": 267,
+          "macDataServer": {
+            "partyId": "F5141AB4B40854BC7238B089A09661B3",
+            "ephemeralData": "3BC0F24355B31B1F06A4CB67FB4CD1C7D0BE76A05F02AE6BAEC9FB4F90061EE3"
+          },
+          "macDataIut": {
+            "partyId": "554ECAC69F31D40CF709BB6FDC79DD7B"
+          },
+          "macKey": "786A7348337000791804E1A84352E3F691B35D6F8A45DAD79A11234F2FE65BC3"
+        },
+        {
+          "tcId": 268,
+          "macDataServer": {
+            "partyId": "169E81D9F36DE00BEB8CDE1C5CA31465",
+            "ephemeralData": "092ED560340E207B6E5B656D6E8096AB2017331A6CE2B9DD74286D37F1611E62"
+          },
+          "macDataIut": {
+            "partyId": "501491827B20CC5639277C01865AE844"
+          },
+          "macKey": "0714F35E1675F3C2FD47139607D5B8DB3AC59E08D301A73335DD73EEF52ECDF9"
+        },
+        {
+          "tcId": 269,
+          "macDataServer": {
+            "partyId": "ED989140284F4A01BE017340439B9126",
+            "ephemeralData": "66E00CE678AF4925447A2D4674DE0A3FF684619CE1B4683083A893DA66959518"
+          },
+          "macDataIut": {
+            "partyId": "F0D81DEF9703CDE9382F81BAE58B4EB6",
+            "ephemeralData": "3458F7063170E3CC4C43DF51A724B235E859C59F2120BED81218E8931671875A"
+          },
+          "macKey": "009C2FE39141511BEACFC079EDC63AEC812F6B8E7721237C1F5A81C330870BEC"
+        },
+        {
+          "tcId": 270,
+          "macDataServer": {
+            "partyId": "51C3E52BFC65629475F41B1926922259",
+            "ephemeralData": "08498152ECDE5BEAE05587687C8563CB4BF96661D3197B986BECF28472163AF1"
+          },
+          "macDataIut": {
+            "partyId": "FF7D246CC4300FDF7F0839AB1D951549",
+            "ephemeralData": "4CF9530CD349881F202DDC4BE84760C8301A692E1421029D8D2635677B0B0D32"
+          },
+          "macKey": "0718FF14288736E46976D074F041884F22BE4D1461B27C5A6D43BE032E3D35D4"
+        },
+        {
+          "tcId": 271,
+          "macDataServer": {
+            "partyId": "95B9369314DFE244145EF5C249B52934"
+          },
+          "macDataIut": {
+            "partyId": "C6037801816A60C32C96AFDE969EDFB2",
+            "ephemeralData": "A68D9882CFFC518980BC567E05C13D845694A713B5A0697F05E387B1A7E56547"
+          },
+          "macKey": "DCE683138B601D64A9F13590F8F80FBD4A3A315FBE8C4243D1A2831F1E12B9CD"
+        },
+        {
+          "tcId": 272,
+          "macDataServer": {
+            "partyId": "0860A3E526F67B7EBEF02AA6D24BE3D1",
+            "ephemeralData": "EC63106EED506D14B2B31F13746F9807BF187AAD168B5D2D082E6A39BB43464D"
+          },
+          "macDataIut": {
+            "partyId": "1D4A3D95F2612056CABACA4294356B72",
+            "ephemeralData": "C0B2E493D3C715767B489B85F4EB344C1F37630410D99F48A442B566E38FFA4E"
+          },
+          "macKey": "1C9A401ACCA691932D454B434B8C14AF9BC864BC3D58EBBDC91364F31CB7B719"
+        },
+        {
+          "tcId": 273,
+          "macDataServer": {
+            "partyId": "E6036FD3C2FB36B8704AD2BD283865B2",
+            "ephemeralData": "343599521148632964A09289E02B847DBB2C32BDD26F1A8089B43907059ECBF1"
+          },
+          "macDataIut": {
+            "partyId": "C244CE01D31A380826D44399E2D4EA65"
+          },
+          "macKey": "E636A2F1A3DC3A2B5EEC5CBA7EF21796C879E60130523374FE5DAC2379DD8C96"
+        },
+        {
+          "tcId": 274,
+          "macDataServer": {
+            "partyId": "6FE232AF4EA75C84F7A71290671D147A",
+            "ephemeralData": "15993DE86C6A11C8340B1CD9DA8646A85CE74533A85A56ECE09329DE21D5BF88"
+          },
+          "macDataIut": {
+            "partyId": "4247BF16575DECD44F8CFC716A4903C7",
+            "ephemeralData": "0AA2A03D5414E6525CB54BB29507AB69A64B743EC3FEB73A7B3C81516325EA56"
+          },
+          "macKey": "AEF826BECD59A0B36C132F1B5A95F82DA11EB35BF4C6B574828A8475B5B6D5F4"
+        },
+        {
+          "tcId": 275,
+          "macDataServer": {
+            "partyId": "D2A64705B0263DE07A69FE012F4DE30F"
+          },
+          "macDataIut": {
+            "partyId": "16EFE99CE6D457DE3FBB7534ACFD7FB6"
+          },
+          "macKey": "02B0973A0B4EF7CC8216B87845B9B45369283C11B675EF7F7ED2540B45A5FA27"
+        },
+        {
+          "tcId": 276,
+          "macDataServer": {
+            "partyId": "609B5A6DCED5C176766D86734BCCB205",
+            "ephemeralData": "9247FBF480E3D460D4DAE49DDCB4A1C3853254F22B80417DC41161DAC5191F23"
+          },
+          "macDataIut": {
+            "partyId": "4B0EF3FB692D24CE58A0E9E33712558B",
+            "ephemeralData": "8873EBD21321C09CE8050160C2BEA5CC0B4F8F2283410532CE08A1A47149D9DC"
+          },
+          "macKey": "81CF907D056445453F30ACBE490F8EEF6BAABC85C0E3FEAD44F245356FFEB6B8"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "HMAC-SHA2-224",
+      "keyLen": 256,
+      "macLen": 128
+    },
+    {
+      "tgId": 24,
+      "testType": "AFT",
+      "tests": [
+        {
+          "tcId": 277,
+          "macDataServer": {
+            "partyId": "B58F81385D06BE10B200C356913EB5BD",
+            "ephemeralData": "B20A35B7098A4796EC43CD6B2A9B89635B1B0C01AC6A0741DDCEF134390C5784"
+          },
+          "macDataIut": {
+            "partyId": "E7EA367C53679AB6F0679005A79E4491"
+          },
+          "macKey": "8C25C467EDA22013B7035419061DDD42FABC6447F88279C34C8184DB92B10DD4"
+        },
+        {
+          "tcId": 278,
+          "macDataServer": {
+            "partyId": "1F27003E1348BF680CF25399135F88FF",
+            "ephemeralData": "56DCF22620C338A4869CBF4EF507B7EE9DACEAF99EAAF82241E4B0978AD97C63"
+          },
+          "macDataIut": {
+            "partyId": "C13577A3BC7604F365330BF70C938F13"
+          },
+          "macKey": "2F1AC4EC5EE653DFA370D8176F12A1665DC5CA62F931582FAFF174E7B914E4EE"
+        },
+        {
+          "tcId": 279,
+          "macDataServer": {
+            "partyId": "7A9BA3C517E06FD9C64D1044B5F5DA08",
+            "ephemeralData": "BBA723822D4950FF64683983A07CF3AC1ADEF2CC8068CF6AC7D51E24D877A771"
+          },
+          "macDataIut": {
+            "partyId": "5AB6610179F53C8F923E8B4779AB2B95",
+            "ephemeralData": "A1ECCD27ABD8A0E4DE84F1CDF6FA26D16AC691E6FACCA8744B2D05E935DDE95A"
+          },
+          "macKey": "4745A7D4D4D9123E37F7006FD97B90F9AD185D1C21632F2508AC914EE9757F2B"
+        },
+        {
+          "tcId": 280,
+          "macDataServer": {
+            "partyId": "5328AC56372967381447698DF2FDA644",
+            "ephemeralData": "AD749C5B2C13BC3D0511002FBBB6C362A1FA738402D2643075861FD2C697C884"
+          },
+          "macDataIut": {
+            "partyId": "61110DF4DA019C48B2643C2375195969"
+          },
+          "macKey": "9419590C168992B683E0179D6449B53CB5E33542E238186CDED47EC94889E507"
+        },
+        {
+          "tcId": 281,
+          "macDataServer": {
+            "partyId": "65393C311A1894BA94A7083C04F489D3"
+          },
+          "macDataIut": {
+            "partyId": "C037F1BFDFD143F19DCE3CF1665F7475",
+            "ephemeralData": "0AB46CB3235CABCBCD6CD1052A654C0AC2DB9032895D713D6627779CBE116116"
+          },
+          "macKey": "BCD1B3031AF0F344F445623AD4F026583C04880A4997FE9DCD1137022690A877"
+        },
+        {
+          "tcId": 282,
+          "macDataServer": {
+            "partyId": "A010B44BC0BD9AD2DD124CFF514895D9",
+            "ephemeralData": "4840E2974D6D2AE8AD813A23A9524F5C16C66E5934CE0B446E6ABD93770E9973"
+          },
+          "macDataIut": {
+            "partyId": "3E545C273302D4E9FEEBFF78815D07EC",
+            "ephemeralData": "C435B32A42DDAE7FF4A00B857C6661FB63A6D36484DD7EF40DD92B1CAADD4D8D"
+          },
+          "macKey": "62D61C4F688E6018383E1AE363CD2B174026C0D100400EFCA468EC9839F12219"
+        },
+        {
+          "tcId": 283,
+          "macDataServer": {
+            "partyId": "EAC9F6470EE29B63153135C4455AE758",
+            "ephemeralData": "240E23033F992701D7E2A190AC3479DB217BF01A54B5E9289DF63B56D28DFAA5"
+          },
+          "macDataIut": {
+            "partyId": "23C083D5D2675D5314089B4BE7BB1D53",
+            "ephemeralData": "945CCDFAB9B084A5EB1EF88B591CC2CD33C01F72FADD80DB1DBDF01DCCEDF5DA"
+          },
+          "macKey": "0499B6A22FD0B61803ECE728531E9735938A97690F63BC258777603224CC7D49"
+        },
+        {
+          "tcId": 284,
+          "macDataServer": {
+            "partyId": "EB10121D478A5662B9F1AB811E149E84",
+            "ephemeralData": "75882B780B8DC14967B38BA8E0653137A35648CBCF5CA4756C383803F96C32DD"
+          },
+          "macDataIut": {
+            "partyId": "3EE775541B61983D96521817AB20A536"
+          },
+          "macKey": "4AF42DAA42AF057F51008A86DEDB7AF1418B925C4D3514E5DC9A8BD1B598ABB0"
+        },
+        {
+          "tcId": 285,
+          "macDataServer": {
+            "partyId": "7CAE46BD62898971CDA81884593EB5A5",
+            "ephemeralData": "3AF73EE5687238842FF5E19741026427F69B1D661C949DC5E949B4D8D1661D43"
+          },
+          "macDataIut": {
+            "partyId": "B0F575C728B7A685A2CBFBC2F6FD9EF9"
+          },
+          "macKey": "8604E0419F4D362862A30F7A4A1FC7C66B2255390A529B0F8ADCD349D7318BD8"
+        },
+        {
+          "tcId": 286,
+          "macDataServer": {
+            "partyId": "68FAAA5678A5A30F438FAFA818499BFA",
+            "ephemeralData": "B2FE46521F559F848D7C94A4D76D4717FF62A3AC57302C49A495F7E133296BF6"
+          },
+          "macDataIut": {
+            "partyId": "4B9B8DF4411AF8F0A898FB4394D10C43"
+          },
+          "macKey": "035275A142AF9CEF62F013FBB393561502F7B8136365038251B9C6212F975F56"
+        },
+        {
+          "tcId": 287,
+          "macDataServer": {
+            "partyId": "8D68EF249C4F5B210663D20EDFFA3371"
+          },
+          "macDataIut": {
+            "partyId": "96388D6C096CE6872A5E87486BBA3B27"
+          },
+          "macKey": "007D9806C238ED4AB3D755EFC372259529F0B1EA44D3B2986EE20005C4DCE674"
+        },
+        {
+          "tcId": 288,
+          "macDataServer": {
+            "partyId": "CED33D31176C5A780C5527E5D3C7F43B",
+            "ephemeralData": "B18FB42B60B477A49F046F44FC1740FDE0FF2B32ACC7AF51B0F4D20753EE0EA5"
+          },
+          "macDataIut": {
+            "partyId": "C0813E8AA44CFCECD7E457F92E4DDED7",
+            "ephemeralData": "28AEA6CDEB9FB54089B0778F89D725F11A8B5A4CDAA8603581160069B82E4F7C"
+          },
+          "macKey": "0D84931D8FAE4F0935382C9765CF0AA0890EDCE8C73ED9E353E9C69C4CA75C80"
+        }
+      ],
+      "kasRole": "responder",
+      "keyConfirmationDirection": "unilateral",
+      "keyConfirmationRole": "recipient",
+      "keyAgreementMacType": "KMAC-256",
+      "keyLen": 256,
+      "macLen": 256
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;osx-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="CommandLineArgumentsParser" />
+    <PackageReference Include="Autofac" />
+    <PackageReference Include="Microsoft.Orleans.Client" />
+
+    <PackageReference Include="Microsoft.NETCore.Targets" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+    <ProjectReference Include="..\..\..\src\common\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+    <ProjectReference Include="..\..\..\src\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto.Common\NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj" />
+    <ProjectReference Include="..\..\..\src\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto\NIST.CVP.ACVTS.Libraries.Crypto.csproj" />
+    <ProjectReference Include="..\..\..\src\oracle\src\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\oracle\src\NIST.CVP.ACVTS.Libraries.Crypto.Oracle\NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj" />
+    <ProjectReference Include="..\..\..\src\orleans\src\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\src\generation\src\NIST.CVP.ACVTS.Libraries.Generation.Core\NIST.CVP.ACVTS.Libraries.Generation.Core.csproj" />
+    <ProjectReference Include="..\..\..\src\generation\src\NIST.CVP.ACVTS.Libraries.Generation\NIST.CVP.ACVTS.Libraries.Generation.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Common" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Oracle.Abstractions" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Oracle" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Generation.Core" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Generation" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\..\sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

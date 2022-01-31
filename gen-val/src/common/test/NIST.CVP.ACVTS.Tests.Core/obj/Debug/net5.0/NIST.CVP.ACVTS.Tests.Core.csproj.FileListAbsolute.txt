@@ -1,0 +1,12 @@
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.deps.json
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/ref/NIST.CVP.ACVTS.Tests.Core.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.csproj.AssemblyReference.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.AssemblyInfoInputs.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.AssemblyInfo.cs
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.csproj.CoreCompileInputs.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/ref/NIST.CVP.ACVTS.Tests.Core.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb

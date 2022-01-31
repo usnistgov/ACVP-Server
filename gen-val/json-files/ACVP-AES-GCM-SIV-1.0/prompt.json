@@ -1,0 +1,927 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-GCM-SIV",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "testType": "AFT",
+      "direction": "encrypt",
+      "keyLen": 128,
+      "payloadLen": 0,
+      "aadLen": 0,
+      "tests": [
+        {
+          "tcId": 1,
+          "pt": "",
+          "key": "68EAEAFFE2E5B4B91A37FD14FB2509AF",
+          "aad": "",
+          "iv": "704D8686D1FB4310BDE61C82"
+        },
+        {
+          "tcId": 2,
+          "pt": "",
+          "key": "1AEB0B050D5DE4BCF494231B3E21E566",
+          "aad": "",
+          "iv": "2A8FEE6E3260337389E498F8"
+        },
+        {
+          "tcId": 3,
+          "pt": "",
+          "key": "C12DF1CE0FF15367FA3544E842DEF42E",
+          "aad": "",
+          "iv": "DC9ED80961AD20A9D870F120"
+        },
+        {
+          "tcId": 4,
+          "pt": "",
+          "key": "8851FB28CF7BD1EF6C8F39E158B265A3",
+          "aad": "",
+          "iv": "E3A5C16ED3229EF3DFC11252"
+        },
+        {
+          "tcId": 5,
+          "pt": "",
+          "key": "406DC3DE3BC7F00FC15E592DB5FC8830",
+          "aad": "",
+          "iv": "7E06974AFA294DCDAA6F9DB6"
+        },
+        {
+          "tcId": 6,
+          "pt": "",
+          "key": "E5A75309DE2F644D034E4501CA802503",
+          "aad": "",
+          "iv": "7E29C365F48AC96C1735679E"
+        },
+        {
+          "tcId": 7,
+          "pt": "",
+          "key": "67C7C899DC024073928B85AF91B746E1",
+          "aad": "",
+          "iv": "5133269F2881BA7812E64F04"
+        },
+        {
+          "tcId": 8,
+          "pt": "",
+          "key": "B43FD1A1FAFB7A50F478D0400A58EAB6",
+          "aad": "",
+          "iv": "717D5E35238BFDB6553CA1FA"
+        },
+        {
+          "tcId": 9,
+          "pt": "",
+          "key": "A27C68AE6E7F03AEC3F724520DEDF9D1",
+          "aad": "",
+          "iv": "CEA4C57B6CC2BE15F393E165"
+        },
+        {
+          "tcId": 10,
+          "pt": "",
+          "key": "4DB8D40969BD320595B574DD7F1D3A66",
+          "aad": "",
+          "iv": "C2D63FFF9A71D7838B46CB7C"
+        },
+        {
+          "tcId": 11,
+          "pt": "",
+          "key": "BF26993317FF8147C386523D38BDC57E",
+          "aad": "",
+          "iv": "6B3748ED89615D324CD6F4A9"
+        },
+        {
+          "tcId": 12,
+          "pt": "",
+          "key": "FD8E945594579EFF5B6547A2B6C06F0E",
+          "aad": "",
+          "iv": "47F436AD19C7658A7C387A34"
+        },
+        {
+          "tcId": 13,
+          "pt": "",
+          "key": "00F5493024E56300E1A13B67A9247C84",
+          "aad": "",
+          "iv": "D3F999F7B105BB9B82D7F104"
+        },
+        {
+          "tcId": 14,
+          "pt": "",
+          "key": "404D5931621E95D0F37BD7B590CC6BB4",
+          "aad": "",
+          "iv": "C9D8A0E84BC76E01B92F052D"
+        },
+        {
+          "tcId": 15,
+          "pt": "",
+          "key": "02E9E106339B7DFD89CFDDCBDD1C6193",
+          "aad": "",
+          "iv": "261532893959EC029715AD08"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "testType": "AFT",
+      "direction": "encrypt",
+      "keyLen": 128,
+      "payloadLen": 0,
+      "aadLen": 120,
+      "tests": [
+        {
+          "tcId": 16,
+          "pt": "",
+          "key": "494D6523139DCD89E22B988BFE7F5348",
+          "aad": "2A5CA6096FFCFAFDAB0752E2D4355E",
+          "iv": "B8C3AA33A45BCAE704E3D787"
+        },
+        {
+          "tcId": 17,
+          "pt": "",
+          "key": "8BBF9FB08CD3371358EB0A1F21728DF5",
+          "aad": "682693135F8CAA174A9E7C198D0738",
+          "iv": "06278237CD648655F668513B"
+        },
+        {
+          "tcId": 18,
+          "pt": "",
+          "key": "648A0AECFA5F19F2077C9F3A4290A249",
+          "aad": "CF81B0326B1C9BF568F5EE88207394",
+          "iv": "870C944B1B03025333C928F5"
+        },
+        {
+          "tcId": 19,
+          "pt": "",
+          "key": "98707EFC7E1996285258B02DF982ADBB",
+          "aad": "0A51C5CECDEEAB34209256D7B73BFF",
+          "iv": "F4DE76B934D1162CF8CDD8BD"
+        },
+        {
+          "tcId": 20,
+          "pt": "",
+          "key": "99783EBDC0869260CC900108B13D4F85",
+          "aad": "62250D4CAC091B4E7B57CCFCC9F4B5",
+          "iv": "5B9969CB96FC7BF1C8E07C56"
+        },
+        {
+          "tcId": 21,
+          "pt": "",
+          "key": "F7749F4757AA3B881C341937BFD5AC57",
+          "aad": "9756606ED4D5756FAB32D28296BDD8",
+          "iv": "C895A2F70BD6F97F72F493A5"
+        },
+        {
+          "tcId": 22,
+          "pt": "",
+          "key": "0C191CA7CB12F5EA3E0CAC994DE2C4C7",
+          "aad": "9B7FC4D56CA632C060ADD491C94314",
+          "iv": "6F014CFC28FC34E0F5A42261"
+        },
+        {
+          "tcId": 23,
+          "pt": "",
+          "key": "8A2FDE0BE649DBF4919D42747FC228B4",
+          "aad": "C79EF8F2EC0C8EF768B8AAFBE27DA6",
+          "iv": "A75CFE349F80F3012C6DA463"
+        },
+        {
+          "tcId": 24,
+          "pt": "",
+          "key": "51B9C79217020E7FDF7440ABE195151B",
+          "aad": "4A64A02F566A6612E1996031CFB5BA",
+          "iv": "DA58BBFAF7812CA72A9DAA4C"
+        },
+        {
+          "tcId": 25,
+          "pt": "",
+          "key": "E9A4286E4F8031CCB69EDD757B8289C7",
+          "aad": "C1509929B207B4449C1E2E6354F1AF",
+          "iv": "E0A7551110B9AA0C1FE4E29D"
+        },
+        {
+          "tcId": 26,
+          "pt": "",
+          "key": "6971D01D5B06AE31C2A205EFDB4FFBE8",
+          "aad": "232F0CDBB879C214D1E9BC85BB2F95",
+          "iv": "35608B50201DDCDA07BE3520"
+        },
+        {
+          "tcId": 27,
+          "pt": "",
+          "key": "DFA9379714A2AE8B3199473D2C62838B",
+          "aad": "736CDD71D9DF61A29F4D1A7961BD86",
+          "iv": "29A986EBF5C0AD4E36233E82"
+        },
+        {
+          "tcId": 28,
+          "pt": "",
+          "key": "2BC0335BBEE8D33FCEB23D4DF3AA1CB7",
+          "aad": "E01A2B05B6967DB980C55753F43A22",
+          "iv": "3C7F64F389113A8560671A56"
+        },
+        {
+          "tcId": 29,
+          "pt": "",
+          "key": "90BE1CB64A50142035FB7B30F17F1DFF",
+          "aad": "0C99F30A0326C45B17D7D798C7D4FE",
+          "iv": "10335640A0336CA79A2423F4"
+        },
+        {
+          "tcId": 30,
+          "pt": "",
+          "key": "259C7D2677BB0D8A26F57C7502CE0857",
+          "aad": "8F8748F391A98B382C83F361BAF896",
+          "iv": "A01CFB03DBABFEC6B9DA5FD4"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "testType": "AFT",
+      "direction": "encrypt",
+      "keyLen": 128,
+      "payloadLen": 120,
+      "aadLen": 0,
+      "tests": [
+        {
+          "tcId": 31,
+          "pt": "16C1B3C629F2EA28CF4DAEC57BC99E",
+          "key": "BF769EEAB4B5AB8FBE98A095E26033EF",
+          "aad": "",
+          "iv": "8BCD5DAF5081C486D34594C9"
+        },
+        {
+          "tcId": 32,
+          "pt": "A107619BB27E19EB076D34F839D079",
+          "key": "D6EA8A8D2BB1B73531E8A836D33E6889",
+          "aad": "",
+          "iv": "183C6AE6C28BD8A0BD1EF2B1"
+        },
+        {
+          "tcId": 33,
+          "pt": "DBF87D8A797A5D9C41AF503228032D",
+          "key": "D9688A4E4FB91CC0BAF8548472D5E1CB",
+          "aad": "",
+          "iv": "77981C0972780AA02E9F8A5D"
+        },
+        {
+          "tcId": 34,
+          "pt": "F89C7D504899CE5BB82A32912C7F82",
+          "key": "BA07F8A5CD4C8ADB4FDD98E158F6F252",
+          "aad": "",
+          "iv": "C0433DCDE223B834BBF03854"
+        },
+        {
+          "tcId": 35,
+          "pt": "6AE9DADFC9B46ADEF62D5928FF3CDD",
+          "key": "D41CD6DDA77DB1C35B3BB92458C82D1F",
+          "aad": "",
+          "iv": "56086555ADB8DB2331ACF4C8"
+        },
+        {
+          "tcId": 36,
+          "pt": "3BE1A150F0C94A4B7A89E872842461",
+          "key": "021A754347B72EEA00DF4E071985DB77",
+          "aad": "",
+          "iv": "8AD05B53BF0B2D9FFAE5B0BF"
+        },
+        {
+          "tcId": 37,
+          "pt": "C9D55E500EBB9FC5252755219D434C",
+          "key": "86BED08105F4148427A4CB446B8395C8",
+          "aad": "",
+          "iv": "F7F7B2A1408059C789612811"
+        },
+        {
+          "tcId": 38,
+          "pt": "4DDBA4AF67A33D9EC249A5F535C5C8",
+          "key": "FE0ACEED3B5D6A2841DEEC5264D1B73F",
+          "aad": "",
+          "iv": "7A9D3DAA3981846F090CDA32"
+        },
+        {
+          "tcId": 39,
+          "pt": "68D75228366857329B1431134EB307",
+          "key": "C4611DAB4B925B9D79933ACA15014E91",
+          "aad": "",
+          "iv": "3751BDB64CADF4B0E354677B"
+        },
+        {
+          "tcId": 40,
+          "pt": "7137F2746D1874F74A678080DD012C",
+          "key": "19AD3E7007AC5A4183065EE9FBB615D8",
+          "aad": "",
+          "iv": "826A8741BE7F38543BEF98C2"
+        },
+        {
+          "tcId": 41,
+          "pt": "FB9DFC42A2D13A3260CE62F6AC1D80",
+          "key": "903BC6C62ACC281B9766EB9EB0822C8B",
+          "aad": "",
+          "iv": "C4B92C3435D7497248B273EC"
+        },
+        {
+          "tcId": 42,
+          "pt": "7D52B58000887EDB40A67B84525019",
+          "key": "74E94B02EBC34D7ECBBF72957C957248",
+          "aad": "",
+          "iv": "0797B4DBE578A4A27A8235A5"
+        },
+        {
+          "tcId": 43,
+          "pt": "2AC0BDD88897B9D2B3D9DCAB6F42CF",
+          "key": "1C5BBD7B31A32E8AA7A19958ED80888C",
+          "aad": "",
+          "iv": "C10B30060F01DC46CB6E0037"
+        },
+        {
+          "tcId": 44,
+          "pt": "F25D59BBB1ADE2EA599CD71578DCB4",
+          "key": "E6CD2A996351A2835A53928F555F7AFF",
+          "aad": "",
+          "iv": "D80D3D0445E58AFFF66F3F70"
+        },
+        {
+          "tcId": 45,
+          "pt": "3CE63AE02A4E8F8590A5C9F811D103",
+          "key": "7C982F889901B73758FD8590735100B2",
+          "aad": "",
+          "iv": "C1CD3061431C75994F2ECEB3"
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "testType": "AFT",
+      "direction": "encrypt",
+      "keyLen": 128,
+      "payloadLen": 120,
+      "aadLen": 120,
+      "tests": [
+        {
+          "tcId": 46,
+          "pt": "F10478A080C18383B5BFC04BF190F0",
+          "key": "E690DB493D93DCFF1E1405F10DE2D2E0",
+          "aad": "F271DB41E05C06080FB13AD2338169",
+          "iv": "AB2059DA8B42A9C08E8290B4"
+        },
+        {
+          "tcId": 47,
+          "pt": "D979058EA44812F54622F04917814E",
+          "key": "120DE33CA2970C1277D2F656080CC741",
+          "aad": "04097BCB7628547CDA9B20499F296A",
+          "iv": "69A2E965A8B79FB6093BB860"
+        },
+        {
+          "tcId": 48,
+          "pt": "13DAD10AFB297A793AF59293692E9D",
+          "key": "210C4542BBC219D0A82735EC9B123E18",
+          "aad": "9885757B078594E1948A8591312772",
+          "iv": "53F683117037B7772752F110"
+        },
+        {
+          "tcId": 49,
+          "pt": "7FC9E6346590E0E54F7A9BAC8E7041",
+          "key": "0868FD0BD11BFB13770A85F06C3877B0",
+          "aad": "7AF836B2CD24D029D1CEA202D902C2",
+          "iv": "8CBC14940677E159940A7773"
+        },
+        {
+          "tcId": 50,
+          "pt": "5030A4CF872CFDA27871D43BD9EC6A",
+          "key": "8A14CE99C3E18C17F3DEC762135CE606",
+          "aad": "C1F98BF9E02A71FC1C67041620B128",
+          "iv": "BD657F33F810B0EEE41D54A3"
+        },
+        {
+          "tcId": 51,
+          "pt": "039E91EF4EA23C9EFCF2DA32EFD212",
+          "key": "ED7CDDB1014A42A800A82E607A428240",
+          "aad": "46D26AE9DBEFA33F4AD4012B2EA30F",
+          "iv": "9A4B8D9A507EC8621ECF6CCB"
+        },
+        {
+          "tcId": 52,
+          "pt": "271C103A14D3CFEB87C666605E57A9",
+          "key": "BD077B668E6A43B8E9F14C9E2902A76D",
+          "aad": "A56EB70199152995C0F105FF7A6AF5",
+          "iv": "0CECAB3A68C6D68313A45039"
+        },
+        {
+          "tcId": 53,
+          "pt": "343DC085061DE2D0144CF2FB1BB8C3",
+          "key": "236145AE415DD2B4E8490F3B222A8BFE",
+          "aad": "66CF7906CE54556BB5E6330B4D1F53",
+          "iv": "026A3B30CBCC66CE6593D2EC"
+        },
+        {
+          "tcId": 54,
+          "pt": "D141595D73676CF163066987D022AC",
+          "key": "94C8F08D772E0BF1EA2C053BC698444D",
+          "aad": "DE377FEAEC7BC2E81BC5BBF0B0B25F",
+          "iv": "99C72C9F64FE026EF595DE1F"
+        },
+        {
+          "tcId": 55,
+          "pt": "63D556614B877AE3A1E9D3DEAEF2AE",
+          "key": "2374791918B132BECB6C66CB2162E2DF",
+          "aad": "EF27425B2D6996FD4A0D26C605B98F",
+          "iv": "A5CD86D391A1850562EFF559"
+        },
+        {
+          "tcId": 56,
+          "pt": "9085196F40E9822DF4E33828F4012E",
+          "key": "7C4C5541885549CFB641FF6B9AA496CE",
+          "aad": "244AEDC44D918F9E08B8EC2E433203",
+          "iv": "0D0DD1E2F1A3341A68A23272"
+        },
+        {
+          "tcId": 57,
+          "pt": "F122496A1EC76937463DD2EF9E3FD5",
+          "key": "0E3F05B411536D36D7500BA736ACDAD5",
+          "aad": "676885F494CA6971B92A35038F9EF5",
+          "iv": "F714B5E4B43D58A0D9AF9BC3"
+        },
+        {
+          "tcId": 58,
+          "pt": "D3BBD3395AF924118FC8937C77DDB0",
+          "key": "A3933D076FB4212D8A54860901F7035B",
+          "aad": "49535BED29463BA0A9551711C8FA83",
+          "iv": "87B43708B61F6FDEEFBD92E7"
+        },
+        {
+          "tcId": 59,
+          "pt": "41E3ECF4CB16A6735691D38758DE5A",
+          "key": "D068A067F394B157A2593307CCD1D2F9",
+          "aad": "003B01164B8F1B574DF9BCBD614CFB",
+          "iv": "22862CF6E0AFB0D7C5258B94"
+        },
+        {
+          "tcId": 60,
+          "pt": "B139735D04A81C221D95F5299660AD",
+          "key": "5EB4A19DB7F3FDC1BBA4F615EFC89FB7",
+          "aad": "D5A409413CCEEEADF542766FF762D2",
+          "iv": "A83FFF165668C53DCB5BE90D"
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "testType": "AFT",
+      "direction": "decrypt",
+      "keyLen": 128,
+      "payloadLen": 0,
+      "aadLen": 0,
+      "tests": [
+        {
+          "tcId": 61,
+          "key": "F15FBE9765D72CB31AF9818B650B9428",
+          "aad": "",
+          "iv": "CDF690C80E5285959447A5FF",
+          "ct": "5BDF99045980DED52536A300FFEB8D03"
+        },
+        {
+          "tcId": 62,
+          "key": "7DE49A2E1DAD77164FA8F4C651EC8637",
+          "aad": "",
+          "iv": "AFE3F44ED8517A5D1538A738",
+          "ct": "6F967DE81CCF9CB95D3CD208747DED98"
+        },
+        {
+          "tcId": 63,
+          "key": "6FBD0703CA20A6C402E431C82DF2E01B",
+          "aad": "",
+          "iv": "F321A720AC9E5F623B239CCE",
+          "ct": "96B2F4E385E934AD7F972D8387BABC38"
+        },
+        {
+          "tcId": 64,
+          "key": "A2630FA1236FC9D643350411097F593D",
+          "aad": "",
+          "iv": "BE9109A1824D6CE80D68536C",
+          "ct": "4FE7CEEC0E374DE1FB0A005CA9E1C52A"
+        },
+        {
+          "tcId": 65,
+          "key": "37D4855A22DF77D17734C2755E3FBEAF",
+          "aad": "",
+          "iv": "A3DBD7334B5B1494903EBBB8",
+          "ct": "C85BC09547B303811F18AFDA0AE35388"
+        },
+        {
+          "tcId": 66,
+          "key": "9D76B9160BC3262BD7188DB001C42D0E",
+          "aad": "",
+          "iv": "FE144E433D03644C112BDFFE",
+          "ct": "31694CB29BF2FE592EBBC5139FB29ED1"
+        },
+        {
+          "tcId": 67,
+          "key": "627CC4BD4DC960D95AEDC6DE53DA55D8",
+          "aad": "",
+          "iv": "98258421BB1C9A6330BE3C39",
+          "ct": "7258189C350ECDA026B3CAE5D2DB6F9E"
+        },
+        {
+          "tcId": 68,
+          "key": "D83200CF2634DBBCF28878E844A97FB0",
+          "aad": "",
+          "iv": "373E2B3C2E192210B57EC9DC",
+          "ct": "4010ECD5BAE95F90448364058FF992A5"
+        },
+        {
+          "tcId": 69,
+          "key": "2634464A624CC37F53D3A301D68F3A7C",
+          "aad": "",
+          "iv": "D1DFD4C7BB3D5B3E8B933D0F",
+          "ct": "81AB1F06C85DD9182A26D2B37326BFAF"
+        },
+        {
+          "tcId": 70,
+          "key": "552EA372173F76640DBF1BB7DBE1A1B0",
+          "aad": "",
+          "iv": "639B730775202D40D01D2060",
+          "ct": "87BA1B462D31FF808DE4683720430747"
+        },
+        {
+          "tcId": 71,
+          "key": "52C0060C14866B5242036FDF8E27E770",
+          "aad": "",
+          "iv": "35BC63F5F85ED784F8AC9C50",
+          "ct": "7FFC15B406D633FB0AE5008F1CB6D68A"
+        },
+        {
+          "tcId": 72,
+          "key": "15674834D6D834348E311F052E7CD968",
+          "aad": "",
+          "iv": "C03ACADDFF1BA0F511F26096",
+          "ct": "8BA6C57D4F6A613E4A80B66E4E57EEC3"
+        },
+        {
+          "tcId": 73,
+          "key": "72F58260FCF7F39417AA99DBD3C742B3",
+          "aad": "",
+          "iv": "75F366E97C40C714C0BF3885",
+          "ct": "C63AD30DEDAE238900DD1FA8236CBEBB"
+        },
+        {
+          "tcId": 74,
+          "key": "FF4454291469A246FED6207D90E79D2B",
+          "aad": "",
+          "iv": "8083B9D2BDB7D3F52C712278",
+          "ct": "ED96B8E9A4D8F48EEB5B977824220D7B"
+        },
+        {
+          "tcId": 75,
+          "key": "6E2C305F8CF5C656102982243775ABF1",
+          "aad": "",
+          "iv": "FD20A0ABECADDD558DA2D062",
+          "ct": "4D1CCFF5813EC443E928D35798141AA5"
+        }
+      ]
+    },
+    {
+      "tgId": 6,
+      "testType": "AFT",
+      "direction": "decrypt",
+      "keyLen": 128,
+      "payloadLen": 0,
+      "aadLen": 120,
+      "tests": [
+        {
+          "tcId": 76,
+          "key": "C826AF6AAADAF9BD80E2C4B45F73FB6A",
+          "aad": "BA589E0027C441934E9E19D9F10C42",
+          "iv": "923FE4672E3110F2163EE484",
+          "ct": "D0F745C959E8BD3F8741AC96C3F29E4E"
+        },
+        {
+          "tcId": 77,
+          "key": "86E20CBA8F47CE679CF2F677EB1EEDDB",
+          "aad": "AD1CA53F43F2B3AAF962A33DAE462A",
+          "iv": "6401D37585D0E9A765DFF37F",
+          "ct": "A476991DF2299C152C0F5CFF7B7E7E1D"
+        },
+        {
+          "tcId": 78,
+          "key": "4E411B2773C4DC609BCF549022BC8DC6",
+          "aad": "DD05B11298A341ACCF0B70C2882DD1",
+          "iv": "A65F2B97B2A0CC8ED1852D2B",
+          "ct": "FABD88B2AD86880724729CA0E15C2F2C"
+        },
+        {
+          "tcId": 79,
+          "key": "977CF06615989F4A70F918CCBB93CF4C",
+          "aad": "9B365AF01273D17DB7D01C3D648C9B",
+          "iv": "39F60ED7E50E2374FA71799D",
+          "ct": "BCA9D2AB2A32A7BF220F496640751C75"
+        },
+        {
+          "tcId": 80,
+          "key": "BACE884AF3DE555A1AE1AD45B6A77CA2",
+          "aad": "47405071F48791DB9E222491A7949F",
+          "iv": "180E96C3DF5F7A2F6633A84E",
+          "ct": "AEF3C71C278339DCF2E80F5976F52DFD"
+        },
+        {
+          "tcId": 81,
+          "key": "0DD7E4BBB41C8A9852E18CF325CA1FB8",
+          "aad": "A0109A37CA27FF4021DB55A15A321F",
+          "iv": "393E385741D5C4A142CB693F",
+          "ct": "2DE4FC3ED8B60B9BCC662705D2989B84"
+        },
+        {
+          "tcId": 82,
+          "key": "E5510034A55A6F3EAA1EE052966B025F",
+          "aad": "49A7DD477DE565EC0DAB931FE9DE42",
+          "iv": "048A27D537A7A0FBD2829F21",
+          "ct": "5B80B4C98482CED679CB87030E23ACB7"
+        },
+        {
+          "tcId": 83,
+          "key": "B5ABAE92535879D2A1A5268FB32A4DFC",
+          "aad": "880011FD03BE90278DD637BD16A1E3",
+          "iv": "68EC2D37658FAECA31B68356",
+          "ct": "E20FE4ABDF35673C41309519B6B600D9"
+        },
+        {
+          "tcId": 84,
+          "key": "335790363176F50FCBDBF2A76C822D6F",
+          "aad": "23B58EB979ED585DD3B64EB241B057",
+          "iv": "E088CB9703C0A87DB468E497",
+          "ct": "DBD47E6CC674BC735C4829AE77D980C4"
+        },
+        {
+          "tcId": 85,
+          "key": "EF99E196A4096CE9DA16C8702037FC1C",
+          "aad": "918FDE437C8A026CA930155BA2B724",
+          "iv": "9372BA74896AC84DF4E55FF3",
+          "ct": "3FEFEE35C9849F63F9220F3E1C98BCA5"
+        },
+        {
+          "tcId": 86,
+          "key": "439A238208004BCFD2419F428F5B04FF",
+          "aad": "334833A30428D3E501547DACC5C6D0",
+          "iv": "499CE6BC9F30C62FD6374230",
+          "ct": "248DFCD71DAAC091FCB1E539FB555545"
+        },
+        {
+          "tcId": 87,
+          "key": "B229A5D9592F4A8B9FE75280BB676962",
+          "aad": "0A767FF6B31A70CBD22570E53B507D",
+          "iv": "BDC7828729A9DC62A357F9C9",
+          "ct": "431379074EFDB27CFB4C106E55040F25"
+        },
+        {
+          "tcId": 88,
+          "key": "BDD6A503FB2E87DAE1F38898671F535A",
+          "aad": "BFC9DE4CA0B1C13524292B1F8C0FE9",
+          "iv": "619FE5CB1E059142A9625123",
+          "ct": "B29C004EC8A6243EB0AEDAAB95FBE288"
+        },
+        {
+          "tcId": 89,
+          "key": "79CA15B171FCA080DACF0FFACBF791E9",
+          "aad": "142113799AF4D14D63ED15C0E65B82",
+          "iv": "07E1DB600EB609E9E89670D1",
+          "ct": "D12E6706735572BBF683577DF8412794"
+        },
+        {
+          "tcId": 90,
+          "key": "B8B2F399761C773DCE6C36D8B35BE3DE",
+          "aad": "066496D7341E860EC40FCF7BDDE4E0",
+          "iv": "ECAD4C889B26069CB333F299",
+          "ct": "3E26997D0E1E35D940C3163B518F0E62"
+        }
+      ]
+    },
+    {
+      "tgId": 7,
+      "testType": "AFT",
+      "direction": "decrypt",
+      "keyLen": 128,
+      "payloadLen": 120,
+      "aadLen": 0,
+      "tests": [
+        {
+          "tcId": 91,
+          "key": "A0806729C6FE3995F95B3ABED5BF21BD",
+          "aad": "",
+          "iv": "EA7835A8ED7B5DB7160E883E",
+          "ct": "F236DECE33A0442305AD8B0373DABA66AC750FE51AEF75C3C7D0D06FE388AE"
+        },
+        {
+          "tcId": 92,
+          "key": "B99836BADED298D534A432CFD50D478A",
+          "aad": "",
+          "iv": "01F5208FE3E288390E644E15",
+          "ct": "401EB65E70E193EA8BBB91C00A0BEDE0AA3DC805F2F81DFF13711E38289894"
+        },
+        {
+          "tcId": 93,
+          "key": "1A20CDCB6304DF73B84C4C37EA48D9B0",
+          "aad": "",
+          "iv": "38CF54A99E604987B35F0DA6",
+          "ct": "330CA0BB88C05AD4245CDDE8217877C5808CBB73D847F2E2DF8BACB62BC017"
+        },
+        {
+          "tcId": 94,
+          "key": "E241A97967563633CB4F016F36DE0390",
+          "aad": "",
+          "iv": "9D58F658E5F280E1913C137C",
+          "ct": "78DEF8110F35F1231E437FC818B00E903A5132927AC99976A50D49C527809F"
+        },
+        {
+          "tcId": 95,
+          "key": "94FD14D403615B2BD440454955B82FAE",
+          "aad": "",
+          "iv": "7B816D6184BD12E0D150BA7D",
+          "ct": "DDD72DEA18F7ED4952BDBE723C9900192F97A6A973793204AE0305E4E06B31"
+        },
+        {
+          "tcId": 96,
+          "key": "CFEF8533184379165867D97BCD3836E4",
+          "aad": "",
+          "iv": "9041B3F93925B1AC4169932D",
+          "ct": "FCDBB75E20A421D02C6BB1BEF7FA708DBD51D6106F547E8A4B8DBF22533BDC"
+        },
+        {
+          "tcId": 97,
+          "key": "E5CB5A362CC601E5321986432B74E978",
+          "aad": "",
+          "iv": "A0969D9B03A284E5B9922BC8",
+          "ct": "457FBC226C6D747AE55718DEDFBC3C1A6CAE8AD8FC75FFDDBB784E58C9C847"
+        },
+        {
+          "tcId": 98,
+          "key": "6163BFAD07B3966795DE04AC76BDE9FF",
+          "aad": "",
+          "iv": "3149D0164CD3A4C6515A6B34",
+          "ct": "DC5F70155B5BB923F1B4DE5F32A41E7FFBE72DE1DB6EB548CD975BAE02686E"
+        },
+        {
+          "tcId": 99,
+          "key": "AAD1D43819E0897E11F9C08EE181E2D9",
+          "aad": "",
+          "iv": "CDA002D198813AFFDEB71C9A",
+          "ct": "498525DFFC645D40FEEACB1BCDE5D27CD666A60F37AB315D055DE9FE545027"
+        },
+        {
+          "tcId": 100,
+          "key": "91803712F8DF1B5E0D81115C3B5523EC",
+          "aad": "",
+          "iv": "4B5D4CD6F9D6104FBC29808D",
+          "ct": "2A1EED262BA58E283EB48BF1E89B0AF305077E6C1411524F718FE1E8DB5B9D"
+        },
+        {
+          "tcId": 101,
+          "key": "DCF433729C1FF1FA28EE079E1ACD2B53",
+          "aad": "",
+          "iv": "DA3A1D8DE2A18DFA17A8C4C4",
+          "ct": "0FC619EDF5266E382AC98FA1C4DC55F751691E0647A0CC733DEA9238277334"
+        },
+        {
+          "tcId": 102,
+          "key": "D78C0E36E05E15D3A631550CA737B529",
+          "aad": "",
+          "iv": "15BB62D6627D10F57586D549",
+          "ct": "E72EDA13D79977B4B42588224C1DC51B37A060E25B6BF3FD301EA9227FAA67"
+        },
+        {
+          "tcId": 103,
+          "key": "CF895FCDE3001F976BB3070A5679F5C9",
+          "aad": "",
+          "iv": "1ACD440F7821887B24C11E27",
+          "ct": "7942E4F781B64807B412D203AA57522628AEFF55256CC5608EE82E0B645F9A"
+        },
+        {
+          "tcId": 104,
+          "key": "7C7F2EC227CC7BED00BBC5CDAC3BD17C",
+          "aad": "",
+          "iv": "1088294573F65B61FE926FC1",
+          "ct": "7ACF5863D1C0DF48EBFF0B433DE32AFEAD409996C527C51B22988FA04B7C25"
+        },
+        {
+          "tcId": 105,
+          "key": "A367C8DB21F77A7333D6C67CEF54F590",
+          "aad": "",
+          "iv": "F66FF9649847B54BADC5AB3C",
+          "ct": "838ABCADDAA8C829317CAF6344ABA93265A3FC68749499D450E202E57222D8"
+        }
+      ]
+    },
+    {
+      "tgId": 8,
+      "testType": "AFT",
+      "direction": "decrypt",
+      "keyLen": 128,
+      "payloadLen": 120,
+      "aadLen": 120,
+      "tests": [
+        {
+          "tcId": 106,
+          "key": "A880A345D13F6AF183C56E425174D26F",
+          "aad": "C0F0B15A964E7379583DFFEBD696D9",
+          "iv": "A9B82B641F51E35C7CB2FE15",
+          "ct": "CA5767C634074B07D253935AAA1BB616ED54818BD3851B5A59AC17F1E7FB03"
+        },
+        {
+          "tcId": 107,
+          "key": "C54600D3406821A78600E25A71EE3255",
+          "aad": "5C06D5F1C05C56DC2316D04637C0DA",
+          "iv": "537F874D6825FB93C1979939",
+          "ct": "2820F585BDA9F9189DD5825B9805085E211F00C301211442A97143C35C5487"
+        },
+        {
+          "tcId": 108,
+          "key": "927710A6DF29B0CF654595A480611EF7",
+          "aad": "1EBD2634B2E764160F7E9D5883171D",
+          "iv": "7D89EFD18438936866BBC4F2",
+          "ct": "7575A5B723AEF02E0D185955D487B301D200D7137FB2D31B4BB9A859C78A65"
+        },
+        {
+          "tcId": 109,
+          "key": "ECA5D9DD6F69DDBC7022E9E6ACAC63D2",
+          "aad": "7160D9B3765A288EED38D0CFC99FD9",
+          "iv": "A8E4F95CC730587C6D889F8D",
+          "ct": "43A20EC9C0006D763CA1A0290266E61CEDBA20479C91EAC29D2BDC557516CF"
+        },
+        {
+          "tcId": 110,
+          "key": "54E307A64F9B10F11F7FD1960CB3B386",
+          "aad": "006F45557F26D685D282C39E5A9CE3",
+          "iv": "DED7E2CCE1118B6EC4A8C798",
+          "ct": "1027C02C801D157C803F46FAE2135CC36EF80DC4BC467564C941A56B59D9B2"
+        },
+        {
+          "tcId": 111,
+          "key": "81EA4EC47FC76C0D0F0C383CA8101632",
+          "aad": "207749574682591DD2D77E0CA74062",
+          "iv": "D067BF4F96108F38C6D77544",
+          "ct": "3810C32F370E00F334C8ED9E573FD1511DCA68F7ED5B8C841FDBE35A259E04"
+        },
+        {
+          "tcId": 112,
+          "key": "A208591D49F15C6C932A4EBB66E2124F",
+          "aad": "AA4D2C35CF56CBC85983D81AD9E14C",
+          "iv": "5ED26DAD0D08E5881D110E18",
+          "ct": "1D1D7B656FD68B4824B2B59119BC1487C31EF98B983F6BBC1CCF42827A538C"
+        },
+        {
+          "tcId": 113,
+          "key": "4A3363213E01AF92283C1C7689CF1D00",
+          "aad": "E22BD04FC0BE1E6C613B0BE8294EFC",
+          "iv": "C732FE6D67700DF3B61B1AF4",
+          "ct": "05A29DDC75127437C2934896164DC70E4945D2180BEF55366D4F985DA3F4E0"
+        },
+        {
+          "tcId": 114,
+          "key": "93D52832C416EBA49E9A131D967904EC",
+          "aad": "456F885D54CA60AF890A425C7391B8",
+          "iv": "4B0FB5CFB06B104DA4BFE71B",
+          "ct": "FC69900D9CCD0E9FAA336A643C2383CE6556E4D134B17B8474DED7157E0BA9"
+        },
+        {
+          "tcId": 115,
+          "key": "C3BD2AE658FE362A508E76DBD917BCB4",
+          "aad": "55F445F5A4AAA2160939B99ED4EE2D",
+          "iv": "F2A76B1B10B8E95D7392559D",
+          "ct": "54AB3AE9C5A397352EE36A1CBF2BAEF8EC72DE403EA968C253AEA0FA140243"
+        },
+        {
+          "tcId": 116,
+          "key": "3F86110B2E61002741D12CB848C80CB5",
+          "aad": "F9236D3F66745E28FC37872FAB1A99",
+          "iv": "9A778E72C807CE6C45CB74AB",
+          "ct": "615158719FD91F9CB60BFEB66DBB398B493697D5ACABC0C026711CE76032B0"
+        },
+        {
+          "tcId": 117,
+          "key": "8083C98FBB1F0661B9819EF7BEEFC5A5",
+          "aad": "8F22BD24DF800FD4CBC23F606F4A29",
+          "iv": "FE452C402F82422956F39D9E",
+          "ct": "98CFBE1D70AFFDCC7BBF96168F8359CA7EC04363EAED3739E2D2CCA9180E1B"
+        },
+        {
+          "tcId": 118,
+          "key": "08A6A7A910235E23660613EF8F253A8C",
+          "aad": "822A693404A788DE3A9B011725E6BE",
+          "iv": "F6FCBDBE1B68F86EEB1E536B",
+          "ct": "3869AA35AE2124B75624AD6B65EF9F4CB10E8DE1DA2F76283C173E1CEB6F37"
+        },
+        {
+          "tcId": 119,
+          "key": "397D470D9F4276CF63A8D02290C7BEAD",
+          "aad": "F1B1A50B7C4741A2FF093211784965",
+          "iv": "0AD0FCC27BE59252AD59A610",
+          "ct": "084E29C8F7DA48036C31FD86FE9D0025CE4CD91BC4C96D5197813915E66C51"
+        },
+        {
+          "tcId": 120,
+          "key": "10655B4CDB274910853F3ED6E608DF95",
+          "aad": "A908D555757643F664497BFD366C38",
+          "iv": "046B3761CAE9258D497935B3",
+          "ct": "7323BF3CCC6FF603602913A34D3AD29E853EF56F004BD850083723CAFCFA21"
+        }
+      ]
+    }
+  ]
+}

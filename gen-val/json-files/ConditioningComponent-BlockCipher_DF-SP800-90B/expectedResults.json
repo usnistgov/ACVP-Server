@@ -1,0 +1,84 @@
+{
+  "vsId": 42,
+  "algorithm": "ConditioningComponent",
+  "mode": "BlockCipher_DF",
+  "revision": "SP800-90B",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "requestedBits": "4FBEA8726327E9231B4073502FE3BB7F"
+        },
+        {
+          "tcId": 2,
+          "requestedBits": "CBCE9210C1F8B58E2C27A507014ADA2F"
+        },
+        {
+          "tcId": 3,
+          "requestedBits": "54E4E3D13E93E842DF4DDE79B7EB195E"
+        },
+        {
+          "tcId": 4,
+          "requestedBits": "2CDFDFD6E8CA4FC6B42BA5B8B4AEAEB4"
+        },
+        {
+          "tcId": 5,
+          "requestedBits": "F09686C8C4A4F970DFFC716AB1FD468B"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 6,
+          "requestedBits": "B58B77A910503FE5322D000EDF7B2E85B6A9A7FE1FCF13EF"
+        },
+        {
+          "tcId": 7,
+          "requestedBits": "436641852EE31F00E56625AD08C97A617772A87C9943ED18"
+        },
+        {
+          "tcId": 8,
+          "requestedBits": "CB062DBF2604C95F5A501DD57453C2E7EF3CEEE410104325"
+        },
+        {
+          "tcId": 9,
+          "requestedBits": "D00D34DDF1629452E380B3B439541D8B7F8B00EDC5BB8143"
+        },
+        {
+          "tcId": 10,
+          "requestedBits": "3FDE1A3182816612A3CE06662F1510E89356491E30EF2702"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 11,
+          "requestedBits": "854C9572C7B8AF488EA623F39536225FFE8FB1CDAFEF2CE46DF64BA60F901C75"
+        },
+        {
+          "tcId": 12,
+          "requestedBits": "3B4F8C12526DBA6301AD486AC77C2B70BCC00BF8EAD5475151DE9054E3F6C3DE"
+        },
+        {
+          "tcId": 13,
+          "requestedBits": "DD77A827F3A37F6628F49F98F8D7085678A71B76DD53C70D5B755A6844F5064A"
+        },
+        {
+          "tcId": 14,
+          "requestedBits": "16B0D8ED1C3E02E16C43CB9877968963859552B09FBF75599395F8E48418FD9D"
+        },
+        {
+          "tcId": 15,
+          "requestedBits": "850CFCA1B8F612E12BBD41A1298017006D1491A2CFB965884C7C1BC33738B369"
+        }
+      ]
+    }
+  ]
+}

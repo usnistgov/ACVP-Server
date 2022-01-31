@@ -1,0 +1,133 @@
+{
+  "vsId": 0,
+  "algorithm": "hashDRBG",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "predResistanceEnabled": [
+    true,
+    false
+  ],
+  "reseedImplemented": true,
+  "capabilities": [
+    {
+      "mode": "SHA-1",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        800
+      ],
+      "nonceLen": [
+        160
+      ],
+      "persoStringLen": [
+        640
+      ],
+      "additionalInputLen": [
+        480
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-224",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        1120
+      ],
+      "nonceLen": [
+        224
+      ],
+      "persoStringLen": [
+        896
+      ],
+      "additionalInputLen": [
+        672
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-256",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        1280
+      ],
+      "nonceLen": [
+        256
+      ],
+      "persoStringLen": [
+        1024
+      ],
+      "additionalInputLen": [
+        768
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-384",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        1920
+      ],
+      "nonceLen": [
+        384
+      ],
+      "persoStringLen": [
+        1536
+      ],
+      "additionalInputLen": [
+        1152
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-512",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        2560
+      ],
+      "nonceLen": [
+        512
+      ],
+      "persoStringLen": [
+        2048
+      ],
+      "additionalInputLen": [
+        1536
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-512/224",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        1120
+      ],
+      "nonceLen": [
+        224
+      ],
+      "persoStringLen": [
+        896
+      ],
+      "additionalInputLen": [
+        672
+      ],
+      "returnedBitsLen": 4096
+    },
+    {
+      "mode": "SHA2-512/256",
+      "derFuncEnabled": false,
+      "entropyInputLen": [
+        1280
+      ],
+      "nonceLen": [
+        256
+      ],
+      "persoStringLen": [
+        1024
+      ],
+      "additionalInputLen": [
+        768
+      ],
+      "returnedBitsLen": 4096
+    }
+  ]
+}

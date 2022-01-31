@@ -1,0 +1,184 @@
+{
+  "vsId": 42,
+  "algorithm": "ConditioningComponent",
+  "mode": "Hash_DF",
+  "revision": "SP800-90B",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "requestedBits": "2098AA9FB16AF83AD48685F309B8369B86151FE1"
+        },
+        {
+          "tcId": 2,
+          "requestedBits": "96EE247AE6D3F2E552A9E300E9DA26E9A0495357"
+        },
+        {
+          "tcId": 3,
+          "requestedBits": "FB9463A2DB16415EBD14C615D6DCAF6494EB9BC3"
+        },
+        {
+          "tcId": 4,
+          "requestedBits": "493EBC0B688A72B180AA84B1B0C867D8D4F72FBB"
+        },
+        {
+          "tcId": 5,
+          "requestedBits": "DCA315D57BBA7922F3E70B0D3458BD2EF724203E"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 6,
+          "requestedBits": "EBD5BC3993636FFE5FCB6DA21128F50CF56812D1B6F5F80FA98A18C7"
+        },
+        {
+          "tcId": 7,
+          "requestedBits": "1FDAB41FE379B124DAE9E9C7707D64CB90A6532537D37E64D0223D97"
+        },
+        {
+          "tcId": 8,
+          "requestedBits": "1960371A0C2F56C37108B6C021C1FF258E9A6CA0D16269B34F543F02"
+        },
+        {
+          "tcId": 9,
+          "requestedBits": "5372590BE575C23C53A0D60AD17BAF99DFBE892EB3FE08F97E8BF6D2"
+        },
+        {
+          "tcId": 10,
+          "requestedBits": "AD2151556576D98612CF29A769DB6EAD1ACAB6D80DFB0E332604B504"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 11,
+          "requestedBits": "B101EB470BC28EDB948816236E08152B2B894C04932CEBA70EE5CF9FEE30BB21"
+        },
+        {
+          "tcId": 12,
+          "requestedBits": "9C2C14339E3D7711F9388F3D68C311279F0C4C7BB0A5D3249EED5A551973F3EC"
+        },
+        {
+          "tcId": 13,
+          "requestedBits": "AAF94ED47E551D141462255C746ADB505D15BA0C142FF6C792FCA1183A531BE8"
+        },
+        {
+          "tcId": 14,
+          "requestedBits": "3667D76F54BA2FD14ED9F11686EC98DC1E9F4570DD0F2D162179CD41D984D831"
+        },
+        {
+          "tcId": 15,
+          "requestedBits": "B782787277737D9C787BDAF4C851DE31DB8D3A5621D9316A14837ACE5CBF5855"
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 16,
+          "requestedBits": "9A1D575AEFB92EFA1A010B78AF483FB1FD7B19D834F07F310BF705F68B22B0D98ECCD5FD0BE60A54FFE38E3406F416AA"
+        },
+        {
+          "tcId": 17,
+          "requestedBits": "A71805C770F30BF71179A20723A8C2E66E95F29F6309ED10A980BE74B4D07B9A063AF3606B67AA69207279D8E5398A2F"
+        },
+        {
+          "tcId": 18,
+          "requestedBits": "DB3420E29C7B735142EB0DC9725BBA984F0AB4CAEE56DF7B27FCBD555AC27179525D057F370F9E687CE22B71AB5DAA7E"
+        },
+        {
+          "tcId": 19,
+          "requestedBits": "67FD2A6A6B6512749FC96D73DD825186984E334A78D8A09B612D43BB7B193EC7276102BB1E137F264603D276FBE8A8A9"
+        },
+        {
+          "tcId": 20,
+          "requestedBits": "A4C279C8E3D59B07749C46C0A188D92DFFB41EC62F863F45534EDAD3B1685073CC08D591071F9211CBBFD813254F91B4"
+        }
+      ]
+    },
+    {
+      "tgId": 5,
+      "tests": [
+        {
+          "tcId": 21,
+          "requestedBits": "F98E13CE63FED569A96F60600925EF042B64C78618A2932472B9984C8EC6D1CF6FDE0E74726368390DC092366363E7E42DC9B294EF382FE71EB58604DFC726BD"
+        },
+        {
+          "tcId": 22,
+          "requestedBits": "2AD0489C43E8A4F83D03A75AAC71E4D1B87C0DF906350E22170C9ADDE78BA2845F723BF30B39C3A5F32C8FD7D86553BF7CCE48E450CA3AAA54DE0A6BE6631023"
+        },
+        {
+          "tcId": 23,
+          "requestedBits": "3C11CBB7CAD175CD78950FC51DAE53EBAD49568753E29B18F39E1EB084B2114AF5E13E1A5B8C8556E0B04650C14D294E137D740DD0ECDE51BC7987B8FCEAD060"
+        },
+        {
+          "tcId": 24,
+          "requestedBits": "2528B342280926FD6685F6A3339470901508B982C376E4C3B43D48AE4105E2B7177D58FCE98089AC9EE1EE213BB274C6A0F20C6C5C7B2721BA04ABFE9955E6A8"
+        },
+        {
+          "tcId": 25,
+          "requestedBits": "0B7D343BA0B29A586A0940CBB8B3661136E98663BD7313CF2CA5DF1C1C2DB2DA95EF691E7FBE53B36ADE2F9118ECF262483CB273D8DAD262B699F10A4E87E438"
+        }
+      ]
+    },
+    {
+      "tgId": 6,
+      "tests": [
+        {
+          "tcId": 26,
+          "requestedBits": "FAFB410D8029D3908343954F7F8B4B4D5DF7AA7999E85DC944390989"
+        },
+        {
+          "tcId": 27,
+          "requestedBits": "CD08477BD193A553A2B0EF1F128F9ABC1DF96DD96D51546E509BD7B8"
+        },
+        {
+          "tcId": 28,
+          "requestedBits": "7FF0D61B61D9FA12E734C5400217887E42B390598C3B73F68B60858F"
+        },
+        {
+          "tcId": 29,
+          "requestedBits": "0FE0E445389C497CC55D7326A6015F7E2F9AFABACFE89D4FB6ECFDCC"
+        },
+        {
+          "tcId": 30,
+          "requestedBits": "D6E539C7D4A124D08F53BD88839E6F773D8AE96D5051BCD0374A5500"
+        }
+      ]
+    },
+    {
+      "tgId": 7,
+      "tests": [
+        {
+          "tcId": 31,
+          "requestedBits": "BB79648600C7E5E30AEE31F3263B7AB8954D88418C3730FEB47F82DB4E27A890"
+        },
+        {
+          "tcId": 32,
+          "requestedBits": "9389DD4CDD2238FF781516E8DF283D1821D5351FCA2705B08A0D55FAE1CA44AB"
+        },
+        {
+          "tcId": 33,
+          "requestedBits": "96FC502F9E7A43BBDB063F387C0B4DE13DBC9A2C264D84D3407BFF158D8C5FFF"
+        },
+        {
+          "tcId": 34,
+          "requestedBits": "0B9548BEF563E8E4F0A14BC71DBC97460F40D990361F816F6FD6B94E8FF03D45"
+        },
+        {
+          "tcId": 35,
+          "requestedBits": "E2AE249BE243CA7D9432E4056483E0378431D03908D930FF3B8307CC5F134E5F"
+        }
+      ]
+    }
+  ]
+}

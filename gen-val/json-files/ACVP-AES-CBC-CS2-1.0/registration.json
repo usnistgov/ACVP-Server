@@ -1,0 +1,23 @@
+{
+  "vsId": 42,
+  "algorithm": "ACVP-AES-CBC-CS2",
+  "revision": "1.0",
+  "isSample": false,
+  "conformances": [],
+  "payloadLen": [
+    {
+      "min": 128,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "keyLen": [
+    128,
+    192,
+    256
+  ]
+}

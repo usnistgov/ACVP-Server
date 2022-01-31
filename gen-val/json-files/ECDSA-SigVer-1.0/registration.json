@@ -1,0 +1,45 @@
+{
+  "vsId": 0,
+  "algorithm": "ECDSA",
+  "mode": "SigVer",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [
+    "SP800-106"
+  ],
+  "componentTest": false,
+  "capabilities": [
+    {
+      "curve": [
+        "P-192",
+        "P-224",
+        "P-256",
+        "P-384",
+        "P-521",
+        "K-163",
+        "K-233",
+        "K-283",
+        "K-409",
+        "K-571",
+        "B-163",
+        "B-233",
+        "B-283",
+        "B-409",
+        "B-571"
+      ],
+      "hashAlg": [
+        "SHA-1",
+        "SHA2-224",
+        "SHA2-256",
+        "SHA2-384",
+        "SHA2-512",
+        "SHA2-512/224",
+        "SHA2-512/256",
+        "SHA3-224",
+        "SHA3-256",
+        "SHA3-384",
+        "SHA3-512"
+      ]
+    }
+  ]
+}

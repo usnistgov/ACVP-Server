@@ -1,0 +1,298 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-GCM",
+  "revision": "1.0",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "ct": "",
+          "tag": "72B9EF0ED4FF10CA59B765BCAE67B106"
+        },
+        {
+          "tcId": 2,
+          "ct": "",
+          "tag": "A505687361EA4F130C2E5AEC74A273FC"
+        },
+        {
+          "tcId": 3,
+          "ct": "",
+          "tag": "84BCC342BA1730C668DB2E12B15E3CEC"
+        },
+        {
+          "tcId": 4,
+          "ct": "",
+          "tag": "95AC091E258167EAFA9BCAC0FEF2588F"
+        },
+        {
+          "tcId": 5,
+          "ct": "",
+          "tag": "5D6C04833A29B35B5516941733B0C74E"
+        },
+        {
+          "tcId": 6,
+          "ct": "",
+          "tag": "7FF6BF07E5192CC7E4271D4A8F6D7A84"
+        },
+        {
+          "tcId": 7,
+          "ct": "",
+          "tag": "589DAC6C03B0427E3F76624EEB96B0E1"
+        },
+        {
+          "tcId": 8,
+          "ct": "",
+          "tag": "ECB2D8B7D2512CF6720B495F3BFF1D46"
+        },
+        {
+          "tcId": 9,
+          "ct": "",
+          "tag": "EA5D807F68A18D6CA221CAC87CEFCE87"
+        },
+        {
+          "tcId": 10,
+          "ct": "",
+          "tag": "314CA6B1A9CDFDACEBEBF22CBDD5CC55"
+        },
+        {
+          "tcId": 11,
+          "ct": "",
+          "tag": "328AAA1CD7C5277562C3A3ADBF51AD68"
+        },
+        {
+          "tcId": 12,
+          "ct": "",
+          "tag": "4B2D34C74F96C0E053A0F62EEDA058E9"
+        },
+        {
+          "tcId": 13,
+          "ct": "",
+          "tag": "960B702C886BC3314F4635AF759B5A93"
+        },
+        {
+          "tcId": 14,
+          "ct": "",
+          "tag": "5A8DAD45A4525D354E7E3FE076333F60"
+        },
+        {
+          "tcId": 15,
+          "ct": "",
+          "tag": "655CD8E82B98963C6F1643F6E4A7785E"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 16,
+          "ct": "8FDE350FAA43D766EAA38ECBED3891",
+          "tag": "9C9C9066"
+        },
+        {
+          "tcId": 17,
+          "ct": "21059F813C00F825E11681C7BA4439",
+          "tag": "F3BE3B1E"
+        },
+        {
+          "tcId": 18,
+          "ct": "0FA8F28C332FC247AE3960D850E7B3",
+          "tag": "641FD35C"
+        },
+        {
+          "tcId": 19,
+          "ct": "63DDA1AB87B42F3C08B8D563243C12",
+          "tag": "1D66ACFA"
+        },
+        {
+          "tcId": 20,
+          "ct": "0FD2596CC3560FAEA5BD9AF34C54FF",
+          "tag": "7E24346B"
+        },
+        {
+          "tcId": 21,
+          "ct": "5917A41C4D0784A848D5623B11D0E9",
+          "tag": "C7808655"
+        },
+        {
+          "tcId": 22,
+          "ct": "13D61B818F91B3E1124DAC021593C0",
+          "tag": "CBF86320"
+        },
+        {
+          "tcId": 23,
+          "ct": "73CAC33FCC1007C37330A19180925D",
+          "tag": "AFAB0274"
+        },
+        {
+          "tcId": 24,
+          "ct": "022A11C7B266406E51BAE626EE3C98",
+          "tag": "2C0C8ADE"
+        },
+        {
+          "tcId": 25,
+          "ct": "C66CF8E91CD3A0534A555E8FAFEDC4",
+          "tag": "70383F20"
+        },
+        {
+          "tcId": 26,
+          "ct": "6D5C5EA87505D2A46853403FB5FEAD",
+          "tag": "A89C9AD9"
+        },
+        {
+          "tcId": 27,
+          "ct": "611B0339B5782832EC758D109A44D1",
+          "tag": "390386AB"
+        },
+        {
+          "tcId": 28,
+          "ct": "5C2B0F28B6309ECBB8B293578FBB92",
+          "tag": "10347BC3"
+        },
+        {
+          "tcId": 29,
+          "ct": "77529FE94223BB91D2E4ED6D42B789",
+          "tag": "7B8E0712"
+        },
+        {
+          "tcId": 30,
+          "ct": "F51E242F02D2453F46AE9A09010EDD",
+          "tag": "A60E7BEC"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 31,
+          "pt": ""
+        },
+        {
+          "tcId": 32,
+          "pt": ""
+        },
+        {
+          "tcId": 33,
+          "pt": ""
+        },
+        {
+          "tcId": 34,
+          "testPassed": false
+        },
+        {
+          "tcId": 35,
+          "testPassed": false
+        },
+        {
+          "tcId": 36,
+          "pt": ""
+        },
+        {
+          "tcId": 37,
+          "testPassed": false
+        },
+        {
+          "tcId": 38,
+          "pt": ""
+        },
+        {
+          "tcId": 39,
+          "pt": ""
+        },
+        {
+          "tcId": 40,
+          "pt": ""
+        },
+        {
+          "tcId": 41,
+          "pt": ""
+        },
+        {
+          "tcId": 42,
+          "testPassed": false
+        },
+        {
+          "tcId": 43,
+          "testPassed": false
+        },
+        {
+          "tcId": 44,
+          "pt": ""
+        },
+        {
+          "tcId": 45,
+          "pt": ""
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 46,
+          "pt": "CFE12C243F4A575C0038D41DCC46A0"
+        },
+        {
+          "tcId": 47,
+          "pt": "845B3937EFD83B8C7B80DDD33CFFDC"
+        },
+        {
+          "tcId": 48,
+          "pt": "921167FE890B5141F1B05899D716C3"
+        },
+        {
+          "tcId": 49,
+          "pt": "FC591EA1A6AB7C5239AF0A56677752"
+        },
+        {
+          "tcId": 50,
+          "pt": "9DDB3D1E430441C495A6617B90BA5D"
+        },
+        {
+          "tcId": 51,
+          "pt": "8D22A8D21573F430D05EE8513B6AB6"
+        },
+        {
+          "tcId": 52,
+          "pt": "65EEF47E74B8880A56FEA27B479F18"
+        },
+        {
+          "tcId": 53,
+          "pt": "14FA5CD6FA1C075BE16B9038E53F82"
+        },
+        {
+          "tcId": 54,
+          "pt": "81F0D461178788FCE3E1072526EE83"
+        },
+        {
+          "tcId": 55,
+          "testPassed": false
+        },
+        {
+          "tcId": 56,
+          "pt": "E4E873381F6B4AA44047914699FA56"
+        },
+        {
+          "tcId": 57,
+          "pt": "D78BB39689113C65A869428A1E259D"
+        },
+        {
+          "tcId": 58,
+          "testPassed": false
+        },
+        {
+          "tcId": 59,
+          "testPassed": false
+        },
+        {
+          "tcId": 60,
+          "testPassed": false
+        }
+      ]
+    }
+  ]
+}

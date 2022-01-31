@@ -1,0 +1,17 @@
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.deps.json
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/ref/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Common.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Math.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Common.pdb
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Math.pdb
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj.AssemblyReference.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.AssemblyInfoInputs.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.AssemblyInfo.cs
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj.CoreCompileInputs.cache
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj.CopyComplete
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/ref/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll
+/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/obj/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb

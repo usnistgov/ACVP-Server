@@ -1,0 +1,49 @@
+{
+  "vsId": 0,
+  "algorithm": "kdf-components",
+  "mode": "ansix9.42",
+  "revision": "1.0",
+  "isSample": false,
+  "kdfType": [
+    "DER",
+    "concatenation"
+  ],
+  "keyLen": [
+    256,
+    1024
+  ],
+  "otherInfoLen": [
+    0,
+    1024
+  ],
+  "suppInfoLen": [
+    0,
+    256
+  ],
+  "zzLen": [
+    {
+      "min": 64,
+      "max": 4096,
+      "increment": 8
+    }
+  ],
+  "oid": [
+    "TDES",
+    "AES-128-KW",
+    "AES-192-KW",
+    "AES-256-KW"
+  ],
+  "hashAlg": [
+    "SHA-1",
+    "SHA2-224",
+    "SHA2-256",
+    "SHA2-384",
+    "SHA2-512",
+    "SHA2-512/224",
+    "SHA2-512/256",
+    "SHA3-224",
+    "SHA3-256",
+    "SHA3-384",
+    "SHA3-512"
+  ]
+}

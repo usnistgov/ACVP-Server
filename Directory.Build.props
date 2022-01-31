@@ -1,0 +1,38 @@
+<Project>
+  <!-- 
+      Used for the building of the package version, based on a Major, minor, patch variable, 
+      as well as an optional suffix to indicate pre-release package builds 
+  -->
+  <PropertyGroup>
+    <BuildGenValPackages>false</BuildGenValPackages>
+
+    <GenValPackageVersionMajor>1</GenValPackageVersionMajor>
+    <GenValPackageVersionMinor>1</GenValPackageVersionMinor>
+    <GenValPackageVersionPatch>1</GenValPackageVersionPatch>
+
+    <GenValFormattedSuffix Condition=" '$(GenValSuffix)' == '' "></GenValFormattedSuffix>
+    <GenValFormattedSuffix Condition=" '$(GenValSuffix)' != '' ">-$(GenValSuffix)</GenValFormattedSuffix>
+
+    <GenValPackageVersion>$(GenValPackageVersionMajor).$(GenValPackageVersionMinor).$(GenValPackageVersionPatch)$(GenValFormattedSuffix)</GenValPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <FrameworkPackageVersions>5.0.0</FrameworkPackageVersions>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+    <!-- Set common properties regarding assembly information and nuget packages -->
+  <PropertyGroup>
+    <Authors>NIST; HII-TSD</Authors>
+    <Product>ACVP</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>nist cryptography protocol cryptographic-algorithm-validations nist-approved-algorithms</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+</Project>

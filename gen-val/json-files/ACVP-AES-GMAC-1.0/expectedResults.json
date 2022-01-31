@@ -1,0 +1,268 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-GMAC",
+  "revision": "1.0",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "tag": "3DC952F4"
+        },
+        {
+          "tcId": 2,
+          "tag": "8D2D40EC"
+        },
+        {
+          "tcId": 3,
+          "tag": "43BACB05"
+        },
+        {
+          "tcId": 4,
+          "tag": "B0127F73"
+        },
+        {
+          "tcId": 5,
+          "tag": "7333E88D"
+        },
+        {
+          "tcId": 6,
+          "tag": "8DEA31F6"
+        },
+        {
+          "tcId": 7,
+          "tag": "E2319B00"
+        },
+        {
+          "tcId": 8,
+          "tag": "A8848E1E"
+        },
+        {
+          "tcId": 9,
+          "tag": "3DD144AF"
+        },
+        {
+          "tcId": 10,
+          "tag": "216C8CEB"
+        },
+        {
+          "tcId": 11,
+          "tag": "56CBCDC6"
+        },
+        {
+          "tcId": 12,
+          "tag": "8E85C63D"
+        },
+        {
+          "tcId": 13,
+          "tag": "D2D69F3F"
+        },
+        {
+          "tcId": 14,
+          "tag": "689D918E"
+        },
+        {
+          "tcId": 15,
+          "tag": "C36A26C9"
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 16,
+          "tag": "43A4D03FFDB1B3F8651FCFD6CB539F43"
+        },
+        {
+          "tcId": 17,
+          "tag": "097F7AE6B5A1ED1218A7E432E50E4C68"
+        },
+        {
+          "tcId": 18,
+          "tag": "2390FC33C3AF1588C8E83FC650FB0876"
+        },
+        {
+          "tcId": 19,
+          "tag": "E5E6757B131E892D159C2C9518A06316"
+        },
+        {
+          "tcId": 20,
+          "tag": "173ADFB94BD103118796B780FCB0F6DC"
+        },
+        {
+          "tcId": 21,
+          "tag": "181385BA033B1FDE40EE9BCCE599FDB7"
+        },
+        {
+          "tcId": 22,
+          "tag": "E5320A22D2C58749615181FE173FEF4E"
+        },
+        {
+          "tcId": 23,
+          "tag": "1F03B5F9B00755F3F9A847E690C9DF1C"
+        },
+        {
+          "tcId": 24,
+          "tag": "57546AB1C80B9D5CBC641E6E57FCD0DE"
+        },
+        {
+          "tcId": 25,
+          "tag": "A97017B06DAD3EA63870ACFDB44EEC7C"
+        },
+        {
+          "tcId": 26,
+          "tag": "20D02E4582FC18B5F6C6F7C1C2EAACEC"
+        },
+        {
+          "tcId": 27,
+          "tag": "E6A7B92E4AF395A157ADA8F77EA18523"
+        },
+        {
+          "tcId": 28,
+          "tag": "4AE41BD3ADAB1A3638215FE8DF1D42D6"
+        },
+        {
+          "tcId": 29,
+          "tag": "CBFE81CD7F2C9D91BBF98F31182B4792"
+        },
+        {
+          "tcId": 30,
+          "tag": "DC6AF373897A5A36A9DCC28177AE2D85"
+        }
+      ]
+    },
+    {
+      "tgId": 3,
+      "tests": [
+        {
+          "tcId": 31,
+          "testPassed": false
+        },
+        {
+          "tcId": 32,
+          "testPassed": true
+        },
+        {
+          "tcId": 33,
+          "testPassed": true
+        },
+        {
+          "tcId": 34,
+          "testPassed": true
+        },
+        {
+          "tcId": 35,
+          "testPassed": true
+        },
+        {
+          "tcId": 36,
+          "testPassed": false
+        },
+        {
+          "tcId": 37,
+          "testPassed": true
+        },
+        {
+          "tcId": 38,
+          "testPassed": false
+        },
+        {
+          "tcId": 39,
+          "testPassed": true
+        },
+        {
+          "tcId": 40,
+          "testPassed": true
+        },
+        {
+          "tcId": 41,
+          "testPassed": true
+        },
+        {
+          "tcId": 42,
+          "testPassed": true
+        },
+        {
+          "tcId": 43,
+          "testPassed": false
+        },
+        {
+          "tcId": 44,
+          "testPassed": true
+        },
+        {
+          "tcId": 45,
+          "testPassed": true
+        }
+      ]
+    },
+    {
+      "tgId": 4,
+      "tests": [
+        {
+          "tcId": 46,
+          "testPassed": false
+        },
+        {
+          "tcId": 47,
+          "testPassed": false
+        },
+        {
+          "tcId": 48,
+          "testPassed": true
+        },
+        {
+          "tcId": 49,
+          "testPassed": true
+        },
+        {
+          "tcId": 50,
+          "testPassed": false
+        },
+        {
+          "tcId": 51,
+          "testPassed": true
+        },
+        {
+          "tcId": 52,
+          "testPassed": true
+        },
+        {
+          "tcId": 53,
+          "testPassed": false
+        },
+        {
+          "tcId": 54,
+          "testPassed": false
+        },
+        {
+          "tcId": 55,
+          "testPassed": true
+        },
+        {
+          "tcId": 56,
+          "testPassed": false
+        },
+        {
+          "tcId": 57,
+          "testPassed": true
+        },
+        {
+          "tcId": 58,
+          "testPassed": true
+        },
+        {
+          "tcId": 59,
+          "testPassed": true
+        },
+        {
+          "tcId": 60,
+          "testPassed": true
+        }
+      ]
+    }
+  ]
+}

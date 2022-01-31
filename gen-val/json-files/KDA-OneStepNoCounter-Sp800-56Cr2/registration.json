@@ -1,0 +1,64 @@
+{
+  "vsId": 0,
+  "algorithm": "KDA",
+  "mode": "OneStepNoCounter",
+  "revision": "Sp800-56Cr2",
+  "isSample": true,
+  "auxFunctions": [
+    {
+      "l": 256,
+      "auxFunctionName": "KMAC-128",
+      "macSaltMethods": [
+        "default",
+        "random"
+      ]
+    },
+    {
+      "l": 224,
+      "auxFunctionName": "SHA2-224"
+    },
+    {
+      "l": 224,
+      "auxFunctionName": "HMAC-SHA2-224",
+      "macSaltMethods": [
+        "default",
+        "random"
+      ]
+    },
+    {
+      "l": 256,
+      "auxFunctionName": "SHA2-512"
+    },
+    {
+      "l": 256,
+      "auxFunctionName": "HMAC-SHA2-512",
+      "macSaltMethods": [
+        "default",
+        "random"
+      ]
+    },
+    {
+      "l": 256,
+      "auxFunctionName": "SHA3-512"
+    },
+    {
+      "l": 256,
+      "auxFunctionName": "HMAC-SHA3-512",
+      "macSaltMethods": [
+        "default",
+        "random"
+      ]
+    }
+  ],
+  "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+  "encoding": [
+    "concatenation"
+  ],
+  "z": [
+    {
+      "min": 224,
+      "max": 65536,
+      "increment": 8
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "SigVer",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "conformances": [],
+  "capabilities": [
+    {
+      "sigType": "pkcs1v1.5",
+      "properties": [
+        {
+          "modulo": 2048,
+          "maskFunction": [
+            "mgf1"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        },
+        {
+          "modulo": 3072,
+          "maskFunction": [
+            "shake-128"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        },
+        {
+          "modulo": 4096,
+          "maskFunction": [
+            "shake-256"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "properties": [
+        {
+          "modulo": 2048,
+          "maskFunction": [
+            "mgf1"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        },
+        {
+          "modulo": 3072,
+          "maskFunction": [
+            "shake-128"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        },
+        {
+          "modulo": 4096,
+          "maskFunction": [
+            "shake-256"
+          ],
+          "hashPair": [
+            {
+              "hashAlg": "SHA-1",
+              "saltLen": 1
+            },
+            {
+              "hashAlg": "SHA2-224",
+              "saltLen": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pubExpMode": "random"
+}

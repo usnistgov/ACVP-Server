@@ -1,0 +1,64 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-ECC",
+  "revision": "Sp800-56Ar3",
+  "isSample": true,
+  "iutId": "123456ABCD",
+  "scheme": {
+    "onePassUnified": {
+      "scheme": "onePassUnified",
+      "underlyingAlgorithm": "Ecc",
+      "kasRole": [
+        "initiator",
+        "responder"
+      ],
+      "kdfMethods": {
+        "oneStepKdf": {
+          "kdfType": "oneStep",
+          "auxFunctions": [
+            {
+              "auxFunctionName": "SHA-1"
+            }
+          ],
+          "fixedInfoPattern": "l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        },
+        "oneStepNoCounterKdf": {
+          "kdfType": "oneStepNoCounter",
+          "auxFunctions": [
+            {
+              "l": 160,
+              "auxFunctionName": "SHA-1"
+            }
+          ],
+          "fixedInfoPattern": "l||uPartyInfo||vPartyInfo",
+          "encoding": [
+            "concatenation"
+          ]
+        }
+      },
+      "keyConfirmationMethod": {
+        "macMethods": {
+          "kmaC-128": {
+            "macType": "KMAC-128",
+            "keyLen": 128,
+            "macLen": 128
+          }
+        },
+        "keyConfirmationDirections": [
+          "unilateral"
+        ],
+        "keyConfirmationRoles": [
+          "provider",
+          "recipient"
+        ]
+      },
+      "l": 512
+    }
+  },
+  "domainParameterGenerationMethods": [
+    "P-224"
+  ]
+}

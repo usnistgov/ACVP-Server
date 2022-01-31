@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.ACVTS.Libraries.Generation\NIST.CVP.ACVTS.Libraries.Generation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sharedappsettings.json" Link="sharedappsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.ACVTS.Tests.Core\NIST.CVP.ACVTS.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+    <ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Math\NIST.CVP.ACVTS.Libraries.Math.csproj" />
+    <ProjectReference Include="..\..\..\oracle\src\NIST.CVP.ACVTS.Libraries.Crypto.Oracle\NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+    <PackageReference Include="NIST.CVP.ACVTS.Tests.Core" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Math" />
+    <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Oracle" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="dotnet-test-nunit" />
+    <PackageReference Include="TeamCity.VSTest.TestAdapter" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="NLog" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
+  </ItemGroup>
+
+</Project>

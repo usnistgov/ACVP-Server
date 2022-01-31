@@ -1,0 +1,138 @@
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
+
+namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CTR.v1_0.ContractResolvers
+{
+    public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
+    {
+        protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.TestType),
+                nameof(TestGroup.Direction),
+                nameof(TestGroup.KeyLength),
+                nameof(TestGroup.Tests)
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance => true;
+            }
+
+            var counterProperties = new[]
+            {
+                nameof(TestGroup.IncrementalCounter),
+                nameof(TestGroup.OverflowCounter)
+            };
+
+            if (counterProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                        if (testGroup.TestType.Equals("ctr", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+
+        protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
+        {
+            var includeProperties = new[]
+            {
+                nameof(TestCase.TestCaseId),
+                nameof(TestCase.Key),
+            };
+
+            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance => true;
+            }
+
+            #region Conditional Test Case properties
+            if (jsonProperty.UnderlyingName == nameof(TestCase.IV))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.RfcTestMode &&
+                            testGroup.IvGenMode == IvGenModes.Internal &&
+                            testGroup.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return false;
+                        }
+
+                        return true;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.PlainText))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.Direction.Equals("encrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.CipherText))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.Direction.Equals("decrypt", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.PayloadLength))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        if (testGroup.RfcTestMode ||
+                            testGroup.InternalTestType.Equals("partialblock", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+            #endregion Conditional Test Case properties
+
+            return jsonProperty.ShouldSerialize = instance => false;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>$(GenValPackageVersion)</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Implementations for the gen/val framework interacting with the Orleans cluster.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Orleans.Client" />
+    <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" />
+  </ItemGroup>
+
+    <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+        <ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+        <ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Math\NIST.CVP.ACVTS.Libraries.Math.csproj" />
+        <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto.Common\NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj" />
+        <ProjectReference Include="..\..\..\orleans\src\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces\NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.csproj" />
+        <ProjectReference Include="..\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+        <PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+        <PackageReference Include="NIST.CVP.ACVTS.Libraries.Math" />
+        <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Common" />
+        <PackageReference Include="NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces" />
+        <PackageReference Include="NIST.CVP.ACVTS.Libraries.Oracle.Abstractions" />
+    </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Update="Oracle.*.cs">
+      <DependentUpon>Oracle.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

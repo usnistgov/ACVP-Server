@@ -1,0 +1,30 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-CTR",
+  "mode": "",
+  "revision": "1.0",
+  "isSample": true,
+  "conformances": [
+    "RFC3686"
+  ],
+  "keyLen": [
+    128,
+    192,
+    256
+  ],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "payloadLen": [
+    {
+      "min": 1,
+      "max": 128,
+      "increment": 1
+    }
+  ],
+  "performCounterTests": true,
+  "overflowCounter": true,
+  "incrementalCounter": true,
+  "ivGenMode": "internal"
+}

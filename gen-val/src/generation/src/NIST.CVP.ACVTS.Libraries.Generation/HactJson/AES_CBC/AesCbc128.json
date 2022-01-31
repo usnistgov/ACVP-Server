@@ -1,0 +1,26 @@
+{
+  "algorithm": "aes-cbc",
+  "keyLen": 128,
+  "encryptParameters": [
+    {
+      "numBlocks": 0
+    },
+    {
+      "numBlocks": 1
+    },
+    {
+      "numBlocks": 8
+    }
+  ],
+  "decryptParameters": [
+    {
+      "numBlocks": 0
+    },
+    {
+      "numBlocks": 1
+    },
+    {
+      "numBlocks": 8
+    }
+  ]
+}

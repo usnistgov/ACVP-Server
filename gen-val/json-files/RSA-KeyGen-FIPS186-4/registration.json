@@ -1,0 +1,71 @@
+{
+  "capabilities": [
+    {
+      "randPQ": "B.3.2",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "SHA2-224"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.3",
+      "properties": [
+        {
+          "modulo": 3072,
+          "primeTest": [
+            "tblC3"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.4",
+      "properties": [
+        {
+          "modulo": 4096,
+          "hashAlg": [
+            "SHA2-512"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.5",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashAlg": [
+            "SHA2-224"
+          ],
+          "primeTest": [
+            "tblC2"
+          ]
+        }
+      ]
+    },
+    {
+      "randPQ": "B.3.6",
+      "properties": [
+        {
+          "modulo": 4096,
+          "primeTest": [
+            "tblC3"
+          ]
+        }
+      ]
+    }
+  ],
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "KeyGen",
+  "revision": "FIPS186-4",
+  "isSample": true,
+  "conformances": [],
+  "infoGeneratedByServer": true,
+  "pubExpMode": "random",
+  "keyFormat": "crt"
+}

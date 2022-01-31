@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	<Version>$(GenValPackageVersion)</Version>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>ACVP Core testing library.  Implementations against this library can be used to generate and validate test vectors against a specific cryptographic algorithm.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="NLog" />
+    <PackageReference Include="Autofac" />
+    <PackageReference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+	<ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+		<ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+		<ProjectReference Include="..\..\..\common\src\NIST.CVP.ACVTS.Libraries.Math\NIST.CVP.ACVTS.Libraries.Math.csproj" />
+		<ProjectReference Include="..\..\..\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto.Common\NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj" />
+		<ProjectReference Include="..\..\..\oracle\src\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\oracle\src\NIST.CVP.ACVTS.Libraries.Crypto.Oracle\NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Math" />
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Common" />
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Oracle.Abstractions" />
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Oracle" />
+	</ItemGroup>
+
+</Project>

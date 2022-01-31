@@ -1,0 +1,18 @@
+{
+  "vsId": 0,
+  "algorithm": "ECDSA",
+  "mode": "KeyGen",
+  "revision": "FIPS186-5",
+  "isSample": true,
+  "conformances": [],
+  "curve": [
+    "P-224",
+    "P-256",
+    "P-384",
+    "P-521"
+  ],
+  "secretGenerationMode": [
+    "testing candidates",
+    "extra bits"
+  ]
+}

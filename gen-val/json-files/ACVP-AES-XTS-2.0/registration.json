@@ -1,0 +1,33 @@
+{
+  "vsId": 0,
+  "algorithm": "ACVP-AES-XTS",
+  "revision": "2.0",
+  "isSample": true,
+  "keyLen": [
+    128,
+    256
+  ],
+  "direction": [
+    "encrypt",
+    "decrypt"
+  ],
+  "payloadLen": [
+    {
+      "min": 128,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "dataUnitLen": [
+    {
+      "min": 128,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "tweakMode": [
+    "hex",
+    "number"
+  ],
+  "dataUnitLenMatchesPayload": false
+}

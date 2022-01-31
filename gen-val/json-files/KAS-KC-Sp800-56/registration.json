@@ -1,0 +1,37 @@
+{
+  "vsId": 0,
+  "algorithm": "KAS-KC",
+  "revision": "Sp800-56",
+  "isSample": true,
+  "kasRole": [
+    "initiator",
+    "responder"
+  ],
+  "keyConfirmationMethod": {
+    "macMethods": {
+      "cmac": {
+        "macType": "CMAC",
+        "keyLen": 256,
+        "macLen": 64
+      },
+      "hmaC-SHA2-224": {
+        "macType": "HMAC-SHA2-224",
+        "keyLen": 256,
+        "macLen": 128
+      },
+      "kmaC-256": {
+        "macType": "KMAC-256",
+        "keyLen": 256,
+        "macLen": 256
+      }
+    },
+    "keyConfirmationDirections": [
+      "bilateral",
+      "unilateral"
+    ],
+    "keyConfirmationRoles": [
+      "provider",
+      "recipient"
+    ]
+  }
+}

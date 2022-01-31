@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+	<Version>$(GenValPackageVersion)</Version>
+  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  <Description>Project contains math based objects for use in the ACVP project.  Namely: BitString, entropy providers, a shuffle queue, and MathDomain.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+	<ItemGroup Condition="$(BuildGenValPackages) == 'false'">
+		<ProjectReference Include="..\NIST.CVP.ACVTS.Libraries.Common\NIST.CVP.ACVTS.Libraries.Common.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="$(BuildGenValPackages) == 'true'">
+		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
+	</ItemGroup>
+
+</Project>

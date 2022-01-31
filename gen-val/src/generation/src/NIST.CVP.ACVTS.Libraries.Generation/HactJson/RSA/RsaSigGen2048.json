@@ -1,0 +1,14 @@
+{
+  "algorithm": "rsa-enc",
+  "primeLen": 2048,
+  "publicKeyLen": 2048,
+  "privateKeyLen": 2048,
+  "encryptParameters": [
+    {
+      "msgLen": 1960
+    },
+    {
+      "msgLen": 8
+    }
+  ]
+}

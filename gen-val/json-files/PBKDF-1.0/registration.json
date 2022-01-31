@@ -1,0 +1,41 @@
+{
+  "vsId": 0,
+  "algorithm": "PBKDF",
+  "revision": "1.0",
+  "isSample": false,
+  "capabilities": [
+    {
+      "iterationCount": [
+        {
+          "min": 1,
+          "max": 10000,
+          "increment": 1
+        }
+      ],
+      "passwordLen": [
+        {
+          "min": 8,
+          "max": 64,
+          "increment": 1
+        }
+      ],
+      "saltLen": [
+        {
+          "min": 128,
+          "max": 512,
+          "increment": 8
+        }
+      ],
+      "keyLen": [
+        {
+          "min": 112,
+          "max": 2048,
+          "increment": 8
+        }
+      ],
+      "hmacAlg": [
+        "SHA2-224"
+      ]
+    }
+  ]
+}
