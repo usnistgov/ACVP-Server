@@ -12,12 +12,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.IntegrationTests.v2_0
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTests : GenValTestsSingleRunnerBase
     {
-        public override string Algorithm { get; } = "ACVP-AES-XTS";
-        public override string Mode { get; } = null;
+        public override string Algorithm => "ACVP-AES-XTS";
+        public override string Mode => null;
         public override string Revision { get; set; } = "2.0";
 
         public override AlgoMode AlgoMode => AlgoMode.AES_XTS_v2_0;
-
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 

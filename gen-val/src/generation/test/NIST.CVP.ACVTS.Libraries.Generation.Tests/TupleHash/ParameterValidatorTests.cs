@@ -147,7 +147,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash
 
             public ParameterBuilder()
             {
-                _algorithm = "TUPLEHASH-128";
+                _algorithm = "TupleHash-128";
                 _digestSize = new List<int> { 128 };
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));

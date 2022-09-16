@@ -307,7 +307,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.Aead
 
                 if (block.BitLength != 128)
                 {
-                    throw new Exception($"\nBlock length is not a mulitple of 128.\nInput: {input.ToHex()}\nKey: {key.ToHex()}\nInitialCtr: {initialCounterBlock.ToHex()}");
+                    throw new Exception($"\nBlock length is not a multiple of 128.\nInput: {input.ToHex()}\nKey: {key.ToHex()}\nInitialCtr: {initialCounterBlock.ToHex()}");
                 }
 
                 var keyStreamBlock = ecb.ProcessPayload
@@ -320,10 +320,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.Aead
                     )
                 );
 
-                var beginOfBlock = block.MSBSubstring(0, 32);
-                var endOfBlock = block.MSBSubstring(32, 96);
-                block = beginOfBlock.BitStringAddition(new BitString("01000000")).ConcatenateBits(endOfBlock).Substring(0, 128);
-
+                var counter = LittleEndianify(LittleEndianify(block.GetMostSignificantBits(32)).BitStringAddition(BitString.One()).GetLeastSignificantBits(32));
+                block = BitString.ConcatenateBits(counter.GetLeastSignificantBits(32), block.GetLeastSignificantBits(96));
+                
                 var inputXor = inputBlock.GetDeepCopy().ConcatenateBits(BitString.Zeroes(keyStreamBlock.Result.BitLength - inputBlock.BitLength));
                 var xor = keyStreamBlock.Result.XOR(inputXor).MSBSubstring(0, inputBlock.BitLength);
                 output = output.ConcatenateBits(xor);

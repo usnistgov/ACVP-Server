@@ -11,7 +11,7 @@
 using global::Orleans;
 
 [assembly: global::Orleans.Metadata.FeaturePopulatorAttribute(typeof(OrleansGeneratedCode.OrleansCodeGenNIST_CVP_ACVTS_Libraries_Orleans_GrainsFeaturePopulator))]
-[assembly: global::Orleans.CodeGeneration.OrleansCodeGenerationTargetAttribute("NIST.CVP.ACVTS.Libraries.Orleans.Grains, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"), global::Orleans.CodeGeneration.OrleansCodeGenerationTargetAttribute("NIST.CVP.ACVTS.Libraries.Crypto, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null")]
+[assembly: global::Orleans.CodeGeneration.OrleansCodeGenerationTargetAttribute("NIST.CVP.ACVTS.Libraries.Orleans.Grains, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"), global::Orleans.CodeGeneration.OrleansCodeGenerationTargetAttribute("NIST.CVP.ACVTS.Libraries.Crypto, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null")]
 namespace OrleansGeneratedCode
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("OrleansCodeGen", "2.0.0.0")]
@@ -105,14 +105,14 @@ namespace OrleansGeneratedCode
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasAftIfcCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasCompleteDeferredAftIfcCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasValIfcCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftHkdfCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepNoCounterCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftTwoStepCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValHkdfCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepNoCounterCaseGrain)));
-            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValTwoStepCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftHkdfCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepNoCounterCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftTwoStepCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValHkdfCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepNoCounterCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValTwoStepCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.ObserverTlsKdfv13Grain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX942KdfCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX963KdfCaseGrain)));
@@ -121,6 +121,7 @@ namespace OrleansGeneratedCode
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverIkeV2KdfCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfCompleteDeferredCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfDeferredCaseGrain)));
+            feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfKmacCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverPbKdfCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSnmpKdfCaseGrain)));
             feature.Classes.Add(new global::Orleans.Metadata.GrainClassMetadata(typeof(global::NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSrtpKdfCaseGrain)));
@@ -241,14 +242,14 @@ namespace OrleansGeneratedCode
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasAftIfcCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasAftIfcCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasCompleteDeferredAftIfcCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasCompleteDeferredAftIfcCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasValIfcCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2.OracleObserverKasValIfcCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftHkdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftHkdfCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepNoCounterCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftOneStepNoCounterCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftTwoStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfAftTwoStepCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValHkdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValHkdfCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepNoCounterCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValOneStepNoCounterCaseGrain");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValTwoStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKasKdfValTwoStepCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftHkdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftHkdfCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepNoCounterCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftOneStepNoCounterCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftTwoStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaAftTwoStepCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValHkdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValHkdfCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepNoCounterCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValOneStepNoCounterCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValTwoStepCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1.ObserverKdaValTwoStepCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.ObserverTlsKdfv13Grain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.ObserverTlsKdfv13Grain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX942KdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX942KdfCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX963KdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverAnsiX963KdfCaseGrain");
@@ -257,6 +258,7 @@ namespace OrleansGeneratedCode
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverIkeV2KdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverIkeV2KdfCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfCompleteDeferredCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfCompleteDeferredCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfDeferredCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfDeferredCaseGrain");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfKmacCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverKdfKmacCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverPbKdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverPbKdfCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSnmpKdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSnmpKdfCaseGrain");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSrtpKdfCaseGrain,NIST.CVP.ACVTS.Libraries.Orleans.Grains", "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf.OracleObserverSrtpKdfCaseGrain");
@@ -354,10 +356,6 @@ namespace OrleansGeneratedCode
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacBase,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacBase");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacFactory,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacFactory");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacTdes,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CMAC.CmacTdes");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKE,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKE");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKEFactory,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKEFactory");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKEWrapper,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKEWrapper");
-            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKE_MCT,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.CSHAKE_MCT");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgBase,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgBase");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgCounterAes,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgCounterAes");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgCounterBase,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.DRBG.DrbgCounterBase");
@@ -525,6 +523,7 @@ namespace OrleansGeneratedCode
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KDF.FeedbackKdf,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KDF.FeedbackKdf");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KDF.KdfBase,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KDF.KdfBase");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KDF.KdfFactory,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KDF.KdfFactory");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KDF.KmacKdf,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KDF.KmacKdf");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KDF.PipelineKdf,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KDF.PipelineKdf");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KES.DiffieHellmanEcc,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KES.DiffieHellmanEcc");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.KES.DiffieHellmanFfc,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.KES.DiffieHellmanFfc");
@@ -693,6 +692,10 @@ namespace OrleansGeneratedCode
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHashFactory,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHashFactory");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHashWrapper,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHashWrapper");
             feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHash_MCT,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.TupleHash_MCT");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKE,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKE");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKEFactory,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKEFactory");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKEWrapper,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKEWrapper");
+            feature.AddKnownType("NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKE_MCT,NIST.CVP.ACVTS.Libraries.Crypto", "NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.cSHAKE_MCT");
         }
     }
 }

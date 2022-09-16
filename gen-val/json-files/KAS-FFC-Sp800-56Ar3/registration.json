@@ -7,7 +7,7 @@
   "scheme": {
     "dhStatic": {
       "scheme": "dhStatic",
-      "underlyingAlgorithm": "Ffc",
+      "underlyingAlgorithm": "FFC",
       "kasRole": [
         "initiator",
         "responder"

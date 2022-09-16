@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PublicExponentModes
     {
+        [EnumMember(Value = "invalid")]
         Invalid,
 
         [EnumMember(Value = "fixed")]

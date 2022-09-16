@@ -1,0 +1,24 @@
+﻿{
+	"ApplicationName": "Gen/Val runner",
+    "EnvironmentConfig": {
+      "Name": "TC"
+    },
+
+    "OrleansConfig": {
+        "OrleansNodeConfig": [
+          {
+            "HostName":  "172.17.42.183",
+            "MaxConcurrentWork" : 6
+          }
+        ],
+        "OrleansSiloPort": 8000,
+        "OrleansGatewayPort": 30000,
+        "ClusterId": "cryptoDist-TC",
+        "MinimumLogLevel": "Warning",
+        "OrleansDashboardPort": 8080,
+        "FallBackMinimumCores": 2,
+        "LoadSheddingCpuThreshold": 0,
+        "MaxWorkItemsToQueuePerGenValInstance": 250,
+        "TimeoutRetryAttempts": 15
+      }
+}

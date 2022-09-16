@@ -3254,7 +3254,7 @@
           "build/netcoreapp1.0/TeamCity.VSTest.TestAdapter.props": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
@@ -3276,12 +3276,12 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "compile": {
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll": {}
@@ -3290,17 +3290,17 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Crypto.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Microsoft.Orleans.Client": "3.4.2",
           "Microsoft.Orleans.Clustering.AdoNet": "3.1.2",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "1.1.1"
         },
         "compile": {
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.dll": {}
@@ -3309,17 +3309,17 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Autofac": "6.1.0",
           "Microsoft.CSharp": "4.7.0",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1",
           "NLog": "4.7.9",
           "Newtonsoft.Json": "13.0.1"
         },
@@ -3330,11 +3330,11 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Generation.Core.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
           "NLog": "4.7.9",
           "Newtonsoft.Json": "13.0.1"
         },
@@ -3345,13 +3345,13 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Math.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "compile": {
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.dll": {}
@@ -3360,13 +3360,13 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
           "Microsoft.Orleans.CodeGenerator.MSBuild": "3.4.2",
           "Microsoft.Orleans.Core.Abstractions": "3.4.2",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1"
         },
         "compile": {
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.dll": {}
@@ -3375,7 +3375,7 @@
           "bin/placeholder/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Tests.Core/1.1.0": {
+      "NIST.CVP.ACVTS.Tests.Core/1.1.1": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
         "dependencies": {
@@ -3575,6 +3575,7 @@
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.rtf",
         "analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll",
         "analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll",
@@ -5053,6 +5054,7 @@
       "path": "microsoft.win32.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5542,6 +5544,7 @@
       "path": "runtime.native.system.io.compression/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -5555,6 +5558,7 @@
       "path": "runtime.native.system.net.http/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -5596,6 +5600,7 @@
       "path": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -5611,6 +5616,7 @@
       "path": "runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -5626,6 +5632,7 @@
       "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
@@ -5665,6 +5672,7 @@
       "path": "system.appcontext/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5748,6 +5756,7 @@
       "path": "system.collections/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5815,6 +5824,7 @@
       "path": "system.collections.concurrent/4.0.12",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5939,11 +5949,12 @@
       ]
     },
     "System.Collections.Specialized/4.3.0": {
-      "sha512": "NoPBj0ykejqAWW4p4gGtrrL+3c84ZLSvGnHgq422ew1Rj4WKj1FA8/BCybqC111EtgcqUl6ZJNFYYS22HLgbjA==",
+      "sha512": "Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
       "type": "package",
       "path": "system.collections.specialized/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5982,6 +5993,7 @@
       "path": "system.componentmodel/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6184,11 +6196,12 @@
       ]
     },
     "System.ComponentModel.Primitives/4.3.0": {
-      "sha512": "KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
+      "sha512": "j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
       "type": "package",
       "path": "system.componentmodel.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6227,6 +6240,7 @@
       "path": "system.componentmodel.typeconverter/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6279,6 +6293,7 @@
       "path": "system.console/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6453,6 +6468,7 @@
       "path": "system.diagnostics.debug/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6685,6 +6701,7 @@
       "path": "system.diagnostics.tools/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6782,6 +6799,7 @@
       "path": "system.diagnostics.tracing/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6871,6 +6889,7 @@
       "path": "system.dynamic.runtime/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -6941,6 +6960,7 @@
       "path": "system.globalization/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7008,6 +7028,7 @@
       "path": "system.globalization.calendars/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7045,6 +7066,7 @@
       "path": "system.globalization.extensions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7085,6 +7107,7 @@
       "path": "system.io/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7165,6 +7188,7 @@
       "path": "system.io.compression/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7235,6 +7259,7 @@
       "path": "system.io.filesystem/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7272,6 +7297,7 @@
       "path": "system.io.filesystem.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7457,6 +7483,7 @@
       "path": "system.linq/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7528,6 +7555,7 @@
       "path": "system.linq.expressions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -7668,6 +7696,7 @@
       "path": "system.linq.queryable/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/monoandroid10/_._",
@@ -7871,6 +7900,7 @@
       "path": "system.net.primitives/4.0.11",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8148,6 +8178,7 @@
       "path": "system.objectmodel/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8217,6 +8248,7 @@
       "path": "system.reflection/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8492,6 +8524,7 @@
       "path": "system.reflection.extensions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8569,6 +8602,7 @@
       "path": "system.reflection.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8625,6 +8659,7 @@
       "path": "system.reflection.typeextensions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8692,6 +8727,7 @@
       "path": "system.resources.resourcemanager/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8840,6 +8876,7 @@
       "path": "system.runtime.extensions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8920,6 +8957,7 @@
       "path": "system.runtime.handles/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8957,6 +8995,7 @@
       "path": "system.runtime.interopservices/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9049,6 +9088,7 @@
       "path": "system.runtime.interopservices.runtimeinformation/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9109,6 +9149,7 @@
       "path": "system.runtime.numerics/4.0.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9165,6 +9206,7 @@
       "path": "system.runtime.serialization.primitives/4.1.1",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9322,6 +9364,7 @@
       "path": "system.security.cryptography.algorithms/4.2.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9361,6 +9404,7 @@
       "path": "system.security.cryptography.cng/4.2.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/System.Security.Cryptography.Cng.dll",
@@ -9388,6 +9432,7 @@
       "path": "system.security.cryptography.csp/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9419,6 +9464,7 @@
       "path": "system.security.cryptography.encoding/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9459,6 +9505,7 @@
       "path": "system.security.cryptography.openssl/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.6/System.Security.Cryptography.OpenSsl.dll",
@@ -9474,6 +9521,7 @@
       "path": "system.security.cryptography.primitives/4.0.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9502,6 +9550,7 @@
       "path": "system.security.cryptography.x509certificates/4.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9670,6 +9719,7 @@
       "path": "system.text.encoding/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9776,6 +9826,7 @@
       "path": "system.text.encoding.extensions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9864,6 +9915,7 @@
       "path": "system.text.regularexpressions/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9947,6 +9999,7 @@
       "path": "system.threading/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10068,6 +10121,7 @@
       "path": "system.threading.tasks/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10370,6 +10424,7 @@
       "path": "system.xml.readerwriter/4.3.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10441,6 +10496,7 @@
       "path": "system.xml.xdocument/4.0.11",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10700,42 +10756,42 @@
         "teamcity.vstest.testadapter.nuspec"
       ]
     },
-    "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
       "type": "project",
       "path": "../../../common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj",
       "msbuildProject": "../../../common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
       "type": "project",
       "path": "../../../crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj",
       "msbuildProject": "../../../crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/NIST.CVP.ACVTS.Libraries.Crypto.Common.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.1": {
       "type": "project",
       "path": "../../../oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj",
       "msbuildProject": "../../../oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.1": {
       "type": "project",
       "path": "../../src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj",
       "msbuildProject": "../../src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
       "type": "project",
       "path": "../../../common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj",
       "msbuildProject": "../../../common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
       "type": "project",
       "path": "../../../oracle/src/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj",
       "msbuildProject": "../../../oracle/src/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj"
     },
-    "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.1": {
       "type": "project",
       "path": "../../../orleans/src/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.csproj",
       "msbuildProject": "../../../orleans/src/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.csproj"
     },
-    "NIST.CVP.ACVTS.Tests.Core/1.1.0": {
+    "NIST.CVP.ACVTS.Tests.Core/1.1.1": {
       "type": "project",
       "path": "../../../common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
       "msbuildProject": "../../../common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj"
@@ -10745,11 +10801,11 @@
     "net5.0": [
       "Microsoft.NET.Test.Sdk >= 16.9.4",
       "Moq >= 4.16.1",
-      "NIST.CVP.ACVTS.Libraries.Common >= 1.1.0",
-      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle >= 1.1.0",
-      "NIST.CVP.ACVTS.Libraries.Generation.Core >= 1.1.0",
-      "NIST.CVP.ACVTS.Libraries.Math >= 1.1.0",
-      "NIST.CVP.ACVTS.Tests.Core >= 1.1.0",
+      "NIST.CVP.ACVTS.Libraries.Common >= 1.1.1",
+      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle >= 1.1.1",
+      "NIST.CVP.ACVTS.Libraries.Generation.Core >= 1.1.1",
+      "NIST.CVP.ACVTS.Libraries.Math >= 1.1.1",
+      "NIST.CVP.ACVTS.Tests.Core >= 1.1.1",
       "NLog >= 4.7.9",
       "NUnit >= 3.13.1",
       "NUnit3TestAdapter >= 3.17.0",
@@ -10758,49 +10814,46 @@
     ]
   },
   "packageFolders": {
-    "/Users/ctc/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "/Users/livebe01/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj",
+      "projectUniqueName": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj",
       "projectName": "NIST.CVP.ACVTS.Libraries.Generation.Core.Tests",
-      "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj",
-      "packagesPath": "/Users/ctc/.nuget/packages/",
-      "outputPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/obj/",
+      "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj",
+      "packagesPath": "/Users/livebe01/.nuget/packages/",
+      "outputPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.Core.Tests/obj/",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
-      "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "/Users/ctc/.nuget/NuGet/NuGet.Config"
+        "/Users/livebe01/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "http://129.6.164.149:8383/httpAuth/app/nuget/feed/_Root/RootNuGetFeed/v3/query": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj": {
-              "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj"
+            "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj": {
+              "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Common/NIST.CVP.ACVTS.Libraries.Common.csproj"
             },
-            "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj": {
-              "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj"
+            "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj": {
+              "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/src/NIST.CVP.ACVTS.Libraries.Math/NIST.CVP.ACVTS.Libraries.Math.csproj"
             },
-            "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {
-              "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj"
+            "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {
+              "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj"
             },
-            "/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj": {
-              "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj"
+            "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj": {
+              "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/NIST.CVP.ACVTS.Libraries.Generation.Core.csproj"
             },
-            "/Users/ctc/Documents/ACVP/genvals/gen-val/src/oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj": {
-              "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj"
+            "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj": {
+              "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/oracle/src/NIST.CVP.ACVTS.Libraries.Crypto.Oracle/NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj"
             }
           }
         }
@@ -10884,17 +10937,17 @@
           "Mighty": "[3.2.0, )",
           "Moq": "[4.16.1, )",
           "Newtonsoft.Json": "[13.0.1, )",
-          "NIST.CVP.ACVTS.Libraries.Common": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Crypto": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Generation": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Generation.Core": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Math": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Orleans.Grains": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "[1.1.0, )",
-          "NIST.CVP.ACVTS.Tests.Core": "[1.1.0, )",
+          "NIST.CVP.ACVTS.Libraries.Common": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Crypto": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Generation": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Generation.Core": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Math": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Orleans.Grains": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "[1.1.1, )",
+          "NIST.CVP.ACVTS.Tests.Core": "[1.1.1, )",
           "NLog": "[4.7.9, )",
           "NUnit": "[3.13.1, )",
           "NUnit.Runners": "[3.12.0, )",
@@ -10930,8 +10983,16 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.300/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.302/RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1507",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "There are 2 package sources defined in your configuration. When using central package management, please map your package sources with package source mapping (https://aka.ms/nuget-package-source-mapping) or specify a single package source."
+    }
+  ]
 }

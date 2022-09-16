@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE
 {
-    public interface ICSHAKEWrapper
+    public interface IcSHAKEWrapper
     {
         BitString HashMessage(BitString message, int digestLength, int capacity, string customization, string functionName);
         BitString HashMessage(BitString message, int digestLength, int capacity);

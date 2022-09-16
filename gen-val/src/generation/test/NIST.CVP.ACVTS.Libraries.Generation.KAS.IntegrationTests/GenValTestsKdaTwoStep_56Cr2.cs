@@ -107,7 +107,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                         MacSaltMethods = new[] { MacSaltMethod.Random, MacSaltMethod.Default },
                         CounterLength = new [] { 32 },
                         SupportedLengths = new MathDomain().AddSegment(new ValueDomainSegment(512)),
-                        MacMode = new [] { MacModes.HMAC_SHA3_224, MacModes.HMAC_SHA512 },
+                        MacMode = new [] { MacModes.HMAC_SHA3_224, MacModes.HMAC_SHA512, MacModes.HMAC_SHA_d512t224 },
                         KdfMode = KdfModes.Feedback,
                         FixedDataOrder = new []{ CounterLocations.AfterFixedData, CounterLocations.BeforeIterator },
                         SupportsEmptyIv = false

@@ -12,7 +12,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KES;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KTS;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.IKEv1;
@@ -64,9 +64,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var rsa = new Rsa(new RsaVisitor());
 
             var kdfVisitor = new KdfVisitor(
-                new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new CSHAKEWrapper())),
+                new KdfOneStepFactory(shaFactory, new HmacFactory(shaFactory), new KmacFactory(new cSHAKEWrapper())),
                 new Crypto.KDF.KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
-                hmacFactory), hmacFactory,
+                hmacFactory, new KmacFactory(new cSHAKEWrapper())), hmacFactory,
                 new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new IkeV1Factory(hmacFactory, shaFactory),
                 new IkeV2Factory(hmacFactory),

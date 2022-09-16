@@ -85,8 +85,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash.ContractResolvers
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
                     Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
-                    Assert.AreEqual(tc.ResultsArray[i].Tuple, newTc.ResultsArray[i].Tuple, "mctTuple");
-                    Assert.AreEqual(tc.ResultsArray[i].Customization, newTc.ResultsArray[i].Customization, "mctCustomization");
                 }
             }
             else

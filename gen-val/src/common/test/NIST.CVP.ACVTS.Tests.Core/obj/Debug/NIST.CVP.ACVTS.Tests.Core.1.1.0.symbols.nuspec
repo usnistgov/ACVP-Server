@@ -22,6 +22,6 @@
     </frameworkReferences>
   </metadata>
   <files>
-    <file src="/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb" />
+    <file src="/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Tests.Core.pdb" />
   </files>
 </package>

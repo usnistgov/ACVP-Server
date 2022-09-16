@@ -1,7 +1,7 @@
-﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE
+﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE
 {
-    public interface ICSHAKEFactory
+    public interface IcSHAKEFactory
     {
-        ICSHAKEWrapper GetCSHAKE(HashFunction hashFunction);
+        IcSHAKEWrapper GetcSHAKE(HashFunction hashFunction);
     }
 }

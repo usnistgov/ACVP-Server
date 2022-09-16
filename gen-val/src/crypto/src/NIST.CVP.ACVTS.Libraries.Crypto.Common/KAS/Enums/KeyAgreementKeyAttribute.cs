@@ -7,6 +7,7 @@
     /// http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar2.pdf
     /// Table 12: Key-agreement schemes
     /// </summary>
+    // TODO Check if we can remove this
     public enum KeyAgreementKeyAttribute
     {
         /// <summary>

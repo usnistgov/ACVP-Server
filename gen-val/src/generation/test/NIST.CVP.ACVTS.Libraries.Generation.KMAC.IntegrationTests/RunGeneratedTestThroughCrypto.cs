@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.TupleHash;
@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.IntegrationTests
                 MessageLength = 256
             });
 
-            var mac = new KmacFactory(new CSHAKEWrapper()).GetKmacInstance(512, xof);
+            var mac = new KmacFactory(new cSHAKEWrapper()).GetKmacInstance(512, xof);
             var directCryptoResult = mac.Generate(
                 resultFromOracle.Key,
                 resultFromOracle.Message,
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.IntegrationTests
                 MessageLength = 256
             });
 
-            var mac = new KmacFactory(new CSHAKEWrapper()).GetKmacInstance(512, xof);
+            var mac = new KmacFactory(new cSHAKEWrapper()).GetKmacInstance(512, xof);
             var directCryptoResult = mac.Generate(
                 resultFromOracle.Key,
                 resultFromOracle.Message,

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
         [SetUp]
         public void Setup()
         {
-            _kmacFactory = new KmacFactory(new CSHAKEWrapper());
+            _kmacFactory = new KmacFactory(new cSHAKEWrapper());
         }
 
         [Test]

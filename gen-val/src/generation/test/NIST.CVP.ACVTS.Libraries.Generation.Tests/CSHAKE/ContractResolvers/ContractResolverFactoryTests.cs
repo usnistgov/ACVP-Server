@@ -1,12 +1,12 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0.ContractResolvers;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE.ContractResolvers
 {
     [TestFixture, UnitTest]
     public class ContractResolverFactoryTests

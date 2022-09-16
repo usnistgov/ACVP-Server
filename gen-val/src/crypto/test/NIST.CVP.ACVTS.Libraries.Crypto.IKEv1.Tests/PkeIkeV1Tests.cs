@@ -44,13 +44,36 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
             "39fb8fc80130d697", "146d7b541affeda0",
             "828ff3f30e2e8ad728c6672278e00ea3a6e015021190d7762f9eab3671b7cc1602a9e26ee351ce62aa3643aeac3599153688fb535afac2b6749ea61f0a0f9ab1", "f5817f8587c93ba1a620cd4ee39507c0dd886080e49cb4e04a2c7c36df5f2580e7805193d1fcf6162dbda708875158c2ea4ff278676d4f3858658569b75222ee", "b30a5133cf8da2fc2a52a4685c7b958464174b8149b568fde8b0f6ab51d3f5decc83589fb39dc520cb919f875ac3a8fd5af4bef934b13da3bfee44cf7dcb2246", "cbabe39b24fc49602908f58dd9b6ec43f60f47c324e76dfe4aff93757202a4dc34c16874978bb5848869e466f92922134a255092d16c3f7cfd8120c455f134fd",
             TestName = "PKE IKEv1 - SHA2-512")]
-        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex)
+        [TestCase(ModeValues.SHA2, DigestSizes.d256,
+            "6405C3F745167350", 
+            "7DAC7E959AC2B762",
+            "6583BD55DCBF332059091B819016F01F88B05E99281331612FAA9E33E03923AD3D51DC87382C9A616F3EB820181D4F3E8B89C6584B30C0C20AF50276A0A25E912900",
+            "5494D2AB78AC6443", 
+            "673DBEABF7539E11",
+            "4F7EB58059FA2C5DBCDD63F46FA68B5773136B4530E4443BFE6675D59EE6EA7D", 
+            "CE4B035BD7FB505832731B2910FB6CD49FC53E623CFDA20A148A71CCC28AF9DC", 
+            "E25A1BCA49C9C1DCCD018B7AF7F944C591199ADE61E5BD58C1E0EB79E3207BE6", 
+            "EC6149B51E69DA3CD66A17D0A0E479E0E124E22E930767DA2FD1414AF4F05EF9", 
+            521,
+            TestName = "PKE IKEv1 - SHA2-256 - non-byte-aligned g^xy, i.e., 521 bit")]
+        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex, int bitLen = -1)
         {
+            // inputs
             var ni = new BitString(niHex);
             var nr = new BitString(nrHex);
-            var gxy = new BitString(gxyHex);
+            BitString gxy;
+            
+            if (bitLen > 0)
+            {
+                gxy = new BitString(gxyHex, bitLen);                
+            }
+            else
+            {
+                gxy = new BitString(gxyHex);
+            }
             var ckyi = new BitString(ckyiHex);
             var ckyr = new BitString(ckyrHex);
+            
             var sKeyId = new BitString(sKeyIdHex);
             var sKeyIdD = new BitString(sKeyIdDHex);
             var sKeyIdA = new BitString(sKeyIdAHex);

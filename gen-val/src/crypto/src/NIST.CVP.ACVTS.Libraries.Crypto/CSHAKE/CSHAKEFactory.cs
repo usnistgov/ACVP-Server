@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE
 {
-    public class CSHAKEFactory : ICSHAKEFactory
+    public class cSHAKEFactory : IcSHAKEFactory
     {
-        public ICSHAKEWrapper GetCSHAKE(HashFunction hashFunction)
+        public IcSHAKEWrapper GetcSHAKE(HashFunction hashFunction)
         {
             var errors = IsValidHashFunction(hashFunction);
             if (!string.IsNullOrEmpty(errors))
@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
                 throw new ArgumentException($"Invalid hash function. {errors}");
             }
 
-            return new CSHAKEWrapper();
+            return new cSHAKEWrapper();
         }
 
         private string IsValidHashFunction(HashFunction hashFunction)

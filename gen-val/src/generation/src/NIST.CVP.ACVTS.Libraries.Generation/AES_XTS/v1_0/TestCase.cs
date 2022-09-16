@@ -9,12 +9,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v1_0
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        
         [JsonIgnore]
         public bool? TestPassed => true;
+        
         [JsonIgnore]
         public bool Deferred { get; set; }
+        
         public TestGroup ParentGroup { get; set; }
-        [JsonIgnore] public XtsKey XtsKey { get; set; }
+        
+        [JsonIgnore] 
+        public XtsKey XtsKey { get; set; }
 
         [JsonProperty(PropertyName = "key")]
         public BitString Key
@@ -22,12 +27,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v1_0
             get => XtsKey?.Key;
             set => XtsKey = new XtsKey(value);
         }
+        
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }
+        
         [JsonProperty(PropertyName = "ct")]
         public BitString CipherText { get; set; }
+        
         [JsonProperty(PropertyName = "tweakValue")]
         public BitString I { get; set; }
+        
         [JsonProperty(PropertyName = "sequenceNumber")]
         public int SequenceNumber { get; set; }
 

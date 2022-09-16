@@ -8,6 +8,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
         /// <summary>
         /// MAC not used
         /// </summary>
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// HMAC - SHA-1

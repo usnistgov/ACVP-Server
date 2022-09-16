@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="/Users/ctc/Documents/ACVP/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb" />
+    <file src="/Users/livebe01/Documents/gitLab/genvals/gen-val/src/crypto/src/NIST.CVP.ACVTS.Libraries.Crypto.Common/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Libraries.Crypto.Common.pdb" />
   </files>
 </package>

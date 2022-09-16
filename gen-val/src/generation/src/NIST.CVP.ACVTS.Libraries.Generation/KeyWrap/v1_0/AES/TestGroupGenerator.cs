@@ -44,22 +44,30 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.v1_0.AES
 
             var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
             var ptLensAvailableToTest = parameters.PayloadLen.GetValues(10).ToList();
-
+            
             List<int> testPtLens = new List<int>();
-            // Get 64 mod values
+            // Get values that aren't aligned w/ AES' 128-bit block size
             testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
                 .Where(
-                    w => w % 64 == 0
-                    && w % 128 != 0
+                    w => w % 128 != 0
+                    && w != minMaxPtLen.Minimum
                     && w != minMaxPtLen.Maximum
                  )
                 .Take(2)
             );
-            // Get 128 mod values
+
+            // Get 128 mod values, i.e., values that are aligned w/ AES' 128-bit block size
             testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
-                .Where(w => w % 128 == 0 && w != minMaxPtLen.Maximum)
+                .Where(
+                    w => w % 128 == 0 
+                         && w != minMaxPtLen.Minimum
+                         && w != minMaxPtLen.Maximum)
                 .Take(2));
-            testPtLens.Add(minMaxPtLen.Maximum);
+            testPtLens.Add(minMaxPtLen.Minimum);
+            if (minMaxPtLen.Maximum != minMaxPtLen.Minimum)
+            {
+                testPtLens.Add(minMaxPtLen.Maximum);    
+            }
 
             foreach (var direction in parameters.Direction)
             {

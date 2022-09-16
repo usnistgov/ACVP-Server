@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorFactoryTests

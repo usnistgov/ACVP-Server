@@ -44,6 +44,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
                 return await CompleteDeferredKdfCaseAsync(param, fullParam);
             }
         }
+        
+        public async Task<KdfKmacResult> GetKdfKmacCaseAsync(KdfKmacParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverKdfKmacCaseGrain, KdfKmacResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetKdfKmacCaseAsync(param);
+            }
+        }
 
         public async Task<AnsiX963KdfResult> GetAnsiX963KdfCaseAsync(AnsiX963Parameters param)
         {

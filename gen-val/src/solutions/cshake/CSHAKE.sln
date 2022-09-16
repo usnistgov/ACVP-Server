@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ACVTS.Libraries.Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ACVTS.Tests.Core", "..\..\common\test\NIST.CVP.ACVTS.Tests.Core\NIST.CVP.ACVTS.Tests.Core.csproj", "{949E7E16-5CF9-41D3-A87C-F8EB584A13AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests\NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests.csproj", "{631938A0-3BDE-4397-950D-4680A497F8F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests\NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests.csproj", "{631938A0-3BDE-4397-950D-4680A497F8F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NIST.CVP.ACVTS.Libraries.Crypto.Oracle", "..\..\oracle\src\NIST.CVP.ACVTS.Libraries.Crypto.Oracle\NIST.CVP.ACVTS.Libraries.Crypto.Oracle.csproj", "{EDFCA818-30EC-40FD-8578-4DA9C3570C15}"
 EndProject
@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation", "..\..\generation\src\NIST.CVP.ACVTS.Libraries.Generation\NIST.CVP.ACVTS.Libraries.Generation.csproj", "{711DAE6D-AB3A-49DE-BBA0-479F94592CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests.csproj", "{8C9436A4-8776-4B0F-A6F6-44FE149CF761}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests.csproj", "{8C9436A4-8776-4B0F-A6F6-44FE149CF761}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests.csproj", "{54212454-2E47-4677-A67F-1E434C42BC7C}"
 EndProject

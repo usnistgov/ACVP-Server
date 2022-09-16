@@ -1,14 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "ntEfbUXdT6avhEnwxHWfxbkSOcADNOjj6Q7/USpcQ+pa9NNeK2y9xiHeb+z1wIKE3+f5GDiuLKjMmjMFqR3Rmg==",
+  "dgSpecHash": "u8FrYoVKoPdWaG9Hp4iXJ7rmQQzDdErj65gecKnJDnjN4zcRSEc08dyf5inKFjtVj335AhkOh6e4bjkEFjePDg==",
   "success": true,
-  "projectFilePath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
+  "projectFilePath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
   "expectedPackageFiles": [
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "/Users/ctc/.nuget/packages/netstandard.library/2.0.0/netstandard.library.2.0.0.nupkg.sha512",
-    "/Users/ctc/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
-    "/Users/ctc/.nuget/packages/nlog/4.7.9/nlog.4.7.9.nupkg.sha512",
-    "/Users/ctc/.nuget/packages/nunit/3.13.1/nunit.3.13.1.nupkg.sha512"
+    "/Users/livebe01/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/livebe01/.nuget/packages/netstandard.library/2.0.0/netstandard.library.2.0.0.nupkg.sha512",
+    "/Users/livebe01/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/livebe01/.nuget/packages/nlog/4.7.9/nlog.4.7.9.nupkg.sha512",
+    "/Users/livebe01/.nuget/packages/nunit/3.13.1/nunit.3.13.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1507",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "There are 2 package sources defined in your configuration. When using central package management, please map your package sources with package source mapping (https://aka.ms/nuget-package-source-mapping) or specify a single package source."
+    }
+  ]
 }

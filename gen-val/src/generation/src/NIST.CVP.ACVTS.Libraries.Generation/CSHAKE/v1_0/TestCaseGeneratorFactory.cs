@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {

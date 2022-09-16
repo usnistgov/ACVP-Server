@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
@@ -19,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
         private readonly IOracle _oracle;
         private ShuffleQueue<(int dataUnitLength, int payloadLength)> _payloadLen;
 
-        public int NumberOfTestCasesToGenerate { get; private set; }
+        public int NumberOfTestCasesToGenerate => 50;
 
         public TestCaseGeneratorMultipleDataUnit(IOracle oracle)
         {
@@ -28,23 +29,25 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            // 4096 is a bit arbitrary, but should allow for multiple data units to exist within the payload.
+            // 1024 is a bit arbitrary, but should allow for multiple data units to exist within the payload.
 
+            // Pick a bunch of payload length values
+            var payloadLenDomain = group.PayloadLen.GetDeepCopy();
+            payloadLenDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+
+            var payloadLengths = payloadLenDomain.GetValues(_ => true, 5000, true).ToArray();
+            
             // Pick a bunch of low data unit length values
             var dataUnitDomain = group.DataUnitLen.GetDeepCopy();
             dataUnitDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
-            var dataUnitLengths = dataUnitDomain.GetValues(x => x <= 1024, 50, true);
+            // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
+            var dataUnitLengths = payloadLengths.Select(p => dataUnitDomain.GetValues(du => (du <= p) && (p % du >= 128), 1, true).FirstOrDefault()).ToList();
 
-            // Pick a bunch of high payload length values
-            var payloadLenDomain = group.PayloadLen.GetDeepCopy();
-            payloadLenDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
-            var payloadLengths = payloadLenDomain.GetValues(x => x > 1024, 50, true);
-
-            var lengthTuple = dataUnitLengths.Zip(payloadLengths, (x, y) => (x, y)).ToList();
+            // Build tuple of (dataUnitLength, payloadLength) and remove any where the dataUnitLength is the default (i.e. where a valid test case could not be found)
+            var lengthTuple = dataUnitLengths.Zip(payloadLengths, (x, y) => (x, y)).Take(50).ToList();
+            lengthTuple.RemoveAll(tuple => tuple.x == default);
             _payloadLen = new ShuffleQueue<(int dataUnitLength, int payloadLength)>(lengthTuple);
-            NumberOfTestCasesToGenerate = lengthTuple.Count;
 
             return new GenerateResponse();
         }

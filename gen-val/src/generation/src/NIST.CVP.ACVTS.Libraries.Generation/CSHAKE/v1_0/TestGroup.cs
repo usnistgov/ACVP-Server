@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
@@ -30,6 +30,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
         [JsonProperty(PropertyName = "maxOutLen")]
         public int MaxOutputLength => OutputLength.GetDomainMinMax().Maximum;
 
+        [JsonProperty(PropertyName = "outLenIncrement")]
+        public int OutLenIncrement => OutputLength.GetDomainMinMax().Increment;
+        
         [JsonIgnore]
         public MathDomain MessageLength { get; set; }
 

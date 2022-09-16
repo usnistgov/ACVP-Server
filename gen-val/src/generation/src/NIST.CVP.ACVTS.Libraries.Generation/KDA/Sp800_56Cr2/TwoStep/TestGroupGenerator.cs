@@ -142,27 +142,47 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                                         case MacModes.CMAC_TDES:
                                             continue;
                                         case MacModes.HMAC_SHA1:
-                                            saltLen = 160;
+                                            saltLen = 512;
                                             ivLen = 160;
                                             break;
                                         case MacModes.HMAC_SHA224:
+                                            saltLen = 512;
+                                            ivLen = 224;
+                                            break;
+                                        case MacModes.HMAC_SHA_d512t224:
+                                            saltLen = 1024;
+                                            ivLen = 224;
+                                            break;
                                         case MacModes.HMAC_SHA3_224:
-                                            saltLen = 224;
+                                            saltLen = 1152;
                                             ivLen = 224;
                                             break;
                                         case MacModes.HMAC_SHA256:
+                                            saltLen = 512;
+                                            ivLen = 256;
+                                            break;
+                                        case MacModes.HMAC_SHA_d512t256:
+                                            saltLen = 1024;
+                                            ivLen = 256;
+                                            break;
                                         case MacModes.HMAC_SHA3_256:
-                                            saltLen = 256;
+                                            saltLen = 1088;
                                             ivLen = 256;
                                             break;
                                         case MacModes.HMAC_SHA384:
+                                            saltLen = 1024;
+                                            ivLen = 384;
+                                            break;
                                         case MacModes.HMAC_SHA3_384:
-                                            saltLen = 384;
+                                            saltLen = 832;
                                             ivLen = 384;
                                             break;
                                         case MacModes.HMAC_SHA512:
+                                            saltLen = 1024;
+                                            ivLen = 512;
+                                            break;
                                         case MacModes.HMAC_SHA3_512:
-                                            saltLen = 512;
+                                            saltLen = 576;
                                             ivLen = 512;
                                             break;
                                     }

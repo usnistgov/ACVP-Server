@@ -1,12 +1,9 @@
 {
   "vsId": 0,
-  "algorithm": "CSHAKE-256",
+  "algorithm": "cSHAKE-256",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],
-  "digestSize": [
-    256
-  ],
   "hexCustomization": false,
   "outputLen": [
     {

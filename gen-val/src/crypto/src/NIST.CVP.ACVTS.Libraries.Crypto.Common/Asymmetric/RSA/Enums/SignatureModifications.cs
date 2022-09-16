@@ -4,7 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum SignatureModifications
     {
-        [EnumMember(Value = "No modification")]
+        [EnumMember(Value = "No modification, i.e., \"testPassed\": true expected")]
         None,
 
         [EnumMember(Value = "Key modified")]

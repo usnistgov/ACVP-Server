@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
         [TestCase(127)]
         [TestCase(512)]
         [TestCase(null)]
-        public void ShouldRejectBadCSHAKEDigestSize(int number)
+        public void ShouldRejectBadcSHAKEDigestSize(int number)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
@@ -166,7 +166,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
 
             public ParameterBuilder()
             {
-                _algorithm = "PARALLELHASH-128";
+                _algorithm = "ParallelHash-128";
                 _digestSize = new int[] { 128, 256 };
                 _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));
                 _outputLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 16, 65536));

@@ -9,7 +9,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.IKEv1;
@@ -42,12 +42,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
         {
             _shaFactory = new NativeShaFactory();
             IHmacFactory hmacFactory = new HmacFactory(_shaFactory);
-            IKmacFactory kmacFactory = new KmacFactory(new CSHAKEWrapper());
+            IKmacFactory kmacFactory = new KmacFactory(new cSHAKEWrapper());
             ICmacFactory cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
 
             _kdfVisitor = new KdfVisitor(
                 new KdfOneStepFactory(_shaFactory, hmacFactory, kmacFactory),
-                new KdfFactory(cmacFactory, hmacFactory),
+                new KdfFactory(cmacFactory, hmacFactory, kmacFactory),
                 hmacFactory,
                 cmacFactory,
                 new IkeV1Factory(hmacFactory, _shaFactory),

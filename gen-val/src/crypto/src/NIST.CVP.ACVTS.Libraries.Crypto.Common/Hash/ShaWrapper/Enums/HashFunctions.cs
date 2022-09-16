@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums
 {
     public enum HashFunctions
     {
+        [EnumMember(Value = "none")]
         None,
         [EnumMember(Value = "SHA-1")]
         Sha1,

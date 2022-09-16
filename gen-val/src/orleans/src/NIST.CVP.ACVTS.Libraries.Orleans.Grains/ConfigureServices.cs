@@ -27,7 +27,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.ConditioningComponents;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.TupleHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS;
@@ -66,7 +66,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.CTR;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.KeyWrap;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.MonteCarlo;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.DRBG;
 using NIST.CVP.ACVTS.Libraries.Crypto.DRBG.ConditioningComponents;
 using NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC;
@@ -290,14 +290,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddSingleton<IPQGeneratorValidatorFactory, PQGeneratorValidatorFactory>();
             svc.AddSingleton<IGGeneratorValidatorFactory, GGeneratorValidatorFactory>();
 
-            svc.AddTransient<ICSHAKE, CSHAKE>();
-            svc.AddTransient<ICSHAKE_MCT, CSHAKE_MCT>();
+            svc.AddTransient<IcSHAKE, cSHAKE>();
+            svc.AddTransient<IcSHAKE_MCT, cSHAKE_MCT>();
 
             svc.AddTransient<ITupleHash, TupleHash>();
             svc.AddTransient<ITupleHash_MCT, TupleHash_MCT>();
 
             svc.AddTransient<IKmacFactory, KmacFactory>();
-            svc.AddTransient<ICSHAKEWrapper, CSHAKEWrapper>();
+            svc.AddTransient<IcSHAKEWrapper, cSHAKEWrapper>();
 
             svc.AddTransient<IParallelHash, ParallelHash>();
             svc.AddTransient<IParallelHash_MCT, ParallelHash_MCT>();

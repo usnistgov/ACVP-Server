@@ -7,7 +7,7 @@
   "scheme": {
     "onePassUnified": {
       "scheme": "onePassUnified",
-      "underlyingAlgorithm": "Ecc",
+      "underlyingAlgorithm": "ECC",
       "kasRole": [
         "initiator",
         "responder"

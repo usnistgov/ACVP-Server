@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
     public enum KdaOneStepAuxFunction
     {
+        [EnumMember(Value = "none")]
         None,
         [EnumMember(Value = "SHA-1")]
         SHA1,

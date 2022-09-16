@@ -9,7 +9,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Builders;
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
                     _dsaFactory.Object,
                     _curveFactory,
                     new KdfOneStepFactory(
-                        new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new CSHAKEWrapper())
+                        new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),
                     new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator()),

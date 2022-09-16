@@ -49,14 +49,34 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
             "6c",
             "a7265170ff642c28c1cdf8121f2d1c9c6ddb48bb15675e5a5caaae175f1bcebbe94082c767ba94b1fd04ad96cc307bec2f42d5d7ed8b5d2f01b916d8d37cb436", "60c27245e6925e6f2c0abce1a175bb9f1d404898260e9e4d5d9308ea7bf2b3595c34621287a9037919264d6a7c80b8b337e0ab007c35712d0c407a4e385cd1b1", "dcd0bb2cb122e492a2ba6017cd25d8d6b000624d28969062236e683511ee45ea42e8591f06f8c7bda535c49f57e73c658dc37ed66d891fda33ce6f0c794caccf", "2398acdb0a0553542a0fedbef70e04495ed9edae8c3c60546409e1bb0ecb547e54c070d23b1c9226ac9d1f30eccdfb2c4f6462788b4b407148f44df58f8f2629",
             TestName = "PSK IKEv1 - SHA2-512")]
-        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string pskHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex)
+        [TestCase(ModeValues.SHA2, DigestSizes.d256,
+            "C20DC0A4313F669C352923AE5D4598889E1DB13A43769F468894707F1820165C3A4E60A187DBDE4B97F43D5A12B89F950D4AB1F93FB43F62AF487FCF4B3E50728376273D1AE6131016B0AE82994E8EC863BBBDA8529992614B7B479B2BF4FC467696E8E18103508AF2C492D1C0", 
+            "2D9339CA478A8DE7",
+            "251A9908FCE5981EA0F8FD429ABE747D52630B99B9BCA4D28C96D0E7EBED4E6B555BFFCE0982CCE0C992575CDCAEFD23C194AC18759B0124E9228BC9466230F7D580",
+            "036A76C21BEB30BF", 
+            "B4E22FC46B23FCF6",
+            "F910BD109AD4D43C96BAE73341CAA98D5127429523ED8CD0F0AD9A94AF43CAC5153B7F845AD56E0C69F853C72BFA06C05766110289378D769519E608E13C34EA82132D468AFEF56029CDCCB16423E8D8B47DD0E42C4CD642820883503799D834A9B7E912D2BB3C264C3F4F617A118118681DA0B970DEA06D260003C727439F792D46C0E53C52F4573743C2CEB9FE4287D1AA93D711057D6A9B2567C71273680F0E075FBC9750C4FDF2B1BEEE493D908DC716389150AD808B055834014EE908F4300C0C4A8A0B9C0A3DE484919082C4CF26B4B01B679A1B1A53E9C8355B00E077434F710C0CB9427933A02D6DC9D274CD8F8F00315E4A43A1181903CC82D1AA69504C62054E525C28E60E67AB3D353355B64B05076832C3A752BF6068E028879B4D68A2FB282B16",
+            "DD3F9FD1B488130872D093D3FBF0122C32004532DDA8A8B500D2922079432A61", "BBAFDB77319929513B28580A8355CFAE881433140EEC0B2FD560C12BA22A0685", "25437281D5E8E9423142626CCE385216D994D42159A00F527442310F9736A2F0", "6FBF5270AADC916526A73362B39C91DA2969E96367CCB9AFAFFF1E0A24D8677A", 521,
+            TestName = "PSK IKEv1 - SHA2-256 - non-byte-aligned g^xy, i.e., 521 bit")]
+        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string pskHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex, int bitLen = -1)
         {
+            // inputs
             var ni = new BitString(niHex);
             var nr = new BitString(nrHex);
-            var gxy = new BitString(gxyHex);
+            BitString gxy;
+            
+            if (bitLen > 0)
+            {
+                gxy = new BitString(gxyHex, bitLen);                
+            }
+            else
+            {
+                gxy = new BitString(gxyHex);
+            }
             var ckyi = new BitString(ckyiHex);
             var ckyr = new BitString(ckyrHex);
             var psk = new BitString(pskHex);
+            
             var sKeyId = new BitString(sKeyIdHex);
             var sKeyIdD = new BitString(sKeyIdDHex);
             var sKeyIdA = new BitString(sKeyIdAHex);
@@ -66,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
             var subject = _factory.GetIkeV1Instance(AuthenticationMethods.Psk, hash);
 
             var result = subject.GenerateIke(ni, nr, gxy, ckyi, ckyr, psk);
-
+            
             Assert.IsTrue(result.Success);
             Assert.AreEqual(sKeyId, result.SKeyId, "sKeyId");
             Assert.AreEqual(sKeyIdD, result.SKeyIdD, "sKeyIdD");

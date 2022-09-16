@@ -24,7 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.v1_0.ContractResolver
                 nameof(TestGroup.MinOutputLength),
                 nameof(TestGroup.MaxOutputLength),
                 nameof(TestGroup.MinBlockSize),
-                nameof(TestGroup.MaxBlockSize)
+                nameof(TestGroup.MaxBlockSize),
+                nameof(TestGroup.OutLenIncrement)
             };
 
             if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

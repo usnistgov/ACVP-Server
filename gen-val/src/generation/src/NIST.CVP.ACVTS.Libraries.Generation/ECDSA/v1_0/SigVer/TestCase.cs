@@ -31,6 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         private int ExactBitLengthOrderN => ParentGroup == null ? 0 : CurveAttributesHelper.GetCurveAttribute(ParentGroup.Curve).ExactBitLengthOrderN;
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
+        
         [JsonProperty(PropertyName = "d", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString D
         {
@@ -53,16 +54,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         }
 
         [JsonIgnore] public EccSignature Signature { get; set; } = new EccSignature();
+        
         [JsonProperty(PropertyName = "r", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString R
         {
-            get => Signature.R != 0 ? new BitString(Signature.R, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            get => new BitString(Signature.R, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE);
+            //get => Signature.R != 0 ? new BitString(Signature.R, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
             set => Signature.R = value.ToPositiveBigInteger();
         }
+        
         [JsonProperty(PropertyName = "s", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public BitString S
         {
-            get => Signature.S != 0 ? new BitString(Signature.S, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
+            get => new BitString(Signature.S, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE);
+            //get => Signature.S != 0 ? new BitString(Signature.S, ExactBitLengthOrderN).PadToModulusMsb(BitString.BITSINBYTE) : null;
             set => Signature.S = value.ToPositiveBigInteger();
         }
 

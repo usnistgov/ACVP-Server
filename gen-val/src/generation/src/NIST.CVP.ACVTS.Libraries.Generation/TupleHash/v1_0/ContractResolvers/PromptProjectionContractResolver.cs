@@ -22,7 +22,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0.ContractResolvers
             var mctProperties = new[]
             {
                 nameof(TestGroup.MinOutputLength),
-                nameof(TestGroup.MaxOutputLength)
+                nameof(TestGroup.MaxOutputLength),
+                nameof(TestGroup.OutLenIncrement)
             };
 
             if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

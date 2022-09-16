@@ -1,8 +1,8 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE
 {
-    public interface ICSHAKE
+    public interface IcSHAKE
     {
         HashResult HashMessage(HashFunction hashFunction, BitString message, string customization, string functionName = "");
         HashResult HashMessage(HashFunction hashFunction, BitString message, BitString customization, string functionName = "");

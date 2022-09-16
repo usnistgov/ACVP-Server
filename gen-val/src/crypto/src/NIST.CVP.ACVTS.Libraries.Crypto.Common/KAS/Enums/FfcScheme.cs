@@ -5,6 +5,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
     public enum FfcScheme
     {
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// C(2e, 2s, FFC DH)

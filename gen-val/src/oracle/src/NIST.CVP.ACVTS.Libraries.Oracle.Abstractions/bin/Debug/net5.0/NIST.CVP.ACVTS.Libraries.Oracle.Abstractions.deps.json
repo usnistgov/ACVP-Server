@@ -6,11 +6,11 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v5.0": {
-      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.dll": {}
@@ -312,7 +312,7 @@
         }
       },
       "System.Security.Principal.Windows/4.7.0": {},
-      "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
         "dependencies": {
           "Autofac": "6.1.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
@@ -329,18 +329,18 @@
           "NIST.CVP.ACVTS.Libraries.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Crypto.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
           "NLog": "4.7.9",
           "Newtonsoft.Json": "13.0.1"
         },
@@ -351,7 +351,7 @@
     }
   },
   "libraries": {
-    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -566,17 +566,17 @@
       "path": "system.security.principal.windows/4.7.0",
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
     },
-    "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
     {

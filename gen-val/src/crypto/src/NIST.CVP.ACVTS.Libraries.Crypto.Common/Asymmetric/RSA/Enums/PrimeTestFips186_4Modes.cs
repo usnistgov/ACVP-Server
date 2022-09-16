@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrimeTestFips186_4Modes
     {
+        [EnumMember(Value = "invalid")]
         Invalid,
 
         [EnumMember(Value = "tblC2")]

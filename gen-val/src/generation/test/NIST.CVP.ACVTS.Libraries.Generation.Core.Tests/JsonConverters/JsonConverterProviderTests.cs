@@ -40,6 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
         }
         #endregion FakeJsonConverterProvider
 
+        [Test]
         public void ShouldContainConvertersByDefault()
         {
             _subject = new JsonConverterProvider();
@@ -49,6 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
             Assert.IsTrue(result.Any());
         }
 
+        [Test]
         public void ShouldAllowAdditionalConvertersThroughExtension()
         {
             _subject = new JsonConverterProvider();

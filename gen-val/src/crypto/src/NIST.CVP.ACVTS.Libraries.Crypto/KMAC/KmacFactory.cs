@@ -1,20 +1,20 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC
 {
     public class KmacFactory : IKmacFactory
     {
-        private readonly ICSHAKEWrapper _iCSHAKEWrapper;
+        private readonly IcSHAKEWrapper _icSHAKEWrapper;
 
-        public KmacFactory(ICSHAKEWrapper iCSHAKEWrapper)
+        public KmacFactory(IcSHAKEWrapper icSHAKEWrapper)
         {
-            _iCSHAKEWrapper = iCSHAKEWrapper;
+            _icSHAKEWrapper = icSHAKEWrapper;
         }
 
         public IKmac GetKmacInstance(int capacity, bool xof)
         {
-            return new Kmac(_iCSHAKEWrapper, capacity, xof);
+            return new Kmac(_icSHAKEWrapper, capacity, xof);
         }
     }
 }

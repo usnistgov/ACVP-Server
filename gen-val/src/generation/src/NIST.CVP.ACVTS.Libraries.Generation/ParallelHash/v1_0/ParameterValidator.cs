@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = { "PARALLELHASH-128", "PARALLELHASH-256" };
+        public static string[] VALID_ALGORITHMS = { "ParallelHash-128", "ParallelHash-256" };
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;

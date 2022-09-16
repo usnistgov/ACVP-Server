@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Engines;
@@ -35,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
 
             var testDir = new DirectoryInfo(_testPath);
             var parser = new LegacyResponseFileParser();
-            var algoFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()));
+            var algoFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
 
             var count = 0;
             foreach (var testFilePath in testDir.EnumerateFiles())

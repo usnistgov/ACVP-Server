@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -124,7 +125,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0
                 return KasAssurance.None;
             }
 
-            var flags = functions.Select(s => (KasAssurance)Enum.Parse(typeof(KasAssurance), s, true));
+            var flags = functions.Select(s => EnumHelpers.GetEnumFromEnumDescription<KasAssurance>(s));
+            //var flags = functions.Select(s => (KasAssurance)Enum.Parse(typeof(KasAssurance), s));
 
             KasAssurance assurance = KasAssurance.None;
             foreach (var flag in flags)

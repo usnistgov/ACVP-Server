@@ -26,5 +26,10 @@
     <PackageReference Include="NIST.CVP.ACVTS.Libraries.Crypto.Oracle" />
     <PackageReference Include="NIST.CVP.ACVTS.Libraries.Generation.Core" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KDF\SP800-108r1\Counter" />
+    <Folder Include="KDF\SP800-108r1\DoublePipelineIterator" />
+    <Folder Include="KDF\SP800-108r1\Feedback" />
+  </ItemGroup>
 
 </Project>

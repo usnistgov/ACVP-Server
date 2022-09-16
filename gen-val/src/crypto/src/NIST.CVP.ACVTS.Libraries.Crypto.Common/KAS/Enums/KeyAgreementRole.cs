@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
@@ -11,6 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
         /// <summary>
         /// No Key Agreement Role was set (invalid)
         /// </summary>
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// The initiator, aka party U

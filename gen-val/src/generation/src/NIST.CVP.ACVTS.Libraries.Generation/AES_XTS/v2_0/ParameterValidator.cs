@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
+using Orleans;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 {
@@ -34,6 +36,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
             if (!parameters.DataUnitLenMatchesPayload)
             {
                 ValidateDomain(parameters.DataUnitLen, errorResults, nameof(parameters.DataUnitLen));
+                
+                // Avoid improper values going into the next step of logic by ejecting on this error
+                if (errorResults.Count != 0)
+                {
+                    return new ParameterValidateResponse(errorResults);
+                }
+                
+                // Need to check that a valid DataUnitLen and PayloadLen pair exist for the multi-data-unit tests
+                if (!CheckValidTestCases(parameters.PayloadLen.GetDeepCopy(), parameters.DataUnitLen.GetDeepCopy()))
+                {
+                    errorResults.Add($"Unable to build test cases where multiple data units fit within one payload; this may be because the {nameof(parameters.DataUnitLen)} and {nameof(parameters.PayloadLen)} are overly restrictive");   
+                }
             }
             else
             {
@@ -65,6 +79,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
             {
                 errorResults.Add($"{friendlyName} maximum must be at most {MAXIMUM_PT_LEN}");
             }
+        }
+
+        private bool CheckValidTestCases(MathDomain payloadLen, MathDomain dataUnitLen)
+        {
+            dataUnitLen.SetRangeOptions(RangeDomainSegmentOptions.Sequential);
+            payloadLen.SetRangeOptions(RangeDomainSegmentOptions.Sequential);
+            var payloadLengths = payloadLen.GetValues(_ => true, 65536, false).Distinct();
+            
+            // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
+            return payloadLengths.Any(p => dataUnitLen.GetValues(du => (du <= p) && (p % du >= 128), 1, true).Any());
         }
     }
 }

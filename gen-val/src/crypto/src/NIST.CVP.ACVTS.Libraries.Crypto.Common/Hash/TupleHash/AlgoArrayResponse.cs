@@ -6,7 +6,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.TupleHash
 {
     public class AlgoArrayResponse
     {
+        [JsonIgnore]
         public List<BitString> Tuple { get; set; }
+        [JsonIgnore]
         public string Customization { get; set; }
 
         [JsonProperty(PropertyName = "md")]

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {

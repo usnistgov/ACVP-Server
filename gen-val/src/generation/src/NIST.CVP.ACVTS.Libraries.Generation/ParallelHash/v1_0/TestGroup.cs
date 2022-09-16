@@ -40,6 +40,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.v1_0
         [JsonProperty(PropertyName = "maxOutLen")]
         public int MaxOutputLength => OutputLength.GetDomainMinMax().Maximum;
 
+        [JsonProperty(PropertyName = "outLenIncrement")]
+        public int OutLenIncrement => OutputLength.GetDomainMinMax().Increment;
+        
         [JsonIgnore]
         public MathDomain MessageLength { get; set; }
 

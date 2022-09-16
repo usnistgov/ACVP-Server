@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = { "TUPLEHASH-128", "TUPLEHASH-256" };
+        public static string[] VALID_ALGORITHMS = { "TupleHash-128", "TupleHash-256" };
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;

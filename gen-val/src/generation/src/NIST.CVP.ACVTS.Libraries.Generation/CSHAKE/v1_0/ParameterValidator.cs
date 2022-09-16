@@ -5,11 +5,11 @@ using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_ALGORITHMS = { "CSHAKE-128", "CSHAKE-256" };
+        public static string[] VALID_ALGORITHMS = { "cSHAKE-128", "cSHAKE-256" };
         public static int[] VALID_DIGEST_SIZES = { 128, 256 };
 
         public static int VALID_MIN_OUTPUT_SIZE = 16;
@@ -32,10 +32,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
                 var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
                 switch (algoMode)
                 {
-                    case AlgoMode.CSHAKE_128_v1_0:
+                    case AlgoMode.cSHAKE_128_v1_0:
                         parameters.DigestSizes.Add(128);
                         break;
-                    case AlgoMode.CSHAKE_256_v1_0:
+                    case AlgoMode.cSHAKE_256_v1_0:
                         parameters.DigestSizes.Add(256);
                         break;
 

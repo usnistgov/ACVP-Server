@@ -3,7 +3,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Builders.Ffc;
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 new SchemeBuilderFfc(
                     _dsaFactory.Object,
                     new KdfOneStepFactory(
-                        new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new CSHAKEWrapper())
+                        new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper())
                     ),
                     new KeyConfirmationFactory(new KeyConfirmationMacDataCreator()),
                     new NoKeyConfirmationFactory(new NoKeyConfirmationMacDataCreator()),

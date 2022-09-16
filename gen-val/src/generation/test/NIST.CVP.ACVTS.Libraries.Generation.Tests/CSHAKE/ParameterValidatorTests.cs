@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 {
     [TestFixture, UnitTest]
     public class ParameterValidatorTests
@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
         [TestCase(127)]
         [TestCase(512)]
         [TestCase(null)]
-        public void ShouldRejectBadCSHAKEDigestSize(int number)
+        public void ShouldRejectBadcSHAKEDigestSize(int number)
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(
@@ -149,7 +149,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
 
             public ParameterBuilder()
             {
-                _algorithm = "CSHAKE-128";
+                _algorithm = "cSHAKE-128";
                 _digestSize = new List<int>() { 128 };
                 _hexCustomization = false;
                 _outputLength = new MathDomain();

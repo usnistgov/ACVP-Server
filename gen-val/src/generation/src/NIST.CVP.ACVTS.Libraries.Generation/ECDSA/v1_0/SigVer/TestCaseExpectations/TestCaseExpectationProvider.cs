@@ -22,6 +22,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer.TestCaseExpectat
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyKey));
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyR));
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyS));
+                expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ZeroR));
+                expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ZeroS));
             }
             else
             {
@@ -30,6 +32,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer.TestCaseExpectat
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyKey), 3);
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyR), 3);
                 expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ModifyS), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ZeroR), 3);
+                expectationReasons.Add(new TestCaseExpectationReason(EcdsaSignatureDisposition.ZeroS), 3);
             }
 
             _expectationReasons = new ConcurrentQueue<TestCaseExpectationReason>(expectationReasons.Shuffle());

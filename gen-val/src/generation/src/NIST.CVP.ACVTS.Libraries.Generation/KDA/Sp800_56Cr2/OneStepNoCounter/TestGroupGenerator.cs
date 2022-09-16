@@ -57,25 +57,31 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter
             switch (auxFunction.AuxFunctionName)
             {
                 case KdaOneStepAuxFunction.HMAC_SHA1:
-                    return 160;
-                case KdaOneStepAuxFunction.HMAC_SHA2_D224:
-                case KdaOneStepAuxFunction.HMAC_SHA2_D512_T224:
-                case KdaOneStepAuxFunction.HMAC_SHA3_D224:
-                    return 224;
-                case KdaOneStepAuxFunction.HMAC_SHA2_D256:
-                case KdaOneStepAuxFunction.HMAC_SHA2_D512_T256:
-                case KdaOneStepAuxFunction.HMAC_SHA3_D256:
-                    return 256;
-                case KdaOneStepAuxFunction.HMAC_SHA2_D384:
-                case KdaOneStepAuxFunction.HMAC_SHA3_D384:
-                    return 384;
-                case KdaOneStepAuxFunction.HMAC_SHA2_D512:
-                case KdaOneStepAuxFunction.HMAC_SHA3_D512:
                     return 512;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D224:
+                    return 512;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D512_T224:
+                    return 1024;
+                case KdaOneStepAuxFunction.HMAC_SHA3_D224:
+                    return 1152;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D256:
+                    return 512;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D512_T256:
+                    return 1024;
+                case KdaOneStepAuxFunction.HMAC_SHA3_D256:
+                    return 1088;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D384:
+                    return 1024;
+                case KdaOneStepAuxFunction.HMAC_SHA3_D384:
+                    return 832;
+                case KdaOneStepAuxFunction.HMAC_SHA2_D512:
+                    return 1024;
+                case KdaOneStepAuxFunction.HMAC_SHA3_D512:
+                    return 576;
                 case KdaOneStepAuxFunction.KMAC_128:
-                    return 128;
+                    return 1312;
                 case KdaOneStepAuxFunction.KMAC_256:
-                    return 256;
+                    return 1056;
             }
 
             return 0;

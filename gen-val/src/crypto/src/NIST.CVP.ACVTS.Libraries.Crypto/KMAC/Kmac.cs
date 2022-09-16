@@ -1,5 +1,5 @@
 ﻿using System;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -9,11 +9,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC
     public class Kmac : IKmac
     {
         private const string FunctionName = "KMAC";
-        private readonly ICSHAKEWrapper _iCSHAKE;
+        private readonly IcSHAKEWrapper _icSHAKE;
         private int _capacity;
         private bool _xof;
 
-        public Kmac(ICSHAKEWrapper iCSHAKE, int capacity, bool xof)
+        public Kmac(IcSHAKEWrapper icSHAKE, int capacity, bool xof)
         {
             // Guard against invalid capacities
             if (capacity != 512 && capacity != 256)
@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
 
-            _iCSHAKE = iCSHAKE;
+            _icSHAKE = icSHAKE;
             _capacity = capacity;
             _xof = xof;
         }
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC
 
             var newMessage = KmacHelpers.FormatMessage(message, key, _capacity, macLength, _xof);
 
-            return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, customization, FunctionName));
+            return new MacResult(_icSHAKE.HashMessage(newMessage, macLength, _capacity, customization, FunctionName));
         }
 
         public MacResult Generate(BitString key, BitString message, int macLength = 0)
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC
 
             var newMessage = KmacHelpers.FormatMessage(message, key, _capacity, macLength, _xof);
 
-            return new MacResult(_iCSHAKE.HashMessage(newMessage, macLength, _capacity, customizationHex, FunctionName));
+            return new MacResult(_icSHAKE.HashMessage(newMessage, macLength, _capacity, customizationHex, FunctionName));
         }
         #endregion Hex Customization
     }

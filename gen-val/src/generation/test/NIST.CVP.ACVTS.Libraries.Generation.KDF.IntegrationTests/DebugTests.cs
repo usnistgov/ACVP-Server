@@ -3,8 +3,10 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes;
@@ -211,11 +213,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
             IKdfFactory kdfFactory = null;
             if (cImpl)
             {
-                kdfFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()));
+                kdfFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
+
             }
             else
             {
-                kdfFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()));
+                kdfFactory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
             }
 
             return kdfFactory.GetKdfInstance(kdfMode, macMode, counterLocation, counterLength);

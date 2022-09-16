@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.TupleHash;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash
@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash
     {
         private const string FunctionName = "TupleHash";
         private List<BitString> _tuple;
-        private CSHAKEWrapper _cSHAKE;
+        private cSHAKEWrapper _cSHAKE;
 
         public virtual BitString HashMessage(IEnumerable<BitString> tuple, int digestLength, int capacity, bool xof, string customization = "")
         {
@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash
         private void Init()
         {
             _tuple = new List<BitString>();
-            _cSHAKE = new CSHAKEWrapper();
+            _cSHAKE = new cSHAKEWrapper();
         }
 
         private void Update(IEnumerable<BitString> newContent)

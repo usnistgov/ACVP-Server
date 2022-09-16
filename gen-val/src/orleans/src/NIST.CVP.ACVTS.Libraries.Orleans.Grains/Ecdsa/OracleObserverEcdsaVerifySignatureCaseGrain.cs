@@ -106,7 +106,17 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
                     var modifiedSSignature = new EccSignature(sigResult.Signature.R, sigResult.Signature.S + 1);
                     sigResult.Signature = modifiedSSignature;
                 }
-
+                else if (_param.Disposition == EcdsaSignatureDisposition.ZeroR)
+                {
+                    var modifiedRSignature = new EccSignature(0, sigResult.Signature.S);
+                    sigResult.Signature = modifiedRSignature;
+                }
+                else if (_param.Disposition == EcdsaSignatureDisposition.ZeroS)
+                {
+                    var modifiedSSignature = new EccSignature(sigResult.Signature.R, 0);
+                    sigResult.Signature = modifiedSSignature;
+                }
+                
                 // Notify observers of result
                 await Notify(new VerifyResult<EcdsaSignatureResult>
                 {

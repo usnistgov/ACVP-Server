@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {
@@ -12,7 +12,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers
             var mctProperties = new[]
             {
                 nameof(TestGroup.MinOutputLength),
-                nameof(TestGroup.MaxOutputLength)
+                nameof(TestGroup.MaxOutputLength),
+                nameof(TestGroup.OutLenIncrement)
             };
 
             if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

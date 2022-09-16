@@ -80,8 +80,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
                     new string[] { "cipher" }, // 1
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 128)), // lots of possible values, no mod 64 that isn't mod 128
-                    // 3 values total from range
-                    3 // 1 * 1 * 1 * 1 * 3
+                    // 4 values total from range
+                    4 // 1 * 1 * 1 * 1 * 3
                 },
                 new object[]
                 {
@@ -92,8 +92,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
                     new string[] { "cipher" }, // 1
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
-                    // 5 values total from range
-                    5 // 1 * 1 * 1 * 1 * 5
+                    // 6 values total from range
+                    6 // 1 * 1 * 1 * 1 * 5
                 },
                 new object[]
                 {
@@ -105,7 +105,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
                     new MathDomain()
                         .AddSegment(new RangeDomainSegment(randy, 128, 128*200, 64)), // lots of possible values
                     // 5 values total from range
-                    60 // 1 * 3 * 2 * 2 * 5
+                    72 // 1 * 3 * 2 * 2 * 5
                 }
             };
 

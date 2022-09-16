@@ -62,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
                     throw new ArgumentException($"Invalid {nameof(_param.TweakMode)} provided to XTS");
             }
 
-            var blockCipherParams = new XtsModeBlockCipherParameters(direction, i, key, payload, payload.BitLength);
+            var blockCipherParams = new XtsModeBlockCipherParameters(direction, i, key, payload, _param.DataUnitLength);
             var result = cipher.ProcessPayload(blockCipherParams);
 
             // Notify observers of result

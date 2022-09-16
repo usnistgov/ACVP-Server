@@ -2,23 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 using NLog;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE
 {
-    public class CSHAKE_MCT : ICSHAKE_MCT
+    public class cSHAKE_MCT : IcSHAKE_MCT
     {
-        private readonly ICSHAKE _iCSHAKE;
+        private readonly IcSHAKE _icSHAKE;
         private int NUM_OF_RESPONSES = 100;
         private bool _customizationHex;
 
-        public CSHAKE_MCT(ICSHAKE iCSHAKE)
+        public cSHAKE_MCT(IcSHAKE icSHAKE)
         {
-            _iCSHAKE = iCSHAKE;
+            _icSHAKE = icSHAKE;
         }
 
         #region MonteCarloAlgorithm Pseudocode
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
                 for (i = 1; i < 1001; i++) 
                 {
                   InnerMsg = Left(Output[i-1] || ZeroBits(128), 128);
-                  Output[i] = CSHAKE(InnerMsg, OutputLen, FunctionName, Customization);
+                  Output[i] = cSHAKE(InnerMsg, OutputLen, FunctionName, Customization);
                   Rightmost_Output_bits = Right(Output[i], 16);
                   OutputLen = MinOutLen + (floor((Rightmost_Output_bits % Range) / OutLenIncrement) * OutLenIncrement);
                   Customization = BitsToString(InnerMsg || Rightmost_Output_bits);
@@ -91,7 +91,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
                         innerMessage = BitString.MSBSubstring(innerMessage, 0, 128);
                         function.DigestLength = outputLen;
 
-                        var innerResult = _iCSHAKE.HashMessage(function, innerMessage, customization, functionName);
+                        var innerResult = _icSHAKE.HashMessage(function, innerMessage, customization, functionName);
                         innerDigest = innerResult.Digest.GetDeepCopy();
 
                         // Will always have 16 bits to pull from

@@ -1,30 +1,30 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NLog;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE
 {
-    public class CSHAKE : ICSHAKE
+    public class cSHAKE : IcSHAKE
     {
-        private readonly ICSHAKEFactory _iCSHAKEFactory;
+        private readonly IcSHAKEFactory _icSHAKEFactory;
 
-        public CSHAKE(ICSHAKEFactory iCSHAKEFactory)
+        public cSHAKE(IcSHAKEFactory icSHAKEFactory)
         {
-            _iCSHAKEFactory = iCSHAKEFactory;
+            _icSHAKEFactory = icSHAKEFactory;
         }
 
-        public CSHAKE()
+        public cSHAKE()
         {
-            _iCSHAKEFactory = new CSHAKEFactory();
+            _icSHAKEFactory = new cSHAKEFactory();
         }
 
         public HashResult HashMessage(HashFunction hashFunction, BitString message, string customization, string functionName = "")
         {
             try
             {
-                var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
+                var sha = _icSHAKEFactory.GetcSHAKE(hashFunction);
                 var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, customization, functionName);
 
                 return new HashResult(digest);
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
         {
             try
             {
-                var sha = _iCSHAKEFactory.GetCSHAKE(hashFunction);
+                var sha = _icSHAKEFactory.GetcSHAKE(hashFunction);
                 var digest = sha.HashMessage(message, hashFunction.DigestLength, hashFunction.Capacity, customization, functionName);
 
                 return new HashResult(digest);

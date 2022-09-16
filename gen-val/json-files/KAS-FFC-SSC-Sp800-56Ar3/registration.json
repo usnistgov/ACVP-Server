@@ -6,7 +6,7 @@
   "scheme": {
     "dhEphem": {
       "scheme": "dhEphem",
-      "underlyingAlgorithm": "Ffc",
+      "underlyingAlgorithm": "FFC",
       "algoMode": "KAS-FFC-SSC-SP800-56Ar3",
       "kasRole": [
         "initiator",
@@ -15,7 +15,7 @@
     },
     "mqv1": {
       "scheme": "mqv1",
-      "underlyingAlgorithm": "Ffc",
+      "underlyingAlgorithm": "FFC",
       "algoMode": "KAS-FFC-SSC-SP800-56Ar3",
       "kasRole": [
         "initiator",
@@ -27,5 +27,5 @@
     "ffdhe2048",
     "FB"
   ],
-  "hashFunctionZ": "None"
+  "hashFunctionZ": "none"
 }

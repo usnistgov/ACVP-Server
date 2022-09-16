@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
     public enum IfcKeyGenerationMethod
     {
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// Fixed public exponent private key in basic format

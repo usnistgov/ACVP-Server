@@ -23,6 +23,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="/Users/ctc/Documents/ACVP/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Generation.Core.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Libraries.Generation.Core.pdb" />
+    <file src="/Users/livebe01/Documents/gitLab/genvals/gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation.Core/bin/Debug/net5.0/NIST.CVP.ACVTS.Libraries.Generation.Core.pdb" target="lib/net5.0/NIST.CVP.ACVTS.Libraries.Generation.Core.pdb" />
   </files>
 </package>

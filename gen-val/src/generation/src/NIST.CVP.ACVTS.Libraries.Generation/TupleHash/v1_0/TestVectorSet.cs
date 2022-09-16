@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
                     return _algorithm;
                 }
 
-                var algo = "TUPLEHASH";
+                var algo = "TupleHash";
                 var digestSize = firstTg.DigestSize;
 
                 return $"{algo}-{digestSize}";

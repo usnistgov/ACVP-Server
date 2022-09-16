@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.IntegrationTests
     {
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
-        public override string Algorithm { get; } = "TUPLEHASH-128";
+        public override string Algorithm { get; } = "TupleHash-128";
         public override string Mode { get; } = null;
         public override AlgoMode AlgoMode => AlgoMode.TupleHash_128_v1_0;
 
@@ -90,7 +90,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new List<int> { 128 },
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 XOF = new[] { true, false },

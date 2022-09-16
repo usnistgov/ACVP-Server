@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA;
 using NIST.CVP.ACVTS.Libraries.Math;
 
@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
         /// <param name="blockSize">The desired block size in bytes</param>
         /// <param name="xof">Is it xof mode?</param>
         /// <returns>Formatted message before calling Keccak</returns>
-        public static BitString FormatMessage(BitString message, CSHAKE.CSHAKE cSHAKE, int digestLength, int capacity, int blockSize, bool xof)
+        public static BitString FormatMessage(BitString message, cSHAKE.cSHAKE cSHAKE, int digestLength, int capacity, int blockSize, bool xof)
         {
             // 1. n = ⌈ (len(X)/8) / B ⌉.
             var numberOfBlocks = ((message.BitLength / 8) + blockSize - 1) / blockSize;

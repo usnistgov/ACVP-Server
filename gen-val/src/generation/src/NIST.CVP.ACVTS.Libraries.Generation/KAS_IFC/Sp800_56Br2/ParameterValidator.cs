@@ -655,7 +655,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
 
             errorResults.AddIfNotNullOrEmpty(ValidateArray(schemeKtsCapabilities.HashAlgs, ValidHashAlgs, "KTS HashAlgs"));
             ValidateAssociatedDataPattern(schemeKtsCapabilities, errorResults);
-            ValidateEncoding(schemeKtsCapabilities.Encoding, errorResults);
+
+            // If an AssociatedDataPattern is supplied, then the encoding must be validated
+            if (!string.IsNullOrEmpty(schemeKtsCapabilities.AssociatedDataPattern))
+            {
+                ValidateEncoding(schemeKtsCapabilities.Encoding, errorResults);    
+            }
         }
 
         private void ValidateAssociatedDataPattern(KtsMethod ktsMethod, List<string> errorResults)

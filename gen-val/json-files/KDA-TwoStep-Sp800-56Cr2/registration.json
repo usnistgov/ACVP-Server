@@ -17,7 +17,8 @@
       "kdfMode": "feedback",
       "macMode": [
         "HMAC-SHA3-224",
-        "HMAC-SHA2-512"
+        "HMAC-SHA2-512",
+        "HMAC-SHA2-512/224"
       ],
       "customKeyInLength": 0,
       "supportedLengths": [

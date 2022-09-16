@@ -1,9 +1,9 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.SHA;
 using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE
 {
-    public static class CSHAKEHelpers
+    public static class cSHAKEHelpers
     {
         /// <summary>
         /// Call this method to format correctly for cSHAKE

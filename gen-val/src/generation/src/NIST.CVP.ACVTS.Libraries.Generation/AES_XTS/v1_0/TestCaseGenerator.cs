@@ -37,6 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v1_0
                 Mode = BlockCipherModesOfOperation.Xts,
                 Direction = group.Direction,
                 DataLength = group.PayloadLen,
+                DataUnitLength = group.PayloadLen,  // For ACVP-AES-XTS-1.0 the DataUnitLength is always exactly the DataLength
                 KeyLength = group.KeyLen,
                 TweakMode = group.TweakMode
             };

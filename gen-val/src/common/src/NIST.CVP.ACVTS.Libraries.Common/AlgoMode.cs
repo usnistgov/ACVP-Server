@@ -60,10 +60,10 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         ConditioningComponent_BlockCipher_DF_90B,
         [EnumMember(Value = "ConditioningComponent-Hash_DF-SP800-90B")]
         ConditioningComponent_Hash_DF_90B,
-        [EnumMember(Value = "CSHAKE-128-1.0")]
-        CSHAKE_128_v1_0,
-        [EnumMember(Value = "CSHAKE-256-1.0")]
-        CSHAKE_256_v1_0,
+        [EnumMember(Value = "cSHAKE-128-1.0")]
+        cSHAKE_128_v1_0,
+        [EnumMember(Value = "cSHAKE-256-1.0")]
+        cSHAKE_256_v1_0,
         [EnumMember(Value = "ctrDRBG-1.0")]
         DRBG_CTR_v1_0,
         [EnumMember(Value = "hashDRBG-1.0")]
@@ -174,6 +174,15 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         KTS_IFC_Sp800_56Br2,
         [EnumMember(Value = "KDF-1.0")]
         KDF_v1_0,
+        [EnumMember(Value = "KDF-KMAC-Sp800-108r1")]
+        KDF_KMAC_Sp800_108r1,
+        // proposed refactor but not done
+        //[EnumMember(Value = "KDF-Counter-Sp800-108r1")]
+        //KDF_Counter_Sp800_108r1,
+        //[EnumMember(Value = "KDF-Feedback-Sp800-108r1")]
+        //KDF_Feedback_Sp800_108r1,
+        //[EnumMember(Value = "KDF-DoublePipeline-Sp800-108r1")]
+        //KDF_DoublePipeline_Sp800_108r1,
         [EnumMember(Value = "KDF-Components-ANSIX9.63-1.0")]
         KDFComponents_ANSIX963_v1_0,
         [EnumMember(Value = "KDF-Components-IKEv1-1.0")]

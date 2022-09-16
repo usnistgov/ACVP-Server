@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
     public enum Kda
     {
+        [EnumMember(Value = "none")]
         None,
         [EnumMember(Value = "oneStep")]
         OneStep,

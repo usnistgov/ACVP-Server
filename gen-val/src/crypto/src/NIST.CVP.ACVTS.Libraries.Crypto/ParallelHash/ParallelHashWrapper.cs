@@ -1,6 +1,6 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ParallelHash;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
     {
         private const string FunctionName = "ParallelHash";
         private BitString _message;
-        private CSHAKE.CSHAKE _cSHAKE;
+        private cSHAKE.cSHAKE _cSHAKE;
 
         public virtual BitString HashMessage(BitString message, int digestLength, int capacity, int blockSize, bool xof, string customization = "")
         {
@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
         private void Init()
         {
             _message = new BitString(0);
-            _cSHAKE = new CSHAKE.CSHAKE();
+            _cSHAKE = new cSHAKE.cSHAKE();
         }
 
         private void Update(BitString newContent)
@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
         private BitString Final(int digestLength, int capacity, int blockSize, bool xof, string customization)
         {
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestLength, capacity, blockSize, xof);
-            return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction(digestLength, capacity), newMessage, customization, FunctionName).Digest;
+            return _cSHAKE.HashMessage(new Common.Hash.cSHAKE.HashFunction(digestLength, capacity), newMessage, customization, FunctionName).Digest;
         }
 
         #region BitString Customization
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash
         private BitString Final(int digestLength, int capacity, int blockSize, bool xof, BitString customizationHex)
         {
             var newMessage = ParallelHashHelpers.FormatMessage(_message, _cSHAKE, digestLength, capacity, blockSize, xof);
-            return _cSHAKE.HashMessage(new Common.Hash.CSHAKE.HashFunction(digestLength, capacity), newMessage, customizationHex, FunctionName).Digest;
+            return _cSHAKE.HashMessage(new Common.Hash.cSHAKE.HashFunction(digestLength, capacity), newMessage, customizationHex, FunctionName).Digest;
         }
         #endregion BitString Customization
     }

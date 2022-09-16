@@ -1,12 +1,12 @@
 ﻿using System;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
 {
     [TestFixture, FastCryptoTest]
-    public class CSHAKEFactoryTests
+    public class cSHAKEFactoryTests
     {
         [Test]
         [TestCase(32, 256)]
@@ -16,10 +16,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests
         {
             var hashFunction = new HashFunction(digestLength, capacity);
 
-            var subject = new CSHAKEFactory();
-            var result = subject.GetCSHAKE(hashFunction);
+            var subject = new cSHAKEFactory();
+            var result = subject.GetcSHAKE(hashFunction);
 
-            Assert.IsInstanceOf<CSHAKEWrapper>(result);
+            Assert.IsInstanceOf<cSHAKEWrapper>(result);
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE.Tests
         {
             var hashFunction = new HashFunction(digestLength, capacity);
 
-            var subject = new CSHAKEFactory();
-            Assert.Throws<ArgumentException>(() => subject.GetCSHAKE(hashFunction));
+            var subject = new cSHAKEFactory();
+            Assert.Throws<ArgumentException>(() => subject.GetcSHAKE(hashFunction));
         }
     }
 }

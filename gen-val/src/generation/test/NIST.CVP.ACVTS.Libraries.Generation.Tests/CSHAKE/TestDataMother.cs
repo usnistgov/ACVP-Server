@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 {
     public class TestDataMother
     {
@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
         {
             var tvs = new TestVectorSet
             {
-                Algorithm = "CSHAKE",
+                Algorithm = "cSHAKE",
                 IsSample = true,
             };
 

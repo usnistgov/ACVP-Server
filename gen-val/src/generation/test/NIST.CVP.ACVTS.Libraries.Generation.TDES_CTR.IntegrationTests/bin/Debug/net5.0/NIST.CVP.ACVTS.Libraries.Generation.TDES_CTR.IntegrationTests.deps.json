@@ -9,12 +9,12 @@
       "NIST.CVP.ACVTS.Libraries.Generation.TDES_CTR.IntegrationTests/1.0.0": {
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "16.9.4",
-          "NIST.CVP.ACVTS.Libraries.Crypto": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Generation": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Crypto": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Generation": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.1",
           "NIST.CVP.ACVTS.Libraries.Generation.Core.Tests": "1.0.0",
           "NIST.CVP.ACVTS.Libraries.Generation.Tests": "1.0.0",
-          "NIST.CVP.ACVTS.Tests.Core": "1.1.0",
+          "NIST.CVP.ACVTS.Tests.Core": "1.1.1",
           "NUnit": "3.13.1",
           "NUnit3TestAdapter": "3.17.0"
         },
@@ -2132,7 +2132,7 @@
           "TeamCity.ServiceMessages": "3.0.13"
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
         "dependencies": {
           "Autofac": "6.1.0",
           "Microsoft.Extensions.Configuration": "5.0.0",
@@ -2149,62 +2149,62 @@
           "NIST.CVP.ACVTS.Libraries.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto/1.1.1": {
         "dependencies": {
           "Autofac": "6.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Crypto.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Crypto.Common.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.1": {
         "dependencies": {
           "Microsoft.Orleans.Client": "3.4.2",
           "Microsoft.Orleans.Clustering.AdoNet": "3.1.2",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Crypto.Oracle.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Generation/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Generation/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1",
           "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Generation.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.1": {
         "dependencies": {
           "Autofac": "6.1.0",
           "Microsoft.CSharp": "4.7.0",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1",
           "NLog": "4.7.9",
           "Newtonsoft.Json": "13.0.1"
         },
@@ -2216,11 +2216,11 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "16.9.4",
           "Moq": "4.16.1",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Tests.Core": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Generation.Core": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Tests.Core": "1.1.1",
           "NLog": "4.7.9",
           "NUnit": "3.13.1",
           "NUnit3TestAdapter": "3.17.0",
@@ -2235,11 +2235,11 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "16.9.4",
           "Moq": "4.16.1",
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Generation": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0",
-          "NIST.CVP.ACVTS.Tests.Core": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Generation": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1",
+          "NIST.CVP.ACVTS.Tests.Core": "1.1.1",
           "NLog": "4.7.9",
           "NUnit": "3.13.1",
           "NUnit3TestAdapter": "3.17.0",
@@ -2250,9 +2250,9 @@
           "NIST.CVP.ACVTS.Libraries.Generation.Tests.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
           "NLog": "4.7.9",
           "Newtonsoft.Json": "13.0.1"
         },
@@ -2260,27 +2260,27 @@
           "NIST.CVP.ACVTS.Libraries.Math.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
         "dependencies": {
-          "NIST.CVP.ACVTS.Libraries.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.0",
-          "NIST.CVP.ACVTS.Libraries.Math": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Crypto.Common": "1.1.1",
+          "NIST.CVP.ACVTS.Libraries.Math": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.0": {
+      "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.1": {
         "dependencies": {
           "Microsoft.Orleans.CodeGenerator.MSBuild": "3.4.2",
           "Microsoft.Orleans.Core.Abstractions": "3.4.2",
-          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.0"
+          "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "1.1.1"
         },
         "runtime": {
           "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.dll": {}
         }
       },
-      "NIST.CVP.ACVTS.Tests.Core/1.1.0": {
+      "NIST.CVP.ACVTS.Tests.Core/1.1.1": {
         "dependencies": {
           "NLog": "4.7.9",
           "NUnit": "3.13.1",
@@ -2931,7 +2931,7 @@
     "System.Collections.Specialized/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-NoPBj0ykejqAWW4p4gGtrrL+3c84ZLSvGnHgq422ew1Rj4WKj1FA8/BCybqC111EtgcqUl6ZJNFYYS22HLgbjA==",
+      "sha512": "sha512-Epx8PoVZR0iuOnJJDzp7pWvdfMMOAvpUo95pC4ScH2mJuXkKA2Y4aR3cG9qt2klHgSons1WFh4kcGW7cSXvrxg==",
       "path": "system.collections.specialized/4.3.0",
       "hashPath": "system.collections.specialized.4.3.0.nupkg.sha512"
     },
@@ -2959,7 +2959,7 @@
     "System.ComponentModel.Primitives/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-KMVuoQ+8bMQ/Z59M3s64num5AD74X5YSqVc7ibwGkPTfmmkl2W8VuSxLRJtpw4KzQrSKUgR0BLbF0adPfcTSGQ==",
+      "sha512": "sha512-j8GUkCpM8V4d4vhLIIoBLGey2Z5bCkMVNjEZseyAlm4n5arcsJOeI3zkUP+zvZgzsbLTYh4lYeP/ZD/gdIAPrw==",
       "path": "system.componentmodel.primitives/4.3.0",
       "hashPath": "system.componentmodel.primitives.4.3.0.nupkg.sha512"
     },
@@ -3593,32 +3593,32 @@
       "path": "teamcity.vstest.testadapter/1.0.25",
       "hashPath": "teamcity.vstest.testadapter.1.0.25.nupkg.sha512"
     },
-    "NIST.CVP.ACVTS.Libraries.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Common/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto.Common/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Crypto.Oracle/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Generation/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Generation/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Generation.Core/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -3633,22 +3633,22 @@
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Math/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Math/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.0": {
+    "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "NIST.CVP.ACVTS.Tests.Core/1.1.0": {
+    "NIST.CVP.ACVTS.Tests.Core/1.1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 {
     [TestFixture, UnitTest]
     public class ParametersTest
@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
         {
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = "cSHAKE",
                 DigestSizes = new List<int>(),
                 HexCustomization = false,
                 MessageLength = new MathDomain(),
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
 
             var parameters = new Parameters
             {
-                Algorithm = "CSHAKE",
+                Algorithm = "cSHAKE",
                 DigestSizes = new List<int>(),
                 HexCustomization = false,
                 MessageLength = minMax,
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CSHAKE
             };
 
             Assert.That(parameters != null);
-            Assert.AreEqual("CSHAKE", parameters.Algorithm);
+            Assert.AreEqual("cSHAKE", parameters.Algorithm);
         }
     }
 }

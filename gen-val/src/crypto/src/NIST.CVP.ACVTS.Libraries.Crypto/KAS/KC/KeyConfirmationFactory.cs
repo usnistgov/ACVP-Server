@@ -10,7 +10,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.KC
             _macDataCreator = macDataCreator;
             _cmacFactory = new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
             _hmacFactory = new HmacFactory(new NativeShaFactory());
-            _kmacFactory = new KmacFactory(new CSHAKEWrapper());
+            _kmacFactory = new KmacFactory(new cSHAKEWrapper());
         }
 
         public IKeyConfirmation GetInstance(IKeyConfirmationParameters parameters)

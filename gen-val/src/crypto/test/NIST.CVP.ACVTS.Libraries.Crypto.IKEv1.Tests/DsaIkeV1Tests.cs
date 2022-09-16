@@ -44,13 +44,36 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
             "146ca99c9573c4c5", "c53d022808d05540",
             "d4967330d69aed79647d62692f97e422b979d03f9293f337fe84d4baff4051657d18bfccbf4e5adacf0226c1f42e78540c3c49baf6ce92a961b649ffe5dc9132", "88a8c0f8dc03765ea8ad6fe9039c08151f5b7941141e152ad1af47a3581613f907556716786f95cffa62fa933e65387b6d8a6d6af2f7c2fb80bb399ea0286863", "454da7a378d0e5239643377d390f6209272037e8f36ba12e5f55a0471ce11a931abcb3a3e5fd26c3fb0240ca1784a03e8c366a2f002544bb923e30e5fd2307d1", "90a047c06f39dabcd7a51a7a7d68f6ff8b8b3f2ad16ef33eb29dba6ce6882ebcce136cb9d373db1354af7dd01328509f415d01968b368d0f75a13af4fffbad27",
             TestName = "DSA IKEv1 - SHA2-512")]
-        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex)
+        [TestCase(ModeValues.SHA2, DigestSizes.d256,
+            "9A4EF1F2D4F9BC0F0F1FE4CA214F89A762696F56A538A3B37BB34E5002D284164EB313DCF38EC38D8845BDB343BE82046BD0DB707B7722AE2BE58398874454CCD1288AA555F5783FD9E8CFC7E8CF96FD4BD79657A15740DB5669D26DCE9D76580DA4", 
+            "1ED21C218D1F0EBFDD2E33C6DC53645072A42A84DB8ECADBE85171ACE2A61C36F2A4AF9E2B319C248E129A6162D0F18D04287C822685A0CE703753194380",
+            "503B33326D60A1658095CDF7BBBD5D6E398EDD464817EBBF63391E15420B14A9282B460C3D66F1624068D561F2578E7B7FC67DB623157196C7F0195EC2E1CED5F700",
+            "01B6735C665EF830", 
+            "7F9F9471B9686F8A",
+            "B0C152031E8AFDA63CF580C7C527032CE295ED08B0F43499570CA869D0B796CD", 
+            "87E106B29DA374DE8E8A494A65C9FDC93B7184D80A37C65412B0184C0A4D59A8", 
+            "49F2D3F47284F276D67DCDF360AD9B229FD2B7A129D62A9D2A846915A29C713C", 
+            "2D12C9EF888C61D29BD9D90405CDAF840C30FBBE370616C0B9348CB12BEBAA1B", 
+            521,
+            TestName = "DSA IKEv1 - SHA2-256 - non-byte-aligned g^xy, i.e., 521 bit")]
+        public void ShouldIkeV1Correctly(ModeValues mode, DigestSizes digestSize, string niHex, string nrHex, string gxyHex, string ckyiHex, string ckyrHex, string sKeyIdHex, string sKeyIdDHex, string sKeyIdAHex, string sKeyIdEHex, int bitLen = -1)
         {
+            // inputs
             var ni = new BitString(niHex);
             var nr = new BitString(nrHex);
-            var gxy = new BitString(gxyHex);
+            BitString gxy;
+            
+            if (bitLen > 0)
+            {
+                gxy = new BitString(gxyHex, bitLen);                
+            }
+            else
+            {
+                gxy = new BitString(gxyHex);
+            }
             var ckyi = new BitString(ckyiHex);
             var ckyr = new BitString(ckyrHex);
+            
             var sKeyId = new BitString(sKeyIdHex);
             var sKeyIdD = new BitString(sKeyIdDHex);
             var sKeyIdA = new BitString(sKeyIdAHex);

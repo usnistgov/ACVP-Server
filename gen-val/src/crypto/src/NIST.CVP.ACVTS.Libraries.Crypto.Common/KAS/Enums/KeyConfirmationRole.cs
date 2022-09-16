@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
@@ -11,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
         /// <summary>
         /// No KeyConfirmation is performed
         /// </summary>
-        [EnumMember(Value = "")]
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// The provider of the Key that is to be confirmed

@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum Fips186Standard
     {
+        [EnumMember(Value = "none")]
         None,
 
         [EnumMember(Value = "FIPS186-2")]

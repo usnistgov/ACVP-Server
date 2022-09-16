@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Common.Helpers
@@ -20,20 +17,30 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Helpers
         /// <returns></returns>
         public static string GetEnumDescriptionFromEnum(Enum enumToGetDescriptionFrom)
         {
-            FieldInfo fi = enumToGetDescriptionFrom.GetType().GetField(enumToGetDescriptionFrom.ToString());
-
-            EnumMemberAttribute[] attributes =
-                (EnumMemberAttribute[])fi.GetCustomAttributes(
-                    typeof(EnumMemberAttribute),
-                    false);
-
-            if (attributes != null &&
-                attributes.Length > 0)
+            try
             {
-                return attributes[0].Value;
+                FieldInfo fi = enumToGetDescriptionFrom.GetType().GetField(enumToGetDescriptionFrom.ToString());
+
+                EnumMemberAttribute[] attributes =
+                    (EnumMemberAttribute[])fi.GetCustomAttributes(
+                        typeof(EnumMemberAttribute),
+                        false);
+
+                if (attributes != null &&
+                    attributes.Length > 0)
+                {
+                    return attributes[0].Value;
+                }
+
+                return enumToGetDescriptionFrom.ToString();
+            }
+            catch (Exception ex)
+            {
+                ThisLogger.Debug($"Error getting description for enum: {enumToGetDescriptionFrom.GetType()}");
+                ThisLogger.Debug(ex);
             }
 
-            return enumToGetDescriptionFrom.ToString();
+            return null;
         }
 
         /// <summary>

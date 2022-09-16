@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
                     return _algorithm;
                 }
 
-                var algo = "CSHAKE";
+                var algo = "cSHAKE";
                 var digestSize = firstTg.DigestSize;
 
                 return $"{algo}-{digestSize}";

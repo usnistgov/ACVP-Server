@@ -76,21 +76,27 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             switch (hmacAlg)
             {
                 case HashFunctions.Sha1:
-                    return 160;
-                case HashFunctions.Sha2_d224:
-                case HashFunctions.Sha2_d512t224:
-                case HashFunctions.Sha3_d224:
-                    return 224;
-                case HashFunctions.Sha2_d256:
-                case HashFunctions.Sha2_d512t256:
-                case HashFunctions.Sha3_d256:
-                    return 256;
-                case HashFunctions.Sha2_d384:
-                case HashFunctions.Sha3_d384:
-                    return 384;
-                case HashFunctions.Sha2_d512:
-                case HashFunctions.Sha3_d512:
                     return 512;
+                case HashFunctions.Sha2_d224:
+                    return 512;
+                case HashFunctions.Sha2_d512t224:
+                    return 1024;
+                case HashFunctions.Sha3_d224:
+                    return 1152;
+                case HashFunctions.Sha2_d256:
+                    return 512;
+                case HashFunctions.Sha2_d512t256:
+                    return 1024;
+                case HashFunctions.Sha3_d256:
+                    return 1088;
+                case HashFunctions.Sha2_d384:
+                    return 1024;
+                case HashFunctions.Sha3_d384:
+                    return 832;
+                case HashFunctions.Sha2_d512:
+                    return 1024;
+                case HashFunctions.Sha3_d512:
+                    return 576;
             }
 
             return 0;

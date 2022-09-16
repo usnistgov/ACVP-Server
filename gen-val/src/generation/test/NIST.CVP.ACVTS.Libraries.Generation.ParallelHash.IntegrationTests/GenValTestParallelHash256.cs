@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
 
-        public override string Algorithm { get; } = "PARALLELHASH-256";
+        public override string Algorithm { get; } = "ParallelHash-256";
         public override string Mode { get; } = null;
         public override AlgoMode AlgoMode => AlgoMode.ParallelHash_256_v1_0;
 
@@ -85,7 +85,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new[] { 256 }.ToList(),
                 MessageLength = minMaxMsg,
                 OutputLength = minMax,
                 BlockSize = blockSize,

@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0.ContractResolvers
 {
     public class ContractResolverFactory : IContractResolverFactory<TestGroup, TestCase>
     {

@@ -2,14 +2,14 @@
 using Autofac;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests
 {
     [TestFixture, LongRunningIntegrationTest]
     public class GenValTestsCshake256 : GenValTestsSingleRunnerBase
@@ -17,9 +17,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
 
 
-        public override string Algorithm { get; } = "CSHAKE-256";
+        public override string Algorithm { get; } = "cSHAKE-256";
         public override string Mode { get; } = null;
-        public override AlgoMode AlgoMode => AlgoMode.CSHAKE_256_v1_0;
+        public override AlgoMode AlgoMode => AlgoMode.cSHAKE_256_v1_0;
 
         protected override void ModifyTestCaseToFail(dynamic testCase)
         {
@@ -102,7 +102,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new List<int> { 256 },
                 OutputLength = minMax,
                 MessageLength = minMaxMsg,
                 IsSample = true

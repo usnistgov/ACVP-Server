@@ -6,6 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.KMAC;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF
 {
@@ -13,11 +14,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF
     {
         private readonly ICmacFactory _cmacFactory;
         private readonly IHmacFactory _hmacFactory;
+        private readonly IKmacFactory _kmacFactory;
 
-        public KdfFactory(ICmacFactory cmacFactory, IHmacFactory hmacFactory)
+        public KdfFactory(ICmacFactory cmacFactory, IHmacFactory hmacFactory, IKmacFactory kmacFactory)
         {
             _cmacFactory = cmacFactory;
             _hmacFactory = hmacFactory;
+            _kmacFactory = kmacFactory;
         }
 
         public IKdf GetKdfInstance(KdfModes kdfMode, MacModes macMode, CounterLocations counterLocation, int counterLength = 0)
@@ -35,6 +38,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF
                 case KdfModes.Pipeline:
                     return new PipelineKdf(mac, counterLocation, counterLength);
 
+                case KdfModes.Kmac:
+                    return new KmacKdf(mac);
+                
                 default:
                     throw new ArgumentException("KDF Mode not supported");
             }
@@ -88,6 +94,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF
 
                 case MacModes.HMAC_SHA3_512:
                     return _hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA3, DigestSizes.d512));
+                
+                case MacModes.KMAC_128:
+                    return _kmacFactory.GetKmacInstance(256, false);    // Capacity is 2x security strength
+                
+                case MacModes.KMAC_256:
+                    return _kmacFactory.GetKmacInstance(512, false);    // Capacity is 2x security strength
 
                 default:
                     throw new ArgumentException("MAC Mode not supported");

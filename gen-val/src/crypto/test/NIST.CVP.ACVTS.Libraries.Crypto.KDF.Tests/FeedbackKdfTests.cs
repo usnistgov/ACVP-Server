@@ -1,6 +1,8 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
+using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Engines;
@@ -18,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         [SetUp]
         public void SetUp()
         {
-            _factory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()));
+            _factory = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
         }
 
         [Test]

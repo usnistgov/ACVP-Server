@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
     {
         private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 15;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 21;
 
         public TestCaseGenerator(IOracle oracle)
         {
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         {
             if (isSample)
             {
-                NumberOfTestCasesToGenerate = 5;
+                NumberOfTestCasesToGenerate = 7;
             }
             return new GenerateResponse();
         }

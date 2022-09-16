@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE
+﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE
 {
     public struct HashFunction
     {

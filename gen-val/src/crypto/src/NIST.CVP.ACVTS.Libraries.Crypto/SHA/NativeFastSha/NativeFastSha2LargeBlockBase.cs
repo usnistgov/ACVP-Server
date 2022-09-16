@@ -141,7 +141,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                     nextWord |= (ulong)nextByte << 8;
 
                     nextByte = (byte)(input[inputByteOff + 7] << inputBitOff) | (byte)(input[inputByteOff + 8] >> (8 - inputBitOff));
-                    nextWord |= (ulong)nextByte;
+                    nextWord |= (uint)nextByte;
 
                     ProcessWord(nextWord);
                 }

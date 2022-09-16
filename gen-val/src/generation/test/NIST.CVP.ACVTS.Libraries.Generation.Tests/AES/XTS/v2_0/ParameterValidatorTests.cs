@@ -158,5 +158,48 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
 
             Assert.IsTrue(result.Success);
         }
+
+        #region InvalidDataUnitLensPayloadLens
+        static List<object> GetInvalidDuPtLens()
+        {
+            return new List<object>
+            {
+                new object[]
+                {
+                    "All payloads lower than data units -- Value",
+                    new MathDomain().AddSegment(new ValueDomainSegment(2048)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(128))
+                },
+                new object[]
+                {
+                    "All payloads lower than data units -- Range",
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 1024, 4096, 1)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 512, 1))
+                },
+                new object[]
+                {
+                    "Weird specific values",
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 65536, 128)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 165, 37))
+                }
+            };
+        }
+        #endregion
+        
+        [Test]
+        [TestCaseSource(nameof(GetInvalidDuPtLens))]
+        public void ShouldReturnErrorWithInvalidDataUnitLenAndPayloadLen(string label, MathDomain dataUnitLen, MathDomain payloadLen)
+        {
+            Parameters p = new ParameterBuilder()
+                .WithDataUnitLen(dataUnitLen)
+                .WithPtLen(payloadLen)
+                .WithMatchPtLen(false)
+                .Build();
+
+            var subject = new ParameterValidator();
+            var result = subject.Validate(p);
+            
+            Assert.IsFalse(result.Success);
+        }
     }
 }

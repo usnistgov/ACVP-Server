@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PssMaskTypes
     {
+        [EnumMember(Value = "none")]
         None,
 
         [EnumMember(Value = "mgf1")]

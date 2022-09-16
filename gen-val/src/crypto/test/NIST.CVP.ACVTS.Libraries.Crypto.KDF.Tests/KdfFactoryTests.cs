@@ -1,7 +1,9 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
+using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Engines;
@@ -18,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         [SetUp]
         public void SetUp()
         {
-            _subject = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()));
+            _subject = new KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
         }
 
         [Test]
@@ -31,6 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         [TestCase(MacModes.HMAC_SHA256, typeof(NativeHmac))]
         [TestCase(MacModes.HMAC_SHA384, typeof(NativeHmac))]
         [TestCase(MacModes.HMAC_SHA512, typeof(NativeHmac))]
+        [TestCase(MacModes.KMAC_128, typeof(Kmac))]
+        [TestCase(MacModes.KMAC_256, typeof(Kmac))]
         public void ShouldReturnProperMacInstance(MacModes macType, Type expectedType)
         {
             var result = _subject.GetMacInstance(macType);
@@ -47,12 +51,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         }
 
         [Test]
-        [TestCase(KdfModes.Counter, typeof(CounterKdf))]
-        [TestCase(KdfModes.Feedback, typeof(FeedbackKdf))]
-        [TestCase(KdfModes.Pipeline, typeof(PipelineKdf))]
-        public void ShouldReturnProperKdfInstance(KdfModes kdfType, Type expectedType)
+        [TestCase(KdfModes.Counter, MacModes.CMAC_AES128, typeof(CounterKdf))]
+        [TestCase(KdfModes.Feedback, MacModes.CMAC_AES128, typeof(FeedbackKdf))]
+        [TestCase(KdfModes.Pipeline, MacModes.CMAC_AES128, typeof(PipelineKdf))]
+        [TestCase(KdfModes.Kmac, MacModes.KMAC_128, typeof(KmacKdf))]
+        public void ShouldReturnProperKdfInstance(KdfModes kdfType, MacModes macMode, Type expectedType)
         {
-            var result = _subject.GetKdfInstance(kdfType, MacModes.CMAC_AES128, CounterLocations.None);
+            var result = _subject.GetKdfInstance(kdfType, macMode, CounterLocations.None);
             Assert.IsInstanceOf(expectedType, result);
         }
 

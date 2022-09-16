@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
@@ -13,14 +13,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Cshake
     public class OracleObserverCShakeMctCaseGrain : ObservableOracleGrainBase<MctResult<CShakeResult>>,
         IOracleObserverCShakeMctCaseGrain
     {
-        private readonly ICSHAKE_MCT _cshakeMct;
+        private readonly IcSHAKE_MCT _cshakeMct;
         private readonly IRandom800_90 _rand;
 
         private CShakeParameters _param;
 
         public OracleObserverCShakeMctCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            ICSHAKE_MCT cshakeMct,
+            IcSHAKE_MCT cshakeMct,
             IEntropyProviderFactory entropyProviderFactory,
             IRandom800_90 rand
         ) : base(nonOrleansScheduler)

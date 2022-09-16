@@ -1,29 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {}
+    "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {}
   },
   "projects": {
-    "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {
-      "version": "1.1.0",
+    "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj": {
+      "version": "1.1.1",
       "restore": {
-        "projectUniqueName": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
+        "projectUniqueName": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
         "projectName": "NIST.CVP.ACVTS.Tests.Core",
-        "projectPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
-        "packagesPath": "/Users/ctc/.nuget/packages/",
-        "outputPath": "/Users/ctc/Documents/ACVP/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/",
+        "projectPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/NIST.CVP.ACVTS.Tests.Core.csproj",
+        "packagesPath": "/Users/livebe01/.nuget/packages/",
+        "outputPath": "/Users/livebe01/Documents/gitLab/genvals/gen-val/src/common/test/NIST.CVP.ACVTS.Tests.Core/obj/",
         "projectStyle": "PackageReference",
         "centralPackageVersionsManagementEnabled": true,
-        "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/Users/ctc/.nuget/NuGet/NuGet.Config"
+          "/Users/livebe01/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "http://129.6.164.149:8383/httpAuth/app/nuget/feed/_Root/RootNuGetFeed/v3/query": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -91,17 +89,17 @@
             "Mighty": "[3.2.0, )",
             "Moq": "[4.16.1, )",
             "Newtonsoft.Json": "[13.0.1, )",
-            "NIST.CVP.ACVTS.Libraries.Common": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Crypto": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Crypto.Common": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Generation": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Generation.Core": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Math": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Orleans.Grains": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "[1.1.0, )",
-            "NIST.CVP.ACVTS.Tests.Core": "[1.1.0, )",
+            "NIST.CVP.ACVTS.Libraries.Common": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Crypto": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Crypto.Common": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Crypto.Oracle": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Generation": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Generation.Core": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Math": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Orleans.Grains": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces": "[1.1.1, )",
+            "NIST.CVP.ACVTS.Tests.Core": "[1.1.1, )",
             "NLog": "[4.7.9, )",
             "NUnit": "[3.13.1, )",
             "NUnit.Runners": "[3.12.0, )",
@@ -137,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }

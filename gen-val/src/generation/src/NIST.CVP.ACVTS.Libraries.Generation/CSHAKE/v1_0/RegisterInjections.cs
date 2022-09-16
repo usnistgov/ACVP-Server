@@ -6,17 +6,17 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers;
-using NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0.ContractResolvers;
+using NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.v1_0
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
 {
     public class RegisterInjections : ISupportedAlgoModeRevisions
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.CSHAKE_128_v1_0,
-            AlgoMode.CSHAKE_256_v1_0,
+            AlgoMode.cSHAKE_128_v1_0,
+            AlgoMode.cSHAKE_256_v1_0,
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

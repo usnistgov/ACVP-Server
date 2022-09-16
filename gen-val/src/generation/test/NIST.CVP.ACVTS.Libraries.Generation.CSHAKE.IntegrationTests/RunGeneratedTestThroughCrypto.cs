@@ -2,8 +2,8 @@
 using Autofac;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Builders;
@@ -12,7 +12,7 @@ using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
+namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests
 {
     [TestFixture, FastIntegrationTest]
     public class RunGeneratedTestThroughCrypto
@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
                 FunctionName = functionName
             });
 
-            var hash = new CSHAKEFactory().GetCSHAKE(hashFunction);
+            var hash = new cSHAKEFactory().GetcSHAKE(hashFunction);
             var result = hash.HashMessage(
                 resultFromOracle.Message,
                 256,
@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CSHAKE.IntegrationTests
                 FunctionName = functionName
             });
 
-            var hash = new CSHAKEFactory().GetCSHAKE(hashFunction);
+            var hash = new cSHAKEFactory().GetcSHAKE(hashFunction);
             var result = hash.HashMessage(
                 resultFromOracle.Message,
                 256,

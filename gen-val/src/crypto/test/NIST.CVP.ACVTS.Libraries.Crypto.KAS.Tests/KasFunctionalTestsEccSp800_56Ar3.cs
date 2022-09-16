@@ -17,7 +17,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC;
 using NIST.CVP.ACVTS.Libraries.Crypto.HKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
@@ -1512,9 +1512,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var entropyFactory = new EntropyProviderFactory();
 
             var kdfVisitor = new KdfVisitor(
-                new KdfOneStepFactory(shaFactory, hmacFactory, new KmacFactory(new CSHAKEWrapper())),
+                new KdfOneStepFactory(shaFactory, hmacFactory, new KmacFactory(new cSHAKEWrapper())),
                 new Crypto.KDF.KdfFactory(new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
-                    hmacFactory), hmacFactory,
+                    hmacFactory, new KmacFactory(new cSHAKEWrapper())), hmacFactory,
                 new CmacFactory(new BlockCipherEngineFactory(), new ModeBlockCipherFactory()),
                 new IkeV1Factory(hmacFactory, shaFactory),
                 new IkeV2Factory(new HmacFactory(shaFactory)),

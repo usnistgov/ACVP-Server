@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums
 {
     public enum PrimeTestModes
     {
+        [EnumMember(Value = "invalid")]
         Invalid,
 
         [EnumMember(Value = "2pow100")]

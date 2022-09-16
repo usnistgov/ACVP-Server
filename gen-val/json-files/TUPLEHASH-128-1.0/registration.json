@@ -1,12 +1,9 @@
 {
   "vsId": 0,
-  "algorithm": "TUPLEHASH-128",
+  "algorithm": "TupleHash-128",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],
-  "digestSize": [
-    128
-  ],
   "xof": [
     true,
     false

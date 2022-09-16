@@ -6,7 +6,7 @@
   "scheme": {
     "fullMqv": {
       "scheme": "fullMqv",
-      "underlyingAlgorithm": "Ecc",
+      "underlyingAlgorithm": "ECC",
       "algoMode": "KAS-ECC-SSC-SP800-56Ar3",
       "kasRole": [
         "initiator",
@@ -15,7 +15,7 @@
     },
     "staticUnified": {
       "scheme": "staticUnified",
-      "underlyingAlgorithm": "Ecc",
+      "underlyingAlgorithm": "ECC",
       "algoMode": "KAS-ECC-SSC-SP800-56Ar3",
       "kasRole": [
         "initiator",
@@ -28,5 +28,5 @@
     "K-283",
     "K-409"
   ],
-  "hashFunctionZ": "None"
+  "hashFunctionZ": "none"
 }

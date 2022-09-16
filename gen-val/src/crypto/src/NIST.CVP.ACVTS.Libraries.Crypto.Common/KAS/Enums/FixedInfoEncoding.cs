@@ -4,6 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums
 {
     public enum FixedInfoEncoding
     {
+        [EnumMember(Value = "none")]
         None,
         /// <summary>
         /// Concatenates all fields making up fixed info together

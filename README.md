@@ -91,7 +91,7 @@ The Orleans.ServerHost relies on configuration from the `sharedappsettings.json`
 
 When running the system, if generation/validation fails, it could be because of the `MaxConcurrentWork` being set too high. One means of determining this, is by making use of the [Orleans.Dashboard](https://github.com/OrleansContrib/OrleansDashboard) which is set up to run (by default) on port 8081 alongside the Orleans server. 
 
-![Orleans Dashboard](/docs/images/dashboard.JPG)
+![Orleans Dashboard](docs/images/dashboard.JPG)
 
 If the CPU utilization on the dashboard is consistently above 95%, you may want to reduce the amount of concurrent work you're attempting to do, or bring up additional nodes for your Orleans cluster, while relying on a different clustering strategy than "local clustering". 
 
@@ -181,7 +181,7 @@ In order for the Gen/Vals to function, the Orleans Server must also be running.
 
 ### Gen/Vals
 
-![GenValAppRunner w/o parameters passed to it](/docs/images/genValAppRunner_01.JPG)
+![GenValAppRunner w/o parameters passed to it](docs/images/genValAppRunner_01.JPG)
 
 When arguments are not supplied through the invoking of the application, the help message is printed as above.
 
@@ -234,7 +234,7 @@ If successful, the generation step will produce the following files:
 A similar method can be used for the validation of a set of test vectors:
 
 ```cmd
-dotnet run -n [answerFile] -r [iutResponsesFile]
+dotnet run -a [answerFile] -b [iutResponsesFile]
 ```
 
 where `answerFile` is the `internalProjection.json` produced from a generate step, and `iutResponsesFile` is either the `expectedResults.json` file (only guaranteed to be useable when generated for a sample registration), or the response file generated through the IUT's testing harness after having run the `prompt.json` through it. This will produce a `validation.json` file which outlines the test cases the IUT got correct or incorrect. 

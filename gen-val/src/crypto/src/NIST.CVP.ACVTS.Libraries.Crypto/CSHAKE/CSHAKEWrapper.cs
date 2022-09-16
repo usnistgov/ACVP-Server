@@ -1,10 +1,10 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.CSHAKE;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA;
 using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
+namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE
 {
-    public class CSHAKEWrapper : ICSHAKEWrapper
+    public class cSHAKEWrapper : IcSHAKEWrapper
     {
         private BitString _message;
 
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
                 return KeccakInternals.Keccak(_message, digestLength, capacity, true);
             }
 
-            var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customization);
+            var formattedMessage = cSHAKEHelpers.FormatMessage(_message, capacity, functionName, customization);
 
             return KeccakInternals.Keccak(formattedMessage, digestLength, capacity, true, true);
         }
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE
                 return KeccakInternals.Keccak(_message, digestLength, capacity, true);
             }
 
-            var formattedMessage = CSHAKEHelpers.FormatMessage(_message, capacity, functionName, customizationHex);
+            var formattedMessage = cSHAKEHelpers.FormatMessage(_message, capacity, functionName, customizationHex);
 
             return KeccakInternals.Keccak(formattedMessage, digestLength, capacity, true, true);
         }

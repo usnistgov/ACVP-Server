@@ -4,7 +4,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums
 {
     public enum KdfModes
     {
+        [EnumMember(Value = "none")]
         None,
+        
         [EnumMember(Value = "counter")]
         Counter,
 
@@ -12,6 +14,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums
         Feedback,
 
         [EnumMember(Value = "double pipeline iteration")]
-        Pipeline
+        Pipeline,
+        
+        [EnumMember(Value = "kmac")]
+        Kmac
     }
 }

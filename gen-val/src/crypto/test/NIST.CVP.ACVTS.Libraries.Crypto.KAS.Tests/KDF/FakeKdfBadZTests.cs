@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.CSHAKE;
+using NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Fakes;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.KDF.OneStep;
@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
         [Test]
         public void OriginalSharedSecretShouldBeModified()
         {
-            var kdfFactory = new KdfOneStepFactory(new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new CSHAKEWrapper()));
+            var kdfFactory = new KdfOneStepFactory(new NativeShaFactory(), new HmacFactory(new NativeShaFactory()), new KmacFactory(new cSHAKEWrapper()));
             var fakeKdfFactory = new FakeKdfFactory_BadZ(kdfFactory);
 
             var originalZ = new BitString("01");

@@ -18,5 +18,11 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes
 
         [EnumMember(Value = "modify key")]
         ModifyKey,
+        
+        [EnumMember(Value = "zero r")]
+        ZeroR,
+        
+        [EnumMember(Value = "zero s")]
+        ZeroS
     }
 }
