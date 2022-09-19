@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/Users/livebe01/.dotnet/store/|arch|/|tfm|",
-      "/Users/livebe01/.nuget/packages"
-    ]
-  }
-}
