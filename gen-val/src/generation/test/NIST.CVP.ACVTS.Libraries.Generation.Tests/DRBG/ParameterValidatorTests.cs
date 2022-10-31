@@ -21,6 +21,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES128)]
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES192)]
         [TestCase(DrbgMechanism.Counter, DrbgMode.AES256)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA1)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA224)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA256)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA384)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t224)]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t256)]
         public void ShouldValidateSuccessfullyAllValidAlgoAndModes(DrbgMechanism drbgMechanism, DrbgMode drbgMode)
         {
             Parameters p = new ParameterBuilder(drbgMechanism, drbgMode).Build();
@@ -41,6 +48,38 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
             Assert.IsFalse(result.Success, result.ErrorMessage);
         }
 
+        [Test]
+        [TestCase("EntropyInputLen lt test hashDRBG SHA1", DrbgMechanism.Hash, DrbgMode.SHA1, 127, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA1", DrbgMechanism.Hash, DrbgMode.SHA1, 128, true)]
+        [TestCase("EntropyInputLen lt test hashDRBG SHA224", DrbgMechanism.Hash, DrbgMode.SHA224, 191, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA224", DrbgMechanism.Hash, DrbgMode.SHA224, 192, true)]
+        [TestCase("EntropyInputLen lt test hashDRBG SHA256", DrbgMechanism.Hash, DrbgMode.SHA256, 255, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA256", DrbgMechanism.Hash, DrbgMode.SHA256, 256, true)]
+        [TestCase("EntropyInputLen lt test hashDRBG SHA384", DrbgMechanism.Hash, DrbgMode.SHA384, 255, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA384", DrbgMechanism.Hash, DrbgMode.SHA384, 256, true)]        
+        [TestCase("EntropyInputLen lt test hashDRBG SHA512", DrbgMechanism.Hash, DrbgMode.SHA512, 255, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA512", DrbgMechanism.Hash, DrbgMode.SHA512, 256, true)]
+        [TestCase("EntropyInputLen lt test hashDRBG SHA512t224", DrbgMechanism.Hash, DrbgMode.SHA512t224, 191, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA512t224", DrbgMechanism.Hash, DrbgMode.SHA512t224, 192, true)]     
+        [TestCase("EntropyInputLen lt test hashDRBG SHA512t256", DrbgMechanism.Hash, DrbgMode.SHA512t256, 255, false)]
+        [TestCase("EntropyInputLen equal to test hashDRBG SHA512t256", DrbgMechanism.Hash, DrbgMode.SHA512t256, 256, true)]   
+        public void ShouldFailValidationWhenEntropyLtMin(string label, DrbgMechanism drbgMechanism, DrbgMode drbgMode, int entropyInputLen, bool expectedSuccess)
+        {
+            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode);
+
+            MathDomain md = new MathDomain();
+            md.AddSegment(new ValueDomainSegment(entropyInputLen));
+
+            pb.WithDerFunctionEnabled(false)
+                .WithEntropyInputLen(md);
+            Parameters p = pb.Build();
+
+            var result = _subject.Validate(p);
+
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+        }
+        
+        
         [Test]
         [TestCase("DefFunc test at seedlen+ ctr aes128", DrbgMechanism.Counter, DrbgMode.AES128, true, true)]
         [TestCase("DefFunc test at seedlen+ ctr aes192", DrbgMechanism.Counter, DrbgMode.AES192, true, true)]

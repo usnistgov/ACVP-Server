@@ -19,6 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2.Contract
                 nameof(TestGroup.NRespLength),
                 nameof(TestGroup.GirLength),
                 nameof(TestGroup.DerivedKeyingMaterialLength),
+                nameof(TestGroup.DerivedKeyingMaterialChildLength),
 
             };
 

@@ -22,5 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
         public MathDomain ResponderNonceLength { get; set; }
         public MathDomain DiffieHellmanSharedSecretLength { get; set; }
         public MathDomain DerivedKeyingMaterialLength { get; set; }
+        public MathDomain DerivedKeyingMaterialChildLength { get; set; }
+        public bool DkmChildLenEqDkmLen { get; set; }
     }
 }

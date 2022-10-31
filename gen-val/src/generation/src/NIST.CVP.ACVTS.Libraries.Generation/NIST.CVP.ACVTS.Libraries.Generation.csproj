@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Version>$(GenValPackageVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Contains runners for generating, validating, and parameter checking test vectors for the ACVP program.</Description>

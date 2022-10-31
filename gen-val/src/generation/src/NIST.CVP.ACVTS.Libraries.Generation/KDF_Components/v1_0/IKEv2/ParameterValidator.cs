@@ -52,6 +52,25 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
                 ValidateDomain(capability.DiffieHellmanSharedSecretLength, errors, "DH", MIN_DH, MAX_DH);
                 ValidateDomain(capability.DerivedKeyingMaterialLength, errors, "DKM", MIN_DKM, MAX_DKM);
                 ValidateDKM(capability.DerivedKeyingMaterialLength, capability.HashAlg, errors, "DKM");
+
+                if (capability.DerivedKeyingMaterialChildLength == null)
+                {
+                    // Case: No derivedKeyingMaterialChildLength was provided in the registration.
+                    // derivedKeyingMaterialChildLength will be assumed to equal to derivedKeyingMaterialLength. Set 
+                    // derivedKeyingMaterialChildLength equal to derivedKeyingMaterialLength.
+                    capability.DerivedKeyingMaterialChildLength = capability.DerivedKeyingMaterialLength.GetDeepCopy();
+                    capability.DkmChildLenEqDkmLen = true;
+
+                    // Since derivedKeyingMaterialChildLength == derivedKeyingMaterialLength, no need to run ValidateDomain()
+                    // or ValidateDKM() on derivedKeyingMaterialChildLength.
+                }
+                else
+                {
+                    // Case: derivedKeyingMaterialChildLength was provided; verify its values
+                    ValidateDomain(capability.DerivedKeyingMaterialChildLength, errors, "CHILD DKM", MIN_DKM, MAX_DKM);
+                    ValidateDKM(capability.DerivedKeyingMaterialChildLength, capability.HashAlg, errors, "CHILD DKM");
+                    capability.DkmChildLenEqDkmLen = false;
+                }
             }
 
             return new ParameterValidateResponse(errors);
@@ -66,7 +85,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
 
                 if (dkmMax < hashOutLen)
                 {
-                    errors.Add("Largest DKM value must be greater than or equal to the length of the hashes");
+                    errors.Add(errorTag + ": Largest DKM value must be greater than or equal to the length of the hashes");
                 }
             }
         }

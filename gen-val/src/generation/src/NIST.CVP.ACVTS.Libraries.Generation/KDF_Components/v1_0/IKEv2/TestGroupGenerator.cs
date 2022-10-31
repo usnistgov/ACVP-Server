@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
                     var nRespValues = GetMinMaxOtherValueForDomain(capability.ResponderNonceLength.GetDeepCopy()).Shuffle();
                     var dhValues = GetMinMaxOtherValueForDomain(capability.DiffieHellmanSharedSecretLength.GetDeepCopy()).Shuffle();
                     var dkmValues = GetMinMaxOtherValueForDomain(capability.DerivedKeyingMaterialLength.GetDeepCopy()).Shuffle();
-
+                    var dkmChildValues = GetMinMaxOtherValueForDomain(capability.DerivedKeyingMaterialChildLength.GetDeepCopy()).Shuffle();
 
                     // Safe assumption that these will all have exactly 3 values
                     for (var i = 0; i < 3; i++)
@@ -40,17 +40,40 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
                         {
                             dkmValues[i] = hashFunction.OutputLen;
                         }
-
-
-                        var testGroup = new TestGroup
+                        // Assume we should do the same check for dkmChildValue
+                        if (dkmChildValues[i] < hashFunction.OutputLen)
                         {
-                            HashAlg = hashFunction,
-                            NInitLength = nInitValues[i],
-                            NRespLength = nRespValues[i],
-                            GirLength = dhValues[i],
-                            DerivedKeyingMaterialLength = dkmValues[i]
-                        };
+                            dkmChildValues[i] = hashFunction.OutputLen;
+                        }
 
+                        TestGroup testGroup;
+                        if (!capability.DkmChildLenEqDkmLen)
+                        {
+                            testGroup = new TestGroup
+                            {
+                                HashAlg = hashFunction,
+                                NInitLength = nInitValues[i],
+                                NRespLength = nRespValues[i],
+                                GirLength = dhValues[i],
+                                DerivedKeyingMaterialLength = dkmValues[i],
+                                DerivedKeyingMaterialChildLength = dkmChildValues[i],
+                            };
+                        }
+                        else // If capability.DkmChildLenEqDkmLen, i.e., no derivedKeyingMaterialChildLength was provided
+                             // in the registration, then mimic the IKEv2 behavior prior to adding the derivedKeyingMaterialChildLength 
+                             // property, i.e., have derivedKeyingMaterialLength and derivedKeyingMaterialChildLength values match
+                             // each other in each test group.
+                        {
+                            testGroup = new TestGroup
+                            {
+                                HashAlg = hashFunction,
+                                NInitLength = nInitValues[i],
+                                NRespLength = nRespValues[i],
+                                GirLength = dhValues[i],
+                                DerivedKeyingMaterialLength = dkmValues[i],
+                                DerivedKeyingMaterialChildLength = dkmValues[i],
+                            };                            
+                        }
 
                         testGroups.Add(testGroup);
                     }

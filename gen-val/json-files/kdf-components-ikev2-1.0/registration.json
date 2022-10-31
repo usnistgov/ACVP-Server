@@ -39,7 +39,8 @@
           "max": 16384,
           "increment": 1
         }
-      ]
+      ],
+      "dkmChildLenEqDkmLen": false
     },
     {
       "hashAlg": [
@@ -73,7 +74,15 @@
           "max": 16384,
           "increment": 1
         }
-      ]
+      ],
+      "derivedKeyingMaterialChildLength": [
+        {
+          "min": 768,
+          "max": 16384,
+          "increment": 1
+        }
+      ],
+      "dkmChildLenEqDkmLen": false
     }
   ]
 }

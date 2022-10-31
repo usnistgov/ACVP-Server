@@ -27,8 +27,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Components.IKEv2
         /// <param name="girNew">The secret that is used for the child KDF.</param>
         /// <param name="spii">The initiator security parameter index.</param>
         /// <param name="spir">The responder security parameter index.</param>
-        /// <param name="dkmLength">The length of the key to derive.</param>
+        /// <param name="dkmLength">The length of the IKE SA keying material to derive.</param>
+        /// <param name="dkmChildLength">The length of the CHILD SA keying material to derive.</param>
         /// <returns></returns>
-        IkeResult GenerateIke(BitString ni, BitString nr, BitString gir, BitString girNew, BitString spii, BitString spir, int dkmLength);
+        IkeResult GenerateIke(BitString ni, BitString nr, BitString gir, BitString girNew, BitString spii, BitString spir, int dkmLength, int dkmChildLength);
     }
 }

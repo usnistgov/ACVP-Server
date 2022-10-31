@@ -6,9 +6,9 @@
   <PropertyGroup>
     <BuildGenValPackages>false</BuildGenValPackages>
 
-    <GenValPackageVersionMajor>1</GenValPackageVersionMajor>
-    <GenValPackageVersionMinor>1</GenValPackageVersionMinor>
-    <GenValPackageVersionPatch>1</GenValPackageVersionPatch>
+    <GenValPackageVersionMajor>2</GenValPackageVersionMajor>
+    <GenValPackageVersionMinor>0</GenValPackageVersionMinor>
+    <GenValPackageVersionPatch>0</GenValPackageVersionPatch>
 
     <GenValFormattedSuffix Condition=" '$(GenValSuffix)' == '' "></GenValFormattedSuffix>
     <GenValFormattedSuffix Condition=" '$(GenValSuffix)' != '' ">-$(GenValSuffix)</GenValFormattedSuffix>
@@ -21,8 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <FrameworkPackageVersions>5.0.0</FrameworkPackageVersions>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
     <!-- Set common properties regarding assembly information and nuget packages -->

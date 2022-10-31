@@ -221,14 +221,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Br2
                         .ConcatenateBits(zPartyU ?? new BitString(0))
                         .ConcatenateBits(zPartyV ?? new BitString(0));
 
-                    response.TestPassed = false;
+                    response.TestPassed = false; 
                 }
 
                 if (_param.HashFunctionZ != HashFunctions.None)
                 {
                     var hashFunction = ShaAttributes.GetHashFunctionFromEnum(_param.HashFunctionZ);
                     var sha = _shaFactory.GetShaInstance(hashFunction);
-                    response.HashZ = sha.HashMessage(result.Dkm).Digest;
+                    response.HashZ = sha.HashMessage(response.Z).Digest;
                     response.IutHashZ = response.IutZ != null ? sha.HashMessage(response.IutZ).Digest : null;
                 }
 

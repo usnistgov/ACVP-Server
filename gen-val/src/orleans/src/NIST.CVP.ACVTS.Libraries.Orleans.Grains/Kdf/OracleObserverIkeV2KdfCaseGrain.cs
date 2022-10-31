@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf
             var spiInit = _rand.GetRandomBitString(64);
             var spiResp = _rand.GetRandomBitString(64);
 
-            var result = ike.GenerateIke(nInit, nResp, gir, girNew, spiInit, spiResp, _param.DerivedKeyingMaterialLength);
+            var result = ike.GenerateIke(nInit, nResp, gir, girNew, spiInit, spiResp, _param.DerivedKeyingMaterialLength, _param.DerivedKeyingMaterialChildLength);
             if (!result.Success)
             {
                 throw new Exception();

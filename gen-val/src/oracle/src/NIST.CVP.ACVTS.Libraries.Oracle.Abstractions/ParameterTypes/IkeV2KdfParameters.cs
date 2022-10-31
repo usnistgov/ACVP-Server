@@ -9,5 +9,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         public int GirLength { get; set; }
         public HashFunction HashAlg { get; set; }
         public int DerivedKeyingMaterialLength { get; set; }
+        public int DerivedKeyingMaterialChildLength { get; set; }
     }
 }

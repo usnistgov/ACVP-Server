@@ -135,6 +135,27 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
                 case DrbgMode.AES256:
                     _mode = "AES-256";
                     break;
+                case DrbgMode.SHA1:
+                    _mode = "SHA-1";
+                    break;
+                case DrbgMode.SHA224:
+                    _mode = "SHA2-224";
+                    break;
+                case DrbgMode.SHA256:
+                    _mode = "SHA2-256";
+                    break;
+                case DrbgMode.SHA384:
+                    _mode = "SHA2-384";
+                    break;               
+                case DrbgMode.SHA512:
+                    _mode = "SHA2-512";
+                    break;
+                case DrbgMode.SHA512t224:
+                    _mode = "SHA2-512/224";
+                    break;
+                case DrbgMode.SHA512t256:
+                    _mode = "SHA2-512/256";
+                    break;               
             }
         }
 
@@ -146,6 +167,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
             {
                 case DrbgMechanism.Counter:
                     _algorithm = "ctrDRBG";
+                    break;
+                case DrbgMechanism.Hash:
+                    _algorithm = "hashDRBG";
                     break;
                 default:
                     _algorithm = "invalid";
@@ -169,21 +193,65 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
                     KeyLength = 256;
                     SecurityStrength = 256;
                     break;
+                case DrbgMode.SHA1:
+                    SecurityStrength = 128;
+                    OutLength = 160;
+                    break;
+                case DrbgMode.SHA224:
+                    SecurityStrength = 192;
+                    OutLength = 224;
+                    break;
+                case DrbgMode.SHA256:
+                    SecurityStrength = 256;
+                    OutLength = 256;
+                    break;
+                case DrbgMode.SHA384:
+                    SecurityStrength = 256;
+                    OutLength = 384;
+                    break;               
+                case DrbgMode.SHA512:
+                    SecurityStrength = 256;
+                    OutLength = 512;
+                    break;
+                case DrbgMode.SHA512t224:
+                    SecurityStrength = 192;
+                    OutLength = 224;
+                    break;
+                case DrbgMode.SHA512t256:
+                    SecurityStrength = 256;
+                    OutLength = 256;
+                    break;               
             }
 
-            SeedLength = OutLength + KeyLength;
+            if (mechanism == DrbgMechanism.Counter)
+            {
+                SeedLength = OutLength + KeyLength;
 
-            _additionalInputLen = new MathDomain();
-            _additionalInputLen.AddSegment(new ValueDomainSegment(SeedLength));
+                _additionalInputLen = new MathDomain();
+                _additionalInputLen.AddSegment(new ValueDomainSegment(SeedLength));
 
-            _entropyInputLen = new MathDomain();
-            _entropyInputLen.AddSegment(new ValueDomainSegment(SeedLength));
+                _entropyInputLen = new MathDomain();
+                _entropyInputLen.AddSegment(new ValueDomainSegment(SeedLength));
 
-            _nonceLen = new MathDomain();
-            _nonceLen.AddSegment(new ValueDomainSegment(SeedLength));
+                _nonceLen = new MathDomain();
+                _nonceLen.AddSegment(new ValueDomainSegment(SeedLength));
 
-            _persoStringLen = new MathDomain();
-            _persoStringLen.AddSegment(new ValueDomainSegment(SeedLength));
+                _persoStringLen = new MathDomain();
+                _persoStringLen.AddSegment(new ValueDomainSegment(SeedLength));
+            } else if (mechanism == DrbgMechanism.Hash)
+            {
+                _additionalInputLen = new MathDomain();
+                _additionalInputLen.AddSegment(new ValueDomainSegment(SecurityStrength));
+
+                _entropyInputLen = new MathDomain();
+                _entropyInputLen.AddSegment(new ValueDomainSegment(SecurityStrength));
+
+                _nonceLen = new MathDomain();
+                _nonceLen.AddSegment(new ValueDomainSegment(SecurityStrength/2));
+
+                _persoStringLen = new MathDomain();
+                _persoStringLen.AddSegment(new ValueDomainSegment(SecurityStrength));
+            }
         }
     }
 }

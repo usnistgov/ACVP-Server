@@ -63,6 +63,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.SP800_108r1.KMAC
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     KeyDerivationKey = oracleResult.KeyDerivationKey,
+                    DerivedKeyLength = param.DerivedKeyLength,
                     DerivedKey = oracleResult.DerivedKey,
                     Context = oracleResult.Context,
                     Label = oracleResult.Label

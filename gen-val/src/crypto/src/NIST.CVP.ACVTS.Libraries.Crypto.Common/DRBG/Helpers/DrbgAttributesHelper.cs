@@ -133,32 +133,6 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA1,
-                    maxSecurityStrength: 80,
-                    minEntropyInputLength: 80,
-                    maxEntropyInputLength: (long) 1 << 35,
-                    maxPersoStringLength: (long) 1 << 35,
-                    maxAdditStringLength: (long) 1 << 35,
-                    maxNumberOfBitsPerRequest: 1 << 19,
-                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 40,
-                    maxNonceLength: (long) 1 << 35
-                ),
-                new DrbgAttributes(
-                    mechanism: DrbgMechanism.Hash,
-                    mode: DrbgMode.SHA224,
-                    maxSecurityStrength: 112,
-                    minEntropyInputLength: 112,
-                    maxEntropyInputLength: (long) 1 << 35,
-                    maxPersoStringLength: (long) 1 << 35,
-                    maxAdditStringLength: (long) 1 << 35,
-                    maxNumberOfBitsPerRequest: 1 << 19,
-                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 56,
-                    maxNonceLength: (long) 1 << 35
-                ),
-                new DrbgAttributes(
-                    mechanism: DrbgMechanism.Hash,
-                    mode: DrbgMode.SHA256,
                     maxSecurityStrength: 128,
                     minEntropyInputLength: 128,
                     maxEntropyInputLength: (long) 1 << 35,
@@ -171,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
-                    mode: DrbgMode.SHA384,
+                    mode: DrbgMode.SHA224,
                     maxSecurityStrength: 192,
                     minEntropyInputLength: 192,
                     maxEntropyInputLength: (long) 1 << 35,
@@ -180,6 +154,32 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 96,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.Hash,
+                    mode: DrbgMode.SHA256,
+                    maxSecurityStrength: 256,
+                    minEntropyInputLength: 256,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 128,
+                    maxNonceLength: (long) 1 << 35
+                ),
+                new DrbgAttributes(
+                    mechanism: DrbgMechanism.Hash,
+                    mode: DrbgMode.SHA384,
+                    maxSecurityStrength: 256,
+                    minEntropyInputLength: 256,
+                    maxEntropyInputLength: (long) 1 << 35,
+                    maxPersoStringLength: (long) 1 << 35,
+                    maxAdditStringLength: (long) 1 << 35,
+                    maxNumberOfBitsPerRequest: 1 << 19,
+                    maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
+                    minNonceLength: 128,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
@@ -198,27 +198,27 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA512t224,
-                    maxSecurityStrength: 112,
-                    minEntropyInputLength: 112,
+                    maxSecurityStrength: 192,
+                    minEntropyInputLength: 192,
                     maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 56,
+                    minNonceLength: 96,
                     maxNonceLength: (long) 1 << 35
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Hash,
                     mode: DrbgMode.SHA512t256,
-                    maxSecurityStrength: 128,
-                    minEntropyInputLength: 128,
+                    maxSecurityStrength: 256,
+                    minEntropyInputLength: 256,
                     maxEntropyInputLength: (long) 1 << 35,
                     maxPersoStringLength: (long) 1 << 35,
                     maxAdditStringLength: (long) 1 << 35,
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
-                    minNonceLength: 64,
+                    minNonceLength: 128,
                     maxNonceLength: (long) 1 << 35
                 ),
                 #endregion Hash
@@ -367,14 +367,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
             new List<DrbgHashAttributes>
             {
                 #region SHA1
-                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA1, 160, 160, 440),
+                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA1, 128, 160, 440),
                 #endregion SHA1
                 #region SHA2
-                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA224, 224, 224, 440),
+                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA224, 192, 224, 440),
                 new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA256, 256, 256, 440),
-                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA384, 384, 384, 888),
-                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA512, 512, 512, 888),
-                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA512t224, 224, 224, 440),
+                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA384, 256, 384, 888),
+                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA512, 256, 512, 888),
+                new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA512t224, 192, 224, 440),
                 new DrbgHashAttributes(DrbgMechanism.Hash, DrbgMode.SHA512t256, 256, 256, 440),
                 #endregion SHA2
             };

@@ -64,6 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.IKEv2.IntegrationTests
                             testCase.GirNew,
                             testCase.SpiInit,
                             testCase.SpiResp,
+                            testGroup.DerivedKeyingMaterialLength,
                             testGroup.DerivedKeyingMaterialLength
                         );
 

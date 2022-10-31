@@ -26,6 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
         public int NRespLength { get; set; }
 
         public int DerivedKeyingMaterialLength { get; set; }
+        
+        public int DerivedKeyingMaterialChildLength { get; set; }
 
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
@@ -58,6 +60,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
 
                 case "dkm length":
                     DerivedKeyingMaterialLength = int.Parse(value);
+                    return true;
+                
+                case "dkm child length":
+                    DerivedKeyingMaterialChildLength = int.Parse(value);
                     return true;
             }
 

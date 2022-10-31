@@ -20,14 +20,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv2
             return ExpansionKdf(sKeySeed, ni, nr, spii, spir, dkmLength);
         }
 
-        public IkeResult GenerateIke(BitString ni, BitString nr, BitString gir, BitString girNew, BitString spii, BitString spir, int dkmLength)
+        public IkeResult GenerateIke(BitString ni, BitString nr, BitString gir, BitString girNew, BitString spii, BitString spir, int dkmLength, int dkmChildLength)
         {
             var sKeySeed = GenerateSKeySeed(ni, nr, gir);
             var dkm = ExpansionKdf(sKeySeed, ni, nr, spii, spir, dkmLength);
 
             var sKeyD = dkm.GetMostSignificantBits(_hmac.OutputLength);
-            var dkmChildSA = ChildSAKdf(sKeyD, ni, nr, dkmLength);
-            var dkmChildSADh = ChildSAKdfDh(sKeyD, girNew, ni, nr, dkmLength);
+            var dkmChildSA = ChildSAKdf(sKeyD, ni, nr, dkmChildLength);
+            var dkmChildSADh = ChildSAKdfDh(sKeyD, girNew, ni, nr, dkmChildLength);
 
             var sKeySeedReKey = GenerateSKeySeedReKey(sKeyD, girNew, ni, nr);
 
@@ -50,16 +50,16 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv2
             return GenerateKeyingMaterial(sKeySeed, fixedData, dkmLength);
         }
 
-        private BitString ChildSAKdf(BitString sKD, BitString ni, BitString nr, int dkmLength)
+        private BitString ChildSAKdf(BitString sKD, BitString ni, BitString nr, int dkmChildLength)
         {
             var fixedData = ni.ConcatenateBits(nr);
-            return GenerateKeyingMaterial(sKD, fixedData, dkmLength);
+            return GenerateKeyingMaterial(sKD, fixedData, dkmChildLength);
         }
 
-        private BitString ChildSAKdfDh(BitString sKD, BitString girNew, BitString ni, BitString nr, int dkmLength)
+        private BitString ChildSAKdfDh(BitString sKD, BitString girNew, BitString ni, BitString nr, int dkmChildLength)
         {
             var fixedData = girNew.ConcatenateBits(ni).ConcatenateBits(nr);
-            return GenerateKeyingMaterial(sKD, fixedData, dkmLength);
+            return GenerateKeyingMaterial(sKD, fixedData, dkmChildLength);
         }
 
         private BitString GenerateKeyingMaterial(BitString key, BitString fixedData, int dkmLength)
