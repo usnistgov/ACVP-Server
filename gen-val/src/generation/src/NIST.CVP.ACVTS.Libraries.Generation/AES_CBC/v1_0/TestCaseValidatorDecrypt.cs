@@ -53,7 +53,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC.v1_0
             if (suppliedResult.PlainText == null)
             {
                 errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
-                return;
             }
         }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfIkeV1;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfIkeV2;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTls10_11;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTls12;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfIkeV1;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfIkeV2;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTls10_11;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTls12;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2.ContractResolvers

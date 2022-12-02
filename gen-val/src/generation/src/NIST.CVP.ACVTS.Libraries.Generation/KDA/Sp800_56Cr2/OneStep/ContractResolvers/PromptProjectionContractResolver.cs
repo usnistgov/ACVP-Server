@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStep.ContractResolvers

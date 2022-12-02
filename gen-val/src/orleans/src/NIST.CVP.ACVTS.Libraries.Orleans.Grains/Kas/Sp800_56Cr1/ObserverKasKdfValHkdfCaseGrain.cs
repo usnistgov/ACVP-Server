@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.FixedInfo;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfHkdf;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfHkdf;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
@@ -83,6 +83,11 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
             {
                 var kdfParam = _kdfParameterVisitor.CreateParameter(_param.KdfConfiguration);
                 kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
+                // Does IUT support/use a hybrid shared secret?
+                if (_param.AuxSharedSecretLen != default)
+                {
+                    kdfParam.T = _entropyProvider.GetEntropy(_param.AuxSharedSecretLen);
+                }
 
                 var fixedInfoPartyU =
                     new PartyFixedInfo(
@@ -101,7 +106,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
                     Label = kdfParam.Label,
                     Salt = kdfParam.Salt,
                     AlgorithmId = kdfParam.AlgorithmId,
-                    T = kdfParam.T,
                     FixedInfoPattern = kdfParam.FixedInfoPattern,
                     EntropyBits = kdfParam.EntropyBits,
                 };
@@ -117,6 +121,11 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
                         continue;
                     case KdaTestCaseDisposition.Fail:
                         kdfParam.Z = _random.GetDifferentBitStringOfSameSize(kdfParam.Z);
+                        // Does IUT support/use a hybrid shared secret?
+                        if (_param.AuxSharedSecretLen != default)
+                        {
+                            kdfParam.T = _random.GetDifferentBitStringOfSameSize(kdfParam.T); 
+                        }
                         testPassed = false;
                         break;
                 }
@@ -146,15 +155,25 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
             {
                 var kdfParam = _kdfMultiExpansionParameterVisitor.CreateParameter(_param.KdfConfigurationMultiExpand);
                 kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
-
+                // Does the IUT support/use a hybrid shared secret?
+                if (_param.AuxSharedSecretLen != default)
+                {
+                    kdfParam.T = _entropyProvider.GetEntropy(_param.AuxSharedSecretLen);
+                }
+                
                 var result = kdfParam.AcceptKdf(_kdfMultiExpansionVisitor);
-
+                
                 switch (_param.Disposition)
                 {
                     case KdaTestCaseDisposition.SuccessLeadingZeroNibble when result.Results[0].DerivedKey[0] >= 0x10:
                         continue;
                     case KdaTestCaseDisposition.Fail:
                         kdfParam.Z = _random.GetDifferentBitStringOfSameSize(kdfParam.Z);
+                        // Does IUT support/use a hybrid shared secret?
+                        if (_param.AuxSharedSecretLen != default)
+                        {
+                            kdfParam.T = _random.GetDifferentBitStringOfSameSize(kdfParam.T); 
+                        }
                         testPassed = false;
                         break;
                 }

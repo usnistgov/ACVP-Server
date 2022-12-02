@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.FixedInfo;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfHkdf;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfHkdf;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.HKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;
@@ -40,11 +40,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.KDF
         public KdfMultiExpansionResult Kdf(KdfMultiExpansionParameterHkdf param)
         {
             var kdf = _hkdfFactory.GetKdf(ShaAttributes.GetHashFunctionFromEnum(param.HmacAlg));
-
+            BitString sharedSecret;
+            
+            // The IUT supports/uses a hybrid shared secret
+            if (param.T != default)
+            {
+                // Create the hybrid shared secret by concatenating the shared secret (Z) and auxiliary shared secret (T)
+                sharedSecret = param.Z.ConcatenateBits(param.T);
+            }
+            else // The IUT does not support/use a hybrid shared secret
+            {
+                sharedSecret = param.Z;
+            }
+            
             List<KdfResult> result = new List<KdfResult>();
             foreach (var iterationParameter in param.IterationParameters)
             {
-                result.Add(kdf.DeriveKey(param.Salt, param.Z, iterationParameter.FixedInfo, iterationParameter.L / BitString.BITSINBYTE));
+                result.Add(kdf.DeriveKey(param.Salt, sharedSecret, iterationParameter.FixedInfo, iterationParameter.L / BitString.BITSINBYTE));
             }
 
             return new KdfMultiExpansionResult(result);
@@ -115,8 +127,21 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.KDF
                     throw new ArgumentException($"Invalid {nameof(MacModes)} provided to KdfVisitor.");
             }
 
+            BitString sharedSecret;
+            
+            // The IUT supports/uses a hybrid shared secret
+            if (param.T != default)
+            {
+                // Create the hybrid shared secret by concatenating the shared secret (Z) and auxiliary shared secret (T)
+                sharedSecret = param.Z.ConcatenateBits(param.T);
+            }
+            else // The IUT does not support/use a hybrid shared secret
+            {
+                sharedSecret = param.Z;
+            }
+            
             // Randomness extraction (step one)
-            var randomnessExtraction = randomnessExtractionMac.Generate(param.Salt, param.Z);
+            var randomnessExtraction = randomnessExtractionMac.Generate(param.Salt, sharedSecret);
 
             // Key Expansion (step two)
             var kdf = _kdfTwoStepFactory.GetKdfInstance(

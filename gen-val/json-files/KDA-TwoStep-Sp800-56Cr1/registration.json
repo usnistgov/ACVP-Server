@@ -4,6 +4,15 @@
   "mode": "TwoStep",
   "revision": "Sp800-56Cr1",
   "isSample": true,
+  "l": 512,
+  "z": [
+    {
+      "min": 224,
+      "max": 65536,
+      "increment": 8
+    }
+  ],
+  "performMultiExpansionTests": false,
   "capabilities": [
     {
       "macSaltMethods": [
@@ -33,14 +42,5 @@
       "requiresEmptyIv": false,
       "supportsEmptyIv": false
     }
-  ],
-  "l": 512,
-  "z": [
-    {
-      "min": 224,
-      "max": 65536,
-      "increment": 8
-    }
-  ],
-  "performMultiExpansionTests": false
+  ]
 }

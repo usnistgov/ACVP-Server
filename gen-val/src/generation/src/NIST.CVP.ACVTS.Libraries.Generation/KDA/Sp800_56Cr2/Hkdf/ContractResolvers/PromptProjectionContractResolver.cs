@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfHkdf;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfHkdf;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf.ContractResolvers
@@ -16,7 +16,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf.ContractResol
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.KdfConfiguration),
                 nameof(TestGroup.KdfMultiExpansionConfiguration),
+                nameof(TestGroup.UsesHybridSharedSecret),
                 nameof(TestGroup.MultiExpansion),
+                nameof(TestGroup.ZLength),
+                nameof(TestGroup.AuxSharedSecretLen),
                 nameof(TestGroup.Tests),
             };
 

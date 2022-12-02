@@ -4,7 +4,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;

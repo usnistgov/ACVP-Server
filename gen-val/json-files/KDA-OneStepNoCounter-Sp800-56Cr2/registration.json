@@ -50,7 +50,7 @@
       ]
     }
   ],
-  "fixedInfoPattern": "uPartyInfo||vPartyInfo||l",
+  "fixedInfoPattern": "t||uPartyInfo||vPartyInfo||l",
   "encoding": [
     "concatenation"
   ],

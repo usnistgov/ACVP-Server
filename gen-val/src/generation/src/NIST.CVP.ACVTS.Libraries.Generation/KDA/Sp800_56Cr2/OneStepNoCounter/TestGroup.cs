@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter

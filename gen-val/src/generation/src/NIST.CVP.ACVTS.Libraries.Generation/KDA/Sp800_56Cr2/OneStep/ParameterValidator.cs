@@ -6,7 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;

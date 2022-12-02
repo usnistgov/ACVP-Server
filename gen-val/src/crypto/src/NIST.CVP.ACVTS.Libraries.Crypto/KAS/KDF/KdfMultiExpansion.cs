@@ -1,6 +1,6 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.KDF
 {

@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;

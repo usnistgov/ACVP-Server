@@ -5,7 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0;

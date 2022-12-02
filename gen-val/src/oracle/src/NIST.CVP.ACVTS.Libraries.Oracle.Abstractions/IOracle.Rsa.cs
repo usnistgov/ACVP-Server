@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 
@@ -22,7 +23,9 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
         Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
         Task<RsaDecryptionPrimitiveResult> CompleteDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param, RsaDecryptionPrimitiveResult fullParam);
         Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);
-
+        
+        Task<RsaDecryptionPrimitiveResult> GetRsaDecryptionPrimitiveSp800B56Br2Async(RsaDecryptionPrimitiveParameters param);
+        
         Task<RsaPrimeResult> GetRsaPrimes(RsaKeyParameters param);
     }
 }

@@ -219,6 +219,8 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         PBKDF_v1_0,
         [EnumMember(Value = "RSA-DecryptionPrimitive-1.0")]
         RSA_DecryptionPrimitive_v1_0,
+        [EnumMember(Value = "RSA-DecryptionPrimitive-Sp800-56Br2")]
+        RSA_DecryptionPrimitive_Sp800_56Br2,
         [EnumMember(Value = "RSA-KeyGen-Fips186-4")]
         RSA_KeyGen_Fips186_4,
         [EnumMember(Value = "RSA-KeyGen-Fips186-5")]

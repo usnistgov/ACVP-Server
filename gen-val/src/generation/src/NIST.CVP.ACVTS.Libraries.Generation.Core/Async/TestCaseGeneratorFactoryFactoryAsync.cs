@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -7,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using NIST.CVP.ACVTS.Libraries.Common.Config;
 using NIST.CVP.ACVTS.Libraries.Common.Enums;
-using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Async

@@ -1,7 +1,7 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.FixedInfo;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 

@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfIkeV1;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfIkeV2;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTls10_11;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTls12;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfIkeV1;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfIkeV2;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTls10_11;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTls12;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters
 {

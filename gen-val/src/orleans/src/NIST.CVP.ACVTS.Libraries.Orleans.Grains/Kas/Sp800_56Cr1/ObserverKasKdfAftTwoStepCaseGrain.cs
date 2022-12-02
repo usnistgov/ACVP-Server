@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.FixedInfo;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Cr1;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.Kas.Sp800_56Cr1;
@@ -73,7 +73,12 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
         {
             var kdfParam = _kdfParameterVisitor.CreateParameter(_param.KdfConfiguration);
             kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
-
+            // Does IUT support/use a hybrid shared secret
+            if (_param.AuxSharedSecretLen != default)
+            {
+                kdfParam.T = _entropyProvider.GetEntropy(_param.AuxSharedSecretLen);
+            }
+            
             var fixedInfoPartyU =
                 new PartyFixedInfo(
                     _entropyProvider.GetEntropy(LengthPartyId),
@@ -91,7 +96,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
                 Label = kdfParam.Label,
                 Salt = kdfParam.Salt,
                 AlgorithmId = kdfParam.AlgorithmId,
-                T = kdfParam.T,
                 FixedInfoPattern = kdfParam.FixedInfoPattern,
                 EntropyBits = kdfParam.EntropyBits,
             };
@@ -119,12 +123,17 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Cr1
         {
             var kdfParam = _param.KdfConfigurationMultiExpand.GetKdfParameter(_kdfMultiExpansionParameterVisitor);
             kdfParam.Z = _entropyProvider.GetEntropy(_param.ZLength);
-
+            // Does the IUT support/use a hybrid shared secret?
+            if (_param.AuxSharedSecretLen != default)
+            {
+                kdfParam.T = _entropyProvider.GetEntropy(_param.AuxSharedSecretLen);
+            }
+            
             var result = kdfParam.AcceptKdf(_kdfMultiExpansionVisitor);
 
             await Notify(new KdaAftTwoStepResult()
             {
-                MultiExpansionInputs = (KdfMultiExpansionParameterTwoStep)kdfParam,
+                MultiExpansionInputs = (KdfMultiExpansionParameterTwoStep) kdfParam,
                 MultiExpansionResult = result
             });
         }

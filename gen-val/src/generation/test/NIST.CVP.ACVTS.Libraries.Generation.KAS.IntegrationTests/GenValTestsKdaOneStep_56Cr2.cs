@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -174,7 +174,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 {
                     FixedInfoEncoding.Concatenation
                 },
-                FixedInfoPattern = "uPartyInfo||vPartyInfo||l"
+                FixedInfoPattern = "t||uPartyInfo||vPartyInfo||l"
             };
 
             return CreateRegistration(folderName, p);

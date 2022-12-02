@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 

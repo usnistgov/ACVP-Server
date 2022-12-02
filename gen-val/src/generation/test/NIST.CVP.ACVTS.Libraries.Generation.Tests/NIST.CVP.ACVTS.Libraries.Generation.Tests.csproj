@@ -39,4 +39,8 @@
     <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="KAS\KDA\TwoStep" />
+  </ItemGroup>
+
 </Project>

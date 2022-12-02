@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
         {
             TestPath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\TestFiles\temp_integrationTests\");
             JsonSavePath = Utilities.GetConsistentTestingStartPath(GetType(), @"..\..\..\..\json-files\");
-
+            
             _serviceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
         }
 
@@ -47,7 +47,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
         public abstract string Mode { get; }
         public virtual string Revision { get; set; } = "1.0";
         public virtual IJsonConverterProvider JsonConverterProvider => new JsonConverterProvider();
-
         private string TestPath { get; set; }
         private string JsonSavePath { get; set; }
 
@@ -83,11 +82,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
             LoggingHelper.ConfigureLogging(fileName, "validator", LogLevel.Debug);
             ValLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             await RunValidation(targetFolder);
-
+            
             // Get object for the validation.json
             var dp = new DynamicParser();
             var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
-
+            
             // Validate result as pass
             Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
         }

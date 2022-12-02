@@ -5,7 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KTS;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;

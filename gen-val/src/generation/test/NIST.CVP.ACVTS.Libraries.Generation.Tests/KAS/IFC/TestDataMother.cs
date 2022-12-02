@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;

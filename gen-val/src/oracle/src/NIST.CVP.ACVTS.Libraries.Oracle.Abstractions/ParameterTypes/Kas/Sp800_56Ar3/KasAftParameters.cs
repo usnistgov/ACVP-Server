@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Ar3
 {

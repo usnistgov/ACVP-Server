@@ -1,0 +1,17 @@
+{
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "DecryptionPrimitive",
+  "revision": "Sp800-56Br2",
+  "isSample": false,
+  "conformances": [],
+  "keyFormat": [
+    "standard",
+    "crt"
+  ],
+  "modulus": [
+    2048,
+    3072,
+    4096
+  ]
+}

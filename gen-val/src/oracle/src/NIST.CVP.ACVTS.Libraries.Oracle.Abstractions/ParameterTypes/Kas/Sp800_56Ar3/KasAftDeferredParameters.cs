@@ -1,5 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
 using NIST.CVP.ACVTS.Libraries.Math;
 

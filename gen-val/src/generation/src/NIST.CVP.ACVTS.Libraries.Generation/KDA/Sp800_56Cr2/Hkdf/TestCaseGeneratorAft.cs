@@ -38,7 +38,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                 {
                     KdfConfiguration = group.KdfConfiguration,
                     KdfConfigurationMultiExpand = group.KdfMultiExpansionConfiguration,
-                    ZLength = group.ZLength
+                    ZLength = group.ZLength,
+                    AuxSharedSecretLen = group.AuxSharedSecretLen
                 });
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase()

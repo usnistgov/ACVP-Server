@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;

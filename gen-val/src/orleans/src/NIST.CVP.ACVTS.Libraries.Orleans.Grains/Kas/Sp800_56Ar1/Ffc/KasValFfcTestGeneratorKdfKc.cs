@@ -4,7 +4,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfOneStep;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.NoKC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Builders.Ffc;

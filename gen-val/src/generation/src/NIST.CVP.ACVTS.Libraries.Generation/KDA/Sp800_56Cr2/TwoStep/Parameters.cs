@@ -13,11 +13,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; }
-
-        public TwoStepCapabilities[] Capabilities { get; set; }
         public int L { get; set; }
         public MathDomain Z { get; set; }
+        /// <summary>
+        /// Does the IUT use hybrid shared secrets?
+        /// </summary>
+        public bool? UsesHybridSharedSecret { get; set; }
+        /// <summary>
+        /// The supported lengths of the optional 56Cr2 auxiliary shared secret.
+        /// </summary>
+        public MathDomain AuxSharedSecretLen { get; set; }
         public bool PerformMultiExpansionTests { get; set; }
+        public TwoStepCapabilities[] Capabilities { get; set; }
     }
 
     public class TwoStepCapabilities : Capability

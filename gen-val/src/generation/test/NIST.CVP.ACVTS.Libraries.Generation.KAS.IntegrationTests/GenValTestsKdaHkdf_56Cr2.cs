@@ -86,6 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 FixedInfoPattern = "uPartyInfo||vPartyInfo||l",
                 MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
                 HmacAlg = new[] { HashFunctions.Sha1, HashFunctions.Sha2_d256, HashFunctions.Sha3_d256 },
+                UsesHybridSharedSecret = false,
                 PerformMultiExpansionTests = true,
             };
 
@@ -106,9 +107,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 {
                     FixedInfoEncoding.Concatenation
                 },
-                FixedInfoPattern = "uPartyInfo||vPartyInfo||t||l",
+                FixedInfoPattern = "uPartyInfo||vPartyInfo||l",
                 MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
                 HmacAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>().Except(new[] { HashFunctions.Sha1 }).ToArray(),
+                UsesHybridSharedSecret = true,
+                AuxSharedSecretLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 112, 65536, 8)),
                 PerformMultiExpansionTests = true
             };
 

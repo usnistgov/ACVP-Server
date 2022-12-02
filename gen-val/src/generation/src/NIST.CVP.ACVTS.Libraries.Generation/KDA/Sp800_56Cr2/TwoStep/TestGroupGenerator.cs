@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF.KdfTwoStep;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -16,40 +18,56 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
         public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
+            var algoMode =
+                AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
+            bool usesHybridSS = false;
+            List<int> zLengths;
+            List<int> tLengths = new List<int>(){};
+            int zLength;
+            int tLength;
 
+            if (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2)
+            {
+                usesHybridSS = parameters.UsesHybridSharedSecret.Value;
+            }
+            
             foreach (var testType in _testTypes)
             {
                 foreach (var kdfConfig in GetKdfConfiguration(parameters))
                 {
-                    foreach (var zLength in GetZs(parameters.Z.GetDeepCopy()))
+                    zLengths = GetSSLens(parameters.Z.GetDeepCopy());
+                    int numSSLens = zLengths.Count;
+                    
+                    if (usesHybridSS)
                     {
-                        groups.Add(new TestGroup()
+                        tLengths = GetSSLens(parameters.AuxSharedSecretLen.GetDeepCopy());
+                        if (tLengths.Count > numSSLens)
                         {
-                            KdfConfiguration = new TwoStepConfiguration()
-                            {
-                                L = parameters.L,
-                                CounterLen = kdfConfig.CounterLen,
-                                CounterLocation = kdfConfig.CounterLocation,
-                                IvLen = kdfConfig.IvLen,
-                                KdfMode = kdfConfig.KdfMode,
-                                MacMode = kdfConfig.MacMode,
-                                SaltLen = kdfConfig.SaltLen,
-                                SaltMethod = kdfConfig.SaltMethod,
-                                FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
-                                FixedInfoPattern = kdfConfig.FixedInfoPattern
-                            },
-                            TestType = testType,
-                            IsSample = parameters.IsSample,
-                            ZLength = zLength,
-                            MultiExpansion = false,
-                        });
+                            numSSLens = tLengths.Count;
+                        }
+                    }
+                    
+                    for (int i = 0; i < numSSLens; i++)
+                    {
+                        // tLength should default to 0
+                        tLength = 0; 
+                        // If we're dealing w/ 56Cr1 or if it's 56Cr2 w/ !usesHybridSS, then we don't need to factor in/worry about t
+                        if (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1 || (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2 && !usesHybridSS))
+                        {
+                            zLength = zLengths[i];
+                        } 
+                        else // if 56Cr2 and usesHybridSS is true, then we could be in a scenario where the  
+                        { // number of zLengths is less than the number of tLengths and we'll need to reuse a
+                            // zLength 1 or more times or vice versus
+                            zLength = i < zLengths.Count ? zLengths[i] : zLengths[zLengths.Count-1]; 
+                            tLength = i < tLengths.Count ? tLengths[i] : tLengths[tLengths.Count-1];
+                        }
 
-                        // Create groups for multi expansion using more or less the same options
-                        if (parameters.PerformMultiExpansionTests)
+                        if (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1)
                         {
                             groups.Add(new TestGroup()
                             {
-                                KdfMultiExpansionConfiguration = new TwoStepMultiExpansionConfiguration()
+                                KdfConfiguration = new TwoStepConfiguration()
                                 {
                                     L = parameters.L,
                                     CounterLen = kdfConfig.CounterLen,
@@ -59,12 +77,63 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                                     MacMode = kdfConfig.MacMode,
                                     SaltLen = kdfConfig.SaltLen,
                                     SaltMethod = kdfConfig.SaltMethod,
+                                    FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
+                                    FixedInfoPattern = kdfConfig.FixedInfoPattern
+                                },
+                                TestType = testType,
+                                IsSample = parameters.IsSample,
+                                ZLength = zLength
+                            });                            
+                        }
+                        else
+                        {
+                            groups.Add(new TestGroup()
+                            {
+                                KdfConfiguration = new TwoStepConfiguration()
+                                {
+                                    L = parameters.L,
+                                    CounterLen = kdfConfig.CounterLen,
+                                    CounterLocation = kdfConfig.CounterLocation,
+                                    IvLen = kdfConfig.IvLen,
+                                    KdfMode = kdfConfig.KdfMode,
+                                    MacMode = kdfConfig.MacMode,
+                                    SaltLen = kdfConfig.SaltLen,
+                                    SaltMethod = kdfConfig.SaltMethod,
+                                    FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
+                                    FixedInfoPattern = kdfConfig.FixedInfoPattern
                                 },
                                 TestType = testType,
                                 IsSample = parameters.IsSample,
                                 ZLength = zLength,
-                                MultiExpansion = true,
+                                UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
+                                AuxSharedSecretLen = tLength,
+                                MultiExpansion = false,
                             });
+                            
+                            // Create groups for multi expansion using more or less the same options
+                            if (parameters.PerformMultiExpansionTests)
+                            {
+                                groups.Add(new TestGroup()
+                                {
+                                    KdfMultiExpansionConfiguration = new TwoStepMultiExpansionConfiguration()
+                                    {
+                                        L = parameters.L,
+                                        CounterLen = kdfConfig.CounterLen,
+                                        CounterLocation = kdfConfig.CounterLocation,
+                                        IvLen = kdfConfig.IvLen,
+                                        KdfMode = kdfConfig.KdfMode,
+                                        MacMode = kdfConfig.MacMode,
+                                        SaltLen = kdfConfig.SaltLen,
+                                        SaltMethod = kdfConfig.SaltMethod,
+                                    },
+                                    TestType = testType,
+                                    IsSample = parameters.IsSample,
+                                    ZLength = zLength,
+                                    UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
+                                    AuxSharedSecretLen = tLength,
+                                    MultiExpansion = true,
+                                });
+                            }
                         }
                     }
                 }
@@ -73,16 +142,21 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
             return Task.FromResult(groups);
         }
 
-        private List<int> GetZs(MathDomain z)
+        private List<int> GetSSLens(MathDomain sS)
         {
             var values = new List<int>();
 
-            values.AddRange(z.GetValues(i => i < 1024, 10, false));
-            values.AddRange(z.GetValues(i => i < 4098, 5, false));
-            values.AddRange(z.GetValues(i => i < 8196, 2, false));
-            values.AddRange(z.GetValues(1));
+            values.AddRange(sS.GetValues(i => i < 1024, 10, false));
+            values.AddRange(sS.GetValues(i => i < 4098, 5, false));
+            values.AddRange(sS.GetValues(i => i < 8196, 2, false));
+            values.AddRange(sS.GetValues(1));
 
-            return values.Shuffle().Take(5).ToList();
+            values = values.Shuffle().Take(3).ToList();
+            
+            values.Add(sS.GetDomainMinMax().Minimum);
+            values.Add(sS.GetDomainMinMax().Maximum);
+            
+            return values.Shuffle();
         }
 
         private List<TwoStepConfiguration> GetKdfConfiguration(Parameters parameters)

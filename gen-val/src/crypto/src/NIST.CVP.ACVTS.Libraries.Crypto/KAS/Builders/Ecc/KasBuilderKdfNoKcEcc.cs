@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Builders;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDF;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Scheme;
 using NIST.CVP.ACVTS.Libraries.Crypto.KAS.Scheme.Ecc;
 using NIST.CVP.ACVTS.Libraries.Math;

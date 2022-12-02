@@ -38,6 +38,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
         /// The supported lengths of the shared secret.
         /// </summary>
         public MathDomain Z { get; set; }
+        /// <summary>
+        /// Does the IUT use hybrid shared secrets?
+        /// </summary>
+        public bool? UsesHybridSharedSecret { get; set; }
+        /// <summary>
+        /// The supported lengths of the optional 56Cr2 auxiliary shared secret.
+        /// </summary>
+        public MathDomain AuxSharedSecretLen { get; set; }
         public bool PerformMultiExpansionTests { get; set; }
     }
 }
