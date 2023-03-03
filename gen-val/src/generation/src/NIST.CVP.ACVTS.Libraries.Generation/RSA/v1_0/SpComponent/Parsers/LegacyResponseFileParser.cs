@@ -82,7 +82,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent.Parsers
             return new ParseResponse<TestVectorSet>(new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "SP-Component",
+                Mode = "spComponent",
                 TestGroups = groups
             });
         }

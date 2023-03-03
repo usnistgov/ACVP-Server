@@ -89,7 +89,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
                 // Notify observers of result
                 var result = _rsaRunner.GeneratePrimes(_param, entropyProvider);
 
-                await Notify(new RsaKeyResult { Key = result.Key });
+                if (!result.Success)
+                {
+                    await Notify(new RsaKeyResult { ErrorMessage = result.ErrorMessage });   
+                }
+                else
+                {
+                    await Notify(new RsaKeyResult { Key = result.Key });    
+                }
             }
             catch (Exception e)
             {

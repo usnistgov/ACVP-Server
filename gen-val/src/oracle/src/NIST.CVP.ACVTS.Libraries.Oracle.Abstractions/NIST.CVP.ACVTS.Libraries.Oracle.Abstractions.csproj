@@ -6,10 +6,6 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Interface for the gen/val framework interacting with the Orleans cluster.</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    
-  </ItemGroup>
   
   <ItemGroup>
     <Compile Update="IOracle.*.cs">

@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
@@ -12,36 +13,34 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
     {
         private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate { get; private set; } = 10;
+        public int NumberOfTestCasesToGenerate => 5;
 
         public TestCaseGenerator(IOracle oracle)
         {
             _oracle = oracle;
         }
-
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
         {
-            if (isSample)
+            var param = new LmsKeyPairParameters
             {
-                NumberOfTestCasesToGenerate = 3;
-            }
-
-            var param = new LmsKeyParameters
-            {
-                Layers = group.LmsTypes.Count,
-                LmsTypes = group.LmsTypes.ToArray(),
-                LmotsTypes = group.LmotsTypes.ToArray()
+                LmsMode = group.LmsMode,
+                LmOtsMode = group.LmOtsMode
             };
 
             try
             {
                 var result = await _oracle.GetLmsKeyCaseAsync(param);
 
+                ThisLogger.Debug($"Key is: {new BitString(result.KeyPair.PublicKey.Key).ToHex()}");
+                ThisLogger.Debug($"I is: {result.I.ToHex()}");
+                ThisLogger.Debug($"Seed is: {result.Seed.ToHex()}");
+                
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
-                    PublicKey = result.KeyPair.PublicKey,
-                    Seed = result.SEED,
-                    RootI = result.I
+                    Seed = result.Seed,
+                    I = result.I,
+                    PublicKey = new BitString(result.KeyPair.PublicKey.Key)
                 });
             }
             catch (Exception ex)

@@ -4,7 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes
 {
     public enum LmsSignatureDisposition
     {
-        [EnumMember(Value = "none")]
+        [EnumMember(Value = "no modification")]
         None,
 
         [EnumMember(Value = "modify signature")]
@@ -15,5 +15,8 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes
 
         [EnumMember(Value = "modify key")]
         ModifyKey,
+        
+        [EnumMember(Value = "modify signature header")]
+        ModifyHeader
     }
 }

@@ -7,13 +7,13 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers;
 using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen.ContractResolvers;
-using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.Shared;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 {
     public class RegisterInjections : ISupportedAlgoModeRevisions
     {
-        public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
+        public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>
         {
             AlgoMode.LMS_KeyGen_v1_0
         };
@@ -23,8 +23,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
             builder.RegisterType<Generator<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
 
-            builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
@@ -33,7 +34,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidatorAsync<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
             builder.RegisterType<ContractResolverFactory>().AsImplementedInterfaces();

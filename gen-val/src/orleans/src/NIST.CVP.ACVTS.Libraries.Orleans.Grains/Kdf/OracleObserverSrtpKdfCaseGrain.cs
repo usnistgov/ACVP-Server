@@ -40,8 +40,13 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kdf
             var key = _rand.GetRandomBitString(_param.AesKeyLength);
             var salt = _rand.GetRandomBitString(112);
             var index = _rand.GetRandomBitString(48);
-            var srtcpIndex = _rand.GetRandomBitString(32);
+            var srtcpIndex = BitString.Zero().ConcatenateBits(_rand.GetRandomBitString(31));
 
+            if (_param.Supports48BitSrtcpIndex == true)
+            {
+                srtcpIndex = BitString.Zeroes(16).ConcatenateBits(srtcpIndex);
+            }
+            
             var result = _kdfFactory.GetInstance()
                 .DeriveKey(_param.AesKeyLength, key, salt, _param.KeyDerivationRate, index, srtcpIndex);
             if (!result.Success)

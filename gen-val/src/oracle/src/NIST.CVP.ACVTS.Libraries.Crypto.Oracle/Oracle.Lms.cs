@@ -1,18 +1,31 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Exceptions;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms.Native;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
 {
     public partial class Oracle
     {
-        public async Task<LmsKeyResult> GetLmsKeyCaseAsync(LmsKeyParameters param)
+        public virtual async Task<LmsKeyPairResult> GetLmsKeyCaseAsync(LmsKeyPairParameters param)
         {
             var observableGrain =
-                await GetObserverGrain<IOracleObserverLmsKeyCaseGrain, LmsKeyResult>();
+                await GetObserverGrain<IOracleObserverLmsKeyCaseGrain, LmsKeyPairResult>();
+            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+            return await observableGrain.ObserveUntilResult();
+        }
+
+        public async Task<LmsSignatureResult> GetDeferredLmsSignatureCaseAsync(LmsSignatureParameters param)
+        {
+            var observableGrain =
+                await GetObserverGrain<IOracleObserverLmsDeferredSignatureCaseGrain, LmsSignatureResult>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();
@@ -27,34 +40,27 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             return await observableGrain.ObserveUntilResult();
         }
 
+        public async Task<LmsVerificationResult> CompleteDeferredLmsSignatureAsync(LmsSignatureParameters param, LmsSignatureResult providedResult)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverLmsCompleteDeferredSignatureCaseGrain, LmsVerificationResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, providedResult, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await CompleteDeferredLmsSignatureAsync(param, providedResult);
+            }
+        }
+        
         public async Task<VerifyResult<LmsSignatureResult>> GetLmsVerifyResultAsync(LmsSignatureParameters param)
         {
-            var keyParam = new LmsKeyParameters
-            {
-                Layers = param.Layers,
-                LmotsTypes = param.LmotsTypes,
-                LmsTypes = param.LmsTypes
-            };
-
-            var key = await GetLmsKeyCaseAsync(keyParam);
-            // re-signs with "bad key" under specific error condition to ensure IUT validates as failed verification.
-            LmsKeyResult badKey = null;
-            if (param.Disposition == LmsSignatureDisposition.ModifyKey)
-            {
-                badKey = await GetLmsKeyCaseAsync(keyParam);
-            }
-
             var observableGrain =
-                await GetObserverGrain<IOracleObserverLmsVerifySignatureCaseGrain, VerifyResult<LmsSignatureResult>>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, key, badKey, LoadSheddingRetries);
-
-            return await observableGrain.ObserveUntilResult();
-        }
-
-        public async Task<MctResult<LmsSignatureResult>> GetLmsMctCaseAsync(LmsSignatureParameters param)
-        {
-            var observableGrain =
-                await GetObserverGrain<IOracleObserverLmsMctCaseGrain, MctResult<LmsSignatureResult>>();
+                await GetObserverGrain<IOracleObserverLmsVerifyCaseGrain, VerifyResult<LmsSignatureResult>>();
             await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
             return await observableGrain.ObserveUntilResult();

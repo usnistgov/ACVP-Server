@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var tvs = new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "KeyGen",
+                Mode = "keyGen",
                 IsSample = true,
             };
 

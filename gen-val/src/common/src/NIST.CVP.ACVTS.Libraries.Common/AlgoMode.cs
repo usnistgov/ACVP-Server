@@ -130,6 +130,12 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         HMAC_SHA3_384_v1_0,
         [EnumMember(Value = "HMAC-SHA3-512-1.0")]
         HMAC_SHA3_512_v1_0,
+        //[EnumMember(Value = "HSS-KeyGen-1.0")]
+        //HSS_KeyGen_v1_0,
+        //[EnumMember(Value = "HSS-SigGen-1.0")]
+        //HSS_SigGen_v1_0,
+        //[EnumMember(Value = "HSS-SigVer-1.0")]
+        //HSS_SigVer_v1_0,
         [EnumMember(Value = "KAS-ECC-1.0")]
         KAS_ECC_v1_0,
         [EnumMember(Value = "KAS-ECC-Component-1.0")]

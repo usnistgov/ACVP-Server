@@ -7,10 +7,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "LMS";
-        public string Mode { get; set; } = "KeyGen";
-        public string Revision { get; set; }
+        public string Mode { get; set; } = "keyGen";
+        public string Revision { get; set; } = "1.0";
         public bool IsSample { get; set; }
 
-        public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
+        public List<TestGroup> TestGroups { get; set; } = new();
     }
 }

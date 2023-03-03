@@ -85,7 +85,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.DpComponent.Parsers
             return new ParseResponse<TestVectorSet>(new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "DP-Component",
+                Mode = "dpComponent",
                 TestGroups = groups
             });
         }

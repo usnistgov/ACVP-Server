@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "ECDSA",
-  "mode": "SigGen",
+  "mode": "sigGen",
   "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [
@@ -25,7 +25,9 @@
         "SHA3-224",
         "SHA3-256",
         "SHA3-384",
-        "SHA3-512"
+        "SHA3-512",
+        "SHAKE-128",
+        "SHAKE-256"
       ]
     }
   ],

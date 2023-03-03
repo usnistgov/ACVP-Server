@@ -171,6 +171,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             bitCountLow += bitLength;
         }
 
+        public void Update(int input, int bitLength)
+        {
+            throw new NotImplementedException("Currently int updates are only used for LMS, which forces SHA-256 or SHAKE");
+        }
+
         protected void Finish()
         {
             // Next bit is 1, remainder of xBuf is 0

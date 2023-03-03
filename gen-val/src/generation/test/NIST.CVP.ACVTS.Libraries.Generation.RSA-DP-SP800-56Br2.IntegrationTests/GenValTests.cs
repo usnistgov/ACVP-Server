@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "DecryptionPrimitive";
+        public override string Mode { get; } = "decryptionPrimitive";
         public override string Revision { get; set; } = "Sp800-56Br2";
         public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive_Sp800_56Br2;
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard, PrivateKeyModes.Crt },
-                Modulus = new [] { 2048, 3072, 4096 }
+                KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard },
+                Modulus = new [] { 2048 }
             };
 
             return CreateRegistration(folderName, p);

@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
             };
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
             };

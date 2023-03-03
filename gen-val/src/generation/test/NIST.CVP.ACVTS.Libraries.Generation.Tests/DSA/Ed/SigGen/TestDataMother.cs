@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var vectorSet = new TestVectorSet()
             {
                 Algorithm = "EDDSA",
-                Mode = "SigGen"
+                Mode = "sigGen"
             };
 
             var testGroups = new List<TestGroup>();

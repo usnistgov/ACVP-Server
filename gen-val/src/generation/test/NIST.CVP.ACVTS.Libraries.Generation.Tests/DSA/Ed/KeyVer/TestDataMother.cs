@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyVer
             var vectorSet = new TestVectorSet()
             {
                 Algorithm = "EDDSA",
-                Mode = "KeyVer"
+                Mode = "keyVer"
             };
 
             var testGroups = new List<TestGroup>();

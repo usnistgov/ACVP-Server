@@ -1,19 +1,26 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.Shared;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigGen
+namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigGen;
+
+public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
 {
-    public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
-    {
-        public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
-        {
-            var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
-            {
-                new TestGroupGeneratorAlgorithmFunctional(),
-                new TestGroupGeneratorMonteCarlo()
-            };
+    private readonly IOracle _oracle;
 
-            return list;
-        }
+    public TestGroupGeneratorFactory(IOracle oracle)
+    {
+        _oracle = oracle;
+    }
+    
+    public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
+    {
+        var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
+        {
+            new TestGroupGenerator(_oracle)
+        };
+
+        return list;
     }
 }

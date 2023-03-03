@@ -102,7 +102,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
         public ParameterBuilder()
         {
             _algorithm = "DSA";
-            _mode = "SigVer";
+            _mode = "sigVer";
             _capabilities = new[]
             {
                 GetCapabilityWith(1024, 160, ParameterValidator.VALID_HASH_ALGS),

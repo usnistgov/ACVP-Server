@@ -42,6 +42,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
         void Update(byte[] message, int bitLength);
 
         /// <summary>
+        /// Provides content to hash, MUST not have other updates of incomplete bytes
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="bitLength">MUST be a multiple of 8 bits</param>
+        void Update(int message, int bitLength);
+        
+        /// <summary>
         /// Get the hash result
         /// </summary>
         /// <param name="output"></param>

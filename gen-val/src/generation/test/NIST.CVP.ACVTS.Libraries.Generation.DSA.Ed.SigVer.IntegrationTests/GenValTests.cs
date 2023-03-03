@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigVer.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "EDDSA";
-        public override string Mode { get; } = "SigVer";
+        public override string Mode { get; } = "sigVer";
 
         public override AlgoMode AlgoMode => AlgoMode.EDDSA_SigVer_v1_0;
 

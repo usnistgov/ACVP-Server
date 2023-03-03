@@ -173,8 +173,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.PrimeGenerators
 
                     // 9
                     if (i >= pBound * (nLen / 2))
-                    {
-                        return new PpfResult("PPF: Too many iterations");
+                    { 
+                        return new PpfResult("Failed to Compute a Probable Prime Factor Based on Aux Primes at FIPS 186-5 B.9/FIPS 186-4 C.9 Step 9 (i>=X*(nlen/2)).");
                     }
 
                     // 10

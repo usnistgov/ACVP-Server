@@ -105,7 +105,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
         public ParameterBuilder()
         {
             _algorithm = "ECDSA";
-            _mode = "SigVer";
+            _mode = "sigVer";
             _capabilities = new[]
             {
                 GetCapabilityWith(ParameterValidator.VALID_CURVES, ParameterValidator.VALID_HASH_ALGS),

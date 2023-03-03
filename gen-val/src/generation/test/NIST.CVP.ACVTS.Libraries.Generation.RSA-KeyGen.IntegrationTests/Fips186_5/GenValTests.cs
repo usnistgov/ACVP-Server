@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "KeyGen";
+        public override string Mode { get; } = "keyGen";
         public override string Revision { get; set; } = "FIPS186-5";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen_Fips186_5;
@@ -177,7 +177,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                         new Capability
                         {
                             Modulo = 2048,
-                            HashAlgs = new [] { "SHA2-224" },
+                            HashAlgs = new [] { "SHA3-224" },
                             PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound},
                             PMod8 = 0,
                             QMod8 = 1
@@ -192,7 +192,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                         new Capability
                         {
                             Modulo = 4096,
-                            HashAlgs = new [] { "SHA2-512" },
+                            HashAlgs = new [] { "SHA3-512" },
                             PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound},
                             PMod8 = 3,
                             QMod8 = 5

@@ -127,7 +127,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             public ParameterBuilder()
             {
                 _algorithm = "RSA";
-                _mode = "SigGen";
+                _mode = "sigGen";
                 _sigGenModes = new[] { "ansx9.31", "pss" };
                 _hashAlgs = new[] { "SHA2-256" };
                 _moduli = new[] { 2048 };

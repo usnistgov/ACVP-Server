@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
             var parameters = new Parameters
             {
                 Algorithm = "ECDSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = GetCapabilities()
             };
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
             var parameters = new Parameters
             {
                 Algorithm = "ECDSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = GetCapabilities()
             };

@@ -63,7 +63,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
         public ParameterBuilder()
         {
             _algorithm = "ECDSA";
-            _mode = "KeyVer";
+            _mode = "keyVer";
             _curves = new[] { "P-224", "B-283", "K-409" };
         }
 

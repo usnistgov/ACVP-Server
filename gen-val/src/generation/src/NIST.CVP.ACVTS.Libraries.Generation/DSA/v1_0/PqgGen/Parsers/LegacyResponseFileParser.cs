@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgGen.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "DSA", Mode = "PQGGen", TestGroups = groups.Select(g => g).ToList() });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "DSA", Mode = "pqgGen", TestGroups = groups.Select(g => g).ToList() });
         }
     }
 }

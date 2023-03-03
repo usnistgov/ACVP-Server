@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -20,8 +21,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.SRTP
                     list.Add(new TestGroup
                     {
                         AesKeyLength = aesKeyLength,
-                        Kdr = BitString.Zero()
-                    });
+                        Kdr = BitString.Zero(),
+                        Supports48BitSrtcpIndex = parameters.Supports48BitSrtcpIndex
+                    });                        
                 }
 
                 // KdrExponent is optional
@@ -36,7 +38,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.SRTP
                         list.Add(new TestGroup
                         {
                             AesKeyLength = aesKeyLength,
-                            Kdr = kdr
+                            Kdr = kdr,
+                            Supports48BitSrtcpIndex = parameters.Supports48BitSrtcpIndex
                         });
                     }
                 }

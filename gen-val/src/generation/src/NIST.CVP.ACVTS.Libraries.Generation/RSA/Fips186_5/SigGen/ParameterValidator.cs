@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static int[] VALID_MODULI = { 2048, 3072, 4096 };
-        public static string[] VALID_HASH_ALGS = { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256" };
+        public static string[] VALID_HASH_ALGS = { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256", "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512", "SHAKE-128", "SHAKE-256" };
         public static SignatureSchemes[] VALID_SIG_GEN_MODES = { SignatureSchemes.Pkcs1v15, SignatureSchemes.Pss };
         public static string[] VALID_CONFORMANCES = { "SP800-106" };
 

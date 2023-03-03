@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "DSA",
-  "mode": "KeyGen",
+  "mode": "keyGen",
   "isSample": true,
   "conformances": [],
   "capabilities": [

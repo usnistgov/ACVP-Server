@@ -11,5 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes
         public BitString Seed { get; set; }
         public int[] BitLens { get; set; }
         public AuxiliaryResult AuxValues { get; set; }
+        public string ErrorMessage { get; set; }
+        public bool Success => string.IsNullOrEmpty(ErrorMessage);
     }
 }

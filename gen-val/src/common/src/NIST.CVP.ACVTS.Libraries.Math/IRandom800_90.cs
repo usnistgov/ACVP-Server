@@ -13,5 +13,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math
         string GetRandomString(int length);
         decimal GetRandomDecimal();
         int Next();
+        void NextBytes(byte[] buffer);
     }
 }

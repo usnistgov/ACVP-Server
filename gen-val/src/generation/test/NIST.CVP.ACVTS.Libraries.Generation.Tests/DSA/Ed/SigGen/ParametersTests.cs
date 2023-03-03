@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var parameters = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES
             };
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var parameters = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES
             };

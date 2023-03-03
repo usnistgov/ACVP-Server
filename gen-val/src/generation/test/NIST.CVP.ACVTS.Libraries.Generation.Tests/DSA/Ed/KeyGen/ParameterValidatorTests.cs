@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
         public ParameterBuilder()
         {
             _algorithm = "EDDSA";
-            _mode = "KeyGen";
+            _mode = "keyGen";
             _curves = new[] { "ED-25519", "ED-448" };
             _secretGenerationModes = new[] { "testing candidates", "extra bits" };
         }

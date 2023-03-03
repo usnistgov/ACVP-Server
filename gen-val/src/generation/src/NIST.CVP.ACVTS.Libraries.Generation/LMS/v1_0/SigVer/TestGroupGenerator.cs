@@ -1,118 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.Shared;
+using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer
+namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer;
+
+public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
 {
-    public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
+    public const string ALGORITHM_FUNCTIONAL_TEST = "AFT";
+
+    private readonly IOracle _oracle;
+
+    public TestGroupGenerator(IOracle oracle)
     {
-        private readonly Random _rand;
+        _oracle = oracle;
+    }
+    
+    public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+    {
+        var testGroups = new HashSet<TestGroup>();
+        var map = new Dictionary<TestGroup, Task<LmsKeyPairResult>>();
 
-        public TestGroupGenerator()
+        if (parameters.SpecificCapabilities?.Length > 0)
         {
-            _rand = new Random();
-        }
-
-        public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
-        {
-            var testGroups = new HashSet<TestGroup>();
-
-            if (parameters.Specific)
+            foreach (var cap in parameters.SpecificCapabilities)
             {
-                for (int i = 0; i < parameters.SpecificCapabilities.Length; i++)
-                {
-                    var lmsTypes = new List<LmsType>();
-                    var lmotsTypes = new List<LmotsType>();
-                    foreach (var level in parameters.SpecificCapabilities[i].Levels)
-                    {
-                        lmsTypes.Add(EnumHelpers.GetEnumFromEnumDescription<LmsType>(level.LmsType));
-                        lmotsTypes.Add(EnumHelpers.GetEnumFromEnumDescription<LmotsType>(level.LmotsType));
-                    }
-                    var testGroup = new TestGroup
-                    {
-                        LmsTypes = lmsTypes,
-                        LmotsTypes = lmotsTypes,
-                        TestCaseExpectationProvider = new TestCaseExpectations.TestCaseExpectationProvider(parameters.IsSample)
-                    };
+                var aftTestGroup = new TestGroup { LmsMode = cap.LmsMode, LmOtsMode = cap.LmOtsMode, TestType = ALGORITHM_FUNCTIONAL_TEST };
+                
+                // Generate a tree
+                var param = new LmsKeyPairParameters { LmsMode = cap.LmsMode, LmOtsMode = cap.LmOtsMode };
+                map.Add(aftTestGroup, _oracle.GetLmsKeyCaseAsync(param));
+            }
+        }
+        else
+        {
+            var mappedOutputLengths = AttributesHelper.GetMappedLmsLmOtsModesToFunctionOutputLength(parameters.Capabilities.LmsModes, parameters.Capabilities.LmOtsModes);
 
-                    testGroups.Add(testGroup);
+            foreach (var item in mappedOutputLengths)
+            {
+                var lmsModes = new ShuffleQueue<LmsMode>(item.LmsModes);
+                var lmOtsModes = new ShuffleQueue<LmOtsMode>(item.LmOtsModes);
+
+                var maxLen = new[] { lmsModes.OriginalListCount, lmOtsModes.OriginalListCount }.Max();
+
+                for (var i = 0; i < maxLen; i++)
+                {
+                    var lmsMode = lmsModes.Pop();
+                    var lmOtsMode = lmOtsModes.Pop();
+
+                    var aftTestGroup = new TestGroup { LmsMode = lmsMode, LmOtsMode = lmOtsMode, TestType = ALGORITHM_FUNCTIONAL_TEST };
+                    
+                    // Generate a tree
+                    var param = new LmsKeyPairParameters { LmsMode = lmsMode, LmOtsMode = lmOtsMode };
+                    map.Add(aftTestGroup, _oracle.GetLmsKeyCaseAsync(param));
                 }
             }
-            else
-            {
-                for (int height = 1; height <= 3; height++)        // Max Layers is 3 
-                {
-                    foreach (var lmsType in parameters.Capabilities.LmsTypes)
-                    {
-                        foreach (var lmotsType in parameters.Capabilities.LmotsTypes)
-                        {
-                            var lmsTypes = new LmsType[height];
-                            var lmotsTypes = new LmotsType[height];
-                            for (int j = 0; j < height; j++)
-                            {
-                                lmsTypes[j] = EnumHelpers.GetEnumFromEnumDescription<LmsType>(lmsType);
-                                lmotsTypes[j] = EnumHelpers.GetEnumFromEnumDescription<LmotsType>(lmotsType);
-                            }
-
-                            var testGroup = new TestGroup
-                            {
-                                LmsTypes = new List<LmsType>(lmsTypes),
-                                LmotsTypes = new List<LmotsType>(lmotsTypes),
-                                TestCaseExpectationProvider = new TestCaseExpectations.TestCaseExpectationProvider(parameters.IsSample)
-                            };
-
-                            testGroups.Add(testGroup);
-                        }
-                    }
-
-                    var currentCount = testGroups.Count;
-
-                    // There are ((lmsTypes.Length ^ height) - lmsTypes.Length) * ((lmotsTypes.Length ^ height) - lmotsTypes.Length)
-                    // possible additional unique test groups
-                    var lmsNumPow = 1;
-                    var lmsNum = parameters.Capabilities.LmsTypes.Length;
-                    for (int i = 1; i <= height; i++)
-                    {
-                        lmsNumPow *= lmsNum;
-                    }
-                    var lmotsNumPow = 1;
-                    var lmotsNum = parameters.Capabilities.LmotsTypes.Length;
-                    for (int i = 1; i <= height; i++)
-                    {
-                        lmotsNumPow *= lmotsNum;
-                    }
-                    var remainingUniqueGroups = (lmsNumPow - lmsNum) * (lmotsNumPow - lmotsNum);
-
-                    // while total test groups generated is less than 7 and it is impossible to make a unique test group
-                    while (testGroups.Count - currentCount < 7 && testGroups.Count - currentCount < remainingUniqueGroups)
-                    {
-                        var lmsTypes = new LmsType[height];
-                        var lmotsTypes = new LmotsType[height];
-                        for (int i = 0; i < height; i++)
-                        {
-                            lmsTypes[i] = EnumHelpers.GetEnumFromEnumDescription<LmsType>(
-                                parameters.Capabilities.LmsTypes[_rand.Next(parameters.Capabilities.LmsTypes.Length)]);
-                            lmotsTypes[i] = EnumHelpers.GetEnumFromEnumDescription<LmotsType>(
-                                parameters.Capabilities.LmotsTypes[_rand.Next(parameters.Capabilities.LmotsTypes.Length)]);
-                        }
-
-                        var testGroup = new TestGroup
-                        {
-                            LmsTypes = new List<LmsType>(lmsTypes),
-                            LmotsTypes = new List<LmotsType>(lmotsTypes),
-                            TestCaseExpectationProvider = new TestCaseExpectations.TestCaseExpectationProvider(parameters.IsSample)
-                        };
-
-                        testGroups.Add(testGroup);
-                    }
-                }
-            }
-
-            return Task.FromResult(testGroups.ToList());
         }
+        
+        await Task.WhenAll(map.Values);
+        foreach (var (group, value) in map)
+        {
+            var key = value.Result;
+            group.KeyPair = key.KeyPair;
+            testGroups.Add(group);
+        }
+
+        return testGroups.ToList();
     }
 }

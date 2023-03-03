@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
         public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
-            Dictionary<string, string> expected = new Dictionary<string, string>(); ;
-            Dictionary<string, string> provided = new Dictionary<string, string>(); ;
+            Dictionary<string, string> expected = new Dictionary<string, string>();
+            Dictionary<string, string> provided = new Dictionary<string, string>();
 
             ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)

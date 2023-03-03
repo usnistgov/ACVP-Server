@@ -7,7 +7,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "ECDSA";
-        public string Mode { get; set; } = "SigVer";
+        public string Mode { get; set; } = "sigVer";
         public string Revision { get; set; }
         public bool IsSample { get; set; }
 

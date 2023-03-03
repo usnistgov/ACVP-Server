@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "KeyGen";
+        public override string Mode { get; } = "keyGen";
         public override string Revision => "FIPS186-4";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_KeyGen_Fips186_4;

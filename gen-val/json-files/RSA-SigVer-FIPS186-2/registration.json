@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "SigVer",
+  "mode": "sigVer",
   "revision": "FIPS186-2",
   "isSample": true,
   "conformances": [],

@@ -3,43 +3,39 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer.ContractResolvers;
+
+public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
 {
-    public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
+    protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
     {
-        protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
+        var includeProperties = new[]
         {
-            var includeProperties = new[]
-            {
-                nameof(TestGroup.TestGroupId),
-                nameof(TestGroup.Tests)
-            };
-
-            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-            {
-                return jsonProperty.ShouldSerialize =
-                    instance => true;
-            }
-
-            return jsonProperty.ShouldSerialize =
-                instance => false;
+            nameof(TestGroup.TestGroupId),
+            nameof(TestGroup.Tests)
+        };
+        
+        if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = _ => true;
         }
 
-        protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
+        return jsonProperty.ShouldSerialize = _ => false;
+    }
+
+    protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
+    {
+        var includeProperties = new[]
         {
-            var includeProperties = new[]
-            {
-                nameof(TestCase.TestCaseId),
-                nameof(TestCase.TestPassed),
-            };
+            nameof(TestCase.TestCaseId),
+            nameof(TestCase.TestPassed)
+        };
 
-            if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-            {
-                return jsonProperty.ShouldSerialize =
-                    instance => true;
-            }
-
-            return jsonProperty.ShouldSerialize = instance => false;
+        if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = _ => true;
         }
+
+        return jsonProperty.ShouldSerialize = _ => false;
     }
 }

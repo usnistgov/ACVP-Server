@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "DecryptionPrimitive",
+  "mode": "decryptionPrimitive",
   "revision": "Sp800-56Br2",
   "isSample": false,
   "conformances": [],

@@ -125,7 +125,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.LegacySigVer.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "LegacySigVer", TestGroups = groups });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "legacySigVer", TestGroups = groups });
         }
     }
 }

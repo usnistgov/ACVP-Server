@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "SigVer", TestGroups = groups });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "sigVer", TestGroups = groups });
         }
     }
 }

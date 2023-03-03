@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "DetECDSA",
-  "mode": "SigGen",
+  "mode": "sigGen",
   "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [

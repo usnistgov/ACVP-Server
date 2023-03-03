@@ -20,7 +20,8 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
@@ -93,7 +94,8 @@ using NIST.CVP.ACVTS.Libraries.Crypto.KES;
 using NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KTS;
-using NIST.CVP.ACVTS.Libraries.Crypto.LMS;
+using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native;
+using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.PBKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.RSA;
@@ -139,6 +141,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddSingleton<IDbConnectionFactory, SqlDbConnectionFactory>();
 
             svc.Configure<EnvironmentConfig>(configuration.GetSection(nameof(EnvironmentConfig)));
+            svc.Configure<PoolConfig>(configuration.GetSection(nameof(PoolConfig)));
             svc.Configure<OrleansConfig>(configuration.GetSection(nameof(OrleansConfig)));
 
             var serviceProvider = svc.BuildServiceProvider();
@@ -148,9 +151,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
         private static void RegisterServices(IServiceCollection svc, OrleansConfig orleansConfig)
         {
-            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(
-                GetOrleansNodeMaxConcurrency(orleansConfig)
-            ));
+            svc.AddSingleton(new LimitedConcurrencyLevelTaskScheduler(GetOrleansNodeMaxConcurrency(orleansConfig)));
             svc.AddSingleton<IEntropyProviderFactory, EntropyProviderFactory>();
             svc.AddSingleton<IRandom800_90, Random800_90>();
             svc.AddSingleton<IEntropyProvider, EntropyProvider>();
@@ -260,8 +261,13 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
             svc.AddSingleton<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>();
 
-            svc.AddSingleton<IHssFactory, HssFactory>();
-            svc.AddSingleton<ILmsMct, LmsMct>();
+            svc.AddSingleton<ILmOtsKeyPairFactory, LmOtsKeyPairFactory>();
+            svc.AddSingleton<ILmsKeyPairFactory, LmsKeyPairFactory>();
+            svc.AddSingleton<ILmsSigner, Crypto.LMS.Native.Lms>();
+            svc.AddSingleton<ILmOtsRandomizerC, LmOtsPseudoRandomizerC>();
+            svc.AddSingleton<ILmOtsSigner, LmOts>();
+            svc.AddSingleton<ILmsVerifier, Crypto.LMS.Native.Lms>();
+            svc.AddSingleton<ILmOtsVerifier, LmOts>();
 
             svc.AddSingleton<IAnsiX942Factory, AnsiX942Factory>();
             svc.AddSingleton<IAnsiX963Factory, AnsiX963Factory>();
@@ -304,6 +310,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
             svc.AddTransient<IHkdfFactory, HkdfFactory>();
             svc.AddSingleton<ITLsKdfFactory_v1_3, TlsKdfFactoryV13>();
+
             #endregion Crypto Registrations
         }
 
@@ -318,12 +325,9 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             if (nodeConfig == null)
             {
                 throw new Exception("Could not reconcile IP address of node. Ensure this node's IP address is listed within appsettings.[env].json under 'OrleansNodeConfig'");
-
-                //LogManager.GetCurrentClassLogger().Warn($"Falling back to default max concurrency of {orleansConfig.FallBackMinimumCores}");
-                //return orleansConfig.FallBackMinimumCores;
             }
 
-            return nodeConfig.MaxConcurrentWork; ;
+            return nodeConfig.MaxConcurrentWork;
         }
 
         private static string GetLocalIpAddress()

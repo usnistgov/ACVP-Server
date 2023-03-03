@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
     public class DetGenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "DetECDSA";
-        public override string Mode { get; } = "SigGen";
+        public override string Mode { get; } = "sigGen";
         public override string Revision { get; set; } = "FIPS186-5";
 
         public override AlgoMode AlgoMode => AlgoMode.DetECDSA_SigGen_Fips186_5;
@@ -54,8 +54,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
             {
                 new Capability
                 {
-                    Curve = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_CURVES,
-                    HashAlg = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_HASH_ALGS
+                    Curve = ECDSA.Fips186_5.DetSigGen.ParameterValidator.VALID_CURVES,
+                    HashAlg = ECDSA.Fips186_5.DetSigGen.ParameterValidator.VALID_HASH_ALGS
                 }
             };
 

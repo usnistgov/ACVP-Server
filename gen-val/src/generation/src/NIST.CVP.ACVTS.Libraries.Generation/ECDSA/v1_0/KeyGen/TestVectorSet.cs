@@ -7,7 +7,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyGen
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "ECDSA";
-        public string Mode { get; set; } = "KeyGen";
+        public string Mode { get; set; } = "keyGen";
         public string Revision { get; set; }
         public bool IsSample { get; set; }
 

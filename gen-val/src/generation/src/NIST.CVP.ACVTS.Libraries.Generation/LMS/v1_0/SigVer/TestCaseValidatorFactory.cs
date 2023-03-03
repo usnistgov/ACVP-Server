@@ -1,32 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer
+namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer;
+
+public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
 {
-    public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
+    public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
     {
-        private readonly IOracle _oracle;
+        var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
 
-        public TestCaseValidatorFactory(IOracle oracle)
+        foreach (var group in testVectorSet.TestGroups.Select(g => g))
         {
-            _oracle = oracle;
-        }
-
-        public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
-        {
-            var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
-
-            foreach (var group in testVectorSet.TestGroups.Select(g => g))
+            foreach (var test in group.Tests.Select(t => t))
             {
-                foreach (var test in group.Tests.Select(t => t))
-                {
-                    list.Add(new TestCaseValidator(test));
-                }
+                list.Add(new TestCaseValidatorAft(test));
             }
-
-            return list;
         }
+
+        return list;
     }
 }

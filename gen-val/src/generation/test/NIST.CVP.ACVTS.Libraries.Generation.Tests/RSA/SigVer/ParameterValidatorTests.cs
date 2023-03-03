@@ -145,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
             public ParameterBuilder()
             {
                 _algorithm = "RSA";
-                _mode = "SigVer";
+                _mode = "sigVer";
                 _sigVerModes = new[] { "ansx9.31", "pss" };
                 _hashAlgs = new[] { "SHA-1", "SHA2-256" };
                 _moduli = new[] { 2048 };

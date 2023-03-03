@@ -62,7 +62,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SRTP.IntegrationTests
                 AesKeyLength = ParameterValidator.VALID_AES_KEY_LENGTHS,
                 KdrExponent = ParameterValidator.VALID_KDR_EXPONENTS,
                 SupportsZeroKdr = true,
-                IsSample = false
+                IsSample = false,
+                Supports48BitSrtcpIndex = true
             };
 
             return CreateRegistration(folderName, p);

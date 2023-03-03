@@ -1,10 +1,9 @@
 <Project>
-
   <!-- 
       Centrally managed repository nuget package versioning
   -->
   <ItemGroup>
-    <PackageVersion Include="Autofac" Version="6.4.0" />
+    <PackageVersion Include="Autofac" Version="6.5.0" />
     <PackageVersion Include="CommandLineArgumentsParser" Version="3.0.23" />
     <PackageVersion Include="CsvHelper" Version="28.0.1" />
     <PackageVersion Include="dotnet-test-nunit" Version="3.4.0-beta-3" />
@@ -25,7 +24,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageVersion Include="Microsoft.NETCore.DotNetHostPolicy" Version="6.0.9" />
     <PackageVersion Include="Microsoft.NETCore.Targets" Version="5.0.0" />
     <PackageVersion Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.6.5" />
@@ -34,12 +33,12 @@
     <PackageVersion Include="Microsoft.Orleans.Client" Version="3.6.5" />
     <PackageVersion Include="Microsoft.Orleans.Core.Abstractions" Version="3.6.5" />
     <PackageVersion Include="Mighty" Version="3.2.0" />
-    <PackageVersion Include="Moq" Version="4.18.2" />
-    <PackageVersion Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageVersion Include="NLog" Version="5.0.4" />
+    <PackageVersion Include="Moq" Version="4.18.4" />
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageVersion Include="NLog" Version="5.1.2" />
     <PackageVersion Include="NUnit" Version="3.13.3" />
     <PackageVersion Include="NUnit.Runners" Version="3.12.0" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.3.1" />
     <PackageVersion Include="OrleansDashboard" Version="3.6.2" />
     <PackageVersion Include="Serilog" Version="2.12.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="6.0.1" />
@@ -49,7 +48,7 @@
     <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.1" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageVersion Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageVersion Include="System.Data.SqlClient" Version="4.8.5" />
     <PackageVersion Include="System.Text.Json" Version="6.0.6" />
     <PackageVersion Include="TeamCity.VSTest.TestAdapter" Version="1.0.36" />
     <PackageVersion Include="NIST.CVP.ACVTS.Libraries.Common" Version="$(GenValPackageVersion)" />

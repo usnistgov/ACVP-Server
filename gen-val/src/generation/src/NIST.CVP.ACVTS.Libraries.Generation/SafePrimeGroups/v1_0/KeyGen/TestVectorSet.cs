@@ -7,7 +7,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SafePrimeGroups.v1_0.KeyGen
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "SafePrimeGroups";
-        public string Mode { get; set; } = "KeyGen";
+        public string Mode { get; set; } = "keyGen";
         public string Revision { get; set; } = "1.0";
         public bool IsSample { get; set; }
 

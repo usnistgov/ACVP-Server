@@ -35,9 +35,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SRTP
                 return new KdfResult("Invalid SRTP Index, must be 48-bit");
             }
 
-            if (srtcpIndex.BitLength != 32)
+            if (srtcpIndex.BitLength != 32 && srtcpIndex.BitLength != 48)
             {
-                return new KdfResult("Invalid SRTCP Index, must be 32-bit");
+                return new KdfResult("Invalid SRTCP Index, must be 32-bit or 48-bit");
             }
 
             // Ke = Encryption Key, Ka = Authentication Key (for a HMAC-SHA-1), Ks = Salting Key

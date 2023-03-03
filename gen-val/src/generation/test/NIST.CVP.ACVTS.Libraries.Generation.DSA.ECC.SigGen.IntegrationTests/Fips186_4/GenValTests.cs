@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "ECDSA";
-        public override string Mode { get; } = "SigGen";
+        public override string Mode { get; } = "sigGen";
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_SigGen_v1_0;
 

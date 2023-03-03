@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "ECDSA",
-  "mode": "SigVer",
+  "mode": "sigVer",
   "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [],

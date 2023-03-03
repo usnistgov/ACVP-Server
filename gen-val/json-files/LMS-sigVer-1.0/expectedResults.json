@@ -1,0 +1,59 @@
+{
+  "vsId": 0,
+  "algorithm": "LMS",
+  "mode": "sigVer",
+  "revision": "1.0",
+  "isSample": false,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "testPassed": false
+        },
+        {
+          "tcId": 2,
+          "testPassed": false
+        },
+        {
+          "tcId": 3,
+          "testPassed": false
+        },
+        {
+          "tcId": 4,
+          "testPassed": true
+        },
+        {
+          "tcId": 5,
+          "testPassed": false
+        }
+      ]
+    },
+    {
+      "tgId": 2,
+      "tests": [
+        {
+          "tcId": 6,
+          "testPassed": true
+        },
+        {
+          "tcId": 7,
+          "testPassed": false
+        },
+        {
+          "tcId": 8,
+          "testPassed": false
+        },
+        {
+          "tcId": 9,
+          "testPassed": false
+        },
+        {
+          "tcId": 10,
+          "testPassed": false
+        }
+      ]
+    }
+  ]
+}

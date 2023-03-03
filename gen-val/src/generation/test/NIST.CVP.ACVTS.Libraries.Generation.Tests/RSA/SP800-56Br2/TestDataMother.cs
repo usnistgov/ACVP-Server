@@ -13,7 +13,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
             var tvs = new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "Sp800_56Br2",
+                Mode = "decryptionPrimitive",
+                Revision = "Sp800_56Br2",
                 IsSample = true,
             };
 

@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.KeyGen.IntegrationTests.Fi
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "ECDSA";
-        public override string Mode { get; } = "KeyGen";
+        public override string Mode { get; } = "keyGen";
         public override string Revision { get; set; } = "FIPS186-5";
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyGen_Fips186_5;

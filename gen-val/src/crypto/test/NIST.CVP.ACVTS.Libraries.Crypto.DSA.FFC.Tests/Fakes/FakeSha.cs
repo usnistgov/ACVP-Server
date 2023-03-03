@@ -42,6 +42,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests.Fakes
             throw new NotImplementedException();
         }
 
+        public void Update(int message, int bitLength)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Final(byte[] output, int outputBitLength = 0)
         {
             throw new NotImplementedException();

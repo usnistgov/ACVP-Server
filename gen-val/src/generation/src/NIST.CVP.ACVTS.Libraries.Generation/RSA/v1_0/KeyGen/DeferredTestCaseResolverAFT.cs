@@ -51,15 +51,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.KeyGen
 
             try
             {
-                var result = await _oracle.CompleteDeferredRsaKeyCaseAsync(param, fullParam);
-                var verifyResult = await _oracle.GetRsaKeyVerifyAsync(new RsaKeyResult { Key = iutTestCase.Key });
+                var result = await _oracle.CompleteDeferredRsaKeyCaseAsync(param, fullParam); // q: can I generate a key?
 
-                if (verifyResult.Result)
+                // only verify the key if we were able to successfully generate it
+                if (result.Success)
                 {
-                    return new KeyResult(result.Key, result.AuxValues);
+                    var verifyResult = await _oracle.GetRsaKeyVerifyAsync(new RsaKeyResult { Key = iutTestCase.Key });    
+                    
+                    if (verifyResult.Result)
+                    {
+                        return new KeyResult(result.Key, result.AuxValues);
+                    }
+                
+                    return new KeyResult("Key is not a valid key");
                 }
-
-                return new KeyResult("Key is not a valid key");
+                // case: we weren't able to successfully generate a key from the provided values
+                return new KeyResult(result.ErrorMessage);
             }
             catch (Exception)
             {

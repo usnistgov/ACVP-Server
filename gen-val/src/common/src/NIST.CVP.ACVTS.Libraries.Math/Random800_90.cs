@@ -135,5 +135,10 @@ namespace NIST.CVP.ACVTS.Libraries.Math
         {
             return Randy.Next();
         }
+
+        public void NextBytes(byte[] buffer)
+        {
+            Randy.NextBytes(buffer);
+        }
     }
 }

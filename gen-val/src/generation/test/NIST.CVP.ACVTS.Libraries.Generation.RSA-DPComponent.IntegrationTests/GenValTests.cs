@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DPComponent.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "RSA";
-        public override string Mode => "DecryptionPrimitive";
+        public override string Mode => "decryptionPrimitive";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_DecryptionPrimitive_v1_0;
 

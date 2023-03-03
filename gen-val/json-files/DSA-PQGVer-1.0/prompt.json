@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "DSA",
-  "mode": "PQGVer",
+  "mode": "pqgGen",
   "revision": "1.0",
   "isSample": false,
   "testGroups": [

@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "SigVer";
+        public override string Mode { get; } = "sigVer";
         public override string Revision { get; set; } = "FIPS186-5";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigVer_Fips186_5;
@@ -80,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
             {
                 hashPairs[i] = new HashPair
                 {
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS[i],
+                    HashAlg = "SHAKE-256",
                     SaltLen = i + 1
                 };
             }

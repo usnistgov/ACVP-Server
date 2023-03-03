@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Numerics;
 using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Math.JsonConverters
 {
@@ -16,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            //use the hex representation constructor
+            // Use the hex representation constructor
             return new BitString((string)reader.Value).ToPositiveBigInteger();
         }
 

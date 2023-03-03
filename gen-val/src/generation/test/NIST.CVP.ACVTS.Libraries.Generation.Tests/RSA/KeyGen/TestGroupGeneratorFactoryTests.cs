@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "KeyGen",
+                Mode = "keyGen",
                 FixedPubExp = new BitString("010001"),
                 InfoGeneratedByServer = true,
                 IsSample = false,
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "KeyGen",
+                Mode = "keyGen",
                 InfoGeneratedByServer = true,
                 IsSample = false,
                 PubExpMode = PublicExponentModes.Random,

@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var p = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES
             };
@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var p = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "SigGen",
+                Mode = "sigGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true

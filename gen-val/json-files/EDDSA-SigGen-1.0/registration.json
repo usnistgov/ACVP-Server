@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "EDDSA",
-  "mode": "SigGen",
+  "mode": "sigGen",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],

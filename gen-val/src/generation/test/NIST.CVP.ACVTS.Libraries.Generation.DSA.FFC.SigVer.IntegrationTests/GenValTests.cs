@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.FFC.SigVer.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "DSA";
-        public override string Mode { get; } = "SigVer";
+        public override string Mode { get; } = "sigVer";
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_SigVer_v1_0;
 

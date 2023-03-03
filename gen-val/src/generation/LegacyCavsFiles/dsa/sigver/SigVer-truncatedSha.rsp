@@ -1,5 +1,5 @@
 # CAVS 21.3
-# "SigVer" information for "pkcs-pss-test"
+# "sigVer" information for "pkcs-pss-test"
 # Mod sizes selected: L=1024, N=160, SHA2-512/224 L=1024, N=160, SHA2-512/256 L=2048, N=224, SHA2-512/224 L=2048, N=224, SHA2-512/256 L=2048, N=256, SHA2-512/224 L=2048, N=256, SHA2-512/256 L=3072, N=256, SHA2-512/224 L=3072, N=256, SHA2-512/256
 # Generated on Fri Oct  6 15:19:35 2017
 

@@ -138,6 +138,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
 
             bitCount += bitLength;
         }
+        
+        public void Update(int input, int bitLength)
+        {
+            if (xBitOff != 0 || bitLength % 8 != 0)
+            {
+                throw new ArgumentException("Unable to process with incomplete bytes on previous updates, or current update");
+            }
+
+            var completeBytes = bitLength / 8;
+            for (var i = 0; i < completeBytes; i++)
+            {
+                xBuf[xBufOff++] = (byte)(input >> ((completeBytes - i - 1) * 8));
+                if (xBufOff == xBuf.Length)
+                {
+                    ProcessWord(xBuf, 0);
+                    xBufOff = 0;
+                    Array.Clear(xBuf, 0, xBuf.Length);
+                }
+            }
+
+            bitCount += bitLength;
+        }
 
         protected void Init()
         {

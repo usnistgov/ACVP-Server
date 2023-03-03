@@ -41,24 +41,21 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.ANSIX963
 
         public static bool IsValidGroup(int fieldSize, int hashOutputLength)
         {
-            // Only allow combinations such that the hash function matches (or exceeds) the security of the field size
-            // So for field size 283, you can use SHA2-256, SHA2-384 and SHA2-512 but not SHA2-224
-            if (fieldSize > 512)
+            switch (fieldSize)
             {
-                if (hashOutputLength != 512)
+                // Only allow combinations such that the hash function matches (or exceeds) the security of the field size
+                // So for field size 283, you can use SHA2-256, SHA2-384 and SHA2-512 but not SHA2-224
+                case 163 when hashOutputLength == 160:
+                    return true;
+                case > 512:
                 {
-                    return false;
+                    return hashOutputLength == 512;
+                }
+                default:
+                {
+                    return hashOutputLength >= fieldSize;
                 }
             }
-            else
-            {
-                if (hashOutputLength < fieldSize)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "ECDSA",
-  "mode": "KeyGen",
+  "mode": "keyGen",
   "revision": "FIPS186-5",
   "isSample": true,
   "testGroups": [

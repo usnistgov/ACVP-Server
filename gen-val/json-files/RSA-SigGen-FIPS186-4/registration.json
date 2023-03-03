@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "SigGen",
+  "mode": "sigGen",
   "revision": "FIPS186-4",
   "isSample": true,
   "conformances": [

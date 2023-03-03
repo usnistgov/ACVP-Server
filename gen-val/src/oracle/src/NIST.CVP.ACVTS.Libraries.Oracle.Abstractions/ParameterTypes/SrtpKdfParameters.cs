@@ -6,5 +6,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
     {
         public int AesKeyLength { get; set; }
         public BitString KeyDerivationRate { get; set; }
+        public bool? Supports48BitSrtcpIndex { get; set; }
     }
 }

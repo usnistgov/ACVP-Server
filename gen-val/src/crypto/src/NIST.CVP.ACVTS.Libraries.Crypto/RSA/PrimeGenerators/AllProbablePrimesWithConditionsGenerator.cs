@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.PrimeGenerators
             var pResult = PrimeGeneratorHelper.ProbablePrimeFactor(_primeTestMode, _entropyProvider, _pBound, param.A, p1, p2, param.Modulus, param.PublicE);
             if (!pResult.Success)
             {
-                return new PrimeGeneratorResult($"Failed to generate p: {pResult.ErrorMessage}");
+                return new PrimeGeneratorResult($"Failed to generate p, FIPS 186-5 A.1.6/FIPS 186-4 B.3.6 Step 4.3: {pResult.ErrorMessage}");
             }
             p = pResult.Prime;
             xp = pResult.XPrime;

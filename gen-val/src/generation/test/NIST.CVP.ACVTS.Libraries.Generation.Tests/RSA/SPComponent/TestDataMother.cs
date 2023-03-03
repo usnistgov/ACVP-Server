@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var tvs = new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "SignaturePrimitiveComponent",
+                Mode = "signaturePrimitive",
                 IsSample = true,
             };
 

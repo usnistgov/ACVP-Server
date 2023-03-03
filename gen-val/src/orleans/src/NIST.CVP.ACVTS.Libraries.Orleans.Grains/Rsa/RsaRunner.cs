@@ -62,7 +62,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
                 _logger.LogWarning(keyResult.ErrorMessage);
                 return new RsaPrimeResult
                 {
-                    Success = false
+                    Success = false,
+                    ErrorMessage = keyResult.ErrorMessage
                 };
                 // throw new RsaPrimeGenException(keyResult.ErrorMessage);
             }

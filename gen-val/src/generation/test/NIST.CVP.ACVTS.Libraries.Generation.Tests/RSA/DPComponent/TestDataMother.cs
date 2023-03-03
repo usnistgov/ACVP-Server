@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var tvs = new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "DecryptionPrimitiveComponent",
+                Mode = "decryptionPrimitive",
                 IsSample = true,
             };
 

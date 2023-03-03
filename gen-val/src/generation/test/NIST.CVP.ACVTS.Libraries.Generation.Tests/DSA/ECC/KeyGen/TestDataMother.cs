@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen
             var vectorSet = new TestVectorSet()
             {
                 Algorithm = "ECDSA",
-                Mode = "KeyGen"
+                Mode = "keyGen"
             };
 
             var testGroups = new List<TestGroup>();

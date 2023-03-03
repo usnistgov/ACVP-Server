@@ -35,6 +35,7 @@
     <PackageReference Include="NLog" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="Autofac" />
+    <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
   <ItemGroup>

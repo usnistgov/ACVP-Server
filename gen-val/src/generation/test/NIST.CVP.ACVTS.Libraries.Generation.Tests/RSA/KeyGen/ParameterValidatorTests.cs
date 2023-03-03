@@ -239,7 +239,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             public ParameterBuilder()
             {
                 _algorithm = "RSA";
-                _mode = "KeyGen";
+                _mode = "keyGen";
                 _keyGenModes = new[] { "provableWithProvableAux", "probableWithProbableAux" };
                 _moduli = new[] { 2048 };
                 _hashAlgs = new[] { "SHA-1", "SHA2-256" };

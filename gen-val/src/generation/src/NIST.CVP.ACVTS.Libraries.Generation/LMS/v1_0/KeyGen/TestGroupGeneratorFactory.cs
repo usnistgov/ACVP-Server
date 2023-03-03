@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.Shared;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 {

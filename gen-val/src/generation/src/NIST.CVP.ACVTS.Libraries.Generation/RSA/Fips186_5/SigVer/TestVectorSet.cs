@@ -7,7 +7,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
     {
         public int VectorSetId { get; set; }
         public string Algorithm { get; set; } = "RSA";
-        public string Mode { get; set; } = "SigVer";
+        public string Mode { get; set; } = "sigVer";
         public string Revision { get; set; } = "FIPS186-5";
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();

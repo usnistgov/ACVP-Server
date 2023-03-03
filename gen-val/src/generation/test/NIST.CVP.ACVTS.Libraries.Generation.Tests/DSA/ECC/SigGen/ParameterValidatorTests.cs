@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
         public ParameterBuilder()
         {
             _algorithm = "ECDSA";
-            _mode = "SigGen";
+            _mode = "sigGen";
             _capabilities = new[]
             {
                 GetCapabilityWith(ParameterValidator.VALID_CURVES, ParameterValidator.VALID_HASH_ALGS),

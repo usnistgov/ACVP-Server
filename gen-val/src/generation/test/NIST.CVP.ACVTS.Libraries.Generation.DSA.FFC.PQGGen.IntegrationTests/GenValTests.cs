@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.FFC.PQGGen.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "DSA";
-        public override string Mode { get; } = "PQGGen";
+        public override string Mode { get; } = "pqgGen";
 
         public override AlgoMode AlgoMode => AlgoMode.DSA_PQGGen_v1_0;
 

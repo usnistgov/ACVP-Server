@@ -128,7 +128,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
         public ParameterBuilder()
         {
             _algorithm = "DSA";
-            _mode = "SigGen";
+            _mode = "sigGen";
             _capabilities = new[]
             {
                 GetCapabilityWith(2048, 224, ParameterValidator.VALID_HASH_ALGS),

@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
             var tvs = new TestVectorSet
             {
                 Algorithm = "RSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = true,
             };
 

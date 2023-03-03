@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer
             var vectorSet = new TestVectorSet
             {
                 Algorithm = "DSA",
-                Mode = "PQGVer"
+                Mode = "pqgVer"
             };
 
             var testGroups = new List<TestGroup>();

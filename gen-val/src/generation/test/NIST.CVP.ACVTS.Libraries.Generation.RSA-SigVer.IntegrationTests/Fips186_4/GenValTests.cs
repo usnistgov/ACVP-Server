@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "SigVer";
+        public override string Mode { get; } = "sigVer";
         public override string Revision => "FIPS186-4";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigVer_Fips186_4;

@@ -25,16 +25,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.DetSigGen
             builder.RegisterType<ParameterChecker<Parameters>>().AsImplementedInterfaces();
 
             builder.RegisterType<TestCaseGeneratorFactoryFactoryAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();                     // From DetSigGen
+            builder.RegisterType<TestCaseGeneratorFactory>().AsImplementedInterfaces();
             builder.RegisterType<TestVectorFactory<Parameters, TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<TestGroupGeneratorFactory>().AsImplementedInterfaces();
-            builder.RegisterType<ECDSA.Fips186_5.SigGen.ParameterValidator>().AsImplementedInterfaces();    // From 186-5
+            builder.RegisterType<ParameterValidator>().AsImplementedInterfaces();
             builder.RegisterType<ParameterParser<Parameters>>().AsImplementedInterfaces();
 
             builder.RegisterType<ValidatorAsync<TestVectorSet, TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<ResultValidatorAsync<TestGroup, TestCase>>().AsImplementedInterfaces();
             builder.RegisterType<DynamicParser>().AsImplementedInterfaces();
-            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();                    // From DetSigGen
+            builder.RegisterType<TestCaseValidatorFactory>().AsImplementedInterfaces();
 
             builder.RegisterType<JsonConverterProvider>().AsImplementedInterfaces();
             builder.RegisterType<ContractResolverFactory>().AsImplementedInterfaces();

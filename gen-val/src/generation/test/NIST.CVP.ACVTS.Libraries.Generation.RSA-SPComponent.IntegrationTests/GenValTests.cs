@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SPComponent.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm => "RSA";
-        public override string Mode => "SignaturePrimitive";
+        public override string Mode => "signaturePrimitive";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_SignaturePrimitive_v1_0;
 

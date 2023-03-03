@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.KeyGen
         public ParameterBuilder()
         {
             _algorithm = "DSA";
-            _mode = "KeyGen";
+            _mode = "keyGen";
             _capabilities = new[] { GetCapabilityWith(2048, 224), GetCapabilityWith(2048, 256), GetCapabilityWith(3072, 256) };
         }
 

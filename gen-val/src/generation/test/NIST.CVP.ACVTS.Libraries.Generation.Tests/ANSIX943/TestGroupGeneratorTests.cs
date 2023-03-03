@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
             },
             new object[]
             {
-                12,
+                24,
                 new ParameterBuilder()
                     .WithFieldSize(new [] {283, 521})
                     .WithKeyDataLength(new MathDomain().AddSegment(new ValueDomainSegment(ParameterValidator.KEY_LENGTH_MINIMUM)).AddSegment(new ValueDomainSegment(ParameterValidator.KEY_LENGTH_MAXIMUM)))

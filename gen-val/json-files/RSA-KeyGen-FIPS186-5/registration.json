@@ -83,7 +83,7 @@
   ],
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "KeyGen",
+  "mode": "keyGen",
   "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [],

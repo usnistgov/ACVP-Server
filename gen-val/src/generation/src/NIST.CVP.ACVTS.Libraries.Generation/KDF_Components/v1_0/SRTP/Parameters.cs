@@ -14,5 +14,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.SRTP
         public int[] AesKeyLength { get; set; }
         public bool SupportsZeroKdr { get; set; }
         public int[] KdrExponent { get; set; }
+        public bool? Supports48BitSrtcpIndex { get; set; }
     }
 }

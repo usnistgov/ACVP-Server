@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "ECDSA",
-  "mode": "KeyVer",
+  "mode": "keyVer",
   "revision": "1.0",
   "isSample": true,
   "conformances": [],

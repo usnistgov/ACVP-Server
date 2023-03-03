@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "SigGen";
+        public override string Mode { get; } = "sigGen";
         public override string Revision { get; set; } = "FIPS186-5";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigGen_Fips186_5;
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                 },
                 new HashPair
                 {
-                    HashAlg = "SHA2-512",
+                    HashAlg = "SHA3-512",
                     SaltLen = 62
                 }
             };
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                 },
                 new HashPair
                 {
-                    HashAlg = "SHA2-512",
+                    HashAlg = "SHA3-512",
                     SaltLen = 62
                 }
             };

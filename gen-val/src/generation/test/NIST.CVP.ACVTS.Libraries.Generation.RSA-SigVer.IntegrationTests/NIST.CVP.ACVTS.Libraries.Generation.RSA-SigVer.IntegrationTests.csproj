@@ -18,6 +18,7 @@
     <PackageReference Include="TeamCity.VSTest.TestAdapter" />
     <PackageReference Include="NLog" />
     <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit3TestAdapter" />
   </ItemGroup>
 
   <ItemGroup>

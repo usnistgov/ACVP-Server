@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
             var p = new Parameters
             {
                 Algorithm = "ECDSA",
-                Mode = "KeyVer",
+                Mode = "keyVer",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
             };
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
             var p = new Parameters
             {
                 Algorithm = "ECDSA",
-                Mode = "KeyVer",
+                Mode = "keyVer",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
             };

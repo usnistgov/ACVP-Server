@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
             var vectorSet = new TestVectorSet
             {
                 Algorithm = "DSA",
-                Mode = "SigVer"
+                Mode = "sigVer"
             };
 
             var testGroups = new List<TestGroup>();

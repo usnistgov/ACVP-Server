@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.KeyGen.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "EDDSA";
-        public override string Mode { get; } = "KeyGen";
+        public override string Mode { get; } = "keyGen";
 
         public override AlgoMode AlgoMode => AlgoMode.EDDSA_KeyGen_v1_0;
 

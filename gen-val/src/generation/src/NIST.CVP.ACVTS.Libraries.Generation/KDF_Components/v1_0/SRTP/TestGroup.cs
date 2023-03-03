@@ -11,6 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.SRTP
         public BitString Kdr { get; set; }
 
         public string TestType { get; set; }
+        public bool? Supports48BitSrtcpIndex { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         public bool SetString(string name, string value)

@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "ECDSA", Mode = "SigGen", TestGroups = groups.Select(g => g).ToList() });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "ECDSA", Mode = "sigGen", TestGroups = groups.Select(g => g).ToList() });
         }
     }
 }

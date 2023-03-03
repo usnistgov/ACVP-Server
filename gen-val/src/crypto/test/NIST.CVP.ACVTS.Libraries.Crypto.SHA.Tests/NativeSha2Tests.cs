@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 using NIST.CVP.ACVTS.Libraries.Math.LargeBitString;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -293,6 +295,84 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             sha.Final(buffer, 512);
 
             Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+        }
+
+        [Test]
+        [TestCase(ModeValues.SHA1, DigestSizes.d160, 0, 0, "da39a3ee5e6b4b0d3255bfef95601890afd80709")]
+        
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 255, 8, "E33F9D75E6AE1369DBABF81B96B4591AE46BBA30B591A6B6C62542B5")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 128, 8, "C59633BC479E7DA3318D9F603AFB1C494195E5E11630CAC0E36D3758")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 169, 8, "2A7D8843A2FEBFED582254EAD1560EB4DD3D81D052781BD336F6F324")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 65535, 16, "B58D2E907855C8D7C58FE45EF0CD70DE95E09BE02FC5B93CA2586B68")]
+        
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 255, 8, "A8100AE6AA1940D0B663BB31CD466142EBBDBD5187131B92D93818987832EB89")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 65535, 16, "CA2FD00FA001190744C15C317643AB092E7048CE086A243E2BE9437C898DE1BB")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 12345, 16, "3514ACF61732F662DA19625F7FE781C3E483F2DCE8506012F3BB393F5003E105")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 2147483647, 32, "24AE0D93F1AF72ADDC019182FAE1AB44547A1E84758785745F4358373EAB1960")]
+        public void ShouldHashIntegersCorrectly(ModeValues mode, DigestSizes digestSize, int message, int bitLength, string expectedOutput)
+        {
+            var shaFactory = new NativeShaFactory();
+            var sha = shaFactory.GetShaInstance(new HashFunction(mode, digestSize));
+            
+            sha.Init();
+            sha.Update(message, bitLength);
+
+            var buffer = new byte[sha.HashFunction.OutputLen / 8];
+            sha.Final(buffer);
+            var output = new BitString(buffer);
+            
+            // sha.Init();
+            // var messageBytes = message.GetBytes().TakeLast(bitLength / 8).ToArray();
+            // sha.Update(messageBytes, bitLength);
+            // sha.Final(buffer);
+            // var byteOutput = new BitString(buffer);
+            //
+            // foreach (var b in messageBytes)
+            // {
+            //     Console.WriteLine(b);
+            // }
+            // Console.WriteLine(byteOutput.ToHex());
+            Assert.AreEqual(expectedOutput.ToUpper(), output.ToHex());
+        }
+        
+        [Test]
+        [TestCase(ModeValues.SHA1, DigestSizes.d160, 0, 0, "85E53271E14006F0265921D02D4D736CDC580B0B")]
+        
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 255, 8, "B58D2E907855C8D7C58FE45EF0CD70DE95E09BE02FC5B93CA2586B68")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 128, 8, "6CB86576B557BFD9A2F0DC489C61F6182ECEF305FF5F3170BBAB63E4")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 169, 8, "D2BD62E58B69DC821537A9B17C91DE70328A49D3DEC6A57259A9ED06")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, 65535, 16, "2F5EACE485C26769488B9CD05E0FE03A0A34CD9C27341CC99E47FD1E")]
+        
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 255, 8, "CA2FD00FA001190744C15C317643AB092E7048CE086A243E2BE9437C898DE1BB")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 65535, 16, "5AE7E6A42304DC6E4176210B83C43024F99A0BCE9A870C3B6D2C95FC8EBFB74C")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 12345, 16, "A17FCA1B076F8B66BED4BEE3E2A018DCE2B46D60F5BB3A1A108997ED235B1176")]
+        [TestCase(ModeValues.SHA2, DigestSizes.d256, 2147483647, 32, "A3402D221AE58CACE764130A6622556F007659A9E11B9FCB5E23A165CEDB9C7B")]
+        public void ShouldHashIntegersCorrectlyWithMultipleUpdates(ModeValues mode, DigestSizes digestSize, int message, int bitLength, string expectedOutput)
+        {
+            var shaFactory = new NativeShaFactory();
+            var sha = shaFactory.GetShaInstance(new HashFunction(mode, digestSize));
+            
+            sha.Init();
+            sha.Update(new BitString("FF").ToBytes(), 8);
+            sha.Update(message, bitLength);
+
+            var buffer = new byte[sha.HashFunction.OutputLen / 8];
+            sha.Final(buffer);
+            var output = new BitString(buffer);
+            
+            sha.Init();
+            var messageBytes = message.GetBytes().TakeLast(bitLength / 8).ToArray();
+            sha.Update(new BitString("FF").ToBytes(), 8);
+            sha.Update(messageBytes, bitLength);
+            sha.Final(buffer);
+            var byteOutput = new BitString(buffer);
+            //
+            // foreach (var b in messageBytes)
+            // {
+            //     Console.WriteLine(b);
+            // }
+            Console.WriteLine(byteOutput.ToHex());
+            Assert.AreEqual(expectedOutput.ToUpper(), output.ToHex());
         }
     }
 }

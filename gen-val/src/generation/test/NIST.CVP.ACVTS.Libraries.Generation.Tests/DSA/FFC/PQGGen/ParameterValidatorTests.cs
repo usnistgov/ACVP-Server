@@ -130,7 +130,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen
         public ParameterBuilder()
         {
             _algorithm = "DSA";
-            _mode = "PQGGen";
+            _mode = "pqgGen";
             _capabilities = new[] { GetCapabilityWith(2048, 224, new[] { "probable" }, new[] { "unverifiable" }, new[] { "SHA2-256" }) };
         }
 

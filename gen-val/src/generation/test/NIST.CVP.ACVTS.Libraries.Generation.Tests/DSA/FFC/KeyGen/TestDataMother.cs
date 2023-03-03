@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.KeyGen
             var vectorSet = new TestVectorSet
             {
                 Algorithm = "DSA",
-                Mode = "KeyGen"
+                Mode = "keyGen"
             };
 
             var testGroups = new List<TestGroup>();

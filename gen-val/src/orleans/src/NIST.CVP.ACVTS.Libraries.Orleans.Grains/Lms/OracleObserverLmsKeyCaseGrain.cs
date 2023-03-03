@@ -1,33 +1,31 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
-using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms.Native;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Lms
 {
-    public class OracleObserverLmsKeyCaseGrain : ObservableOracleGrainBase<LmsKeyResult>,
+    public class OracleObserverLmsKeyCaseGrain : ObservableOracleGrainBase<LmsKeyPairResult>,
         IOracleObserverLmsKeyCaseGrain
     {
-        private readonly IHssFactory _hssFactory;
-
+        private readonly ILmsKeyPairFactory _lmsKeyPairFactory;
         private readonly IEntropyProvider _entropyProvider;
-
-        private LmsKeyParameters _param;
+        private LmsKeyPairParameters _param;
 
         public OracleObserverLmsKeyCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-            IHssFactory hssFactory,
+            ILmsKeyPairFactory lmsKeyPairFactory,
             IEntropyProviderFactory entropyProviderFactory
         ) : base(nonOrleansScheduler)
         {
-            _hssFactory = hssFactory;
+            _lmsKeyPairFactory = lmsKeyPairFactory;
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
-        public async Task<bool> BeginWorkAsync(LmsKeyParameters param)
+        public async Task<bool> BeginWorkAsync(LmsKeyPairParameters param)
         {
             _param = param;
 
@@ -38,19 +36,16 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Lms
         protected override async Task DoWorkAsync()
         {
             var seed = _entropyProvider.GetEntropy(256);
-
             var i = _entropyProvider.GetEntropy(128);
 
-            var hss = _hssFactory.GetInstance(_param.Layers, _param.LmsTypes, _param.LmotsTypes, EntropyProviderTypes.Testable, seed, i);
-
-            var keyPair = await hss.GenerateHssKeyPairAsync();
+            var lmsKey = _lmsKeyPairFactory.GetKeyPair(_param.LmsMode, _param.LmOtsMode, i.ToBytes(), seed.ToBytes());
 
             // Notify observers of result
-            await Notify(new LmsKeyResult
+            await Notify(new LmsKeyPairResult
             {
-                SEED = seed,
+                Seed = seed,
                 I = i,
-                KeyPair = keyPair
+                KeyPair = lmsKey
             });
         }
     }

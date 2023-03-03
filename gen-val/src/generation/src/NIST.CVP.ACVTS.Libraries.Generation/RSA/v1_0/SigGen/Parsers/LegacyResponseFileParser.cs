@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigGen.Parsers
                 curTestCase.SetString(parts[0].Trim(), parts[1].Trim());
             }
 
-            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "SigGen", TestGroups = groups });
+            return new ParseResponse<TestVectorSet>(new TestVectorSet { Algorithm = "RSA", Mode = "sigGen", TestGroups = groups });
         }
     }
 }

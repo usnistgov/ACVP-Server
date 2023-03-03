@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "PQGGen",
+                Mode = "pqgGen",
                 IsSample = false,
                 Capabilities = GetCapabilities(),
             };
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen
             var p = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "PQGGen",
+                Mode = "pqgGen",
                 IsSample = false,
                 Capabilities = GetCapabilities(),
             };

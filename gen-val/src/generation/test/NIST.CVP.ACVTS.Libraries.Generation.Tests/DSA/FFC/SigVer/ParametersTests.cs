@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
             var parameters = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = GetCapabilities()
             };
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
             var parameters = new Parameters
             {
                 Algorithm = "DSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = GetCapabilities()
             };

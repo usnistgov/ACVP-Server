@@ -2,21 +2,20 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
-using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 {
     public class TestCaseValidator : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
-        private readonly TestCase _expectedResult;
-
         public int TestCaseId => _expectedResult.TestCaseId;
+
+        private readonly TestCase _expectedResult;
 
         public TestCaseValidator(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
-
+        
         public Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
         {
             var errors = new List<string>();
@@ -34,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
                 return Task.FromResult(new TestCaseValidation
                 {
                     TestCaseId = suppliedResult.TestCaseId,
-                    Result = Disposition.Failed,
+                    Result = Core.Enums.Disposition.Failed,
                     Reason = string.Join("; ", errors),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
@@ -43,8 +42,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 
             return Task.FromResult(new TestCaseValidation
             {
-                TestCaseId = suppliedResult.TestCaseId,
-                Result = Disposition.Passed
+                TestCaseId = TestCaseId,
+                Result = Core.Enums.Disposition.Passed
             });
         }
 
@@ -60,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
         {
             if (!_expectedResult.PublicKey.Equals(suppliedResult.PublicKey))
             {
-                errors.Add("Digests do not match");
+                errors.Add($"{nameof(suppliedResult.PublicKey)} does not match");
                 expected.Add(nameof(_expectedResult.PublicKey), _expectedResult.PublicKey.ToHex());
                 provided.Add(nameof(suppliedResult.PublicKey), suppliedResult.PublicKey.ToHex());
             }

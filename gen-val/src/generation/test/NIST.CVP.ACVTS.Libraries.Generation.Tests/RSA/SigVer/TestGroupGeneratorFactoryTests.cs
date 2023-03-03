@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
                 PubExpMode = "random",
@@ -77,7 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
             var p = new Parameters
             {
                 Algorithm = "RSA",
-                Mode = "SigVer",
+                Mode = "sigVer",
                 IsSample = false,
                 Capabilities = BuildFullSpecs(),
                 PubExpMode = "random",

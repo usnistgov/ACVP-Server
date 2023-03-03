@@ -33,7 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.SRTP
             var param = new SrtpKdfParameters
             {
                 AesKeyLength = group.AesKeyLength,
-                KeyDerivationRate = group.Kdr
+                KeyDerivationRate = group.Kdr,
+                Supports48BitSrtcpIndex = group.Supports48BitSrtcpIndex
             };
 
             try

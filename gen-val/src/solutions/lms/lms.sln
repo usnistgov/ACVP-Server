@@ -37,15 +37,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Core.Tests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Core.Tests\NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj", "{973DA382-0E20-450E-814F-E5C471597ACD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests.csproj", "{06C95786-BEEF-431E-8BE7-4E0125A90681}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests.csproj", "{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests.csproj", "{F1404640-1433-4270-8820-3699BA0350E7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Oracle.Abstractions", "..\..\oracle\src\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions\NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.csproj", "{9249FC37-9A4C-4E83-90D4-602C82A134AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Tests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Tests\NIST.CVP.ACVTS.Libraries.Generation.Tests.csproj", "{541CC54B-5D8F-4DCF-86C3-0A30A0ABCDED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests.csproj", "{F3DBFDCA-93CC-4297-B733-EF8181E78235}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.KeyGen.IntegrationTests.csproj", "{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigGen.IntegrationTests.csproj", "{3137F31C-62D7-4F29-8360-735F2BC36154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.LMS.SigVer.IntegrationTests.csproj", "{BA228811-B87B-417F-B0FC-782ED68D28A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,18 +115,6 @@ Global
 		{973DA382-0E20-450E-814F-E5C471597ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{973DA382-0E20-450E-814F-E5C471597ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{973DA382-0E20-450E-814F-E5C471597ACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06C95786-BEEF-431E-8BE7-4E0125A90681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06C95786-BEEF-431E-8BE7-4E0125A90681}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06C95786-BEEF-431E-8BE7-4E0125A90681}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06C95786-BEEF-431E-8BE7-4E0125A90681}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1404640-1433-4270-8820-3699BA0350E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1404640-1433-4270-8820-3699BA0350E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1404640-1433-4270-8820-3699BA0350E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1404640-1433-4270-8820-3699BA0350E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9249FC37-9A4C-4E83-90D4-602C82A134AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9249FC37-9A4C-4E83-90D4-602C82A134AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9249FC37-9A4C-4E83-90D4-602C82A134AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -133,6 +123,22 @@ Global
 		{541CC54B-5D8F-4DCF-86C3-0A30A0ABCDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{541CC54B-5D8F-4DCF-86C3-0A30A0ABCDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{541CC54B-5D8F-4DCF-86C3-0A30A0ABCDED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3DBFDCA-93CC-4297-B733-EF8181E78235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3DBFDCA-93CC-4297-B733-EF8181E78235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3DBFDCA-93CC-4297-B733-EF8181E78235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3DBFDCA-93CC-4297-B733-EF8181E78235}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3137F31C-62D7-4F29-8360-735F2BC36154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3137F31C-62D7-4F29-8360-735F2BC36154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3137F31C-62D7-4F29-8360-735F2BC36154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3137F31C-62D7-4F29-8360-735F2BC36154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA228811-B87B-417F-B0FC-782ED68D28A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA228811-B87B-417F-B0FC-782ED68D28A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA228811-B87B-417F-B0FC-782ED68D28A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA228811-B87B-417F-B0FC-782ED68D28A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,11 +159,12 @@ Global
 		{B6107814-9EB8-482F-8EFE-3DAF59AE0A02} = {AE78101C-A7FC-4980-98CF-0D13E59939BF}
 		{F9B7794D-1662-4203-80AE-C467AB82067E} = {AE78101C-A7FC-4980-98CF-0D13E59939BF}
 		{973DA382-0E20-450E-814F-E5C471597ACD} = {0392C581-BC21-435F-9F94-CE7B12647599}
-		{06C95786-BEEF-431E-8BE7-4E0125A90681} = {0392C581-BC21-435F-9F94-CE7B12647599}
-		{27243F9D-1CBD-40C6-B3C4-1F3CD4A1FB0D} = {0392C581-BC21-435F-9F94-CE7B12647599}
-		{F1404640-1433-4270-8820-3699BA0350E7} = {0392C581-BC21-435F-9F94-CE7B12647599}
 		{9249FC37-9A4C-4E83-90D4-602C82A134AB} = {AE78101C-A7FC-4980-98CF-0D13E59939BF}
 		{541CC54B-5D8F-4DCF-86C3-0A30A0ABCDED} = {0392C581-BC21-435F-9F94-CE7B12647599}
+		{F3DBFDCA-93CC-4297-B733-EF8181E78235} = {0392C581-BC21-435F-9F94-CE7B12647599}
+		{0CEDEBEF-48A1-496E-A60B-81CB5BE99ADC} = {0392C581-BC21-435F-9F94-CE7B12647599}
+		{3137F31C-62D7-4F29-8360-735F2BC36154} = {0392C581-BC21-435F-9F94-CE7B12647599}
+		{BA228811-B87B-417F-B0FC-782ED68D28A0} = {0392C581-BC21-435F-9F94-CE7B12647599}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1423416A-5076-4B32-A4CC-806B2D9F069C}

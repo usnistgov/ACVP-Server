@@ -63,7 +63,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyVer
         public ParameterBuilder()
         {
             _algorithm = "EDDSA";
-            _mode = "KeyVer";
+            _mode = "keyVer";
             _curves = new[] { "ED-25519", "ED-448" };
         }
 

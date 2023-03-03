@@ -122,7 +122,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen
         public ParameterBuilder()
         {
             _algorithm = "ECDSA";
-            _mode = "KeyGen";
+            _mode = "keyGen";
             _curves = new[] { "P-224", "B-283", "K-409" };
             _secretGenerationModes = new[] { "testing candidates", "extra bits" };
         }

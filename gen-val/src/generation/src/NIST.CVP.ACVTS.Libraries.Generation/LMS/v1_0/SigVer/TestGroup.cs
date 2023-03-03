@@ -1,46 +1,44 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer.TestCaseExpectations;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer
+namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer;
+
+public class TestGroup : ITestGroup<TestGroup, TestCase>
 {
-    public class TestGroup : ITestGroup<TestGroup, TestCase>
+    public int TestGroupId { get; set; }
+    public string TestType { get; set; } = "AFT";
+
+    public LmsMode LmsMode { get; set; }
+    public LmOtsMode LmOtsMode { get; set; }
+    
+    [JsonIgnore]
+    public ILmsKeyPair KeyPair { get; set; }
+    
+    // Only used for testing by TestDataMother
+    [JsonIgnore]
+    private BitString TestingPublicKey { get; init; }
+
+    public BitString PublicKey
     {
-        public int TestGroupId { get; set; }
-        public string TestType { get; set; } = "AFT";
-
-        public List<LmsType> LmsTypes { get; set; } = new List<LmsType>();
-        public List<LmotsType> LmotsTypes { get; set; } = new List<LmotsType>();
-
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
-
-        [JsonIgnore] public ITestCaseExpectationProvider<LmsSignatureDisposition> TestCaseExpectationProvider { get; set; }
-
-        public override int GetHashCode()
+        get
         {
-            var result = "";
-            foreach (var lmsType in LmsTypes)
-            {
-                result += EnumHelpers.GetEnumDescriptionFromEnum(lmsType);
-            }
-            foreach (var lmotsType in LmotsTypes)
-            {
-                result += EnumHelpers.GetEnumDescriptionFromEnum(lmotsType);
-            }
-            return result.GetHashCode();
+            return KeyPair != null ? new BitString(KeyPair.PublicKey.Key) : TestingPublicKey;
         }
 
-        public override bool Equals(object obj)
+        init
         {
-            if (obj is TestGroup otherGroup)
-            {
-                return GetHashCode() == otherGroup.GetHashCode();
-            }
-
-            return false;
+            TestingPublicKey = value;
         }
     }
+    
+    [JsonIgnore]
+    public readonly ITestCaseExpectationProvider<LmsSignatureDisposition> TestCaseExpectationProvider = new TestCaseExpectationProvider();
+
+    public List<TestCase> Tests { get; set; } = new();
 }

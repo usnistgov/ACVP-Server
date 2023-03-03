@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.KeyVer.IntegrationTests.Fi
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "ECDSA";
-        public override string Mode { get; } = "KeyVer";
+        public override string Mode { get; } = "keyVer";
 
         public override AlgoMode AlgoMode => AlgoMode.ECDSA_KeyVer_v1_0;
 

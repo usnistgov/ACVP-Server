@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
             var vectorSet = new TestVectorSet()
             {
                 Algorithm = "ECDSA",
-                Mode = "SigVer"
+                Mode = "sigVer"
             };
 
             var testGroups = new List<TestGroup>();

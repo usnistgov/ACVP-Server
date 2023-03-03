@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "SignaturePrimitive",
+  "mode": "signaturePrimitive",
   "revision": "1.0",
   "isSample": false,
   "conformances": [],

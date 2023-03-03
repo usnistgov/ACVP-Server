@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
             var p = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "KeyGen",
+                Mode = "keyGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
                 SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
             var p = new Parameters
             {
                 Algorithm = "EDDSA",
-                Mode = "KeyGen",
+                Mode = "keyGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
                 SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES

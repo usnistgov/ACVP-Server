@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests
     public class GenValTests : GenValTestsSingleRunnerBase
     {
         public override string Algorithm { get; } = "RSA";
-        public override string Mode { get; } = "SigGen";
+        public override string Mode { get; } = "sigGen";
         public override string Revision => "FIPS186-4";
 
         public override AlgoMode AlgoMode => AlgoMode.RSA_SigGen_Fips186_4;

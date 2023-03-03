@@ -93,7 +93,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
         public ParameterBuilder()
         {
             _algorithm = "EDDSA";
-            _mode = "SigGen";
+            _mode = "sigGen";
             _preHash = false;
             _pure = true;
             _curve = ParameterValidator.VALID_CURVES;

@@ -127,5 +127,23 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
                 Assert.AreEqual(valueToSet, result[i], $"{nameof(i)}: {i}");
             }
         }
+
+        [Test]
+        [TestCase(0, 0)]
+        [TestCase(1, 8)]
+        [TestCase(8, 64)]
+        public void WhenBitLengthGivenByteArrayOfBytesX_ShouldReturnLengthTimesEightOfX(int byteArrayLength, int expectedBits)
+        {
+            var bytes = new byte[byteArrayLength];
+            Assert.AreEqual(expectedBits, bytes.BitLength());
+        }
+
+        [Test]
+        public void WhenBitLengthGivenNull_ShouldThrowArgumentNullException()
+        {
+            byte[] bytes = null;
+
+            Assert.Throws<ArgumentNullException>(() => bytes.BitLength());
+        }
     }
 }

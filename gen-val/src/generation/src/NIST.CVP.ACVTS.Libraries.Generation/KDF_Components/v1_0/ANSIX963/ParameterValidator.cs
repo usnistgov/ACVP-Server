@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -12,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.ANSIX963
         public static int[] VALID_FIELD_SIZE = { 224, 233, 256, 283, 384, 409, 521, 571 };
         public static int SHARED_INFO_MAXIMUM = 1024;
         public static int SHARED_INFO_MINIMUM = 0;
-        public static string[] VALID_HASH_ALGS = { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512" };
+        public static string[] VALID_HASH_ALGS = { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256", "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512" };
         public static int KEY_LENGTH_MINIMUM = 112;
         public static int KEY_LENGTH_MAXIMUM = 4096;
 
@@ -39,12 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.ANSIX963
                 errors.Add("Field Size must be provided.");
                 return new ParameterValidateResponse(errors);
             }
-
-            if (parameters.FieldSize.Length != 1 && parameters.FieldSize.Length != 2)
-            {
-                errors.Add("Must contain 1 or 2 field sizes");
-            }
-
+            
             result = ValidateArray(parameters.FieldSize, VALID_FIELD_SIZE, "Field Size");
             errors.AddIfNotNullOrEmpty(result);
 
@@ -56,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.ANSIX963
             ValidateGroups(parameters.FieldSize, parameters.HashAlg, errors);
 
             ValidateDomain(parameters.KeyDataLength, errors, "KeyDataLength", KEY_LENGTH_MINIMUM, KEY_LENGTH_MAXIMUM);
-            ValidateDomain(parameters.SharedInfoLength, errors, "SHAredInfo", SHARED_INFO_MINIMUM, SHARED_INFO_MAXIMUM);
+            ValidateDomain(parameters.SharedInfoLength, errors, "SharedInfo", SHARED_INFO_MINIMUM, SHARED_INFO_MAXIMUM);
 
             return new ParameterValidateResponse(errors);
         }

@@ -5,6 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 using NIST.CVP.ACVTS.Libraries.Math.LargeBitString;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
@@ -102,6 +103,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             }
 
             _cachedBits = numberOfCompletedBytes * 8 == _cachedBits.BitLength ? new BitString(0) : _cachedBits.GetLeastSignificantBits(_cachedBits.BitLength - numberOfCompletedBytes * 8);
+        }
+
+        public void Update(int input, int bitLength)
+        {
+            // TODO fix this to be more native and not use the GetBytes calls
+            switch (bitLength)
+            {
+                case 8:
+                    Update(input.Get8Bits(), bitLength);
+                    return;
+                case 16:
+                    Update(input.Get16Bits(), bitLength);
+                    return;
+                case 32:
+                    Update(input.GetBytes(), bitLength);
+                    return;
+            }
         }
 
         public new void Final(byte[] output, int outputBitLength = 0)

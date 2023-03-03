@@ -12,10 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 
             foreach (var group in testVectorSet.TestGroups.Select(g => g))
             {
-                foreach (var test in group.Tests.Select(t => t))
-                {
-                    list.Add(new TestCaseValidator(test));
-                }
+                list.AddRange(group.Tests.Select(t => t).Select(test => new TestCaseValidator(test)));
             }
 
             return list;

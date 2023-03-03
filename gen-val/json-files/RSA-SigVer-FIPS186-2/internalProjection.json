@@ -2,7 +2,7 @@
   "revision": "FIPS186-2",
   "vsId": 0,
   "algorithm": "RSA",
-  "mode": "SigVer",
+  "mode": "sigVer",
   "isSample": true,
   "testGroups": [
     {

@@ -1,7 +1,7 @@
 {
   "vsId": 0,
   "algorithm": "ECDSA",
-  "mode": "KeyVer",
+  "mode": "keyVer",
   "revision": "FIPS186-5",
   "isSample": true,
   "testGroups": [
@@ -14,11 +14,11 @@
         },
         {
           "tcId": 2,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 3,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -48,11 +48,11 @@
         },
         {
           "tcId": 8,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 9,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -78,7 +78,7 @@
       "tests": [
         {
           "tcId": 13,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 14,
@@ -86,7 +86,7 @@
         },
         {
           "tcId": 15,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     }

@@ -9,14 +9,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed => true;
-        public bool Deferred => true;
+        public bool Deferred => false;
+        
         public TestGroup ParentGroup { get; set; }
 
-        [JsonProperty(PropertyName = "pub")]
+        [JsonProperty(PropertyName = "publicKey")]
         public BitString PublicKey { get; set; }
+        
         [JsonProperty(PropertyName = "seed")]
         public BitString Seed { get; set; }
-        [JsonProperty(PropertyName = "rootI")]
-        public BitString RootI { get; set; }
+        
+        [JsonProperty(PropertyName = "i")]
+        public BitString I { get; set; }
     }
 }

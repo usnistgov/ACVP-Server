@@ -130,5 +130,21 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
 
             return byteArray;
         }
+
+        /// <summary>
+        /// Return the bit length of the <see cref="byteArray"/>.
+        /// </summary>
+        /// <param name="byteArray">The byte array to determine the bit length of.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the array is null.</exception>
+        /// <returns>The length in bits of the byte array (returned value always mod 8)</returns>
+        public static int BitLength(this byte[] byteArray)
+        {
+            if (byteArray == null)
+            {
+                throw new ArgumentNullException(nameof(byteArray));
+            }
+
+            return byteArray.Length * BitString.BITSINBYTE;
+        }
     }
 }
