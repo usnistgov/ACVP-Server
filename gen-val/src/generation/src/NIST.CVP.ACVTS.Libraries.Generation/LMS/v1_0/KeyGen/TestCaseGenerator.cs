@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -9,15 +10,31 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
-        public int NumberOfTestCasesToGenerate => 5;
+        public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
         public TestCaseGenerator(IOracle oracle)
         {
             _oracle = oracle;
+        }
+        
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            // Trim the group down if the keys take a long time to generate
+            NumberOfTestCasesToGenerate = AttributesHelper.GetLmsAttribute(group.LmsMode).H switch
+            {
+                5 => 5,
+                10 => 4,
+                15 => 3,
+                20 => 2,
+                25 => 1,
+                _ => NumberOfTestCasesToGenerate
+            };
+
+            return new GenerateResponse();
         }
         
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
@@ -32,10 +49,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.KeyGen
             {
                 var result = await _oracle.GetLmsKeyCaseAsync(param);
 
-                ThisLogger.Debug($"Key is: {new BitString(result.KeyPair.PublicKey.Key).ToHex()}");
-                ThisLogger.Debug($"I is: {result.I.ToHex()}");
-                ThisLogger.Debug($"Seed is: {result.Seed.ToHex()}");
-                
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Seed = result.Seed,

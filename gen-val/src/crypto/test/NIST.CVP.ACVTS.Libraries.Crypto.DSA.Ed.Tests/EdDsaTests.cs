@@ -639,6 +639,43 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
             Assert.AreEqual(expectedResult, result.Success);
         }
 
+        [Test]
+        [TestCase("2a66241a42a9ee12994d8068dcf1bb7dfc6637b45450acd43711f637fa5080fc", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a0000000000000000000000000000000000000000000000000000000000000000")]
+        [TestCase("8c93255d71dcab10e8f379c26200f3c7bd5f09d9bc3068d3ef4edeb4853022b6", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a0000000000000000000000000000000000000000000000000000000000000000")]
+        [TestCase("9bedc267423725d473888631ebf45988bad3db83851ee85c85e241a07d148b41", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43a5bb704786be79fc476f91d3f3f89b03984d8068dcf1bb7dfc6637b45450ac04")]
+        [TestCase("9bd9f44f4dcc75bd531b56b2cd280b0bb38fc1cd6d1230e14861d861de092e79", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43a5bb704786be79fc476f91d3f3f89b03984d8068dcf1bb7dfc6637b45450ac04")]
+        [TestCase("9bedc267423725d473888631ebf45988bad3db83851ee85c85e241a07d148b41", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa182ef1a5b928da07fec769cc8a12db6bcf70dab3f3227fa315e9d5e3e01a3405")]
+        [TestCase("aebf3f2601a0c8c5d39cc7d8911642f740b78168218da8471772b35f9d35b9ab", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa8c4bd45aecaca5b24fb97bc10ac27ac8751a7dfe1baff8b953ec9f5833ca260e")]
+        [TestCase("e47d62c63f830dc7a6851a0b1f33ae4bb2f507fb6cffec4011eaccd55b53f56c", "cdb267ce40c5cd45306fa5d2f29731459387dbf9eb933b7bd5aed9a765b88d4d", "160a1cb0dc9c0258cd0a7d23e94d8fa878bcb1925f2c64246b2dee1796bed5125ec6bc982a269b723e0668e540911a9a6a58921d6925e434ab10aa7940551a09")]
+        [TestCase("9bd9f44f4dcc75bd531b56b2cd280b0bb38fc1cd6d1230e14861d861de092e79", "cdb267ce40c5cd45306fa5d2f29731459387dbf9eb933b7bd5aed9a765b88d4d", "9046a64750444938de19f227bb80485e92b83fdb4b6506c160484c016cc1852f87909e14428a7a1d62e9f22f3d3ad7802db02eb2e688b6c52fcd6648a98bd009")]
+        [TestCase("e47d62c63f830dc7a6851a0b1f33ae4bb2f507fb6cffec4011eaccd55b53f56c", "cdb267ce40c5cd45306fa5d2f29731459387dbf9eb933b7bd5aed9a765b88d4d", "21122a84e0b5fca4052f5b1235c80a537878b38f3142356b2c2384ebad4668b7e40bc836dac0f71076f9abe3a53f9c03c1ceeeddb658d0030494ace586687405")]
+        //[TestCase("85e241a07d148b41e47d62c63f830dc7a6851a0b1f33ae4bb2f507fb6cffec40", "442aad9f089ad9e14647b1ef9099a1ff4798d78589e66f28eca69c11f582a623", "e96f66be976d82e60150baecff9906684aebb1ef181f67a7189ac78ea23b6c0e547f7690a0e2ddcd04d87dbc3490dc19b3b3052f7ff0538cb68afb369ba3a514")]
+        //[TestCase("85e241a07d148b41e47d62c63f830dc7a6851a0b1f33ae4bb2f507fb6cffec40", "442aad9f089ad9e14647b1ef9099a1ff4798d78589e66f28eca69c11f582a623", "8ce5b96c8f26d0ab6c47958c9e68b937104cd36e13c33566acd2fe8d38aa19427e71f98a473474f2f13f06f97c20d58cc3f54b8bd0d272f42b695dd7e89a8c22")]
+        [TestCase("fdaebc429f4a735932a160da1301080c13280eea8bc280d1b392c6b9e6ba3a5a", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43", "edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f454d370c8d9fc323a41450f8d513eafeb5b0697390c1e505a0d4ddc71f566607")]
+        [TestCase("84b698d39be126ff55fe45079e6c8bf64a0d7db6994560b4e96b7021eb39c1a1", "f7badec5b8abeaf699583992219b7b223f1df3fbbea919844e3f7c554a43dd43", "edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f084d5b99c2a9463d9c8bd5026916996984eeec87ddf1d3be329006ace1b37b09")]
+        [TestCase("e96b7021eb39c1a163b6da4e3093dcd3f21387da4cc4572be588fafae23c155b", "ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f", "a9d55260f765261eb9b84e106f665e00b867287a761990d7135963ee0a7d59dca5bb704786be79fc476f91d3f3f89b03984d8068dcf1bb7dfc6637b45450ac04")]
+        [TestCase("39a591f5321bbe07fd5a23dc2f39d025d74526615746727ceefd6e82ae65c06f", "ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f", "a9d55260f765261eb9b84e106f665e00b867287a761990d7135963ee0a7d59dca5bb704786be79fc476f91d3f3f89b03984d8068dcf1bb7dfc6637b45450ac04")]
+        public void ShouldValidateEdgeCaseSignaturesCorrectly(string msgHex, string qHex, string sigHex)
+        {
+            var q = LoadValue(qHex);
+            var msg = LoadValue(msgHex);
+            var sig = LoadValue(sigHex);
+
+            var factory = new EdwardsCurveFactory();
+            var curve = factory.GetCurve(Curve.Ed25519);
+
+            var domainParams = new EdDomainParameters(curve, new NativeShaFactory());
+
+            var keyPair = new EdKeyPair(q);
+            var signature = new EdSignature(sig);
+
+            var subject = new EdDsa();
+
+            var result = subject.Verify(domainParams, keyPair, msg, signature);
+            
+            Assert.IsFalse(result.Success, result.ErrorMessage);
+        }
+
         private BitString LoadValue(string value)
         {
             return new BitString(value);

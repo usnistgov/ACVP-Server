@@ -19,21 +19,24 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
         }
 
         #region MonteCarloAlgorithm Pseudocode
-        //INPUT: A random Seed n bits long
-        //{
-        //    MD[0] = Seed;
-        //    for (j=0; j<100; j++) {
-        //        for (i=1; i<1001; i++) {
-        //            M[i] = MD[i-1];
-        //            MD[i] = SHA3(M[i]);
-        //        }
-        //        MD[0] = MD[1000];
-        //        OUTPUT: MD[0]
-        //    }
-        //}
+        /* 
+         * INPUT: A random Seed n bits long
+         * {
+         *    MD[0] = Seed;
+         *    for (j=0; j<100; j++) {
+         *        for (i=1; i<1001; i++) {
+         *            M[i] = MD[i-1];
+         *            MD[i] = SHA3(M[i]);
+         *        }
+         *        MD[0] = MD[1000];
+         *        OUTPUT: MD[0]
+         *    }
+         * }
+         */
         #endregion
 
-        public MctResult<AlgoArrayResponse> MctHash(BitString message, MathDomain domain = null, bool isSample = false)
+        public MctResult<AlgoArrayResponse> MctHash(BitString message, bool isSample = false, MathDomain domain = null,
+            int digestSize = 0, int smallestSupportedMessageLengthGreaterThanZero = 0)
         {
             if (isSample)
             {

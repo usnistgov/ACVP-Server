@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
             var message = _entropyProvider.GetEntropy(_param.MessageLength);
             var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction);
 
-            var result = shaMct.MctHash(message, _param.OutputLengths, false);
+            var result = shaMct.MctHash(message, false, _param.OutputLengths);
 
             if (!result.Success)
             {

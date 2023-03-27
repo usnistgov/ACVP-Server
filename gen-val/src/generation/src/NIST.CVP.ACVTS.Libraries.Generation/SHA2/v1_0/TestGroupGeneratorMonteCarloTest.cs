@@ -19,6 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
                 {
                     Function = ShaAttributes.StringToMode(parameters.Algorithm),
                     DigestSize = ShaAttributes.StringToDigest(digSize),
+                    MessageLength = parameters.MessageLength,
                     TestType = TEST_TYPE
                 };
 

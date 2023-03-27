@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.Parsers;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -56,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                     if (testGroup.TestType.ToLower() == "mct")
                     {
                         var sha3Mct = GetShaMctInstance(testGroup.CommonHashFunction);
-                        var result = sha3Mct.MctHash(testCase.Message, null, false);
+                        var result = sha3Mct.MctHash(testCase.Message);
 
                         Assert.IsTrue(result.Success, "result.Success must be successful");
                         Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
@@ -113,7 +114,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                         domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
 
                         var shakeMct = GetShaMctInstance(testGroup.CommonHashFunction);
-                        var result = shakeMct.MctHash(testCase.Message, domain, false);
+                        var result = shakeMct.MctHash(testCase.Message, false, domain,
+                            ShaAttributes.GetShaAttributes( testGroup.Function, testGroup.DigestSize).outputLen);
 
                         Assert.IsTrue(result.Success, "result.Success must be successful");
                         Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");

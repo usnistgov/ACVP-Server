@@ -92,11 +92,27 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithMessageLength(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)))
+                    .WithMessageLength(
+                        new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 1024, 8)))
                     .Build()
             );
 
             Assert.IsTrue(result.Success);
+        }
+
+        [Test]
+        [TestCase(0, 1024)]
+        [TestCase(1720, 12144)]
+        public void ShouldReturnSuccessForValidMessageLengths(int min, int max)
+        {
+          var subject = new ParameterValidator();
+          var result = subject.Validate(
+            new ParameterBuilder()
+              .WithMessageLength(new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), min, max, 8)))
+              .Build()
+          );
+
+          Assert.IsTrue(result.Success);
         }
 
         public class ParameterBuilder

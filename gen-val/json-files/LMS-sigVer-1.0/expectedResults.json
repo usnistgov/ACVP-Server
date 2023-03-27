@@ -18,11 +18,11 @@
         },
         {
           "tcId": 3,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 4,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 5,
@@ -35,7 +35,7 @@
       "tests": [
         {
           "tcId": 6,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 7,
@@ -47,7 +47,7 @@
         },
         {
           "tcId": 9,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 10,

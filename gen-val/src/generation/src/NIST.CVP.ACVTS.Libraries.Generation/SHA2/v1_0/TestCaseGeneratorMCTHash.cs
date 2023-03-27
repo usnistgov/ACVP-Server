@@ -4,6 +4,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
@@ -26,9 +27,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             IsSample = isSample;
-            var param = new ShaParameters
+            var param = new ShaParameters()
             {
                 HashFunction = group.CommonHashFunction,
+                MessageDomain = group.MessageLength,
                 MessageLength = ShaAttributes.GetShaAttributes(group.Function, group.DigestSize).outputLen
             };
 

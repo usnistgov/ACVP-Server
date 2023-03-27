@@ -46,7 +46,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
          */
         #endregion MonteCarloAlgorithm Pseudocode
 
-        public MctResult<AlgoArrayResponse> MctHash(BitString message, MathDomain domain, bool isSample = false)
+        public MctResult<AlgoArrayResponse> MctHash(BitString message, bool isSample = false, MathDomain domain = null,
+            int digestSize = 0, int smallestSupportedMessageLengthGreaterThanZero = 0)
         {
             if (isSample)
             {

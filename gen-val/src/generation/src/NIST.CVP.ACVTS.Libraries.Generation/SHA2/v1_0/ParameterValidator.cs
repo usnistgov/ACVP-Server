@@ -5,6 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 {
@@ -90,12 +91,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 
         private void ValidateMatching(Parameters parameters, List<string> errorResults)
         {
-            if (parameters.Algorithm.ToLower() == "SHA-1")
+            if (parameters.Algorithm.ToLower() == "sha-1")
             {
                 var result = ValidateArray(parameters.DigestSizes, VALID_SHA1_SIZES, "SHA1 digest size");
                 errorResults.AddIfNotNullOrEmpty(result);
             }
-            else if (parameters.Algorithm.ToLower().Contains("SHA2"))
+            else if (parameters.Algorithm.ToLower().Contains("sha2"))
             {
                 var result = ValidateArray(parameters.DigestSizes, VALID_SHA2_SIZES, "SHA2 digest size");
                 errorResults.AddIfNotNullOrEmpty(result);
@@ -109,7 +110,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
             {
                 return;
             }
-
+            
             // Enforce min/max
             var minMax = messageLengths.GetDomainMinMax();
             if (minMax.Minimum < MIN_MESSAGE_LENGTH)
@@ -119,16 +120,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 
             if (minMax.Maximum > MAX_MESSAGE_LENGTH)
             {
-                errorResults.Add($"Message Length Maximum is above allowed value. {minMax.Maximum} > {MAX_MESSAGE_LENGTH}");
+              errorResults.Add(
+                $"Message Length Maximum is above allowed value. {minMax.Maximum} > {MAX_MESSAGE_LENGTH}");
             }
-
-            // Check for digest size within domain
-            var digestSize = ShaAttributes.GetHashFunctionFromName(parameters.Algorithm).OutputLen;
-            var mctLength = digestSize * 3;
-
-            if (!messageLengths.IsWithinDomain(mctLength))
+            
+            // Enforce min supported length above MIN_MESSAGE_LENGTH for MCT
+            if (!messageLengths.GetValues(MIN_MESSAGE_LENGTH+1, MAX_MESSAGE_LENGTH, 2).Any())
             {
-                errorResults.Add("Message length must contain the digest size and 3x the digest size for MCT");
+                errorResults.Add($"Message length must contain at least one segment that is greater than 0 bits for MCT.");
             }
         }
 

@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
 
                     if (testGroup.TestType.ToLower() == "montecarlo")
                     {
-                        var result = shaMct.MctHash(testCase.Message, null, false);
+                        var result = shaMct.MctHash(testCase.Message);
 
                         Assert.IsTrue(result.Success, "result.Success must be successful");
                         Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
