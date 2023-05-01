@@ -14,18 +14,14 @@
         },
         {
           "tcId": 2,
-          "testPassed": false
-        },
-        {
-          "tcId": 3,
           "testPassed": true
         },
         {
-          "tcId": 4,
+          "tcId": 3,
           "testPassed": false
         },
         {
-          "tcId": 5,
+          "tcId": 4,
           "testPassed": false
         }
       ]
@@ -33,6 +29,10 @@
     {
       "tgId": 2,
       "tests": [
+        {
+          "tcId": 5,
+          "testPassed": true
+        },
         {
           "tcId": 6,
           "testPassed": false
@@ -43,14 +43,6 @@
         },
         {
           "tcId": 8,
-          "testPassed": false
-        },
-        {
-          "tcId": 9,
-          "testPassed": true
-        },
-        {
-          "tcId": 10,
           "testPassed": false
         }
       ]

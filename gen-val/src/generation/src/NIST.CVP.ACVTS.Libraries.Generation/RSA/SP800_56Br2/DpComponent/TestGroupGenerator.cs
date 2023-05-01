@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.TestCaseExpectations;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
 {
@@ -20,11 +21,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
                     {
                         Modulo = mod,
                         KeyMode = format,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
                     });
                 }
             }
-
+            
             return Task.FromResult(groups);
         }
     }    

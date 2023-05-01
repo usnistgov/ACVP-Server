@@ -33,7 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys
                     DMQ1 = d % (primes.Q - 1),
                     IQMP = primes.Q.ModularInverse(primes.P),
                     P = primes.P,
-                    Q = primes.Q
+                    Q = primes.Q,
+                    D = d
                 },
                 PubKey = new PublicKey
                 {

@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
             var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction);
             
             // Determine the length of the SEED to be created
-            if (_param.MessageLength == 0 || !_param.UsingNewMctAlgo())
+            if (!_param.UsingNewMctAlgo())
             { 
                 message = _entropyProvider.GetEntropy(_param.MessageLength);
                 result = shaMct.MctHash(message, false, _param.MessageDomain, _param.MessageLength);

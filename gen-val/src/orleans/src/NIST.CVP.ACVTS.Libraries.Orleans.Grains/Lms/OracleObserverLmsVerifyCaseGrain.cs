@@ -48,21 +48,19 @@ public class OracleObserverLmsVerifyCaseGrain : ObservableOracleGrainBase<Verify
         _param.LmsKeyPair.PrivateKey.SetQ(_rand.GetRandomInt(0, leafCount));
         
         var signature = _lmsSigner.Sign(_param.LmsKeyPair.PrivateKey, _randomizer, message.ToBytes());
-
         var result = new LmsSignatureResult
         {
             Message = message,
-            PublicKey = new BitString(_param.LmsKeyPair.PublicKey.Key),
             Signature = new BitString(signature.Signature)
         };
-
+        
         switch (_param.Disposition)
         {
             case LmsSignatureDisposition.None:
                 break;
             
             case LmsSignatureDisposition.ModifyHeader:
-                // Pick a random other LmsAttribute and use that as the leading 4 bytes of the key
+                // Pick a random other LmsAttribute and use that as part of the encoding for the signature
                 var allLmsModes = EnumHelpers.GetEnums<LmsMode>();
                 LmsMode newLmsMode;
                 do
@@ -71,32 +69,29 @@ public class OracleObserverLmsVerifyCaseGrain : ObservableOracleGrainBase<Verify
                 } while (newLmsMode == _param.LmsMode || newLmsMode == LmsMode.Invalid);
 
                 var newLmsAttribute = AttributesHelper.GetLmsAttribute(newLmsMode);
-                var keyLength = result.PublicKey.BitLength / 8;
-                var newPublicKey = new byte[keyLength];
-                Array.Copy(newLmsAttribute.NumericIdentifier, 0, newPublicKey, 0, 4);
-                Array.Copy(result.PublicKey.ToBytes(), 4, newPublicKey, 4, keyLength - 4);
+                var currentLmOtsAttribute = _param.LmsKeyPair.PrivateKey.LmOtsAttribute;
+                var lmOtsSignatureLength = currentLmOtsAttribute.NumericIdentifier.Length + currentLmOtsAttribute.N + (currentLmOtsAttribute.P * currentLmOtsAttribute.N);
+                var oldSignature = result.Signature.ToBytes();
+                var newSignature = new byte[oldSignature.Length];
+
+                Array.Copy(oldSignature, 0, newSignature, 0, 4 + lmOtsSignatureLength);
+                Array.Copy(newLmsAttribute.NumericIdentifier, 0, newSignature, 4 + lmOtsSignatureLength, 4);
+                Array.Copy(oldSignature, 4 + lmOtsSignatureLength + 4, newSignature, 4 + lmOtsSignatureLength + 4, oldSignature.Length - (4 + lmOtsSignatureLength + 4));
+                result.Signature = new BitString(newSignature);
                 
                 break;
-            
-            case LmsSignatureDisposition.ModifyKey:
-                // Flip the last bit in the key
-                var lastBitKeyIndex = result.PublicKey.BitLength - 1;
-                result.PublicKey.Bits.Set(lastBitKeyIndex, !result.PublicKey.Bits.Get(lastBitKeyIndex));
-                break;
-            
+
             case LmsSignatureDisposition.ModifyMessage:
-                // Flip the last bit in the message
-                var lastBitMessageIndex = result.Message.BitLength - 1;
-                result.Message.Bits.Set(lastBitMessageIndex, !result.Message.Bits.Get(lastBitMessageIndex));
+                // Flip the last bit in the message, Bits is Lsb
+                result.Message.Bits.Set(0, !result.Message.Bits.Get(0));
                 break;
             
             case LmsSignatureDisposition.ModifySignature:
-                // Flip the last bit in the signature
-                var lastBitSignatureIndex = result.Signature.BitLength - 1;
-                result.Signature.Bits.Set(lastBitSignatureIndex, !result.Signature.Bits.Get(lastBitSignatureIndex));
+                // Flip the last bit in the signature, Bits is Lsb
+                result.Signature.Bits.Set(0, !result.Signature.Bits.Get(0));
                 break;
         }
-        
+
         // Notify observers of result
         await Notify(new VerifyResult<LmsSignatureResult>
         {

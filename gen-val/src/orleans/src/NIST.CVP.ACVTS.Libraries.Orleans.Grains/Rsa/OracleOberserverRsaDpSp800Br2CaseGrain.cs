@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Numerics;
+using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Math;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Rsa;
@@ -42,8 +45,34 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
 
         protected override async Task DoWorkAsync()
         {
-            var cipherText = new BitString(_rand.GetRandomBigInteger(1, _passingKey.Key.PubKey.N - 1));
-            var plainText = _rsa.Decrypt(cipherText.ToPositiveBigInteger(), _passingKey.Key.PrivKey, _passingKey.Key.PubKey).PlainText;
+            BitString cipherText = new BitString(0);
+            BitString plainText = null;
+            var reason = EnumHelpers.GetEnumFromEnumDescription<RsaDpDisposition>(_param.Disposition);
+            
+            switch (reason)
+            {
+                case RsaDpDisposition.None:
+                    cipherText = new BitString(_rand.GetRandomBigInteger(2, _passingKey.Key.PubKey.N - 2), _param.Modulo);
+                    plainText = new BitString(_rsa.Decrypt(cipherText.ToPositiveBigInteger(), _passingKey.Key.PrivKey, 
+                        _passingKey.Key.PubKey).PlainText, _param.Modulo);
+                    break;
+                // CipherText = 0
+                case RsaDpDisposition.CtEqual0:
+                    cipherText = new BitString(bigInt:0, _param.Modulo);
+                    break;
+                // CipherText = 1
+                case RsaDpDisposition.CtEqual1:
+                    cipherText = new BitString(bigInt: 1, _param.Modulo);
+                    break;
+                // CipherText = N - 1
+                case RsaDpDisposition.CtEqualNMinusOne:
+                    cipherText = new BitString(_passingKey.Key.PubKey.N - 1, _param.Modulo);
+                    break;
+                // CipherText > N - 1
+                case RsaDpDisposition.CtGreaterNMinusOne:
+                    cipherText = new BitString(_rand.GetRandomBigInteger(_passingKey.Key.PubKey.N, NumberTheory.Pow2(_param.Modulo)), _param.Modulo);
+                    break;
+            }
             
             // Store everything and notify observers of result
             await Notify(
@@ -51,8 +80,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
                 {
                     CipherText = cipherText,
                     Key = _passingKey.Key,
-                    PlainText = new BitString(plainText, _param.Modulo, false),
-                    TestPassed = true
+                    PlainText = plainText,
+                    TestPassed = reason == RsaDpDisposition.None
                 }
             );
         }

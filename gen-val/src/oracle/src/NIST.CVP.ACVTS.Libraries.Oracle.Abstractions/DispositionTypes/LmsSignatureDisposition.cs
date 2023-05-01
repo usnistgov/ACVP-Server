@@ -13,9 +13,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes
         [EnumMember(Value = "modify message")]
         ModifyMessage,
 
-        [EnumMember(Value = "modify key")]
-        ModifyKey,
-        
         [EnumMember(Value = "modify signature header")]
         ModifyHeader
     }

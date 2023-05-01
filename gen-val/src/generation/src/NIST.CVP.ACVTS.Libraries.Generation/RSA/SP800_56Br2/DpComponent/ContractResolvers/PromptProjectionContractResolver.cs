@@ -24,16 +24,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.Contra
             var stdIncludeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.CipherText)
-            };
-
-            var aftIncludeProperties = new[]
-            {
+                nameof(TestCase.CipherText),
+                nameof(TestCase.N),
+                nameof(TestCase.E),
                 nameof(TestCase.P),
                 nameof(TestCase.Q),
                 nameof(TestCase.D)
             };
-            
+
             var crtIncludeProperties = new[]
             {
                 nameof(TestCase.Dmp1),
@@ -60,11 +58,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.Contra
                     }
                     
                     return false;
-                }
-
-                if (aftIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-                {
-                    return true;
                 }
 
                 return false;

@@ -17,7 +17,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigVer.TestCaseExpectatio
             {
                     new(LmsSignatureDisposition.None),
                     new(LmsSignatureDisposition.ModifySignature),
-                    new(LmsSignatureDisposition.ModifyKey),
                     new(LmsSignatureDisposition.ModifyMessage),
                     new(LmsSignatureDisposition.ModifyHeader)
                 };

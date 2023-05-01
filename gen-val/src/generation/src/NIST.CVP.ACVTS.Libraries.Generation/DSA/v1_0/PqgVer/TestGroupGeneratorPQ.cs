@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.Enums;
@@ -31,7 +30,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
                             N = capability.N,
                             HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
                             PQTestCaseExpectationProvider = new PQTestCaseExpectationProvider(parameters.IsSample),
-
                             TestType = TEST_TYPE
                         };
 

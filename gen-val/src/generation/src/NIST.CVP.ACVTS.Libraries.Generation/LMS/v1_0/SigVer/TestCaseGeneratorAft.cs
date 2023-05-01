@@ -12,7 +12,7 @@ public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
 {
     private readonly IOracle _oracle;
 
-    public int NumberOfTestCasesToGenerate => 5;
+    public int NumberOfTestCasesToGenerate => 4;
     
     public TestCaseGeneratorAft(IOracle oracle)
     {

@@ -33,14 +33,6 @@
     {
       "tcId": 8,
       "result": "passed"
-    },
-    {
-      "tcId": 9,
-      "result": "passed"
-    },
-    {
-      "tcId": 10,
-      "result": "passed"
     }
   ]
 }

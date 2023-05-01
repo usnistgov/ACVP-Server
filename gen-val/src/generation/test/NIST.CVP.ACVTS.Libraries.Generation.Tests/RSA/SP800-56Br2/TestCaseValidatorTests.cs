@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
             var testCase = GetTestCase(caseNum);
 
             var subject = new TestCaseValidator(testCase);
-            var result = await subject.ValidateAsync(GetTestCase(caseNum, false));
+            var result = await subject.ValidateAsync(GetTestCase(caseNum));
         
             Assert.AreEqual(Disposition.Passed, result.Result);
         }
@@ -60,17 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
             var result = await subject.ValidateAsync(failureCase);
         
             Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plaintext does not match"), $"Plaintext does not match.");
-        }
-
-        private RsaDecryptionPrimitiveResult GetRsaDecryptionPrimitiveResult(int caseNum, bool isCrt = false)
-        {
-            var result = new RsaDecryptionPrimitiveResult();
-            var tc = GetTestCase(caseNum, isCrt);
-            result.CipherText = tc.CipherText;
-            result.PlainText = tc.PlainText;
-            result.TestPassed = true;
-            return result;
+            Assert.IsTrue(result.Reason.Contains("PlainText does not match expected value"), $"PlainText does not match expected value");
         }
 
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, RsaDecryptionPrimitiveResult>> GetResolverMock(RsaDecryptionPrimitiveResult resultToFake)
@@ -83,11 +73,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
             return mock;
         }
 
-        private TestCase GetTestCase(int caseNum, bool isCrt = false)
+        private TestCase GetTestCase(int caseNum)
         {
             var tc = new TestCase();
             tc.PlainText = new BitString("ABCD");
             tc.CipherText = new BitString("1234");
+            tc.TestPassed = true;
             tc.Deferred = true;
             tc.TestCaseId = caseNum;
             return tc;

@@ -6,11 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
-    {
-        public ResultProjectionContractResolver()
-        {
-        }
-
+    { 
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
             var includeProperties = new[]
@@ -32,7 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.Contra
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
-                nameof(TestCase.PlainText)
+                nameof(TestCase.PlainText),
+                nameof(TestCase.TestPassed)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

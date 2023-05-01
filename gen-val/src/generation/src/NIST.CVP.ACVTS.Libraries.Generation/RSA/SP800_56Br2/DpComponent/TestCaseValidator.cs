@@ -52,19 +52,47 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
 
         private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.PlainText == null)
+            if (suppliedResult.TestPassed == null)
             {
-                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+                errors.Add($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}");
+            }
+            else if (suppliedResult.TestPassed == true)
+            {
+                if (suppliedResult.PlainText == null)
+                {
+                    errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+                }
             }
         }
         
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+            if (suppliedResult.TestPassed == true)
             {
-                errors.Add("Plaintext does not match");
-                expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
-                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                if (_expectedResult.TestPassed != true)
+                {
+                    errors.Add("Test was expected to fail");
+                    expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
+                }
+                else
+                {
+                    if (!_expectedResult.PlainText.Equals(suppliedResult.PlainText))
+                    {
+                        errors.Add("PlainText does not match expected value");
+                        expected.Add(nameof(_expectedResult.PlainText), _expectedResult.PlainText.ToHex());
+                        provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+                    }
+                }
+            }
+            else
+            {
+                if (_expectedResult.TestPassed == true)
+                {
+                    errors.Add("Test was expected to pass");
+                    expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
+                }
             }
         }
     }

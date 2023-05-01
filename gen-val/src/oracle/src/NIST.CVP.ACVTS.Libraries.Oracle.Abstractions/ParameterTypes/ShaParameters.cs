@@ -13,7 +13,12 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         
         public bool UsingNewMctAlgo()
         {
-            if (!MessageDomain.IsWithinDomain(OutputLength * 3))
+            if (MessageDomain == null)
+            {
+                return false;
+            }
+            
+            if (!MessageDomain.IsWithinDomain(MessageLength * 3))
             {
                 // Using new algo
                 return true;
