@@ -2,6 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures;
@@ -54,8 +55,19 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
             var sha = _shaFactory.GetShaInstance(_param.HashAlg);
             var entropyProvider = new TestableEntropyProvider();
             entropyProvider.AddEntropy(_fullParam.Salt);
-
-            var paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, _param.MaskFunction, entropyProvider, _param.SaltLength);
+            IPaddingScheme paddingScheme;
+            
+            // shouldn't need to check if the scheme is PSS... if the Mode is SHAKE, then the scheme should be PSS.
+            if (_param.PaddingScheme == SignatureSchemes.Pss && _param.HashAlg.Mode == ModeValues.SHAKE)
+            {
+                // Since we're using an XOF, we need to specify the outputLen. Otherwise the default outputLens from
+                // ShaAttributes would be used and FIPS 186-5 requires different values to be used, i.e., 256 and 512
+                paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, _param.MaskFunction, entropyProvider, _param.SaltLength, _param.HashAlg.OutputLen);   
+            }
+            else
+            {
+                paddingScheme = _paddingFactory.GetPaddingScheme(_param.PaddingScheme, sha, _param.MaskFunction, entropyProvider, _param.SaltLength);
+            }
 
             var messageCopy = _fullParam.Message.GetDeepCopy();
 

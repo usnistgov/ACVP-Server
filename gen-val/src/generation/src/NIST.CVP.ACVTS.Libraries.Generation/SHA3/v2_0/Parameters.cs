@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
@@ -18,5 +19,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
 
         [JsonProperty(PropertyName = "performLargeDataTest")]
         public int[] PerformLargeDataTest { get; set; } = { };
+        
+        [JsonProperty(PropertyName = "digestSize")]
+        public List<string> DigestSizes { get; set; }
     }
 }

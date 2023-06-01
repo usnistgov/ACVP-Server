@@ -29,6 +29,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
         [JsonIgnore]
         public string Name { get; }
 
+        // Needed for Deserialization of HashFunction
+        public HashFunction()
+        {
+        }
+        
         public HashFunction(ModeValues mode, DigestSizes digestSize)
         {
             Mode = mode;
@@ -42,6 +47,18 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
             Name = attributes.name;
         }
 
+        public HashFunction(ModeValues mode, DigestSizes digestSize, bool isXofPss)
+        {
+            Mode = mode;
+            DigestSize = digestSize;
+
+            var attributes = ShaAttributes.GetXofPssAttributes(mode, digestSize);
+            OutputLen = attributes.outputLen;
+            BlockSize = attributes.blockSize;
+            MaxMessageLen = attributes.maxMessageSize;
+            ProcessingLen = attributes.processingLen;
+            Name = attributes.name;
+        }
         public override bool Equals(object other)
         {
             if (other is HashFunction obj)

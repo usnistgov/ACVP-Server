@@ -17,6 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
             var testGroup = new TestGroup
             {
                 HashFunction = function,
+                MessageLengths = parameters.MessageLength,
                 TestType = TEST_TYPE
             };
 

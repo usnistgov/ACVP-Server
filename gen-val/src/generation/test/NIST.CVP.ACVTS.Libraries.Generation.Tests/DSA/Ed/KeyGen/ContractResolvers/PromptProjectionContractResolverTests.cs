@@ -48,7 +48,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen.ContractResolv
             Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
             Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
-            Assert.AreEqual(tg.SecretGenerationMode, newTg.SecretGenerationMode, nameof(newTg.SecretGenerationMode));
         }
 
         [Test]

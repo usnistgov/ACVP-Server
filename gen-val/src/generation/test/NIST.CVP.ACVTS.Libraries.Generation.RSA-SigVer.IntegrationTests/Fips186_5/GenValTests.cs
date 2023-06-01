@@ -75,38 +75,99 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var hashPairs = new HashPair[2];
-            for (var i = 0; i < hashPairs.Length; i++)
+            var hashPairsPkcs = new[]
             {
-                hashPairs[i] = new HashPair
+                new HashPair
+                {
+                    HashAlg = "SHA2-256",
+                    SaltLen = 1
+                },
+                new HashPair
+                {
+                    HashAlg = "SHA2-256",
+                    SaltLen = 2
+                }
+            };
+
+            var hashPairsPss = new[]
+            {
+                new HashPair
+                {
+                    HashAlg = "SHAKE-128",
+                    SaltLen = 1
+                },
+                new HashPair
                 {
                     HashAlg = "SHAKE-256",
-                    SaltLen = i + 1
-                };
-            }
-
+                    SaltLen = 64
+                },
+                new HashPair
+                {
+                    HashAlg = "SHA3-256",
+                    SaltLen = 32
+                }
+            };
+            
             var masks = EnumHelpers.GetEnumsWithoutDefault<PssMaskTypes>();
-            var modCap = new CapSigType[ParameterValidator.VALID_MODULI.Length];
-            for (var i = 0; i < modCap.Length; i++)
-            {
-                modCap[i] = new CapSigType
-                {
-                    Modulo = ParameterValidator.VALID_MODULI[i],
-                    MaskFunction = new[] { masks[i % masks.Count] },
-                    HashPairs = hashPairs
-                };
-            }
 
-            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_VER_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
+            var modCapPkcs = new[]
             {
-                algSpecs[i] = new AlgSpecs
+                new CapSigType
                 {
-                    SigType = ParameterValidator.VALID_SIG_VER_MODES[i],
-                    ModuloCapabilities = modCap
-                };
-            }
+                    Modulo = 2048,
+                    MaskFunction = new[] { masks[0 % masks.Count] },
+                    HashPairs = hashPairsPkcs
+                },
+                new CapSigType
+                {
+                    Modulo = 3072,
+                    MaskFunction = new[] { masks[1 % masks.Count] },
+                    HashPairs = hashPairsPkcs
+                },
+                new CapSigType
+                {
+                    Modulo = 4096,
+                    MaskFunction = new[] { masks[2 % masks.Count] },
+                    HashPairs = hashPairsPkcs
+                }
+            };
 
+            var modCapPss = new[]
+            {
+                new CapSigType
+                {
+                    Modulo = 2048,
+                    MaskFunction = new[] { masks[0 % masks.Count] },
+                    HashPairs = hashPairsPss
+                },
+                new CapSigType
+                {
+                    Modulo = 3072,
+                    MaskFunction = new[] { masks[1 % masks.Count] },
+                    HashPairs = hashPairsPss
+                },
+                new CapSigType
+                {
+                    Modulo = 4096,
+                    MaskFunction = new[] { masks[2 % masks.Count] },
+                    HashPairs = hashPairsPss
+                }
+            };
+            
+            var algSpecs = new[]
+            {
+                new AlgSpecs
+                {
+                    SigType = SignatureSchemes.Pkcs1v15, 
+                    ModuloCapabilities = modCapPkcs
+                },
+                new AlgSpecs
+                {
+                    SigType = SignatureSchemes.Pss, 
+                    ModuloCapabilities = modCapPss
+                }
+            };
+            
             var p = new Parameters
             {
                 Algorithm = Algorithm,

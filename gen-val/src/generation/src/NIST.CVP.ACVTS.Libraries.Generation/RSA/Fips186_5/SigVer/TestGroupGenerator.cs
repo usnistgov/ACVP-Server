@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer.TestCaseExpectations;
-using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
@@ -43,6 +44,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                             moduloCap.MaskFunction = new[] { PssMaskTypes.None };
                         }
 
+                        HashFunction hashAlg;
+                        // SHAKE 128 and 256 are only valid "Hashes" for PSS. When the SHAKEs are used in PSS, we 
+                        // need to use the outputLens of 256 and 512 that are specified in FIPS 186-5 vs the outputLens
+                        // of 128 and 256 that are used by default throughout the rest of the codebase.
+                        if (ParameterValidator.VALID_XOF_ALGS.Contains(hashPair.HashAlg))
+                        {
+                            hashAlg = ShaAttributes.GetXofPssHashFunctionFromName(hashPair.HashAlg);
+                        }
+                        else
+                        {
+                            hashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg);
+                        }
+                        
                         foreach (var maskFunction in moduloCap.MaskFunction)
                         {
                             for (var i = 0; i < 3; i++)
@@ -62,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                                 {
                                     Mode = capability.SigType,
                                     Modulo = moduloCap.Modulo,
-                                    HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
+                                    HashAlg = hashAlg,
                                     SaltLen = hashPair.SaltLen,
                                     TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                                     MaskFunction = maskFunction,

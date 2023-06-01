@@ -164,6 +164,36 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
+        public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveV2_0Async(RsaSignaturePrimitiveParameters param)
+        {
+            var keyParam = new RsaKeyParameters
+            {
+                KeyFormat = param.KeyFormat,
+                Modulus = param.Modulo,
+                PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
+                PublicExponentMode = param.PublicExponent == null ? PublicExponentModes.Random : PublicExponentModes.Fixed,
+                PublicExponent = param.PublicExponent,
+                KeyMode = PrimeGenModes.RandomProbablePrimes,
+                Standard = Fips186Standard.Fips186_4
+            };
+
+            var key = await GetRsaKeyAsync(keyParam);
+
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverRsaSignaturePrimitiveV2_0CaseGrain, RsaSignaturePrimitiveResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, key, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetRsaSignaturePrimitiveAsync(param);
+            }
+        }
+        
         public async Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveAsync(RsaSignaturePrimitiveParameters param)
         {
             var keyParam = new RsaKeyParameters

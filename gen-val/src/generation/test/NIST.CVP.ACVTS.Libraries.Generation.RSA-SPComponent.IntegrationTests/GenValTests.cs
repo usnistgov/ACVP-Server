@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SPComponent.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                KeyFormat = PrivateKeyModes.Crt,
+                KeyFormat = PrivateKeyModes.Standard,
                 PublicExponentMode = PublicExponentModes.Fixed,
                 PublicExponent = new BitString("010001")
             };

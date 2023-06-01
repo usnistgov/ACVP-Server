@@ -11,6 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
     {
         public PssPadderWithModifiedPublicExponent(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
 
+        public PssPadderWithModifiedPublicExponent(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength, int outputLen) : base(sha, mask, entropy, saltLength, outputLen) { }
         public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {
             var newKey = new KeyPair { PubKey = key.PubKey };

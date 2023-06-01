@@ -19,6 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
         }
 
         #region MonteCarloAlgorithm Pseudocode
+
         /* 
          * INPUT: A random Seed n bits long
          * {
@@ -33,6 +34,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
          *    }
          * }
          */
+
         #endregion
 
         public MctResult<AlgoArrayResponse> MctHash(BitString message, bool isSample = false, MathDomain domain = null,
@@ -43,28 +45,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
                 NUM_OF_RESPONSES = 3;
             }
 
-            var responses = new List<AlgoArrayResponse>();
             var i = 0;
             var j = 0;
 
+            var responses = new List<AlgoArrayResponse>();
+
             try
             {
-                for (i = 0; i < NUM_OF_RESPONSES; i++)
+                // Use old algorithm
+                if (digestSize == 0 || domain.IsWithinDomain(digestSize))
                 {
-                    var iterationResponse = new AlgoArrayResponse { Message = message };
-                    var innerMessage = message.GetDeepCopy();
-                    var innerDigest = new BitString(0);
-
-                    for (j = 0; j < 1000; j++)
-                    {
-                        var innerResult = _sha.HashMessage(innerMessage);
-                        innerDigest = innerResult.Digest;
-                        innerMessage = innerDigest.GetDeepCopy();
-                    }
-
-                    iterationResponse.Digest = innerDigest;
-                    responses.Add(iterationResponse);
-                    message = innerDigest;
+                    UseOldMctAlgo(message, responses, i, j);
+                }
+                // Use new algorithm
+                else
+                {
+                    UseNewMctAlgo(message, domain, responses, i, j, digestSize,
+                        smallestSupportedMessageLengthGreaterThanZero);
                 }
             }
             catch (Exception ex)
@@ -75,6 +72,77 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
             }
 
             return new MctResult<AlgoArrayResponse>(responses);
+        }
+
+        private void UseOldMctAlgo(BitString message, List<AlgoArrayResponse> responses, int i, int j)
+        {
+            for (i = 0; i < NUM_OF_RESPONSES; i++)
+            {
+                var iterationResponse = new AlgoArrayResponse { Message = message };
+                var innerMessage = message.GetDeepCopy();
+                var innerDigest = new BitString(0);
+
+                for (j = 0; j < 1000; j++)
+                {
+                    var innerResult = _sha.HashMessage(innerMessage);
+                    innerDigest = innerResult.Digest;
+                    innerMessage = innerDigest.GetDeepCopy();
+                }
+
+                iterationResponse.Digest = innerDigest;
+                responses.Add(iterationResponse);
+                message = innerDigest;
+            }
+        }
+        
+        #region MonteCarloNewAlgorithm Pseudocode
+        /*
+         *  SEED = GetRandomBitsOfLength(MinimumSupportedMessageLengthGreaterThanZero)
+         *   MD[0] = SEED
+         *   For 100 iterations
+         *       For 1000 iterations (i = 1)x
+         *           M[i] = MD[i-1];
+         *           If  !SupportedMessageLengths.Contains(LEN(M[i])):
+         *               M[i] = TruncateToSize(M[i], MinimumSupportedMessageLengthGreaterThanZero)
+         *           MD[i] = SHA3(M[i])
+         *           If MinimumSupportedMessageLengthGreaterThanZero >= digestSize:
+         *               MD[i] = MD[i] || CreateZeroBitStringOfLength(MinimumSupportedMessageLengthGreaterThanZero - digestSize)
+         *           Else:
+         *              MD[i] = TruncateToSize(MD[i], MinimumSupportedMessageLengthGreaterThanZero)
+         *       MD[0] = MD[1000]
+         *       Output MD[0]
+         */
+        #endregion
+        private void UseNewMctAlgo(BitString message, MathDomain domain, List<AlgoArrayResponse> responses, 
+            int i, int j, int digestSize, int smallestSupportedMessageLengthGreaterThanZero)
+        {
+            for (i = 0; i < NUM_OF_RESPONSES; i++)
+            {
+                var iterationResponse = new AlgoArrayResponse { Message = message };
+                var innerMessage = message.GetDeepCopy();
+                var innerDigest = new BitString(0);
+
+                for (j = 0; j < 1000; j++)
+                {
+                    if (!domain.IsWithinDomain(innerMessage.BitLength))
+                    {
+                        innerMessage = Sha3DerivedHelpers.TruncateMessage(innerMessage, smallestSupportedMessageLengthGreaterThanZero);
+                    }
+                    var innerResult = _sha.HashMessage(innerMessage);
+                    innerDigest = innerResult.Digest;
+                    if (innerDigest.BitLength < smallestSupportedMessageLengthGreaterThanZero)
+                    {
+                        innerDigest = innerResult.Digest.ConcatenateBits(BitString.Zeroes(smallestSupportedMessageLengthGreaterThanZero - digestSize));
+                    } else {
+                        innerDigest = Sha3DerivedHelpers.TruncateMessage(innerResult.Digest, smallestSupportedMessageLengthGreaterThanZero);
+                    }
+                    innerMessage = innerDigest.GetDeepCopy();
+                }
+
+                iterationResponse.Digest = innerDigest;
+                responses.Add(iterationResponse);
+                message = innerDigest;
+            }
         }
 
         private static Logger ThisLogger => LogManager.GetCurrentClassLogger();

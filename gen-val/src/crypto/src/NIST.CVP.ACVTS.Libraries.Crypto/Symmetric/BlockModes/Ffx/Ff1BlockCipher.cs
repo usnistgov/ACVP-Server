@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.Ffx
             var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // 3. Let b = Ceiling(Ceiling(v×LOG(radix))/8).
-            var b = (int)System.Math.Ceiling(System.Math.Ceiling(v * System.Math.Log(param.Radix, 2)) / 8);
+            var b = (int)(((BigInteger.Pow(param.Radix, v) - 1).GetBitLength() + 7) / 8);
 
             // 4. Let d = 4*Ceiling(b/4) + 4.
             var d = 4 * b.CeilingDivide(4) + 4;
@@ -133,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.Ffx
             var B = new NumeralString(X.Numbers.Skip(u).Take(v).ToArray());
 
             // 3. Let b = Ceiling(Ceiling(v×LOG(radix))/8).
-            var b = (int)System.Math.Ceiling(System.Math.Ceiling(v * System.Math.Log(param.Radix, 2)) / 8);
+            var b = (int)(((BigInteger.Pow(param.Radix, v) - 1).GetBitLength() + 7) / 8);
 
             // 4. Let d = 4 Ceiling(b/4)+4
             var d = (4 * b.CeilingDivide(4) + 4);

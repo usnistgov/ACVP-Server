@@ -5,7 +5,7 @@
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "-g \"C:\\workspace\\logs\\demo\\1\\registration.json\""
+      "commandLineArgs": "--generationRequestFile \"/Users/livebe01/gitLab/genvals/gen-val/json-files/RSA-sigGen-FIPS186-5/registration.json\""
     },
     "Validate": {
       "commandName": "Project",

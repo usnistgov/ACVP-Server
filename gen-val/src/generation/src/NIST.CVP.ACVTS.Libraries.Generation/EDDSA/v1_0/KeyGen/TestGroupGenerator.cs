@@ -15,16 +15,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyGen
 
             foreach (var curveParam in parameters.Curve)
             {
-                foreach (var secretModeParam in parameters.SecretGenerationMode)
+                var testGroup = new TestGroup
                 {
-                    var testGroup = new TestGroup
-                    {
-                        Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveParam),
-                        SecretGenerationMode = EnumHelpers.GetEnumFromEnumDescription<SecretGenerationMode>(secretModeParam)
-                    };
+                    Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveParam),
+                };
 
-                    testGroups.Add(testGroup);
-                }
+                testGroups.Add(testGroup);
             }
 
             return Task.FromResult(testGroups);

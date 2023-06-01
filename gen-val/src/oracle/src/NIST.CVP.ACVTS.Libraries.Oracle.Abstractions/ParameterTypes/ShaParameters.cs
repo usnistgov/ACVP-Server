@@ -17,13 +17,14 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
             {
                 return false;
             }
-            
-            if (!MessageDomain.IsWithinDomain(MessageLength * 3))
+
+            int value = HashFunction.Mode == ModeValues.SHA3 ? MessageLength : MessageLength * 3;
+            if (!MessageDomain.IsWithinDomain(value))
             {
                 // Using new algo
                 return true;
             }
-            
+
             return false;
         }
 

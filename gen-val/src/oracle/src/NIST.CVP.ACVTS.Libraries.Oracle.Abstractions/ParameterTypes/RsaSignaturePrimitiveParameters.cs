@@ -8,5 +8,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         public int Modulo { get; set; }
         public PrivateKeyModes KeyFormat { get; set; }
         public BitString PublicExponent { get; set; }
+        public string Disposition { get; set; } = "none";
     }
 }

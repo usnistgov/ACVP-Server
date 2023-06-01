@@ -13,7 +13,5 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyGen
 
         [JsonProperty(PropertyName = "curve")]
         public Curve Curve { get; set; }
-        [JsonProperty(PropertyName = "secretGenerationMode")]
-        public SecretGenerationMode SecretGenerationMode { get; set; }
     }
 }

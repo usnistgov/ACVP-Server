@@ -35,8 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.KeyGen.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Curve = new[] { "ED-25519" },
-                SecretGenerationMode = new[] { "testing candidates" }
+                Curve = new[] { "ED-25519" }
             };
 
             return CreateRegistration(targetFolder, p);
@@ -50,8 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.KeyGen.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Curve = ParameterValidator.VALID_CURVES,
-                SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             return CreateRegistration(targetFolder, p);

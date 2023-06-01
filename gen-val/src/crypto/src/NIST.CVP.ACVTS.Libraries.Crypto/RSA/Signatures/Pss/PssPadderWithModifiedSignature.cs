@@ -8,7 +8,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithModifiedSignature : PssPadder
     {
-        public PssPadderWithModifiedSignature(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
+        public PssPadderWithModifiedSignature(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength, int outputLen) : base(sha, mask, entropy, saltLength, outputLen) { }
 
         public override BigInteger PostSignCheck(BigInteger signature, PublicKey pubKey)
         {

@@ -68,7 +68,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
 
                         var sha = new NativeShaFactory().GetShaInstance(testGroup.HashAlg);
 
-                        var paddingScheme = new PaddingFactory(new MaskFactory(new NativeShaFactory())).GetPaddingScheme(testGroup.Mode, sha, PssMaskTypes.MGF1, entropyProvider, testGroup.SaltLen);
+                        var paddingScheme = new PaddingFactory(new MaskFactory(new NativeShaFactory())).GetPaddingScheme(testGroup.Mode, sha, PssMaskTypes.MGF1, entropyProvider, testGroup.SaltLen, 0);
 
                         var result = signerBuilder
                             .WithMessage(testCase.Message)

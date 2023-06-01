@@ -15,8 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 Algorithm = "EDDSA",
                 Mode = "keyGen",
                 IsSample = false,
-                Curve = ParameterValidator.VALID_CURVES,
-                SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             Assert.IsNotNull(parameters);
@@ -30,8 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 Algorithm = "EDDSA",
                 Mode = "keyGen",
                 IsSample = false,
-                Curve = ParameterValidator.VALID_CURVES,
-                SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
+                Curve = ParameterValidator.VALID_CURVES
             };
 
             Assert.AreEqual("EDDSA", parameters.Algorithm);

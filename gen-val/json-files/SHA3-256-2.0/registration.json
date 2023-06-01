@@ -1,0 +1,23 @@
+{
+  "vsId": 0,
+  "algorithm": "SHA3-256",
+  "revision": "2.0",
+  "isSample": false,
+  "conformances": [],
+  "messageLength": [
+    {
+      "min": 1720,
+      "max": 12144,
+      "increment": 8
+    }
+  ],
+  "performLargeDataTest": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "digestSize": [
+    "256"
+  ]
+}

@@ -52,38 +52,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
 
             Assert.IsFalse(result.Success);
         }
-
-        #region SecretGenerationTestCases
-        private static object[] secretCases =
-        {
-            new string[] { },
-            new string[]
-            {
-                "usingextra bits",
-                "testing candidates"
-            },
-            new string[]
-            {
-                "testing candidate"
-            },
-            new string[]
-            {
-                "extrabits"
-            }
-        };
-        #endregion SecretGenerationTestCases
-        [Test]
-        [TestCaseSource(nameof(secretCases))]
-        public void ShouldReturnErrorWithInvalidSecretGenerationModes(string[] secretModes)
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithSecretGenerationModes(secretModes)
-                .Build());
-
-            Assert.IsFalse(result.Success);
-        }
     }
 
     public class ParameterBuilder
@@ -91,14 +59,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
         private string _algorithm;
         private string _mode;
         private string[] _curves;
-        private string[] _secretGenerationModes;
 
         public ParameterBuilder()
         {
             _algorithm = "EDDSA";
             _mode = "keyGen";
             _curves = new[] { "ED-25519", "ED-448" };
-            _secretGenerationModes = new[] { "testing candidates", "extra bits" };
         }
 
         public ParameterBuilder WithAlgorithm(string value)
@@ -119,12 +85,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
             return this;
         }
 
-        public ParameterBuilder WithSecretGenerationModes(string[] value)
-        {
-            _secretGenerationModes = value;
-            return this;
-        }
-
         public Parameters Build()
         {
             return new Parameters
@@ -132,7 +92,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 Algorithm = _algorithm,
                 Mode = _mode,
                 Curve = _curves,
-                SecretGenerationMode = _secretGenerationModes
             };
         }
     }

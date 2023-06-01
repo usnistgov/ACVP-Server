@@ -10,8 +10,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyGen
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
-
         public string[] Curve { get; set; }
-        public string[] SecretGenerationMode { get; set; }
     }
 }

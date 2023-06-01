@@ -46,7 +46,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 Mode = "keyGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
-                SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
             };
 
             var groups = new List<TestGroup>();
@@ -70,7 +69,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 Mode = "keyGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
-                SecretGenerationMode = ParameterValidator.VALID_SECRET_GENERATION_MODES
             };
 
             var groups = new List<TestGroup>();
@@ -80,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(4, groups.Count);
+            Assert.AreEqual(2, groups.Count);
         }
     }
 }

@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.RSA-DP-SP800-56Br2.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.RSA-DP-SP800-56Br2.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.RSA-DP-SP800-56Br2.IntegrationTests.csproj", "{F766C1D5-110D-4AC3-8D2F-9F29DEEEF19F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.RSA-SPComponent-V2.0.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.RSA-SPComponent-V2.0.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.RSA-SPComponent-V2.0.IntegrationTests.csproj", "{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -381,6 +383,18 @@ Global
 		{F766C1D5-110D-4AC3-8D2F-9F29DEEEF19F}.Release|x64.Build.0 = Release|Any CPU
 		{F766C1D5-110D-4AC3-8D2F-9F29DEEEF19F}.Release|x86.ActiveCfg = Release|Any CPU
 		{F766C1D5-110D-4AC3-8D2F-9F29DEEEF19F}.Release|x86.Build.0 = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|x64.Build.0 = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Debug|x86.Build.0 = Debug|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|x64.ActiveCfg = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|x64.Build.0 = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|x86.ActiveCfg = Release|Any CPU
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -412,6 +426,7 @@ Global
 		{FA45548B-8249-49BA-AA36-582DA9BE5C32} = {71E2C661-B8B8-4552-9731-FB05C48C3428}
 		{98FB65F6-B453-406F-86A3-E8DD444BC9ED} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 		{F766C1D5-110D-4AC3-8D2F-9F29DEEEF19F} = {05A83241-08C3-48EC-81E0-20D7F7812078}
+		{E8B5D936-31BF-4076-9D89-30CEFFA0FCFB} = {05A83241-08C3-48EC-81E0-20D7F7812078}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {81006EE6-52E0-4C5A-8A4B-94A560EAC8D6}

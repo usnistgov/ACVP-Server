@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
             if (shouldPass)
             {
                 // No failure, get a random 2048-bit value less than N
-                message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N), 2048);
+                message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N-1), 2048);
                 signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), _key.Key.PrivKey, _key.Key.PubKey).PlainText, 2048);
             }
             else

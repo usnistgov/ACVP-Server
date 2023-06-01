@@ -22,16 +22,28 @@
   ],
   "capabilities": [
     {
-      "alphabet": "0123456789",
-      "radix": 10,
-      "minLen": 10,
-      "maxLen": 56
+      "alphabet": "ab",
+      "radix": 2,
+      "minLen": 100,
+      "maxLen": 512
     },
     {
-      "alphabet": "abcdefghijklmnopqrstuvwxyz",
-      "radix": 26,
+      "alphabet": "0123",
+      "radix": 4,
       "minLen": 10,
-      "maxLen": 40
+      "maxLen": 256
+    },
+    {
+      "alphabet": "0123456789abcdef",
+      "radix": 16,
+      "minLen": 10,
+      "maxLen": 128
+    },
+    {
+      "alphabet": "012345abcdefghijklmnopqrstuvwxyz",
+      "radix": 32,
+      "minLen": 10,
+      "maxLen": 256
     },
     {
       "alphabet": "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",

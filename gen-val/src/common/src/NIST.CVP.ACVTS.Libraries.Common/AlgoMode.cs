@@ -243,6 +243,8 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         RSA_SigVer_Fips186_5,
         [EnumMember(Value = "RSA-SignaturePrimitive-1.0")]
         RSA_SignaturePrimitive_v1_0,
+        [EnumMember(Value = "RSA-SignaturePrimitive-2.0")]
+        RSA_SignaturePrimitive_v2_0,
         [EnumMember(Value = "SafePrimes-KeyGen-1.0")]
         SafePrimes_keyGen_v1_0,
         [EnumMember(Value = "SafePrimes-KeyVer-1.0")]

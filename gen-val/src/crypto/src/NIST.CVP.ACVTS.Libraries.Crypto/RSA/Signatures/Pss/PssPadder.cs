@@ -14,6 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
         protected readonly IMaskFunction Mask;
         protected readonly IEntropyProvider EntropyProvider;
         protected readonly int SaltLength;
+        protected readonly int OutputLen = 0;
 
         protected readonly BitString Bc = new BitString("BC");
         protected readonly BitString ZeroOne = new BitString("01");
@@ -26,6 +27,15 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
             SaltLength = saltLength;
         }
 
+        public PssPadder(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength, int outputLen)
+        {
+            Sha = sha;
+            Mask = mask;
+            EntropyProvider = entropy;
+            SaltLength = saltLength;
+            OutputLen = outputLen;
+        }
+        
         public virtual PaddingResult Pad(int nlen, BitString message)
         {
             return EmsaPssEncode(message, nlen - 1);
@@ -44,7 +54,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
         // 9.1.1 Encoding Operation from RFC-3447
         private PaddingResult EmsaPssEncode(BitString message, int emBits)
         {
-            var mHash = Sha.HashMessage(message).Digest;
+            // OutputLen is meaningful when Sha is an XOF 
+            var mHash = Sha.HashMessage(message, OutputLen).Digest;
             var emLen = emBits.CeilingDivide(8);
 
             // All byte values
@@ -58,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
             mPrime = BitString.ConcatenateBits(mPrime, mHash);
             mPrime = BitString.ConcatenateBits(mPrime, salt);
 
-            var H = Sha.HashMessage(mPrime).Digest;
+            var H = Sha.HashMessage(mPrime, OutputLen).Digest;
 
             // All bit values
             var PS = BitString.Zeroes(emLen * 8 - SaltLength * 8 - H.BitLength - 2 * 8);
@@ -86,8 +97,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
 
         private VerifyResult EmsaPssVerify(BitString M, BitString EM, int emBits)
         {
-            var mHash = Sha.HashMessage(M).Digest;
-            if (EM.BitLength < mHash.BitLength / 8 + SaltLength + 2)
+            var mHash = Sha.HashMessage(M, OutputLen).Digest;
+            if (EM.BitLength / 8 < mHash.BitLength / 8 + SaltLength + 2)
             {
                 return new VerifyResult("RSA PSS Verify: inconsistent result");
             }
@@ -134,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
             MPrime = BitString.ConcatenateBits(MPrime, mHash);
             MPrime = BitString.ConcatenateBits(MPrime, salt);
 
-            var HPrime = Sha.HashMessage(MPrime).Digest;
+            var HPrime = Sha.HashMessage(MPrime, OutputLen).Digest;
 
             if (HPrime.Equals(H))
             {

@@ -77,43 +77,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FF.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            Parameters p = new Parameters
-            {
-                VectorSetId = 42,
-                Algorithm = Algorithm,
-                Mode = Mode,
-                Revision = Revision,
-                Direction = ParameterValidator.VALID_DIRECTIONS,
-                KeyLen = ParameterValidator.VALID_KEY_SIZES,
-                IsSample = false,
-                TweakLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 128, 8)),
-                Capabilities = new List<Capability>
-                {
-                    new Capability
-                    {
-                        Alphabet = "0123456789",
-                        Radix = 10,
-                        MinLen = 10,
-                        MaxLen = 56
-                    },
-                    new Capability
-                    {
-                        Alphabet = "abcdefghijklmnopqrstuvwxyz",
-                        Radix = 26,
-                        MinLen = 10,
-                        MaxLen = 40
-                    },
-                    new Capability
-                    {
-                        Alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
-                        Radix = 64,
-                        MinLen = 10,
-                        MaxLen = 28
-                    }
-                }.ToArray()
-            };
-
-            return CreateRegistration(targetFolder, p);
+            return CreateRegistration(targetFolder, GetParametersForLotsOfTestCases());
         }
+
+        protected abstract Parameters GetParametersForLotsOfTestCases();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Components.TLS.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS.v1_0;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -51,6 +52,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
                     .Build()
             );
 
+            Assert.IsFalse(result.Success);
+        }
+
+        [Test]
+        [TestCase(1, 2, 1)]
+        [TestCase(512, 520, 1)]
+        [TestCase(512, 2048, 8)]
+        public void ShouldReturnErrorWithInvalidKeyBlockLengths(int min, int max, int step)
+        {
+            var domain = new MathDomain().AddSegment(new RangeDomainSegment(null, min, max, step));
+            var subject = new ParameterValidator();
+            var result = subject.Validate((new ParameterBuilder().WithAlgorithm("TLS-v1.2").WithMode("KDF").WithRevision("RFC7627").WithKeyBlockLength(domain).Build()));
+            
             Assert.IsFalse(result.Success);
         }
     }

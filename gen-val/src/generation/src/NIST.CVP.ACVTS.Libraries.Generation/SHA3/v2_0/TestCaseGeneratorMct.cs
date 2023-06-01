@@ -24,6 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
             var param = new ShaParameters
             {
                 HashFunction = group.HashFunction,
+                MessageDomain = group.MessageLengths,
                 MessageLength = group.HashFunction.OutputLen
             };
 

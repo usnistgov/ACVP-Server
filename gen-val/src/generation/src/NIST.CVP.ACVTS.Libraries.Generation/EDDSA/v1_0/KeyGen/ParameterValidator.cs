@@ -19,7 +19,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyGen
             result = ValidateArray(parameters.Curve, VALID_CURVES, "Curves");
             errors.AddIfNotNullOrEmpty(result);
 
-            result = ValidateArray(parameters.SecretGenerationMode, VALID_SECRET_GENERATION_MODES, "Secret Generation Modes");
             errors.AddIfNotNullOrEmpty(result);
 
             return new ParameterValidateResponse(errors);

@@ -124,6 +124,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA
 
             return message;
         }
+        
+        public static BitString TruncateMessage(BitString innerMessage, int customMinMsgLength)
+        {
+            return innerMessage.Substring(0, customMinMsgLength);
+        }
         #endregion Helpers
     }
 

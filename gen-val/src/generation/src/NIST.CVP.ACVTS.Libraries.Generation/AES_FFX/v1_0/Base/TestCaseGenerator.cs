@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
@@ -16,8 +17,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
     {
         private readonly IOracle _oracle;
         private readonly IRandom800_90 _random;
-        private readonly List<int> _dataLengths = new List<int>();
-        private readonly List<int> _tweakLengths = new List<int>();
+        private ShuffleQueue<int> _dataLengths;
+        private ShuffleQueue<int> _tweakLengths;
+        
+        // These cases are called out specifically due to a rounding error possible in certain libraries
+        private readonly Dictionary<int, int> _specialCases = new() {{2, 463}, {4, 231}, {16, 115}, {32, 175}};
 
         public int NumberOfTestCasesToGenerate => 25;
 
@@ -29,6 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
 
         public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
+            // DataLengths
             MathDomain dataLengthDomain = null;
             if (group.Capability.MinLen != group.Capability.MaxLen)
             {
@@ -38,12 +43,42 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
             {
                 dataLengthDomain = new MathDomain().AddSegment(new ValueDomainSegment(group.Capability.MinLen));
             }
+            
+            // Always test the min/max
+            var testableDataLengths = dataLengthDomain.GetDomainMinMaxAsEnumerable().ToList();
 
-            dataLengthDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
+            // Add specific combinations if they exist
+            if (_specialCases.ContainsKey(group.Radix))
+            {
+                var lengthToAdd = _specialCases[group.Radix];
+                if (dataLengthDomain.IsWithinDomain(lengthToAdd))
+                {
+                    testableDataLengths.Add(_specialCases[group.Radix]);
+                }
+            }
+            
+            // Prefer smaller values for testing
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableDataLengths.Count, true));
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableDataLengths.Count, true));
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(NumberOfTestCasesToGenerate - testableDataLengths.Count));
 
-            _dataLengths.AddRangeIfNotNullOrEmpty(GetLengthsForTesting(dataLengthDomain));
-            _tweakLengths.AddRangeIfNotNullOrEmpty(GetLengthsForTesting(group.TweakLen));
+            // Load values into ShuffleQueue
+            _dataLengths = new ShuffleQueue<int>(testableDataLengths);
+            
+            // Tweaks
+            var testableTweakLengths = new List<int>();
 
+            // Always test the min/max
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetDomainMinMaxAsEnumerable());
+            
+            // Prefer smaller values for testing
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableTweakLengths.Count, true));
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableTweakLengths.Count, true));
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(NumberOfTestCasesToGenerate - testableTweakLengths.Count));
+            
+            // Load values into ShuffleQueue
+            _tweakLengths = new ShuffleQueue<int>(testableTweakLengths);
+            
             return new GenerateResponse();
         }
 
@@ -54,8 +89,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
                 AlgoMode = group.AlgoMode,
                 Direction = group.Function,
                 KeyLength = group.KeyLength,
-                DataLength = _dataLengths[caseNo],
-                TweakLength = _tweakLengths[caseNo],
+                DataLength = _dataLengths.Pop(),
+                TweakLength = _tweakLengths.Pop(),
                 Radix = group.Capability.Radix
             };
 
@@ -76,39 +111,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>($"Failed to generate. {ex.Message}");
             }
-        }
-
-        private List<int> GetLengthsForTesting(MathDomain lengthDomain)
-        {
-            List<int> potentialLengths = new List<int>();
-
-            // Always test the min/max
-            potentialLengths.AddRangeIfNotNullOrEmpty(lengthDomain.GetDomainMinMaxAsEnumerable());
-            // Prefer smaller values for testing
-            potentialLengths.AddRangeIfNotNullOrEmpty(
-                lengthDomain.GetValues(_ => _ <= 100, NumberOfTestCasesToGenerate - potentialLengths.Count, true)
-            );
-            potentialLengths.AddRangeIfNotNullOrEmpty(
-                lengthDomain.GetValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - potentialLengths.Count, true)
-            );
-            potentialLengths.AddRangeIfNotNullOrEmpty(
-                lengthDomain.GetValues(NumberOfTestCasesToGenerate - potentialLengths.Count)
-            );
-
-            var count = 0;
-            List<int> testLengths = new List<int>();
-            while (testLengths.Count < NumberOfTestCasesToGenerate)
-            {
-                testLengths.Add(potentialLengths[count]);
-
-                count++;
-                if (count >= potentialLengths.Count)
-                {
-                    count = 0;
-                }
-            }
-
-            return testLengths;
         }
 
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();

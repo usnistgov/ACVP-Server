@@ -8,7 +8,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithModifiedMessage : PssPadder
     {
-        public PssPadderWithModifiedMessage(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
+        public PssPadderWithModifiedMessage(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength, int outputLen) : base(sha, mask, entropy, saltLength, outputLen) { }
 
         public override (KeyPair key, BitString message, int nlen) PrePadCheck(KeyPair key, BitString message, int nlen)
         {

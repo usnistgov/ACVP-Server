@@ -1,4 +1,5 @@
-﻿using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0;
+﻿using System.Collections.Generic;
+using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -36,9 +37,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
 
         [Test]
         [TestCase(16, 65537, 1, "SHA3-224")]
-        [TestCase(225, 65536, 1, "SHA3-224")]
-        [TestCase(65534, 65535, 1, "SHA3-512")]
-        [TestCase(0, 1535, 1, "SHA3-512")]
+        [TestCase(-1, 65536, 1, "SHA3-224")]
+        [TestCase(16, 65537, 1, "SHA3-512")]
+        [TestCase(-1, 65536, 1, "SHA3-512")]
         public void ShouldReturnErrorWithInvalidMessageLength(int min, int max, int inc, string algo)
         {
             var messageLength = new MathDomain();
@@ -95,6 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
         {
             private string _algorithm;
             private string _revision;
+            public List<string> _digests;
             private MathDomain _messageLength;
             private int[] _ldt;
 
@@ -102,6 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
             {
                 _algorithm = "SHA3-224";
                 _revision = "2.0";
+                _digests = new List<string> { "256" };
 
                 _ldt = new[] { 1 };
                 _messageLength = new MathDomain();
@@ -138,6 +141,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
                 {
                     Algorithm = _algorithm,
                     Revision = _revision,
+                    DigestSizes = _digests,
                     MessageLength = _messageLength,
                     PerformLargeDataTest = _ldt
                 };

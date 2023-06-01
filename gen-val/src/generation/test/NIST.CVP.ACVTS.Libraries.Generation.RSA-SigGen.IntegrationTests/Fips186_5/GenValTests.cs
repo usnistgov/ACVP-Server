@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                     SaltLen = 62
                 }
             };
-
+            
             var modCap = new[]
             {
                 new CapSigType
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
-            var hashPairs = new[]
+            var hashPairsPkcs = new[]
             {
                 new HashPair
                 {
@@ -104,37 +104,84 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                 }
             };
 
-            var modCap = new[]
+            var hashPairsPss = new[]
+            {
+                new HashPair
+                {
+                    HashAlg = "SHAKE-128",
+                    SaltLen = 32
+                },
+                new HashPair
+                {
+                    HashAlg = "SHAKE-256",
+                    SaltLen = 64
+                }
+                ,
+                new HashPair
+                {
+                    HashAlg = "SHA2-256",
+                    SaltLen = 8
+                }
+            };
+            
+            var modCapPkcs = new[]
             {
                 new CapSigType
                 {
                     Modulo = 2048,
                     MaskFunction = new [] { PssMaskTypes.MGF1 },
-                    HashPairs = hashPairs
+                    HashPairs = hashPairsPkcs
                 },
                 new CapSigType
                 {
                     Modulo = 3072,
                     MaskFunction = new [] { PssMaskTypes.SHAKE128 },
-                    HashPairs = hashPairs
+                    HashPairs = hashPairsPkcs
+                }
+                ,
+                 new CapSigType
+                 {
+                     Modulo = 4096,
+                     MaskFunction = new [] { PssMaskTypes.SHAKE256 },
+                     HashPairs = hashPairsPkcs
+                 }
+            };
+
+            var modCapPss = new[]
+            {
+                new CapSigType
+                {
+                    Modulo = 2048,
+                    MaskFunction = new [] { PssMaskTypes.MGF1 },
+                    HashPairs = hashPairsPss
+                },
+                new CapSigType
+                {
+                    Modulo = 3072,
+                    MaskFunction = new [] { PssMaskTypes.SHAKE128 },
+                    HashPairs = hashPairsPss
                 },
                 new CapSigType
                 {
                     Modulo = 4096,
                     MaskFunction = new [] { PssMaskTypes.SHAKE256 },
-                    HashPairs = hashPairs
+                    HashPairs = hashPairsPss
                 }
             };
 
-            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
+            var algSpecs = new[]
             {
-                algSpecs[i] = new AlgSpecs
+                new AlgSpecs
                 {
-                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
-                    ModuloCapabilities = modCap
-                };
-            }
+                    SigType = SignatureSchemes.Pkcs1v15, 
+                    ModuloCapabilities = modCapPkcs
+                },
+                new AlgSpecs
+                {
+                    SigType = SignatureSchemes.Pss, 
+                    ModuloCapabilities = modCapPss
+                }
+            };
 
             var p = new Parameters
             {

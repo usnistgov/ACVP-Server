@@ -22,7 +22,7 @@
               "saltLen": 8
             },
             {
-              "hashAlg": "SHA2-512",
+              "hashAlg": "SHA3-512",
               "saltLen": 62
             }
           ]
@@ -38,7 +38,7 @@
               "saltLen": 8
             },
             {
-              "hashAlg": "SHA2-512",
+              "hashAlg": "SHA3-512",
               "saltLen": 62
             }
           ]
@@ -54,7 +54,7 @@
               "saltLen": 8
             },
             {
-              "hashAlg": "SHA2-512",
+              "hashAlg": "SHA3-512",
               "saltLen": 62
             }
           ]
@@ -71,12 +71,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "hashAlg": "SHAKE-128",
+              "saltLen": 32
             },
             {
-              "hashAlg": "SHA2-512",
-              "saltLen": 62
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
             }
           ]
         },
@@ -87,12 +91,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "hashAlg": "SHAKE-128",
+              "saltLen": 32
             },
             {
-              "hashAlg": "SHA2-512",
-              "saltLen": 62
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
             }
           ]
         },
@@ -103,12 +111,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "hashAlg": "SHAKE-128",
+              "saltLen": 32
             },
             {
-              "hashAlg": "SHA2-512",
-              "saltLen": 62
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
             }
           ]
         }

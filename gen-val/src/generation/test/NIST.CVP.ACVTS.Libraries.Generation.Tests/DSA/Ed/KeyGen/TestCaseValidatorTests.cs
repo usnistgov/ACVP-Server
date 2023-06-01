@@ -85,7 +85,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
             return new TestGroup
             {
                 Curve = Curve.Ed25519,
-                SecretGenerationMode = SecretGenerationMode.TestingCandidates
             };
         }
     }

@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests
 
                         var sha = new NativeShaFactory().GetShaInstance(testGroup.HashAlg);
 
-                        var paddingScheme = new PaddingFactory(new MaskFactory(new NativeShaFactory())).GetPaddingScheme(testGroup.Mode, sha, PssMaskTypes.MGF1, entropyProvider, testGroup.SaltLen);
+                        var paddingScheme = new PaddingFactory(new MaskFactory(new NativeShaFactory())).GetPaddingScheme(testGroup.Mode, sha, PssMaskTypes.MGF1, entropyProvider, testGroup.SaltLen, 0);
 
                         var result = signer
                             .WithMessage(testCase.Message)

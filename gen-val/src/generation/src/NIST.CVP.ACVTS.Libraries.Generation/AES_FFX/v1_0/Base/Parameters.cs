@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
         /// </summary>
         public int MinLen { get; set; }
         /// <summary>
-        /// THe maximum length of messages to encrypt with the provided alphabet.
+        /// The maximum length of messages to encrypt with the provided alphabet.
         /// </summary>
         public int MaxLen { get; set; }
     }

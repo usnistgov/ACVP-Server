@@ -16,23 +16,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyGen
                 1,
                 new ParameterBuilder()
                     .WithCurves(new [] { "ed-25519" })
-                    .WithSecretGenerationModes(new [] {"testing candidates" })
+                    .Build()
+            },
+            new object[]
+            {
+                1,
+                new ParameterBuilder()
+                    .WithCurves(new [] { "ed-448" })
                     .Build()
             },
             new object[]
             {
                 2,
                 new ParameterBuilder()
-                    .WithCurves(new [] { "ed-448" })
-                    .WithSecretGenerationModes(ParameterValidator.VALID_SECRET_GENERATION_MODES)
-                    .Build()
-            },
-            new object[]
-            {
-                4,
-                new ParameterBuilder()
                     .WithCurves(ParameterValidator.VALID_CURVES)
-                    .WithSecretGenerationModes(ParameterValidator.VALID_SECRET_GENERATION_MODES)
                     .Build()
             }
         };

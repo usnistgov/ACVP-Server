@@ -8,9 +8,5 @@
   "curve": [
     "ED-25519",
     "ED-448"
-  ],
-  "secretGenerationMode": [
-    "testing candidates",
-    "extra bits"
   ]
 }

@@ -20,7 +20,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyGen.ContractResolver
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.Curve),
-                nameof(TestGroup.SecretGenerationMode),
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

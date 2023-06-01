@@ -8,12 +8,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
 {
     public class PssPadderWithMovedIr : PssPadder
     {
-        public PssPadderWithMovedIr(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength) : base(sha, mask, entropy, saltLength) { }
+        public PssPadderWithMovedIr(ISha sha, IMaskFunction mask, IEntropyProvider entropy, int saltLength, int outputLen) : base(sha, mask, entropy, saltLength, outputLen) { }
 
         public override PaddingResult Pad(int nlen, BitString message)
         {
             var emBits = nlen - 1;
-            var mHash = Sha.HashMessage(message).Digest;
+            // OutputLen is meaningful when Sha is an XOF
+            var mHash = Sha.HashMessage(message, OutputLen).Digest;
             var emLen = emBits.CeilingDivide(8);
 
             // All byte values
@@ -27,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pss
             mPrime = BitString.ConcatenateBits(mPrime, mHash);
             mPrime = BitString.ConcatenateBits(mPrime, salt);
 
-            var H = Sha.HashMessage(mPrime).Digest;
+            var H = Sha.HashMessage(mPrime, OutputLen).Digest;
 
             // All bit values
             var PS = BitString.Zeroes(emLen * 8 - SaltLength * 8 - H.BitLength - 2 * 8);

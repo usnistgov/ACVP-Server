@@ -19,8 +19,7 @@
           "tcId": 3
         }
       ],
-      "curve": "ED-25519",
-      "secretGenerationMode": "testing candidates"
+      "curve": "ED-25519"
     },
     {
       "tgId": 2,
@@ -36,42 +35,7 @@
           "tcId": 6
         }
       ],
-      "curve": "ED-25519",
-      "secretGenerationMode": "extra bits"
-    },
-    {
-      "tgId": 3,
-      "testType": "AFT",
-      "tests": [
-        {
-          "tcId": 7
-        },
-        {
-          "tcId": 8
-        },
-        {
-          "tcId": 9
-        }
-      ],
-      "curve": "ED-448",
-      "secretGenerationMode": "testing candidates"
-    },
-    {
-      "tgId": 4,
-      "testType": "AFT",
-      "tests": [
-        {
-          "tcId": 10
-        },
-        {
-          "tcId": 11
-        },
-        {
-          "tcId": 12
-        }
-      ],
-      "curve": "ED-448",
-      "secretGenerationMode": "extra bits"
+      "curve": "ED-448"
     }
   ]
 }

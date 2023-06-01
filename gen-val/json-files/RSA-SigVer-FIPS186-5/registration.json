@@ -16,11 +16,11 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHA2-256",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
+              "hashAlg": "SHA2-256",
               "saltLen": 2
             }
           ]
@@ -32,11 +32,11 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHA2-256",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
+              "hashAlg": "SHA2-256",
               "saltLen": 2
             }
           ]
@@ -48,11 +48,11 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHA2-256",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
+              "hashAlg": "SHA2-256",
               "saltLen": 2
             }
           ]
@@ -69,12 +69,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHAKE-128",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
-              "saltLen": 2
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA3-256",
+              "saltLen": 32
             }
           ]
         },
@@ -85,12 +89,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHAKE-128",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
-              "saltLen": 2
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA3-256",
+              "saltLen": 32
             }
           ]
         },
@@ -101,12 +109,16 @@
           ],
           "hashPair": [
             {
-              "hashAlg": "SHA-1",
+              "hashAlg": "SHAKE-128",
               "saltLen": 1
             },
             {
-              "hashAlg": "SHA2-224",
-              "saltLen": 2
+              "hashAlg": "SHAKE-256",
+              "saltLen": 64
+            },
+            {
+              "hashAlg": "SHA3-256",
+              "saltLen": 32
             }
           ]
         }

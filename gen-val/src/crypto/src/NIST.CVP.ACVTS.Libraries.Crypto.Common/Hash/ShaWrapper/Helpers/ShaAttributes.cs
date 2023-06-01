@@ -31,6 +31,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers
                 (ModeValues.SHAKE, DigestSizes.d256, 256, 1088, -1, 256, "SHAKE-256") // no limit, outputSize is "common output size", normally defined by the function calling SHAKE
             };
 
+        private static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name)> xofPssAttributes =
+            new List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name)>()
+            {
+                (ModeValues.SHAKE, DigestSizes.d128, 256,  1344, -1, 128, "SHAKE-128"), // this entry makes SHAKE-128 work as a "Hash" for PSS; FIPS 186-5 requires an outputLen of 256
+                (ModeValues.SHAKE, DigestSizes.d256, 512, 1088, -1, 256, "SHAKE-256") // this entry makes SHAKE-256 work as a "Hash" for PSS; FIPS 186-5 requires an outputLen of 512
+            };
+        
         private static List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)>
             _hashFunctionsMap = new List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)>()
             {
@@ -46,12 +53,16 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers
                 (HashFunctions.Sha3_d384, ModeValues.SHA3, DigestSizes.d384),
                 (HashFunctions.Sha3_d512, ModeValues.SHA3, DigestSizes.d512),
             };
-
+        
         public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name)> GetShaAttributes()
         {
             return shaAttributes;
         }
-
+        
+        public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name)> GetXofPssAttributes()
+        {
+            return xofPssAttributes;
+        }
         public static List<string> GetShaNames()
         {
             return shaAttributes
@@ -69,6 +80,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers
             return result;
         }
 
+        public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name) GetXofPssAttributes(ModeValues mode, DigestSizes digestSize)
+        {
+            if (!GetXofPssAttributes()
+                    .TryFirst(w => w.mode == mode && w.digestSize == digestSize, out var result))
+            {
+                throw new ArgumentException($"Invalid {nameof(mode)}/{nameof(digestSize)} combination");
+            }
+
+            return result;
+        }
+        
         public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name) GetShaAttributes(HashFunctions hashFunction)
         {
             var hf = GetHashFunctionFromEnum(hashFunction);
@@ -87,12 +109,35 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers
             return result;
         }
 
+        public static (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name) GetXofPssAttributes(string name)
+        {
+            if (!GetXofPssAttributes()
+                    .TryFirst(w => w.name.Equals(name, StringComparison.OrdinalIgnoreCase), out var result))
+            {
+                throw new ArgumentException($"Invalid XOF PSS {nameof(name)}");
+            }
+
+            return result;
+        }
+        
         public static HashFunction GetHashFunctionFromName(string name)
         {
             var attributes = GetShaAttributes(name);
             return new HashFunction(attributes.mode, attributes.digestSize);
         }
 
+        public static HashFunction GetXofPssHashFunctionFromName(string name)
+        {
+            var attributes = GetXofPssAttributes(name);
+            return new HashFunction(attributes.mode, attributes.digestSize, true);
+        }
+        
+        public static int GetXofPssOutputLenFromName(string name)
+        {
+            var attributes = GetXofPssAttributes(name);
+            return attributes.outputLen;
+        }
+        
         public static HashFunction GetHashFunctionFromEnum(HashFunctions hashFunction)
         {
             if (!_hashFunctionsMap

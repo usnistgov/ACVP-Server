@@ -11,9 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS.v1_0
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static string[] VALID_HASH_ALGS = { "SHA2-256", "SHA2-384", "SHA2-512" };
-
-        public static TlsModes[] VALID_TLS_VERSIONS = EnumHelpers.GetEnums<TlsModes>()
-            .Except(new[] { TlsModes.v12_extendedMasterSecret }).ToArray();
+        public static TlsModes[] VALID_TLS_VERSIONS = EnumHelpers.GetEnums<TlsModes>().Except(new[] { TlsModes.v12_extendedMasterSecret }).ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

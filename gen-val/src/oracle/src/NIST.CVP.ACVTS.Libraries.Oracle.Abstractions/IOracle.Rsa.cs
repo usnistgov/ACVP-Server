@@ -18,6 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
         Task<RsaSignatureResult> GetDeferredRsaSignatureAsync(RsaSignatureParameters param);
         Task<VerifyResult<RsaSignatureResult>> CompleteDeferredRsaSignatureAsync(RsaSignatureParameters param, RsaSignatureResult fullParam);
         Task<RsaSignatureResult> GetRsaSignatureAsync(RsaSignatureParameters param);
+        Task<RsaSignaturePrimitiveResult> GetRsaSignaturePrimitiveV2_0Async(RsaSignaturePrimitiveParameters rsaDpParams);
         Task<VerifyResult<RsaSignatureResult>> GetRsaVerifyAsync(RsaSignatureParameters param);
 
         Task<RsaDecryptionPrimitiveResult> GetDeferredRsaDecryptionPrimitiveAsync(RsaDecryptionPrimitiveParameters param);

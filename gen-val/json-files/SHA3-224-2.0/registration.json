@@ -2,12 +2,12 @@
   "vsId": 0,
   "algorithm": "SHA3-224",
   "revision": "2.0",
-  "isSample": true,
+  "isSample": false,
   "conformances": [],
   "messageLength": [
     {
       "min": 0,
-      "max": 65536,
+      "max": 65535,
       "increment": 1
     }
   ],
@@ -16,5 +16,8 @@
     2,
     4,
     8
+  ],
+  "digestSize": [
+    "224"
   ]
 }
