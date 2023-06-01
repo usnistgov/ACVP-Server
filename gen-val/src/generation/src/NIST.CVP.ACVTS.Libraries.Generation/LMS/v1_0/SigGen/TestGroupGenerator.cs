@@ -15,7 +15,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.LMS.v1_0.SigGen;
 public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
 {
     public const string ALGORITHM_FUNCTIONAL_TEST = "AFT";
-    public const string TREE_EXHAUSTION_TEST = "TET";
 
     private readonly IOracle _oracle;
 
@@ -41,6 +40,10 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                     // Generate a tree
                     var param = new LmsKeyPairParameters { LmsMode = cap.LmsMode, LmOtsMode = cap.LmOtsMode };
                     map.Add(aftTestGroup, _oracle.GetLmsKeyCaseAsync(param));
+                }
+                else
+                {
+                    testGroups.Add(aftTestGroup);
                 }
             }
         }
@@ -68,19 +71,27 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                         var param = new LmsKeyPairParameters { LmsMode = lmsMode, LmOtsMode = lmOtsMode };
                         map.Add(aftTestGroup, _oracle.GetLmsKeyCaseAsync(param));
                     }
+                    else
+                    {
+                        testGroups.Add(aftTestGroup);
+                    }
                 }
             }
         }
-        
-        await Task.WhenAll(map.Values);
-        foreach (var (group, value) in map)
-        {
-            var key = value.Result;
-            group.KeyPair = key.KeyPair;
-            group.PublicKey = new BitString(key.KeyPair.PublicKey.Key);
-            testGroups.Add(group);
-        }
 
+        // If we're sample, we need to flush out the trees
+        if (parameters.IsSample)
+        {
+            await Task.WhenAll(map.Values);
+            foreach (var (group, value) in map)
+            {
+                var key = value.Result;
+                group.KeyPair = key.KeyPair;
+                group.PublicKey = new BitString(key.KeyPair.PublicKey.Key);
+                testGroups.Add(group);
+            }
+        }
+        
         return testGroups.ToList();
     }
 }

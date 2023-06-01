@@ -18,8 +18,7 @@ public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup
         return testGroup.TestType switch
         {
             TestGroupGenerator.ALGORITHM_FUNCTIONAL_TEST => new TestCaseGeneratorAft(_oracle),
-            TestGroupGenerator.TREE_EXHAUSTION_TEST => throw new NotImplementedException(),
-            _ => throw new Exception("Invalid test type")
+             _ => throw new Exception("Invalid test type")
         };
     }
 }
