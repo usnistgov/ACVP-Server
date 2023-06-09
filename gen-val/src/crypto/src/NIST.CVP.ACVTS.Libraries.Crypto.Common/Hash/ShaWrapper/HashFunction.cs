@@ -29,17 +29,21 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
         [JsonIgnore]
         public string Name { get; }
 
-        // Needed for Deserialization of HashFunction
-        public HashFunction()
-        {
-        }
-        
-        public HashFunction(ModeValues mode, DigestSizes digestSize)
+        public HashFunction(ModeValues mode, DigestSizes digestSize, bool isXofPss = false)
         {
             Mode = mode;
             DigestSize = digestSize;
 
-            var attributes = ShaAttributes.GetShaAttributes(mode, digestSize);
+            (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name) attributes;
+            if (isXofPss)
+            {
+                attributes = ShaAttributes.GetXofPssAttributes(mode, digestSize);    
+            }
+            else
+            {
+                attributes = ShaAttributes.GetShaAttributes(mode, digestSize);    
+            }
+            
             OutputLen = attributes.outputLen;
             BlockSize = attributes.blockSize;
             MaxMessageLen = attributes.maxMessageSize;
@@ -47,18 +51,6 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
             Name = attributes.name;
         }
 
-        public HashFunction(ModeValues mode, DigestSizes digestSize, bool isXofPss)
-        {
-            Mode = mode;
-            DigestSize = digestSize;
-
-            var attributes = ShaAttributes.GetXofPssAttributes(mode, digestSize);
-            OutputLen = attributes.outputLen;
-            BlockSize = attributes.blockSize;
-            MaxMessageLen = attributes.maxMessageSize;
-            ProcessingLen = attributes.processingLen;
-            Name = attributes.name;
-        }
         public override bool Equals(object other)
         {
             if (other is HashFunction obj)

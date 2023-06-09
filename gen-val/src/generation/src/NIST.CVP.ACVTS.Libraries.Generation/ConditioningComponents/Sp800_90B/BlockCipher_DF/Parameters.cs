@@ -14,5 +14,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
 
         public int[] KeyLen { get; set; }
         public MathDomain PayloadLen { get; set; }
+        public MathDomain OutputLen { get; set; }
     }
 }

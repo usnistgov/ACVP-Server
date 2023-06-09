@@ -49,10 +49,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
         {
-            var param = new AesParameters
+            var param = new BlockCipherDfParameters
             {
+                OutputLength = group.OutputLen,
                 DataLength = _payloadLengths.Pop(),
-                KeyLength = group.KeyLength,
+                KeyLength = group.KeyLength
             };
 
             try

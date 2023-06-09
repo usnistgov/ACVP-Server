@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
         {
             _subject.GetInstance(kdfOneStepAuxFunction, true);
 
-            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize)));
+            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize, false)));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
         {
             _subject.GetInstance(kdfOneStepAuxFunction, true);
 
-            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize)));
+            _shaFactory.Verify(v => v.GetShaInstance(new HashFunction(mode, digestSize, false)));
         }
     }
 }

@@ -10,12 +10,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
         public static int MAX_INPUT_LEN = 65536;
         public static int VALID_INCREMENT = 8;
         public static int[] VALID_KEY_LENGTHS = { 128, 192, 256 };
+        public static int MIN_OUTPUT_LEN = 128;
+        public static int MAX_OUTPUT_LEN = 512;
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errorResults = new List<string>();
             ValidatePayloadLengths(parameters, errorResults);
             ValidateKeyLengths(parameters, errorResults);
+            ValidateOutputLengths(parameters, errorResults);
 
             return new ParameterValidateResponse(errorResults);
         }
@@ -35,6 +38,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
             if (valid)
             {
                 var results = ValidateMultipleOf(parameters.PayloadLen, VALID_INCREMENT, "PayloadLen Increment");
+                errorResults.AddIfNotNullOrEmpty(results);
+            }
+        }
+        
+        private void ValidateOutputLengths(Parameters parameters, List<string> errorResults)
+        {
+            var valid = ValidateDomain(parameters.OutputLen, errorResults, "OutputLen", MIN_OUTPUT_LEN, MAX_OUTPUT_LEN);
+            if (valid)
+            {
+                var results = ValidateMultipleOf(parameters.OutputLen, VALID_INCREMENT, "OutputLen Increment");
                 errorResults.AddIfNotNullOrEmpty(results);
             }
         }

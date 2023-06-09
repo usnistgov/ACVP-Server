@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Drbg
 {
     public class OracleObserverBlockCipherDfCaseGrain : ObservableOracleGrainBase<AesResult>, IOracleObserverBlockCipherDfCaseGrain
     {
-        private AesParameters _param;
+        private BlockCipherDfParameters _param;
         private readonly IBlockCipherConditioningComponentFactory _factory;
         private readonly IEntropyProvider _entropyProvider;
 
@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Drbg
             _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         }
 
-        public async Task<bool> BeginWorkAsync(AesParameters param)
+        public async Task<bool> BeginWorkAsync(BlockCipherDfParameters param)
         {
             _param = param;
 
@@ -31,11 +31,10 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Drbg
 
         protected override async Task DoWorkAsync()
         {
-            var blockCipherCC = _factory.GetInstance(_param.KeyLength);
+            var blockCipherCc = _factory.GetInstance(_param.KeyLength);
             var message = _entropyProvider.GetEntropy(_param.DataLength);
-            var bitsToReturn = _param.KeyLength;
 
-            var result = blockCipherCC.DerivationFunction(message, bitsToReturn);
+            var result = blockCipherCc.DerivationFunction(message, _param.OutputLength);
             if (!result.Success)
             {
                 throw new Exception();

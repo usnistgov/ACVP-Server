@@ -17,6 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pkcs
          *  OID Lookup: https://oidref.com
          */
         
+        // SHA1 and SHA2
         private readonly BitString _sha1AlgId =      new BitString("30 21 30 09 06 05 2b 0e 03 02 1a 05 00 04 14");
         private readonly BitString _sha224AlgId =    new BitString("30 2d 30 0d 06 09 60 86 48 01 65 03 04 02 04 05 00 04 1c");
         private readonly BitString _sha256AlgId =    new BitString("30 31 30 0d 06 09 60 86 48 01 65 03 04 02 01 05 00 04 20");
@@ -24,11 +25,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures.Pkcs
         private readonly BitString _sha512AlgId =    new BitString("30 51 30 0d 06 09 60 86 48 01 65 03 04 02 03 05 00 04 40");
         private readonly BitString _sha512224AlgId = new BitString("30 2d 30 0d 06 09 60 86 48 01 65 03 04 02 05 05 00 04 1c");
         private readonly BitString _sha512256AlgId = new BitString("30 31 30 0d 06 09 60 86 48 01 65 03 04 02 06 05 00 04 20");
-        private readonly BitString _sha3_224AlgId =  new BitString("30 2b 30 0b 06 09 60 86 48 01 65 03 04 02 07 05 00 04 1c");
-        private readonly BitString _sha3_256AlgId =  new BitString("30 2f 30 0b 06 09 60 86 48 01 65 03 04 02 08 05 00 04 20");
-        private readonly BitString _sha3_384AlgId =  new BitString("30 3f 30 0b 06 09 60 86 48 01 65 03 04 02 09 05 00 04 30");
-        private readonly BitString _sha3_512AlgId =  new BitString("30 4f 30 0b 06 09 60 86 48 01 65 03 04 02 0a 05 00 04 40");
-
+        
+        // SHA3
+        private readonly BitString _sha3_224AlgId =  new BitString("30 2d 30 0d 06 09 60 86 48 01 65 03 04 02 07 05 00 04 1c");
+        private readonly BitString _sha3_256AlgId =  new BitString("30 31 30 0d 06 09 60 86 48 01 65 03 04 02 08 05 00 04 20");
+        private readonly BitString _sha3_384AlgId =  new BitString("30 41 30 0d 06 09 60 86 48 01 65 03 04 02 09 05 00 04 30");
+        private readonly BitString _sha3_512AlgId =  new BitString("30 51 30 0d 06 09 60 86 48 01 65 03 04 02 0a 05 00 04 40");
+        
         protected BitString GetHashAlgId()
         {
             switch (Sha.HashFunction.DigestSize)

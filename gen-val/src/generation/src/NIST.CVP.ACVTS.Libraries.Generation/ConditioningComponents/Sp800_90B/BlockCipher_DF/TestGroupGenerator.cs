@@ -12,16 +12,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
         {
             var groups = new List<TestGroup>();
 
-            foreach (var keyLen in parameters.KeyLen)
-            {
-                groups.Add(new TestGroup
-                {
-                    PayloadLen = parameters.PayloadLen.GetDeepCopy(),
-                    KeyLength = keyLen,
-                    TestType = TEST_TYPE
-                });
-            }
+            var minMaxOutputLen = parameters.OutputLen.GetDomainMinMaxAsEnumerable();
 
+            foreach (var outputLen in minMaxOutputLen)
+            {
+                foreach (var keyLen in parameters.KeyLen)
+                {
+                    groups.Add(new TestGroup
+                    {
+                        OutputLen = outputLen,
+                        PayloadLen = parameters.PayloadLen.GetDeepCopy(),
+                        KeyLength = keyLen,
+                        TestType = TEST_TYPE
+                    });
+                }
+            }
+            
             return Task.FromResult(groups);
         }
     }

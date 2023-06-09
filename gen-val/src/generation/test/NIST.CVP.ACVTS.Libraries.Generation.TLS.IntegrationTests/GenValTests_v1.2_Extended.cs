@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Tests;
-using NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS.v1_0;
+using NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS.v2_0;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TLS.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS,
-                IsSample = true,
+                IsSample = true, 
                 KeyBlockLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 512, 1024, 8))
             };
 

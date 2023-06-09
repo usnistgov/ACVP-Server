@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
-        public async Task<AesResult> GetBlockCipherDfCaseAsync(AesParameters param)
+        public async Task<AesResult> GetBlockCipherDfCaseAsync(BlockCipherDfParameters param)
         {
             try
             {

@@ -1,14 +1,8 @@
-﻿using Autofac;
-using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Components.TLS.Enums;
-using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Generation.Core.Tests;
-using NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Fakes;
-using NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS;
+﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.TLS.v1_0;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -45,9 +39,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TLS.IntegrationTests
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                TlsVersion = new[] { TlsModes.v12 },
+                TlsVersion = ParameterValidator.VALID_TLS_VERSIONS,
                 HashAlg = new[] { "SHA2-256", "SHA2-512" },
                 IsSample = true
+                // uses default KeyBlockLength values of 832 and 1024
             };
 
             return CreateRegistration(folderName, p);
@@ -62,7 +57,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TLS.IntegrationTests
                 Revision = Revision,
                 TlsVersion = ParameterValidator.VALID_TLS_VERSIONS,
                 HashAlg = ParameterValidator.VALID_HASH_ALGS,
-                IsSample = true
+                IsSample = true,
+                KeyBlockLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 512, 1024, 8))
             };
 
             return CreateRegistration(folderName, p);

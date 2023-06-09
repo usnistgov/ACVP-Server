@@ -7,6 +7,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Drbg
 {
     public interface IOracleObserverBlockCipherDfCaseGrain : IGrainWithGuidKey, IGrainObservable<AesResult>
     {
-        Task<bool> BeginWorkAsync(AesParameters param);
+        Task<bool> BeginWorkAsync(BlockCipherDfParameters param);
     }
 }

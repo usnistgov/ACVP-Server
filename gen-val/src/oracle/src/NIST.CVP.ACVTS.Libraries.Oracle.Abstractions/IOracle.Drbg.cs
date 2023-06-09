@@ -9,6 +9,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
     {
         Task<ResultTypes.DrbgResult> GetDrbgCaseAsync(DrbgParameters param);
         Task<HashResult> GetHashDfCaseAsync(ShaWrapperParameters param);
-        Task<AesResult> GetBlockCipherDfCaseAsync(AesParameters param);
+        Task<AesResult> GetBlockCipherDfCaseAsync(BlockCipherDfParameters param);
     }
 }

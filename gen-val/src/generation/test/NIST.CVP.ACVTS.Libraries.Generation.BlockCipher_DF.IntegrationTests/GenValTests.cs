@@ -37,6 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BlockCipher_DF.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 KeyLen = new[] { 128 },
+                OutputLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                 IsSample = true
             };
@@ -53,6 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BlockCipher_DF.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 KeyLen = new[] { 128, 192, 256 },
+                OutputLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 512, 8)),
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 65536, 8)),
                 IsSample = true
             };
