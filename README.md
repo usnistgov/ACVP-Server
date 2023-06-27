@@ -156,7 +156,7 @@ This folder contains sample JSON files from all algorithms covered by the Gen/Va
 
 ## Setting Up
 
-The code provided is C# using the .NET5 framework. This is a cross-platform framework. To run the code, you will need to install the [.NET5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0). 
+The code provided is C# using the .NET6 framework. This is a cross-platform framework. To run the code, you will need to install the [.NET5 SDK](https://dotnet.microsoft.com/download/dotnet/6.0). 
 
 Create or modify the following files:
 
