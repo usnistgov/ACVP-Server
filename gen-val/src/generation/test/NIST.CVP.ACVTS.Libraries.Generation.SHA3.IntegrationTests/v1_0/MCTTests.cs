@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             var subject = shaFactory.GetShaMctInstance(hashFunction);
             var messageBitString = new BitString(message);
 
-            var result = subject.MctHash(messageBitString, false, null);
+            var result = subject.MctHash(messageBitString);
 
             Assert.That(result != null);
             Assert.That(result.Success);

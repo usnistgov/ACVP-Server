@@ -114,8 +114,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                         domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
 
                         var shakeMct = GetShaMctInstance(testGroup.CommonHashFunction);
-                        var result = shakeMct.MctHash(testCase.Message, false, domain,
-                            ShaAttributes.GetShaAttributes( testGroup.Function, testGroup.DigestSize).outputLen);
+                        var result = shakeMct.MctHash(testCase.Message, false, domain);
 
                         Assert.IsTrue(result.Success, "result.Success must be successful");
                         Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");

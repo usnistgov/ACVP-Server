@@ -1,23 +1,19 @@
 {
   "vsId": 0,
   "algorithm": "SHA3-224",
-  "revision": "2.0",
-  "isSample": false,
+  "revision": "1.0",
+  "isSample": true,
   "conformances": [],
-  "messageLength": [
-    {
-      "min": 0,
-      "max": 65535,
-      "increment": 1
-    }
+  "digestSize": [
+    224
   ],
+  "inBit": true,
+  "outBit": false,
+  "inEmpty": true,
   "performLargeDataTest": [
     1,
     2,
     4,
     8
-  ],
-  "digestSize": [
-    "224"
   ]
 }

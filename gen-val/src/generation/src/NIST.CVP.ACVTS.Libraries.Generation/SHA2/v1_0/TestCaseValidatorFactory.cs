@@ -16,11 +16,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
                     var workingTest = test;
                     if (group.TestType.ToLower() == "mct")
                     {
-                        list.Add(new TestCaseValidatorMCTHash(workingTest));
+                        list.Add(new TestCaseValidatorMct(workingTest));
                     }
                     else
                     {
-                        list.Add(new TestCaseValidatorAFTHash(workingTest));
+                        list.Add(new TestCaseValidatorAft(workingTest));
                     }
                 }
             }

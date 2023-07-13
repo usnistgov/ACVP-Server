@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -20,6 +21,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
         [JsonIgnore]
         public DigestSizes DigestSize { get; set; }
 
+        [JsonProperty(PropertyName = "mctVersion")]
+        public MctVersions MctVersion { get; set; }
+        
         [JsonIgnore]
         public HashFunction CommonHashFunction => new HashFunction(Function, DigestSize);
 

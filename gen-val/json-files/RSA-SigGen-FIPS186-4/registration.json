@@ -1,0 +1,144 @@
+{
+  "vsId": 0,
+  "algorithm": "RSA",
+  "mode": "sigGen",
+  "revision": "FIPS186-4",
+  "isSample": true,
+  "conformances": [
+    "SP800-106"
+  ],
+  "capabilities": [
+    {
+      "sigType": "ansx9.31",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 4096,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sigType": "pkcs1v1.5",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 4096,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sigType": "pss",
+      "properties": [
+        {
+          "modulo": 2048,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 3072,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        },
+        {
+          "modulo": 4096,
+          "hashPair": [
+            {
+              "hashAlg": "SHA2-256",
+              "saltLen": 8
+            },
+            {
+              "hashAlg": "SHA2-512",
+              "saltLen": 62
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

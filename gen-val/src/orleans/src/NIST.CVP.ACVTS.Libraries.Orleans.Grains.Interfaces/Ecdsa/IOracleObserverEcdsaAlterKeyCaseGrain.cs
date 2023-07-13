@@ -5,8 +5,8 @@ using Orleans;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Ecdsa
 {
-    public interface IOracleObserverEcdsaVerifyKeyCaseGrain : IGrainWithGuidKey, IGrainObservable<VerifyResult<EcdsaKeyResult>>
+    public interface IOracleObserverEcdsaAlterKeyCaseGrain : IGrainWithGuidKey, IGrainObservable<EcdsaKeyResult>
     {
-        Task<bool> BeginWorkAsync(EcdsaKeyParameters param, EcdsaKeyResult key);
+        Task<bool> BeginWorkAsync(EcdsaAlterKeyParameters param);
     }
 }

@@ -11,10 +11,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
     public class TestCaseGeneratorFactoryTests
     {
         [Test]
-        [TestCase(ModeValues.SHA1, DigestSizes.d160, "aFt", typeof(TestCaseGeneratorAFTHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d224, "AFT", typeof(TestCaseGeneratorAFTHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d512, "MCT", typeof(TestCaseGeneratorMCTHash))]
-        [TestCase(ModeValues.SHA2, DigestSizes.d384, "mCt", typeof(TestCaseGeneratorMCTHash))]
+        [TestCase(ModeValues.SHA1, DigestSizes.d160, "aFt", typeof(TestCaseGeneratorAft))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d224, "AFT", typeof(TestCaseGeneratorAft))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d512, "MCT", typeof(TestCaseGeneratorMct))]
+        [TestCase(ModeValues.SHA2, DigestSizes.d384, "mCt", typeof(TestCaseGeneratorMct))]
         [TestCase(ModeValues.SHA1, DigestSizes.d160, "junk", typeof(TestCaseGeneratorNull))]
         public void ShouldReturnProperGenerator(ModeValues mode, DigestSizes size, string testType, Type expectedType)
         {
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
 
-            var typedGen = generator as TestCaseGeneratorMCTHash;
+            var typedGen = generator as TestCaseGeneratorMct;
             Assert.That(generator != null);
 
             await typedGen.GenerateAsync(testGroup, isSample);

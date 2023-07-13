@@ -40,6 +40,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
                     await GetObserverGrain<IOracleObserverEcdsaKeyCaseGrain, EcdsaKeyResult>();
                 await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
+                var result = await observableGrain.ObserveUntilResult();
+
+                if (param.Disposition != EcdsaKeyDisposition.None)
+                {
+                    var alterParams = new EcdsaAlterKeyParameters
+                    {
+                        Curve = param.Curve, Disposition = param.Disposition, Key = result.Key
+                    };
+                    
+                    return await GetEcdsaAlterKeyAsync(alterParams);
+                }
                 return await observableGrain.ObserveUntilResult();
             }
             catch (OriginalClusterNodeSuicideException ex)
@@ -66,22 +77,21 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
-        public async Task<VerifyResult<EcdsaKeyResult>> GetEcdsaKeyVerifyAsync(EcdsaKeyParameters param)
+        // Expects a good key to be provided as input
+        public async Task<EcdsaKeyResult> GetEcdsaAlterKeyAsync(EcdsaAlterKeyParameters param)
         {
-            var key = await GetEcdsaKeyAsync(param);
-
             try
             {
                 var observableGrain =
-                    await GetObserverGrain<IOracleObserverEcdsaVerifyKeyCaseGrain, VerifyResult<EcdsaKeyResult>>();
-                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, key, LoadSheddingRetries);
+                    await GetObserverGrain<IOracleObserverEcdsaAlterKeyCaseGrain, EcdsaKeyResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
                 return await observableGrain.ObserveUntilResult();
             }
             catch (OriginalClusterNodeSuicideException ex)
             {
                 _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
-                return await GetEcdsaKeyVerifyAsync(param);
+                return await GetEcdsaAlterKeyAsync(param);
             }
         }
 

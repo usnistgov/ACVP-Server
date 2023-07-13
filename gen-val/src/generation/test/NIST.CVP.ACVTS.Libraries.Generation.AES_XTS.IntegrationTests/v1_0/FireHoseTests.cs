@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Numerics;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.XTS;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Helpers;
@@ -60,7 +61,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.IntegrationTests.v1_0
                         var testCase = iTestCase;
 
                         // If we were given an integer value instead of hex
-                        testCase.I ??= XtsHelper.GetIFromInteger(testCase.SequenceNumber);
+                        testCase.I ??= XtsHelper.GetIFromBigInteger(new BigInteger(testCase.SequenceNumber));
 
                         // Shorten plaintext and ciphertext to the length the group specifies
                         testCase.PlainText = testCase.PlainText.MSBSubstring(0, testGroup.PayloadLen);

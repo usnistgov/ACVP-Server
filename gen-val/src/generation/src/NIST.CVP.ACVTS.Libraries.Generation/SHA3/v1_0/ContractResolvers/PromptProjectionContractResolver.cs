@@ -13,7 +13,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.ContractResolvers
             var shakeMctProperties = new[]
             {
                 nameof(TestGroup.MinOutputLength),
-                nameof(TestGroup.MaxOutputLength)
+                nameof(TestGroup.MaxOutputLength),
+                nameof(TestGroup.MctVersion)
+            };
+            
+            var mctProperties = new[]
+            {
+                nameof(TestGroup.MinOutputLength),
+                nameof(TestGroup.MaxOutputLength),
+                nameof(TestGroup.MctVersion)
             };
 
             #region Conditional Test Group properties
@@ -23,7 +31,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.ContractResolvers
                 {
                     GetTestGroupFromTestGroupObject(instance, out var testGroup);
 
-                    if (testGroup.Function == ModeValues.SHAKE &&
+                    if (testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+            
+            if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                    if (testGroup.Function == ModeValues.SHA3 &&
                         testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
                     {
                         return true;

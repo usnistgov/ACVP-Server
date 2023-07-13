@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var expected = GetTestCase();
             var supplied = GetTestCase();
-            var subject = new TestCaseValidatorMCTHash(expected);
+            var subject = new TestCaseValidatorMct(expected);
 
             var result = await subject.ValidateAsync(supplied);
 
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
             supplied.ResultsArray[0].Digest =
                 new BitString(rand.GetDifferentBitStringOfSameSize(supplied.ResultsArray[0].Digest).ToBytes());
 
-            var subject = new TestCaseValidatorMCTHash(expected);
+            var subject = new TestCaseValidatorMct(expected);
 
             var result = await subject.ValidateAsync(supplied);
 
@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
 
             suppliedResult.ResultsArray = null;
 
-            var subject = new TestCaseValidatorMCTHash(expected);
+            var subject = new TestCaseValidatorMct(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
 
             suppliedResult.ResultsArray.ForEach(fe => fe.Digest = null);
 
-            var subject = new TestCaseValidatorMCTHash(expected);
+            var subject = new TestCaseValidatorMct(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);

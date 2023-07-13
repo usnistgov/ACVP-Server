@@ -16,11 +16,33 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0.ContractResolvers
                 nameof(TestGroup.Tests)
             };
 
+            var mctProperties = new[]
+            {
+                nameof(TestGroup.MctVersion)
+            };
+            
+            #region Conditional Test Group properties
+            if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                    if (testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+            
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance => true;
             }
-
+            #endregion Conditional Test Group properties
+            
             return jsonProperty.ShouldSerialize = instance => false;
         }
 

@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
         
         private static int MIN_MESSAGE_LENGTH = 1; // 0 is supported, but for MCT 1 is the min
         private static int MAX_MESSAGE_LENGTH = 65536;
-
+        
         private ShaParameters _param;
 
         public OracleObserverSha3MctCaseGrain(
@@ -44,22 +44,10 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
 
         protected override async Task DoWorkAsync()
         {
-            var message = _entropyProvider.GetEntropy(_param.MessageLength);
-            MctResult<AlgoArrayResponse> result;
-            var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction);
-
-            // Determine the length of the SEED to be created
-            if (!_param.UsingNewMctAlgo())
-            { 
-                message = _entropyProvider.GetEntropy(_param.MessageLength);
-                result = shaMct.MctHash(message, false, _param.MessageDomain, _param.MessageLength);
-            }
-            else
-            {
-                var smallestSupportedMessageLengthGreaterThanZero = _param.MessageDomain.GetValues(MIN_MESSAGE_LENGTH, MAX_MESSAGE_LENGTH, 2).Min();
-                message = _rand.GetRandomBitString(smallestSupportedMessageLengthGreaterThanZero);
-                result = shaMct.MctHash(message, false, _param.MessageDomain, _param.MessageLength, smallestSupportedMessageLengthGreaterThanZero);
-            }
+            var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction, _param.IsAlternate);
+            var seed = _entropyProvider.GetEntropy(_param.MessageLength);
+            
+            var result = shaMct.MctHash(seed);
 
             if (!result.Success)
             {
@@ -68,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
 
             await Notify(new Oracle.Abstractions.ResultTypes.MctResult<HashResult>
             {
-                Seed = new HashResult { Message = message },
+                Seed = new HashResult() { Message = seed },
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
             });

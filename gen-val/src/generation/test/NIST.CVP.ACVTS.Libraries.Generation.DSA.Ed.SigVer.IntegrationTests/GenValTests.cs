@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Tests;
 using NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;

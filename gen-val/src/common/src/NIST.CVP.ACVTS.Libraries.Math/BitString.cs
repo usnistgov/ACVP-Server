@@ -979,6 +979,21 @@ namespace NIST.CVP.ACVTS.Libraries.Math
 
             return bitString.BitLength == 0;
         }
+
+        public int NumberOfZeros()
+        {
+            int numberOfZeros = 0;
+            foreach (bool bit in _bits)
+            {
+                if (!bit)
+                {
+                    numberOfZeros++;
+                }
+            }
+
+            return numberOfZeros;
+        }
+        
         #region Private methods
         private static void PadShorterBitStringWithZeroes(ref BitString inputA, ref BitString inputB)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -34,6 +35,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
                     TestType = TEST_TYPE
                 };
 
+                if (parameters.OutputLength != null && !testGroup.OutputLength.IsWithinDomain(testGroup.CommonHashFunction.OutputLen))
+                {
+                    testGroup.MctVersion = MctVersions.Alternate;
+                }
+                else
+                {
+                    testGroup.MctVersion = MctVersions.Standard;
+                }
+                
                 testGroups.Add(testGroup);
             }
 

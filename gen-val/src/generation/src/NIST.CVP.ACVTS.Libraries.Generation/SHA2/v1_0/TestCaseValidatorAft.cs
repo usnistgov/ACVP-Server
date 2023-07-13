@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 {
-    public class TestCaseValidatorMCTHash : ITestCaseValidatorAsync<TestGroup, TestCase>
+    public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
-        public TestCaseValidatorMCTHash(TestCase expectedResult)
+        public TestCaseValidatorAft(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }
@@ -24,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
             var expected = new Dictionary<string, string>();
             var provided = new Dictionary<string, string>();
 
-            ValidateArrayResultPresent(suppliedResult, errors);
+            ValidateResultPresent(suppliedResult, errors);
             if (errors.Count == 0)
             {
                 CheckResults(suppliedResult, errors, expected, provided);
@@ -49,36 +47,21 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
             });
         }
 
-        private void ValidateArrayResultPresent(TestCase suppliedResult, List<string> errors)
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
         {
-            if (suppliedResult.ResultsArray == null || suppliedResult.ResultsArray.Count == 0)
+            if (suppliedResult.Digest == null)
             {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}");
-                return;
-            }
-
-            if (suppliedResult.ResultsArray.Count < _expectedResult.ResultsArray.Count)
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} contained {suppliedResult.ResultsArray.Count} elements when {_expectedResult.ResultsArray.Count} were expected.");
-                return;
-            }
-
-            if (suppliedResult.ResultsArray.Any(a => a.Digest == null))
-            {
-                errors.Add($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}");
+                errors.Add($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}");
             }
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            for (var i = 0; i < _expectedResult.ResultsArray.Count; i++)
+            if (!_expectedResult.Digest.Equals(suppliedResult.Digest))
             {
-                if (!_expectedResult.ResultsArray[i].Digest.Equals(suppliedResult.ResultsArray[i].Digest))
-                {
-                    errors.Add($"Digest does not match on iteration {i}");
-                    expected.Add($"Digest {i}", _expectedResult.ResultsArray[i].Digest.ToHex());
-                    provided.Add($"Digest {i}", suppliedResult.ResultsArray[i].Digest.ToHex());
-                }
+                errors.Add("Digests do not match");
+                expected.Add(nameof(_expectedResult.Digest), _expectedResult.Digest.ToHex());
+                provided.Add(nameof(suppliedResult.Digest), suppliedResult.Digest.ToHex());
             }
         }
     }

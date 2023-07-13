@@ -2049,5 +2049,18 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             Assert.AreEqual(expectedResult, result);
         }
+
+        [Test]
+        [TestCase("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 0)]
+        [TestCase("FF000000000000000000000000000000", 120)]
+        [TestCase("00000000000000000000000000000000", 128)]
+        public void ShouldReturnCorrectNumberOfZeros(string hex, int expectedResult)
+        {
+            var bs = new BitString(hex);
+            int numberOfZeros = bs.NumberOfZeros();
+            
+            Assert.AreEqual(expectedResult, numberOfZeros);
+        }
+        
     }
 }

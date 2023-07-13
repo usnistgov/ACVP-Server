@@ -1,4 +1,6 @@
-﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
+﻿using NIST.CVP.ACVTS.Libraries.Math.Domain;
+
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
 {
     /// <summary>
     /// Provides a means of retrieving a <see cref="ISha"/> instance.
@@ -12,6 +14,6 @@
         /// <returns></returns>
         ISha GetShaInstance(HashFunction hashFunction);
 
-        IShaMct GetShaMctInstance(HashFunction hashFunction);
+        IShaMct GetShaMctInstance(HashFunction hashFunction, bool oddLength = false);
     }
 }

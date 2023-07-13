@@ -11,7 +11,7 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 {
-    public class TestCaseGeneratorLDTHash : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+    public class TestCaseGeneratorLdt : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         public int NumberOfTestCasesToGenerate { get; private set; }
 
@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 
         private readonly IOracle _oracle;
 
-        public TestCaseGeneratorLDTHash(IOracle oracle)
+        public TestCaseGeneratorLdt(IOracle oracle)
         {
             _oracle = oracle;
         }

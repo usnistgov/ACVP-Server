@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         public async Task ShouldValidateIfExpectedAndSuppliedResultsMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorAFTHash(testCase);
+            var subject = new TestCaseValidatorAft(testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
             Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         public async Task ShouldFailIfDigestDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorAFTHash(testCase);
+            var subject = new TestCaseValidatorAft(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         public async Task ShouldShowDigestAsReasonIfItDoesNotMatch()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorAFTHash(testCase);
+            var subject = new TestCaseValidatorAft(testCase);
             var suppliedResult = GetTestCase();
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = await subject.ValidateAsync(suppliedResult);
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         public async Task ShouldFailIfDigestNotPresent()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorAFTHash(testCase);
+            var subject = new TestCaseValidatorAft(testCase);
             var suppliedResult = GetTestCase();
 
             suppliedResult.Digest = null;

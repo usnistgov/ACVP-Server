@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.AES;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.XTS;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 
@@ -39,14 +41,16 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.XTS
         {
             var dataUnits = ChunkifyDataStream(plainText, dataUnitLength);
             var result = new BitString(0);
-
+            var tweakBigInt = XtsHelper.GetBigIntegerFromI(tweak);
+            
             foreach (var dataUnit in dataUnits)
             {
                 // Encrypt
                 var dataUnitResult = Encrypt(key, dataUnit, tweak);
 
                 // Increment tweak
-                tweak = BitString.BitStringAddition(tweak, BitString.One());
+                tweakBigInt++;
+                tweak = XtsHelper.GetIFromBigInteger(tweakBigInt);
 
                 // Record results
                 if (dataUnitResult.Success)
@@ -66,14 +70,16 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.XTS
         {
             var dataUnits = ChunkifyDataStream(cipherText, dataUnitLength);
             var result = new BitString(0);
-
+            var tweakBigInt = XtsHelper.GetBigIntegerFromI(tweak);
+            
             foreach (var dataUnit in dataUnits)
             {
                 // Decrypt
                 var dataUnitResult = Decrypt(key, dataUnit, tweak);
 
                 // Increment tweak
-                tweak = BitString.BitStringAddition(tweak, BitString.One());
+                tweakBigInt++;
+                tweak = XtsHelper.GetIFromBigInteger(tweakBigInt);
 
                 // Record results
                 if (dataUnitResult.Success)

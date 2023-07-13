@@ -60,7 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
 
             var message = _rand.GetRandomBitString(1024);
 
-            var result = edDsa.Sign(domainParams, key, message);
+            var result = edDsa.Sign(domainParams, key, message, _param.PreHash);
             if (!result.Success)
             {
                 throw new Exception();

@@ -9,6 +9,28 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0.ContractResolvers
     {
         protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
         {
+            var mctProperties = new[]
+            {
+                nameof(TestGroup.MctVersion)
+            };
+            
+            #region Conditional Test Group properties
+            if (mctProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize = instance =>
+                {
+                    GetTestGroupFromTestGroupObject(instance, out var testGroup);
+
+                    if (testGroup.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                };
+            }
+            #endregion Conditional Test Group properties
+
             return jsonProperty.ShouldSerialize = instance => true;
         }
 

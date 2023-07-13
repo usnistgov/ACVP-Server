@@ -5,28 +5,11 @@ using NIST.CVP.ACVTS.Libraries.Math.Domain;
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
 {
     public class ShaParameters : IParameters
-    {
-        public MathDomain MessageDomain { get; set; }
+    { 
         public int MessageLength { get; set; }
         public HashFunction HashFunction { get; set; }
         public int OutputLength { get; set; }
-        
-        public bool UsingNewMctAlgo()
-        {
-            if (MessageDomain == null)
-            {
-                return false;
-            }
-
-            int value = HashFunction.Mode == ModeValues.SHA3 ? MessageLength : MessageLength * 3;
-            if (!MessageDomain.IsWithinDomain(value))
-            {
-                // Using new algo
-                return true;
-            }
-
-            return false;
-        }
+        public bool IsAlternate { get; set; } = false;
 
         public override bool Equals(object other)
         {

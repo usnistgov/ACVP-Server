@@ -1,4 +1,5 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.XTS;
+﻿using System.Numerics;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.XTS;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.XTS;
@@ -185,15 +186,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
         [TestCase(240, "f0000000000000000000000000000000")]
         [TestCase(149, "95000000000000000000000000000000")]
         [TestCase(49, "31000000000000000000000000000000")]
+        [TestCase(305419896, "78563412000000000000000000000000")] // from IEEE1619-2007 section 5.1, 
+        // I.e., "00000000000000000000000012345678". The 9ah is truncated to keep the dataUnitSqNumber an int vs long  
         public void ShouldComputeProperIValueFromInteger(int dataUnitSeqNumber, string hex)
         {
             var expectedBitString = new BitString(hex);
 
-            var result = XtsHelper.GetIFromInteger(dataUnitSeqNumber);
+            var result = XtsHelper.GetIFromBigInteger(new BigInteger(dataUnitSeqNumber));
 
             Assert.AreEqual(expectedBitString, result);
         }
 
+        [Test]
+        [TestCase("78563412000000000000000000000000", 305419896)]
+        public void ShouldComputeProperBigIntegerValueFromI(string reverseByteOrderHex, int dataUnitSeqNumber)
+        {
+            var result = XtsHelper.GetBigIntegerFromI(new BitString(reverseByteOrderHex));
+            
+            
+            Assert.AreEqual(new BigInteger(dataUnitSeqNumber), result);
+        }
+        
+        
         [Test]
         [TestCase(129,
             "0bd647666a2de8eb9b0acc4c17a80e4980",
@@ -203,7 +217,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
         public void ShouldGetCAVSFileRight(int length, string ptHex, string keyHex, int seqNum, string ctHex)
         {
             var key = new BitString(keyHex);
-            var tweak = XtsHelper.GetIFromInteger(seqNum);
+            var tweak = XtsHelper.GetIFromBigInteger(new BigInteger(seqNum));
             var pt = new BitString(ptHex, length);
             var ct = new BitString(ctHex, length);
 

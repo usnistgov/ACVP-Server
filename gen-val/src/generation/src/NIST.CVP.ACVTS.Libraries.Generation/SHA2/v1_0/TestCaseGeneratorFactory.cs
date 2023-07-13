@@ -17,13 +17,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
             switch (testGroup.TestType.ToLower())
             {
                 case "aft":
-                    return new TestCaseGeneratorAFTHash(_oracle);
+                    return new TestCaseGeneratorAft(_oracle);
 
                 case "mct":
-                    return new TestCaseGeneratorMCTHash(_oracle);
+                    return new TestCaseGeneratorMct(_oracle);
 
                 case "ldt":
-                    return new TestCaseGeneratorLDTHash(_oracle);
+                    return new TestCaseGeneratorLdt(_oracle);
 
                 default:
                     return new TestCaseGeneratorNull();

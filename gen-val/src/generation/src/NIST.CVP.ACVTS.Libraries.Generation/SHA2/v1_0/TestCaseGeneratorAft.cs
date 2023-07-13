@@ -14,13 +14,13 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
 {
-    public class TestCaseGeneratorAFTHash : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
         private ShuffleQueue<int> _caseSizes;
         public int NumberOfTestCasesToGenerate { get; private set; }
 
-        public TestCaseGeneratorAFTHash(IOracle oracle)
+        public TestCaseGeneratorAft(IOracle oracle)
         {
             _oracle = oracle;
         }

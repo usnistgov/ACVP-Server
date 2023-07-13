@@ -105,10 +105,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter
         {
             var values = new List<int>();
 
-            values.AddRange(z.GetValues(i => i < 1024, 10, false));
-            values.AddRange(z.GetValues(i => i < 4098, 5, false));
-            values.AddRange(z.GetValues(i => i < 8196, 2, false));
-            values.AddRange(z.GetValues(1));
+            // Only one shared secret length is supported. Only need one test group
+            if (z.GetDomainMinMax().Minimum == z.GetDomainMinMax().Maximum)
+            {
+                values.Add(z.GetDomainMinMax().Minimum);
+            }
+            else
+            {
+                values.AddRange(z.GetValues(i => i < 1024, 10, false));
+                values.AddRange(z.GetValues(i => i < 4098, 5, false));
+                values.AddRange(z.GetValues(i => i < 8196, 2, false));
+                values.AddRange(z.GetValues(1));
+                
+                values = values.Shuffle().Take(3).ToList();
+            
+                values.Add(z.GetDomainMinMax().Minimum);
+                values.Add(z.GetDomainMinMax().Maximum);
+            }
 
             return values.Shuffle().Take(5).ToList();
         }

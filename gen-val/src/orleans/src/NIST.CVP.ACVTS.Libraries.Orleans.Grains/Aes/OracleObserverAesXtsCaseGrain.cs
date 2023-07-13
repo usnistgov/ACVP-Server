@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes;
@@ -47,16 +48,24 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
             var payload = _rand.GetRandomBitString(_param.DataLength);
             var key = _rand.GetRandomBitString(_param.KeyLength * 2);
             BitString i;
-            var number = 0;
+            BigInteger number = 0;
 
             switch (_param.TweakMode.ToLower())
             {
                 case "hex":
-                    i = _rand.GetRandomBitString(128);    // Technically there are no checks in XTS if this value is too close to the upper boundary, but the chance of running into such a value is like 2^-112 worst case                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    i = _rand.GetRandomBitString(128);
+                    // The max payload length is 65536. The min data unit length is 128. 65536 / 128 = 512 implies that 
+                    // whatever i value we use may need to be incremented as many as 512 times. For a heuristic, we 
+                    // count the number of zeros in the i we generated. If there are at least 9 zeros in the bit string, 
+                    // we should be okay.
+                    while (i.NumberOfZeros() < 9)
+                    {
+                        i = _rand.GetRandomBitString(128);
+                    }
                     break;
                 case "number":
-                    number = _rand.GetRandomInt(0, 256);
-                    i = XtsHelper.GetIFromInteger(number);
+                    number = _rand.GetRandomBigInteger(0, 256);
+                    i = XtsHelper.GetIFromBigInteger(number);
                     break;
                 default:
                     throw new ArgumentException($"Invalid {nameof(_param.TweakMode)} provided to XTS");
@@ -70,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
             {
                 PlainText = direction == BlockCipherDirections.Encrypt ? payload : result.Result,
                 CipherText = direction == BlockCipherDirections.Decrypt ? payload : result.Result,
-                SequenceNumber = number,
+                SequenceNumber = (int) number,
                 Iv = i,
                 Key = key
             });

@@ -171,15 +171,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
         {
             var values = new List<int>();
 
-            values.AddRange(sS.GetValues(i => i < 1024, 10, false));
-            values.AddRange(sS.GetValues(i => i < 4098, 5, false));
-            values.AddRange(sS.GetValues(i => i < 8196, 2, false));
-            values.AddRange(sS.GetValues(1));
+            // Only one shared secret length is supported. Only need one test group
+            if (sS.GetDomainMinMax().Minimum == sS.GetDomainMinMax().Maximum)
+            {
+                values.Add(sS.GetDomainMinMax().Minimum);
+            }
+            else
+            {
+                values.AddRange(sS.GetValues(i => i < 1024, 10, false));
+                values.AddRange(sS.GetValues(i => i < 4098, 5, false));
+                values.AddRange(sS.GetValues(i => i < 8196, 2, false));
+                values.AddRange(sS.GetValues(1));
 
-            values = values.Shuffle().Take(3).ToList();
+                values = values.Shuffle().Take(3).ToList();
             
-            values.Add(sS.GetDomainMinMax().Minimum);
-            values.Add(sS.GetDomainMinMax().Maximum);
+                values.Add(sS.GetDomainMinMax().Minimum);
+                values.Add(sS.GetDomainMinMax().Maximum);                
+            }
             
             return values.Shuffle();
         }

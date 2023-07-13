@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
 
@@ -38,13 +39,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyVer
 
             try
             {
-                var result = await _oracle.GetEcdsaKeyVerifyAsync(param);
+                var result = await _oracle.GetEcdsaKeyAsync(param);
 
                 var testCase = new TestCase
                 {
                     Reason = param.Disposition,
-                    KeyPair = result.VerifiedValue.Key,
-                    TestPassed = result.Result
+                    KeyPair = result.Key,
+                    TestPassed = param.Disposition == EcdsaKeyDisposition.None
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

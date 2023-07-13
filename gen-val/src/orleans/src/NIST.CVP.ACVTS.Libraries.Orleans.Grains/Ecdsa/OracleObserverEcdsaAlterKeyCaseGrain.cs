@@ -9,16 +9,16 @@ using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Ecdsa;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
 {
-    public class OracleObserverEcdsaVerifyKeyCaseCaseGrain : ObservableOracleGrainBase<VerifyResult<EcdsaKeyResult>>,
-        IOracleObserverEcdsaVerifyKeyCaseGrain
+    public class OracleObserverEcdsaAlterKeyCaseGrain : ObservableOracleGrainBase<EcdsaKeyResult>,
+        IOracleObserverEcdsaAlterKeyCaseGrain
     {
         private readonly IEccCurveFactory _curveFactory;
         private readonly IRandom800_90 _rand;
 
-        private EcdsaKeyParameters _param;
-        private EcdsaKeyResult _key;
+        private EcdsaAlterKeyParameters _param;
+        private EccKeyPair _key;
 
-        public OracleObserverEcdsaVerifyKeyCaseCaseGrain(
+        public OracleObserverEcdsaAlterKeyCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
             IEccCurveFactory curveFactory,
             IRandom800_90 rand
@@ -28,10 +28,10 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
             _rand = rand;
         }
 
-        public async Task<bool> BeginWorkAsync(EcdsaKeyParameters param, EcdsaKeyResult key)
+        public async Task<bool> BeginWorkAsync(EcdsaAlterKeyParameters param)
         {
             _param = param;
-            _key = key;
+            _key = param.Key;
 
             await BeginGrainWorkAsync();
             return await Task.FromResult(true);
@@ -44,19 +44,19 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
             if (_param.Disposition == EcdsaKeyDisposition.NotOnCurve)
             {
                 // Modify the public key value until the point is no longer on the curve
-                var modifiedPublicQ = _key.Key.PublicQ;
+                var modifiedPublicQ = _key.PublicQ;
 
                 do
                 {
                     modifiedPublicQ = new EccPoint(modifiedPublicQ.X + 1, modifiedPublicQ.Y);
                 } while (curve.PointExistsOnCurve(modifiedPublicQ));
 
-                _key.Key = new EccKeyPair(modifiedPublicQ, _key.Key.PrivateD);
+                _key = new EccKeyPair(modifiedPublicQ, _key.PrivateD);
             }
             else if (_param.Disposition == EcdsaKeyDisposition.OutOfRange)
             {
                 // Make Qx or Qy out of range by adding the field size
-                var modifiedPublicQ = _key.Key.PublicQ;
+                var modifiedPublicQ = _key.PublicQ;
 
                 // Get a random number 0, or 1
                 if (_rand.GetRandomInt(0, 2) == 0)
@@ -68,17 +68,13 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
                     modifiedPublicQ = new EccPoint(modifiedPublicQ.X, modifiedPublicQ.Y + curve.FieldSizeQ);
                 }
 
-                _key.Key = new EccKeyPair(modifiedPublicQ, _key.Key.PrivateD);
+                _key = new EccKeyPair(modifiedPublicQ, _key.PrivateD);
             }
 
             // Notify observers of result
-            await Notify(new VerifyResult<EcdsaKeyResult>
+            await Notify(new EcdsaKeyResult
             {
-                Result = _param.Disposition == EcdsaKeyDisposition.None,
-                VerifiedValue = new EcdsaKeyResult
-                {
-                    Key = _key.Key
-                }
+                Key = _key
             });
         }
     }

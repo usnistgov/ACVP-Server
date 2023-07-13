@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Hash;
-using Orleans.Metadata;
 using HashResult = NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.HashResult;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
@@ -21,9 +18,10 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
         private readonly IRandom800_90 _rand = new Random800_90();
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProvider _entropyProvider;
-        private static int MIN_MESSAGE_LENGTH = 1; // 0 is supported, but for MCT 1 is the min
+        
+        private static int MIN_MESSAGE_LENGTH = 32; // 0 is supported, but for MCT 1 is the min
         private static int MAX_MESSAGE_LENGTH = 65536;
-
+        
         private ShaParameters _param;
 
         public OracleObserverShaMctCaseGrain(
@@ -46,24 +44,11 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
 
         protected override async Task DoWorkAsync()
         {
-            BitString message;
-            MctResult<AlgoArrayResponse> result;
+            var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction, _param.IsAlternate);
+            var seed = _entropyProvider.GetEntropy(_param.MessageLength);
             
-            var shaMct = _shaFactory.GetShaMctInstance(_param.HashFunction);
-            
-            // Determine the length of the SEED to be created
-            if (!_param.UsingNewMctAlgo())
-            { 
-                message = _entropyProvider.GetEntropy(_param.MessageLength);
-                result = shaMct.MctHash(message, false, _param.MessageDomain, _param.MessageLength);
-            }
-            else
-            {
-                var smallestSupportedMessageLengthGreaterThanZero = _param.MessageDomain.GetValues(MIN_MESSAGE_LENGTH, MAX_MESSAGE_LENGTH, 2).Min();
-                message = _rand.GetRandomBitString(smallestSupportedMessageLengthGreaterThanZero);
-                result = shaMct.MctHash(message, false, _param.MessageDomain, _param.MessageLength, smallestSupportedMessageLengthGreaterThanZero);
-            }
-            
+            var result = shaMct.MctHash(seed);
+
             if (!result.Success)
             {
                 throw new Exception();
@@ -71,10 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
 
             await Notify(new Oracle.Abstractions.ResultTypes.MctResult<HashResult>
             {
-                Seed = new HashResult()
-                {
-                    Message = message
-                },
+                Seed = new HashResult() { Message = seed },
                 Results = result.Response.ConvertAll(element =>
                     new HashResult { Message = element.Message, Digest = element.Digest })
             });

@@ -2,6 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
 {
@@ -49,19 +50,19 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             }
         }
 
-        public IShaMct GetShaMctInstance(HashFunction hashFunction)
+        public IShaMct GetShaMctInstance(HashFunction hashFunction, bool isAlternate = false)
         {
             var sha = GetShaInstance(hashFunction);
-
+            
             switch (hashFunction.Mode)
             {
                 case ModeValues.SHA1:
                 case ModeValues.SHA2:
-                    return new ShaMct(sha);
-
+                    if (isAlternate) return new AlternateSizeShaMct(sha);
+                    return new StandardSizeShaMct(sha);
                 case ModeValues.SHA3:
-                    return new Sha3Mct(sha);
-
+                    if (isAlternate) return new AlternateSizeSha3Mct(sha);
+                    return new StandardSizeSha3Mct(sha);
                 case ModeValues.SHAKE:
                     return new ShakeMct(sha);
 

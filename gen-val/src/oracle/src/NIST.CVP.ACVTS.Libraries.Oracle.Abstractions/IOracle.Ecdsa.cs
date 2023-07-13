@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
 
         Task<EcdsaKeyResult> GetEcdsaKeyAsync(EcdsaKeyParameters param);
         Task<EcdsaKeyResult> CompleteDeferredEcdsaKeyAsync(EcdsaKeyParameters param, EcdsaKeyResult fullParam);
-        Task<VerifyResult<EcdsaKeyResult>> GetEcdsaKeyVerifyAsync(EcdsaKeyParameters param);
+        Task<EcdsaKeyResult> GetEcdsaAlterKeyAsync(EcdsaAlterKeyParameters param);
 
         Task<EcdsaSignatureResult> GetDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param);
         Task<VerifyResult<EcdsaSignatureResult>> CompleteDeferredEcdsaSignatureAsync(EcdsaSignatureParameters param, EcdsaSignatureResult fullParam);
