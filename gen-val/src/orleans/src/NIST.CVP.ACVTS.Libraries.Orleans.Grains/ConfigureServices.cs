@@ -259,7 +259,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
 
-            svc.AddSingleton<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>();
+            svc.AddTransient<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>(); // Needs to be transient to account for KMAC in KMAC-KDF
 
             svc.AddSingleton<ILmOtsKeyPairFactory, LmOtsKeyPairFactory>();
             svc.AddSingleton<ILmsKeyPairFactory, LmsKeyPairFactory>();
