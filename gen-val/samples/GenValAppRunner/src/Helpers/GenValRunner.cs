@@ -36,6 +36,35 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp.Helpers
             {
                 switch (genValMode)
                 {
+                    case GenValMode.Check:
+                        {
+                            FileDirectory = Path.GetDirectoryName(parsedParameters.CapabilitiesFile.FullName);
+
+                            var capabilitiesFile = parsedParameters.CapabilitiesFile.FullName;
+                            var result = RunChecker(capabilitiesFile);
+
+                            if (result.Success)
+                            {
+                                return (int)result.StatusCode;
+                            }
+
+                            var outputDirPath = Path.GetDirectoryName(capabilitiesFile);
+                            var errorMsg = string.Join(", ", result.ErrorMessage);
+
+                            // Write out the error file
+                            FileService.WriteFile(
+                                Path.Combine(outputDirPath, "error.txt"),
+                                errorMsg,
+                                true);
+
+                            errorMessage = $"ERROR! Validating Capabilities for {capabilitiesFile}: {errorMsg}";
+                            Console.Error.WriteLine(errorMessage);
+                            Program.Logger.Error($"Status Code: {result.StatusCode}");
+                            Program.Logger.Error(errorMessage);
+                            ErrorLogger.LogError(result.StatusCode, "checker", errorMessage, FileDirectory);
+                            return (int)result.StatusCode;
+                        }
+
                     case GenValMode.Generate:
                         {
                             FileDirectory = Path.GetDirectoryName(parsedParameters.RegistrationFile.FullName);
@@ -128,6 +157,16 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp.Helpers
                 ErrorLogger.LogError(StatusCode.Exception, "driver", ex.Message, FileDirectory);
                 return (int)StatusCode.Exception;
             }
+        }
+
+        /// <summary>
+        /// Run Validation of the algorithm capabilies.
+        /// </summary>
+        public ParameterCheckResponse RunChecker(string capabilitiesFile)
+        {
+            var checker = _scope.Resolve<IParameterChecker>();
+            var result = checker.CheckParameters(new ParameterCheckRequest(FileService.ReadFile(capabilitiesFile)));
+            return result;
         }
 
         /// <summary>

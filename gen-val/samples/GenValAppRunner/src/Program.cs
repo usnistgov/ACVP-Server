@@ -92,6 +92,9 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
 
             switch (runningOptions.GenValMode)
             {
+                case GenValMode.Check:
+                    filePath = parsedParameters.CapabilitiesFile.FullName;
+                    break;
                 case GenValMode.Generate:
                     filePath = parsedParameters.RegistrationFile.FullName;
                     break;

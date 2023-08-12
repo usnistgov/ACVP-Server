@@ -3,6 +3,7 @@
     public enum GenValMode
     {
         Unset,
+        Check,
         Generate,
         Validate
     }

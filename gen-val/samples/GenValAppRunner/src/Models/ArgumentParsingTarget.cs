@@ -5,9 +5,13 @@ using System.IO;
 namespace NIST.CVP.ACVTS.Generation.GenValApp.Models
 {
     [DistinctGroupsCertification("g", "a,b",
-        Description = "(g) - used to indicate generation, (a,b) - used to indicate validation")]
+        Description = "(c) - used to indicate capabilities checker, (g) - used to indicate generation, (a,b) - used to indicate validation")]
     public class ArgumentParsingTarget
     {
+        [FileArgument('c', "capabilitiesFile", FileMustExist = true, Optional = true,
+            Description = "Specify the capabilities file to check parameter")]
+        public FileInfo CapabilitiesFile { get; set; }
+
         [FileArgument('g', "generationRequestFile", FileMustExist = true, Optional = true,
             Description = "Specify the test vector generation registration file")]
         public FileInfo RegistrationFile { get; set; }
