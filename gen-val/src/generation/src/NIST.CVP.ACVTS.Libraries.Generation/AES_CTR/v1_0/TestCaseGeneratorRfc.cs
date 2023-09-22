@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CTR.v1_0
             // if the registration allows for partial blocks
             if (group.PayloadLength.ContainsValueOtherThan(blockSize))
             {
-                var nonBlockValues = group.PayloadLength.GetValues(10).ToList();
+                var nonBlockValues = group.PayloadLength.GetRandomValues(10).ToList();
                 _chosenPayloadLens.AddRangeIfNotNullOrEmpty(nonBlockValues);
             }
 

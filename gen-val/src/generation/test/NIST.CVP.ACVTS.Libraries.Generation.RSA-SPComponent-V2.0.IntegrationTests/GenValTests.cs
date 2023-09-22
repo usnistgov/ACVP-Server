@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SPComponent_V2_0.IntegrationTe
                 Revision = Revision,
                 IsSample = true,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard, PrivateKeyModes.Crt },
-                Modulus = new [] { 2048, 3072, 4096 },
+                Modulo = new [] { 2048, 3072, 4096 },
                 PublicExponentMode = PublicExponentModes.Random
             };
 
@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SPComponent_V2_0.IntegrationTe
                 Revision = Revision,
                 IsSample = false,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard, PrivateKeyModes.Crt },
-                Modulus = new [] { 2048, 3072, 4096 },
+                Modulo = new [] { 2048, 3072, 4096 },
                 PublicExponentMode = PublicExponentModes.Fixed,
                 PublicExponentValue = new BitString("010001")
             };

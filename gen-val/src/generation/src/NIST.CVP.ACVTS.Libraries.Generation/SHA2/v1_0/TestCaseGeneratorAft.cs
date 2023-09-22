@@ -62,22 +62,21 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
         private ShuffleQueue<int> DetermineMessageLength(MathDomain messageLength, int blockSize)
         {
             var list = new List<int>();
-            messageLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var minMax = messageLength.GetDomainMinMax();
 
             list.Add(minMax.Minimum);
             // below block size message lengths
-            list.AddRangeIfNotNullOrEmpty(messageLength.GetValues(x => (x < blockSize), blockSize / 3, true));
+            list.AddRangeIfNotNullOrEmpty(messageLength.GetRandomValues(x => (x < blockSize), blockSize / 3));
             // block size
             if (messageLength.IsWithinDomain(blockSize))
             {
                 list.Add(blockSize);
             }
             // above block size message lengths
-            list.AddRangeIfNotNullOrEmpty(messageLength.GetValues(x => (x > blockSize), blockSize / 3, true));
+            list.AddRangeIfNotNullOrEmpty(messageLength.GetRandomValues(x => (x > blockSize), blockSize / 3));
             // message lengths that are greater than blocksize*x - 32 (for small block size) or 64 (for large block size)
             list.AddRangeIfNotNullOrEmpty(
-                messageLength.GetValues(x => (x > blockSize) && x % blockSize < blockSize / 16, blockSize / 3, true));
+                messageLength.GetRandomValues(x => (x > blockSize) && x % blockSize < blockSize / 16, blockSize / 3));
 
             // above block size message lengths 
             list.Add(minMax.Maximum);

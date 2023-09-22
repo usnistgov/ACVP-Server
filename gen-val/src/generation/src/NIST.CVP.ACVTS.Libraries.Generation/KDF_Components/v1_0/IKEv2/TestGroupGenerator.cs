@@ -94,10 +94,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv2
                 max
             };
 
-            domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
             // If we can get some other value, use it, otherwise use the min again
-            var otherValue = domain.GetValues(w => w != min && w != max, 1, true);
+            var otherValue = domain.GetRandomValues(w => w != min && w != max, 1);
             var enumerable = otherValue.ToList();
             values.Add(enumerable.Any() ? enumerable.First() : min);
 

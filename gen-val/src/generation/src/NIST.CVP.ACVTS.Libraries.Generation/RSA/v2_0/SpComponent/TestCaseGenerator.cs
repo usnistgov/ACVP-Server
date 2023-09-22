@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
             
             var rsaParams = new RsaSignaturePrimitiveParameters()
             {
-                Modulo = group.Modulo,
+                Modulus = group.Modulo,
                 KeyFormat = group.KeyMode,
                 PublicExponent = group.PublicExponentMode == PublicExponentModes.Fixed ? group.PublicExponent : null,
                 Disposition = reason.GetName()

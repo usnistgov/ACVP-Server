@@ -1,13 +1,13 @@
-﻿{
+{
 	"ApplicationName": "Gen/Val runner",
     "EnvironmentConfig": {
-      "Name": "TC"
+      "Name": "tc"
     },
 
     "OrleansConfig": {
         "OrleansNodeConfig": [
           {
-            "HostName":  "172.17.42.183",
+            "HostName":  "10.208.79.5",
             "MaxConcurrentWork" : 6
           }
         ],

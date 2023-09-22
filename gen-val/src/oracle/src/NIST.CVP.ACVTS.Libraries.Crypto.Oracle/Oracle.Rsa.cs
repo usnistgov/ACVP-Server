@@ -169,7 +169,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             var keyParam = new RsaKeyParameters
             {
                 KeyFormat = param.KeyFormat,
-                Modulus = param.Modulo,
+                Modulus = param.Modulus,
                 PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                 PublicExponentMode = param.PublicExponent == null ? PublicExponentModes.Random : PublicExponentModes.Fixed,
                 PublicExponent = param.PublicExponent,
@@ -199,7 +199,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             var keyParam = new RsaKeyParameters
             {
                 KeyFormat = param.KeyFormat,
-                Modulus = param.Modulo,
+                Modulus = param.Modulus,
                 PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
                 PublicExponentMode = param.PublicExponent == null ? PublicExponentModes.Random : PublicExponentModes.Fixed,
                 PublicExponent = param.PublicExponent,

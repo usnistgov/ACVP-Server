@@ -10,7 +10,7 @@
     <GenValPackageVersionMinor>0</GenValPackageVersionMinor>
     <GenValPackageVersionPatch>0</GenValPackageVersionPatch>
 
-    <GenValSuffix>lms-remove-non-native</GenValSuffix>
+    <GenValSuffix></GenValSuffix>
 
     <GenValFormattedSuffix Condition=" '$(GenValSuffix)' == '' "></GenValFormattedSuffix>
     <GenValFormattedSuffix Condition=" '$(GenValSuffix)' != '' ">-$(GenValSuffix)</GenValFormattedSuffix>

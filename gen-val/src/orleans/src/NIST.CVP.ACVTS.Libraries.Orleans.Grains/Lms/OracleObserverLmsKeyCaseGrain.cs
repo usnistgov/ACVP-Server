@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
@@ -35,7 +36,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Lms
 
         protected override async Task DoWorkAsync()
         {
-            var seed = _entropyProvider.GetEntropy(256);
+            // Seed should be 192 bits (24 bytes) for M=24, 256 bits (32 bytes) for M=32
+            var seed = _entropyProvider.GetEntropy(AttributesHelper.GetLmsAttribute(_param.LmsMode).M * 8);
             var i = _entropyProvider.GetEntropy(128);
 
             var lmsKey = _lmsKeyPairFactory.GetKeyPair(_param.LmsMode, _param.LmOtsMode, i.ToBytes(), seed.ToBytes());

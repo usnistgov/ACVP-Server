@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Math.JsonConverters;
 
 namespace NIST.CVP.ACVTS.Libraries.Math.Domain
@@ -27,21 +28,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         public MathDomain AddSegment(IDomainSegment domainSegment)
         {
             _domainSegments.Add(domainSegment);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sets get value option for all <see cref="IDomainSegment"/>s
-        /// </summary>
-        /// <param name="option">The option to set</param>
-        /// <returns>Returns itself for fluent API</returns>
-        public MathDomain SetRangeOptions(RangeDomainSegmentOptions option)
-        {
-            foreach (var domainSegment in _domainSegments)
-            {
-                domainSegment.SegmentValueOptions = option;
-            }
 
             return this;
         }
@@ -175,40 +161,65 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         /// Gets the number of values specified from each segment (or up to the upper limit of the segment)
         /// </summary>
         /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
+        /// <param name="returnSequential">Return values will be sequential <see cref="IDomainSegment"/></param>
         /// <returns></returns>
-        public IEnumerable<int> GetValues(int numberOfValuesPerSegment)
+        public IEnumerable<int> GetSequentialValues(int numberOfValuesPerSegment)
         {
             List<int> values = new List<int>();
 
             foreach (var domainSegment in _domainSegments)
             {
-                values.AddRange(domainSegment.GetValues(numberOfValuesPerSegment));
+                values.AddRange(domainSegment.GetSequentialValues(numberOfValuesPerSegment));
             }
 
             return values
                 .Distinct()
                 .OrderBy(ob => ob);
         }
-
-        public IEnumerable<int> GetValues(Func<int, bool> condition, int numberOfTotalValues, bool randomOrder)
+        
+        /// <summary>
+        /// Gets the number of values specified from each segment (or up to the upper limit of the segment)
+        /// </summary>
+        /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
+        /// <param name="returnSequential">Return values will be sequential <see cref="IDomainSegment"/></param>
+        /// <returns></returns>
+        public IEnumerable<int> GetRandomValues(int numberOfValuesPerSegment)
         {
-            var potentialOptions = new List<int>();
+            List<int> values = new List<int>();
 
             foreach (var domainSegment in _domainSegments)
             {
-                potentialOptions.AddRange(domainSegment.GetValues(condition, numberOfTotalValues));
+                values.AddRange(domainSegment.GetRandomValues(numberOfValuesPerSegment));
             }
 
-            if (randomOrder)
-            {
-                return potentialOptions.Distinct().OrderBy(a => Guid.NewGuid()).Take(numberOfTotalValues);
-            }
-            else
-            {
-                return potentialOptions.Distinct().OrderBy(a => a).Take(numberOfTotalValues);
-            }
+            return values.Shuffle().Distinct();
         }
 
+        public IEnumerable<int> GetRandomValues(Func<int, bool> condition, int numberOfTotalValues)
+        {
+            var values = new List<int>();
+
+            foreach (var domainSegment in _domainSegments)
+            {
+                values.AddRange(domainSegment.GetRandomValues(condition, numberOfTotalValues));
+            }
+
+            // Add shuffle to distinct
+            return values.Shuffle().Distinct().Take(numberOfTotalValues);
+        }
+
+        public IEnumerable<int> GetSequentialValues(Func<int, bool> condition, int numberOfTotalValues)
+        {
+            var values = new List<int>();
+            
+            foreach (var domainSegment in _domainSegments)
+            {
+                values.AddRange(domainSegment.GetSequentialValues(condition, numberOfTotalValues));
+            }
+
+            return values.Distinct().OrderBy(a => a).Take(numberOfTotalValues);
+        }
+        
         /// <summary>
         /// Gets the number of values specified from each <see cref="IDomainSegment"/> - 
         /// or up to the upper limit of the segment.
@@ -219,7 +230,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         /// <param name="max">The maximum value to return</param>
         /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
         /// <returns></returns>        
-        public IEnumerable<int> GetValues(int min, int max, int numberOfValuesPerSegment)
+        public IEnumerable<int> GetSequentialValues(int min, int max, int numberOfValuesPerSegment)
         {
             if (min > max)
             {
@@ -230,14 +241,41 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
 
             foreach (var domainSegment in _domainSegments)
             {
-                values.AddRange(domainSegment.GetValues(min, max, numberOfValuesPerSegment));
+                values.AddRange(domainSegment.GetSequentialValues(min, max, numberOfValuesPerSegment));
             }
 
             return values
                 .Distinct()
                 .OrderBy(ob => ob);
         }
+        
+        /// <summary>
+        /// Gets the number of values specified from each <see cref="IDomainSegment"/> - 
+        /// or up to the upper limit of the segment.
+        ///
+        /// Values are restricted to the <see cref="min"/> and <see cref="maxExclusive"/>
+        /// </summary>
+        /// <param name="min">The minimum value to return</param>
+        /// <param name="max">The maximum value to return</param>
+        /// <param name="numberOfValuesPerSegment">Max number of values to get per <see cref="IDomainSegment"/></param>
+        /// <returns></returns>        
+        public IEnumerable<int> GetRandomValues(int min, int max, int numberOfValuesPerSegment)
+        {
+            if (min > max)
+            {
+                throw new ArgumentException($"{nameof(min)} must be less than or equal to {nameof(max)}");
+            }
 
+            List<int> values = new List<int>();
+
+            foreach (var domainSegment in _domainSegments)
+            {
+                values.AddRange(domainSegment.GetRandomValues(min, max, numberOfValuesPerSegment));
+            }
+
+            return values.Shuffle().Distinct();
+        }
+        
         public MathDomain GetDeepCopy()
         {
             var domain = new MathDomain();

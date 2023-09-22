@@ -20,11 +20,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
 
             foreach (var capability in parameters.Capabilities)
             {
-                capability.IterationCount.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.KeyLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.PasswordLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.SaltLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
                 var hmacAlgCount = capability.HashAlg.Length;
 
                 var iterationCounts = GetIterationCounts(capability.IterationCount, parameters.IsSample);
@@ -73,14 +68,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var smallValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
-                _baseTestCasesPerGroup - _highIterationsToPullPerGroup, true);
+            var smallValuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
+                _baseTestCasesPerGroup - _highIterationsToPullPerGroup);
             valuesSelected.AddRange(smallValuesPulled);
 
             if (!isSample)
             {
-                var largeValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000,
-                    _highIterationsToPullPerGroup, true);
+                var largeValuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000,
+                    _highIterationsToPullPerGroup);
 
                 valuesSelected.AddRange(largeValuesPulled);
             }
@@ -93,12 +88,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v <= 2048,
-                _baseTestCasesPerGroup - _highIterationsToPullPerGroup, true);
+            var valuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v <= 2048,
+                _baseTestCasesPerGroup - _highIterationsToPullPerGroup);
             valuesSelected.AddRange(valuesPulled);
 
-            var largeValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v > 2048,
-                _highIterationsToPullPerGroup, true);
+            var largeValuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v > 2048,
+                _highIterationsToPullPerGroup);
             valuesSelected.AddRange(largeValuesPulled);
 
             return new ShuffleQueue<int>(valuesSelected);
@@ -109,8 +104,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum,
-                _baseTestCasesPerGroup, true);
+            var valuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum,
+                _baseTestCasesPerGroup);
             valuesSelected.AddRange(valuesPulled);
 
             return new ShuffleQueue<int>(valuesSelected);

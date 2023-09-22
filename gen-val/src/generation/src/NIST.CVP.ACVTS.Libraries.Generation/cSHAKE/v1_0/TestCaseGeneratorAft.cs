@@ -45,8 +45,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
                 minMax.Minimum,
                 minMax.Maximum
             };
-            messageLengths.AddRange(inputAllowed.GetValues(x => x <= _capacity, NumberOfTestCasesToGenerate / 2, true));
-            messageLengths.AddRange(inputAllowed.GetValues(x => x > _capacity, NumberOfTestCasesToGenerate / 2, true));
+            messageLengths.AddRange(inputAllowed.GetRandomValues(x => x <= _capacity, NumberOfTestCasesToGenerate / 2));
+            messageLengths.AddRange(inputAllowed.GetRandomValues(x => x > _capacity, NumberOfTestCasesToGenerate / 2));
 
             // For every input length, just pick a random output length (min/max always included)
             var outputAllowed = group.OutputLength.GetDeepCopy();
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.v1_0
                 outputMinMax.Maximum
             };
 
-            outputLengths.AddRange(outputAllowed.GetValues(x => true, NumberOfTestCasesToGenerate, true));
+            outputLengths.AddRange(outputAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate));
 
             var messageLengthQueue = new ShuffleQueue<int>(messageLengths);
             var outputLengthQueue = new ShuffleQueue<int>(outputLengths);

@@ -29,8 +29,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             var messageLengths = group.MessageLengths.GetDeepCopy();
-            messageLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
             var minMax = messageLengths.GetDomainMinMax();
 
             var lengths = new List<int>
@@ -42,10 +40,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
             var rate = 1600 - (group.HashFunction.OutputLen * 2);
 
             // Pull all valid values up to 'rate'
-            lengths.AddRangeIfNotNullOrEmpty(messageLengths.GetValues(x => x <= rate, rate, true));
+            lengths.AddRangeIfNotNullOrEmpty(messageLengths.GetRandomValues(x => x <= rate, rate));
 
             // Pull 100 values greater than 'rate'
-            lengths.AddRangeIfNotNullOrEmpty(messageLengths.GetValues(x => x > rate, 100, true));
+            lengths.AddRangeIfNotNullOrEmpty(messageLengths.GetRandomValues(x => x > rate, 100));
 
             // Remove duplicated values
             lengths = lengths.Distinct().ToList();

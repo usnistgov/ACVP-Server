@@ -105,10 +105,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CMAC.v1_0
 
         private void DetermineLengths(Capability capability, ref int[] msgLens, ref int[] macLens)
         {
-            // Set MathDomain options to get randomly from the potential sequence
-            capability.MsgLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            capability.MacLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
             // Get the min/max of the sequences
             var msgMinMax = capability.MsgLen.GetDomainMinMaxAsEnumerable();
             var macMinMax = capability.MacLen.GetDomainMinMaxAsEnumerable();
@@ -118,8 +114,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CMAC.v1_0
             capability.MacLen.SetMaximumAllowedValue(1024 * 10);
 
             // Get random lengths to test with, ensuring not equal to the min/max already grabbed.
-            var randomMsgLengths = capability.MsgLen.GetValues(3).Where(w => !msgMinMax.Contains(w)).Take(1);
-            var randomMacLengths = capability.MacLen.GetValues(3).Where(w => !macMinMax.Contains(w)).Take(1);
+            var randomMsgLengths = capability.MsgLen.GetRandomValues(3).Where(w => !msgMinMax.Contains(w)).Take(1);
+            var randomMacLengths = capability.MacLen.GetRandomValues(3).Where(w => !macMinMax.Contains(w)).Take(1);
 
             List<int> msgLensList = new List<int>();
             msgLensList.AddRangeIfNotNullOrEmpty(msgMinMax);

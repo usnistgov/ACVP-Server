@@ -34,7 +34,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
             var param = new RsaSignaturePrimitiveParameters
             {
                 KeyFormat = group.KeyFormat,
-                Modulo = group.Modulo,
+                Modulus = group.Modulus,
                 PublicExponent = group.PublicExponentMode == PublicExponentModes.Fixed ? group.PublicExponent : null
             };
 
@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
 
                 var testCase = new TestCase
                 {
-                    Signature = result.Signature?.PadToModulusMsb(group.Modulo),
+                    Signature = result.Signature?.PadToModulusMsb(group.Modulus),
                     Key = result.Key,
                     Message = result.Message,
                     TestPassed = result.ShouldPass     // Failure test if m > N, meaning it can't be signed

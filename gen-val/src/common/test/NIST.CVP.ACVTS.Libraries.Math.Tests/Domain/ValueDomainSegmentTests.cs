@@ -34,11 +34,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             if (originalValue > maxValue)
             {
-                Assert.AreEqual(maxValue, _subject.GetValues(1).ToList()[0]);
+                Assert.AreEqual(maxValue, _subject.GetSequentialValues(1).ToList()[0]);
             }
             else
             {
-                Assert.AreEqual(originalValue, _subject.GetValues(1).ToList()[0]);
+                Assert.AreEqual(originalValue, _subject.GetSequentialValues(1).ToList()[0]);
             }
         }
 
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         {
             _subject = new ValueDomainSegment(value);
 
-            var result = _subject.GetValues(1).ToList();
+            var result = _subject.GetSequentialValues(1).ToList();
 
             Assert.AreEqual(value, result[0]);
         }
@@ -77,7 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         {
             _subject = new ValueDomainSegment(value);
 
-            var result = _subject.GetValues(5).ToList();
+            var result = _subject.GetSequentialValues(5).ToList();
 
             Assert.AreEqual(value, result[0], nameof(value));
             Assert.AreEqual(1, result.Count, nameof(result.Count));
@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         {
             _subject = new ValueDomainSegment(value);
 
-            var result = _subject.GetValues(v => v > 0, 1).ToList();
+            var result = _subject.GetSequentialValues(v => v > 0, 1).ToList();
 
             Assert.AreEqual(resultShouldHaveContent, result.Count != 0);
 
@@ -114,7 +114,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         {
             _subject = new ValueDomainSegment(value);
 
-            var result = _subject.GetValues(minimum, maximum, 1).ToList();
+            var result = _subject.GetSequentialValues(minimum, maximum, 1).ToList();
 
             Assert.AreEqual(expectItemReturned, result.Count == 1);
         }

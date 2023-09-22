@@ -32,40 +32,36 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.ANSIX942
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             var keyLengths = group.KeyLen.GetDeepCopy();
-            keyLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var keyLenValues = keyLengths.GetDomainMinMaxAsEnumerable().ToList();
 
             // Outputs over the HashAlg.OutputLen will cause the loop to happen multiple times (and counters advance), so we want to make sure that exists when possible
-            keyLenValues.AddRangeIfNotNullOrEmpty(keyLengths.GetValues(x => x <= group.HashAlg.OutputLen, 18, true));
-            keyLenValues.AddRangeIfNotNullOrEmpty(keyLengths.GetValues(x => x > group.HashAlg.OutputLen, 30, true));
+            keyLenValues.AddRangeIfNotNullOrEmpty(keyLengths.GetRandomValues(x => x <= group.HashAlg.OutputLen, 18));
+            keyLenValues.AddRangeIfNotNullOrEmpty(keyLengths.GetRandomValues(x => x > group.HashAlg.OutputLen, 30));
             _keyLen = new ShuffleQueue<int>(keyLenValues);
 
             var zzLengths = group.ZzLen.GetDeepCopy();
-            zzLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var zzLenValues = zzLengths.GetDomainMinMaxAsEnumerable().ToList();
 
             // Any values are fine
-            zzLenValues.AddRangeIfNotNullOrEmpty(zzLengths.GetValues(x => true, 48, true));
+            zzLenValues.AddRangeIfNotNullOrEmpty(zzLengths.GetRandomValues(x => true, 48));
             _zzLen = new ShuffleQueue<int>(zzLenValues);
 
             if (group.KdfType == AnsiX942Types.Concat)
             {
                 var otherLengths = group.OtherInfoLen.GetDeepCopy();
-                otherLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
                 var otherValues = otherLengths.GetDomainMinMaxAsEnumerable().ToList();
 
                 // Any values are fine
-                otherValues.AddRangeIfNotNullOrEmpty(otherLengths.GetValues(x => true, 48, true));
+                otherValues.AddRangeIfNotNullOrEmpty(otherLengths.GetRandomValues(x => true, 48));
                 _otherInfoLen = new ShuffleQueue<int>(otherValues);
             }
             else
             {
                 var suppLengths = group.SuppInfoLen.GetDeepCopy();
-                suppLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
                 var suppValues = suppLengths.GetDomainMinMaxAsEnumerable().ToList();
 
                 // Any values are fine
-                suppValues.AddRangeIfNotNullOrEmpty(suppLengths.GetValues(x => true, 48, true));
+                suppValues.AddRangeIfNotNullOrEmpty(suppLengths.GetRandomValues(x => true, 48));
                 _suppInfoLen = new ShuffleQueue<int>(suppValues);
             }
 

@@ -15,11 +15,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = Array.Empty<string>();
         public PrivateKeyModes[] KeyFormat { get; set; }
-        public int[] Modulus { get; set; }
+        
+        [JsonProperty(PropertyName = "modulo")]
+        public int[] Modulo { get; set; }
         
         [JsonProperty(PropertyName = "pubExpMode")]
         public PublicExponentModes PublicExponentMode { get; set; }
-
+        
         [JsonProperty(PropertyName = "fixedPubExp")]
         public BitString PublicExponentValue = null;
     }

@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
 
         public BitString N
         {
-            get => new BitString(Key.PubKey.N, ParentGroup?.Modulo ?? 0);
+            get => new BitString(Key.PubKey.N, ParentGroup?.Modulus ?? 0);
             set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 

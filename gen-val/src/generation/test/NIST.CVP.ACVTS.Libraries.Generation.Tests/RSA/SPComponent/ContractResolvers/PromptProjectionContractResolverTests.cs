@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent.ContractReso
 
             Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
             Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Modulo, newTg.Modulo, nameof(newTg.Modulo));
+            Assert.AreEqual(tg.Modulus, newTg.Modulus, nameof(newTg.Modulus));
             Assert.AreEqual(tg.KeyFormat, newTg.KeyFormat, nameof(newTg.KeyFormat));
         }
 

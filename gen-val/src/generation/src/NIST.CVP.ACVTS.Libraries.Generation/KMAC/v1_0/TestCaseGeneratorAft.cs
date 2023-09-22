@@ -45,9 +45,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.v1_0
                 minMax.Maximum
             };
 
-            inputAllowed.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            messageLengths.AddRange(inputAllowed.GetValues(x => x <= _capacity, NumberOfTestCasesToGenerate / 2, true));
-            messageLengths.AddRange(inputAllowed.GetValues(x => x > _capacity, NumberOfTestCasesToGenerate / 2, true));
+            messageLengths.AddRange(inputAllowed.GetRandomValues(x => x <= _capacity, NumberOfTestCasesToGenerate / 2));
+            messageLengths.AddRange(inputAllowed.GetRandomValues(x => x > _capacity, NumberOfTestCasesToGenerate / 2));
             #endregion MessageLengths
 
             #region MacLengths
@@ -59,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.v1_0
                 macMinMax.Minimum,
                 macMinMax.Maximum
             };
-            macLengths.AddRange(macAllowed.GetValues(x => true, NumberOfTestCasesToGenerate, true));
+            macLengths.AddRange(macAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate));
             #endregion MacLengths
 
             #region KeyLengths
@@ -76,10 +75,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.v1_0
             // key bits" in order to hit the block aligned test... odd.
             // See Sha3DerivedHelpersTests.ShouldGetBlockAlignedDataWithSpecificKeyLengthForKmac tests for some more detail.
             keyLengths.AddRangeIfNotNullOrEmpty(@group.DigestSize == 128
-                ? keyAllowed.GetValues(x => x == 131 % 136, blockAlignedTestCasesToGenerate, true)
-                : keyAllowed.GetValues(x => x == 163 % 168, blockAlignedTestCasesToGenerate, true));
+                ? keyAllowed.GetRandomValues(x => x == 131 % 136, blockAlignedTestCasesToGenerate)
+                : keyAllowed.GetRandomValues(x => x == 163 % 168, blockAlignedTestCasesToGenerate));
 
-            keyLengths.AddRange(keyAllowed.GetValues(x => true, NumberOfTestCasesToGenerate - blockAlignedTestCasesToGenerate, true));
+            keyLengths.AddRange(keyAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate - blockAlignedTestCasesToGenerate));
             #endregion KeyLengths
 
             var macLengthQueue = new ShuffleQueue<int>(macLengths);

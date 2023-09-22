@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
             var parameters = new Parameters
             {
                 IsSample = true,
-                Modulus = modulus,
+                Modulo = modulus,
                 KeyFormat = new [] { PrivateKeyModes.Standard },
             };
 
@@ -38,14 +38,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
             var parameters = new Parameters
             {
                 IsSample = true,
-                Modulus = new [] { 2048 },
+                Modulo = new [] { 2048 },
                 KeyFormat = keyFormats,
             };
 
             var tgGen = new TestGroupGenerator();
             var groups = await tgGen.BuildTestGroupsAsync(parameters);
             
-            Assert.AreEqual(keyFormats.Length * parameters.Modulus.Length, groups.Count, "keyFormats");
+            Assert.AreEqual(keyFormats.Length * parameters.Modulo.Length, groups.Count, "keyFormats");
         }
     }
 }

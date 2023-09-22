@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
     public class TestGroup : ITestGroup<TestGroup, TestCase>
     {
         public int TestGroupId { get; set; }
-        public int Modulo { get; set; } = 2048;
+        public int Modulus { get; set; } = 2048;
         public PrivateKeyModes KeyFormat { get; set; }
         public string TestType { get; set; }
 
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
             switch (name.ToLower())
             {
                 case "mod":
-                    Modulo = int.Parse(value);
+                    Modulus = int.Parse(value);
                     return true;
             }
 

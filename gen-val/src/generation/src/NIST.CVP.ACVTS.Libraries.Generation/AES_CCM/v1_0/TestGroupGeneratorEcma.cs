@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.v1_0
             var testGroups = new List<TestGroup>();
 
             // AAD is required (by ParameterValidator) to be on the byte boundaries so there are only 19 possible values here
-            var aadLens = parameters.AadLen.GetDeepCopy().GetValues(aad => aad >= AAD_MIN_LEN && aad <= AAD_MAX_LEN && aad % 8 == 0, 20, false).ToArray();
+            var aadLens = parameters.AadLen.GetDeepCopy().GetRandomValues(aad => aad >= AAD_MIN_LEN && aad <= AAD_MAX_LEN && aad % 8 == 0, 20).ToArray();
 
             if (aadLens.Length == 0)
             {

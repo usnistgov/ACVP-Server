@@ -15,11 +15,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
 
             foreach (var format in parameters.KeyFormat)
             {
-                foreach (var mod in parameters.Modulus)
+                foreach (var modulus in parameters.Modulo)
                 {
                     groups.Add(new TestGroup
                     {
-                        Modulo = mod,
+                        Modulo = modulus,
                         KeyMode = format,
                         TestType = TEST_TYPE,
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)

@@ -51,9 +51,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TLSv13.RFC8446
 
             var values = new List<int>();
 
-            values.AddRangeIfNotNullOrEmpty(domain.GetValues(v => v < 512, 5, false));
-            values.AddRangeIfNotNullOrEmpty(domain.GetValues(v => v < 1024, 2, false));
-            values.AddRangeIfNotNullOrEmpty(domain.GetValues(1));
+            values.AddRangeIfNotNullOrEmpty(domain.GetRandomValues(v => v < 512, 5));
+            values.AddRangeIfNotNullOrEmpty(domain.GetRandomValues(v => v < 1024, 2));
+            values.AddRangeIfNotNullOrEmpty(domain.GetRandomValues(1));
 
             return values.Shuffle().Take(5).ToList();
         }

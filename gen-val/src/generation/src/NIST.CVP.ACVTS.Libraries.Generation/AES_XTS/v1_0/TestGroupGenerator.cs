@@ -13,7 +13,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v1_0
         public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var testGroups = new List<TestGroup>();
-            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
             var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
 
             foreach (var function in parameters.Direction)
@@ -24,8 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v1_0
                     {
                         var testPtLens = new List<int>();
 
-                        testPtLens.AddRange(parameters.PayloadLen.GetValues(w => w % 128 == 0 && w != minMaxPtLen.Maximum, 2, true));
-                        testPtLens.AddRange(parameters.PayloadLen.GetValues(w => w % 128 != 0 && w != minMaxPtLen.Maximum, 2, true));
+                        testPtLens.AddRange(parameters.PayloadLen.GetRandomValues(w => w % 128 == 0 && w != minMaxPtLen.Maximum, 2));
+                        testPtLens.AddRange(parameters.PayloadLen.GetRandomValues(w => w % 128 != 0 && w != minMaxPtLen.Maximum, 2));
                         testPtLens.Add(minMaxPtLen.Maximum);
 
                         foreach (var ptLen in testPtLens)

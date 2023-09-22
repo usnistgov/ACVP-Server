@@ -42,9 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
                 new [] { minMax.Minimum, minMax.Maximum },
                 new [] { minMax.Maximum, minMax.Minimum, minMax.Minimum }
             };
-
-            inputAllowed.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
+            
             // Pick 1-10 tuples of random lengths mixing large and small
             // Large vs small doesn't matter for TupleHash as the messages are appended together for hashing,
             // but this helps us make sure we don't explode with super-sized messages
@@ -56,10 +54,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
                 var tuple = new List<int>();
 
                 // Small message lengths (add all less than or equal to capacity)
-                tuple.AddRange(inputAllowed.GetValues(x => x <= _capacity, smallTuples, true));
+                tuple.AddRange(inputAllowed.GetRandomValues(x => x <= _capacity, smallTuples));
 
                 // Large message lengths (add a random selection greater than capacity)
-                tuple.AddRange(inputAllowed.GetValues(x => x > _capacity, largeTuples, true));
+                tuple.AddRange(inputAllowed.GetRandomValues(x => x > _capacity, largeTuples));
 
                 messageLengths.Add(tuple.Shuffle().ToArray());
 
@@ -74,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
                 outputMinMax.Maximum
             };
 
-            outputLengths.AddRange(outputAllowed.GetValues(x => true, NumberOfTestCasesToGenerate, true));
+            outputLengths.AddRange(outputAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate));
 
             var messageLengthQueue = new ShuffleQueue<int[]>(messageLengths);
             var outputLengthQueue = new ShuffleQueue<int>(outputLengths);

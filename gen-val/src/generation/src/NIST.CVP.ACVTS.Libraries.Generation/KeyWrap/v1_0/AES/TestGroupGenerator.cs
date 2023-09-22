@@ -40,10 +40,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.v1_0.AES
             // We don't want to generate test groups that have a potential infinite upper bound,
             // set to a maximum value to generate.
             parameters.PayloadLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
-            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
             var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
-            var ptLensAvailableToTest = parameters.PayloadLen.GetValues(10).ToList();
+            var ptLensAvailableToTest = parameters.PayloadLen.GetRandomValues(10).ToList();
             
             List<int> testPtLens = new List<int>();
             // Get values that aren't aligned w/ AES' 128-bit block size

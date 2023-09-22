@@ -69,14 +69,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var smallValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
-                NumberOfTestCasesToGenerate - 5, true);
+            var smallValuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v < 100000,
+                NumberOfTestCasesToGenerate - 5);
             valuesSelected.AddRange(smallValuesPulled);
 
             if (!isSample)
             {
-                var largeValuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000,
-                    5, true);
+                var largeValuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum && v >= 100000,
+                    5);
 
                 valuesSelected.AddRange(largeValuesPulled);
             }
@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.PBKDF
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);
+            var valuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2);
             valuesSelected.AddRange(valuesPulled);
 
             return new ShuffleQueue<int>(valuesSelected);

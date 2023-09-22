@@ -5,6 +5,6 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures
 {
     public interface IMaskFactory
     {
-        IMaskFunction GetMaskInstance(PssMaskTypes maskType, HashFunction hashFunction);
+        IMaskFunction GetMaskInstance(PssMaskTypes maskType, HashFunction hashFunction, int outputLen);
     }
 }

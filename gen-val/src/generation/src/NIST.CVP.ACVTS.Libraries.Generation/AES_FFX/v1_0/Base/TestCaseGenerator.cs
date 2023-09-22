@@ -58,9 +58,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
             }
             
             // Prefer smaller values for testing
-            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableDataLengths.Count, true));
-            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableDataLengths.Count, true));
-            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetValues(NumberOfTestCasesToGenerate - testableDataLengths.Count));
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetRandomValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableDataLengths.Count));
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetRandomValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableDataLengths.Count));
+            testableDataLengths.AddRangeIfNotNullOrEmpty(dataLengthDomain.GetRandomValues(NumberOfTestCasesToGenerate - testableDataLengths.Count));
 
             // Load values into ShuffleQueue
             _dataLengths = new ShuffleQueue<int>(testableDataLengths);
@@ -72,9 +72,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_FFX.v1_0.Base
             testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetDomainMinMaxAsEnumerable());
             
             // Prefer smaller values for testing
-            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableTweakLengths.Count, true));
-            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableTweakLengths.Count, true));
-            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetValues(NumberOfTestCasesToGenerate - testableTweakLengths.Count));
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetRandomValues(_ => _ <= 100, NumberOfTestCasesToGenerate - testableTweakLengths.Count));
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetRandomValues(_ => _ <= 1000, NumberOfTestCasesToGenerate - testableTweakLengths.Count));
+            testableTweakLengths.AddRangeIfNotNullOrEmpty(group.TweakLen.GetRandomValues(NumberOfTestCasesToGenerate - testableTweakLengths.Count));
             
             // Load values into ShuffleQueue
             _tweakLengths = new ShuffleQueue<int>(testableTweakLengths);

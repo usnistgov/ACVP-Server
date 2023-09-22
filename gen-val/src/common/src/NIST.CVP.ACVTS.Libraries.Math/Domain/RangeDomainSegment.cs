@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         private readonly IRandom800_90 _random;
         private readonly List<int> _returnedValues = new List<int>();
         private bool _valuesHaveBeenGenerated;
-        private RangeDomainSegmentOptions _segmentValueOptions = RangeDomainSegmentOptions.Sequential;
+        //private RangeDomainSegmentOptions _segmentValueOptions = RangeDomainSegmentOptions.Sequential;
         private RangeMinMax _originalMinMax;
 
         public const int _MAXIMUM_ALLOWED_RETURNS = 12800;
@@ -40,26 +40,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
                 {
                     return (int)availableNumbersToSegment;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Specifies how to retrieve values from the segment
-        /// </summary>
-        public RangeDomainSegmentOptions SegmentValueOptions
-        {
-            get
-            {
-                return _segmentValueOptions;
-            }
-            set
-            {
-                if (_valuesHaveBeenGenerated)
-                {
-                    throw new NotSupportedException(_NOT_SUPPORTED_OPERATION);
-                }
-
-                _segmentValueOptions = value;
             }
         }
 
@@ -120,8 +100,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         public IDomainSegment GetDeepCopy()
         {
             var newDomainSegment = new RangeDomainSegment(_random, _min, _max, _increment);
-            newDomainSegment.SegmentValueOptions = SegmentValueOptions;
-
             return newDomainSegment;
         }
 
@@ -175,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         /// </summary>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public IEnumerable<int> GetValues(int quantity)
+        public IEnumerable<int> GetSequentialValues(int quantity)
         {
             _valuesHaveBeenGenerated = true;
 
@@ -185,20 +163,35 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
 
             for (var i = 0; i < quantityToRetrieve; i++)
             {
-                if (SegmentValueOptions == RangeDomainSegmentOptions.Sequential)
-                {
-                    values.Add(GetNextSequentialValue(i));
-                }
-                else
-                {
-                    values.Add(GetNextRandomValue());
-                }
+                values.Add(GetNextSequentialValue(i));
             }
 
             return values;
         }
 
-        public IEnumerable<int> GetValues(Func<int, bool> condition, int quantity)
+        /// <summary>
+        /// Gets values from the segment up to the quantity. 
+        /// If less than quantity exist in the segment, the maximum amount for the segment is returned..
+        /// </summary>
+        /// <param name="quantity"></param>
+        /// <returns></returns>
+        public IEnumerable<int> GetRandomValues(int quantity)
+        {
+            _valuesHaveBeenGenerated = true;
+
+            int quantityToRetrieve = MaxNumberOfValuesInSegment < quantity ? MaxNumberOfValuesInSegment : quantity;
+
+            List<int> values = new List<int>();
+
+            for (var i = 0; i < quantityToRetrieve; i++)
+            {
+                values.Add(GetNextRandomValue());
+            }
+
+            return values;
+        }
+        
+        public IEnumerable<int> GetSequentialValues(Func<int, bool> condition, int quantity)
         {
             _valuesHaveBeenGenerated = true;
 
@@ -208,15 +201,49 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
                 .Where(x => x >= _min && x <= _max);
 
             // Pick out the number of values needed in whatever pre-specified order was used that meet the condition
-            if (SegmentValueOptions == RangeDomainSegmentOptions.Sequential)
-            {
-                return range.Where(condition).Take(quantity);
-            }
-            else
-            {
-                return range.Where(condition).OrderBy(a => Guid.NewGuid()).Take(quantity);
-            }
+            return range.Where(condition).Take(quantity);
             // return GetValues(MaxNumberOfValuesInSegment).Where(condition).Take(quantity);
+        }
+
+        public IEnumerable<int> GetRandomValues(Func<int, bool> condition, int quantity)
+        {
+            _valuesHaveBeenGenerated = true;
+
+            // Get a range of all the values in the domain
+            var range = Enumerable.Range(0, ((_max - _min) / _increment) + 1)
+                .Select(x => _min + _increment * x)
+                .Where(x => x >= _min && x <= _max);
+            
+            // Pick out the number of values needed in whatever pre-specified order was used that meet the condition
+            return range.Where(condition).OrderBy(a => Guid.NewGuid()).Take(quantity);
+            // return GetValues(MaxNumberOfValuesInSegment).Where(condition).Take(quantity);
+        }
+        
+        /// <summary>
+        /// Get values from the <see cref="IDomainSegment" />, with a minimum of <see cref="min" />
+        /// and a maximum <see cref="max" />, up to the quantity
+        /// </summary>
+        /// <param name="min">The minimum value</param>
+        /// <param name="max">The maximum value</param>
+        /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment" /></param>
+        /// <returns></returns>
+        public IEnumerable<int> GetSequentialValues(int min, int max, int quantity)
+        {
+            // Hold the min/max
+            var holdMinMax = RangeMinMax;
+
+            // Set new min max (subset the domain)
+            _min = holdMinMax.Minimum < min ? min : _min;
+            _max = holdMinMax.Maximum > max ? max : _max;
+
+            // Get the values based on the temporary min/max
+            var result = GetSequentialValues(quantity);
+
+            // Set the min/max back to their original values
+            _min = holdMinMax.Minimum;
+            _max = holdMinMax.Maximum;
+
+            return result;
         }
 
         /// <summary>
@@ -227,7 +254,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         /// <param name="max">The maximum value</param>
         /// <param name="quantity">The maximum number of values to return from the <see cref="IDomainSegment" /></param>
         /// <returns></returns>
-        public IEnumerable<int> GetValues(int min, int max, int quantity)
+        public IEnumerable<int> GetRandomValues(int min, int max, int quantity)
         {
             // Hold the min/max
             var holdMinMax = RangeMinMax;
@@ -237,7 +264,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
             _max = holdMinMax.Maximum > max ? max : _max;
 
             // Get the values based on the temporary min/max
-            var result = GetValues(quantity);
+            var result = GetRandomValues(quantity);
 
             // Set the min/max back to their original values
             _min = holdMinMax.Minimum;
@@ -245,7 +272,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
 
             return result;
         }
-
+        
         private int GetNextSequentialValue(int numberOfValuesGenerated)
         {
             int value;

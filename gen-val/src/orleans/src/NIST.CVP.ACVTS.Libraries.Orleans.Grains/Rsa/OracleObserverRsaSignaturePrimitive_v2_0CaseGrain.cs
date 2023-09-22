@@ -49,16 +49,16 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
             switch (reason)
             {
                 case RsaSpDisposition.None:
-                    message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N-1), _param.Modulo);
-                    signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), _key.Key.PrivKey, _key.Key.PubKey).PlainText, _param.Modulo);
+                    message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N-1), _param.Modulus);
+                    signature = new BitString(_rsa.Decrypt(message.ToPositiveBigInteger(), _key.Key.PrivKey, _key.Key.PubKey).PlainText, _param.Modulus);
                     break;
                 // message = N
                 case RsaSpDisposition.MsgEqualN:
-                    message = new BitString(_key.Key.PubKey.N, _param.Modulo);
+                    message = new BitString(_key.Key.PubKey.N, _param.Modulus);
                     break;
                 // message > N but < modulo all 1's
                 case RsaSpDisposition.MsgGreaterNLessModulo:
-                    message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N+1, NumberTheory.Pow2(_param.Modulo) ), _param.Modulo);
+                    message = new BitString(_rand.GetRandomBigInteger(_key.Key.PubKey.N+1, NumberTheory.Pow2(_param.Modulus) ), _param.Modulus);
                     break;
             }
             

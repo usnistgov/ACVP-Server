@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
             var errorResults = new List<string>();
             
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.KeyFormat, VALID_KEY_FORMATS, "keyFormat"));
-            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulus, VALID_MODULI, "modulo"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulo, VALID_MODULI, "modulo"));
 
             if (parameters.PublicExponentMode == PublicExponentModes.Invalid)
             {

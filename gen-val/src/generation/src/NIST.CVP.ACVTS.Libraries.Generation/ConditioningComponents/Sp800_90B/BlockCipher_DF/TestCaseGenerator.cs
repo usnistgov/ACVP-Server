@@ -33,12 +33,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.B
             }
 
             var payloadLength = group.PayloadLen.GetDeepCopy();
-            payloadLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
             var min = payloadLength.GetDomainMinMax().Minimum;
             var max = payloadLength.GetDomainMinMax().Maximum;
 
-            var lengths = payloadLength.GetValues(x => x != min && x != max, NumberOfTestCasesToGenerate - 2, true).ToList();
+            var lengths = payloadLength.GetRandomValues(x => x != min && x != max, NumberOfTestCasesToGenerate - 2).ToList();
             lengths.Add(min);
             lengths.Add(max);
 

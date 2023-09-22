@@ -47,9 +47,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys
                 throw new ArgumentOutOfRangeException($"{nameof(q)} was expected to be 4 bytes, was {q?.Length}.");
             }
 
-            if (seed?.Length < lmOtsAttribute.N)
+            if (seed?.Length != lmOtsAttribute.N)
             {
-                throw new ArgumentException($"Expected byte array of at least length {lmOtsAttribute.N}, got {seed?.Length}", nameof(seed));
+                throw new ArgumentException($"Expected byte array of {lmOtsAttribute.N}, got {seed?.Length}", nameof(seed));
             }
             var x = GetPrivateX(lmOtsAttribute, i, q, seed);
             var key = GetPrivateKey(lmOtsAttribute, i, q, x);

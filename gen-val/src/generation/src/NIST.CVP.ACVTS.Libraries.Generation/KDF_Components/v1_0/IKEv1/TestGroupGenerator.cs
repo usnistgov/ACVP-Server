@@ -70,9 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF_Components.v1_0.IKEv1
                 max
             };
 
-            domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
-            var otherValue = domain.GetValues(w => w != min && w != max, 1, true);
+            var otherValue = domain.GetRandomValues(w => w != min && w != max, 1);
             if (otherValue.Any())
             {
                 values.Add(otherValue.First());

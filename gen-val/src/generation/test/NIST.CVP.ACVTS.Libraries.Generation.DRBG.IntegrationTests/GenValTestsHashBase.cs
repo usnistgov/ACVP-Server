@@ -11,8 +11,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var index = 0;
-            var otherIndex = 1;
+            var index = 4;
+            var otherIndex = 10;
 
             var p = new Parameters
             {

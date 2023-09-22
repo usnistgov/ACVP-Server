@@ -34,12 +34,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.H
             }
 
             var inputLength = group.PayloadLength.GetDeepCopy();
-            inputLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
             var minMax = inputLength.GetDomainMinMaxAsEnumerable();
-            var blockSize = inputLength.GetValues(x => x == group.HashAlg.BlockSize, 1, false).ToList();
-            var underBlockSize = inputLength.GetValues(x => x < group.HashAlg.BlockSize, NumberOfTestCasesToGenerate, true).ToList();
-            var overBlockSize = inputLength.GetValues(x => x > group.HashAlg.BlockSize, NumberOfTestCasesToGenerate, true).ToList();
+            var blockSize = inputLength.GetSequentialValues(x => x == group.HashAlg.BlockSize, 1).ToList();
+            var underBlockSize = inputLength.GetRandomValues(x => x < group.HashAlg.BlockSize, NumberOfTestCasesToGenerate).ToList();
+            var overBlockSize = inputLength.GetRandomValues(x => x > group.HashAlg.BlockSize, NumberOfTestCasesToGenerate).ToList();
 
             // Always add min/max/blocksize
             var lengths = new List<int>();

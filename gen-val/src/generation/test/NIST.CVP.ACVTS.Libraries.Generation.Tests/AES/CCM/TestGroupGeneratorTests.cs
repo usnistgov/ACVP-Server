@@ -147,7 +147,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
         /// </summary>
         [Test]
         [TestCaseSource(nameof(GetTestParameterData))]
-        public async Task ShouldHaveValidNumberOfGroupsForVariableAssocatedData(
+        public async Task ShouldHaveValidNumberOfGroupsForVariableAssociatedData(
             string testLabel,
             int[] keyLen,
             MathDomain aadLen,

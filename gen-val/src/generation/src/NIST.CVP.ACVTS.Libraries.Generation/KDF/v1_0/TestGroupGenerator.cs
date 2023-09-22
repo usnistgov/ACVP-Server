@@ -16,7 +16,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.v1_0
 
             foreach (var capability in parameters.Capabilities)
             {
-                capability.SupportedLengths.SetRangeOptions(RangeDomainSegmentOptions.Random);
                 capability.SupportedLengths = capability.SupportedLengths.GetDeepCopy();
 
                 foreach (var mac in capability.MacMode)
@@ -47,9 +46,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.v1_0
 
                             var testOutputLengths = new List<int>();
                             testOutputLengths.AddRange(capability.SupportedLengths.GetDomainMinMaxAsEnumerable());
-                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => true, 2, true));
-                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength == 0, 2, true));
-                            testOutputLengths.AddRange(capability.SupportedLengths.GetValues(w => w % macOutputLength != 0 && w > macOutputLength, 2, true));
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetRandomValues(w => true, 2));
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetRandomValues(w => w % macOutputLength == 0, 2));
+                            testOutputLengths.AddRange(capability.SupportedLengths.GetRandomValues(w => w % macOutputLength != 0 && w > macOutputLength, 2));
                             testOutputLengths = testOutputLengths.Distinct().ToList();
 
                             foreach (var outputLen in testOutputLengths)

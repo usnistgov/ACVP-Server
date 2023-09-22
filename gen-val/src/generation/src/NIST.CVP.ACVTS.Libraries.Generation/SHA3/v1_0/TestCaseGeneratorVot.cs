@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
             // Keep pulling output lengths until we have enough
             do
             {
-                outputLengths.AddRange(outputAllowed.GetValues(x => x % (group.BitOrientedOutput ? 1 : 8) == 0, NumberOfTestCasesToGenerate, true));
+                outputLengths.AddRange(outputAllowed.GetRandomValues(x => x % (group.BitOrientedOutput ? 1 : 8) == 0, NumberOfTestCasesToGenerate));
             } while (outputLengths.Count < NumberOfTestCasesToGenerate);
 
             // Shuffle outputs

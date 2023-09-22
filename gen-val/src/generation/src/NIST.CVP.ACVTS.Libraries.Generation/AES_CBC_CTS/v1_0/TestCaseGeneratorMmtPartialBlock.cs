@@ -31,8 +31,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_CTS.v1_0
 
             // Use larger numbers only when the "smaller" values don't exist.
             //_validSizes.Add(minMax.Minimum);
-            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
-            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetValues(a => a % 128 != 0, 128, true));
+            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetRandomValues(a => a > 128 && a < 1280 && a % 128 != 0, 128));
+            _validSizes.AddRangeIfNotNullOrEmpty(dataLength.GetRandomValues(a => a % 128 != 0, 128));
             //_validSizes.Add(minMax.Maximum);
 
             _validSizes = _validSizes.Shuffle().Take(NumberOfTestCasesToGenerate).ToList();

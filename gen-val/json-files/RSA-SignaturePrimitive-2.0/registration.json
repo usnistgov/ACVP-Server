@@ -10,7 +10,7 @@
     "standard",
     "crt"
   ],
-  "modulus": [
+  "modulo": [
     2048,
     3072,
     4096

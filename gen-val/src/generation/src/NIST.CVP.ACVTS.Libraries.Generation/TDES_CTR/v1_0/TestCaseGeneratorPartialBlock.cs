@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CTR.v1_0
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            var tempSizes = group.PayloadLength.GetValues(ParameterValidator.MAXIMUM_DATA_LEN).ToList();
+            var tempSizes = group.PayloadLength.GetSequentialValues(ParameterValidator.MAXIMUM_DATA_LEN).ToList();
             foreach (var size in tempSizes)
             {
                 _validSizes.Add(size, _casesPerSize);

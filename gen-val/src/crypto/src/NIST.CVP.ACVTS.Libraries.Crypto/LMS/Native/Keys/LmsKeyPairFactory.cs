@@ -43,9 +43,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys
                 throw new ArgumentOutOfRangeException($"{nameof(i)} was expected to be 16 bytes, was {i?.Length}.");
             }
 
-            if (seed?.Length < lmOtsAttribute.N)
+            if (seed?.Length != lmsAttribute.M)
             {
-                throw new ArgumentException($"Expected byte array of at least length {lmOtsAttribute.N}, got {seed?.Length}", nameof(seed));
+                throw new ArgumentException($"Expected byte array of {lmsAttribute.M}, got {seed?.Length}", nameof(seed));
             }
             
             if (lmsAttribute.M != lmOtsAttribute.N)

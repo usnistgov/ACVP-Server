@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
 {
@@ -29,7 +30,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
         }
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
-        {
+        {   
+            var domain = new MathDomain();
+            domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
+            
             var parameters = new Parameters
             {
                 Algorithm = Algorithm,
@@ -39,7 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                 BitOrientedInput = true,
                 IncludeNull = true,
                 PerformLargeDataTest = ParameterValidator.VALID_LARGE_DATA_SIZES,
-                IsSample = true
+                IsSample = true,
+                OutputLength = domain
             };
 
             return CreateRegistration(targetFolder, parameters);

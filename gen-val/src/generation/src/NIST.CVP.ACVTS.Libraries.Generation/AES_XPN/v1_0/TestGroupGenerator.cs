@@ -15,17 +15,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XPN.v1_0
         {
             var testGroups = new List<TestGroup>();
 
-            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            parameters.AadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
             var ptLengths = new List<int>();
             ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetDomainMinMaxAsEnumerable());
 
             // Get block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2, true));
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetRandomValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2));
 
             // Get non block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2, true));
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetRandomValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2));
 
             var aadLengths = GetTestableValuesFromCapability(parameters.AadLen);
             var tagLengths = parameters.TagLen.ToList();
@@ -65,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XPN.v1_0
         private List<int> GetTestableValuesFromCapability(MathDomain capability)
         {
             var minMaxDomain = capability.GetDomainMinMaxAsEnumerable();
-            var randomCandidates = capability.GetValues(10).ToList();
+            var randomCandidates = capability.GetRandomValues(10).ToList();
             var testValues = new List<int>();
             testValues.AddRangeIfNotNullOrEmpty(minMaxDomain.Distinct());
             testValues

@@ -75,8 +75,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_CTS.v1_0
             {
                 errorResults.Add("PayloadLen domain must contain values that are not the AES block size.");
             }
-
-            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
         }
     }
 }

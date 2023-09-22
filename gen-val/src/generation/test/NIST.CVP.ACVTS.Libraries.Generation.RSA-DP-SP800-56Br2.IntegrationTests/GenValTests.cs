@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
                 Revision = Revision,
                 IsSample = true,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard },
-                Modulus = new [] { 2048 }
+                Modulo = new [] { 2048 }
             };
 
             return CreateRegistration(folderName, p);
@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
                 Revision = Revision,
                 IsSample = false,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard, PrivateKeyModes.Crt },
-                Modulus = new [] { 2048, 3072, 4096 }
+                Modulo = new [] { 2048, 3072, 4096 }
             };
 
             return CreateRegistration(folderName, p);

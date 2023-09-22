@@ -18,37 +18,33 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_GCM.v1_0
 
             var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
-            parameters.IvLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            parameters.PayloadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            parameters.AadLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
             // iv length of 96 is a special case, if it's in the domain, include it.
             var ivLengths = new List<int>();
             var ivLengthMinMax = parameters.IvLen.GetDomainMinMax();
             const int ivLenSpecialCase = 96;
             if (ivLengthMinMax.Minimum < ivLenSpecialCase)
             {
-                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLengthMinMax.Minimum, ivLenSpecialCase - 1, 2));
+                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetRandomValues(ivLengthMinMax.Minimum, ivLenSpecialCase - 1, 2));
             }
 
             if (ivLengthMinMax.Maximum >= ivLenSpecialCase)
             {
-                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLenSpecialCase, ivLenSpecialCase, 1));
+                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetRandomValues(ivLenSpecialCase, ivLenSpecialCase, 1));
             }
 
             if (ivLengthMinMax.Maximum > ivLenSpecialCase)
             {
-                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetValues(ivLenSpecialCase + 1, ivLengthMinMax.Maximum, 2));
+                ivLengths.AddRangeIfNotNullOrEmpty(parameters.IvLen.GetRandomValues(ivLenSpecialCase + 1, ivLengthMinMax.Maximum, 2));
             }
 
             var ptLengths = new List<int>();
             ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetDomainMinMaxAsEnumerable());
 
             // Get block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2, true));
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetRandomValues(g => g % 128 == 0 && !ptLengths.Contains(g), 2));
 
             // Get non block length values
-            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2, true));
+            ptLengths.AddRangeIfNotNullOrEmpty(parameters.PayloadLen.GetRandomValues(g => g % 8 == 0 && g % 128 != 0 && !ptLengths.Contains(g), 2));
 
             var aadLengths = GetTestableValuesFromCapability(parameters.AadLen);
             var tagLengths = parameters.TagLen.ToList();
@@ -90,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_GCM.v1_0
         private List<int> GetTestableValuesFromCapability(MathDomain capability)
         {
             var minMaxDomain = capability.GetDomainMinMaxAsEnumerable();
-            var randomCandidates = capability.GetValues(10).ToList();
+            var randomCandidates = capability.GetRandomValues(10).ToList();
             var testValues = new List<int>();
             testValues.AddRangeIfNotNullOrEmpty(minMaxDomain.Distinct());
             testValues

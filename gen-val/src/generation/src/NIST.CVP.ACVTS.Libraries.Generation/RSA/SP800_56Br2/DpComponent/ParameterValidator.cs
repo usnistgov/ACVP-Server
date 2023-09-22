@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
             var errorResults = new List<string>();
             
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.KeyFormat, VALID_KEY_FORMATS, "keyFormat"));
-            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulus, VALID_MODULI, "modulo"));
+            errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulo, VALID_MODULI, "modulo"));
 
             return new ParameterValidateResponse(errorResults);
         }

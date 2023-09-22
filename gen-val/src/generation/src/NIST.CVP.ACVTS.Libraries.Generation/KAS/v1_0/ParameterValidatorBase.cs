@@ -264,7 +264,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0
             if (macOptionsBase is MacOptionAesCcm || macOptionsBase is MacOptionCmac)
             {
                 var copyKeyLen = macOptionsBase.KeyLen.GetDeepCopy();
-                var keyLenValues = copyKeyLen.GetValues(3).ToArray(); // maximum of 3 valid key values with AES
+                var keyLenValues = copyKeyLen.GetRandomValues(3).ToArray(); // maximum of 3 valid key values with AES
 
                 errorResults.AddIfNotNullOrEmpty(ValidateArray(keyLenValues, ValidAesKeyLengths, "AES Key Lengths"));
                 maxMacLength = 128; // aes block size

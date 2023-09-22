@@ -125,7 +125,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.v1_0
             }
             
             // Enforce min supported length above MIN_MESSAGE_LENGTH for MCT
-            if (!messageLengths.GetValues(MIN_MESSAGE_LENGTH+1, MAX_MESSAGE_LENGTH, 2).Any())
+            if (!messageLengths.GetRandomValues(MIN_MESSAGE_LENGTH+1, MAX_MESSAGE_LENGTH, 2).Any())
             {
                 errorResults.Add($"Message length must contain at least one segment that is greater than 0 bits for MCT.");
             }

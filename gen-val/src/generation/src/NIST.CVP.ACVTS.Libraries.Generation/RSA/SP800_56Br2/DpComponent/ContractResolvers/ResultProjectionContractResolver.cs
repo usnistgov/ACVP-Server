@@ -12,6 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.Contra
             var includeProperties = new[]
             {
                 nameof(TestGroup.TestGroupId),
+                nameof(TestGroup.Modulo),
                 nameof(TestGroup.Tests)
             };
             

@@ -34,21 +34,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [Test]
         [TestCase(1)]
         [TestCase(5)]
-        public void ShouldSetSegmentValueOptionsForEachSegment(int numberOfSegments)
-        {
-            while (_subject.DomainSegments.Count() < numberOfSegments)
-            {
-                _subject.AddSegment(_mockDomainSegment.Object);
-            }
-
-            _subject.SetRangeOptions(It.IsAny<RangeDomainSegmentOptions>());
-
-            _mockDomainSegment.VerifySet(v => v.SegmentValueOptions = It.IsAny<RangeDomainSegmentOptions>(), Times.Exactly(numberOfSegments));
-        }
-
-        [Test]
-        [TestCase(1)]
-        [TestCase(5)]
         public void ShouldSetMaxAllowedValueForEachSegment(int numberOfSegments)
         {
             while (_subject.DomainSegments.Count() < numberOfSegments)
@@ -185,9 +170,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
                 _subject.AddSegment(_mockDomainSegment.Object);
             }
 
-            _subject.GetValues(It.IsAny<int>());
+            _subject.GetRandomValues(It.IsAny<int>());
 
-            _mockDomainSegment.Verify(v => v.GetValues(It.IsAny<int>()), Times.Exactly(numberOfSegments));
+            _mockDomainSegment.Verify(v => v.GetRandomValues(It.IsAny<int>()), Times.Exactly(numberOfSegments));
         }
 
         [Test]
@@ -200,25 +185,24 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
                 _subject.AddSegment(_mockDomainSegment.Object);
             }
 
-            _subject.GetValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
+            _subject.GetSequentialValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
 
-            _mockDomainSegment.Verify(v => v.GetValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(numberOfSegments));
+            _mockDomainSegment.Verify(v => v.GetSequentialValues(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()), Times.Exactly(numberOfSegments));
         }
 
         [Test]
         [TestCase(2, 1)]
         public void ShouldArgumentExceptionWhenMinGtThanMaxGetValues(int min, int max)
         {
-            Assert.Throws(typeof(ArgumentException), () => _subject.GetValues(min, max, 0));
+            Assert.Throws(typeof(ArgumentException), () => _subject.GetSequentialValues(min, max, 0));
         }
 
         [Test]
         public void ShouldOnlyReturnValidValuesFromGetValues()
         {
             var domain = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 64, 128, 64));
-            domain.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
-            var values = domain.GetValues(128).ToList();
+            var values = domain.GetRandomValues(128).ToList();
 
             Assert.AreEqual(2, values.Count());
             Assert.IsTrue(values.Contains(64));

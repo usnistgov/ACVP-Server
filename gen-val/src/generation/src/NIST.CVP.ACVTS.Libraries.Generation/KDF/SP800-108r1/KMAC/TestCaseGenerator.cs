@@ -79,15 +79,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.SP800_108r1.KMAC
         private List<int> GetRandomValuesWithMinMaxFromDomain(MathDomain domain, int totalValues)
         {
             var domainParameters = domain.GetDeepCopy();
-            domainParameters.SetRangeOptions(RangeDomainSegmentOptions.Random);
-            
             var domainOptions = new List<int>
             {
                 domainParameters.GetDomainMinMax().Minimum,
                 domainParameters.GetDomainMinMax().Maximum
             };
             
-            domainOptions.AddRange(domainParameters.GetValues(_ => true, totalValues - 2, true));
+            domainOptions.AddRange(domainParameters.GetRandomValues(_ => true, totalValues - 2));
 
             return domainOptions;
         }

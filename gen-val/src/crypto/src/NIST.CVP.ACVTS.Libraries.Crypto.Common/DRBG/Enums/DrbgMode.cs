@@ -37,5 +37,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Enums
 
         [EnumMember(Value = "SHA2-512/256")]
         SHA512t256,
+
+        [EnumMember(Value = "SHA3-224")]
+        SHA3224,
+        
+        [EnumMember(Value = "SHA3-256")]
+        SHA3256,
+        
+        [EnumMember(Value = "SHA3-384")]
+        SHA3384,
+        
+        [EnumMember(Value = "SHA3-512")]
+        SHA3512,
     }
 }

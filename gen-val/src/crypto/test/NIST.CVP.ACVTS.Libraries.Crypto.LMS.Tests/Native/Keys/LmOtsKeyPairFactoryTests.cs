@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
@@ -36,7 +37,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
         [TestCase(LmOtsMode.LMOTS_SHAKE_N32_W8)]
         public void ShouldSucceedWithValidParameters(LmOtsMode mode)
         {
-            var key = _subject.GetKeyPair(mode, new byte[16], new byte[4], new byte[32]);
+            var seed = new byte[AttributesHelper.GetLmOtsAttribute(mode).N];
+            var key = _subject.GetKeyPair(mode, new byte[16], new byte[4], seed);
 
             Assert.IsNotNull(key.PublicKey.Key);
         }

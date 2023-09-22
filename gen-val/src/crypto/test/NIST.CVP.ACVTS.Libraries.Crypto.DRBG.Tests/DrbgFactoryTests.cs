@@ -36,6 +36,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512, typeof(DrbgHash))]
         [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t224, typeof(DrbgHash))]
         [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t256, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA3224, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA3256, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA3384, typeof(DrbgHash))]
+        [TestCase(DrbgMechanism.Hash, DrbgMode.SHA3512, typeof(DrbgHash))]
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA1, typeof(DrbgHmac))]
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA224, typeof(DrbgHmac))]
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA256, typeof(DrbgHmac))]
@@ -43,6 +47,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512, typeof(DrbgHmac))]
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512t224, typeof(DrbgHmac))]
         [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA512t256, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA3224, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA3256, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA3384, typeof(DrbgHmac))]
+        [TestCase(DrbgMechanism.HMAC, DrbgMode.SHA3512, typeof(DrbgHmac))]
         public void ShouldReturnCorrectType(DrbgMechanism drbgMechanism, DrbgMode drbgMode, Type expectedType)
         {
             DrbgParameters p = new DrbgParameters();

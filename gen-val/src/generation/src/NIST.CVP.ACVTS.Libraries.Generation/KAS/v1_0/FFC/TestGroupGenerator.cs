@@ -200,9 +200,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0.FFC
                             if (parameterSet.Value.hashFunc.Any() && parameterSet.Value.mac.Any())
                             {
                                 var mac = parameterSet.Value.mac.OrderBy(ob => Guid.NewGuid()).ToList().First();
-                                mac.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
                                 mac.KeyLen.SetMaximumAllowedValue(MAX_KEY_SIZE);
-                                var keyLen = mac.KeyLen.GetDeepCopy().GetValues(1).OrderBy(ob => Guid.NewGuid()).ToList().First();
+                                var keyLen = mac.KeyLen.GetDeepCopy().GetRandomValues(1).OrderBy(ob => Guid.NewGuid()).ToList().First();
                                 var keyAgreementMacType =
                                     SpecificationMapping.GetMacInfoFromParameterClass(mac).keyAgreementMacType;
 
@@ -273,10 +272,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0.FFC
                                         {
                                             foreach (var mac in parameterSet.Value.mac)
                                             {
-                                                mac.KeyLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
                                                 mac.KeyLen.SetMaximumAllowedValue(MAX_KEY_SIZE);
 
-                                                foreach (var keyLen in mac.KeyLen.GetDeepCopy().GetValues(1).OrderBy(ob => Guid.NewGuid()).Take(1))
+                                                foreach (var keyLen in mac.KeyLen.GetDeepCopy().GetRandomValues(1).OrderBy(ob => Guid.NewGuid()).Take(1))
                                                 {
                                                     var keyAgreementMacType =
                                                         SpecificationMapping.GetMacInfoFromParameterClass(mac)

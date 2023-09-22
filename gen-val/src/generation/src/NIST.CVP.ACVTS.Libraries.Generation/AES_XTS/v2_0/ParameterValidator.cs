@@ -83,12 +83,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
         private bool CheckValidTestCases(MathDomain payloadLen, MathDomain dataUnitLen)
         {
-            dataUnitLen.SetRangeOptions(RangeDomainSegmentOptions.Sequential);
-            payloadLen.SetRangeOptions(RangeDomainSegmentOptions.Sequential);
-            var payloadLengths = payloadLen.GetValues(_ => true, 65536, false).Distinct();
+            var payloadLengths = payloadLen.GetSequentialValues(_ => true, 65536).Distinct();
             
             // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
-            return payloadLengths.Any(p => dataUnitLen.GetValues(du => (du <= p) && (p % du >= 128), 1, true).Any());
+            return payloadLengths.Any(p => dataUnitLen.GetSequentialValues(du => (du <= p) && (p % du >= 128), 1).Any());
         }
     }
 }

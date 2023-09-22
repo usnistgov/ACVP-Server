@@ -58,37 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
             Assert.AreEqual(min, result.Minimum, nameof(min));
             Assert.AreEqual(max, result.Maximum, nameof(max));
         }
-
-        [Test]
-        [TestCase(RangeDomainSegmentOptions.Random)]
-        [TestCase(RangeDomainSegmentOptions.Sequential)]
-        public void ShouldGetSetSegmentValueOptionsWhenValuesHaventGenerated(RangeDomainSegmentOptions option)
-        {
-            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
-            _subject.SegmentValueOptions = option;
-
-            Assert.AreEqual(option, _subject.SegmentValueOptions);
-        }
-
-        [Test]
-        public void ShouldBeSequentialByDefault()
-        {
-            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
-            Assert.AreEqual(RangeDomainSegmentOptions.Sequential, _subject.SegmentValueOptions);
-        }
-
-        [Test]
-        public void ShouldThrowExceptionWhenChangingOptionsAfterGetValues()
-        {
-            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
-            _subject.SegmentValueOptions = RangeDomainSegmentOptions.Sequential;
-
-            _subject.GetValues(_subject.MaxNumberOfValuesInSegment);
-
-            Assert.Throws(typeof(NotSupportedException),
-                () => _subject.SegmentValueOptions = RangeDomainSegmentOptions.Sequential);
-        }
-
+        
         [Test]
         [TestCase(5, 10)]
         [TestCase(10, 5)]
@@ -129,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         public void ShouldThrowExceptionWhenOptionsChangedAfterGetValuesInvoked()
         {
             _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
-            _subject.GetValues(_subject.MaxNumberOfValuesInSegment);
+            _subject.GetSequentialValues(_subject.MaxNumberOfValuesInSegment);
 
             Assert.Throws(typeof(NotSupportedException), () => _subject.SetMaximumAllowedValue(100));
         }
@@ -169,14 +139,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [TestCase(1, 11, 2)]
         public void ShouldReturnNumbersOnlyUpToMaximumAvailable(int min, int max, int increment)
         {
-            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
 
             int maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
 
-            var result = _subject.GetValues(maxQuantityAvailable).ToList();
+            var result = _subject.GetSequentialValues(maxQuantityAvailable).ToList();
 
             Assert.AreEqual(_subject.MaxNumberOfValuesInSegment, result.Count);
         }
@@ -202,14 +169,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [TestCaseSource(nameof(_sequenceTestData))]
         public void ShouldReturnNumbersInSequence(int min, int max, int increment, int[] expectation)
         {
-            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
 
             var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
 
-            var result = _subject.GetValues(maxQuantityAvailable).ToList();
+            var result = _subject.GetSequentialValues(maxQuantityAvailable).ToList();
 
             for (int i = 0; i < expectation.Length; i++)
             {
@@ -241,12 +205,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(seedRandom);
 
-            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Random
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
 
-            var result = _subject.GetValues(quantityToReturn);
+            var result = _subject.GetRandomValues(quantityToReturn);
 
             Assert.AreEqual(expectation.ToList(), result.ToList());
         }
@@ -255,14 +216,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [TestCaseSource(nameof(_sequenceTestData))]
         public void ShouldReturnNumbersInSequenceSubsetRangeSanityCheck(int min, int max, int increment, int[] expectation)
         {
-            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
 
             var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
 
-            var result = _subject.GetValues(min, max, maxQuantityAvailable).ToList();
+            var result = _subject.GetSequentialValues(min, max, maxQuantityAvailable).ToList();
 
             for (int i = 0; i < expectation.Length; i++)
             {
@@ -294,12 +252,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(seedRandom);
 
-            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Random
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
 
-            var result = _subject.GetValues(min, max, quantityToReturn);
+            var result = _subject.GetRandomValues(min, max, quantityToReturn);
 
             Assert.AreEqual(expectation.ToList(), result.ToList());
         }
@@ -307,10 +262,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [Test]
         public void ShouldReturnSequentialValuesOnlyWithinSubsets()
         {
-            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Sequential
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
 
             int minSubset = 0;
             int maxSubset = 4;
@@ -318,7 +270,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
 
-            var result = _subject.GetValues(minSubset, maxSubset, maxQuantityAvailable).ToList();
+            var result = _subject.GetSequentialValues(minSubset, maxSubset, maxQuantityAvailable).ToList();
 
             Assert.IsTrue(expectedValues.OrderBy(t => t).SequenceEqual(result.OrderBy(t => t)));
         }
@@ -331,10 +283,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
                 .Setup(s => s.GetRandomInt(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(0);
 
-            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Random
-            };
+            _subject = new RangeDomainSegment(_mockRandom.Object, 0, 10);
 
             int minSubset = 0;
             int maxSubset = 4;
@@ -342,7 +291,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var maxQuantityAvailable = _subject.MaxNumberOfValuesInSegment;
 
-            var result = _subject.GetValues(minSubset, maxSubset, maxQuantityAvailable);
+            var result = _subject.GetRandomValues(minSubset, maxSubset, maxQuantityAvailable);
 
             Assert.AreEqual(expectedValues.ToList(), result.ToList());
         }
@@ -352,7 +301,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         {
             _subject = new RangeDomainSegment(new Random800_90(), 8, 128, 8);
 
-            var values = _subject.GetValues(v => v > 64, 10);
+            var values = _subject.GetSequentialValues(v => v > 64, 10);
 
             Assert.IsTrue(values.All(a => a % 8 == 0));
         }
@@ -367,12 +316,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [TestCase(128, 512, 128)]
         public void ShouldReturnValuesThatMatchAGivenCondition(int min, int max, int increment)
         {
-            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Random
-            };
+            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment);
 
-            var result = _subject.GetValues(v => v % 8 == 0, 10);
+            var result = _subject.GetSequentialValues(v => v % 8 == 0, 10);
 
             Assert.LessOrEqual(result.Count(), 10);
 
@@ -387,20 +333,17 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
         [TestCase(1, 128 * 5, 1)]
         public void ShouldAlwaysPullMaximumNumberOfValuesWithACondition(int min, int max, int increment)
         {
-            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment)
-            {
-                SegmentValueOptions = RangeDomainSegmentOptions.Random
-            };
+            _subject = new RangeDomainSegment(new Random800_90(), min, max, increment);
 
             for (var i = 0; i < 100; i++)
             {
-                var result = _subject.GetValues(v => v % 128 == 0, 5);
+                var result = _subject.GetSequentialValues(v => v % 128 == 0, 5);
                 Assert.AreEqual(result.Count(), 5, "pulled not enough mod 128");
             }
 
             for (var i = 0; i < 100; i++)
             {
-                var result = _subject.GetValues(v => v % 128 != 0, 5);
+                var result = _subject.GetSequentialValues(v => v % 128 != 0, 5);
                 Assert.AreEqual(result.Count(), 5, "pulled not enough not mod 128");
             }
         }

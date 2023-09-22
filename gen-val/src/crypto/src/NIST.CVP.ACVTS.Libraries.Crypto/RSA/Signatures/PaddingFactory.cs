@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
                     return new PkcsPadder(sha);
 
                 case SignatureSchemes.Pss:
-                    var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction);
+                    var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction, outputLen);
                     return new PssPadder(sha, mask, entropyProvider, saltLength, outputLen);
 
                 default:
@@ -95,7 +95,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
             }
             else if (sigMode == SignatureSchemes.Pss)
             {
-                var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction);
+                var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction, outputLen);
 
                 switch (errors)
                 {

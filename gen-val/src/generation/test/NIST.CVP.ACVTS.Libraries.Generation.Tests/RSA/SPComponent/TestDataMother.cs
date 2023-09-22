@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             {
                 var tg = new TestGroup
                 {
-                    Modulo = 2048,
+                    Modulus = 2048,
                     KeyFormat = keyFormat,
                     TestType = "aft"
                 };

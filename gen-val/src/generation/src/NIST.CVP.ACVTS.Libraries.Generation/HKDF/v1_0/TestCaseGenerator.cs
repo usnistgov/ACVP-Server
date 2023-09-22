@@ -80,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HKDF.v1_0
             var minMax = domain.GetDomainMinMax();
 
             var valuesSelected = new List<int> { minMax.Minimum, minMax.Maximum };
-            var valuesPulled = domain.GetValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2, true);
+            var valuesPulled = domain.GetRandomValues(v => v != minMax.Minimum && v != minMax.Maximum, NumberOfTestCasesToGenerate - 2);
             valuesSelected.AddRange(valuesPulled);
 
             return new ShuffleQueue<int>(valuesSelected, NumberOfTestCasesToGenerate);

@@ -29,11 +29,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             var payloadLenDomain = group.PayloadLen.GetDeepCopy();
-            payloadLenDomain.SetRangeOptions(RangeDomainSegmentOptions.Random);
 
             var payloadLenValues = payloadLenDomain.GetDomainMinMaxAsEnumerable().ToList();
-            payloadLenValues.AddRange(payloadLenDomain.GetValues(x => x <= 1024, 24, true));
-            payloadLenValues.AddRange(payloadLenDomain.GetValues(x => x > 1024, 24, true));
+            payloadLenValues.AddRange(payloadLenDomain.GetRandomValues(x => x <= 1024, 24));
+            payloadLenValues.AddRange(payloadLenDomain.GetRandomValues(x => x > 1024, 24));
 
             _payloadLen = new ShuffleQueue<int>(payloadLenValues);
             NumberOfTestCasesToGenerate = payloadLenValues.Count;

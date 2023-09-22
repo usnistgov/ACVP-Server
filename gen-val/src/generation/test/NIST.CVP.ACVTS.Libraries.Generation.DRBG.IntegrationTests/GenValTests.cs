@@ -41,7 +41,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
             "SHA2-384",
             "SHA2-512",
             "SHA2-512/224",
-            "SHA2-512/256"
+            "SHA2-512/256",
+            "SHA3-224",
+            "SHA3-256",
+            "SHA3-384",
+            "SHA3-512"
         };
 
         public override int[] SeedLength => new[]
@@ -52,7 +56,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
             384,
             512,
             224,
-            256
+            256,
+            224,
+            256,
+            384,
+            512
         };
 
         public override AlgoMode AlgoMode => AlgoMode.DRBG_Hash_v1_0;
@@ -71,7 +79,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
                     "SHA2-384",
                     "SHA2-512",
                     "SHA2-512/224",
-                    "SHA2-512/256"
+                    "SHA2-512/256",
+                    "SHA3-224",
+                    "SHA3-256",
+                    "SHA3-384",
+                    "SHA3-512"
                 };
 
         public override int[] SeedLength => new[]
@@ -82,7 +94,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
             384,
             512,
             224,
-            256
+            256,
+            224,
+            256,
+            384,
+            512
         };
 
         public override AlgoMode AlgoMode => AlgoMode.DRBG_HMAC_v1_0;

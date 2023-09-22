@@ -60,8 +60,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CTR.v1_0
             {
                 errorResults.Add($"DataLength maximum must be at most {MAXIMUM_DATA_LEN}");
             }
-
-            dataLen.SetRangeOptions(RangeDomainSegmentOptions.Random);
         }
 
         private void ValidateConformances(Parameters parameters, List<string> errorResults)

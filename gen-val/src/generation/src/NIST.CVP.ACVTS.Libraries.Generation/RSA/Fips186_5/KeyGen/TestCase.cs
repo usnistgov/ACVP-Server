@@ -38,10 +38,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
         };
 
         #region Key Value Getters and Setters
-        public BigInteger N
+        public BitString N
         {
-            get => Key.PubKey.N;
-            set => Key.PubKey.N = value;
+            get => Key.PubKey.N != 0 ? new BitString(Key.PubKey.N, ParentGroup?.Modulo ?? 0) : null;
+            set => Key.PubKey.N = value.ToPositiveBigInteger();
         }
 
         public BigInteger E
@@ -62,6 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
             set => Key.PrivKey.Q = value;
         }
 
+        private BigInteger _d;
         public BigInteger D
         {
             get
@@ -74,15 +75,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 return 0;
             }
 
-            set =>
-                Key.PrivKey = new PrivateKey
+            set
+            {
+                _d = value;
+                if (_d != 0)
                 {
-                    D = value,
-                    P = P,
-                    Q = Q
-                };
+                    Key.PrivKey = new PrivateKey
+                    {
+                        D = _d,
+                        P = P,
+                        Q = Q
+                    };
+                }
+            }
         }
 
+        private BigInteger _dmp1;
         [JsonProperty(PropertyName = "dmp1")]
         public BigInteger Dmp1
         {
@@ -96,17 +104,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 return 0;
             }
 
-            set =>
-                Key.PrivKey = new CrtPrivateKey
+            set
+            {
+                _dmp1 = value;
+                if (_dmp1 != 0)
                 {
-                    P = P,
-                    Q = Q,
-                    DMP1 = value,
-                    DMQ1 = Dmq1,
-                    IQMP = Iqmp
-                };
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = _dmp1,
+                        DMQ1 = Dmq1,
+                        IQMP = Iqmp
+                    };
+                }
+            }
         }
 
+        private BigInteger _dmq1;
         [JsonProperty(PropertyName = "dmq1")]
         public BigInteger Dmq1
         {
@@ -120,17 +135,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 return 0;
             }
 
-            set =>
-                Key.PrivKey = new CrtPrivateKey
+            set
+            {
+                _dmq1 = value;
+                if (_dmq1 != 0)
                 {
-                    P = P,
-                    Q = Q,
-                    DMP1 = Dmp1,
-                    DMQ1 = value,
-                    IQMP = Iqmp
-                };
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = Dmp1,
+                        DMQ1 = _dmq1,
+                        IQMP = Iqmp
+                    };
+                }
+            }
         }
 
+        private BigInteger _iqmp;
         [JsonProperty(PropertyName = "iqmp")]
         public BigInteger Iqmp
         {
@@ -144,15 +166,21 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 return 0;
             }
 
-            set =>
-                Key.PrivKey = new CrtPrivateKey
+            set
+            {
+                _iqmp = value;
+                if (_iqmp != 0)
                 {
-                    P = P,
-                    Q = Q,
-                    DMP1 = Dmp1,
-                    DMQ1 = Dmq1,
-                    IQMP = value
-                };
+                    Key.PrivKey = new CrtPrivateKey
+                    {
+                        P = P,
+                        Q = Q,
+                        DMP1 = Dmp1,
+                        DMQ1 = Dmq1,
+                        IQMP = _iqmp
+                    };
+                }
+            }
         }
         #endregion Key Value Getters and Setters
     }

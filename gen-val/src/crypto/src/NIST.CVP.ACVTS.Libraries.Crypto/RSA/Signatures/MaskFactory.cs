@@ -14,13 +14,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
             _shaFactory = shaFactory;
         }
 
-        public IMaskFunction GetMaskInstance(PssMaskTypes maskType, HashFunction hashFunction = null)
+        public IMaskFunction GetMaskInstance(PssMaskTypes maskType, HashFunction hashFunction = null, int outputLen = 0)
         {
             switch (maskType)
             {
                 case PssMaskTypes.MGF1:
                     var shaMgf = _shaFactory.GetShaInstance(hashFunction);
-                    return new Mgf1Mask(shaMgf);
+                    return new Mgf1Mask(shaMgf, outputLen);
 
                 case PssMaskTypes.SHAKE128:
                     var shake128 = _shaFactory.GetShaInstance(new HashFunction(ModeValues.SHAKE, DigestSizes.d128));

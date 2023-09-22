@@ -34,13 +34,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.v1_0
             KeyLens = parameters.KeyLen;
 
             // (max PT len value / 8) + 1 gives all possible values 0-32.
-            PtLens = parameters.PayloadLen.GetDeepCopy().GetValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
-
-            NonceLens = parameters.IvLen.GetDeepCopy().GetValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
-
+            PtLens = parameters.PayloadLen.GetDeepCopy().GetSequentialValues(ParameterValidator.VALID_MAX_PT / 8 + 1).ToArray();
+            
+            NonceLens = parameters.IvLen.GetDeepCopy().GetRandomValues(ParameterValidator.VALID_NONCE_LENGTHS.Length).ToArray();
+            
             // Limit the AAD to some reasonable value.
             parameters.AadLen.SetMaximumAllowedValue(4096);
-            AadLens = parameters.AadLen.GetDeepCopy().GetValues(33).ToArray();
+            // This *MUST* be sequential
+            AadLens = parameters.AadLen.GetDeepCopy().GetSequentialValues(33).ToArray();
 
             TagLens = parameters.TagLen;
 

@@ -81,8 +81,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_CTS.v1_0
             }
 
             // Use larger numbers only when the "smaller" values don't exist.
-            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a > 128 && a < 1280 && a % 128 != 0, 128, true));
-            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetValues(a => a % 128 != 0, 128, true));
+            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetRandomValues(a => a > 128 && a < 1280 && a % 128 != 0, 128));
+            values.AddRangeIfNotNullOrEmpty(groupPayloadLen.GetRandomValues(a => a % 128 != 0, 128));
 
             return values.First();
         }

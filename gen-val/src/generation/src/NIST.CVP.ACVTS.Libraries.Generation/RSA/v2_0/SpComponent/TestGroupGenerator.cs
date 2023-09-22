@@ -17,11 +17,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
 
             foreach (var format in parameters.KeyFormat)
             {
-                foreach (var mod in parameters.Modulus)
+                foreach (var modulus in parameters.Modulo)
                 {
                     groups.Add(new TestGroup
                     {
-                        Modulo = mod,
+                        Modulo = modulus,
                         KeyMode = format,
                         TestType = TEST_TYPE,
                         TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),

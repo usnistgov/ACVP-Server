@@ -92,7 +92,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.v1_0
         private ShuffleQueue<int> GetTestableValuesFromCapability(MathDomain capability)
         {
             var minMaxDomain = capability.GetDomainMinMaxAsEnumerable();
-            var randomCandidates = capability.GetValues(10).ToList();
+            var randomCandidates = capability.GetRandomValues(10).ToList();
             var testValues = new List<int>();
             testValues.AddRangeIfNotNullOrEmpty(minMaxDomain);
             testValues

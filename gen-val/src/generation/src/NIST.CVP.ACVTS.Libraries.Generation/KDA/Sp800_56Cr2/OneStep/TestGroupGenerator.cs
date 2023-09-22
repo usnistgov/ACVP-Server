@@ -112,10 +112,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStep
             }
             else
             {
-                values.AddRange(z.GetValues(i => i < 1024, 10, false));
-                values.AddRange(z.GetValues(i => i < 4098, 5, false));
-                values.AddRange(z.GetValues(i => i < 8196, 2, false));
-                values.AddRange(z.GetValues(1));
+                values.AddRange(z.GetRandomValues(i => i < 1024, 10));
+                values.AddRange(z.GetRandomValues(i => i < 4098, 5));
+                values.AddRange(z.GetRandomValues(i => i < 8196, 2));
+                values.AddRange(z.GetRandomValues(1));
 
                 values = values.Shuffle().Take(3).ToList();
             

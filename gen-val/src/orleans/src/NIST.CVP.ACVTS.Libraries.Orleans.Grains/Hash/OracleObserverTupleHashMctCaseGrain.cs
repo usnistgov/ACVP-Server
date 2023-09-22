@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
 
         protected override async Task DoWorkAsync()
         {
-            var initialLength = _param.InputLengths.GetValues(0, 65536, 3).ToList().Shuffle().First();
+            var initialLength = _param.InputLengths.GetRandomValues(0, 65536, 3).ToList().First();
             var tuple = new List<BitString>() { _rand.GetRandomBitString(initialLength) };
 
             var result = _hash.MCTHash(_param.HashFunction, tuple, _param.OutputLengths, _param.HexCustomization, _param.IsSample);

@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
         [Test]
         public void UsingSeedShouldReturnUniquePerIndexX()
         {
-            var key = _keyPairFactory.GetKeyPair(LmOtsMode.LMOTS_SHA256_N24_W1, new byte[16], new byte[4], new byte[32]);
+            var key = _keyPairFactory.GetKeyPair(LmOtsMode.LMOTS_SHA256_N24_W1, new byte[16], new byte[4], new byte[24]);
             var x = key.PrivateKey.X;
 
             var hexes = new List<string>();

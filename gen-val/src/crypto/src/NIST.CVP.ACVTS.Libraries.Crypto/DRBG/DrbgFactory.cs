@@ -82,6 +82,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d512t224);
                 case DrbgMode.SHA512t256:
                     return new HashFunction(ModeValues.SHA2, DigestSizes.d512t256);
+                case DrbgMode.SHA3224:
+                    return new HashFunction(ModeValues.SHA3, DigestSizes.d224);
+                case DrbgMode.SHA3256:
+                    return new HashFunction(ModeValues.SHA3, DigestSizes.d256);
+                case DrbgMode.SHA3384:
+                    return new HashFunction(ModeValues.SHA3, DigestSizes.d384);
+                case DrbgMode.SHA3512:
+                    return new HashFunction(ModeValues.SHA3, DigestSizes.d512);
                 default:
                     throw new ArgumentException("Invalid DRBG mode provided for current mechanism");
             }

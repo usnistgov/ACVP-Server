@@ -14,11 +14,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HKDF.v1_0
 
             foreach (var capability in parameters.Capabilities)
             {
-                capability.InfoLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.SaltLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.InputKeyingMaterialLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-                capability.KeyLength.SetRangeOptions(RangeDomainSegmentOptions.Random);
-
                 foreach (var hmacAlg in capability.HmacAlg)
                 {
                     var hmac = ShaAttributes.GetHashFunctionFromName(hmacAlg);
