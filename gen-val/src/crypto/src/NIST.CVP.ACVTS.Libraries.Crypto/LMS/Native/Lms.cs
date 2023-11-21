@@ -6,6 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 
@@ -132,18 +133,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native
             }
         }
 
-        public LmsVerificationResult Verify(ILmsPublicKey lmsPublicKey, byte[] signature, byte[] message)
+        public LmsVerificationResult Verify(byte[] lmsPublicKey, byte[] signature, byte[] message)
+        //public LmsVerificationResult Verify(ILmsPublicKey lmsPublicKey, byte[] signature, byte[] message)
         {
-            var lmsPublicKeyBytes = lmsPublicKey.Key;
-
             // 1. If the public key is not at least eight bytes long, return INVALID.
-            if (lmsPublicKeyBytes.Length < 8)
+            if (lmsPublicKey.Length < 8)
             {
                 return new LmsVerificationResult($"{nameof(lmsPublicKey)} must be at least 8 bytes.");
             }
 
             // 2a. pubtype = strTou32(first 4 bytes of public key)
-            var lmsType = AttributesHelper.GetLmsModeFromTypeCode(lmsPublicKeyBytes.Take(4).ToArray());
+            var lmsType = AttributesHelper.GetLmsModeFromTypeCode(lmsPublicKey.Take(4).ToArray());
 
             if (lmsType == LmsMode.Invalid)
             {
@@ -153,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native
             var lmsAttribute = AttributesHelper.GetLmsAttribute(lmsType);
 
             // 2b. ots_typecode = strTou32(next 4 bytes of public key)
-            var lmOtsType = AttributesHelper.GetLmOtsModeFromTypeCode(lmsPublicKeyBytes.Skip(4).Take(4).ToArray());
+            var lmOtsType = AttributesHelper.GetLmOtsModeFromTypeCode(lmsPublicKey.Skip(4).Take(4).ToArray());
 
             if (lmOtsType == LmOtsMode.Invalid)
             {
@@ -165,23 +165,24 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native
 
             // 2d. If the public key is not exactly 24 + m bytes long, return INVALID.
             var expectedPublicKeyBytesLength = 24 + lmsAttribute.M;
-            if (lmsPublicKeyBytes.Length != expectedPublicKeyBytesLength)
+            if (lmsPublicKey.Length != expectedPublicKeyBytesLength)
             {
-                return new LmsVerificationResult($"Expected LMS public key to be exactly {expectedPublicKeyBytesLength} length, was {lmsPublicKeyBytes.Length}.");
+                return new LmsVerificationResult($"Expected LMS public key to be exactly {expectedPublicKeyBytesLength} length, was {lmsPublicKey.Length}.");
             }
 
             // 2e. I = next 16 bytes of the public key
             // lmsPublicKey[8] ... lmsPublicKey[23] is "I" 
-            var i = lmsPublicKeyBytes.Skip(4 + 4).Take(16).ToArray();
+            var i = lmsPublicKey.Skip(4 + 4).Take(16).ToArray();
 
             // f. T[1] = next m bytes of the public key
             // lmsPublicKey[24] ... lmsPublicKey[24+m] is the rolled up public key of the merkle tree
-            var t = lmsPublicKeyBytes.Skip(4 + 4 + 16).Take(lmsAttribute.M).ToArray();
+            var t = lmsPublicKey.Skip(4 + 4 + 16).Take(lmsAttribute.M).ToArray();
 
             // 3. Compute the LMS Public Key Candidate Tc from the signature,
             // message, identifier, pubtype, and ots_typecode, using
             //	Algorithm 6a.
-            var tCandidate = GetCandidateT(lmsPublicKey, lmOtsAttribute, i, signature, message);
+            var lmsPublicKeyWithModes = new LmsPublicKey(lmsPublicKey);
+            var tCandidate = GetCandidateT(lmsPublicKeyWithModes, lmOtsAttribute, i, signature, message);
 
             // 4. If Tc is equal to T[1], return VALID; otherwise, return INVALID.
             return t.SequenceEqual(tCandidate) ? new LmsVerificationResult() : new LmsVerificationResult("T candidate did not match provided value");

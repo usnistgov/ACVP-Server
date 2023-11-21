@@ -5,11 +5,11 @@
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "--generationRequestFile \"/Users/livebe01/gitLab/genvals/gen-val/json-files/RSA-sigGen-FIPS186-5/registration.json\""
+      "commandLineArgs": "--generationRequestFile filepath to registration.json"
     },
     "Validate": {
       "commandName": "Project",
-      "commandLineArgs": "-n /Users/ctc/Documents/internalProjection.json -r /Users/ctc/Documents/submitted.json"
+      "commandLineArgs": "-a filepath to internalProjection.json -b filepath to submittedAnswers.json"
     }
   }
 }

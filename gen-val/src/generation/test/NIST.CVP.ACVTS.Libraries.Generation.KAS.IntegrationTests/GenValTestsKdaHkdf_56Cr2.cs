@@ -85,6 +85,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 },
                 FixedInfoPattern = "uPartyInfo||vPartyInfo||l",
                 MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
+                SaltLens = new MathDomain().AddSegment(new ValueDomainSegment(8))
+                    .AddSegment(new ValueDomainSegment(16))
+                    .AddSegment(new ValueDomainSegment(32))
+                    .AddSegment(new ValueDomainSegment(64))
+                    .AddSegment(new ValueDomainSegment(520))
+                    .AddSegment(new ValueDomainSegment(528))
+                    .AddSegment(new ValueDomainSegment(536))
+                    .AddSegment(new ValueDomainSegment(542)),
                 HmacAlg = new[] { HashFunctions.Sha1, HashFunctions.Sha2_d256, HashFunctions.Sha3_d256 },
                 UsesHybridSharedSecret = false,
                 PerformMultiExpansionTests = true,

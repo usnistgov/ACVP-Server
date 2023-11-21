@@ -74,34 +74,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
 
             if (testCase.resultsArray != null)
             {
-                var bsMessage = new BitString(testCase.resultsArray[0].msg.ToString());
-                bsMessage = rand.GetDifferentBitStringOfSameSize(bsMessage);
-                testCase.resultsArray[0].msg = bsMessage.ToHex();
-
                 var bsDigest = new BitString(testCase.resultsArray[0].md.ToString());
                 bsDigest = rand.GetDifferentBitStringOfSameSize(bsDigest);
                 testCase.resultsArray[0].md = bsDigest.ToHex();
-            }
-        }
-        
-        /// <summary>
-        /// Can be used to exclude MCT tests
-        /// </summary>
-        protected override void OverrideRegisteredDependencies(ContainerBuilder builder)
-        {
-            base.OverrideRegisteredDependencies(builder);
-
-            builder.RegisterType<FakeTestGroupGeneratorFactory>().AsImplementedInterfaces();
-        }
-        
-        public class FakeTestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
-        {
-            public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
-            {
-                return new List<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
-                {
-                    new TestGroupGeneratorAlgorithmFunctionalTest()
-                };
             }
         }
     }

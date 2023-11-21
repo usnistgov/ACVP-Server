@@ -21,6 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
                 IsSample = true,
                 Modulo = modulus,
                 KeyFormat = new [] { PrivateKeyModes.Standard },
+                PublicExponentModes = new PublicExponentModes[] { PublicExponentModes.Random }
             };
 
             var tgGen = new TestGroupGenerator();
@@ -40,6 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
                 IsSample = true,
                 Modulo = new [] { 2048 },
                 KeyFormat = keyFormats,
+                PublicExponentModes = new PublicExponentModes[] { PublicExponentModes.Random }
             };
 
             var tgGen = new TestGroupGenerator();

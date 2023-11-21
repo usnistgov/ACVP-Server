@@ -54,7 +54,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.C
                 DataLength = _payloadLengths.Pop(),
                 Direction = "encrypt",
                 KeyLength = group.KeyLength,
-                Mode = BlockCipherModesOfOperation.CbcMac
+                Mode = BlockCipherModesOfOperation.CbcMac,
+                Key = group.Key ??= group.Key
             };
 
             try

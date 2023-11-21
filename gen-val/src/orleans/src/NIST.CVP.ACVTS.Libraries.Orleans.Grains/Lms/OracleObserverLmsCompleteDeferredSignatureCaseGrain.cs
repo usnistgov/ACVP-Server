@@ -34,8 +34,7 @@ public class OracleObserverLmsCompleteDeferredSignatureCaseGrain : ObservableOra
     
     protected override async Task DoWorkAsync()
     {
-        var publicKey = new LmsPublicKey(_providedResult.PublicKey.ToBytes());
-        var result = _lmsVerifier.Verify(publicKey, _providedResult.Signature.ToBytes(), _providedResult.Message.ToBytes());
+        var result = _lmsVerifier.Verify(_providedResult.PublicKey.ToBytes(), _providedResult.Signature.ToBytes(), _providedResult.Message.ToBytes());
         
         // Notify observers of result
         await Notify(result);

@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
 
             var direction = _param.Direction.ToLower() == "encrypt" ? BlockCipherDirections.Encrypt : BlockCipherDirections.Decrypt;
             var payload = _entropyProvider.GetEntropy(_param.DataLength);
-            var key = _entropyProvider.GetEntropy(_param.KeyLength);
+            var key = _param.KeyLength == 0 ? _param.Key : _entropyProvider.GetEntropy(_param.KeyLength);
             var iv = _entropyProvider.GetEntropy(128);
 
             var blockCipherParams = new ModeBlockCipherParameters(

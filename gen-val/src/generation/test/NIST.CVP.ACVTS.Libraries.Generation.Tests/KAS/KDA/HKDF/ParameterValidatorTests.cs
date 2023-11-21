@@ -23,6 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
             private FixedInfoEncoding[] _fixedInfoEncoding = { FixedInfoEncoding.Concatenation };
             private HashFunctions[] _hmacAlg = { HashFunctions.Sha1 };
             private MacSaltMethod[] _macSaltMethods = { MacSaltMethod.Default };
+            private MathDomain _saltLens = null;
             private int _l = 256;
             private MathDomain _z = new MathDomain().AddSegment(new ValueDomainSegment(512));
             private bool? _usesHybridSharedSecret = true;
@@ -65,6 +66,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 _auxSharedSecretLen = value;
                 return this;
             }
+            
+            public ParameterBuilder WithHmacAlg(HashFunctions[] value)
+            {
+                _hmacAlg = value;
+                return this;
+            }
+            
+            public ParameterBuilder WithSaltLens(MathDomain value)
+            {
+                _saltLens = value;
+                return this;
+            }
 
             public Parameters Build()
             {
@@ -77,6 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                     Encoding = _fixedInfoEncoding,
                     HmacAlg = _hmacAlg,
                     MacSaltMethods = _macSaltMethods,
+                    SaltLens = _saltLens,
                     L = _l,
                     Z = _z,
                     UsesHybridSharedSecret = _usesHybridSharedSecret,
@@ -105,11 +119,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
         }
         
         [Test]
-        [TestCase("KDA", "HKDF", "Sp800-56Cr1", null, null,true)]
-        [TestCase("KDA", "HKDF", "Sp800-56Cr1", false, null,false)]
-        [TestCase("KDA", "HKDF", "Sp800-56Cr1", true, null,false)]
-        [TestCase("KDA", "HKDF", "Sp800-56Cr1", true, 512,false)]
-        
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", null, 512,false)]
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", false, 512,false)]
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", true, 512,true)]
@@ -136,6 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
             Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
         }
         
+        [Test]
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", true, 100,false)]
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", true, 115,false)]
         [TestCase("KDA", "HKDF", "Sp800-56Cr2", true, 512,true)]
@@ -159,6 +169,25 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 .WithAuxSharedSecretLen(auxSSL)
                 .Build();
 
+            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+        }
+
+        [Test]
+        [TestCase("should pass", new HashFunctions[] { HashFunctions.Sha2_d512}, 8, 9, true)]
+        [TestCase("has a saltLen < 8", new HashFunctions[] { HashFunctions.Sha2_d512}, 7, 9, false)]
+        [TestCase("all of the saltLens exceed the input block size for one of the hashAlgs", new HashFunctions[] { HashFunctions.Sha2_d512, HashFunctions.Sha3_d512}, 600, 600, false)]
+        [TestCase("largest saltLen is larger than the largest hash input block size", new HashFunctions[] { HashFunctions.Sha2_d512, HashFunctions.Sha3_d512}, 600, 1030, false)]
+        public void ShouldValidateSaltLens(string description, HashFunctions[] hashAlg, int saltMin, int saltMax, bool isSuccessful)
+        {
+            var saltLens = new MathDomain()
+                .AddSegment(new ValueDomainSegment(saltMin))
+                .AddSegment(new ValueDomainSegment(saltMax));
+
+            var param = new ParameterBuilder()
+                .WithHmacAlg(hashAlg)
+                .WithSaltLens(saltLens)
+                .Build();
+            
             Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
         }
     }

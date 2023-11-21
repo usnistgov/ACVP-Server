@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -377,13 +378,15 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
         {
             var keyParam = new RsaKeyParameters()
             {
-                KeyMode = PrimeGenModes.RandomProbablePrimes,
+                KeyFormat = param.Mode.Equals(PrivateKeyModes.Standard) ? PrivateKeyModes.Standard : PrivateKeyModes.Crt,
                 Modulus = param.Modulo,
                 PrimeTest = PrimeTestModes.TwoPow100ErrorBound,
-                KeyFormat = param.Mode.Equals(PrivateKeyModes.Standard) ? PrivateKeyModes.Standard : PrivateKeyModes.Crt,
-                PublicExponentMode = PublicExponentModes.Random,
+                PublicExponentMode = param.PublicExponent == null ? PublicExponentModes.Random : PublicExponentModes.Fixed,
+                PublicExponent = param.PublicExponent,
+                KeyMode = PrimeGenModes.RandomProbablePrimes,
                 Standard = Fips186Standard.Fips186_4
             };
+            
             var keyResult = await GetRsaKeyAsync(keyParam);
             var key = new KeyResult(keyResult.Key, keyResult.AuxValues);
             

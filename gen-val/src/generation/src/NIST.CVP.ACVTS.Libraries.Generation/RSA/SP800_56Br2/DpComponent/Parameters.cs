@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
 {
@@ -17,5 +18,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
         
         [JsonProperty(PropertyName = "modulo")] 
         public int[] Modulo { get; set; }
+        
+        [JsonProperty(PropertyName = "pubExpMode")]
+        public PublicExponentModes[] PublicExponentModes { get; set; }
+        
+        [JsonProperty(PropertyName = "fixedPubExp")]
+        public BitString PublicExponentValue = null;
     }
 }

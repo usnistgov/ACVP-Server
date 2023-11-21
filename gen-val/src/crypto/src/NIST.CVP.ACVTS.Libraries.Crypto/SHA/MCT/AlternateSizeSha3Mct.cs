@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT
                         }
                         else
                         {
-                            innerMessage.ConcatenateBits(BitString.Zeroes(seedLength - innerMessage.BitLength));
+                            innerMessage = innerMessage.ConcatenateBits(BitString.Zeroes(seedLength - innerMessage.BitLength));
                         }
                         
                         var innerResult = _sha.HashMessage(innerMessage);

@@ -22,11 +22,11 @@
         },
         {
           "tcId": 4,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 5,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 6,
@@ -42,11 +42,11 @@
         },
         {
           "tcId": 9,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 10,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     },
@@ -55,7 +55,7 @@
       "tests": [
         {
           "tcId": 11,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 12,
@@ -71,11 +71,11 @@
         },
         {
           "tcId": 15,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 16,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 17,
@@ -83,15 +83,15 @@
         },
         {
           "tcId": 18,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 19,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 20,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     }

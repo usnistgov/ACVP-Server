@@ -12,7 +12,6 @@
       "increment": 8
     }
   ],
-  "performMultiExpansionTests": false,
   "capabilities": [
     {
       "macSaltMethods": [

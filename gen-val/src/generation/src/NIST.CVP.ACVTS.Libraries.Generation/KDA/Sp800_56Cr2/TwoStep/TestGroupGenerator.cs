@@ -6,6 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
@@ -37,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                 {
                     zLengths = GetSSLens(parameters.Z.GetDeepCopy());
                     int numSSLens = zLengths.Count;
-                    
+
                     if (usesHybridSS)
                     {
                         tLengths = GetSSLens(parameters.AuxSharedSecretLen.GetDeepCopy());
@@ -46,28 +47,53 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                             numSSLens = tLengths.Count;
                         }
                     }
-                    
+
                     for (int i = 0; i < numSSLens; i++)
                     {
                         // tLength should default to 0
-                        tLength = 0; 
-                        // If we're dealing w/ 56Cr1 or if it's 56Cr2 w/ !usesHybridSS, then we don't need to factor in/worry about t
-                        if (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1 || (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2 && !usesHybridSS))
+                        tLength = 0;
+                        // If we're dealing w/ !usesHybridSS, then we don't need to factor in/worry about t
+                        if (!usesHybridSS)
                         {
                             zLength = zLengths[i];
-                        } 
+                        }
                         else // if 56Cr2 and usesHybridSS is true, then we could be in a scenario where the  
-                        { // number of zLengths is less than the number of tLengths and we'll need to reuse a
+                        {
+                            // number of zLengths is less than the number of tLengths and we'll need to reuse a
                             // zLength 1 or more times or vice versus
-                            zLength = i < zLengths.Count ? zLengths[i] : zLengths[zLengths.Count-1]; 
-                            tLength = i < tLengths.Count ? tLengths[i] : tLengths[tLengths.Count-1];
+                            zLength = i < zLengths.Count ? zLengths[i] : zLengths[zLengths.Count - 1];
+                            tLength = i < tLengths.Count ? tLengths[i] : tLengths[tLengths.Count - 1];
                         }
 
-                        if (algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1)
+                        groups.Add(new TestGroup()
+                        {
+                            KdfConfiguration = new TwoStepConfiguration()
+                            {
+                                L = parameters.L,
+                                CounterLen = kdfConfig.CounterLen,
+                                CounterLocation = kdfConfig.CounterLocation,
+                                IvLen = kdfConfig.IvLen,
+                                KdfMode = kdfConfig.KdfMode,
+                                MacMode = kdfConfig.MacMode,
+                                SaltLen = kdfConfig.SaltLen,
+                                SaltMethod = kdfConfig.SaltMethod,
+                                FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
+                                FixedInfoPattern = kdfConfig.FixedInfoPattern
+                            },
+                            TestType = testType,
+                            IsSample = parameters.IsSample,
+                            ZLength = zLength,
+                            UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
+                            AuxSharedSecretLen = tLength,
+                            MultiExpansion = false,
+                        });
+
+                        // Create groups for multi expansion using more or less the same options
+                        if (parameters.PerformMultiExpansionTests)
                         {
                             groups.Add(new TestGroup()
                             {
-                                KdfConfiguration = new TwoStepConfiguration()
+                                KdfMultiExpansionConfiguration = new TwoStepMultiExpansionConfiguration()
                                 {
                                     L = parameters.L,
                                     CounterLen = kdfConfig.CounterLen,
@@ -77,63 +103,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                                     MacMode = kdfConfig.MacMode,
                                     SaltLen = kdfConfig.SaltLen,
                                     SaltMethod = kdfConfig.SaltMethod,
-                                    FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
-                                    FixedInfoPattern = kdfConfig.FixedInfoPattern
-                                },
-                                TestType = testType,
-                                IsSample = parameters.IsSample,
-                                ZLength = zLength
-                            });                            
-                        }
-                        else
-                        {
-                            groups.Add(new TestGroup()
-                            {
-                                KdfConfiguration = new TwoStepConfiguration()
-                                {
-                                    L = parameters.L,
-                                    CounterLen = kdfConfig.CounterLen,
-                                    CounterLocation = kdfConfig.CounterLocation,
-                                    IvLen = kdfConfig.IvLen,
-                                    KdfMode = kdfConfig.KdfMode,
-                                    MacMode = kdfConfig.MacMode,
-                                    SaltLen = kdfConfig.SaltLen,
-                                    SaltMethod = kdfConfig.SaltMethod,
-                                    FixedInfoEncoding = kdfConfig.FixedInfoEncoding,
-                                    FixedInfoPattern = kdfConfig.FixedInfoPattern
                                 },
                                 TestType = testType,
                                 IsSample = parameters.IsSample,
                                 ZLength = zLength,
                                 UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                                 AuxSharedSecretLen = tLength,
-                                MultiExpansion = false,
+                                MultiExpansion = true,
                             });
-                            
-                            // Create groups for multi expansion using more or less the same options
-                            if (parameters.PerformMultiExpansionTests)
-                            {
-                                groups.Add(new TestGroup()
-                                {
-                                    KdfMultiExpansionConfiguration = new TwoStepMultiExpansionConfiguration()
-                                    {
-                                        L = parameters.L,
-                                        CounterLen = kdfConfig.CounterLen,
-                                        CounterLocation = kdfConfig.CounterLocation,
-                                        IvLen = kdfConfig.IvLen,
-                                        KdfMode = kdfConfig.KdfMode,
-                                        MacMode = kdfConfig.MacMode,
-                                        SaltLen = kdfConfig.SaltLen,
-                                        SaltMethod = kdfConfig.SaltMethod,
-                                    },
-                                    TestType = testType,
-                                    IsSample = parameters.IsSample,
-                                    ZLength = zLength,
-                                    UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
-                                    AuxSharedSecretLen = tLength,
-                                    MultiExpansion = true,
-                                });
-                            }
                         }
                     }
                 }

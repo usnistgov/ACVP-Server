@@ -6,8 +6,8 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers;
-using NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep.ContractResolvers;
-using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
@@ -16,8 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>()
         {
-            AlgoMode.KDA_TwoStep_Sp800_56Cr1,
-            AlgoMode.KDA_TwoStep_Sp800_56Cr2,
+            AlgoMode.KDA_TwoStep_Sp800_56Cr2
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

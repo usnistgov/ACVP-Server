@@ -120,11 +120,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.TwoStep
         }
         
         [Test]
-        [TestCase("KDA", "TwoStep", "Sp800-56Cr1", null, null,true)]
-        [TestCase("KDA", "TwoStep", "Sp800-56Cr1", false, null,false)]
-        [TestCase("KDA", "TwoStep", "Sp800-56Cr1", true, null,false)]
-        [TestCase("KDA", "TwoStep", "Sp800-56Cr1", true, 512,false)]
-        
         [TestCase("KDA", "TwoStep", "Sp800-56Cr2", null, 512,false)]
         [TestCase("KDA", "TwoStep", "Sp800-56Cr2", false, 512,false)]
         [TestCase("KDA", "TwoStep", "Sp800-56Cr2", true, 512,true)]

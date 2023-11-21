@@ -49,7 +49,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
                 var result = await _oracle.GetRsaSignaturePrimitiveV2_0Async(rsaParams);
 
                 SetTestCaseData(result, testCase, group.Modulo);
-                
             }
             catch (Exception ex)
             {

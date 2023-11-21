@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
-using NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr1.TwoStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;

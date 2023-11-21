@@ -31,6 +31,5 @@
       "max": 65536,
       "increment": 8
     }
-  ],
-  "performMultiExpansionTests": false
+  ]
 }

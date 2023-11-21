@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfHkdf;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.Hkdf;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
@@ -21,22 +22,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             var algoMode =
                 AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
             bool usesHybridSS = false;
+            // if a saltLens property was provided, those values need to be used
+            bool useIutProvidedSaltLens = (parameters.SaltLens != null) ? true : false;
             List<int> zLengths;
             List<int> tLengths = new List<int>(){};
             int zLength;
             int tLength;
-
-            if (algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr2)
-            {
-                usesHybridSS = parameters.UsesHybridSharedSecret.Value;
-            }
+            var random = new Random();
             
+            usesHybridSS = parameters.UsesHybridSharedSecret.Value;
+           
             foreach (var testType in _testTypes)
             {
                 foreach (var fixedInfoEncoding in parameters.Encoding)
                 {
                     foreach (var hmacAlg in parameters.HmacAlg)
                     {
+                        var hashInputBlockSize = ParameterValidator.GetHashInputBlockSize(hmacAlg);
+                        
                         foreach (var saltMethod in parameters.MacSaltMethods)
                         {
                             zLengths = GetSSLens(parameters.Z.GetDeepCopy());
@@ -50,82 +53,78 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                                     numSSLens = tLengths.Count;
                                 }
                             }
-                            
+
+                            List<int> saltLens = new List<int>();;
+                            // if the IUT provided them, pull back some valid saltLens to use
+                            if (useIutProvidedSaltLens)
+                            {
+                                saltLens.AddRange(parameters.SaltLens.GetDeepCopy()
+                                    .GetRandomValues(i => i <= hashInputBlockSize, numSSLens));
+                            }
+
                             for (int i = 0; i < numSSLens; i++)
                             {
                                 // tLength should default to 0
                                 tLength = 0; 
-                                // If we're dealing w/ 56Cr1 or if it's 56Cr2 w/ !usesHybridSS, then we don't need to factor in/worry about t
-                                if (algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr1 || (algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr2 && !usesHybridSS))
+                                // If we're not using HybridSS, we don't need to factor in/worry about t
+                                if (!usesHybridSS)
                                 {
                                     zLength = zLengths[i];
                                 } 
-                                else // if 56Cr2 and usesHybridSS is true, then we could be in a scenario where the  
+                                else // if usesHybridSS is true, then we could be in a scenario where the  
                                 { // number of zLengths is less than the number of tLengths and we'll need to reuse a
                                   // zLength 1 or more times or vice versus
                                     zLength = i < zLengths.Count ? zLengths[i] : zLengths[zLengths.Count-1]; 
                                     tLength = i < tLengths.Count ? tLengths[i] : tLengths[tLengths.Count-1];
                                 }
 
-                                if (algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr1)
+                                // if the IUT supplied saltLens, choose one to use. Otherwise, default to the hash input block size
+                                var saltLen = (useIutProvidedSaltLens)
+                                    ? saltLens[random.Next(saltLens.Count)]
+                                    : hashInputBlockSize;
+                                
+                                groups.Add(new TestGroup()
                                 {
+                                    KdfConfiguration = new HkdfConfiguration()
+                                    {
+                                        L = parameters.L,
+                                        HmacAlg = hmacAlg,
+                                        SaltMethod = saltMethod,
+                                        SaltLen = saltLen,
+                                        FixedInfoEncoding = fixedInfoEncoding,
+                                        FixedInfoPattern = parameters.FixedInfoPattern
+                                    },
+                                    TestType = testType,
+                                    IsSample = parameters.IsSample,
+                                    ZLength = zLength,
+                                    UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
+                                    AuxSharedSecretLen = tLength,
+                                    MultiExpansion = false
+                                });
+
+                                // Create groups for multi expansion using more or less the same options
+                                if (parameters.PerformMultiExpansionTests)
+                                {
+                                    // grab a different random saltLen than what was used in the previous testGroup for better testing
+                                    saltLen = (useIutProvidedSaltLens)
+                                        ? saltLens[random.Next(saltLens.Count)]
+                                        : hashInputBlockSize;
                                     groups.Add(new TestGroup()
                                     {
-                                        KdfConfiguration = new HkdfConfiguration()
+                                        KdfMultiExpansionConfiguration = new HkdfMultiExpansionConfiguration()
                                         {
-                                            L = parameters.L,
                                             HmacAlg = hmacAlg,
                                             SaltMethod = saltMethod,
-                                            SaltLen = GetSaltLen(hmacAlg),
-                                            FixedInfoEncoding = fixedInfoEncoding,
-                                            FixedInfoPattern = parameters.FixedInfoPattern
-                                        },
-                                        TestType = testType,
-                                        IsSample = parameters.IsSample,
-                                        ZLength = zLength
-                                    });                                    
-                                }
-                                else
-                                { 
-                                    groups.Add(new TestGroup()
-                                    {
-                                        KdfConfiguration = new HkdfConfiguration()
-                                        {
-                                            L = parameters.L,
-                                            HmacAlg = hmacAlg,
-                                            SaltMethod = saltMethod,
-                                            SaltLen = GetSaltLen(hmacAlg),
-                                            FixedInfoEncoding = fixedInfoEncoding,
-                                            FixedInfoPattern = parameters.FixedInfoPattern
+                                            SaltLen = saltLen,
+                                            L = parameters.L
                                         },
                                         TestType = testType,
                                         IsSample = parameters.IsSample,
                                         ZLength = zLength,
                                         UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                                         AuxSharedSecretLen = tLength,
-                                        MultiExpansion = false
+                                        MultiExpansion = true
                                     });
-
-                                    // Create groups for multi expansion using more or less the same options
-                                    if (parameters.PerformMultiExpansionTests)
-                                    {
-                                        groups.Add(new TestGroup()
-                                        {
-                                            KdfMultiExpansionConfiguration = new HkdfMultiExpansionConfiguration()
-                                            {
-                                                HmacAlg = hmacAlg,
-                                                SaltMethod = saltMethod,
-                                                SaltLen = GetSaltLen(hmacAlg),
-                                                L = parameters.L
-                                            },
-                                            TestType = testType,
-                                            IsSample = parameters.IsSample,
-                                            ZLength = zLength,
-                                            UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
-                                            AuxSharedSecretLen = tLength,
-                                            MultiExpansion = true
-                                        });
-                                    } 
                                 }
                             }
                         }
@@ -135,38 +134,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
 
             return Task.FromResult(groups);
         }
-
-        private int GetSaltLen(HashFunctions hmacAlg)
-        {
-            switch (hmacAlg)
-            {
-                case HashFunctions.Sha1:
-                    return 512;
-                case HashFunctions.Sha2_d224:
-                    return 512;
-                case HashFunctions.Sha2_d512t224:
-                    return 1024;
-                case HashFunctions.Sha3_d224:
-                    return 1152;
-                case HashFunctions.Sha2_d256:
-                    return 512;
-                case HashFunctions.Sha2_d512t256:
-                    return 1024;
-                case HashFunctions.Sha3_d256:
-                    return 1088;
-                case HashFunctions.Sha2_d384:
-                    return 1024;
-                case HashFunctions.Sha3_d384:
-                    return 832;
-                case HashFunctions.Sha2_d512:
-                    return 1024;
-                case HashFunctions.Sha3_d512:
-                    return 576;
-            }
-
-            return 0;
-        }
-
+        
         private List<int> GetSSLens(MathDomain sS)
         {
             var values = new List<int>();

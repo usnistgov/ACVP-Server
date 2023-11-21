@@ -18,6 +18,6 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native
         /// <param name="signature">The signature to verify</param>
         /// <param name="message">The message that was purportedly signed by the private key paired to <see cref="lmsPublicKey"/>.</param>
         /// <returns>True if the signature is valid, otherwise false</returns>
-        LmsVerificationResult Verify(ILmsPublicKey lmsPublicKey, byte[] signature, byte[] message);
+        LmsVerificationResult Verify(byte[] lmsPublicKey, byte[] signature, byte[] message);
     }
 }

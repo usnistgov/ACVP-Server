@@ -15,18 +15,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        private static readonly string[] ValidFixedInfoPatternPieces_Cr1 =
-        {
-            "l",
-            "iv",
-            "salt",
-            "uPartyInfo",
-            "vPartyInfo",
-            "context",
-            "algorithmId",
-            "label"
-        };
-
         private static readonly string[] ValidFixedInfoPatternPieces_Cr2 =
         {
             "l",
@@ -74,7 +62,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
 
             ValidateKdfMethod(parameters, errors);
             ValidateUsesHybridSharedSecret(parameters, errors);
-            ValidatePerformMultiExpandTests(parameters, errors);
 
             return new ParameterValidateResponse(errors);
         }
@@ -86,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                 _algoMode =
                     AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
-                if (_algoMode != AlgoMode.KDA_TwoStep_Sp800_56Cr1 && _algoMode != AlgoMode.KDA_TwoStep_Sp800_56Cr2)
+                if (_algoMode != AlgoMode.KDA_TwoStep_Sp800_56Cr2)
                 {
                     errors.Add("Invalid algo/mode/revision for generator.");
                 }
@@ -240,20 +227,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
 
                 if (fiPiece.Contains("literal") || fiPiece.Contains("entropyBits")) continue;
 
-                if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1)
+                if (!ValidFixedInfoPatternPieces_Cr2.Contains(fiPiece))
                 {
-                    if (!ValidFixedInfoPatternPieces_Cr1.Contains(fiPiece))
-                    {
-                        errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
-                    }
-                }
-
-                if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2)
-                {
-                    if (!ValidFixedInfoPatternPieces_Cr2.Contains(fiPiece))
-                    {
-                        errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
-                    }
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }
@@ -288,65 +264,38 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                 errors.Add(modCheck);
             }
         }
-        
-        private void ValidatePerformMultiExpandTests(Parameters parameters, List<string> errors)
-        {
-            // PerformMultiExpandTests is only valid for Cr2
-            if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1 && parameters.PerformMultiExpansionTests)
-            {
-                errors.Add($"{nameof(parameters.PerformMultiExpansionTests)} is not valid for algo/mode/revision {_algoMode}.");
-            }
-        }
-        
+
         private void ValidateUsesHybridSharedSecret(Parameters parameters, List<string> errors)
         {
             try
             {
-                // KDA TwoStep Sp800-56Cr1 Checks:
-                if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1)
+                // the usesHybridSharedSecret registration property is required for 56Cr2 testing
+                if (parameters.UsesHybridSharedSecret == null)
                 {
-                    // the usesHybridSharedSecret registration parameter is not valid for KDA / TwoStep / 56Cr1
-                    if (parameters.UsesHybridSharedSecret != null)
-                    {
-                        errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is not valid for algo/mode/revision {_algoMode}.");                    
-                    }
-                    // the auxSharedSecretLen registration parameter is not valid for KDA / TwoStep / 56Cr1
-                    if (parameters.AuxSharedSecretLen != null)
-                    {
-                        errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property is not valid for algo/mode/revision {_algoMode}.");                    
-                    }                    
+                    errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
                 }
-                // KDA TwoStep Sp800-56Cr2 Checks:
-                else if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2)
+                else if (parameters.UsesHybridSharedSecret == true)
                 {
-                    // the usesHybridSharedSecret registration property is required for 56Cr2 testing
-                    if (parameters.UsesHybridSharedSecret == null)
+                    // if UsesHybridSharedSecret, then AuxSharedSecretLen can't be null
+                    if (parameters.AuxSharedSecretLen == null)
                     {
-                        errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
+                        errors.Add(
+                            $"For algo/mode/revision {_algoMode}, when {nameof(parameters.UsesHybridSharedSecret)}:true," +
+                            $" the {nameof(parameters.AuxSharedSecretLen)} registration property must be provided.");                             
                     }
-                    else if (parameters.UsesHybridSharedSecret == true)
+                    // validate auxSharedSecretLen
+                    else
                     {
-                        // if UsesHybridSharedSecret, then AuxSharedSecretLen can't be null
-                        if (parameters.AuxSharedSecretLen == null)
-                        {
-                            errors.Add(
-                                $"For algo/mode/revision {_algoMode}, when {nameof(parameters.UsesHybridSharedSecret)}:true," +
-                                $" the {nameof(parameters.AuxSharedSecretLen)} registration property must be provided.");                             
-                        }
-                        // validate auxSharedSecretLen
-                        else
-                        {
-                            ValidateAuxSSLen(parameters.AuxSharedSecretLen, errors);
-                        }
-                    }                    
-                    // If the usesHybridSharedSecret registration property equals false, but the auxSharedSecretLen
-                    // registration parameter is present 
-                    else if (parameters.UsesHybridSharedSecret == false && parameters.AuxSharedSecretLen != null)
-                    {
-                        errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property may not be used " +
-                                   $"except in combination with {nameof(parameters.UsesHybridSharedSecret)}:true for " +
-                                   $"algo/mode/revision {_algoMode}");                    
+                        ValidateAuxSSLen(parameters.AuxSharedSecretLen, errors);
                     }
+                }                    
+                // If the usesHybridSharedSecret registration property equals false, but the auxSharedSecretLen
+                // registration parameter is present 
+                else if (parameters.UsesHybridSharedSecret == false && parameters.AuxSharedSecretLen != null)
+                {
+                    errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property may not be used " +
+                               $"except in combination with {nameof(parameters.UsesHybridSharedSecret)}:true for " +
+                               $"algo/mode/revision {_algoMode}");                    
                 }
             }
             catch (Exception e)

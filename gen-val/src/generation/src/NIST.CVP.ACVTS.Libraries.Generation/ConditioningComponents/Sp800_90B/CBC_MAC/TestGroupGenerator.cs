@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.CBC_MAC
 {
@@ -11,14 +12,31 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.C
         public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
             var groups = new List<TestGroup>();
-            foreach (var keyLen in parameters.KeyLen)
+            if (parameters.Keys != null)
             {
-                groups.Add(new TestGroup
+                foreach (var key in parameters.Keys)
                 {
-                    KeyLength = keyLen,
-                    PayloadLength = parameters.PayloadLen.GetDeepCopy(),
-                    TestType = TEST_TYPE
-                });
+                    groups.Add(new TestGroup
+                    {
+                        PayloadLength = parameters.PayloadLen.GetDeepCopy(),
+                        TestType = TEST_TYPE,
+                        KeyLength = 0,
+                        Key = key
+                    });
+                }
+            }
+            else
+            {
+                foreach (var keyLen in parameters.KeyLen)
+                {
+                    groups.Add(new TestGroup
+                    {
+                        PayloadLength = parameters.PayloadLen.GetDeepCopy(),
+                        TestType = TEST_TYPE,
+                        KeyLength = keyLen,
+                        Key = null
+                    });
+                }
             }
 
             return Task.FromResult(groups);

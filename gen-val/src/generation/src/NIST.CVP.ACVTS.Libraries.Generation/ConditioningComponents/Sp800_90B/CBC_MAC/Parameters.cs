@@ -1,4 +1,7 @@
-﻿using NIST.CVP.ACVTS.Libraries.Generation.Core;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.CBC_MAC
@@ -14,5 +17,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.C
 
         public int[] KeyLen { get; set; }
         public MathDomain PayloadLen { get; set; }
+        
+        [JsonProperty(PropertyName = "keys")] 
+        public List<BitString> Keys { get; set; }
     }
 }

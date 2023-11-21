@@ -207,13 +207,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native
                 var sig = sigList[i];
                 msg = pubList[i];
 
-                if (!_lmsVerifier.Verify(new LmsPublicKey(key), sig, msg).Success)
+                if (!_lmsVerifier.Verify(key, sig, msg).Success)
                     return false;
 
                 key = msg;
             }
 
-            return _lmsVerifier.Verify(new LmsPublicKey(key), sigList[nspk], message).Success;
+            return _lmsVerifier.Verify(key, sigList[nspk], message).Success;
         }
     }
 }

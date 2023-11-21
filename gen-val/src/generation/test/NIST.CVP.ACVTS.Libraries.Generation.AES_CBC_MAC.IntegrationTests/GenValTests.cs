@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.ConditioningComponents.Sp800_90B.CBC_MAC;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
@@ -15,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_MAC.IntegrationTests
         public override string Algorithm { get; } = "ConditioningComponent";
         public override string Mode { get; } = "AES-CBC-MAC";
         public override string Revision { get; set; } = "SP800-90B";
-
+        
         public override AlgoMode AlgoMode => AlgoMode.ConditioningComponent_CBC_MAC_90B;
 
         public override IRegisterInjections RegistrationsGenVal => new RegisterInjections();
@@ -31,13 +33,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_MAC.IntegrationTests
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
+            var rand = new Random800_90();
+            var keys = new List<BitString>();
+            keys.Add(rand.GetRandomBitString(128));
+            
             var p = new Parameters
             {
                 VectorSetId = 42,
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                KeyLen = new[] { ParameterValidator.VALID_KEY_LENGTHS.First() },
+                KeyLen = new[] { 128 },
+                Keys = keys,
                 PayloadLen = new MathDomain().AddSegment(new ValueDomainSegment(128)),
                 IsSample = true
             };
@@ -47,6 +54,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CBC_MAC.IntegrationTests
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
+            var rand = new Random800_90();
+            
             var p = new Parameters
             {
                 VectorSetId = 42,

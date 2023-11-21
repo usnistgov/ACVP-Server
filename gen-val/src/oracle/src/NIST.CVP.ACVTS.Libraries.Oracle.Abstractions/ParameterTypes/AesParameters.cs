@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
+using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
 {
@@ -9,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         public int KeyLength { get; set; }
         public int DataLength { get; set; }
         public string Direction { get; set; }
-
+        public BitString Key { get; set; }
         public override bool Equals(object other)
         {
             if (other is AesParameters p)

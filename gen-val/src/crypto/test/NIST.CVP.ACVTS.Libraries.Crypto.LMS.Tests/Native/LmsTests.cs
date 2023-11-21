@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var message = new byte[32];
 
             var signature = _subject.Sign(lmsKeyPair.PrivateKey, _randomizerC, message);
-            var verify = _subject.Verify(lmsKeyPair.PublicKey, signature.Signature, message);
+            var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
 
             Console.WriteLine(new BitString(signature.Signature).ToHex());
             Assert.AreEqual(signatureHex, new BitString(signature.Signature).ToHex());
@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var message = new byte[32];
 
             var signature = _subject.Sign(lmsKeyPair.PrivateKey, _randomizerC, message);
-            var verify = _subject.Verify(lmsKeyPair.PublicKey, signature.Signature, message);
+            var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
 
             Console.WriteLine(new BitString(signature.Signature).ToHex());
             Assert.AreEqual(signatureHex, new BitString(signature.Signature).ToHex());
@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
 
             var signature = _subject.Sign(lmsKeyPair.PrivateKey, _randomizerC, message);
             Console.WriteLine(new BitString(signature.Signature).ToHex());
-            var verify = _subject.Verify(lmsKeyPair.PublicKey, signature.Signature, message);
+            var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
             
             Assert.AreEqual(expectedSignature, new BitString(signature.Signature).ToHex());
             Assert.IsTrue(verify.Success);
@@ -125,7 +125,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var lms = new Lms(lmOtsKeyPairFactory, lmOts, shaFactory);
 
             var result = lms.Verify(
-                new LmsPublicKey(new BitString(key).ToBytes()),
+                new BitString(key).ToBytes(),
                 new BitString(signature).ToBytes(),
                 new BitString(message).ToBytes());
 

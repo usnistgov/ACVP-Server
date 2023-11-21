@@ -54,7 +54,7 @@
         {
           "modulo": 2048,
           "hashAlg": [
-            "SHA3-224"
+            "SHA2-224"
           ],
           "primeTest": [
             "2powSecStr"
@@ -70,7 +70,7 @@
         {
           "modulo": 4096,
           "hashAlg": [
-            "SHA3-512"
+            "SHA2-512"
           ],
           "primeTest": [
             "2powSecStr"

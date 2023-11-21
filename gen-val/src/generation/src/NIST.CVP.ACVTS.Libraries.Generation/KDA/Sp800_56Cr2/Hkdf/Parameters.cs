@@ -31,6 +31,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
         /// </summary>
         public MacSaltMethod[] MacSaltMethods { get; set; }
         /// <summary>
+        /// The supported lengths for the salt.
+        /// </summary>
+        public MathDomain SaltLens { get; set; }
+        /// <summary>
         /// The length of the keying material to derive.
         /// </summary>
         public int L { get; set; }

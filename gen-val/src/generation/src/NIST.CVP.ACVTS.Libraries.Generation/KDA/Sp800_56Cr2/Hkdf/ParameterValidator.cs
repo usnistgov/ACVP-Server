@@ -33,23 +33,41 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             (HashFunctions.Sha3_d512, 112),
         };
 
+        public static int GetHashInputBlockSize(HashFunctions hmacAlg)
+        {
+            switch (hmacAlg)
+            {
+                case HashFunctions.Sha1:
+                    return 512;
+                case HashFunctions.Sha2_d224:
+                    return 512;
+                case HashFunctions.Sha2_d512t224:
+                    return 1024;
+                case HashFunctions.Sha3_d224:
+                    return 1152;
+                case HashFunctions.Sha2_d256:
+                    return 512;
+                case HashFunctions.Sha2_d512t256:
+                    return 1024;
+                case HashFunctions.Sha3_d256:
+                    return 1088;
+                case HashFunctions.Sha2_d384:
+                    return 1024;
+                case HashFunctions.Sha3_d384:
+                    return 832;
+                case HashFunctions.Sha2_d512:
+                    return 1024;
+                case HashFunctions.Sha3_d512:
+                    return 576;
+            }
+
+            return 0;
+        }
+        
         private static readonly int MaximumL = 2048;
 
-        private static readonly string[] ValidFixedInfoPatternPieces_Cr1 =
+        private static readonly string[] ValidFixedInfoPatternPieces =
         {
-            "l",
-            "iv",
-            "salt",
-            "uPartyInfo",
-            "vPartyInfo",
-            "context",
-            "algorithmId",
-            "label"
-        };
-
-        private static readonly string[] ValidFixedInfoPatternPieces_Cr2 =
-        {
-            "t",
             "l",
             "iv",
             "salt",
@@ -105,7 +123,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
 
             ValidateL(parameters, errors);
             ValidateUsesHybridSharedSecret(parameters, errors);
-            ValidatePerformMultiExpandTests(parameters, errors);
+            // saltLens is something we added after the fact... was not baked in from the get-go
+            ValidateSaltLens(parameters, errors);
             
             return new ParameterValidateResponse(errors);
         }
@@ -117,7 +136,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                 _algoMode =
                     AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(parameters.Algorithm, parameters.Mode, parameters.Revision);
 
-                if (_algoMode != AlgoMode.KDA_HKDF_Sp800_56Cr1 && _algoMode != AlgoMode.KDA_HKDF_Sp800_56Cr2)
+                if (_algoMode != AlgoMode.KDA_HKDF_Sp800_56Cr2)
                 {
                     errors.Add("Invalid algo/mode/revision for generator.");
                 }
@@ -161,7 +180,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             if (fixedInfoPattern.Contains(entropyBits))
             {
                 const int maxEntropyBits = 4096;
-                //needsRequiredPieces = false;
 
                 var entropyBitsPortion = fiPieces.First(w => w.Contains(entropyBits));
                 entropyBitsPortion = entropyBitsPortion
@@ -236,20 +254,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
 
                 if (fiPiece.Contains("literal") || fiPiece.Contains("entropyBits")) continue;
 
-                if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr1)
+                if (!ValidFixedInfoPatternPieces.Contains(fiPiece))
                 {
-                    if (!ValidFixedInfoPatternPieces_Cr1.Contains(fiPiece))
-                    {
-                        errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
-                    }
-                }
-
-                if (_algoMode == AlgoMode.KDA_TwoStep_Sp800_56Cr2)
-                {
-                    if (!ValidFixedInfoPatternPieces_Cr2.Contains(fiPiece))
-                    {
-                        errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
-                    }
+                    errorResults.Add($"Invalid portion of fixedInfoPattern: {fiPiece}");
                 }
             }
         }
@@ -304,65 +311,38 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                 errors.Add(modCheck);
             }
         }
-        
-        private void ValidatePerformMultiExpandTests(Parameters parameters, List<string> errors)
-        {
-            // PerformMultiExpandTests is only valid for Cr2
-            if (_algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr1 && parameters.PerformMultiExpansionTests)
-            {
-                errors.Add($"{nameof(parameters.PerformMultiExpansionTests)} is not valid for algo/mode/revision {_algoMode}.");
-            }
-        }
-        
+
         private void ValidateUsesHybridSharedSecret(Parameters parameters, List<string> errors)
         {
             try
             {
-                // KDA HKDF Sp800-56Cr1 Checks:
-                if (_algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr1)
+                // the usesHybridSharedSecret registration property is required for 56Cr2 testing
+                if (parameters.UsesHybridSharedSecret == null)
                 {
-                    // the usesHybridSharedSecret registration parameter is not valid for KDA / HKDF / 56Cr1
-                    if (parameters.UsesHybridSharedSecret != null)
-                    {
-                        errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is not valid for algo/mode/revision {_algoMode}.");                    
-                    }
-                    // the auxSharedSecretLen registration parameter is not valid for KDA / HKDF / 56Cr1
-                    if (parameters.AuxSharedSecretLen != null)
-                    {
-                        errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property is not valid for algo/mode/revision {_algoMode}.");                    
-                    }                    
+                    errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
                 }
-                // KDA HKDF Sp800-56Cr2 Checks:
-                else if (_algoMode == AlgoMode.KDA_HKDF_Sp800_56Cr2)
+                else if (parameters.UsesHybridSharedSecret == true)
                 {
-                    // the usesHybridSharedSecret registration property is required for 56Cr2 testing
-                    if (parameters.UsesHybridSharedSecret == null)
+                    // if UsesHybridSharedSecret, then AuxSharedSecretLen can't be null
+                    if (parameters.AuxSharedSecretLen == null)
                     {
-                        errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
+                        errors.Add(
+                            $"For algo/mode/revision {_algoMode}, when {nameof(parameters.UsesHybridSharedSecret)}:true," +
+                            $" the {nameof(parameters.AuxSharedSecretLen)} registration property must be provided.");                             
                     }
-                    else if (parameters.UsesHybridSharedSecret == true)
+                    // validate auxSharedSecretLen
+                    else
                     {
-                        // if UsesHybridSharedSecret, then AuxSharedSecretLen can't be null
-                        if (parameters.AuxSharedSecretLen == null)
-                        {
-                            errors.Add(
-                                $"For algo/mode/revision {_algoMode}, when {nameof(parameters.UsesHybridSharedSecret)}:true," +
-                                $" the {nameof(parameters.AuxSharedSecretLen)} registration property must be provided.");                             
-                        }
-                        // validate auxSharedSecretLen
-                        else
-                        {
-                            ValidateAuxSSLen(parameters.AuxSharedSecretLen, errors);
-                        }
-                    }                    
-                    // If the usesHybridSharedSecret registration property equals false, but the auxSharedSecretLen
-                    // registration parameter is present 
-                    else if (parameters.UsesHybridSharedSecret == false && parameters.AuxSharedSecretLen != null)
-                    {
-                        errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property may not be used " +
-                                   $"except in combination with {nameof(parameters.UsesHybridSharedSecret)}:true for " +
-                                   $"algo/mode/revision {_algoMode}");                    
+                        ValidateAuxSSLen(parameters.AuxSharedSecretLen, errors);
                     }
+                }                    
+                // If the usesHybridSharedSecret registration property equals false, but the auxSharedSecretLen
+                // registration parameter is present 
+                else if (parameters.UsesHybridSharedSecret == false && parameters.AuxSharedSecretLen != null)
+                {
+                    errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property may not be used " +
+                               $"except in combination with {nameof(parameters.UsesHybridSharedSecret)}:true for " +
+                               $"algo/mode/revision {_algoMode}");                    
                 }
             }
             catch (Exception e)
@@ -370,6 +350,34 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                 errors.Add(e.Message);
             }
         }
-        
+
+        private void ValidateSaltLens(Parameters parameters, List<string> errors)
+        {
+            // saltLens is an optional registration property
+            if (parameters.SaltLens != null)
+            {
+                var saltLenMinMax = parameters.SaltLens.GetDomainMinMax();
+                
+                // Per SP 800-56Cr2 Section 4.2, the length of the chosen salt must be at least 8 bits
+                if (saltLenMinMax.Minimum < 8)
+                    errors.Add($"Values of {nameof(parameters.SaltLens)} must be >= 8 bits, but the value {saltLenMinMax.Minimum} was supplied for {nameof(parameters.SaltLens)}.");
+                
+                // Per SP 800-56Cr2 Section 4.2, the length of the chosen salt must be "no greater than the length of a
+                // single input block to the hash function, hash, used to implement HMAC-hash."
+                int maxHashInputBlockSize = 0;
+                // 1) For each hmacAlg, there must be a saltLen that is no greater than the length of the hash's input block size.
+                foreach (var hmacAlg in parameters.HmacAlg)
+                {
+                    var hashInputBlockSize = GetHashInputBlockSize(hmacAlg);
+                    // figure out the largest hash input block size from hmacAlgs for below/later
+                    if (hashInputBlockSize > maxHashInputBlockSize) maxHashInputBlockSize = hashInputBlockSize;
+                    if (saltLenMinMax.Minimum > hashInputBlockSize)
+                        errors.Add($"{nameof(parameters.SaltLens)} must be <= the input block size of {hmacAlg}, but {nameof(parameters.SaltLens)} contains no value <= {hashInputBlockSize}.");    
+                }
+                // 2) For each saltLen there must be an hmacAlg whose input block size is >= equal to that saltLen
+                if (saltLenMinMax.Maximum > maxHashInputBlockSize)
+                    errors.Add($"{nameof(parameters.SaltLens)} must be <= the input block size of the hash function used to implement {nameof(parameters.HmacAlg)}. The {nameof(parameters.SaltLens)} value of {saltLenMinMax.Maximum} is larger than the largest input block size of {nameof(parameters.HmacAlg)}, i.e., {maxHashInputBlockSize}.");                    
+            }
+        }
     }
 }

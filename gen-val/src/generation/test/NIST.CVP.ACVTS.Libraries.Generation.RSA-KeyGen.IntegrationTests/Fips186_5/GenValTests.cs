@@ -63,44 +63,52 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var caps = new[]
-            {
-                new Capability
-                {
-                    Modulo = 2048,
-                    HashAlgs = new[] { "SHA2-224" },
-                    PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound },
-                    PMod8 = 1,
-                    QMod8 = 7
-                }
-            };
-
             var algSpecs = new[]
             {
                 new AlgSpec
                 {
                     RandPQ = PrimeGenModes.RandomProvablePrimes,
-                    Capabilities = caps
+                    Capabilities = new[]
+                    {
+                        new Capability
+                        {
+                            Modulo = 2048,
+                            HashAlgs = new[] { "SHA2-384" },
+                            PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound },
+                            PMod8 = 0,
+                            QMod8 = 0
+                        }
+                    }
                 },
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProbablePrimes,
-                    Capabilities = caps
+                    RandPQ = PrimeGenModes.RandomProvablePrimes,
+                    Capabilities = new[]
+                    {
+                        new Capability
+                        {
+                            Modulo = 3072,
+                            HashAlgs = new[] { "SHA2-384" },
+                            PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound },
+                            PMod8 = 0,
+                            QMod8 = 0
+                        }
+                    }
                 },
                 new AlgSpec
                 {
-                    RandPQ = PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes,
-                    Capabilities = caps
-                },
-                new AlgSpec
-                {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes,
-                    Capabilities = caps
-                },
-                new AlgSpec
-                {
-                    RandPQ = PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes,
-                    Capabilities = caps
+                    RandPQ = PrimeGenModes.RandomProvablePrimes,
+                    Capabilities = new[]
+                    {
+                        new Capability
+                        {
+                            Modulo = 4096,
+                            HashAlgs = new[] { "SHA2-384" },
+                            PrimeTests = new[] { PrimeTestModes.TwoPow100ErrorBound },
+                            PMod8 = 0,
+                            QMod8 = 0
+                        }
+                    }
                 }
             };
 
@@ -110,11 +118,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                 Mode = Mode,
                 Revision = Revision,
                 InfoGeneratedByServer = false,
-                IsSample = true,
-                PubExpMode = PublicExponentModes.Fixed,
-                FixedPubExp = new BitString("010001"),
-                KeyFormat = PrivateKeyModes.Crt,
-                AlgSpecs = algSpecs
+                PubExpMode = PublicExponentModes.Random,
+                KeyFormat = PrivateKeyModes.Standard,
+                AlgSpecs = algSpecs,
+                IsSample = false
             };
 
             return CreateRegistration(targetFolder, p);

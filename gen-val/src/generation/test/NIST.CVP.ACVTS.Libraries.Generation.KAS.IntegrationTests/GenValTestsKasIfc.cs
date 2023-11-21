@@ -81,6 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 PublicExponent = new BigInteger(65537),
                 KeyGenerationMethods = new[]
                 {
+                    
                     IfcKeyGenerationMethod.RsaKpg1_basic
                 },
                 Modulo = new[] { 2048 },
