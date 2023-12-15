@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
                 IsSample = true,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard },
                 Modulo = new [] { 2048 },
-                // PublicExponentModes = new PublicExponentModes[]{ PublicExponentModes.Fixed, PublicExponentModes.Random },
-                // PublicExponentValue = new BitString("010001")
+                PublicExponentMode = PublicExponentModes.Fixed,
+                PublicExponentValue = new BitString("010001")
             };
 
             return CreateRegistration(folderName, p);
@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_DecryptionPrimitive_SP800_56Br
                 IsSample = false,
                 KeyFormat = new PrivateKeyModes[] { PrivateKeyModes.Standard, PrivateKeyModes.Crt },
                 Modulo = new [] { 2048, 3072, 4096 },
-                //PublicExponentModes = new PublicExponentModes[]{ PublicExponentModes.Random }
+                PublicExponentMode = PublicExponentModes.Random
             };
 
             return CreateRegistration(folderName, p);

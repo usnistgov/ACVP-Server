@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap.Tests
 
             _subject.Encrypt(new BitString(128), payload, false);
 
-            _cipher.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invokations expected.");
+            _cipher.Verify(v => v.ProcessPayload(It.IsAny<IModeBlockCipherParameters>()), Times.Exactly(expectedNumberOfInvocations), $"{expectedNumberOfInvocations} invocations expected.");
         }
 
         [Test]

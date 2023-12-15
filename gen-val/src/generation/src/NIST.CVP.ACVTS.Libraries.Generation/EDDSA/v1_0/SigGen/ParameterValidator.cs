@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 
             if (!parameters.PreHash && !parameters.Pure)
             {
-                errors.Add("No valid mode chosen");
+                errors.Add("No valid signature generation mode chosen; PreHash or Pure must be true");
             }
 
             return new ParameterValidateResponse(errors);

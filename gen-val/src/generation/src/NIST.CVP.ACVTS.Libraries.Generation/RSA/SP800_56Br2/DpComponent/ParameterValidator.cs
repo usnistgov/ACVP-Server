@@ -18,25 +18,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.KeyFormat, VALID_KEY_FORMATS, "keyFormat"));
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulo, VALID_MODULI, "modulo"));
 
-            if (parameters.PublicExponentModes != null)
+            if (parameters.PublicExponentMode == PublicExponentModes.Invalid)
             {
-                foreach (var mode in parameters.PublicExponentModes)
+                errorResults.Add("Invalid or no public exponent mode provided");
+            }
+            
+            if (parameters.PublicExponentMode == PublicExponentModes.Fixed)
+            {
+                if (parameters.PublicExponentValue == null || parameters.PublicExponentValue.BitLength == 0)
                 {
-                    if (mode == PublicExponentModes.Invalid)
-                    {
-                        errorResults.Add("Invalid public exponent mode provided");
-                    }
-                    else if (mode== PublicExponentModes.Fixed)
-                    {
-                        if (parameters.PublicExponentValue == null || parameters.PublicExponentValue.BitLength == 0)
-                        {
-                            errorResults.Add("No public exponent provided.");
-                        }
-                        else if (!RsaKeyHelper.IsValidExponent(parameters.PublicExponentValue.ToPositiveBigInteger()))
-                        {
-                            errorResults.Add("Invalid public exponent provided.");
-                        }
-                    }
+                    errorResults.Add("No public exponent provided.");
+                }
+                else if (!RsaKeyHelper.IsValidExponent(parameters.PublicExponentValue.ToPositiveBigInteger()))
+                {
+                    errorResults.Add("Invalid public exponent provided.");
                 }
             }
 
