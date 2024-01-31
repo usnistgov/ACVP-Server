@@ -349,7 +349,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             BitString y = x.XOR(x);
             var result = _subject.BlockProduct(x, y);
 
-            Assert.AreEqual(expectation, result.ToBigInteger());
+            Assert.AreEqual(expectation, result.ToPositiveBigInteger());
         }
     }
 }

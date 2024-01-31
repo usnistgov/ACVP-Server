@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
@@ -47,8 +48,15 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             var domainParams = new EdDomainParameters(curve, _shaFactory);
 
             var edDsa = _dsaFactory.GetInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256), EntropyProviderTypes.Testable);
-            edDsa.AddEntropy(_fullParam.Key.PrivateD.ToPositiveBigInteger());
-
+            var d = _fullParam.Key.PrivateD.ToPositiveBigInteger();
+            
+            // Check this before Generating, validate their provided values
+            if (d > NumberTheory.Pow2(domainParams.CurveE.VariableB) - 1)
+            {
+                throw new ArgumentException($"Value provided for {nameof(d)} is greater than maxInclusive)");
+            }
+            
+            edDsa.AddEntropy(d);
             var result = edDsa.GenerateKeyPair(domainParams);
             if (!result.Success)
             {

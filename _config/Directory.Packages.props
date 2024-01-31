@@ -48,7 +48,7 @@
     <PackageVersion Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="4.1.1" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
-    <PackageVersion Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageVersion Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageVersion Include="System.Text.Json" Version="6.0.6" />
     <PackageVersion Include="TeamCity.VSTest.TestAdapter" Version="1.0.36" />
     <PackageVersion Include="NIST.CVP.ACVTS.Libraries.Common" Version="$(GenValPackageVersion)" />

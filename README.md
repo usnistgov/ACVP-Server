@@ -73,7 +73,7 @@ The two applications in the samples folder are "wrapper" applications into the l
 
 #### GenValAppRunner
 
-The GenValAppRunner is a console application that takes in parameters for its "running mode" - either "generation" or "validation". This application can be invoked with a `dotnet run` from the folder containing the applications `csproj` file.
+The GenValAppRunner is a console application that takes in parameters for its "running mode" - "check", "generation" or "validation". This application can be invoked with a `dotnet run` from the folder containing the applications `csproj` file.
 
 See [Running Gen/Vals](#runningGenVals) for more information.
 
@@ -181,7 +181,7 @@ In order for the Gen/Vals to function, the Orleans Server must also be running.
 
 ### Gen/Vals
 
-![GenValAppRunner w/o parameters passed to it](docs/images/genValAppRunner_01.JPG)
+![GenValAppRunner w/o parameters passed to it](docs/images/genValAppRunner_01.png)
 
 When arguments are not supplied through the invoking of the application, the help message is printed as above.
 
@@ -238,6 +238,12 @@ dotnet run -a [answerFile] -b [iutResponsesFile]
 ```
 
 where `answerFile` is the `internalProjection.json` produced from a generate step, and `iutResponsesFile` is either the `expectedResults.json` file (only guaranteed to be useable when generated for a sample registration), or the response file generated through the IUT's testing harness after having run the `prompt.json` through it. This will produce a `validation.json` file which outlines the test cases the IUT got correct or incorrect. 
+
+An algorithm registration can also be checked for correctness without starting the Orleans Server: 
+
+```cmd
+dotnet run -c "C:/registrations/1971-01-01/registration.json"
+```
 
 ### Orleans Server
 

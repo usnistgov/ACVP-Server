@@ -19,8 +19,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
         [JsonProperty(PropertyName = "modulo")] 
         public int[] Modulo { get; set; }
 
-        [JsonProperty(PropertyName = "pubExpMode")]
-        public PublicExponentModes PublicExponentMode { get; set; }
+       [JsonProperty(PropertyName = "pubExpMode")]
+        public PublicExponentModes PublicExponentMode { get; set; } = PublicExponentModes.Random;
         
         [JsonProperty(PropertyName = "fixedPubExp")]
         public BitString PublicExponentValue = null;

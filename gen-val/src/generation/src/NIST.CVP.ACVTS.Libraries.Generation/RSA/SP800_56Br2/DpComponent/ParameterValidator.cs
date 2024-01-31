@@ -17,13 +17,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
             
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.KeyFormat, VALID_KEY_FORMATS, "keyFormat"));
             errorResults.AddIfNotNullOrEmpty(ValidateArray(parameters.Modulo, VALID_MODULI, "modulo"));
-
+            
             if (parameters.PublicExponentMode == PublicExponentModes.Invalid)
             {
-                errorResults.Add("Invalid or no public exponent mode provided");
+                errorResults.Add("Invalid public exponent mode provided");
             }
-            
-            if (parameters.PublicExponentMode == PublicExponentModes.Fixed)
+            else if (parameters.PublicExponentMode == PublicExponentModes.Fixed)
             {
                 if (parameters.PublicExponentValue == null || parameters.PublicExponentValue.BitLength == 0)
                 {

@@ -64,6 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
         }
 
         [Test]
+//        [TestCase(GenValMode.Check, "registration.json", null, null, StatusCode.Success)]
         [TestCase(GenValMode.Generate, "registration.json", null, null, StatusCode.Success)]
         [TestCase(GenValMode.Validate, null, "response.json", "answer.json", StatusCode.Success)]
         [TestCase(GenValMode.Unset, null, null, null, StatusCode.ModeError)]
@@ -71,6 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
         {
             var parameters = new ArgumentParsingTarget
             {
+  //              CapabilitiesFile = genValMode == GenValMode.Check ? new FileInfo(registrationFile) : null,
                 RegistrationFile = genValMode == GenValMode.Generate ? new FileInfo(registrationFile) : null,
                 ResponseFile = genValMode == GenValMode.Validate ? new FileInfo(responseFile) : null,
                 AnswerFile = genValMode == GenValMode.Validate ? new FileInfo(answerFile) : null

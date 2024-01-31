@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
         public static int[] VALID_MODULI = { 2048, 3072, 4096 };
-        public static string[] VALID_HASH_ALGS = { "SHA-1", "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256", "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512"};
+        public static string[] VALID_HASH_ALGS = { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA2-512/224", "SHA2-512/256", "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512"};
         public static string[] VALID_XOF_ALGS = { "SHAKE-128", "SHAKE-256" };
         public static string[] VALID_HASH_AND_XOF_ALGS = VALID_HASH_ALGS.Concat(VALID_XOF_ALGS).ToArray();
         public static SignatureSchemes[] VALID_SIG_VER_MODES = { SignatureSchemes.Pkcs1v15, SignatureSchemes.Pss };

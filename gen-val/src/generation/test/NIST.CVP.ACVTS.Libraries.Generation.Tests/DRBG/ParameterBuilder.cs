@@ -28,8 +28,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         /// </summary>
         /// <param name="mechanism"></param>
         /// <param name="mode"></param>
-        public ParameterBuilder(DrbgMechanism mechanism, DrbgMode mode)
+        /// <param name="derFunctionEnabled"></param>
+        public ParameterBuilder(DrbgMechanism mechanism, DrbgMode mode, bool derFunctionEnabled = false)
         {
+            _derFunctionEnabled = derFunctionEnabled;
             SetMechanism(mechanism);
             SetMode(mode);
             SetMathRanges(mechanism, mode);
@@ -226,18 +228,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
             if (mechanism == DrbgMechanism.Counter)
             {
                 SeedLength = OutLength + KeyLength;
-
+                
                 _additionalInputLen = new MathDomain();
                 _additionalInputLen.AddSegment(new ValueDomainSegment(SeedLength));
 
                 _entropyInputLen = new MathDomain();
                 _entropyInputLen.AddSegment(new ValueDomainSegment(SeedLength));
-
-                _nonceLen = new MathDomain();
-                _nonceLen.AddSegment(new ValueDomainSegment(SeedLength));
-
+                
                 _persoStringLen = new MathDomain();
                 _persoStringLen.AddSegment(new ValueDomainSegment(SeedLength));
+
+                _nonceLen = new MathDomain();
+                // if !derFunctionEnabled, no nonce is used. A value of zero is used to indicate this.
+                var nonceLen = _derFunctionEnabled == true ? SeedLength : 0;
+                _nonceLen.AddSegment(new ValueDomainSegment(nonceLen));
             } else if (mechanism == DrbgMechanism.Hash)
             {
                 _additionalInputLen = new MathDomain();

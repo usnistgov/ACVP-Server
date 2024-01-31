@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Helpers
         {
             // Undo the reverse byte ordering
             var tweak = BitString.ReverseByteOrder(reverseByteOrderTweak);
-            return tweak.ToBigInteger();
+            return tweak.ToPositiveBigInteger();
         }
     }
 }

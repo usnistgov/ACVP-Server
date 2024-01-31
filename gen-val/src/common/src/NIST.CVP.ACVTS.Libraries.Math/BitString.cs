@@ -296,11 +296,6 @@ namespace NIST.CVP.ACVTS.Libraries.Math
             return new string(builder.ToString().Reverse().ToArray());
         }
 
-        public BigInteger ToBigInteger()
-        {
-            return new BigInteger(ToBytes(true));
-        }
-
         public BigInteger ToPositiveBigInteger()
         {
             //var padding = BITSINBYTE - (BitLength % BITSINBYTE) + BITSINBYTE;

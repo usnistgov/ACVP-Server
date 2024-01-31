@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
 
             var subject = new BitString(bytes);
-            Assert.AreEqual(new BigInteger(testInt), subject.ToBigInteger());
+            Assert.AreEqual(new BigInteger(testInt), subject.ToPositiveBigInteger());
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Act
             BitString subject = new BitString(bytesInMSB);
-            var result = subject.ToBigInteger();
+            var result = subject.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(expectedBi, result);
@@ -126,7 +126,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.AreEqual(setBitLengthTo, subject.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
-            Assert.AreEqual(bi, subject.ToBigInteger());
+            Assert.AreEqual(bi, subject.ToPositiveBigInteger());
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Act
             var subject = new BitString(hexValue);
-            var result = subject.ToBigInteger();
+            var result = subject.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -227,7 +227,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Act
             var subject = new BitString(hexValue);
-            var result = subject.ToBigInteger();
+            var result = subject.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(expectedResult, result);
@@ -1421,7 +1421,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BitString num1bs = new BitString(num1Bi);
             BitString num2bs = new BitString(num1B2);
 
-            var result = BitString.BitStringAddition(num1bs, num2bs).ToBigInteger();
+            var result = BitString.BitStringAddition(num1bs, num2bs).ToPositiveBigInteger();
 
             Assert.AreEqual(expectationBigInteger, result);
         }
@@ -1689,7 +1689,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         [TestCase(250)]
         [TestCase(1024)]
         [TestCase(int.MaxValue)]
-        public void ToBigIntegerIntReturnsBigIntegerBasedOnBytes(int testInt)
+        public void ToPositiveBigIntegerIntReturnsBigIntegerBasedOnBytes(int testInt)
         {
             // Arrange
             var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
@@ -1698,7 +1698,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BigInteger expectedBigInt = new BigInteger(testInt);
 
             // Act
-            var result = bs.ToBigInteger();
+            var result = bs.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(expectedBigInt, result);
@@ -1710,7 +1710,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         [TestCase(1024)]
         [TestCase(int.MaxValue)]
         [TestCase(long.MaxValue)]
-        public void ToBigIntegerLongReturnsBigIntegerBasedOnBytes(long testLong)
+        public void ToPositiveBigIntegerLongReturnsBigIntegerBasedOnBytes(long testLong)
         {
             // Arrange
             var bytes = BitConverter.GetBytes(testLong).Reverse().ToArray();
@@ -1719,7 +1719,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BigInteger expectedBigInt = new BigInteger(testLong);
 
             // Act
-            var result = bs.ToBigInteger();
+            var result = bs.ToPositiveBigInteger();
 
             // Assert
             Assert.AreEqual(expectedBigInt, result);

@@ -130,7 +130,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
 
         private bool IsMostSignificantBitOne(BitString auxValue, int bitLen)
         {
-            return BigInteger.One == auxValue.GetLeastSignificantBits(bitLen).GetMostSignificantBits(1).ToBigInteger();
+            return BigInteger.One == auxValue.GetLeastSignificantBits(bitLen).GetMostSignificantBits(1).ToPositiveBigInteger();
         }
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)

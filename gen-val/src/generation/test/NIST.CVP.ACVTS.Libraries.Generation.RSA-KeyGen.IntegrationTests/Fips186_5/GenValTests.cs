@@ -117,11 +117,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                InfoGeneratedByServer = false,
+                InfoGeneratedByServer = true,
                 PubExpMode = PublicExponentModes.Random,
                 KeyFormat = PrivateKeyModes.Standard,
                 AlgSpecs = algSpecs,
-                IsSample = false
+                IsSample = true
             };
 
             return CreateRegistration(targetFolder, p);

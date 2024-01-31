@@ -11,12 +11,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
     public class RunningOptionsHelperTests
     {
         [Test]
+        [TestCase(GenValMode.Check)]
         [TestCase(GenValMode.Generate)]
         [TestCase(GenValMode.Validate)]
         public void ShouldCorrectlySetRunningMode(GenValMode genValMode)
         {
             var parameters = new ArgumentParsingTarget
             {
+                CapabilitiesFile = genValMode == GenValMode.Check ? new FileInfo("registration.json") : null,
                 RegistrationFile = genValMode == GenValMode.Generate ? new FileInfo("registration.json") : null,
                 ResponseFile = genValMode == GenValMode.Validate ? new FileInfo("response.json") : null,
                 AnswerFile = genValMode == GenValMode.Validate ? new FileInfo("answer.json") : null

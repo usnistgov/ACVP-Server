@@ -30,6 +30,10 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp.Helpers
         /// <param name="parsedParameters">The parsed command line arguments.</param>
         public static GenValMode DetermineRunningMode(ArgumentParsingTarget parsedParameters)
         {
+            if (parsedParameters.CapabilitiesFile != null)
+            {
+                return GenValMode.Check;
+            }
             if (parsedParameters.RegistrationFile != null)
             {
                 return GenValMode.Generate;
@@ -52,6 +56,9 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp.Helpers
         {
             switch (genValMode)
             {
+                case GenValMode.Check:
+                    var capabilities = JsonConvert.DeserializeObject<ParametersBase>(File.ReadAllText(parsedParameters.CapabilitiesFile.FullName));
+                    return AlgoModeLookupHelper.GetAlgoModeFromStrings(capabilities.Algorithm, capabilities.Mode, capabilities.Revision);
                 case GenValMode.Generate:
                     var parameters = JsonConvert.DeserializeObject<ParametersBase>(File.ReadAllText(parsedParameters.RegistrationFile.FullName));
                     return AlgoModeLookupHelper.GetAlgoModeFromStrings(parameters.Algorithm, parameters.Mode, parameters.Revision);

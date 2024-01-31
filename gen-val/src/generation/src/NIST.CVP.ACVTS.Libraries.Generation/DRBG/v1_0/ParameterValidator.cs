@@ -56,8 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.v1_0
                     return new ParameterValidateResponse(errorResults);
                 }
 
-                ValidateEntropy(capability, attributes, errorResults);
-                ValidateNonce(capability, attributes, errorResults);
+                ValidateEntropyAndNonce(algoModeRevision, capability, attributes, errorResults);
                 ValidatePersonalizationString(capability, attributes, errorResults);
                 ValidateAdditionalInput(capability, attributes, errorResults);
 
@@ -95,51 +94,72 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.v1_0
             }
         }
 
-        private void ValidateEntropy(Capability capability, DrbgAttributes attributes, List<string> errorResults)
+        private void ValidateEntropyAndNonce(AlgoMode algoModeRevision, Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.EntropyInputLen, "Entropy Domain");
-            errorResults.AddIfNotNullOrEmpty(segmentCheck);
-            if (!string.IsNullOrEmpty(segmentCheck))
+            var entropySegmentCheck = ValidateSegmentCountGreaterThanZero(capability.EntropyInputLen, "Entropy Domain");
+            errorResults.AddIfNotNullOrEmpty(entropySegmentCheck);
+            var nonceSegmentCheck = ValidateSegmentCountGreaterThanZero(capability.NonceLen, "Nonce Domain");
+            errorResults.AddIfNotNullOrEmpty(nonceSegmentCheck);
+            if (!string.IsNullOrEmpty(entropySegmentCheck) || !string.IsNullOrEmpty(nonceSegmentCheck))
             {
                 return;
             }
 
             var entropyFullDomain = capability.EntropyInputLen.GetDomainMinMax();
+            var nonceFullDomain = capability.NonceLen.GetDomainMinMax();
 
-            var rangeCheck = ValidateRange(
+            // 1) Verify the supplied entropy input lengths, i.e., is the supplied entropyInputLen within the valid range of entropy input len values?
+            var entropyRangeCheck = ValidateRange(
                 new long[] { entropyFullDomain.Minimum, entropyFullDomain.Maximum },
                 attributes.MinEntropyInputLength,
                 attributes.MaxEntropyInputLength,
                 "Entropy Range"
             );
-            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+            errorResults.AddIfNotNullOrEmpty(entropyRangeCheck);
 
-            var modCheck = ValidateMultipleOf(capability.EntropyInputLen, 8, "Entropy Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
-        }
-
-        private void ValidateNonce(Capability capability, DrbgAttributes attributes, List<string> errorResults)
-        {
-            var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.NonceLen, "Nonce Domain");
-            errorResults.AddIfNotNullOrEmpty(segmentCheck);
-            if (!string.IsNullOrEmpty(segmentCheck))
+            // 2) Perform checks to verify that the supplied nonce lengths are valid
+            // 2)a.) Drbgs/scenarios where nonces are prohibited/not used (a nonceLen range of 0 should be supplied to indicate this)
+            if (algoModeRevision == AlgoMode.DRBG_CTR_v1_0 && !capability.DerFuncEnabled)
             {
-                return;
+                var nonceCheckCtrDrbgDerFuncFalse = ValidateRange(
+                    new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
+                    attributes.MinNonceLength,
+                    attributes.MaxNonceLength,
+                    $"Nonce Range for {capability.Mode}"
+                );
+                
+                errorResults.AddIfNotNullOrEmpty(nonceCheckCtrDrbgDerFuncFalse);
             }
+            else
+            {
+                // 2)b.) Drbgs/scenarios where nonces are required.
+                // Ordinarily, SP 800-90Ar1 requires that nonce's contain at least 1/2 * security strength bits of entropy and
+                // that the entropy input contain at least security strength bits of entropy. We would ordinarily check that
+                // the smallest value supplied for nonceLen is >= 1/2 * security strength bits, but SP 800-90Ar1 actually isn't that strict. 
+                // What it really cares about is that the entropy input + nonce contains 3/2 * security strength bits of entropy.
+                // So, instead of checking that nonceLen is >= 1/2 * security strength bits, what we really want to check is that 
+                // the smallest value supplied for entropyInputLen + the smallest value supplied for nonceLen is >= 3/2 * security strength bits.
+                if (entropyFullDomain.Minimum + nonceFullDomain.Minimum < attributes.MinEntropyInputLength + attributes.MinNonceLength)
+                    errorResults.Add($"The supplied min entropyInputLen ({entropyFullDomain.Minimum}) + the supplied min nonceLen ({nonceFullDomain.Minimum}) must be >= 3/2 security strength bits or {attributes.MinEntropyInputLength + attributes.MinNonceLength} bits, but is {entropyFullDomain.Minimum + nonceFullDomain.Minimum} bits.");
 
-            var nonceFullDomain = capability.NonceLen.GetDomainMinMax();
-            var rangeCheck = ValidateRange(
-                new long[] { nonceFullDomain.Minimum, nonceFullDomain.Maximum },
-                attributes.MinNonceLength,
-                attributes.MaxNonceLength,
-                $"Nonce Range for {capability.Mode}"
-            );
-            errorResults.AddIfNotNullOrEmpty(rangeCheck);
+                // also verify that the supplied nonceLens do not exceed the maximum allow nonceLens
+                var nonceMaxCheck = ValidateRange(
+                    new long[] { nonceFullDomain.Maximum },
+                    0,
+                    attributes.MaxNonceLength,
+                    $"Nonce Max for {capability.Mode}"
+                );
 
-            var modCheck = ValidateMultipleOf(capability.NonceLen, 8, "Nonce Modulus");
-            errorResults.AddIfNotNullOrEmpty(modCheck);
+                errorResults.AddIfNotNullOrEmpty(nonceMaxCheck);
+            }
+            
+            var entropyModCheck = ValidateMultipleOf(capability.EntropyInputLen, 8, "Entropy Modulus");
+            errorResults.AddIfNotNullOrEmpty(entropyModCheck);
+            
+            var nonceModCheck = ValidateMultipleOf(capability.NonceLen, 8, "Nonce Modulus");
+            errorResults.AddIfNotNullOrEmpty(nonceModCheck);
         }
-
+        
         private void ValidatePersonalizationString(Capability capability, DrbgAttributes attributes, List<string> errorResults)
         {
             var segmentCheck = ValidateSegmentCountGreaterThanZero(capability.PersoStringLen, "Personalization String Domain");

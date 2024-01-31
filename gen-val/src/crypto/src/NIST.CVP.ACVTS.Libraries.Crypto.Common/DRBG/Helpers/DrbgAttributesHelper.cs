@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 0,
-                    maxNonceLength: (long) 1 << 35
+                    maxNonceLength: 0
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Counter,
@@ -97,7 +97,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 0,
-                    maxNonceLength: (long) 1 << 35
+                    maxNonceLength: 0
                 ),
                 new DrbgAttributes(
                     mechanism: DrbgMechanism.Counter,
@@ -110,7 +110,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.Helpers
                     maxNumberOfBitsPerRequest: 1 << 19,
                     maxNumberOfRequestsBetweenReseeds: (long) 1 << 48,
                     minNonceLength: 0,
-                    maxNonceLength: (long) 1 << 35
+                    maxNonceLength: 0
                 ),
                 #endregion AES
                 #region TDES

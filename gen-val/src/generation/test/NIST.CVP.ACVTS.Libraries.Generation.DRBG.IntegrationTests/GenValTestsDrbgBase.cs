@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
                     new Capability
                     {
                         Mode = Modes[otherIndex],
-                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
+                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
                         AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
                         PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
                         EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[otherIndex])),
@@ -73,23 +73,29 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var capabilities = new Capability[Modes.Length * 2];
-            var bools = new[] { true, false };
-
+            
             for (var i = 0; i < Modes.Length; i++)
             {
-                for (var j = 0; j < bools.Length; j++)
+                capabilities[i + 0 * Modes.Length] = new Capability
                 {
-                    capabilities[i + j * Modes.Length] = new Capability
-                    {
-                        Mode = Modes[i],
-                        NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
-                        AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
-                        PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
-                        EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
-                        ReturnedBitsLen = 4096,
-                        DerFuncEnabled = bools[j]
-                    };
-                }
+                    Mode = Modes[i],
+                    NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    ReturnedBitsLen = 4096,
+                    DerFuncEnabled = true
+                };
+                capabilities[i + 1 * Modes.Length] = new Capability
+                {
+                    Mode = Modes[i],
+                    NonceLen = new MathDomain().AddSegment(new ValueDomainSegment(0)),
+                    AdditionalInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    PersoStringLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    EntropyInputLen = new MathDomain().AddSegment(new ValueDomainSegment(SeedLength[i])),
+                    ReturnedBitsLen = 4096,
+                    DerFuncEnabled = false
+                };
             }
 
             Parameters p = new Parameters

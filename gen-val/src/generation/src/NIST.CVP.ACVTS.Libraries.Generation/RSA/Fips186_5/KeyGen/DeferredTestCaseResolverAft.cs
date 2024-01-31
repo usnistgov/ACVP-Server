@@ -36,7 +36,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
             var fullParam = new RsaKeyResult
             {
                 BitLens = iutTestCase.Bitlens,
-                AuxValues = new AuxiliaryResult
+                Key = iutTestCase.Key
+            }; 
+            
+            if (serverTestGroup.PrimeGenMode != PrimeGenModes.RandomProbablePrimes ||
+                serverTestGroup.PrimeGenMode != PrimeGenModes.RandomProvablePrimes)
+            {
+                fullParam.AuxValues = new AuxiliaryResult
                 {
                     XP = iutTestCase.XP.ToPositiveBigInteger(),
                     XP1 = iutTestCase.XP1.ToPositiveBigInteger(),
@@ -44,9 +50,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                     XQ = iutTestCase.XQ.ToPositiveBigInteger(),
                     XQ1 = iutTestCase.XQ1.ToPositiveBigInteger(),
                     XQ2 = iutTestCase.XQ2.ToPositiveBigInteger()
-                },
-                Key = iutTestCase.Key
-            };
+                };
+            }
 
             var result = await _oracle.CompleteDeferredRsaKeyCaseAsync(param, fullParam);
             var verifyResult = await _oracle.GetRsaKeyVerifyAsync(new RsaKeyResult { Key = iutTestCase.Key });

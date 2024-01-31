@@ -30,7 +30,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         [TestCase(DrbgMechanism.Hash, DrbgMode.SHA512t256)]
         public void ShouldValidateSuccessfullyAllValidAlgoAndModes(DrbgMechanism drbgMechanism, DrbgMode drbgMode)
         {
-            Parameters p = new ParameterBuilder(drbgMechanism, drbgMode).Build();
+            var p = drbgMechanism == DrbgMechanism.Counter
+                ? new ParameterBuilder(drbgMechanism, drbgMode, true).Build()
+                : new ParameterBuilder(drbgMechanism, drbgMode).Build();
+            
             var result = _subject.Validate(p);
 
             Assert.IsTrue(result.Success, result.ErrorMessage);
@@ -89,13 +92,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         [TestCase("Not DefFunc test at seedlen+ ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, false, false)]
         public void ShouldFailValidationWhenNotDerFuncAndEntropyNotSeedLen(string label, DrbgMechanism drbgMechanism, DrbgMode drbgMode, bool derFunc, bool expectedSuccess)
         {
-            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode);
+            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode, derFunc);
 
             MathDomain md = new MathDomain();
             md.AddSegment(new ValueDomainSegment(pb.SeedLength + 8));
 
-            pb.WithDerFunctionEnabled(derFunc)
-              .WithEntropyInputLen(md);
+            pb.WithEntropyInputLen(md);
             Parameters p = pb.Build();
 
             var result = _subject.Validate(p);
@@ -104,21 +106,28 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         }
 
         [Test]
-        [TestCase("DefFunc test at seedlen ctr aes128", DrbgMechanism.Counter, DrbgMode.AES128, true, false)]
-        [TestCase("DefFunc test at seedlen ctr aes192", DrbgMechanism.Counter, DrbgMode.AES192, true, false)]
-        [TestCase("DefFunc test at seedlen ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, true, false)]
+        [TestCase("DefFunc test at seedlen ctr aes128", DrbgMechanism.Counter, DrbgMode.AES128, true, true)]
+        [TestCase("DefFunc test at seedlen ctr aes192", DrbgMechanism.Counter, DrbgMode.AES192, true, true)]
+        [TestCase("DefFunc test at seedlen ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, true, true)]
         [TestCase("Not DefFunc test at seedlen ctr aes128", DrbgMechanism.Counter, DrbgMode.AES128, false, true)]
         [TestCase("Not DefFunc test at seedlen ctr aes192", DrbgMechanism.Counter, DrbgMode.AES192, false, true)]
         [TestCase("Not DefFunc test at seedlen ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, false, true)]
         public void ShouldFailValidationWhenNotDerFuncAndNonceLtHalfSecurityStrength(string label, DrbgMechanism drbgMechanism, DrbgMode drbgMode, bool derFunc, bool expectedSuccess)
         {
-            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode);
+            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode, derFunc);
 
-            MathDomain md = new MathDomain();
-            md.AddSegment(new ValueDomainSegment(pb.SecurityStrength / 2 - 8));
-
-            pb.WithDerFunctionEnabled(derFunc)
-              .WithNonceLen(md);
+            int mdValue;
+            // ctrDRBG with no derFunc is a special case. It's the only case where no nonce is used, i.e., set _nonceLen to 0
+            if (drbgMechanism == DrbgMechanism.Counter && !derFunc)
+            {
+                mdValue = 0;
+            }
+            else
+            {
+                mdValue = pb.SecurityStrength / 2 - 8;
+            }
+            var md = new MathDomain().AddSegment(new ValueDomainSegment(mdValue));
+            pb.WithNonceLen(md);
             Parameters p = pb.Build();
 
             var result = _subject.Validate(p);
@@ -135,13 +144,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         [TestCase("Not DefFunc test at seedlen ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, false, false)]
         public void ShouldFailValidationWhenNotDerFuncAndPersoStringNotSeedLen(string label, DrbgMechanism drbgMechanism, DrbgMode drbgMode, bool derFunc, bool expectedSuccess)
         {
-            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode);
+            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode, derFunc);
 
             MathDomain md = new MathDomain();
             md.AddSegment(new ValueDomainSegment(pb.SeedLength + 8));
 
-            pb.WithDerFunctionEnabled(derFunc)
-              .WithPersoStringLen(md);
+            pb.WithPersoStringLen(md);
             Parameters p = pb.Build();
 
             var result = _subject.Validate(p);
@@ -158,13 +166,53 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         [TestCase("Not DefFunc test at seedlen ctr aes256", DrbgMechanism.Counter, DrbgMode.AES256, false, false)]
         public void ShouldFailValidationWhenNotDerFuncAndAdditionalInputNotSeedLen(string label, DrbgMechanism drbgMechanism, DrbgMode drbgMode, bool derFunc, bool expectedSuccess)
         {
-            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode);
+            ParameterBuilder pb = new ParameterBuilder(drbgMechanism, drbgMode, derFunc);
 
             MathDomain md = new MathDomain();
             md.AddSegment(new ValueDomainSegment(pb.SeedLength + 8));
 
-            pb.WithDerFunctionEnabled(derFunc)
-              .WithAdditionalInputLen(md);
+            pb.WithAdditionalInputLen(md);
+            Parameters p = pb.Build();
+
+            var result = _subject.Validate(p);
+
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase(0, 0, true)]
+        [TestCase(1, 0, false)]
+        [TestCase(0, 1, false)]
+        [TestCase(1, 1, false)]
+        public void ShouldValidateNonceLenWhenCtrDrbgAndDerFuncFalse(int nonceMin, int nonceMax, bool expectedSuccess)
+        {
+            ParameterBuilder pb = new ParameterBuilder(DrbgMechanism.Counter, DrbgMode.AES128, false);
+            
+            MathDomain md = new MathDomain();
+            md.AddSegment(new ValueDomainSegment(nonceMin));
+            md.AddSegment(new ValueDomainSegment(nonceMax));
+            
+            pb.WithNonceLen(md);
+            Parameters p = pb.Build();
+
+            var result = _subject.Validate(p);
+
+            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+        }
+
+        [Test]
+        [TestCase("entropy + nonce < 3/2 security strength", 128, 0, false)]
+        [TestCase("entropy = security strength, nonce = 1/2 security strength", 128, 64, true)]
+        [TestCase("entropy > security strength, nonce < 1/2 security strength, & entropy + nonce >= 3/2 security strength", 192, 0, true)]
+        public void ShouldValidateEntropyPlusNonceGTEThreeHalvesSecurityStrength(string label, int minEntropyInputLen,
+            int minNonceLen, bool expectedSuccess)
+        {
+            ParameterBuilder pb = new ParameterBuilder(DrbgMechanism.Counter, DrbgMode.AES128, true);
+            
+            var entropyDomain = new MathDomain().AddSegment(new ValueDomainSegment(minEntropyInputLen));
+            var nonceDomain = new MathDomain().AddSegment(new ValueDomainSegment(minNonceLen));
+
+            pb.WithEntropyInputLen(entropyDomain).WithNonceLen(nonceDomain);
             Parameters p = pb.Build();
 
             var result = _subject.Validate(p);
