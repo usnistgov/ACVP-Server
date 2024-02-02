@@ -77,6 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aead
                 if (shouldFail)
                 {
                     result.CipherText = _rand.GetDifferentBitStringOfSameSize(result.CipherText);
+                    result.TestPassed = false;
                 }
             }
 
