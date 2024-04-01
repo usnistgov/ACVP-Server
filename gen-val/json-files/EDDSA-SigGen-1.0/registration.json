@@ -10,5 +10,12 @@
   "curve": [
     "ED-25519",
     "ED-448"
+  ],
+  "contextLength": [
+    {
+      "min": 8,
+      "max": 248,
+      "increment": 8
+    }
   ]
 }

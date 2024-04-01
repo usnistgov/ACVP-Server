@@ -16,6 +16,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
             result = ValidateArray(parameters.Curve, VALID_CURVES, "Curves");
             errors.AddIfNotNullOrEmpty(result);
 
+            // Max ContextLength is 255 octets based on FIPS 186-5, sections 7.6 and 7.8
+            if (parameters.ContextLength.GetDomainMinMax().Maximum > 255)
+            {
+                errors.Add("Invalid ContextLength maximum. It must be below 256 octets.");
+            }
+            
             if (!parameters.PreHash && !parameters.Pure)
             {
                 errors.Add("No valid signature generation mode chosen; PreHash or Pure must be true");

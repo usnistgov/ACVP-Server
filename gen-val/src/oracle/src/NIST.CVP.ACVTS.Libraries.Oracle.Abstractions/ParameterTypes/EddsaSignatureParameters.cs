@@ -13,5 +13,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         public EddsaSignatureDisposition Disposition { get; set; }
         public BitString Message { get; set; }
         public int Bit { get; set; }
+        public int ContextLength { get; set; }
     }
 }

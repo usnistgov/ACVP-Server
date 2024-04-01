@@ -11,7 +11,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.PrimeGenerators
     {
         public static int[] ValidModulusFips186_2 = { 1024, 1536, 2048, 3072, 4096 };
         public static int[] ValidModulusFips186_4 = { 1024, 2048, 3072, 4096 }; // Allowing 1024 modulo for key gen for sigver
-        public static int[] ValidModulusFips186_5 = { 2048, 3072, 4096, 6144, 8192, 15360 };
+        public static int[] ValidModulusFips186_5 = { 2048, 3072, 4096, 6144, 8192 };
+        //public static int[] ValidModulusFips186_5 = { 2048, 3072, 4096, 6144, 8192, 15360 }; - Disabled 15360 temporarily while pools fill - 5+ months
         public static BigInteger MinValidE = NumberTheory.Pow2(16);
         public static BigInteger MaxValidE = NumberTheory.Pow2(256);
         public static int[] ValidAB = { 1, 3, 5, 7 };

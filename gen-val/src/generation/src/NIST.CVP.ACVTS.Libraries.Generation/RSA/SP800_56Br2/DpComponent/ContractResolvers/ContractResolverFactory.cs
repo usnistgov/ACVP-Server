@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.ContractResolvers
 {
     public class ContractResolverFactory : IContractResolverFactory<TestGroup, TestCase>
     {

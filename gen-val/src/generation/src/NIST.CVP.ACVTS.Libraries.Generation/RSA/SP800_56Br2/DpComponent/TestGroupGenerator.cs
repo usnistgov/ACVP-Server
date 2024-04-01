@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.TestCaseExpectations;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.TestCaseExpectations;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
 {
     public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
     {

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
 {
     public class TestCase : ITestCase<TestGroup, TestCase>
     {

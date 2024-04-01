@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Async
+﻿namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Async
 {
     public interface ITestCaseGeneratorWithPrep<TTestGroup, TTestCase> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
         where TTestGroup : ITestGroup<TTestGroup, TTestCase>

@@ -8,7 +8,7 @@ using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NLog;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
 {
     public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {

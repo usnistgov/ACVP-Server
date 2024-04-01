@@ -70,5 +70,19 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                     throw new ArgumentException($"{nameof(hashFunction)}");
             }
         }
+
+        public IShake GetShakeInstance(HashFunction hashFunction)
+        {
+            return hashFunction.Mode switch
+            {
+                ModeValues.SHAKE => hashFunction.DigestSize switch
+                {
+                    DigestSizes.d128 => new NativeFastShake(128),
+                    DigestSizes.d256 => new NativeFastShake(256),
+                    _ => throw new ArgumentException("Invalid SHAKE")
+                },
+                _ => throw new ArgumentException("Invalid SHAKE")
+            };
+        }
     }
 }

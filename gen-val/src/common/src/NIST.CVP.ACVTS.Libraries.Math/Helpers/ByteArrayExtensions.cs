@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
     public static class ByteArrayExtensions
     {
         public const byte MSBIT = 0x80;
-
+        
         public static byte[] Add(this byte[] bArrayA, byte[] bArrayB)
         {
 
@@ -34,6 +34,40 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
             return result.PadArrayToLength(bArrayA.Length);
         }
 
+        public static byte[] Concatenate(this byte[] bArrayA, byte[] bArrayB)
+        {
+            var bArray = new byte[bArrayA.Length + bArrayB.Length];
+            bArrayA.CopyTo(bArray, 0);
+            bArrayB.CopyTo(bArray, bArrayA.Length);
+
+            return bArray;
+        }
+
+        public static byte[][] Partition(this byte[] bArray, int partitionLength)
+        {
+            var partition = new byte[bArray.Length / partitionLength][];
+            var mainIndex = 0;
+            var partitionIndex = 0;
+
+            foreach (var b in bArray)
+            {
+                if (partitionIndex == 0)
+                {
+                    partition[mainIndex] = new byte[partitionLength];
+                }
+
+                partition[mainIndex][partitionIndex++] = b;
+
+                if (partitionIndex == partitionLength)
+                {
+                    partitionIndex = 0;
+                    mainIndex++;
+                }
+            }
+
+            return partition;
+        }
+        
         public static byte[] PadArrayToLength(this byte[] bArrayA, int padLength)
         {
 

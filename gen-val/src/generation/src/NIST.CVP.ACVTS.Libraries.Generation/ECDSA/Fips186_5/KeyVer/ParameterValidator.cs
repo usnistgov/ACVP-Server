@@ -11,7 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.KeyVer
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_CURVES = EnumHelpers.GetEnumDescriptions<Curve>().Where(c => c.Contains("p-", StringComparison.OrdinalIgnoreCase)).ToArray();    // Only p curves
+        public static string[] VALID_CURVES = { "P-224", "P-256", "P-384", "P-521", "B-233", "B-283", "B-409", "B-571", "K-233", "K-283", "K-409", "K-571" };
 
         public ParameterValidateResponse Validate(Parameters parameters)
         {

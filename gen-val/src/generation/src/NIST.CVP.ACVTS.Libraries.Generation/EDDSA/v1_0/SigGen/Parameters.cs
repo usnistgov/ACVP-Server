@@ -1,4 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 {
@@ -13,5 +15,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         public bool Pure { get; set; } = true;
         public bool PreHash { get; set; } = false;
         public string[] Curve { get; set; }
+        public MathDomain ContextLength { get; set; } = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 255, 1));
     }
 }

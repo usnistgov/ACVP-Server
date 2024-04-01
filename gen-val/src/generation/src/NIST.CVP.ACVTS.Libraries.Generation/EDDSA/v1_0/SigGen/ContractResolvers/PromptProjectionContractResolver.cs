@@ -51,7 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen.ContractResolver
                     instance => true;
             }
 
-            if (jsonProperty.UnderlyingName == nameof(TestCase.Context))
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Context) || 
+                jsonProperty.UnderlyingName == nameof(TestCase.ContextLength))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {

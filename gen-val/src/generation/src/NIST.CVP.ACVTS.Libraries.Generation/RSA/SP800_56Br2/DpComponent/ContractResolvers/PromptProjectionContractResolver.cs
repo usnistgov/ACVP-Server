@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.ContractResolvers
 {
     public class PromptProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     {

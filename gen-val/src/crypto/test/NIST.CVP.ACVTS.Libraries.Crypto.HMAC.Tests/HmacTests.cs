@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
@@ -202,6 +203,37 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HMAC.Tests
 
             Assert.That(result.Success);
             Assert.AreEqual(expected.ToHex(), result.Mac.ToHex());
+        }
+
+        [Test]
+        public void LoopingTest()
+        {
+            var hmacFactory = new HmacFactory(new NativeShaFactory());
+            var hmac = hmacFactory.GetHmacInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d384));
+            var rand = new Random800_90();
+
+            var msg = new BitString(0);
+            var key = new BitString(0);
+
+            try
+            {
+                for (var i = 0; i <= 65536; i++)
+                {
+                    msg = rand.GetRandomBitString(rand.GetRandomInt(0, 65536));
+                    key = rand.GetRandomBitString(rand.GetRandomInt(0, 65536));
+
+                    var result = hmac.Generate(key, msg, 384);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.Write($"msg: {msg.ToHex()}, bitlength: {msg.BitLength}");
+                Console.Error.Write($"key: {key.ToHex()}, bitlength: {key.BitLength}");
+                Assert.Fail();
+            }
+            
+            Console.Write("Loop completed");
+            Assert.Pass();
         }
 
         private static BitString GenKey(int numberOfBytes, int additionToIndex)

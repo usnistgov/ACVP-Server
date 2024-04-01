@@ -3,7 +3,7 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.ContractResolvers
 {
     public class ResultProjectionContractResolver : ProjectionContractResolverBase<TestGroup, TestCase>
     { 

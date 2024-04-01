@@ -9,7 +9,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.KeyGen
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static string[] VALID_CURVES = { "P-224", "P-256", "P-384", "P-521" };
+        public static string[] VALID_CURVES = { "P-224", "P-256", "P-384", "P-521", "B-233", "B-283", "B-409", "B-571", "K-233", "K-283", "K-409", "K-571" };
         public static string[] VALID_SECRET_GENERATION_MODES = EnumHelpers.GetEnumDescriptions<SecretGenerationMode>().ToArray();
 
         public ParameterValidateResponse Validate(Parameters parameters)

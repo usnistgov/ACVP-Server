@@ -4,6 +4,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 {
@@ -37,5 +38,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         public BitString Message { get; set; }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
+        public MathDomain ContextLength { get; set; }
     }
 }

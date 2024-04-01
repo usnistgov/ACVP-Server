@@ -25,14 +25,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
             {
                 new Capability
                 {
-                    Curve = new[] { "P-224" },
-                    HashAlg = new[] { "SHA2-224" }
-                },
-                new Capability
-                {
-                    Curve = new[] { "P-521" },
-                    HashAlg = new[] {"SHA2-512" }
+                    Curve = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_CURVES,
+                    HashAlg = new[] { "SHAKE-128", "SHAKE-256" }
                 }
+                // new Capability
+                // {
+                //     Curve = new[] { "P-521" },
+                //     HashAlg = new[] {"SHA2-512" }
+                // }
             };
 
             var p = new Parameters

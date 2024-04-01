@@ -38,6 +38,23 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
             return a;
         }
 
+        public static int GetExactBitLength(this int a)
+        {
+            int size = 0;
+
+            for (; a != 0; a >>= 1)
+            {
+                size++;
+            }
+
+            return size;
+        }
+
+        public static int Exp2(this int a)
+        {
+            return 1 << a;
+        }
+
         /// <summary>
         /// Takes the modulo of a value (or <see cref="int"/> expression) and ensures it is between [0, <paramref name="modulo"/> - 1]
         /// </summary>
@@ -47,6 +64,25 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
         public static int PosMod(this int value, int modulo)
         {
             return (value % modulo + modulo) % modulo;
+        }
+
+        /// <summary>
+        /// Takes the modulo of a value (or <see cref="int"/> expression) and ensures it is between (- <paramref name="modulo"/> / 2, <paramref name="modulo"/> / 2]
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="modulo"></param>
+        /// <returns></returns>
+        public static int PlusMinusMod(this int value, int modulo)
+        {
+            var reducedInput = value.PosMod(modulo);
+            if (reducedInput <= (modulo / 2))
+            {
+                return reducedInput;
+            }
+            else
+            {
+                return reducedInput - modulo;
+            }
         }
 
         /// <summary>

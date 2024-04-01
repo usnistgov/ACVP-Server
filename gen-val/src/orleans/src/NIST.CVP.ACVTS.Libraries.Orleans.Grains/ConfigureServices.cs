@@ -94,6 +94,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.KES;
 using NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KTS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash;
@@ -310,7 +311,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
             svc.AddTransient<IHkdfFactory, HkdfFactory>();
             svc.AddSingleton<ITLsKdfFactory_v1_3, TlsKdfFactoryV13>();
-
             #endregion Crypto Registrations
         }
 

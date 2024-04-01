@@ -7,7 +7,6 @@ using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Exceptions;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms;
-using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms.Native;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
 {

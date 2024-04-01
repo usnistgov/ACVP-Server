@@ -6,9 +6,9 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.ContractResolvers;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent
+namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
 {
     public class RegisterInjections : ISupportedAlgoModeRevisions
     {

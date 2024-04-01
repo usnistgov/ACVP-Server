@@ -215,6 +215,16 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         LMS_SigGen_v1_0,
         [EnumMember(Value = "LMS-SigVer-1.0")]
         LMS_SigVer_v1_0,
+        [EnumMember(Value = "ML-DSA-KeyGen-FIPS204")]
+        ML_DSA_KeyGen_FIPS204,
+        [EnumMember(Value = "ML-DSA-SigGen-FIPS204")]
+        ML_DSA_SigGen_FIPS204,
+        [EnumMember(Value = "ML-DSA-SigVer-FIPS204")]
+        ML_DSA_SigVer_FIPS204,
+        [EnumMember(Value = "ML-KEM-KeyGen-FIPS203")]
+        ML_KEM_KeyGen_FIPS203,
+        [EnumMember(Value = "ML-KEM-EncapDecap-FIPS203")]
+        ML_KEM_EncapDecap_FIPS203,
         [EnumMember(Value = "ParallelHash-128-1.0")]
         ParallelHash_128_v1_0,
         [EnumMember(Value = "ParallelHash-256-1.0")]

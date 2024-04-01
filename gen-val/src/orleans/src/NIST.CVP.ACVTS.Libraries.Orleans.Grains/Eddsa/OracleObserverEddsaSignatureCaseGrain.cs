@@ -21,7 +21,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         private readonly IShaFactory _shaFactory;
         private readonly IEntropyProvider _entropyProvider;
         private readonly IRandom800_90 _rand;
-
+        private const int BITS_IN_BYTE = 8;
+        
         private EddsaSignatureParameters _param;
 
         public OracleObserverEddsaSignatureCaseGrain(
@@ -52,6 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         {
             var curve = _curveFactory.GetCurve(_param.Curve);
             var noContext = _param.Curve == Curve.Ed25519 && !_param.PreHash;
+            var contextLength = _param.ContextLength;
             var domainParams = new EdDomainParameters(curve, _shaFactory);
             var edDsa = _dsaFactory.GetInstance(null);
 
@@ -64,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             }
             else
             {
-                context = _rand.GetRandomBitString(_rand.GetRandomInt(0, 255) * 8);
+                context = _rand.GetRandomBitString(contextLength * BITS_IN_BYTE);
             }
 
             var result = edDsa.Sign(domainParams, _param.Key, message, context, _param.PreHash);
@@ -78,6 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             {
                 Message = message,
                 Context = context,
+                ContextLength = context.BitLength/BITS_IN_BYTE,
                 Signature = result.Signature
             });
         }

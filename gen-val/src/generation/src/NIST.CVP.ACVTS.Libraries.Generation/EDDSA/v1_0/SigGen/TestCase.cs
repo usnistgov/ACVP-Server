@@ -19,6 +19,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         [JsonProperty(PropertyName = "context")]
         public BitString Context { get; set; } = null;
 
+        [JsonProperty(PropertyName = "contextLength")]
+        public int ContextLength { get; set; }
+
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
 
         [JsonProperty(PropertyName = "signature", DefaultValueHandling = DefaultValueHandling.Ignore)]

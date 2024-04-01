@@ -15,9 +15,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
         };
 
         private readonly ulong[] _state = new ulong[25];
+        private readonly ulong[] _absorbedState = new ulong[25];
         private readonly byte[] _dataQueue = new byte[192];
         private int _rate, _bitsInQueue, _fixedOutputLength;
-        private bool _squeezing;
+        protected bool Squeezing;
 
         protected void BlockUpdate(byte[] input, int inOff, int len)
         {
@@ -61,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             Array.Clear(_state, 0, _state.Length);
             Array.Fill(_dataQueue, (byte)0);
             _bitsInQueue = 0;
-            _squeezing = false;
+            Squeezing = false;
             _fixedOutputLength = (1600 - rate) >> 1;
         }
 
@@ -72,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                 throw new InvalidOperationException("attempt to absorb with odd length queue");
             }
 
-            if (_squeezing)
+            if (Squeezing)
             {
                 throw new InvalidOperationException("attempt to absorb while squeezing");
             }
@@ -114,7 +115,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                 throw new InvalidOperationException("attempt to absorb with odd length queue");
             }
 
-            if (_squeezing)
+            if (Squeezing)
             {
                 throw new InvalidOperationException("attempt to absorb while squeezing");
             }
@@ -139,7 +140,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                 throw new InvalidOperationException("attempt to absorb with odd length queue");
             }
 
-            if (_squeezing)
+            if (Squeezing)
             {
                 throw new InvalidOperationException("attempt to absorb while squeezing");
             }
@@ -189,14 +190,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             _state[(_rate - 1) >> 6] ^= (1UL << 63);
 
             _bitsInQueue = 0;
-            _squeezing = true;
+            Squeezing = true;
         }
 
         protected void Squeeze(byte[] output, int offset, long outputBitLength)
         {
-            if (!_squeezing)
+            if (!Squeezing)
             {
                 PadAndSwitchToSqueezingPhase();
+                
+                // Need to save the absorbed state if we want to squeeze multiple times
+                Array.Copy(_state, _absorbedState, 25);
             }
 
             if ((outputBitLength & 7L) != 0L)
@@ -205,6 +209,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
             }
 
             long i = 0;
+            _bitsInQueue = 0;
+            Array.Copy(_absorbedState, _state, 25);
+            
             while (i < outputBitLength)
             {
                 if (_bitsInQueue == 0)
@@ -260,11 +267,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                 ulong c3 = a03 ^ a08 ^ a13 ^ a18 ^ a23;
                 ulong c4 = a04 ^ a09 ^ a14 ^ a19 ^ a24;
 
-                ulong d1 = (c1 << 1 | c1 >> -1) ^ c4;
-                ulong d2 = (c2 << 1 | c2 >> -1) ^ c0;
-                ulong d3 = (c3 << 1 | c3 >> -1) ^ c1;
-                ulong d4 = (c4 << 1 | c4 >> -1) ^ c2;
-                ulong d0 = (c0 << 1 | c0 >> -1) ^ c3;
+                ulong d1 = (c1 << 1 | c1 >> 63) ^ c4;
+                ulong d2 = (c2 << 1 | c2 >> 63) ^ c0;
+                ulong d3 = (c3 << 1 | c3 >> 63) ^ c1;
+                ulong d4 = (c4 << 1 | c4 >> 63) ^ c2;
+                ulong d0 = (c0 << 1 | c0 >> 63) ^ c3;
 
                 a00 ^= d1; a05 ^= d1; a10 ^= d1; a15 ^= d1; a20 ^= d1;
                 a01 ^= d2; a06 ^= d2; a11 ^= d2; a16 ^= d2; a21 ^= d2;

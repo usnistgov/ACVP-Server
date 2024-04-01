@@ -17,6 +17,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         private readonly IRandom800_90 _rand;
 
         private EddsaSignatureParameters _param;
+        
+        private const int BITS_IN_BYTE = 8;
 
         public OracleObserverEddsaDeferredSignatureCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
@@ -42,13 +44,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
 
             var message = _entropyProvider.GetEntropy(1024);
 
-            var context = noContext ? new BitString("") : _entropyProvider.GetEntropy(_rand.GetRandomInt(0, 255) * 8);
+            var context = noContext ? new BitString("") : _entropyProvider.GetEntropy(_rand.GetRandomInt(0, _param.ContextLength) * 8);
 
             // Notify observers of result
             await Notify(new EddsaSignatureResult
             {
                 Message = message,
-                Context = context
+                Context = context,
+                ContextLength = context.BitLength/BITS_IN_BYTE
             });
         }
     }

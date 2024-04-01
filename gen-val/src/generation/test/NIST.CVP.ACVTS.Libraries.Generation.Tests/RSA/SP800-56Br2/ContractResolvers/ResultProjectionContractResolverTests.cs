@@ -1,12 +1,12 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent.ContractResolvers;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.ContractResolvers;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2.ContractResolvers
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2.ContractResolvers
 {
     [TestFixture, UnitTest, FastIntegrationTest]
     public class ResultsProjectionContractResolverTests

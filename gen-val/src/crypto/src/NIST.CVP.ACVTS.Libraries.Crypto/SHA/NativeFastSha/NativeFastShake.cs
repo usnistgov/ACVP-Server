@@ -10,7 +10,7 @@ using NIST.CVP.ACVTS.Libraries.Math.LargeBitString;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
 {
-    public class NativeFastShake : NativeFastKeccakBase, ISha
+    public class NativeFastShake : NativeFastKeccakBase, IShake
     {
         public HashFunction HashFunction
         {
@@ -133,6 +133,21 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
                 AbsorbBits(_endBits.ToBytes().First(), 4);
                 base.Final(output, 0, outputBitLength);
             }
+        }
+        
+        public void Absorb(byte[] message, int bitLength)
+        {
+            Update(message, bitLength);
+        }
+
+        public void Squeeze(byte[] output, int outputBitLength)
+        {
+            if (!Squeezing)
+            {
+                AbsorbBits(_endBits.ToBytes().First(), 4);
+            }
+            
+            Squeeze(output, 0, outputBitLength);
         }
 
         private void FinalBits(byte[] output, int outOff, int outputBitLength, byte partialByte, int partialBits)

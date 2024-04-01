@@ -2,6 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -26,12 +27,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigGen.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Curve = new[] { "ED-25519" }
+                Curve = ParameterValidator.VALID_CURVES,
+                PreHash = true,
+                ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 248, 8))
             };
 
             return CreateRegistration(targetFolder, p);
         }
-
+        
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var p = new Parameters
@@ -41,7 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigGen.IntegrationTests
                 Revision = Revision,
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES,
-                PreHash = true
+                PreHash = true,
+                ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 248, 8))
             };
 
             return CreateRegistration(targetFolder, p);

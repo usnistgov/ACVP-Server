@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Text;
 
 namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
@@ -43,6 +44,15 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Helpers
                 copy[j] = bArray[i];
             }
             return copy;
+        }
+
+        public static BitArray Concatenate(this BitArray bArray, BitArray bitsToAdd)
+        {
+            var boolArray = new bool[bArray.Length + bitsToAdd.Length];
+            bArray.CopyTo(boolArray, 0);
+            bitsToAdd.CopyTo(boolArray, bArray.Length);
+
+            return new BitArray(boolArray);
         }
 
         public static String ToBinaryString(this BitArray bArray)

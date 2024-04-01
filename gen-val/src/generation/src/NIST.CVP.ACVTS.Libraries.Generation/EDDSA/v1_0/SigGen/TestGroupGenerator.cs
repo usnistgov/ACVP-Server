@@ -41,7 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                         {
                             Curve = curve,
                             PreHash = false,
-                            TestType = TEST_TYPE
+                            TestType = TEST_TYPE,
+                            ContextLength = parameters.ContextLength
                         };
                         testGroups.Add(testGroup);
                     }
@@ -52,7 +53,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                         {
                             Curve = curve,
                             PreHash = true,
-                            TestType = TEST_TYPE
+                            TestType = TEST_TYPE,
+                            ContextLength = parameters.ContextLength
                         };
                         testGroups.Add(testGroup);
                     }
@@ -79,7 +81,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                     {
                         Curve = curve,
                         PreHash = false,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        ContextLength = parameters.ContextLength
                     };
                     map.Add(testGroup, _oracle.GetEddsaKeyAsync(param));
                 }
@@ -90,7 +93,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                     {
                         Curve = curve,
                         PreHash = true,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        ContextLength = parameters.ContextLength
                     };
                     map.Add(testGroup, _oracle.GetEddsaKeyAsync(param));
                 }

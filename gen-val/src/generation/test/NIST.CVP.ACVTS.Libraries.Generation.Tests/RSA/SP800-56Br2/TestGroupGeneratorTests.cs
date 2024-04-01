@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Sp800_56Br2.DpComponent;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.Sp800_56Br2
+namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2
 {
     [TestFixture, UnitTest]
     public class TestGroupGeneratorTests

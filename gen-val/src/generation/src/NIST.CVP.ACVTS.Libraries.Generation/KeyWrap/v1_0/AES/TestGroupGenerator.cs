@@ -42,27 +42,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.v1_0.AES
             parameters.PayloadLen.SetMaximumAllowedValue(_MAX_BIT_SIZE);
 
             var minMaxPtLen = parameters.PayloadLen.GetDomainMinMax();
-            var ptLensAvailableToTest = parameters.PayloadLen.GetRandomValues(10).ToList();
+
+            // Get values that aren't aligned w/ AES' 128-bit block size
+            var offBlockLengths = parameters.PayloadLen.GetRandomValues(w => w % 128 != 0 && w != minMaxPtLen.Minimum && w != minMaxPtLen.Maximum, 2);
+            
+            // Get 128 mod values, i.e., values that are aligned w/ AES' 128-bit block size
+            var blockLengths = parameters.PayloadLen.GetRandomValues(w => w % 128 == 0 && w != minMaxPtLen.Minimum && w != minMaxPtLen.Maximum, 2);
             
             List<int> testPtLens = new List<int>();
-            // Get values that aren't aligned w/ AES' 128-bit block size
-            testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
-                .Where(
-                    w => w % 128 != 0
-                    && w != minMaxPtLen.Minimum
-                    && w != minMaxPtLen.Maximum
-                 )
-                .Take(2)
-            );
-
-            // Get 128 mod values, i.e., values that are aligned w/ AES' 128-bit block size
-            testPtLens.AddRangeIfNotNullOrEmpty(ptLensAvailableToTest
-                .Where(
-                    w => w % 128 == 0 
-                         && w != minMaxPtLen.Minimum
-                         && w != minMaxPtLen.Maximum)
-                .Take(2));
+            testPtLens.AddRange(offBlockLengths);
+            testPtLens.AddRange(blockLengths);
             testPtLens.Add(minMaxPtLen.Minimum);
+            
             if (minMaxPtLen.Maximum != minMaxPtLen.Minimum)
             {
                 testPtLens.Add(minMaxPtLen.Maximum);    

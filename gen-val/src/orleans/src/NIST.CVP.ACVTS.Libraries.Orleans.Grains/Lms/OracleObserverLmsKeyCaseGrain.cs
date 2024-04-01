@@ -5,7 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Lms;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
-using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms.Native;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Lms;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Lms
 {

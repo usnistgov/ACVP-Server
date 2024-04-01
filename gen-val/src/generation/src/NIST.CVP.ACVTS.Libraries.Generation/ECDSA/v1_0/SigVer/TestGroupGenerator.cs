@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer.TestCaseExpectations;
@@ -31,7 +32,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                 {
                     foreach (var hashAlg in capability.HashAlg)
                     {
-                        var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                        HashFunction sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
+                                                                       ShaAttributes.GetHashFunctionFromName(hashAlg);
                         var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
                         var testGroup = new TestGroup
