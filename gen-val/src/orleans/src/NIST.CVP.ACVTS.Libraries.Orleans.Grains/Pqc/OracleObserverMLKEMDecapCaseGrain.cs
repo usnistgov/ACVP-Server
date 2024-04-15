@@ -58,12 +58,27 @@ public class OracleObserverMLKEMDecapCaseGrain : ObservableOracleGrainBase<MLKEM
                 ciphertext.Bits.Set(0, !ciphertext.Bits.Get(0));
                 break;
         }
-        
-        await Notify(new MLKEMEncapsulationResult
+
+        if (_param.Disposition == MLKEMDecapsulationDisposition.None)
         {
-            Ciphertext = ciphertext,
-            SeedM = new BitString(seedM),
-            SharedKey = sharedKey,
-        });
+            await Notify(new MLKEMEncapsulationResult
+            {
+                Ciphertext = ciphertext,
+                SeedM = new BitString(seedM),
+                SharedKey = sharedKey
+            }); 
+        }
+        else
+        {
+            // If the disposition leads to implicit rejection, we need to pre-compute the implicit rejection shared key
+            var implicitRejectionResult = kyber.Decapsulate(_param.DecapsulationKey.ToBytes(), ciphertext.ToBytes());
+            
+            await Notify(new MLKEMEncapsulationResult
+            {
+                Ciphertext = ciphertext,
+                SeedM = new BitString(seedM),
+                SharedKey = new BitString(implicitRejectionResult.sharedKey)
+            });
+        }
     }
 }

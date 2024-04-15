@@ -78,7 +78,7 @@ public partial class Oracle
     public async Task<MLKEMEncapsulationResult> GetMLKEMEncapDeferredCaseAsync(MLKEMEncapsulationParameters param)
     {
         var observableGrain =
-            await GetObserverGrain<IOracleObserverMLKEMEncapDeferredCaseGrain, MLKEMEncapsulationResult>();
+            await GetObserverGrain<IOracleObserverMLKEMEncapCompleteDeferredCaseGrain, MLKEMEncapsulationResult>();
         await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
         return await observableGrain.ObserveUntilResult();

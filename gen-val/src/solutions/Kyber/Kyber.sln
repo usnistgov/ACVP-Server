@@ -41,6 +41,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests\NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests.csproj", "{7D040C1B-BFC1-4649-9C23-C672D5B4D853}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests.csproj", "{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests.csproj", "{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +123,14 @@ Global
 		{7D040C1B-BFC1-4649-9C23-C672D5B4D853}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D040C1B-BFC1-4649-9C23-C672D5B4D853}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D040C1B-BFC1-4649-9C23-C672D5B4D853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{536D9EFA-55C6-44EC-A808-5F433DEABDA1} = {0938A743-E500-48D3-89D6-CE89B169E42D}
@@ -139,5 +151,7 @@ Global
 		{A0F826CC-2659-4FFB-A11A-63A4DE2485D5} = {01B9EB64-7666-410D-9290-AFFF2442E70B}
 		{06D2D683-4DE8-46BF-8D20-8E6960CA54CC} = {01B9EB64-7666-410D-9290-AFFF2442E70B}
 		{7D040C1B-BFC1-4649-9C23-C672D5B4D853} = {01B9EB64-7666-410D-9290-AFFF2442E70B}
+		{E4E481CE-79E3-4B87-86AA-01AE2FF3C132} = {01B9EB64-7666-410D-9290-AFFF2442E70B}
+		{E4A28FC8-5FB3-4EF4-AAF2-7D586A307A3C} = {01B9EB64-7666-410D-9290-AFFF2442E70B}
 	EndGlobalSection
 EndGlobal

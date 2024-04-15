@@ -32,7 +32,7 @@ public class DilithiumTests
     public void ShouldExerciseAlgorithm(DilithiumParameterSet parameterSet, string seedHex, string messageHex, string expectedSignatureHex)
     {
         var seed = new BitString(seedHex).Bits;
-        var message = new BitArray(new BitString(messageHex).ToBytes());
+        var message = new BitArray(new BitString(messageHex).ToBytes(true));
 
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
         
@@ -92,7 +92,7 @@ public class DilithiumTests
     #endregion KeyTests
     public void ShouldGenerateKeyCorrectly(DilithiumParameterSet parameterSet, string seedHex, string pkHex, string skHex)
     {
-        var seed = new BitArray(new BitString(seedHex).ToBytes());
+        var seed = new BitArray(new BitString(seedHex).ToBytes(true));
 
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
 
@@ -138,7 +138,7 @@ public class DilithiumTests
     #endregion SignatureTests
     public void ShouldGenerateSignatureCorrectly(DilithiumParameterSet parameterSet, string skHex, string messageHex, string signatureHex)
     {
-        var message = new BitArray(new BitString(messageHex).ToBytes());
+        var message = new BitArray(new BitString(messageHex).ToBytes(true));
         var sk = new BitString(skHex).ToBytes();
         
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
@@ -190,7 +190,7 @@ public class DilithiumTests
     #endregion VerifyTests
     public void ShouldVerifySignaturesCorrectly(DilithiumParameterSet parameterSet, bool expectedVerify, string pkHex, string messageHex, string signatureHex)
     {
-        var message = new BitArray(new BitString(messageHex).ToBytes());
+        var message = new BitArray(new BitString(messageHex).ToBytes(true));
         var signature = new BitString(signatureHex).ToBytes();
         var pk = new BitString(pkHex).ToBytes();
         

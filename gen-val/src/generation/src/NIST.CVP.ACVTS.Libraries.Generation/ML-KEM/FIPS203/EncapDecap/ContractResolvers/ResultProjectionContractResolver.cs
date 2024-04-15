@@ -27,7 +27,8 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
     {
         var includeProperties = new[]
         {
-            nameof(TestCase.TestCaseId)
+            nameof(TestCase.TestCaseId),
+            nameof(TestCase.SharedKey)
         };
         
         var includeAftProperties = new[]
@@ -35,11 +36,6 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
             nameof(TestCase.Ciphertext)
         };
         
-        var includeValProperties = new[]
-        {
-            nameof(TestCase.SharedKey)
-        };
-
         if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = _ => true;
@@ -51,15 +47,6 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
                 return group.TestType.Equals("AFT", StringComparison.OrdinalIgnoreCase);
-            };
-        }
-        
-        if (includeValProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-        {
-            return jsonProperty.ShouldSerialize = instance =>
-            {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase);
             };
         }
         

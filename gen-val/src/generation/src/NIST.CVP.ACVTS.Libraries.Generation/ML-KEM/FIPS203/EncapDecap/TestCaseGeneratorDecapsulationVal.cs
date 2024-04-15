@@ -32,7 +32,8 @@ public class TestCaseGeneratorDecapsulationVal : ITestCaseGeneratorWithPrep<Test
         {
             ParameterSet = group.ParameterSet,
             Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
-            EncapsulationKey = group.EncapsulationKey
+            EncapsulationKey = group.EncapsulationKey,
+            DecapsulationKey = group.DecapsulationKey
         };
 
         try
@@ -43,7 +44,7 @@ public class TestCaseGeneratorDecapsulationVal : ITestCaseGeneratorWithPrep<Test
             {
                 Reason = param.Disposition, 
                 SharedKey = result.SharedKey,
-                Ciphertext = result.Ciphertext,
+                Ciphertext = result.Ciphertext
             };
 
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

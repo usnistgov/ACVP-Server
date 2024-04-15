@@ -5,7 +5,7 @@ using Orleans;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Pqc;
 
-public interface IOracleObserverMLKEMEncapDeferredCaseGrain : IGrainWithGuidKey, IGrainObservable<MLKEMEncapsulationResult>
+public interface IOracleObserverMLKEMEncapCompleteDeferredCaseGrain : IGrainWithGuidKey, IGrainObservable<MLKEMEncapsulationResult>
 {
     Task<bool> BeginWorkAsync(MLKEMEncapsulationParameters param);
 }

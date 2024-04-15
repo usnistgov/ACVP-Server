@@ -29,7 +29,8 @@ public class GenValTests : GenValTestsSingleRunnerBase
             bs = rand.GetDifferentBitStringOfSameSize(bs);
             testCase.k = bs.ToHex();
         }
-        else if (testCase.c != null)
+        
+        if (testCase.c != null)
         {
             var bs = new BitString(testCase.c.ToString());
             bs = rand.GetDifferentBitStringOfSameSize(bs);

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
@@ -56,14 +57,26 @@ public class TestCaseValidatorVal : ITestCaseValidatorAsync<TestGroup, TestCase>
 
     private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
     {
-        if (!_expectedResult.SharedKey.Equals(suppliedResult.SharedKey))
+        // Need to check if the resulting key is valid or from implicit rejection based on what is expected
+        if (_expectedResult.Reason == MLKEMDecapsulationDisposition.None)
         {
-            errors.Add($"{nameof(suppliedResult.SharedKey)} does not match");
-            expected.Add(nameof(_expectedResult.SharedKey), _expectedResult.SharedKey.ToHex());
-            provided.Add(nameof(suppliedResult.SharedKey), suppliedResult.SharedKey.ToHex());
+            // Reason is good, just check matching shared key
+            if (!_expectedResult.SharedKey.Equals(suppliedResult.SharedKey))
+            {
+                errors.Add($"{nameof(suppliedResult.SharedKey)} does not match expected valid shared key");
+                expected.Add(nameof(_expectedResult.SharedKey), _expectedResult.SharedKey.ToHex());
+                provided.Add(nameof(suppliedResult.SharedKey), suppliedResult.SharedKey.ToHex());
+            }
         }
-        
-        // TODO I don't think this is set up to capture the case when the SharedKey is from implicit rejection
-        // TODO The expectedResult.SharedKey will always be from an Encapsulation call, so it won't ever match when we expect an implicit rejection
+        else
+        {
+            // Reason is bad, need to compute expected implicit rejection key
+            if (!_expectedResult.SharedKey.Equals(suppliedResult.SharedKey))
+            {
+                errors.Add($"{nameof(suppliedResult.SharedKey)} does not match expected implicit rejection shared key");
+                expected.Add(nameof(_expectedResult.SharedKey), _expectedResult.SharedKey.ToHex());
+                provided.Add(nameof(suppliedResult.SharedKey), suppliedResult.SharedKey.ToHex());
+            }
+        }
     }
 }

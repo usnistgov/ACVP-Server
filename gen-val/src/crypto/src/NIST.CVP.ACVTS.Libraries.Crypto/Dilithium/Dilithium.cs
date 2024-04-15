@@ -58,7 +58,7 @@ public class Dilithium : IMLDSA
     /// <returns>Tuple (byte[] pk, byte[] sk) containing the public key and secret key</returns>
     public (byte[] pk, byte[] sk) GenerateKey(BitArray seed)
     {
-        var seedBytes = BitsToBytes(seed);
+        var seedBytes = BitsToBytes(seed).Reverse().ToArray();
         var seedMaterial = new byte[128];
         
         _h.Init();
@@ -147,7 +147,7 @@ public class Dilithium : IMLDSA
         var mu = new byte[64];
         _h.Init();
         _h.Update(BitsToBytes(tr), tr.Length);
-        _h.Update(BitsToBytes(message), message.Length);
+        _h.Update(BitsToBytes(message).Reverse().ToArray(), message.Length);
         _h.Final(mu, 512);
         
         // rnd is either 256 random bits, or 256 0-bits. 
@@ -342,7 +342,7 @@ public class Dilithium : IMLDSA
         var mu = new byte[64];
         _h.Init();
         _h.Update(tr, 512);
-        _h.Update(BitsToBytes(message), message.Length);
+        _h.Update(BitsToBytes(message).Reverse().ToArray(), message.Length);
         _h.Final(mu, 512);
         // Console.WriteLine("muCandidate: " + IntermediateValueHelper.Print(mu));
         // Console.WriteLine();
@@ -942,7 +942,7 @@ public class Dilithium : IMLDSA
                 var tempZ = new byte[256 * squeezeFactor];
                 
                 _h.Squeeze(tempZ, 256 * 8 * squeezeFactor);
-                zCandidates = tempZ[..256];
+                zCandidates = tempZ[(256 * (squeezeFactor - 1))..];
             }
             
             var z = zCandidates[c];

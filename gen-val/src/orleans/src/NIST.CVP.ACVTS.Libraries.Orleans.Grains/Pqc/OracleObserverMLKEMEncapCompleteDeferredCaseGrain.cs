@@ -10,13 +10,12 @@ using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Pqc;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Pqc;
 
-public class OracleObserverMLKEMEncapDeferredCaseGrain : ObservableOracleGrainBase<MLKEMEncapsulationResult>,
-    IOracleObserverMLKEMEncapCaseGrain
+public class OracleObserverMLKEMEncapCompleteDeferredCaseGrain : ObservableOracleGrainBase<MLKEMEncapsulationResult>, IOracleObserverMLKEMEncapCompleteDeferredCaseGrain
 {
     private MLKEMEncapsulationParameters _param;
     private IRandom800_90 _rand;
 
-    public OracleObserverMLKEMEncapDeferredCaseGrain(
+    public OracleObserverMLKEMEncapCompleteDeferredCaseGrain(
         LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
         IRandom800_90 rand
     ) : base(nonOrleansScheduler)
