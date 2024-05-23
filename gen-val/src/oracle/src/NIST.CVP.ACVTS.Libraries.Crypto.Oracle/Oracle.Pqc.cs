@@ -20,15 +20,6 @@ public partial class Oracle
 
         return await observableGrain.ObserveUntilResult();
     }
-    
-    public async Task<MLDSASignatureResult> GetMLDSASigGenDeferredCaseAsync(MLDSASignatureParameters param)
-    {
-        var observableGrain =
-            await GetObserverGrain<IOracleObserverMLDSADeferredSignatureCaseGrain, MLDSASignatureResult>();
-        await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
-
-        return await observableGrain.ObserveUntilResult();
-    }
 
     public async Task<MLDSASignatureResult> GetMLDSASigGenCaseAsync(MLDSASignatureParameters param)
     {
@@ -37,15 +28,6 @@ public partial class Oracle
         await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
         return await observableGrain.ObserveUntilResult();
-    }
-
-    public async Task<MLDSAVerificationResult> CompleteDeferredMLDSASignatureAsync(MLDSASignatureParameters param, MLDSASignatureResult providedResult)
-    {
-            var observableGrain =
-                await GetObserverGrain<IOracleObserverMLDSACompleteDeferredSignatureCaseGrain, MLDSAVerificationResult>();
-            await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, providedResult, LoadSheddingRetries);
-
-            return await observableGrain.ObserveUntilResult();
     }
     
     public async Task<VerifyResult<MLDSASignatureResult>> GetMLDSAVerifyResultAsync(MLDSASignatureParameters param)

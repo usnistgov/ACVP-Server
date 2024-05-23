@@ -94,10 +94,10 @@ public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
         }
         else
         {
-            if (!_expectedResult.SharedKey.Equals(suppliedResult.SharedKey))
+            if (!verifyResult.SharedKey.Equals(suppliedResult.SharedKey))
             {
                 errors.Add($"{nameof(suppliedResult.SharedKey)} does not match expected valid shared key");
-                expected.Add(nameof(_expectedResult.SharedKey), _expectedResult.SharedKey.ToHex());
+                expected.Add(nameof(verifyResult.SharedKey), verifyResult.SharedKey.ToHex());
                 provided.Add(nameof(suppliedResult.SharedKey), suppliedResult.SharedKey.ToHex());
             }
         }

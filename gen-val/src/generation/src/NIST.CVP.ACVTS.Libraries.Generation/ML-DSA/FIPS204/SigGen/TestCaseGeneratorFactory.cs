@@ -17,7 +17,6 @@ public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup
     {
         return testGroup.TestType.ToUpper() switch
         {
-            "GDT" => new TestCaseGeneratorGdt(_oracle),
             "AFT" => new TestCaseGeneratorAft(_oracle),
             _ => throw new ArgumentException("Invalid test type")
         };

@@ -21,16 +21,7 @@ public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVecto
 
         foreach (var group in testVectorSet.TestGroups)
         {
-            switch (group.TestType.ToUpper())
-            {
-                case "AFT":
-                    list.AddRange(group.Tests.Select(test => new TestCaseValidatorAft(test)));
-                    break;
-                
-                case "GDT":
-                    list.AddRange(group.Tests.Select(test => new TestCaseValidatorGdt(test, group, new DeferredTestCaseResolver(_oracle))));
-                    break;
-            }
+            list.AddRange(group.Tests.Select(test => new TestCaseValidatorAft(test)));
         }
 
         return list;

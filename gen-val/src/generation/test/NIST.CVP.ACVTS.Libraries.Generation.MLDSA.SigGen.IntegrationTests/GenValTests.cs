@@ -3,6 +3,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -38,6 +39,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Revision = Revision,
             ParameterSets = new [] { DilithiumParameterSet.ML_DSA_44 },
             Deterministic = new [] { true },
+            MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
             IsSample = true
         };
 
@@ -54,6 +56,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Revision = Revision,
             ParameterSets = ParameterValidator.VALID_PARAMETER_SETS,
             Deterministic = new [] { true, false },
+            MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 65536, 8)),
             IsSample = true
         };
 

@@ -28,11 +28,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
                     Curve = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_CURVES,
                     HashAlg = new[] { "SHAKE-128", "SHAKE-256" }
                 }
-                // new Capability
-                // {
-                //     Curve = new[] { "P-521" },
-                //     HashAlg = new[] {"SHA2-512" }
-                // }
             };
 
             var p = new Parameters
@@ -42,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
-                ComponentTest = true
+                ComponentTest = false
             };
 
             return CreateRegistration(targetFolder, p);

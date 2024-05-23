@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen.ContractResolv
             Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
             Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
 
-            if (curve == 25519 && !preHash)
+            if (tc.Context.BitLength > 0)
             {
                 Assert.AreNotEqual(tc.Context, newTc.Context, nameof(newTc.Context));
             }

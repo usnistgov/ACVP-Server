@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC.Enums;
@@ -66,9 +67,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                 {
                     foreach (var hashAlg in capability.HashAlg)
                     { 
-                       HashFunction sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
-                                                                      ShaAttributes.GetHashFunctionFromName(hashAlg);
-                       var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
+                        var sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
+                                                                         ShaAttributes.GetHashFunctionFromName(hashAlg);
+                        var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
                         var param = new EcdsaKeyParameters
                         {
@@ -79,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                         {
                             Curve = curve,
                             HashAlg = sha,
-                            ComponentTest = parameters.ComponentTest,
+                            ComponentTest = sha.Name.Contains("SHAKE") || parameters.ComponentTest,
                             Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 

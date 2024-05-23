@@ -51,7 +51,6 @@ public class TestCaseGeneratorEncapsulationAft : ITestCaseGeneratorAsync<TestGro
             
             if (isSample)
             {
-
                 var encapResult = await _oracle.GetMLKEMEncapCaseAsync(encapParam);
 
                 testCase.Ciphertext = encapResult.Ciphertext;

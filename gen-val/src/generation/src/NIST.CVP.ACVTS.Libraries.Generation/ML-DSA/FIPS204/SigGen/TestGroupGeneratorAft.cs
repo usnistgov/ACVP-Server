@@ -19,7 +19,8 @@ public class TestGroupGeneratorAft : ITestGroupGeneratorAsync<Parameters, TestGr
                 {
                     TestType = "AFT",
                     ParameterSet = parameterSet,
-                    Deterministic = deterministicOption
+                    Deterministic = deterministicOption,
+                    MessageLength = parameters.MessageLength
                 };
 
                 testGroups.Add(testGroup);

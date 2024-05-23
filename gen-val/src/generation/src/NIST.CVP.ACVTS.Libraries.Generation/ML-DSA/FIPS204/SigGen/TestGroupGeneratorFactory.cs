@@ -17,7 +17,6 @@ public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, 
     {
         var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
         {
-            new TestGroupGeneratorGdt(_oracle),
             new TestGroupGeneratorAft()
         };
 

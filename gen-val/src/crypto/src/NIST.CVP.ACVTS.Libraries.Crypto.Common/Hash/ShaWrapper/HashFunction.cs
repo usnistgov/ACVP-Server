@@ -28,14 +28,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
 
         [JsonIgnore]
         public string Name { get; }
+        
+        [JsonIgnore]
+        public byte[] OID { get; }
 
         public HashFunction(ModeValues mode, DigestSizes digestSize, bool isXofPss = false)
         {
             Mode = mode;
             DigestSize = digestSize;
 
-            (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, string name) attributes;
-            if (isXofPss)
+            (ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, byte[] OID, string name) attributes;
+            if (isXofPss && mode == ModeValues.SHAKE)
             {
                 attributes = ShaAttributes.GetXofPssAttributes(mode, digestSize);    
             }
@@ -49,6 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
             MaxMessageLen = attributes.maxMessageSize;
             ProcessingLen = attributes.processingLen;
             Name = attributes.name;
+            OID = attributes.OID; 
         }
 
         public override bool Equals(object other)

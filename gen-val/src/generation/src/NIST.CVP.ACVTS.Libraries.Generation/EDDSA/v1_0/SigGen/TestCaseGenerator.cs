@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
             var min = group.ContextLength.GetDomainMinMax().Minimum == 0 ? 1 : group.ContextLength.GetDomainMinMax().Minimum;
-            var max = group.ContextLength.GetDomainMinMax().Maximum;
+            var max = group.ContextLength.GetDomainMinMax().Maximum == 0 ? 1 : group.ContextLength.GetDomainMinMax().Maximum;
             
             var lengths = group.ContextLength.GetRandomValues(min, max, NumberOfTestCasesToGenerate - 2).ToList();
             lengths.Add(min);

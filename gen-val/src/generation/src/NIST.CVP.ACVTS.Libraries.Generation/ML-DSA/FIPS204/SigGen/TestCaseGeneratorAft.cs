@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
@@ -29,7 +30,7 @@ public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
             var param = new MLDSASignatureParameters
             {
                 ParameterSet = group.ParameterSet,
-                MessageLength = 1024,
+                MessageLength = group.MessageLength.GetRandomValues(_ => true, 1).First(),
                 Deterministic = group.Deterministic,
                 PrivateKey = keyResult.PrivateKey
             };

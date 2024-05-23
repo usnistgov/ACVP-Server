@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 
@@ -19,6 +20,9 @@ public class TestGroup : ITestGroup<TestGroup, TestCase>
 
     [JsonProperty(PropertyName = "sk")]
     public BitString PrivateKey { get; set; }
+    
+    [JsonIgnore]
+    public MathDomain MessageLength { get; set; }
     
     public List<TestCase> Tests { get; set; } = new();
 }

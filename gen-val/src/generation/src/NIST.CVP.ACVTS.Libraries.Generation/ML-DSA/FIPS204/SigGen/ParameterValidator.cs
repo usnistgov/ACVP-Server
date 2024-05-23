@@ -10,6 +10,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
 {
     public static DilithiumParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<DilithiumParameterSet>().Except(new [] { DilithiumParameterSet.None }).ToArray();
+    public static int MIN_MSG_LEN = 8;
+    public static int MAX_MSG_LEN = 65536;
     
     public ParameterValidateResponse Validate(Parameters parameters)
     {
@@ -27,11 +29,9 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
             errors.Add("Expected at least one deterministic option");
         }
 
-        if (errors.Any())
-        {
-            return new ParameterValidateResponse(errors);
-        }
-
-        return new ParameterValidateResponse();
+        ValidateDomain(parameters.MessageLength, errors, "message length", MIN_MSG_LEN, MAX_MSG_LEN);
+        ValidateMultipleOf(parameters.MessageLength, errors, 8, "complete byte messages");
+        
+        return errors.Any() ? new ParameterValidateResponse(errors) : new ParameterValidateResponse();
     }
 }
