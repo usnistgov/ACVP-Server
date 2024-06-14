@@ -3,9 +3,11 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_DSA;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_KEM;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.SLH_DSA;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.ML_DSA;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.ML_KEM;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.SLH_DSA;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Pqc;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle;
@@ -80,6 +82,31 @@ public partial class Oracle
         var observableGrain =
             await GetObserverGrain<IOracleObserverMLKEMDeferredEncapCaseGrain, MLKEMDecapsulationResult>();
         await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, providedResult, LoadSheddingRetries);
+
+        return await observableGrain.ObserveUntilResult();
+    }
+
+    public async Task<SLHDSAKeyPairResult> GetSLHDSAKeyCaseAsync(SLHDSAKeyGenParameters param)
+    {
+        var observableGrain = await GetObserverGrain<IOracleObserverSLHDSAKeyCaseGrain, SLHDSAKeyPairResult>();
+        await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+        return await observableGrain.ObserveUntilResult();
+    }
+
+    public async Task<SLHDSASignatureResult> GetSLHDSASigGenCaseAsync(SLHDSASignatureParameters param)
+    {
+        var observableGrain = await GetObserverGrain<IOracleObserverSLHDSASignatureCaseGrain, SLHDSASignatureResult>();
+        await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+        return await observableGrain.ObserveUntilResult();
+    }
+    
+    public async Task<VerifyResult<SLHDSASignatureResult>> GetSLHDSASigVerCaseAsync(SLHDSASignatureParameters param)
+    {
+        var observableGrain =
+            await GetObserverGrain<IOracleObserverSLHDSASignatureVerifyCaseGrain, VerifyResult<SLHDSASignatureResult>>();
+        await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
 
         return await observableGrain.ObserveUntilResult();
     }

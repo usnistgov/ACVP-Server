@@ -39,8 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 Key = iutTestCase.Key
             }; 
             
-            if (serverTestGroup.PrimeGenMode != PrimeGenModes.RandomProbablePrimes ||
-                serverTestGroup.PrimeGenMode != PrimeGenModes.RandomProvablePrimes)
+            if (serverTestGroup.PrimeGenMode.ToString().Contains("Aux"))
             {
                 fullParam.AuxValues = new AuxiliaryResult
                 {

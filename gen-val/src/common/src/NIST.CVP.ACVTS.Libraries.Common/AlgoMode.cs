@@ -257,6 +257,12 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         SafePrimes_keyGen_v1_0,
         [EnumMember(Value = "SafePrimes-KeyVer-1.0")]
         SafePrimes_keyVer_v1_0,
+        [EnumMember(Value = "SLH-DSA-KeyGen-FIPS205")]
+        SLH_DSA_KeyGen_FIPS205,
+        [EnumMember(Value = "SLH-DSA-SigGen-FIPS205")]
+        SLH_DSA_SigGen_FIPS205,
+        [EnumMember(Value = "SLH-DSA-SigVer-FIPS205")]
+        SLH_DSA_SigVer_FIPS205,
         [EnumMember(Value = "SHA-1-1.0")]
         SHA_1_v1_0,
         [EnumMember(Value = "SHA2-224-1.0")]

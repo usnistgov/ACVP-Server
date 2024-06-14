@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math
                 Randy.NextBytes(bytes);
                 bytes[bytes.Length - 1] &= (byte)0x7F; //force sign bit to positive
                 R = new BigInteger(bytes);
-            } while (R >= maxInclusive);
+            } while (R > maxInclusive);
 
             return R;
         }

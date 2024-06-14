@@ -20,5 +20,8 @@
     <PackageReference Include="Autofac" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <Folder Include="SLHDSA\Enums\" />
+  </ItemGroup>
+  
 </Project>

@@ -640,34 +640,34 @@ public class Kyber : IMLKEM
             tHat[i] = ByteDecode(12, ek[(i * 384)..(i * 384 + 384)]);
         }
 
-        Console.WriteLine("tHat: " + IntermediateValueHelper.Print2dArray(tHat));
-        Console.WriteLine();
+        // Console.WriteLine("tHat: " + IntermediateValueHelper.Print2dArray(tHat));
+        // Console.WriteLine();
 
         var rho = ek[(_param.K * 384)..];
 
-        var bHat = new int[_param.K][][];
+        var aHat = new int[_param.K][][];
         for (var i = 0; i < _param.K; i++)
         {
-            bHat[i] = new int[_param.K][];
+            aHat[i] = new int[_param.K][];
             
             for (var j = 0; j < _param.K; j++)
             {
-                bHat[i][j] = SampleNTT(rho, (byte) i, (byte) j);    // Note the indexes are inverted from K_Pke_KeyGen to form B = A^T
+                aHat[i][j] = SampleNTT(rho, (byte) j, (byte) i);
             }
         }
 
-        Console.WriteLine("bHat = aHat^T: " + IntermediateValueHelper.Print3dArray(bHat));
-        Console.WriteLine();
+        // Console.WriteLine("aHat: " + IntermediateValueHelper.Print3dArray(aHat));
+        // Console.WriteLine();
 
-        var r = new int[_param.K][];
+        var y = new int[_param.K][];
         for (var i = 0; i < _param.K; i++)
         {
-            r[i] = SamplePolyCBD(_param.Eta1, Prf(_param.Eta1, rand, n));
+            y[i] = SamplePolyCBD(_param.Eta1, Prf(_param.Eta1, rand, n));
             n++;
         }
         
-        Console.WriteLine("r: " + IntermediateValueHelper.Print2dArray(r));
-        Console.WriteLine();
+        // Console.WriteLine("r: " + IntermediateValueHelper.Print2dArray(r));
+        // Console.WriteLine();
 
         var e1 = new int[_param.K][];
         for (var i = 0; i < _param.K; i++)
@@ -676,30 +676,30 @@ public class Kyber : IMLKEM
             n++;
         }
 
-        Console.WriteLine("e1: " + IntermediateValueHelper.Print2dArray(e1));
-        Console.WriteLine();
+        // Console.WriteLine("e1: " + IntermediateValueHelper.Print2dArray(e1));
+        // Console.WriteLine();
 
         var e2 = SamplePolyCBD(_param.Eta2, Prf(_param.Eta2, rand, n));
-        var rHat = r.Select(NTT).ToArray();
-        Console.WriteLine("e2: " + IntermediateValueHelper.PrintArray(e2));
-        Console.WriteLine("rHat: " + IntermediateValueHelper.Print2dArray(rHat));
-        Console.WriteLine();
+        var yHat = y.Select(NTT).ToArray();
+        // Console.WriteLine("e2: " + IntermediateValueHelper.PrintArray(e2));
+        // Console.WriteLine("rHat: " + IntermediateValueHelper.Print2dArray(rHat));
+        // Console.WriteLine();
         
-        var u = MatrixAdd(MatrixMultiply(bHat, rHat).Select(NTTInverse).ToArray(), e1);
-        Console.WriteLine("BHat * rHat: " + IntermediateValueHelper.Print2dArray(MatrixMultiply(bHat, rHat)));
-        Console.WriteLine("NTTInverse(BHat * rHat): " + IntermediateValueHelper.Print2dArray(MatrixMultiply(bHat, rHat).Select(NTTInverse).ToArray()));
-        Console.WriteLine("u = NTTInverse(BHat * rHat) + e1: " + IntermediateValueHelper.Print2dArray(u));
-        Console.WriteLine();
+        var u = MatrixAdd(MatrixMultiply(MatrixTranspose(aHat), yHat).Select(NTTInverse).ToArray(), e1);
+        // Console.WriteLine("AHat^T * yHat: " + IntermediateValueHelper.Print2dArray(MatrixMultiply(MatrixTranspose(aHat), rHat)));
+        // Console.WriteLine("NTTInverse(AHat^T * yHat): " + IntermediateValueHelper.Print2dArray(MatrixMultiply(MatrixTranspose(aHat), rHat).Select(NTTInverse).ToArray()));
+        // Console.WriteLine("u = NTTInverse(AHat^T * yHat) + e1: " + IntermediateValueHelper.Print2dArray(u));
+        // Console.WriteLine();
         
         var mu = ByteDecode(1, m).Select(x => Decompress(1, x)).ToArray();
-        Console.WriteLine("mu: " + IntermediateValueHelper.PrintArray(mu));
+        // Console.WriteLine("mu: " + IntermediateValueHelper.PrintArray(mu));
 
-        var v = ArrayAdd(ArrayAdd(NTTInverse(VectorTransposeMultiply(tHat, rHat)), e2), mu);
-        Console.WriteLine("tHat^T * rHat: " + IntermediateValueHelper.PrintArray(VectorTransposeMultiply(tHat, rHat)));
-        Console.WriteLine("NTTInverse(tHat^T * rHat): " + IntermediateValueHelper.PrintArray(NTTInverse(VectorTransposeMultiply(tHat, rHat))));
-        Console.WriteLine("e2 + mu: " + IntermediateValueHelper.PrintArray(ArrayAdd(e2, mu)));
-        Console.WriteLine("v = NTTInverse(tHat^T * rHat) + e2 + mu: " + IntermediateValueHelper.PrintArray(v));
-        Console.WriteLine();
+        var v = ArrayAdd(ArrayAdd(NTTInverse(VectorTransposeMultiply(tHat, yHat)), e2), mu);
+        // Console.WriteLine("tHat^T * rHat: " + IntermediateValueHelper.PrintArray(VectorTransposeMultiply(tHat, yHat)));
+        // Console.WriteLine("NTTInverse(tHat^T * yHat): " + IntermediateValueHelper.PrintArray(NTTInverse(VectorTransposeMultiply(tHat, yHat))));
+        // Console.WriteLine("e2 + mu: " + IntermediateValueHelper.PrintArray(ArrayAdd(e2, mu)));
+        // Console.WriteLine("v = NTTInverse(tHat^T * yHat) + e2 + mu: " + IntermediateValueHelper.PrintArray(v));
+        // Console.WriteLine();
 
         var c = Array.Empty<byte>();
         for (var i = 0; i < u.Length; i++)
@@ -850,5 +850,24 @@ public class Kyber : IMLKEM
         }
 
         return sum;
+    }
+
+    private int[][][] MatrixTranspose(int[][][] a)
+    {
+        var rows = a.Length;
+        var cols = a[0].Length;
+
+        var t = new int[cols][][];
+
+        for (var j = 0; j < cols; j++)
+        {
+            t[j] = new int[cols][];
+            for (var i = 0; i < rows; i++)
+            {
+                t[j][i] = a[i][j];
+            }
+        }
+
+        return t;
     }
 }

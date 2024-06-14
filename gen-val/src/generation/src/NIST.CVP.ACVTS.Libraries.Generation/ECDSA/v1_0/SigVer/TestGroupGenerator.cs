@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                             Curve = curve,
                             HashAlg = sha,
                             Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
-                            Component = sha.Name.Contains("SHAKE") || parameters.Component
+                            Component = parameters.Component
                         };
 
                         testGroups.Add(testGroup);

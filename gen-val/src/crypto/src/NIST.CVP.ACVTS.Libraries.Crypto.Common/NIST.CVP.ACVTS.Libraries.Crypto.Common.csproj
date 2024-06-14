@@ -15,5 +15,10 @@
 		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Common" />
 		<PackageReference Include="NIST.CVP.ACVTS.Libraries.Math" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Asymmetric\SLHDSA\ADRS\" />
+	  <Folder Include="Asymmetric\SLHDSA\Enums\" />
+	  <Folder Include="Asymmetric\SLHDSA\Helpers\" />
+	</ItemGroup>
   
 </Project>
