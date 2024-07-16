@@ -39,7 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                     {
                         foreach (var hashAlg in capability.HashAlg)
                         {
-                            var sha = ShaAttributes.GetHashFunctionFromName(hashAlg);
+                            var sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
+                                                                             ShaAttributes.GetHashFunctionFromName(hashAlg);
                             var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
                             var testGroup = new TestGroup
@@ -80,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                         {
                             Curve = curve,
                             HashAlg = sha,
-                            ComponentTest = sha.Name.Contains("SHAKE") || parameters.ComponentTest,
+                            ComponentTest = parameters.ComponentTest,
                             Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 

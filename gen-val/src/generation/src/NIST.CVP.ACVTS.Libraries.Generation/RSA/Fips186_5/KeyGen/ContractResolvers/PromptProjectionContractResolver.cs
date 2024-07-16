@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen.ContractResol
 
                 // Ignore HashAlg for B.3.3, B.3.6
                 if (testGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimes ||
-                    testGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
+                    testGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
                 {
                     if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.HashAlgName),
                         StringComparison.OrdinalIgnoreCase))

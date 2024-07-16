@@ -33,7 +33,13 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
 
         protected override async Task DoWorkAsync()
         {
-            var message = _entropyProvider.GetEntropy(_param.HashAlg.Name.Contains("SHAKE") ? _param.HashAlg.OutputLen : 1024);
+            var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
+                
+            // Always override SHAKE to use OutputLen, even when not Component test
+            if (_param.HashAlg.Name.Contains("SHAKE"))
+            {
+                message = _entropyProvider.GetEntropy(_param.HashAlg.OutputLen);
+            }
 
             // Notify observers of result
             await Notify(new EcdsaSignatureResult
