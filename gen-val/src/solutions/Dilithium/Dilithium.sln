@@ -47,10 +47,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLDSA.SigVer.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLDSA.SigVer.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLDSA.SigVer.IntegrationTests.csproj", "{F94C873B-B065-47FA-A0A0-EE863499B49B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.KeyGen.IntegrationTests.csproj", "{23984FF9-B3FA-449B-8912-12FB718D0663}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests.csproj", "{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,14 +137,6 @@ Global
 		{F94C873B-B065-47FA-A0A0-EE863499B49B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94C873B-B065-47FA-A0A0-EE863499B49B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94C873B-B065-47FA-A0A0-EE863499B49B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23984FF9-B3FA-449B-8912-12FB718D0663}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23984FF9-B3FA-449B-8912-12FB718D0663}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23984FF9-B3FA-449B-8912-12FB718D0663}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23984FF9-B3FA-449B-8912-12FB718D0663}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{76C5410C-F2E8-4DCF-BFFF-DFC2AA30CF67} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
@@ -172,7 +160,5 @@ Global
 		{4D493C30-F161-49EF-B331-CC69C50B60D0} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
 		{4DB426B9-0F09-49E6-BE64-18CCFA0B4933} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
 		{F94C873B-B065-47FA-A0A0-EE863499B49B} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
-		{23984FF9-B3FA-449B-8912-12FB718D0663} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
-		{AB2BDB3C-AC07-40CD-8D8E-D9FB972779FB} = {CC0C2C6B-4559-4E61-9259-540153FEC726}
 	EndGlobalSection
 EndGlobal

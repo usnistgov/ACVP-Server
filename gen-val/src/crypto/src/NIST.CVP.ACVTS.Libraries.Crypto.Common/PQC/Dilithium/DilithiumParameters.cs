@@ -46,13 +46,13 @@ public class DilithiumParameters
     /// (K, L) are the dimensions of A.
     /// Valid options are 4, 6, 8
     /// </summary>
-    public int K { get; }
+    public int K { get; }   // DO NOT ADD SET WITHOUT TESTING!
 
     /// <summary>
     /// (K, L) are the dimensions of A.
     /// Valid options are 4, 5, 7
     /// </summary>
-    public int L { get; }
+    public int L { get; }   // DO NOT ADD SET WITHOUT TESTING!
 
     /// <summary>
     /// Private key range.

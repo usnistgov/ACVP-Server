@@ -19,7 +19,7 @@ public class KyberParameters
     /// <summary>
     /// Dimensions of A and vectors. Valid values are 2, 3, 4.
     /// </summary>
-    public int K { get; }
+    public int K { get; }   // DO NOT ADD SET WITHOUT TESTING!
     
     /// <summary>
     /// Distribution for generating vectors. Valid values are 3, 2, 2.

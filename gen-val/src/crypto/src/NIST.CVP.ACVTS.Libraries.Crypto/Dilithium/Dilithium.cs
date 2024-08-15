@@ -66,6 +66,8 @@ public class Dilithium : IMLDSA
         
         _h.Init();
         _h.Update(seedBytes, 256);
+        _h.Update(IntegerToBytes(_param.K, 1), 8);      // Safe to call IntegerToBytes() which wipes out the integer value because DilithiumParameters uses get only.
+        _h.Update(IntegerToBytes(_param.L, 1), 8);
         _h.Final(seedMaterial, 1024);
 
         var rho = BytesToBits(seedMaterial[..32]);

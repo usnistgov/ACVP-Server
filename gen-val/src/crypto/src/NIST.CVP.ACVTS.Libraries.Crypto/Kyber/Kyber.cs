@@ -303,6 +303,24 @@ public class Kyber : IMLKEM
     }
     
     /// <summary>
+    /// Not specified but needed in K-PKE.KeyGen
+    /// </summary>
+    /// <param name="x">Nonnegative integer</param>
+    /// <param name="alpha">Number of bytes in x</param>
+    /// <returns></returns>
+    public byte[] IntegerToBytes(int x, int alpha)
+    {
+        var y = new byte[alpha];
+        for (var i = 0; i < alpha; i++)
+        {
+            y[i] = (byte)(x % 256);
+            x /= 256;
+        }
+
+        return y;
+    }
+    
+    /// <summary>
     /// Algorithm 3
     /// </summary>
     /// <param name="z"></param>
@@ -562,7 +580,7 @@ public class Kyber : IMLKEM
     /// <returns></returns>
     public (byte[] ek, byte[] dk) K_Pke_KeyGen(byte[] d)
     {
-        var (rho, sigma) = G(d);
+        var (rho, sigma) = G(d.Concatenate(IntegerToBytes(_param.K, 1)));   // This is safe even though IntegerToBytes wipes out the int value because KyberParameters is readonly
         byte n = 0;
         var aHat = new int[_param.K][][];
         
