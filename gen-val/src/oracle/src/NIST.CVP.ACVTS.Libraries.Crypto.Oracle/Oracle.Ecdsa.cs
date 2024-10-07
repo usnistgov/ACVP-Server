@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;

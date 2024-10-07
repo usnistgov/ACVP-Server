@@ -57,11 +57,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen.ContractResolver
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
-
-                    if (testCase.ContextLength < 1 || testCase.Context.BitLength < 1)
-                    {
-                        return false;
-                    }
                     
                     if ((!testGroup.PreHash) && testGroup.Curve == Crypto.Common.Asymmetric.DSA.Ed.Enums.Curve.Ed25519)
                     {

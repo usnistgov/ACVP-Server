@@ -9,7 +9,7 @@
     },
     "Validate": {
       "commandName": "Project",
-      "commandLineArgs": "-a filepath to internalProjection.json -b filepath to submittedAnswers.json"
+      "commandLineArgs": "-n filepath to internalProjection.json -b filepath to submittedAnswers.json"
     }
   }
 }

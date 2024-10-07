@@ -45,7 +45,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                         Message = result.Message,
                         RandomValue = result.RandomValue,
                         RandomValueLen = result.RandomValue?.BitLength ?? 0,
-                        Signature = result.Signature
+                        Signature = result.Signature,
+                        Deferred = false
                     };
 
                 }
@@ -54,7 +55,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                     result = await _oracle.GetDeferredEcdsaSignatureAsync(param);
                     testCase = new TestCase
                     {
-                        Message = result.Message
+                        Message = result.Message,
+                        Deferred = true
                     };
                 }
 

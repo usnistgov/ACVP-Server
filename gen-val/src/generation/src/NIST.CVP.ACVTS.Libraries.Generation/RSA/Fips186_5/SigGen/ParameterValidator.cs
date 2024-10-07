@@ -65,6 +65,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen
                             errorResults.Add("Unable to resolve a mask generation function");
                         }
                     }
+                    else if (capability.SigType == SignatureSchemes.Pkcs1v15 && (moduloCap.MaskFunction.Contains(PssMaskTypes.MGF1) 
+                                 || moduloCap.MaskFunction.Contains(PssMaskTypes.SHAKE128) || moduloCap.MaskFunction.Contains(PssMaskTypes.SHAKE256)))
+                    {
+                        // maskFunction is not a valid property when sigType = pkcs1v1.5. Registrations that supply
+                        // maskFunction for pkcs1v1.5 should be rejected. The default value for maskFunction is
+                        // PssMaskTypes.None per Parameters.cs. 
+                        errorResults.Add($"Mask generation functions are not supported for the {capability.SigType} " +
+                                         $"signature type. Remove {nameof(moduloCap.MaskFunction)} from the registration " +
+                                         $"for {capability.SigType}.");
+                    }
 
                     foreach (var hashPair in moduloCap.HashPairs)
                     {
@@ -89,6 +99,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen
                             continue;
                         }
 
+                        // For Pkcs1v15, hashPairs should not include a saltLen property. W/o restructuring/redoing some  
+                        // things, the best check we can do for this is to check for saltLen values that are greater than 0.
+                        if (capability.SigType == SignatureSchemes.Pkcs1v15 && hashPair.SaltLen > 0)
+                        {
+                            errorResults.Add($"{nameof(hashPair.SaltLen)} may not be included within a HashPair for the " +
+                                             $"{capability.SigType} signature type.");
+                            break;
+                        }
+                        
                         result = ValidateSaltLen(hashPair.SaltLen, hashPair.HashAlg, moduloCap.Modulo);
                         if (!string.IsNullOrEmpty(result))
                         {

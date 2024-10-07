@@ -13,6 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
     {
         private readonly IOracle _oracle;
 
+        private const int BITS_IN_BYTE = 8;
         public int NumberOfTestCasesToGenerate { get; private set; } = 1024;
 
         private int _bit = -1;
@@ -39,7 +40,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                 PreHash = group.PreHash,
                 Key = group.KeyPair,
                 Message = group.Message,
-                Bit = _bit++
+                Bit = _bit++,
+                Context = group.Context,
+                ContextLength = group.Context.BitLength
             };
 
             try
@@ -53,6 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                     {
                         Message = result.Message,
                         Context = result.Context,
+                        ContextLength = result.ContextLength,
                         Signature = result.Signature
                     };
 
@@ -63,7 +67,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                     testCase = new TestCase
                     {
                         Message = result.Message,
-                        Context = result.Context
+                        Context = result.Context,
+                        ContextLength = result.ContextLength,
                     };
                 }
 

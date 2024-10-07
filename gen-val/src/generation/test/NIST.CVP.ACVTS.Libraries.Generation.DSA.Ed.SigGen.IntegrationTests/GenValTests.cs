@@ -29,12 +29,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigGen.IntegrationTests
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true,
+                Pure = true,
                 ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 248, 8))
             };
 
             return CreateRegistration(targetFolder, p);
         }
-        
+
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
             var p = new Parameters
@@ -45,6 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigGen.IntegrationTests
                 IsSample = true,
                 Curve = ParameterValidator.VALID_CURVES,
                 PreHash = true,
+                Pure = true,
                 ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 248, 8))
             };
 

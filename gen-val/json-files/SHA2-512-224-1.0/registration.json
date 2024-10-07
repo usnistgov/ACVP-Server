@@ -4,14 +4,11 @@
   "revision": "1.0",
   "isSample": false,
   "conformances": [],
-  "digestSize": [
-    "256"
-  ],
   "messageLength": [
     {
-      "min": 1720,
-      "max": 12144,
-      "increment": 8
+      "min": 0,
+      "max": 65535,
+      "increment": 1
     }
   ],
   "performLargeDataTest": [

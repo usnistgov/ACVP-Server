@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
 
         protected override string GetTestFileFewTestCases(string targetFolder)
         {
-            var hashPairs = new[]
+            var hashPairsPss = new[]
             {
                 new HashPair
                 {
@@ -55,26 +55,51 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                 }
             };
             
-            var modCap = new[]
+            var hashPairsPkcs1v15 = new[]
+            {
+                new HashPair
+                {
+                    HashAlg = "SHA2-256"
+                },
+                new HashPair
+                {
+                    HashAlg = "SHA3-512"
+                }
+            };
+            
+            var modCapPss = new[]
             {
                 new CapSigType
                 {
                     Modulo = 2048,
                     MaskFunction = new [] {PssMaskTypes.MGF1},
-                    HashPairs = hashPairs
+                    HashPairs = hashPairsPss
                 }
             };
 
-            var algSpecs = new AlgSpecs[ParameterValidator.VALID_SIG_GEN_MODES.Length];
-            for (var i = 0; i < algSpecs.Length; i++)
+            var modCapPkcs1v15 = new[]
             {
-                algSpecs[i] = new AlgSpecs
+                new CapSigType
                 {
-                    SigType = ParameterValidator.VALID_SIG_GEN_MODES[i],
-                    ModuloCapabilities = modCap
-                };
-            }
-
+                    Modulo = 2048,
+                    HashPairs = hashPairsPkcs1v15
+                }
+            };
+            
+            var algSpecs = new AlgSpecs[2];
+            
+            algSpecs[0] = new AlgSpecs
+            {
+                SigType = SignatureSchemes.Pss,
+                ModuloCapabilities = modCapPss
+            };
+            
+            algSpecs[1] = new AlgSpecs
+            {
+                SigType = SignatureSchemes.Pkcs1v15,
+                ModuloCapabilities = modCapPkcs1v15
+            };
+            
             var p = new Parameters
             {
                 Algorithm = Algorithm,
@@ -94,13 +119,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
             {
                 new HashPair
                 {
-                    HashAlg = "SHA2-256",
-                    SaltLen = 8
+                    HashAlg = "SHA2-256"
                 },
                 new HashPair
                 {
-                    HashAlg = "SHA3-512",
-                    SaltLen = 62
+                    HashAlg = "SHA3-512"
                 }
             };
 
@@ -129,20 +152,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigGen.IntegrationTests.Fips18
                 new CapSigType
                 {
                     Modulo = 2048,
-                    MaskFunction = new [] { PssMaskTypes.MGF1 },
                     HashPairs = hashPairsPkcs
                 },
                 new CapSigType
                 {
                     Modulo = 3072,
-                    MaskFunction = new [] { PssMaskTypes.SHAKE128 },
                     HashPairs = hashPairsPkcs
-                }
-                ,
+                },
                  new CapSigType
                  {
                      Modulo = 4096,
-                     MaskFunction = new [] { PssMaskTypes.SHAKE256 },
                      HashPairs = hashPairsPkcs
                  }
             };

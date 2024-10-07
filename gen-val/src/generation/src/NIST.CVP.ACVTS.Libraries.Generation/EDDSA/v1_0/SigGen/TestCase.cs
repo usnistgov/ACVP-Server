@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         public BitString Context { get; set; } = null;
 
         [JsonProperty(PropertyName = "contextLength")]
-        public int ContextLength { get; set; }
+        public int ContextLength { get; set;  }
 
         [JsonIgnore] public EdSignature Signature { get; set; } = new EdSignature();
 

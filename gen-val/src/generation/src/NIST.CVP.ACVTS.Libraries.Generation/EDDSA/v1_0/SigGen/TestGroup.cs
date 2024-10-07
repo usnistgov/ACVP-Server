@@ -39,5 +39,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
         public MathDomain ContextLength { get; set; }
+        public BitString Context { get; set; }
     }
 }

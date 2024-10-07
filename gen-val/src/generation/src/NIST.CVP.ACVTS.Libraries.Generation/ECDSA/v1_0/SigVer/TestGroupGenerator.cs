@@ -32,8 +32,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                 {
                     foreach (var hashAlg in capability.HashAlg)
                     {
-                        var sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
-                                                                         ShaAttributes.GetHashFunctionFromName(hashAlg);
+                        HashFunction sha = hashAlg.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(hashAlg) :
+                                                                       ShaAttributes.GetHashFunctionFromName(hashAlg);
                         var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
                         var testGroup = new TestGroup
@@ -41,8 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                             TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
                             Curve = curve,
                             HashAlg = sha,
-                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
-                            Component = parameters.Component
+                            Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                         };
 
                         testGroups.Add(testGroup);

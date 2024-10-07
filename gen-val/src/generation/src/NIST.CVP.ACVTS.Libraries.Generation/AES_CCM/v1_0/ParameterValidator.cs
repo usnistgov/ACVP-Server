@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.v1_0
     {
         public static int[] VALID_KEY_SIZES = { 128, 192, 256 };
         public static int[] VALID_TAG_LENGTHS = { 32, 48, 64, 80, 96, 112, 128 };
-        public static int[] VALID_NONCE_LENGTHS = { 56, 64, 72, 80, 88, 64, 104 };
+        public static int[] VALID_NONCE_LENGTHS = { 56, 64, 72, 80, 88, 96, 104 };
         public static string[] VALID_CONFORMANCES = { "802.11", "ECMA" };
         public static int VALID_MIN_PT = 0;
         public static int VALID_MAX_PT = 256;

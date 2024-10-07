@@ -20,8 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer.ContractResolver
                 nameof(TestGroup.Tests),
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.HashAlgName),
-                nameof(TestGroup.Curve),
-                nameof(TestGroup.Component)
+                nameof(TestGroup.Curve)
             };
 
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))

@@ -14,48 +14,48 @@
         {
           "modulo": 2048,
           "maskFunction": [
-            "mgf1"
+            "none"
           ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA3-512",
-              "saltLen": 62
+              "saltLen": 0
             }
           ]
         },
         {
           "modulo": 3072,
           "maskFunction": [
-            "shake-128"
+            "none"
           ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA3-512",
-              "saltLen": 62
+              "saltLen": 0
             }
           ]
         },
         {
           "modulo": 4096,
           "maskFunction": [
-            "shake-256"
+            "none"
           ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 8
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA3-512",
-              "saltLen": 62
+              "saltLen": 0
             }
           ]
         }

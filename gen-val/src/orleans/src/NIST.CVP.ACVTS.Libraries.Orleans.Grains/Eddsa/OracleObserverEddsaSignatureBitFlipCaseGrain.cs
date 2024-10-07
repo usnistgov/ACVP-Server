@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Eddsa;
@@ -18,6 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         private readonly IShaFactory _shaFactory;
 
         private EddsaSignatureParameters _param;
+        private const int BITS_IN_BYTE = 8;
 
         public OracleObserverEddsaSignatureBitFlipCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
                 message.Bits.Set(_param.Bit, !message.Bits.Get(_param.Bit));      // flip bit
             }
 
-            var result = edDsa.Sign(domainParams, _param.Key, message, _param.PreHash);
+            var result = edDsa.Sign(domainParams, _param.Key, message, _param.Context, _param.PreHash);
             if (!result.Success)
             {
                 throw new Exception();
@@ -61,7 +61,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             await Notify(new EddsaSignatureResult
             {
                 Message = message,
-                Context = new BitString(""),
+                Context = _param.Context,
+                ContextLength = _param.ContextLength/BITS_IN_BYTE,
                 Signature = result.Signature
             });
         }

@@ -18,6 +18,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         {
             var errors = new List<string>();
             var result = "";
+            
+            if (parameters.Component)
+            {
+                errors.Add("ComponentTest is set to TRUE. This setting has been deprecated and should be removed from the Registration.");
+                return new ParameterValidateResponse(errors);
+            }
 
             if (errors.AddIfNotNullOrEmpty(ValidateArrayAtLeastOneItem(parameters.Capabilities, "Capabilities")))
             {
@@ -32,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                 result = ValidateArray(capability.HashAlg, VALID_HASH_ALGS, "Hash Algs");
                 errors.AddIfNotNullOrEmpty(result);
             }
-
+            
             ValidateConformances(parameters, errors);
 
             return new ParameterValidateResponse(errors);
@@ -46,13 +52,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                 if (!string.IsNullOrEmpty(result))
                 {
                     errors.Add(result);
-                }
-
-                // Not a valid combination
-                if (parameters.Conformances.Contains("SP800-106", StringComparer.OrdinalIgnoreCase) &&
-                    parameters.Component)
-                {
-                    errors.Add("Cannot combine SP800-106 conformance with pre-hash component testing");
                 }
             }
         }

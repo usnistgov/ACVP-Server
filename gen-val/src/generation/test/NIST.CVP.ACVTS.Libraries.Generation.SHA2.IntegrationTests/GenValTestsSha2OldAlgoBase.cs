@@ -24,7 +24,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new List<string> { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65528, 8)),
                 PerformLargeDataTest = new[] { 1, 2 },
                 IsSample = true
@@ -39,7 +38,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new List<string> { "224" },
                 MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 65535)),
                 PerformLargeDataTest = ParameterValidator.VALID_LARGE_DATA_SIZES,
                 IsSample = false

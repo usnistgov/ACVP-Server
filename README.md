@@ -234,7 +234,7 @@ If successful, the generation step will produce the following files:
 A similar method can be used for the validation of a set of test vectors:
 
 ```cmd
-dotnet run -a [answerFile] -b [iutResponsesFile]
+dotnet run -n [answerFile] -b [iutResponsesFile]
 ```
 
 where `answerFile` is the `internalProjection.json` produced from a generate step, and `iutResponsesFile` is either the `expectedResults.json` file (only guaranteed to be useable when generated for a sample registration), or the response file generated through the IUT's testing harness after having run the `prompt.json` through it. This will produce a `validation.json` file which outlines the test cases the IUT got correct or incorrect. 

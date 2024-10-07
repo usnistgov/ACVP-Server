@@ -14,5 +14,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
         public BitString Message { get; set; }
         public int Bit { get; set; }
         public int ContextLength { get; set; }
+        public BitString Context { get; set; }
     }
 }

@@ -12,7 +12,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
         public int TestCaseId { get; set; }
         [JsonIgnore]
         public bool? TestPassed => true;
-        public bool Deferred => true;
+        public bool Deferred { get; set; }
+
         public TestGroup ParentGroup { get; set; }
 
         [JsonProperty(PropertyName = "message")]

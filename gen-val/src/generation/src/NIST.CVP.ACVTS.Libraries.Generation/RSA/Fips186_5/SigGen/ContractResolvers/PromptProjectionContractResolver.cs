@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen.ContractResolvers
@@ -15,12 +16,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen.ContractResol
                 nameof(TestGroup.Mode),
                 nameof(TestGroup.Modulo),
                 nameof(TestGroup.HashAlgName),
-                nameof(TestGroup.SaltLen),
-                nameof(TestGroup.MaskFunction),
                 nameof(TestGroup.TestType),
                 nameof(TestGroup.Tests)
             };
 
+            var pssIncludeProperties = new[]
+            {
+                nameof(TestGroup.MaskFunction),
+                nameof(TestGroup.SaltLen)
+            };
+            
             if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance => true;
@@ -34,6 +39,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigGen.ContractResol
                     {
                         GetTestGroupFromTestGroupObject(instance, out var testGroup);
                         return testGroup.IsMessageRandomized;
+                    };
+            }
+            
+            if (pssIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestGroupFromTestGroupObject(instance, out var testGroup);
+                        return testGroup.Mode == SignatureSchemes.Pss;
                     };
             }
             #endregion Conditional group properties

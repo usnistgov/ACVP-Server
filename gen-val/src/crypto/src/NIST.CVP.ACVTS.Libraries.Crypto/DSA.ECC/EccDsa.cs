@@ -116,10 +116,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
 
         public EccSignatureResult Sign(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, bool skipHash = false)
         {
-            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
+            int shaOutputLen;
 
-            // Determine whether to hash or skip the hash step for component test
-            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
+            // FIPS 186-5 dictates that an outputLen of 256 shall be used when SHAKE128 is used
+            // and an outputLen of 512 when SHAKE256 is in use.
+            if (Sha.HashFunction.Mode == ModeValues.SHAKE)
+            {
+                shaOutputLen = Sha.HashFunction.DigestSize == DigestSizes.d128 ? 256 : 512;
+            }
+            else // case: Sha2 or Sha3
+            {
+                shaOutputLen = Sha.HashFunction.OutputLen;
+            }
+            
+            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), shaOutputLen);
+
+            var hashDigest = skipHash ? message : Sha.HashMessage(message, shaOutputLen).Digest;
+
             var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
             // Generate random number k [1, n-1]
@@ -151,11 +164,24 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
                 return new EccVerificationResult("signature values not within the necessary interval");
             }
 
+            int shaOutputLen;
+
+            // FIPS 186-5 dictates that an outputLen of 256 shall be used when SHAKE128 is used
+            // and an outputLen of 512 when SHAKE256 is in use.
+            if (Sha.HashFunction.Mode == ModeValues.SHAKE)
+            {
+                shaOutputLen = Sha.HashFunction.DigestSize == DigestSizes.d128 ? 256 : 512;
+            }
+            else // case: Sha2 or Sha3
+            {
+                shaOutputLen = Sha.HashFunction.OutputLen;
+            }
+            
             // Hash message e = H(m)
-            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), Sha.HashFunction.OutputLen);
+            var bitsOfDigestNeeded = System.Math.Min(domainParameters.CurveE.OrderN.ExactBitLength(), shaOutputLen);
 
             // Determine whether to hash or skip the hash step for component test
-            var hashDigest = skipHash ? message : Sha.HashMessage(message).Digest;
+            var hashDigest = skipHash ? message : Sha.HashMessage(message, shaOutputLen).Digest;
 
             var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 

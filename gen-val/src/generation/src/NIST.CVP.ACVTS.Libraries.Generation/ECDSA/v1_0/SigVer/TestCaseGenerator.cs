@@ -57,7 +57,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
                     HashAlg = group.HashAlg,
                     Key = keyResult.Key,
                     IsMessageRandomized = group.IsMessageRandomized,
-                    PreHashedMessage = group.Component,
                     NonceProviderType = NonceProviderTypes.Random        // Always the case for FIPS 186-4, choice for 186-5, but DetECDSA is handled in a separate set of gen/vals
                 };
 

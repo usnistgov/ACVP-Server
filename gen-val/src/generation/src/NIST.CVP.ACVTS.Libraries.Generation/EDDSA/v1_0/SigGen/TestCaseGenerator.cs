@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -27,8 +25,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            var min = group.ContextLength.GetDomainMinMax().Minimum == 0 ? 1 : group.ContextLength.GetDomainMinMax().Minimum;
-            var max = group.ContextLength.GetDomainMinMax().Maximum == 0 ? 1 : group.ContextLength.GetDomainMinMax().Maximum;
+            var min = group.ContextLength.GetDomainMinMax().Minimum;
+            var max = group.ContextLength.GetDomainMinMax().Maximum;
             
             var lengths = group.ContextLength.GetRandomValues(min, max, NumberOfTestCasesToGenerate - 2).ToList();
             lengths.Add(min);

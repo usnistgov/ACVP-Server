@@ -5,6 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 
@@ -15,7 +16,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         private const string TEST_TYPE = "BFT";
 
         private readonly IOracle _oracle;
-
+        private static Random800_90 _rand = new Random800_90();
+        private const int BITS_IN_BYTE = 8;
+        
         public TestGroupGeneratorBitFlip(IOracle oracle)
         {
             _oracle = oracle;
@@ -50,6 +53,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                 };
 
                 var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
+                
+                var noContext = curve == Curve.Ed25519 && !parameters.PreHash;
+                var contextLength = parameters.ContextLength.GetRandomValues(
+                    parameters.ContextLength.GetDomainMinMax().Minimum,
+                    parameters.ContextLength.GetDomainMinMax().Maximum, 1).First();
+                var context =  noContext ? new BitString("") : _rand.GetRandomBitString(contextLength * BITS_IN_BYTE);
 
                 if (parameters.Pure)
                 {
@@ -59,7 +68,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                         PreHash = false,
                         KeyPair = key,
                         Message = message,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        Context = context,
+                        ContextLength = parameters.ContextLength
                     };
                     testGroups.Add(testGroup);
                 }
@@ -72,7 +83,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                         PreHash = true,
                         KeyPair = key,
                         Message = message,
-                        TestType = TEST_TYPE
+                        TestType = TEST_TYPE,
+                        Context = context,
+                        ContextLength = parameters.ContextLength
                     };
                     testGroups.Add(testGroup);
                 }

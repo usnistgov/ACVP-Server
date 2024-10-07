@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Eddsa;
@@ -11,7 +10,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         IOracleObserverEddsaDeferredSignatureBitFlipCaseGrain
     {
         private EddsaSignatureParameters _param;
-
+        private const int BITS_IN_BYTE = 8;
+        
         public OracleObserverEddsaDeferredSignatureBitFlipCaseGrain(
             LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler
         ) : base(nonOrleansScheduler)
@@ -30,6 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         protected override async Task DoWorkAsync()
         {
             var message = _param.Message;
+            
             if (_param.Bit != -1)
             {
                 message.Bits.Set(_param.Bit, !message.Bits.Get(_param.Bit));      // flip bit
@@ -39,7 +40,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             await Notify(new EddsaSignatureResult
             {
                 Message = message,
-                Context = new BitString("")
+                Context = _param.Context,
+                ContextLength = _param.ContextLength/BITS_IN_BYTE
             });
         }
     }

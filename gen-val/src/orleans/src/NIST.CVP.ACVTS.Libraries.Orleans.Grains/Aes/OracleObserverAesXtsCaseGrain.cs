@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
                     }
                     break;
                 case "number":
-                    number = _rand.GetRandomBigInteger(0, 256);
+                    number = _rand.GetRandomBigInteger(0, 255);
                     i = XtsHelper.GetIFromBigInteger(number);
                     break;
                 default:

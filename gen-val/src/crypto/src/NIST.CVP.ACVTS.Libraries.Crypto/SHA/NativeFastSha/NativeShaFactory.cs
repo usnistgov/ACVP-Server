@@ -2,7 +2,6 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.MCT;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha
 {

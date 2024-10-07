@@ -27,7 +27,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new List<string> { "256" },
                 MessageLength = dom,
                 PerformLargeDataTest = new[] { 1, 2 },
                 IsSample = true
@@ -45,7 +44,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new List<string> { "256" },
                 MessageLength = dom,
                 PerformLargeDataTest = ParameterValidator.VALID_LARGE_DATA_SIZES,
                 IsSample = false

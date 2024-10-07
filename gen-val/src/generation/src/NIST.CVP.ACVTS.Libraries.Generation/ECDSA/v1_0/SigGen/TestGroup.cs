@@ -25,7 +25,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
         public string HashAlgName
         {
             get => HashAlg?.Name;
-            set => HashAlg = ShaAttributes.GetHashFunctionFromName(value);
+            set => HashAlg = value.Contains("SHAKE") ? ShaAttributes.GetXofPssHashFunctionFromName(value) :
+                ShaAttributes.GetHashFunctionFromName(value);
         }
 
         [JsonIgnore]

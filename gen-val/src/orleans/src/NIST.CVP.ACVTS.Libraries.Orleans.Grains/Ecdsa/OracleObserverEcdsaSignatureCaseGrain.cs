@@ -56,14 +56,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
                 var curve = _curveFactory.GetCurve(_param.Curve);
                 var domainParams = new EccDomainParameters(curve);
                 var eccDsa = _dsaFactory.GetInstanceForSignatures(_param.HashAlg, _param.NonceProviderType, new EntropyProvider(new Random800_90()));
-
-                var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
                 
-                // Always override SHAKE to use OutputLen, even when not Component test
-                if (_param.HashAlg.Name.Contains("SHAKE"))
-                {
-                    message = _rand.GetRandomBitString(_param.HashAlg.OutputLen);
-                }
+                var message = _entropyProvider.GetEntropy(_param.PreHashedMessage ? _param.HashAlg.OutputLen : 1024);
 
                 BitString randomValue = null;
                 var messageCopy = message.GetDeepCopy();

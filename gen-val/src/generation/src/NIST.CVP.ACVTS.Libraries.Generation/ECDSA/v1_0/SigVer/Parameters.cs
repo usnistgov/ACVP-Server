@@ -12,6 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
 
+        // DEPRECATED gl279, needs removal eventually
         [JsonProperty(PropertyName = "componentTest")]
         public bool Component { get; set; }
 

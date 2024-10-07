@@ -58,13 +58,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
             var eccDsa = _dsaFactory.GetInstanceForVerification(_param.HashAlg);
             var curve = _curveFactory.GetCurve(_param.Curve);
             var domainParams = new EccDomainParameters(curve);
-
+            
             var result = eccDsa.Verify(domainParams, _param.Key, messageCopy, _fullParam.Signature, _param.PreHashedMessage);
 
             // Notify observers of result
             await Notify(new VerifyResult<EcdsaSignatureResult>
             {
-                Result = result.Success
+                Result = result.Success,
+                ErrorMessage = result.ErrorMessage
             });
         }
     }

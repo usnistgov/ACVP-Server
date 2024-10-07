@@ -24,13 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
             {
                 new Capability
                 {
-                    Curve = new[] { "P-224" },
-                    HashAlg = new[] { "SHA2-224" }
-                },
-                new Capability
-                {
-                    Curve = new[] { "P-521" },
-                    HashAlg = new[] {"SHA2-512" }
+                    Curve = new[] { "P-224", "P-521" },
+                    HashAlg = new[] { "SHA3-256", "SHAKE-128", "SHAKE-256" }
                 }
             };
 
@@ -41,7 +36,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
-                Component = false,
                 Conformances = new[] { "SP800-106" }
             };
 
@@ -50,12 +44,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
 
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {
+            
             var caps = new[]
             {
                 new Capability
                 {
-                    Curve = ECDSA.Fips186_5.SigVer.ParameterValidator.VALID_CURVES,
-                    HashAlg = ECDSA.Fips186_5.SigVer.ParameterValidator.VALID_HASH_ALGS
+                    Curve = new [] { "P-224", "P-256", "P-384", "P-521" },
+                    HashAlg = new [] { "SHA2-256", "SHA2-512", "SHA2-512/256", "SHA3-256", "SHA3-512", "SHAKE-128", "SHAKE-256" }
                 }
             };
 
@@ -65,8 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Capabilities = caps,
-                Component = true
+                Capabilities = caps
             };
 
             return CreateRegistration(targetFolder, p);

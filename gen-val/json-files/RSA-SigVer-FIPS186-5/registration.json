@@ -11,49 +11,40 @@
       "properties": [
         {
           "modulo": 2048,
-          "maskFunction": [
-            "mgf1"
-          ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 1
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 2
+              "saltLen": 0
             }
           ]
         },
         {
           "modulo": 3072,
-          "maskFunction": [
-            "shake-128"
-          ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 1
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 2
+              "saltLen": 0
             }
           ]
         },
         {
           "modulo": 4096,
-          "maskFunction": [
-            "shake-256"
-          ],
           "hashPair": [
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 1
+              "saltLen": 0
             },
             {
               "hashAlg": "SHA2-256",
-              "saltLen": 2
+              "saltLen": 0
             }
           ]
         }

@@ -4,9 +4,6 @@
   "revision": "1.0",
   "isSample": false,
   "conformances": [],
-  "digestSize": [
-    "224"
-  ],
   "messageLength": [
     {
       "min": 0,

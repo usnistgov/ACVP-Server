@@ -38,8 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Capabilities = caps,
-                Component = true
+                Capabilities = caps
             };
 
             return CreateRegistration(targetFolder, p);
@@ -63,7 +62,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigVer.IntegrationTests.Fi
                 Revision = Revision,
                 IsSample = true,
                 Capabilities = caps,
-                Component = false,
                 Conformances = new[] { "SP800-106" }
             };
 

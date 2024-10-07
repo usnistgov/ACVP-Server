@@ -43,7 +43,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
             };
 
             var result = await _oracle.CompleteDeferredEcdsaSignatureAsync(param, fullParam);
-            return result.Result ? new EccVerificationResult() : new EccVerificationResult("Failed to verify");
+            
+            
+            if (result.Result) { return new EccVerificationResult(); } // success
+            if (result.ErrorMessage == null) { return new EccVerificationResult("Failed to verify"); } // failure without message
+            return new EccVerificationResult(result.ErrorMessage); // failure with message
         }
     }
 }

@@ -267,12 +267,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
 
         private void ValidateUsesHybridSharedSecret(Parameters parameters, List<string> errors)
         {
+            // Used here due to 'usesShared/auxShared' used with registrations, lowercase first char
+            var usesName = "usesHybridSharedSecret";
+            var auxName = "auxSharedSecretLen";
+
             try
             {
                 // the usesHybridSharedSecret registration property is required for 56Cr2 testing
                 if (parameters.UsesHybridSharedSecret == null)
                 {
-                    errors.Add($"The {nameof(parameters.UsesHybridSharedSecret)} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
+                    errors.Add($"The {usesName} registration property is required for algo/mode/revision {_algoMode} testing, but was not provided.");
                 }
                 else if (parameters.UsesHybridSharedSecret == true)
                 {
@@ -280,8 +284,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                     if (parameters.AuxSharedSecretLen == null)
                     {
                         errors.Add(
-                            $"For algo/mode/revision {_algoMode}, when {nameof(parameters.UsesHybridSharedSecret)}:true," +
-                            $" the {nameof(parameters.AuxSharedSecretLen)} registration property must be provided.");                             
+                            $"For algo/mode/revision {_algoMode}, when {usesName}:true," +
+                            $" the {auxName} registration property must be provided.");                             
                     }
                     // validate auxSharedSecretLen
                     else
@@ -293,8 +297,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                 // registration parameter is present 
                 else if (parameters.UsesHybridSharedSecret == false && parameters.AuxSharedSecretLen != null)
                 {
-                    errors.Add($"The {nameof(parameters.AuxSharedSecretLen)} registration property may not be used " +
-                               $"except in combination with {nameof(parameters.UsesHybridSharedSecret)}:true for " +
+                    errors.Add($"The {auxName} registration property may not be used " +
+                               $"except in combination with {usesName}:true for " +
                                $"algo/mode/revision {_algoMode}");                    
                 }
             }
