@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
 
             var result = tupleHash.HashMessage(tuples, 256, 256, xof);
 
-            Assert.True(true);
+            Assert.That(true, Is.True);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
                 new MathDomain().AddSegment(new RangeDomainSegment(random, 16, 65536, 1)),
                 false, true);
 
-            Assert.True(true);
+            Assert.That(true, Is.True);
         }
     }
 }

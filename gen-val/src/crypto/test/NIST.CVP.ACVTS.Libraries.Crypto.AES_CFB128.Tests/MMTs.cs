@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(expectedCipherText.ToHex()));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
         #endregion Encrypt
 
@@ -98,7 +98,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
         #endregion Decrypt
 

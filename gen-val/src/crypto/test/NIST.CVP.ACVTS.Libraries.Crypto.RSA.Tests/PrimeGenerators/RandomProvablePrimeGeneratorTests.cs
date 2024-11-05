@@ -56,9 +56,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesFips186_4(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(new BitString(p).ToPositiveBigInteger(), result.Primes.P, "p");
-            Assert.AreEqual(new BitString(q).ToPositiveBigInteger(), result.Primes.Q, "q");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Primes.P, Is.EqualTo(new BitString(p).ToPositiveBigInteger()), "p");
+            Assert.That(result.Primes.Q, Is.EqualTo(new BitString(q).ToPositiveBigInteger()), "q");
         }
 
         [Test]
@@ -79,9 +79,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesFips186_5(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(p, new BitString(result.Primes.P).ToHex(), "p");
-            Assert.AreEqual(q, new BitString(result.Primes.Q).ToHex(), "q");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(new BitString(result.Primes.P).ToHex(), Is.EqualTo(p), "p");
+            Assert.That(new BitString(result.Primes.Q).ToHex(), Is.EqualTo(q), "q");
         }
     }
 }

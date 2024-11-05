@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
         {
             var result = await _subject.GenerateAsync(GetTestGroup(), isSample);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         //[Test]

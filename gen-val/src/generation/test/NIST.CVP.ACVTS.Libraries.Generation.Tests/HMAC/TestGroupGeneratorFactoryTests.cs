@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
 
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
 
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 1);
+            Assert.That(result.Count() == 1, Is.True);
         }
     }
 }

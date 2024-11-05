@@ -13,15 +13,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var subject = new TestCaseGeneratorNull();
             var result = await subject.GenerateAsync(new TestGroup(), false);
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual("This is the null generator -- nothing is generated", result.ErrorMessage);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage, Is.EqualTo("This is the null generator -- nothing is generated"));
         }
 
         [Test]
         public void ShouldHave0NumberOfCases()
         {
             var subject = new TestCaseGeneratorNull();
-            Assert.AreEqual(0, subject.NumberOfTestCasesToGenerate);
+            Assert.That(subject.NumberOfTestCasesToGenerate, Is.EqualTo(0));
         }
     }
 }

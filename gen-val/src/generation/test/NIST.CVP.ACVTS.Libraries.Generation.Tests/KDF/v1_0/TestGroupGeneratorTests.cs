@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
 
             foreach (var group in result)
             {
-                Assert.IsTrue(group.ZeroLengthIv);
+                Assert.That(group.ZeroLengthIv, Is.True);
             }
         }
 
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
 
             foreach (var group in result)
             {
-                Assert.IsFalse(group.ZeroLengthIv);
+                Assert.That(group.ZeroLengthIv, Is.False);
             }
         }
 
@@ -88,7 +88,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                 }
             }
 
-            Assert.IsTrue(emptyIvPresent && fullIvPresent);
+            Assert.That(emptyIvPresent && fullIvPresent, Is.True);
         }
     }
 }

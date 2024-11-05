@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         #region GetInvalidPtLens
@@ -157,7 +157,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

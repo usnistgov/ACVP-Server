@@ -59,8 +59,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFB.IntegrationTests
                         GetDirection(direction), test.Iv, test.Keys, payload
                     ));
 
-                    Assert.IsTrue(result.Success, nameof(result.Success));
-                    Assert.AreEqual(expectedResult.ToHex(), result.Result.ToHex());
+                    Assert.That(result.Success, Is.True, nameof(result.Success));
+                    Assert.That(result.Result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
                 }
             }
         }

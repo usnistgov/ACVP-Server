@@ -243,7 +243,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
                 Radix = radix
             });
 
-            Assert.AreEqual(cipherText.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+            Assert.That(NumeralString.ToNumeralString(result.Result).ToString(), Is.EqualTo(cipherText.ToString()));
         }
 
         [Test]
@@ -259,7 +259,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
                 Radix = radix
             });
 
-            Assert.AreEqual(payload.ToString(), NumeralString.ToNumeralString(result.Result).ToString());
+            Assert.That(NumeralString.ToNumeralString(result.Result).ToString(), Is.EqualTo(payload.ToString()));
         }
 
         public static IEnumerable<object> _encryptDecryptTest = new List<object>()
@@ -303,10 +303,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
                 Radix = alphabet.Length
             });
 
-            Assert.AreEqual(
-                NumeralString.ToAlphabetString(alphabet, alphabet.Length, wordNumeralString),
+            Assert.That(
                 NumeralString.ToAlphabetString(alphabet, alphabet.Length, NumeralString.ToNumeralString(decryptResult.Result))
-            );
+, Is.EqualTo(NumeralString.ToAlphabetString(alphabet, alphabet.Length, wordNumeralString)));
         }
     }
 }

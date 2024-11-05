@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.ECB
         public void ShouldHaveZeroForNumberOfTestCases()
         {
             var subject = new TestCaseGeneratorNull();
-            Assert.AreEqual(1, subject.NumberOfTestCasesToGenerate);
+            Assert.That(subject.NumberOfTestCasesToGenerate, Is.EqualTo(1));
         }
 
         [Test]
@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.ECB
         {
             var subject = new TestCaseGeneratorNull();
             var result = await subject.GenerateAsync(new TestGroup(), false);
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

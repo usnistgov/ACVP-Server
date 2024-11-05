@@ -19,7 +19,7 @@ public class TestCaseValidatorTests
         _subject = new TestCaseValidator(testCase);
         var result = await _subject.ValidateAsync(testCase);
         Assert.That(result != null);
-        Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
     }
     
     [Test]
@@ -35,7 +35,7 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(result.Result == Core.Enums.Disposition.Failed);
-        Assert.IsTrue(result.Reason.Contains($"Could not find TestPassed"));
+        Assert.That(result.Reason.Contains($"Could not find TestPassed"), Is.True);
     }
     
     [Test]
@@ -51,7 +51,7 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(result.Result == Core.Enums.Disposition.Failed);
-        Assert.IsTrue(result.Reason.Contains("modified signature - R modified"));
+        Assert.That(result.Reason.Contains("modified signature - R modified"), Is.True);
     }
     
     private TestCase GetTestCase()

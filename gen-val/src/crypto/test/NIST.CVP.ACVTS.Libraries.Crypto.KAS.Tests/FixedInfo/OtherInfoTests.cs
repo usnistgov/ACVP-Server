@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.FixedInfo
 
             var result = _subject.GetOtherInfo();
 
-            Assert.AreEqual(expectedBitString.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedBitString.ToHex()));
         }
 
         private static object[] _cavsTests = new object[]
@@ -192,7 +192,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.FixedInfo
 
             var result = _subject.GetOtherInfo();
 
-            Assert.AreEqual(expectedOtherInfo.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedOtherInfo.ToHex()));
         }
     }
 }

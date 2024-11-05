@@ -326,13 +326,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, newIV, key, plainText, aad, 128);
             var encryptResult = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(encryptResult.Success);
-            Assert.AreEqual(encryptResult.Tag, new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), nameof(encryptResult.Tag));
+            Assert.That(encryptResult.Success, Is.True);
+            Assert.That(new BitString("e47971b2 c83ed28a d66fb896 2478d01f"), Is.EqualTo(encryptResult.Tag), nameof(encryptResult.Tag));
 
             var param2 = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, newIV, key, encryptResult.Result, aad, encryptResult.Tag);
             var decryptResult = _subject.ProcessPayload(param2);
 
-            Assert.IsTrue(decryptResult.Success);
+            Assert.That(decryptResult.Success, Is.True);
         }
 
         [Test]
@@ -360,14 +360,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, plainText, aad, tagLength);
             var encryptResult = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(encryptResult.Success, "Encrypt");
-            Assert.AreEqual(tag.ToHex(), encryptResult.Tag.ToHex(), nameof(encryptResult.Tag));
+            Assert.That(encryptResult.Success, Is.True, "Encrypt");
+            Assert.That(encryptResult.Tag.ToHex(), Is.EqualTo(tag.ToHex()), nameof(encryptResult.Tag));
 
             var param2 = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key, encryptResult.Result, aad, tag);
             var decryptResult = _subject.ProcessPayload(param2);
-            Assert.IsTrue(decryptResult.Success, "Decrypt");
+            Assert.That(decryptResult.Success, Is.True, "Decrypt");
 
-            Assert.AreEqual(plainText.ToHex(), decryptResult.Result.ToHex(), nameof(plainText));
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(plainText.ToHex()), nameof(plainText));
         }
 
         [Test]
@@ -418,8 +418,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
             var decryptResult = _subject.ProcessPayload(gcmDecryptParam);
 
-            Assert.IsFalse(decryptResult.Success, nameof(_subject.ProcessPayload));
-            Assert.AreEqual("Tags do not match", decryptResult.ErrorMessage, nameof(decryptResult.ErrorMessage));
+            Assert.That(decryptResult.Success, Is.False, nameof(_subject.ProcessPayload));
+            Assert.That(decryptResult.ErrorMessage, Is.EqualTo("Tags do not match"), nameof(decryptResult.ErrorMessage));
         }
 
         [Test]
@@ -470,7 +470,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
             var decryptResult = _subject.ProcessPayload(gcmDecryptParam);
 
-            Assert.AreNotEqual(plainText, decryptResult.Result, nameof(plainText));
+            Assert.That(decryptResult.Result, Is.Not.EqualTo(plainText), nameof(plainText));
         }
 
         [Test]
@@ -496,8 +496,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.ProcessPayload(gcmParam);
 
-            Assert.AreEqual(result.Result.ToHex(), expectedCt.ToHex(), nameof(expectedCt));
-            Assert.AreEqual(result.Tag.ToHex(), expectedTag.ToHex(), nameof(expectedTag));
+            Assert.That(expectedCt.ToHex(), Is.EqualTo(result.Result.ToHex()), nameof(expectedCt));
+            Assert.That(expectedTag.ToHex(), Is.EqualTo(result.Tag.ToHex()), nameof(expectedTag));
         }
 
         [Test]
@@ -518,7 +518,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
 
             var results = _subject.ProcessPayload(gcmEncryptParam);
-            Assert.IsTrue(results.Success);
+            Assert.That(results.Success, Is.True);
 
             var gcmDecryptParam = new AeadModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -530,9 +530,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
 
             var dResults = _subject.ProcessPayload(gcmDecryptParam);
-            Assert.IsTrue(dResults.Success);
+            Assert.That(dResults.Success, Is.True);
 
-            Assert.AreEqual(new BitString("3247184B 3C4F69A4 4DBCD228 87BBB418"), results.Tag);
+            Assert.That(results.Tag, Is.EqualTo(new BitString("3247184B 3C4F69A4 4DBCD228 87BBB418")));
         }
 
         [Test]
@@ -553,7 +553,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
 
             var results = _subject.ProcessPayload(gcmEncryptParam);
-            Assert.IsTrue(results.Success);
+            Assert.That(results.Success, Is.True);
 
             var gcmDecryptParam = new AeadModeBlockCipherParameters(
                 BlockCipherDirections.Decrypt,
@@ -565,9 +565,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             );
 
             var dResults = _subject.ProcessPayload(gcmDecryptParam);
-            Assert.IsTrue(dResults.Success);
-            Assert.AreEqual(plainText, dResults.Result);
-            Assert.AreEqual(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4"), results.Tag);
+            Assert.That(dResults.Success, Is.True);
+            Assert.That(dResults.Result, Is.EqualTo(plainText));
+            Assert.That(results.Tag, Is.EqualTo(new BitString("4D5C2AF3 27CD64A6 2CF35ABD 2BA6FAB4")));
         }
 
         private BitString GetBitStringOfLengthWithAll1s(int length)

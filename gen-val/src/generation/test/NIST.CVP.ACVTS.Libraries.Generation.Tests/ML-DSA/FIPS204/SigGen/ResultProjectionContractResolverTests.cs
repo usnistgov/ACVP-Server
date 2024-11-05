@@ -44,14 +44,14 @@ public class ResultsProjectionContractResolverTests
 
         var newTg = newTvs.TestGroups[0];
 
-        Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-        Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+        Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+        Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
         // Can't really test if the public key is provided is equal to anything
         var regex = new Regex("pk", RegexOptions.IgnoreCase);
-        Assert.AreEqual(newTvs.TestGroups.Count, regex.Matches(json).Count, nameof(newTg.PublicKey));
-        
-        Assert.AreNotEqual(tg.ParameterSet, newTg.ParameterSet, nameof(newTg.ParameterSet));
+        Assert.That(regex.Matches(json).Count, Is.EqualTo(newTvs.TestGroups.Count), nameof(newTg.PublicKey));
+
+        Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
     }
     
     [Test]
@@ -67,12 +67,12 @@ public class ResultsProjectionContractResolverTests
         var newTg = newTvs.TestGroups[0];
         var newTc = newTg.Tests[0];
 
-        Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-        Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-        Assert.AreEqual(tc.Signature, newTc.Signature, nameof(newTc.Signature));
+        Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+        Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+        Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
         
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
         var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-        Assert.IsTrue(regex.Matches(json).Count == 0);
+        Assert.That(regex.Matches(json).Count == 0, Is.True);
     }
 }

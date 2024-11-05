@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KC
         {
             var result = _subject.DoStuff(otherInfoPieces, testPattern);
 
-            Assert.AreEqual(expectedBitString.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedBitString.ToHex()));
         }
     }
 }

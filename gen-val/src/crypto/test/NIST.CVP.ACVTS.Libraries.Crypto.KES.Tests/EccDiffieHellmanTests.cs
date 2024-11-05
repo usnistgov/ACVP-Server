@@ -371,7 +371,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
             var result = _subject.GenerateSharedSecretZ(dp, keyPairPartyA, keyPairPartyB);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedZ.ToHex(), result.SharedSecretZ.ToHex());
+            Assert.That(result.SharedSecretZ.ToHex(), Is.EqualTo(expectedZ.ToHex()));
         }
 
         /// <summary>
@@ -418,11 +418,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
 
             if (hasIssue)
             {
-                Assert.AreNotEqual(calculationOldZ.SharedSecretZ.ToHex(), calculationNewZ.SharedSecretZ.ToHex());
+                Assert.That(calculationNewZ.SharedSecretZ.ToHex(), Is.Not.EqualTo(calculationOldZ.SharedSecretZ.ToHex()));
             }
             else
             {
-                Assert.AreEqual(calculationOldZ.SharedSecretZ.ToHex(), calculationNewZ.SharedSecretZ.ToHex());
+                Assert.That(calculationNewZ.SharedSecretZ.ToHex(), Is.EqualTo(calculationOldZ.SharedSecretZ.ToHex()));
             }
         }
 

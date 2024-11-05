@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Helpers
         {
             var result = AttributesHelper.GetLmOtsModeFromTypeCode(typeCode);
 
-            Assert.AreEqual(expectedMode, result);
+            Assert.That(result, Is.EqualTo(expectedMode));
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Helpers
         {
             var result = AttributesHelper.GetLmsModeFromTypeCode(typeCode);
 
-            Assert.AreEqual(expectedMode, result);
+            Assert.That(result, Is.EqualTo(expectedMode));
         }
 
         private static readonly IEnumerable<object> _mappingTests = new List<object>()
@@ -122,7 +122,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Helpers
             expectedOutput = OrderMapping(expectedOutput);
             map = OrderMapping(map);
 
-            Assert.IsTrue(expectedOutput.JsonCompare(map));
+            Assert.That(expectedOutput.JsonCompare(map), Is.True);
         }
 
         private List<MappedLmsLmOtsModesToFunctionOutputLength> OrderMapping(

@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             var subject = new TestCaseValidatorHash(testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -40,8 +40,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             suppliedResult.Digest = new BitString("BEEFFACE");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Digest"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains("Digest"), Is.True);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.Digest)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase(int id = 1)

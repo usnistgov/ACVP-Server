@@ -165,8 +165,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SP800_106.Tests
 
             var result = _subject.RandomizeMessage(message, randomValue.BitLength);
 
-            Assert.AreEqual(transformedMessage.ToHex(), result.ToHex(), nameof(transformedMessage));
-            Assert.AreEqual(expectedBitCount, result.BitLength, nameof(expectedBitCount));
+            Assert.That(result.ToHex(), Is.EqualTo(transformedMessage.ToHex()), nameof(transformedMessage));
+            Assert.That(result.BitLength, Is.EqualTo(expectedBitCount), nameof(expectedBitCount));
         }
 
         [Test]
@@ -184,7 +184,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SP800_106.Tests
             if (shouldPass)
             {
                 var result = _subject.RandomizeMessage(new BitString(0), randomValueLength);
-                Assert.IsTrue(result != null);
+                Assert.That(result != null, Is.True);
             }
             else
             {

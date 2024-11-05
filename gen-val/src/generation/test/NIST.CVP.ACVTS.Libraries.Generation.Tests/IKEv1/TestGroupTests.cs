@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.NInitLength);
+            Assert.That(result, Is.True);
+            Assert.That(subject.NInitLength, Is.EqualTo(13));
         }
     }
 }

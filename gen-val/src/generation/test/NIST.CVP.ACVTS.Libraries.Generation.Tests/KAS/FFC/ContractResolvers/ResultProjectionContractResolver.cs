@@ -58,30 +58,30 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Scheme, newTg.Scheme, nameof(newTg.Scheme));
-            Assert.AreNotEqual(tg.ParmSet, newTg.ParmSet, nameof(newTg.ParmSet));
-            Assert.AreNotEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.That(newTg.Scheme, Is.Not.EqualTo(tg.Scheme), nameof(newTg.Scheme));
+            Assert.That(newTg.ParmSet, Is.Not.EqualTo(tg.ParmSet), nameof(newTg.ParmSet));
+            Assert.That(newTg.HashAlgName, Is.Not.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
+            Assert.That(newTg.P, Is.Not.EqualTo(tg.P), nameof(newTg.P));
+            Assert.That(newTg.Q, Is.Not.EqualTo(tg.Q), nameof(newTg.Q));
+            Assert.That(newTg.G, Is.Not.EqualTo(tg.G), nameof(newTg.G));
 
-            Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KasRole).ToLower()), nameof(TestGroup.KasRole));
-            Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KasMode).ToLower()), nameof(TestGroup.KasMode));
-            Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.MacType).ToLower()), nameof(TestGroup.MacType));
-            Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KcRole).ToLower()), nameof(TestGroup.KcRole));
-            Assert.IsFalse(json.ToLower().Contains(nameof(TestGroup.KcType).ToLower()), nameof(TestGroup.KcType));
+            Assert.That(json.ToLower().Contains(nameof(TestGroup.KasRole).ToLower()), Is.False, nameof(TestGroup.KasRole));
+            Assert.That(json.ToLower().Contains(nameof(TestGroup.KasMode).ToLower()), Is.False, nameof(TestGroup.KasMode));
+            Assert.That(json.ToLower().Contains(nameof(TestGroup.MacType).ToLower()), Is.False, nameof(TestGroup.MacType));
+            Assert.That(json.ToLower().Contains(nameof(TestGroup.KcRole).ToLower()), Is.False, nameof(TestGroup.KcRole));
+            Assert.That(json.ToLower().Contains(nameof(TestGroup.KcType).ToLower()), Is.False, nameof(TestGroup.KcType));
 
-            Assert.AreNotEqual(tg.KeyLen, newTg.KeyLen, nameof(newTg.KeyLen));
-            Assert.AreNotEqual(tg.MacLen, newTg.MacLen, nameof(newTg.MacLen));
-            Assert.AreNotEqual(tg.KdfType, newTg.KdfType, nameof(newTg.KdfType));
-            Assert.AreNotEqual(tg.IdServerLen, newTg.IdServerLen, nameof(newTg.IdServerLen));
-            Assert.AreNotEqual(tg.IdServer, newTg.IdServer, nameof(newTg.IdServer));
-            Assert.AreNotEqual(tg.IdIutLen, newTg.IdIutLen, nameof(newTg.IdIutLen));
-            Assert.AreNotEqual(tg.IdIut, newTg.IdIut, nameof(newTg.IdIut));
-            Assert.AreNotEqual(tg.AesCcmNonceLen, newTg.AesCcmNonceLen, nameof(newTg.AesCcmNonceLen));
+            Assert.That(newTg.KeyLen, Is.Not.EqualTo(tg.KeyLen), nameof(newTg.KeyLen));
+            Assert.That(newTg.MacLen, Is.Not.EqualTo(tg.MacLen), nameof(newTg.MacLen));
+            Assert.That(newTg.KdfType, Is.Not.EqualTo(tg.KdfType), nameof(newTg.KdfType));
+            Assert.That(newTg.IdServerLen, Is.Not.EqualTo(tg.IdServerLen), nameof(newTg.IdServerLen));
+            Assert.That(newTg.IdServer, Is.Not.EqualTo(tg.IdServer), nameof(newTg.IdServer));
+            Assert.That(newTg.IdIutLen, Is.Not.EqualTo(tg.IdIutLen), nameof(newTg.IdIutLen));
+            Assert.That(newTg.IdIut, Is.Not.EqualTo(tg.IdIut), nameof(newTg.IdIut));
+            Assert.That(newTg.AesCcmNonceLen, Is.Not.EqualTo(tg.AesCcmNonceLen), nameof(newTg.AesCcmNonceLen));
         }
 
         [Test]
@@ -99,51 +99,51 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             if (testType == "val")
             {
-                Assert.AreEqual(tc.TestPassed, newTc.TestPassed, nameof(newTc.TestPassed));
+                Assert.That(newTc.TestPassed, Is.EqualTo(tc.TestPassed), nameof(newTc.TestPassed));
 
-                Assert.AreNotEqual(tc.StaticPublicKeyIut, newTc.StaticPublicKeyIut, nameof(newTc.StaticPublicKeyIut));
-                Assert.AreNotEqual(tc.EphemeralPublicKeyIut, newTc.EphemeralPublicKeyIut, nameof(newTc.EphemeralPublicKeyIut));
-                Assert.AreNotEqual(tc.DkmNonceIut, newTc.DkmNonceIut, nameof(newTc.DkmNonceIut));
-                Assert.AreNotEqual(tc.EphemeralNonceIut, newTc.EphemeralNonceIut, nameof(newTc.EphemeralNonceIut));
+                Assert.That(newTc.StaticPublicKeyIut, Is.Not.EqualTo(tc.StaticPublicKeyIut), nameof(newTc.StaticPublicKeyIut));
+                Assert.That(newTc.EphemeralPublicKeyIut, Is.Not.EqualTo(tc.EphemeralPublicKeyIut), nameof(newTc.EphemeralPublicKeyIut));
+                Assert.That(newTc.DkmNonceIut, Is.Not.EqualTo(tc.DkmNonceIut), nameof(newTc.DkmNonceIut));
+                Assert.That(newTc.EphemeralNonceIut, Is.Not.EqualTo(tc.EphemeralNonceIut), nameof(newTc.EphemeralNonceIut));
             }
 
             if (testType == "aft")
             {
                 // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
                 Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-                Assert.IsTrue(regex.Matches(json).Count == 0);
+                Assert.That(regex.Matches(json).Count == 0, Is.True);
 
-                Assert.AreEqual(tc.StaticPublicKeyIut, newTc.StaticPublicKeyIut, nameof(newTc.StaticPublicKeyIut));
-                Assert.AreEqual(tc.EphemeralPublicKeyIut, newTc.EphemeralPublicKeyIut, nameof(newTc.EphemeralPublicKeyIut));
-                Assert.AreEqual(tc.DkmNonceIut, newTc.DkmNonceIut, nameof(newTc.DkmNonceIut));
-                Assert.AreEqual(tc.EphemeralNonceIut, newTc.EphemeralNonceIut, nameof(newTc.EphemeralNonceIut));
+                Assert.That(newTc.StaticPublicKeyIut, Is.EqualTo(tc.StaticPublicKeyIut), nameof(newTc.StaticPublicKeyIut));
+                Assert.That(newTc.EphemeralPublicKeyIut, Is.EqualTo(tc.EphemeralPublicKeyIut), nameof(newTc.EphemeralPublicKeyIut));
+                Assert.That(newTc.DkmNonceIut, Is.EqualTo(tc.DkmNonceIut), nameof(newTc.DkmNonceIut));
+                Assert.That(newTc.EphemeralNonceIut, Is.EqualTo(tc.EphemeralNonceIut), nameof(newTc.EphemeralNonceIut));
             }
 
-            Assert.AreNotEqual(tc.StaticPrivateKeyIut, newTc.StaticPrivateKeyIut, nameof(newTc.StaticPrivateKeyIut));
-            Assert.AreNotEqual(tc.EphemeralPrivateKeyIut, newTc.EphemeralPrivateKeyIut, nameof(newTc.EphemeralPrivateKeyIut));
+            Assert.That(newTc.StaticPrivateKeyIut, Is.Not.EqualTo(tc.StaticPrivateKeyIut), nameof(newTc.StaticPrivateKeyIut));
+            Assert.That(newTc.EphemeralPrivateKeyIut, Is.Not.EqualTo(tc.EphemeralPrivateKeyIut), nameof(newTc.EphemeralPrivateKeyIut));
 
-            Assert.AreNotEqual(tc.NonceAesCcm, newTc.NonceAesCcm, nameof(newTc.NonceAesCcm));
+            Assert.That(newTc.NonceAesCcm, Is.Not.EqualTo(tc.NonceAesCcm), nameof(newTc.NonceAesCcm));
 
-            Assert.AreNotEqual(tc.OiLen, newTc.OiLen, nameof(newTc.OiLen));
-            Assert.AreNotEqual(tc.OtherInfo, newTc.OtherInfo, nameof(newTc.OtherInfo));
-            Assert.AreNotEqual(tc.Tag, newTc.Tag, nameof(newTc.Tag));
+            Assert.That(newTc.OiLen, Is.Not.EqualTo(tc.OiLen), nameof(newTc.OiLen));
+            Assert.That(newTc.OtherInfo, Is.Not.EqualTo(tc.OtherInfo), nameof(newTc.OtherInfo));
+            Assert.That(newTc.Tag, Is.Not.EqualTo(tc.Tag), nameof(newTc.Tag));
 
             if (testType == "aft")
             {
-                Assert.AreEqual(tc.HashZ, newTc.HashZ, nameof(newTc.HashZ));
+                Assert.That(newTc.HashZ, Is.EqualTo(tc.HashZ), nameof(newTc.HashZ));
             }
             else
             {
-                Assert.AreNotEqual(tc.HashZ, newTc.HashZ, nameof(newTc.HashZ));
+                Assert.That(newTc.HashZ, Is.Not.EqualTo(tc.HashZ), nameof(newTc.HashZ));
             }
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
+            Assert.That(regexDeferred.Matches(json).Count == 0, Is.True);
         }
     }
 }

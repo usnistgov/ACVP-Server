@@ -49,14 +49,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreNotEqual(tg.BitOrientedInput, newTg.BitOrientedInput, nameof(newTg.BitOrientedInput));
-            Assert.AreNotEqual(tg.DigestSize, newTg.DigestSize, nameof(newTg.DigestSize));
-            Assert.AreNotEqual(tg.BitOrientedOutput, newTg.BitOrientedOutput, nameof(newTg.BitOrientedOutput));
-            Assert.AreNotEqual(tg.IncludeNull, newTg.IncludeNull, nameof(newTg.IncludeNull));
+            Assert.That(newTg.Function, Is.Not.EqualTo(tg.Function), nameof(newTg.Function));
+            Assert.That(newTg.BitOrientedInput, Is.Not.EqualTo(tg.BitOrientedInput), nameof(newTg.BitOrientedInput));
+            Assert.That(newTg.DigestSize, Is.Not.EqualTo(tg.DigestSize), nameof(newTg.DigestSize));
+            Assert.That(newTg.BitOrientedOutput, Is.Not.EqualTo(tg.BitOrientedOutput), nameof(newTg.BitOrientedOutput));
+            Assert.That(newTg.IncludeNull, Is.Not.EqualTo(tg.IncludeNull), nameof(newTg.IncludeNull));
         }
 
         /// <summary>
@@ -80,29 +80,29 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Digest, Is.EqualTo(tc.Digest), nameof(newTc.Digest));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
+                    Assert.That(newTc.ResultsArray[i].Digest, Is.EqualTo(tc.ResultsArray[i].Digest), "mctDigest");
                 }
             }
             else
             {
-                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+                Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.Message, newTc.Message, nameof(newTc.Message));
-            Assert.AreNotEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
+            Assert.That(newTc.MessageLength, Is.Not.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
 
         /// <summary>
@@ -126,31 +126,31 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Digest, newTc.Digest, nameof(newTc.Digest));
-            Assert.AreEqual(tc.DigestLength, newTc.DigestLength, nameof(newTc.DigestLength));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Digest, Is.EqualTo(tc.Digest), nameof(newTc.Digest));
+            Assert.That(newTc.DigestLength, Is.EqualTo(tc.DigestLength), nameof(newTc.DigestLength));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
                 for (var i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].Digest, newTc.ResultsArray[i].Digest, "mctDigest");
-                    Assert.AreEqual(tc.ResultsArray[i].DigestLength, newTc.ResultsArray[i].DigestLength, "mctDigestLength");
+                    Assert.That(newTc.ResultsArray[i].Digest, Is.EqualTo(tc.ResultsArray[i].Digest), "mctDigest");
+                    Assert.That(newTc.ResultsArray[i].DigestLength, Is.EqualTo(tc.ResultsArray[i].DigestLength), "mctDigestLength");
                 }
             }
             else
             {
-                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+                Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.Message, newTc.Message, nameof(newTc.Message));
-            Assert.AreNotEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
+            Assert.That(newTc.MessageLength, Is.Not.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

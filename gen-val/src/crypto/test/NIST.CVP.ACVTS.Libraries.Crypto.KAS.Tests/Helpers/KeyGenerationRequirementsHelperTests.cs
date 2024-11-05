@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
         {
             var result = KeyGenerationRequirementsHelper.GetOtherPartyKeyAgreementRole(rolePartyA);
 
-            Assert.AreEqual(expectedRolePartyB, result);
+            Assert.That(result, Is.EqualTo(expectedRolePartyB));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
         {
             var result = KeyGenerationRequirementsHelper.GetOtherPartyKeyConfirmationRole(rolePartyA);
 
-            Assert.AreEqual(expectedRolePartyB, result);
+            Assert.That(result, Is.EqualTo(expectedRolePartyB));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
 
             var s = sb.ToString();
 
-            Assert.IsTrue(true);
+            Assert.That(true, Is.True);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
 
             var s = sb.ToString();
 
-            Assert.IsTrue(true);
+            Assert.That(true, Is.True);
         }
     }
 }

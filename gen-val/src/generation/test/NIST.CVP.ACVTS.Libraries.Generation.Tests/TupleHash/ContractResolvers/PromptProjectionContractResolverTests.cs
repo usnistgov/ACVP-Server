@@ -47,9 +47,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.XOF, newTg.XOF, nameof(newTg.XOF));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.XOF, Is.EqualTo(tg.XOF), nameof(newTg.XOF));
         }
 
         /// <summary>
@@ -75,30 +75,30 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Tuple, newTc.Tuple, nameof(newTc.Tuple));
-            Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Tuple, Is.EqualTo(tc.Tuple), nameof(newTc.Tuple));
+            Assert.That(newTc.MessageLength, Is.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
 
             if (tg.HexCustomization)
             {
-                Assert.AreEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
-                Assert.AreNotEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
+                Assert.That(newTc.CustomizationHex, Is.EqualTo(tc.CustomizationHex), nameof(newTc.CustomizationHex));
+                Assert.That(newTc.Customization, Is.Not.EqualTo(tc.Customization), nameof(newTc.Customization));
             }
             else
             {
-                Assert.AreEqual(tc.Customization, newTc.Customization, nameof(newTc.Customization));
-                Assert.AreNotEqual(tc.CustomizationHex, newTc.CustomizationHex, nameof(newTc.CustomizationHex));
+                Assert.That(newTc.Customization, Is.EqualTo(tc.Customization), nameof(newTc.Customization));
+                Assert.That(newTc.CustomizationHex, Is.Not.EqualTo(tc.CustomizationHex), nameof(newTc.CustomizationHex));
             }
 
-            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
-            Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
+            Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
+            Assert.That(newTc.Digest, Is.Null, nameof(newTc.Digest));
 
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

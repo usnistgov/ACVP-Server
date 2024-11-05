@@ -31,14 +31,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFB
         public async Task ShouldSuccessfullyGenerate()
         {
             var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", KeyingOption = 3 }, false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
         public void ShouldHaveProperNumberOfTestCasesToGenerate()
         {
-            Assert.AreEqual(10, _subject.NumberOfTestCasesToGenerate);
+            Assert.That(_subject.NumberOfTestCasesToGenerate, Is.EqualTo(10));
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFB
                 .Setup(s => s.GetTdesCaseAsync(It.IsAny<TdesParameters>()))
                 .Throws(new Exception());
             var result = await _subject.GenerateAsync(new TestGroup { Function = "encrypt", KeyingOption = 3 }, false);
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Encrypt(plainText, pubKey);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedCipherText, result.CipherText);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.CipherText, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Decrypt(cipherText, privKey, pubKey);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedPlainText, result.PlainText);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.PlainText, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
             var rsa = new Rsa(new RsaVisitor());
             var result = rsa.Decrypt(cipherText, privKey, pubKey);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedPlainText, result.PlainText);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.PlainText, Is.EqualTo(expectedPlainText));
         }
     }
 }

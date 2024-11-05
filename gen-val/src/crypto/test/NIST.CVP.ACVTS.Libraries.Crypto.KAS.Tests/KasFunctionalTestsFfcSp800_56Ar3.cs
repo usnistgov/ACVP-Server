@@ -1370,10 +1370,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
 
             var result = kas.ComputeResult(secretKeyingMaterialOtherParty);
 
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
             //Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
-            Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
+            Assert.That(result.MacData, Is.EqualTo(expectedMacData), nameof(result.MacData));
+            Assert.That(result.Tag, Is.EqualTo(expectedTag), nameof(result.Tag));
         }
 
         private KdaOneStepAuxFunction GetAuxFunction(ModeValues dsaKdfHashMode, DigestSizes dsaKdfDigestSize)

@@ -44,8 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SSH.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
         }
 
         [Test]
@@ -61,23 +61,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SSH.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.AreEqual(tc.InitialIvClient, newTc.InitialIvClient, nameof(newTc.InitialIvClient));
-            Assert.AreEqual(tc.EncryptionKeyClient, newTc.EncryptionKeyClient, nameof(newTc.EncryptionKeyClient));
-            Assert.AreEqual(tc.IntegrityKeyClient, newTc.IntegrityKeyClient, nameof(newTc.IntegrityKeyClient));
-            Assert.AreEqual(tc.InitialIvServer, newTc.InitialIvServer, nameof(newTc.InitialIvServer));
-            Assert.AreEqual(tc.EncryptionKeyServer, newTc.EncryptionKeyServer, nameof(newTc.EncryptionKeyServer));
-            Assert.AreEqual(tc.IntegrityKeyServer, newTc.IntegrityKeyServer, nameof(newTc.IntegrityKeyServer));
+            Assert.That(newTc.InitialIvClient, Is.EqualTo(tc.InitialIvClient), nameof(newTc.InitialIvClient));
+            Assert.That(newTc.EncryptionKeyClient, Is.EqualTo(tc.EncryptionKeyClient), nameof(newTc.EncryptionKeyClient));
+            Assert.That(newTc.IntegrityKeyClient, Is.EqualTo(tc.IntegrityKeyClient), nameof(newTc.IntegrityKeyClient));
+            Assert.That(newTc.InitialIvServer, Is.EqualTo(tc.InitialIvServer), nameof(newTc.InitialIvServer));
+            Assert.That(newTc.EncryptionKeyServer, Is.EqualTo(tc.EncryptionKeyServer), nameof(newTc.EncryptionKeyServer));
+            Assert.That(newTc.IntegrityKeyServer, Is.EqualTo(tc.IntegrityKeyServer), nameof(newTc.IntegrityKeyServer));
 
-            Assert.AreNotEqual(tc.K, newTc.K, nameof(newTc.K));
-            Assert.AreNotEqual(tc.H, newTc.H, nameof(newTc.H));
-            Assert.AreNotEqual(tc.SessionId, newTc.SessionId, nameof(newTc.SessionId));
+            Assert.That(newTc.K, Is.Not.EqualTo(tc.K), nameof(newTc.K));
+            Assert.That(newTc.H, Is.Not.EqualTo(tc.H), nameof(newTc.H));
+            Assert.That(newTc.SessionId, Is.Not.EqualTo(tc.SessionId), nameof(newTc.SessionId));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

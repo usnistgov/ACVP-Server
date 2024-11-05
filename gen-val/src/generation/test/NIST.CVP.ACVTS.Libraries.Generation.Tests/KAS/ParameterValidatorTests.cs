@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
 
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         private static object[] _testParameters = new object[]
@@ -882,7 +882,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
             var result = _subject.Validate(parameters);
 
             Assert.That(!result.Success);
-            Assert.IsTrue(result.ErrorMessage.ToLower().Contains(failureReason.ToLower()));
+            Assert.That(result.ErrorMessage.ToLower().Contains(failureReason.ToLower()), Is.True);
         }
 
         private static object[] _schemeBuilders_ShouldSucceedWhenOnlyOneSchemePresent = new object[]
@@ -923,7 +923,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = _subject.Validate(parameters);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
     }
 }

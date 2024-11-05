@@ -102,7 +102,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DRBG.IntegrationTests
             if (fails > 0)
                 Assert.Fail("Unexpected failures were encountered.");
 
-            Assert.IsTrue(testPasses > 0, "No tests were run");
+            Assert.That(testPasses > 0, Is.True, "No tests were run");
             //Assert.Fail($"Passes {testPasses}, fails {fails}, count {count}.");
         }
 

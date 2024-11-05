@@ -60,9 +60,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _subject.ProcessMonteCarloTest(param);
 
-            Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
-            Assert.AreEqual(expectedFinalIV.ToHex(), result.Response[result.Response.Count - 1].IV.ToHex(), nameof(expectedFinalIvHex));
-            Assert.AreEqual(expectedFinalCt.ToHex(), result.Response[result.Response.Count - 1].CipherText.ToHex(), nameof(expectedFinalCtHex));
+            Assert.That(result.Response[result.Response.Count - 1].Keys.ToHex(), Is.EqualTo(expectedFinalKey.ToHex()), nameof(expectedFinalKey));
+            Assert.That(result.Response[result.Response.Count - 1].IV.ToHex(), Is.EqualTo(expectedFinalIV.ToHex()), nameof(expectedFinalIvHex));
+            Assert.That(result.Response[result.Response.Count - 1].CipherText.ToHex(), Is.EqualTo(expectedFinalCt.ToHex()), nameof(expectedFinalCtHex));
         }
 
         [Test]
@@ -89,9 +89,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _subject.ProcessMonteCarloTest(param);
 
-            Assert.AreEqual(expectedFinalKey.ToHex(), result.Response[result.Response.Count - 1].Keys.ToHex(), nameof(expectedFinalKey));
-            Assert.AreEqual(expectedFinalIV.ToHex(), result.Response[result.Response.Count - 1].IV.ToHex(), nameof(expectedFinalIvHex));
-            Assert.AreEqual(expectedFinalPt.ToHex(), result.Response[result.Response.Count - 1].PlainText.ToHex(), nameof(expectedFinalPtHex));
+            Assert.That(result.Response[result.Response.Count - 1].Keys.ToHex(), Is.EqualTo(expectedFinalKey.ToHex()), nameof(expectedFinalKey));
+            Assert.That(result.Response[result.Response.Count - 1].IV.ToHex(), Is.EqualTo(expectedFinalIV.ToHex()), nameof(expectedFinalIvHex));
+            Assert.That(result.Response[result.Response.Count - 1].PlainText.ToHex(), Is.EqualTo(expectedFinalPt.ToHex()), nameof(expectedFinalPtHex));
         }
     }
 }

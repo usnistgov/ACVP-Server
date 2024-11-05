@@ -43,12 +43,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv2.Tests
 
             var result = subject.GenerateIke(ni, nr, gir, girNew, spii, spir, dkmLength, dkmChildLength);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(sKeySeed, result.SKeySeed, "SKeySeed");
-            Assert.AreEqual(dkm, result.DKM, "DKM");
-            Assert.AreEqual(dkmChildSA, result.DKMChildSA, "DKMChildSA");
-            Assert.AreEqual(dkmChildSADh, result.DKMChildSADh, "DKMChildSADh");
-            Assert.AreEqual(sKeySeedReKey, result.SKeySeedReKey, "SKeySeedReKey");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.SKeySeed, Is.EqualTo(sKeySeed), "SKeySeed");
+            Assert.That(result.DKM, Is.EqualTo(dkm), "DKM");
+            Assert.That(result.DKMChildSA, Is.EqualTo(dkmChildSA), "DKMChildSA");
+            Assert.That(result.DKMChildSADh, Is.EqualTo(dkmChildSADh), "DKMChildSADh");
+            Assert.That(result.SKeySeedReKey, Is.EqualTo(sKeySeedReKey), "SKeySeedReKey");
         }
     }
 }

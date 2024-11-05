@@ -93,7 +93,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_GCM.IntegrationTests
                                 fails++;
                             }
 
-                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
+                            Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.CipherText.ToHex()), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 
@@ -134,7 +134,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_GCM.IntegrationTests
                                 fails++;
                             }
 
-                            Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
+                            Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.PlainText.ToHex()), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
 

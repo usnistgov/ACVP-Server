@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         {
             var result = _subject.Object.Instantiate(257, new BitString(_parameters.PersoStringLen));
 
-            Assert.AreEqual(DrbgStatus.RequestedSecurityStrengthTooHigh, result);
+            Assert.That(result, Is.EqualTo(DrbgStatus.RequestedSecurityStrengthTooHigh));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         {
             var result = _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(Int32.MaxValue));
 
-            Assert.AreEqual(DrbgStatus.PersonalizationStringTooLong, result);
+            Assert.That(result, Is.EqualTo(DrbgStatus.PersonalizationStringTooLong));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var result = _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(_parameters.PersoStringLen));
 
-            Assert.AreEqual(DrbgStatus.CatastrophicError, result);
+            Assert.That(result, Is.EqualTo(DrbgStatus.CatastrophicError));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
             _subject.Object.DrbgStatus = statusToReturn;
             var result = _subject.Object.Instantiate(_parameters.SecurityStrength, new BitString(_parameters.PersoStringLen));
 
-            Assert.AreEqual(statusToReturn, result);
+            Assert.That(result, Is.EqualTo(statusToReturn));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
             _subject.Object.DrbgStatus = statusToReturn;
             var result = _subject.Object.Reseed(new BitString(_parameters.AdditionalInputLen));
 
-            Assert.AreEqual(statusToReturn, result);
+            Assert.That(result, Is.EqualTo(statusToReturn));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var result = _subject.Object.Generate(_parameters.ReturnedBitsLen, new BitString(_parameters.AdditionalInputLen));
 
-            Assert.AreEqual(DrbgStatus.Success, result.DrbgStatus);
+            Assert.That(result.DrbgStatus, Is.EqualTo(DrbgStatus.Success));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         {
             var result = _subject.Object.Generate(Int32.MaxValue, new BitString(_parameters.AdditionalInputLen));
 
-            Assert.AreEqual(DrbgStatus.Error, result.DrbgStatus);
+            Assert.That(result.DrbgStatus, Is.EqualTo(DrbgStatus.Error));
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
         {
             var result = _subject.Object.Generate(_parameters.ReturnedBitsLen, new BitString(Int32.MaxValue));
 
-            Assert.AreEqual(DrbgStatus.Error, result.DrbgStatus);
+            Assert.That(result.DrbgStatus, Is.EqualTo(DrbgStatus.Error));
         }
 
         [Test]

@@ -97,7 +97,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v1_0
             _subject = new TestGroupGenerator();
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count);
+            Assert.That(result.Count, Is.EqualTo(expectedResultCount));
         }
     }
 }

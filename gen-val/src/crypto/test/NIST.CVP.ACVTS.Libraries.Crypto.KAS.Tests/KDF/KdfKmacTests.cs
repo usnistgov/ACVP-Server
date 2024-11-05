@@ -107,8 +107,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
 
             var result = kdf.DeriveKey(param.Z, param.L, fixedInfo, param.Salt);
 
-            Assert.AreEqual(issueFixedData.ToHex(), fixedInfo.ToHex(), nameof(issueFixedData));
-            Assert.AreEqual(issueDkm.ToHex(), result.DerivedKey.ToHex(), nameof(issueDkm));
+            Assert.That(fixedInfo.ToHex(), Is.EqualTo(issueFixedData.ToHex()), nameof(issueFixedData));
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(issueDkm.ToHex()), nameof(issueDkm));
             //Assert.AreEqual(expectedDkm.ToHex(), result.DerivedKey.ToHex(), nameof(expectedDkm));
         }
     }

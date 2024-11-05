@@ -44,11 +44,11 @@ public class ResultsProjectionContractResolverTests
 
         var newTg = newTvs.TestGroups[0];
 
-        Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-        Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+        Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+        Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-        Assert.AreNotEqual(tg.LmsMode, newTg.LmsMode, nameof(newTg.LmsMode));
-        Assert.AreNotEqual(tg.LmOtsMode, newTg.LmOtsMode, nameof(newTg.LmOtsMode));
+        Assert.That(newTg.LmsMode, Is.Not.EqualTo(tg.LmsMode), nameof(newTg.LmsMode));
+        Assert.That(newTg.LmOtsMode, Is.Not.EqualTo(tg.LmOtsMode), nameof(newTg.LmOtsMode));
     }
     
     [Test]
@@ -64,14 +64,14 @@ public class ResultsProjectionContractResolverTests
         var newTg = newTvs.TestGroups[0];
         var newTc = newTg.Tests[0];
 
-        Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-        Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-        Assert.AreEqual(tc.Signature, newTc.Signature, nameof(newTc.Signature));
+        Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+        Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+        Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
 
-        Assert.AreNotEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+        Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
 
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
         var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-        Assert.IsTrue(regex.Matches(json).Count == 0);
+        Assert.That(regex.Matches(json).Count == 0, Is.True);
     }
 }

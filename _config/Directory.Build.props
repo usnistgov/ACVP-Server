@@ -6,7 +6,7 @@
   <PropertyGroup>
     <BuildGenValPackages>false</BuildGenValPackages>
 
-    <GenValPackageVersionMajor>2</GenValPackageVersionMajor>
+    <GenValPackageVersionMajor>3</GenValPackageVersionMajor>
     <GenValPackageVersionMinor>0</GenValPackageVersionMinor>
     <GenValPackageVersionPatch>0</GenValPackageVersionPatch>
 

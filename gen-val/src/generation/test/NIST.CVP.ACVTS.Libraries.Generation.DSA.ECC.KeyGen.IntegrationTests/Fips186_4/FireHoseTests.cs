@@ -72,8 +72,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.KeyGen.IntegrationTests.Fi
                         }
                         else
                         {
-                            Assert.AreEqual(testCase.KeyPair.PublicQ.X, result.KeyPair.PublicQ.X, "x");
-                            Assert.AreEqual(testCase.KeyPair.PublicQ.Y, result.KeyPair.PublicQ.Y, "y");
+                            Assert.That(result.KeyPair.PublicQ.X, Is.EqualTo(testCase.KeyPair.PublicQ.X), "x");
+                            Assert.That(result.KeyPair.PublicQ.Y, Is.EqualTo(testCase.KeyPair.PublicQ.Y), "y");
                         }
                     }
                 }

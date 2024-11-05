@@ -47,9 +47,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
         }
 
         /// <summary>
@@ -73,33 +73,33 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             if (testType == "aft")
             {
-                Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
-                Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
+                Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
+                Assert.That(newTc.MessageLength, Is.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
             }
             else if (testType == "mct")
             {
-                Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
-                Assert.AreEqual(tc.MessageLength, newTc.MessageLength, nameof(newTc.MessageLength));
+                Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
+                Assert.That(newTc.MessageLength, Is.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
             }
             else if (testType == "ldt")
             {
-                Assert.AreEqual(tc.LargeMessage.Content, newTc.LargeMessage.Content, nameof(newTc.LargeMessage.Content));
-                Assert.AreEqual(tc.LargeMessage.ContentLength, newTc.LargeMessage.ContentLength, nameof(newTc.LargeMessage.ContentLength));
-                Assert.AreEqual(tc.LargeMessage.ExpansionTechnique, newTc.LargeMessage.ExpansionTechnique, nameof(newTc.LargeMessage.ExpansionTechnique));
-                Assert.AreEqual(tc.LargeMessage.FullLength, newTc.LargeMessage.FullLength, nameof(newTc.LargeMessage.FullLength));
+                Assert.That(newTc.LargeMessage.Content, Is.EqualTo(tc.LargeMessage.Content), nameof(newTc.LargeMessage.Content));
+                Assert.That(newTc.LargeMessage.ContentLength, Is.EqualTo(tc.LargeMessage.ContentLength), nameof(newTc.LargeMessage.ContentLength));
+                Assert.That(newTc.LargeMessage.ExpansionTechnique, Is.EqualTo(tc.LargeMessage.ExpansionTechnique), nameof(newTc.LargeMessage.ExpansionTechnique));
+                Assert.That(newTc.LargeMessage.FullLength, Is.EqualTo(tc.LargeMessage.FullLength), nameof(newTc.LargeMessage.FullLength));
             }
 
-            Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
-            Assert.IsNull(newTc.Digest, nameof(newTc.Digest));
+            Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
+            Assert.That(newTc.Digest, Is.Null, nameof(newTc.Digest));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

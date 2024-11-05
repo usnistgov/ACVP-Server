@@ -14,8 +14,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyVer
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         #region CurveTestCases
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyVer
                     .WithCurves(curves)
                 .Build());
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 

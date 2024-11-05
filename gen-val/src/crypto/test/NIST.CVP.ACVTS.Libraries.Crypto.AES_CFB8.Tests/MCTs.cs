@@ -52,32 +52,32 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstCipherText = result.Response[0].CipherText;
-            Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText), nameof(firstCipherText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
             var secondPlainText = result.Response[1].PlainText;
             var secondCipherText = result.Response[1].CipherText;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
-            Assert.AreEqual(secondExpectedPlainText, secondPlainText, nameof(secondExpectedPlainText));
-            Assert.AreEqual(secondExpectedCipherText, secondCipherText, nameof(secondExpectedCipherText));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
+            Assert.That(secondPlainText, Is.EqualTo(secondExpectedPlainText), nameof(secondExpectedPlainText));
+            Assert.That(secondCipherText, Is.EqualTo(secondExpectedCipherText), nameof(secondExpectedCipherText));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -108,28 +108,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstCipherText = result.Response[0].CipherText;
-            Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText), nameof(firstCipherText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -160,28 +160,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstCipherText = result.Response[0].CipherText;
-            Assert.AreEqual(firstExpectedCipherText, firstCipherText, nameof(firstCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText), nameof(firstCipherText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
         #endregion Encrypt
 
@@ -214,28 +214,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstPlainText = result.Response[0].PlainText;
-            Assert.AreEqual(firstExpectedPlainText, firstPlainText, nameof(firstPlainText));
+            Assert.That(firstPlainText, Is.EqualTo(firstExpectedPlainText), nameof(firstPlainText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -266,28 +266,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstPlainText = result.Response[0].PlainText;
-            Assert.AreEqual(firstExpectedPlainText, firstPlainText, nameof(firstPlainText));
+            Assert.That(firstPlainText, Is.EqualTo(firstExpectedPlainText), nameof(firstPlainText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -318,28 +318,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB8.Tests
             ));
 
 
-            Assert.AreEqual(key, sanityCheckFirstKey, nameof(sanityCheckFirstKey));
-            Assert.AreEqual(iv, sanityCheckFirstIv, nameof(sanityCheckFirstIv));
+            Assert.That(sanityCheckFirstKey, Is.EqualTo(key), nameof(sanityCheckFirstKey));
+            Assert.That(sanityCheckFirstIv, Is.EqualTo(iv), nameof(sanityCheckFirstIv));
             var firstPlainText = result.Response[0].PlainText;
-            Assert.AreEqual(firstExpectedPlainText, firstPlainText, nameof(firstPlainText));
+            Assert.That(firstPlainText, Is.EqualTo(firstExpectedPlainText), nameof(firstPlainText));
 
             var secondKey = result.Response[1].Key;
             var secondIv = result.Response[1].IV;
 
-            Assert.AreEqual(secondExpectedKey, secondKey, nameof(secondExpectedKey));
-            Assert.AreEqual(secondExpectedIv, secondIv, nameof(secondExpectedIv));
+            Assert.That(secondKey, Is.EqualTo(secondExpectedKey), nameof(secondExpectedKey));
+            Assert.That(secondIv, Is.EqualTo(secondExpectedIv), nameof(secondExpectedIv));
 
             var lastKey = result.Response[result.Response.Count - 1].Key;
             var lastIv = result.Response[result.Response.Count - 1].IV;
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText;
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText;
 
-            Assert.AreEqual(lastExpectedKey, lastKey, nameof(lastExpectedKey));
-            Assert.AreEqual(lastExpectedIv, lastIv, nameof(lastExpectedIv));
-            Assert.AreEqual(lastExpectedCipherText, lastCipherText, nameof(lastCipherText));
-            Assert.AreEqual(lastExpectedPlainText, lastPlainText, nameof(lastPlainText));
+            Assert.That(lastKey, Is.EqualTo(lastExpectedKey), nameof(lastExpectedKey));
+            Assert.That(lastIv, Is.EqualTo(lastExpectedIv), nameof(lastExpectedIv));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText), nameof(lastCipherText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
         #endregion Decrypt
     }

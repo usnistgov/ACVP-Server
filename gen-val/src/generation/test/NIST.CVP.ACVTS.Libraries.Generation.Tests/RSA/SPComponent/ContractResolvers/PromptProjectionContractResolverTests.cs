@@ -48,10 +48,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent.ContractReso
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Modulus, newTg.Modulus, nameof(newTg.Modulus));
-            Assert.AreEqual(tg.KeyFormat, newTg.KeyFormat, nameof(newTg.KeyFormat));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.Modulus, Is.EqualTo(tg.Modulus), nameof(newTg.Modulus));
+            Assert.That(newTg.KeyFormat, Is.EqualTo(tg.KeyFormat), nameof(newTg.KeyFormat));
         }
 
         /// <summary>
@@ -74,28 +74,28 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent.ContractReso
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
-            Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
-            Assert.AreEqual(tc.N, newTc.N, nameof(newTc.N));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Deferred, Is.EqualTo(tc.Deferred), nameof(newTc.Deferred));
+            Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
+            Assert.That(newTc.N, Is.EqualTo(tc.N), nameof(newTc.N));
 
             if (keyFormat == PrivateKeyModes.Crt)
             {
-                Assert.AreEqual(tc.Dmp1, newTc.Dmp1, nameof(newTc.Dmp1));
-                Assert.AreEqual(tc.Dmq1, newTc.Dmq1, nameof(newTc.Dmq1));
-                Assert.AreEqual(tc.Iqmp, newTc.Iqmp, nameof(newTc.Iqmp));
-                Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
-                Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
+                Assert.That(newTc.Dmp1, Is.EqualTo(tc.Dmp1), nameof(newTc.Dmp1));
+                Assert.That(newTc.Dmq1, Is.EqualTo(tc.Dmq1), nameof(newTc.Dmq1));
+                Assert.That(newTc.Iqmp, Is.EqualTo(tc.Iqmp), nameof(newTc.Iqmp));
+                Assert.That(newTc.P, Is.EqualTo(tc.P), nameof(newTc.P));
+                Assert.That(newTc.Q, Is.EqualTo(tc.Q), nameof(newTc.Q));
             }
             else if (keyFormat == PrivateKeyModes.Standard)
             {
-                Assert.AreEqual(tc.D, newTc.D, nameof(newTc.D));
+                Assert.That(newTc.D, Is.EqualTo(tc.D), nameof(newTc.D));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

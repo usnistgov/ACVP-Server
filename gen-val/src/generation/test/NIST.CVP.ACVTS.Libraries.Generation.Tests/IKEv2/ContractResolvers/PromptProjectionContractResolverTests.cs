@@ -44,13 +44,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv2.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.NInitLength, newTg.NInitLength, nameof(newTg.NInitLength));
-            Assert.AreEqual(tg.NRespLength, newTg.NRespLength, nameof(newTg.NRespLength));
-            Assert.AreEqual(tg.GirLength, newTg.GirLength, nameof(newTg.GirLength));
-            Assert.AreEqual(tg.DerivedKeyingMaterialLength, newTg.DerivedKeyingMaterialLength, nameof(newTg.DerivedKeyingMaterialLength));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.HashAlgName, Is.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
+            Assert.That(newTg.NInitLength, Is.EqualTo(tg.NInitLength), nameof(newTg.NInitLength));
+            Assert.That(newTg.NRespLength, Is.EqualTo(tg.NRespLength), nameof(newTg.NRespLength));
+            Assert.That(newTg.GirLength, Is.EqualTo(tg.GirLength), nameof(newTg.GirLength));
+            Assert.That(newTg.DerivedKeyingMaterialLength, Is.EqualTo(tg.DerivedKeyingMaterialLength), nameof(newTg.DerivedKeyingMaterialLength));
         }
 
         [Test]
@@ -66,18 +66,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv2.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.NInit, newTc.NInit, nameof(newTc.NInit));
-            Assert.AreEqual(tc.NResp, newTc.NResp, nameof(newTc.NResp));
-            Assert.AreEqual(tc.SpiInit, newTc.SpiInit, nameof(newTc.SpiInit));
-            Assert.AreEqual(tc.SpiResp, newTc.SpiResp, nameof(newTc.SpiResp));
-            Assert.AreEqual(tc.Gir, newTc.Gir, nameof(newTc.Gir));
-            Assert.AreEqual(tc.GirNew, newTc.GirNew, nameof(newTc.GirNew));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.NInit, Is.EqualTo(tc.NInit), nameof(newTc.NInit));
+            Assert.That(newTc.NResp, Is.EqualTo(tc.NResp), nameof(newTc.NResp));
+            Assert.That(newTc.SpiInit, Is.EqualTo(tc.SpiInit), nameof(newTc.SpiInit));
+            Assert.That(newTc.SpiResp, Is.EqualTo(tc.SpiResp), nameof(newTc.SpiResp));
+            Assert.That(newTc.Gir, Is.EqualTo(tc.Gir), nameof(newTc.Gir));
+            Assert.That(newTc.GirNew, Is.EqualTo(tc.GirNew), nameof(newTc.GirNew));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

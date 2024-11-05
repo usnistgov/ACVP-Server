@@ -68,15 +68,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SRTP.IntegrationTests
                             testCase.SrtcpIndex
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
 
-                        Assert.AreEqual(testCase.SrtpKe.ToHex(), result.SrtpResult.EncryptionKey.ToHex(), $"Failed on SrtpKe {testCase.SrtpKe.ToHex()}, got {result.SrtpResult.EncryptionKey.ToHex()}");
-                        Assert.AreEqual(testCase.SrtpKa.ToHex(), result.SrtpResult.AuthenticationKey.ToHex(), $"Failed on SrtpKa {testCase.SrtpKa.ToHex()}, got {result.SrtpResult.AuthenticationKey.ToHex()}");
-                        Assert.AreEqual(testCase.SrtpKs.ToHex(), result.SrtpResult.SaltingKey.ToHex(), $"Failed on SrtpKs {testCase.SrtpKs.ToHex()}, got {result.SrtpResult.SaltingKey.ToHex()}");
+                        Assert.That(result.SrtpResult.EncryptionKey.ToHex(), Is.EqualTo(testCase.SrtpKe.ToHex()), $"Failed on SrtpKe {testCase.SrtpKe.ToHex()}, got {result.SrtpResult.EncryptionKey.ToHex()}");
+                        Assert.That(result.SrtpResult.AuthenticationKey.ToHex(), Is.EqualTo(testCase.SrtpKa.ToHex()), $"Failed on SrtpKa {testCase.SrtpKa.ToHex()}, got {result.SrtpResult.AuthenticationKey.ToHex()}");
+                        Assert.That(result.SrtpResult.SaltingKey.ToHex(), Is.EqualTo(testCase.SrtpKs.ToHex()), $"Failed on SrtpKs {testCase.SrtpKs.ToHex()}, got {result.SrtpResult.SaltingKey.ToHex()}");
 
-                        Assert.AreEqual(testCase.SrtcpKe.ToHex(), result.SrtcpResult.EncryptionKey.ToHex(), $"Failed on SrtcpKe {testCase.SrtcpKe.ToHex()}, got {result.SrtcpResult.EncryptionKey.ToHex()}");
-                        Assert.AreEqual(testCase.SrtcpKa.ToHex(), result.SrtcpResult.AuthenticationKey.ToHex(), $"Failed on SrtcpKa {testCase.SrtcpKa.ToHex()}, got {result.SrtcpResult.AuthenticationKey.ToHex()}");
-                        Assert.AreEqual(testCase.SrtcpKs.ToHex(), result.SrtcpResult.SaltingKey.ToHex(), $"Failed on SrtcpKs {testCase.SrtcpKs.ToHex()}, got {result.SrtcpResult.SaltingKey.ToHex()}");
+                        Assert.That(result.SrtcpResult.EncryptionKey.ToHex(), Is.EqualTo(testCase.SrtcpKe.ToHex()), $"Failed on SrtcpKe {testCase.SrtcpKe.ToHex()}, got {result.SrtcpResult.EncryptionKey.ToHex()}");
+                        Assert.That(result.SrtcpResult.AuthenticationKey.ToHex(), Is.EqualTo(testCase.SrtcpKa.ToHex()), $"Failed on SrtcpKa {testCase.SrtcpKa.ToHex()}, got {result.SrtcpResult.AuthenticationKey.ToHex()}");
+                        Assert.That(result.SrtcpResult.SaltingKey.ToHex(), Is.EqualTo(testCase.SrtcpKs.ToHex()), $"Failed on SrtcpKs {testCase.SrtcpKs.ToHex()}, got {result.SrtcpResult.SaltingKey.ToHex()}");
                     }
                 }
             }

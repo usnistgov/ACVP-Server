@@ -254,7 +254,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var resultPartyU = kasPartyU.ComputeResult(initializedKeyingMaterialPartyV);
             var resultPartyV = kasPartyV.ComputeResult(resultPartyU.KeyingMaterialPartyU);
 
-            Assert.AreEqual(resultPartyU.Dkm.ToHex(), resultPartyV.Dkm.ToHex());
+            Assert.That(resultPartyV.Dkm.ToHex(), Is.EqualTo(resultPartyU.Dkm.ToHex()));
         }
 
         [Test]
@@ -296,9 +296,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
                 FixedInputEncoding = fixedInfoEncoding
             }, fixedInfo);
 
-            Assert.AreEqual(
-                new BitString("6D7783F2CB7D9F35A0B8809430A62B152D7C128F960B2827E46130D8955797601DB5263A135BC429D60568EDEB72B656F819CFC348CCC02EEEA7FE589FFA385B").ToHex(),
-                dkm.DerivedKey.ToHex());
+            Assert.That(
+                dkm.DerivedKey.ToHex(), Is.EqualTo(new BitString("6D7783F2CB7D9F35A0B8809430A62B152D7C128F960B2827E46130D8955797601DB5263A135BC429D60568EDEB72B656F819CFC348CCC02EEEA7FE589FFA385B").ToHex()));
         }
 
         [Test]
@@ -425,7 +424,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var resultPartyV = kasPartyV.ComputeResult(initializedKeyingMaterialPartyU);
 
             Console.WriteLine(resultPartyV.Dkm.ToHex());
-            Assert.AreEqual(expectedDkm.ToHex(), resultPartyV.Dkm.ToHex());
+            Assert.That(resultPartyV.Dkm.ToHex(), Is.EqualTo(expectedDkm.ToHex()));
         }
     }
 }

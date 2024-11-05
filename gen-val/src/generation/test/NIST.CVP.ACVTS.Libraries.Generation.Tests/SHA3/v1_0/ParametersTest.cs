@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                 IncludeNull = true,
                 IsSample = false
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             };
 
             Assert.That(parameters != null);
-            Assert.AreEqual("SHAKE", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("SHAKE"));
         }
     }
 }

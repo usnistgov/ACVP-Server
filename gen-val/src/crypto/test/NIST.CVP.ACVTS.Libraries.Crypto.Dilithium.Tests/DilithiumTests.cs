@@ -36,9 +36,9 @@ public class DilithiumTests
         var key = dilithium.GenerateKey(seed);
         var signature = dilithium.Sign(key.sk, message, true);
         var verify = dilithium.Verify(key.pk, signature, message);
-        
-        Assert.IsTrue(verify, "Signature verify");
-        Assert.AreEqual(expectedSignatureHex, new BitString(signature).ToHex(), "Signature matching");
+
+        Assert.That(verify, Is.True, "Signature verify");
+        Assert.That(new BitString(signature).ToHex(), Is.EqualTo(expectedSignatureHex), "Signature matching");
     }
 
     [Test]
@@ -86,8 +86,8 @@ public class DilithiumTests
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
 
         var key = dilithium.GenerateKey(seed);
-        Assert.AreEqual(pkHex.ToUpper(), new BitString(key.pk).ToHex().ToUpper(), "pk");
-        Assert.AreEqual(skHex.ToUpper(), new BitString(key.sk).ToHex().ToUpper(), "sk");
+        Assert.That(new BitString(key.pk).ToHex().ToUpper(), Is.EqualTo(pkHex.ToUpper()), "pk");
+        Assert.That(new BitString(key.sk).ToHex().ToUpper(), Is.EqualTo(skHex.ToUpper()), "sk");
     }
 
     [Test]
@@ -133,7 +133,7 @@ public class DilithiumTests
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
         var signature = dilithium.Sign(sk, message, true);
         
-        Assert.AreEqual(signatureHex.ToUpper(), new BitString(signature).ToHex(), "signature");
+        Assert.That(new BitString(signature).ToHex(), Is.EqualTo(signatureHex.ToUpper()), "signature");
     }
     
     [Test]
@@ -185,8 +185,8 @@ public class DilithiumTests
         
         var dilithium = new Dilithium(new DilithiumParameters(parameterSet), new NativeShaFactory(), new EntropyProvider(new Random800_90()));
         var verify = dilithium.Verify(pk, signature, message);
-        
-        Assert.AreEqual(expectedVerify, verify, "verify");
+
+        Assert.That(verify, Is.EqualTo(expectedVerify), "verify");
     }
 
     [Test]
@@ -210,7 +210,7 @@ public class DilithiumTests
         var cHatInverse = dilithium.NTTInverse(aHat);
         for (var i = 0; i < 256; i++)
         {
-            Assert.AreEqual(a[i].PosMod(param.Q), cHatInverse[i]);
+            Assert.That(cHatInverse[i], Is.EqualTo(a[i].PosMod(param.Q)));
         }
     }
 

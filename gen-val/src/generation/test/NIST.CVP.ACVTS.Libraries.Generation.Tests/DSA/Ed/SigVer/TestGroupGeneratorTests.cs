@@ -102,7 +102,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigVer
 
             var subject = new TestGroupGenerator(oracleMock.Object);
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

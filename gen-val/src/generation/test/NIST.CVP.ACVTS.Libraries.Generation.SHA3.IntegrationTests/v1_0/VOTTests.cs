@@ -31,8 +31,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             domain.AddSegment(new RangeDomainSegment(new Random800_90(), min, max, bitOriented ? 1 : 8));
 
             var minMax = domain.GetDomainMinMax();
-            Assert.IsTrue(minMax.Minimum == min, "min");
-            Assert.IsTrue(minMax.Maximum == max, "max");
+            Assert.That(minMax.Minimum == min, Is.True, "min");
+            Assert.That(minMax.Maximum == max, Is.True, "max");
 
             var group = new TestGroup
             {
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             };
 
             var prepResult = subject.PrepareGenerator(group, false);
-            Assert.IsTrue(prepResult.Success);
+            Assert.That(prepResult.Success, Is.True);
 
             var lengths = new List<int>();
 
@@ -55,11 +55,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
 
                 var testCase = result.TestCase;
                 lengths.Add(testCase.DigestLength);
-                Assert.IsTrue(domain.IsWithinDomain(testCase.DigestLength), $"length: {testCase.DigestLength}");
+                Assert.That(domain.IsWithinDomain(testCase.DigestLength), Is.True, $"length: {testCase.DigestLength}");
                 Assert.Pass();
             }
 
-            Assert.IsTrue(lengths.Distinct().Count() != 1);
+            Assert.That(lengths.Distinct().Count() != 1, Is.True);
         }
     }
 }

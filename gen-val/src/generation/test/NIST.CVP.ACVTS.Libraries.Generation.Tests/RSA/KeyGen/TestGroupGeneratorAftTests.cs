@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
         {
             var subject = new TestGroupGeneratorAft();
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

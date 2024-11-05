@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
             var subject = new MonteCarloKeyMaker();
             var result = subject.MixKeys(new TDESKeys(key), GetCipherList());
             var resultKeys = new TDESKeys(result);
-            Assert.IsTrue(resultKeys.KeysAsBitStrings.All(k => k.Equals(resultKeys.KeysAsBitStrings[0])));
+            Assert.That(resultKeys.KeysAsBitStrings.All(k => k.Equals(resultKeys.KeysAsBitStrings[0])), Is.True);
         }
 
 
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
             var subject = new MonteCarloKeyMaker();
             var result = subject.MixKeys(new TDESKeys(key), GetCipherList());
             var resultKeys = new TDESKeys(result);
-            Assert.AreEqual(resultKeys.KeysAsBitStrings[0], resultKeys.KeysAsBitStrings[2]);
+            Assert.That(resultKeys.KeysAsBitStrings[2], Is.EqualTo(resultKeys.KeysAsBitStrings[0]));
         }
 
 
@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
             {
                 var tdesKey = tdesKeys.KeysAsBitStrings[keyIdx];
                 var xorResult = tdesKey.XOR(lastThreeCipherTexts[0]);
-                Assert.AreEqual(xorResult, resultKeys.KeysAsBitStrings[keyIdx]);
+                Assert.That(resultKeys.KeysAsBitStrings[keyIdx], Is.EqualTo(xorResult));
             }
         }
 
@@ -103,7 +103,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
             {
                 var tdesKey = tdesKeys.KeysAsBitStrings[keyIdx];
                 var xorResult = tdesKey.XOR(lastThreeCipherTexts[0]);
-                Assert.AreEqual(xorResult, resultKeys.KeysAsBitStrings[keyIdx]);
+                Assert.That(resultKeys.KeysAsBitStrings[keyIdx], Is.EqualTo(xorResult));
             }
         }
 
@@ -121,7 +121,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
 
             var tdesKey = tdesKeys.KeysAsBitStrings[1];
             var xorResult = tdesKey.XOR(lastThreeCipherTexts[1]);
-            Assert.AreEqual(xorResult, resultKeys.KeysAsBitStrings[1]);
+            Assert.That(resultKeys.KeysAsBitStrings[1], Is.EqualTo(xorResult));
 
         }
 
@@ -140,7 +140,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_ECB.Tests
             {
                 var tdesKey = tdesKeys.KeysAsBitStrings[keyIdx];
                 var xorResult = tdesKey.XOR(lastThreeCipherTexts[keyIdx]);
-                Assert.AreEqual(xorResult, resultKeys.KeysAsBitStrings[keyIdx]);
+                Assert.That(resultKeys.KeysAsBitStrings[keyIdx], Is.EqualTo(xorResult));
             }
         }
 

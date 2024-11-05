@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCaseGeneratorNull();
             var result = await subject.GenerateAsync(new TestGroup(), false);
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

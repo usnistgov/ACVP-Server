@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap.Tests
         {
             var result = _subject.GetKeyWrapInstance(keyWrapType);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

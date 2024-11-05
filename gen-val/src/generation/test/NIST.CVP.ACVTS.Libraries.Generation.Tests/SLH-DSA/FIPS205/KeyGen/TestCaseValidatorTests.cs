@@ -18,7 +18,7 @@ public class TestCaseValidatorTests
         _subject = new TestCaseValidator(testCase);
         var result = await _subject.ValidateAsync(testCase);
         Assert.That(result != null);
-        Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
     }
 
     [Test]
@@ -34,9 +34,9 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(Core.Enums.Disposition.Failed == result.Result);
-        
-        Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PublicKey)} was not present in the {nameof(TestCase)}"));
-        Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PrivateKey)} was not present in the {nameof(TestCase)}"));
+
+        Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PublicKey)} was not present in the {nameof(TestCase)}"), Is.True);
+        Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PrivateKey)} was not present in the {nameof(TestCase)}"), Is.True);
     }
 
     [Test]
@@ -55,8 +55,8 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(Core.Enums.Disposition.Failed == result.Result);
-        Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PublicKey)} does not match"));
-        Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PrivateKey)} does not match"));
+        Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PublicKey)} does not match"), Is.True);
+        Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PrivateKey)} does not match"), Is.True);
     }
 
     private TestCase GetTestCase()

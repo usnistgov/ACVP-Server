@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC
 
             var result = _subject.GetCaseGenerator(tg);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
     }
 }

@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
 
             await typedGen.GenerateAsync(testGroup, isSample);
 
-            Assert.AreEqual(isSample, typedGen.IsSample);
+            Assert.That(typedGen.IsSample, Is.EqualTo(isSample));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     TestType = ""
                 }
             );
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
 
         private TestCaseGeneratorFactory GetSubject()

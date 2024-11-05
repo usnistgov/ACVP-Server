@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 }
             };
 
-            Assert.AreEqual(expectedArray, _working3DArray);
+            Assert.That(_working3DArray, Is.EqualTo(expectedArray));
         }
 
         [Test]
@@ -47,28 +47,28 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var subject = new Array3D(_working3DArray);
 
-            Assert.AreEqual(_working3DArray, subject.Array);
+            Assert.That(subject.Array, Is.EqualTo(_working3DArray));
         }
 
         [Test]
         public void ShouldHaveProperDimension1Size()
         {
             var subject = new Array3D(1, 2, 3);
-            Assert.AreEqual(1, subject.Dimension1Size);
+            Assert.That(subject.Dimension1Size, Is.EqualTo(1));
         }
 
         [Test]
         public void ShouldHaveProperDimension2Size()
         {
             var subject = new Array3D(1, 2, 3);
-            Assert.AreEqual(2, subject.Dimension2Size);
+            Assert.That(subject.Dimension2Size, Is.EqualTo(2));
         }
 
         [Test]
         public void ShouldHaveProperDimension3Size()
         {
             var subject = new Array3D(1, 2, 3);
-            Assert.AreEqual(3, subject.Dimension3Size);
+            Assert.That(subject.Dimension3Size, Is.EqualTo(3));
         }
 
         [Test]
@@ -104,14 +104,14 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 { 21, 22, 23, 24 }
             });
 
-            Assert.AreEqual(expectedResults.Array, subArray.Array);
+            Assert.That(subArray.Array, Is.EqualTo(expectedResults.Array));
         }
 
         [Test]
         public void ShouldReturnNullOnExceptionStaticSubArray()
         {
             var result = Array3D.GetSubArray(_working3DArray, -1);
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 { 21, 22, 23, 24 }
             });
 
-            Assert.AreEqual(expectedResults.Array, subArray);
+            Assert.That(subArray, Is.EqualTo(expectedResults.Array));
         }
     }
 }

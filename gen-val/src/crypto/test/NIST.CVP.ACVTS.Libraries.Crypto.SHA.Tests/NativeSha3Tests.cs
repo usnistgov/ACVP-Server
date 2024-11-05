@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var result = RunHash(x => sha.HashMessage(x), messageBs);
             stopWatch.Stop();
 
-            Assert.AreEqual(expectedDigest.ToLower(), result.Digest.ToHex().ToLower(), "New");
+            Assert.That(result.Digest.ToHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()), "New");
             Console.WriteLine(
                 $"New: {stopWatch.Elapsed.Minutes:D2}:{stopWatch.Elapsed.Seconds:D2}:{stopWatch.Elapsed.Milliseconds:D3}");
         }
@@ -146,7 +146,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var result = RunHash(x => sha.HashMessage(x), messageBs);
             stopWatch.Stop();
 
-            Assert.AreEqual(expectedDigest.ToLower(), result.Digest.ToHex().ToLower(), "New");
+            Assert.That(result.Digest.ToHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()), "New");
             Console.WriteLine(
                 $"New: {stopWatch.Elapsed.Minutes:D2}:{stopWatch.Elapsed.Seconds:D2}:{stopWatch.Elapsed.Milliseconds:D3}");
         }
@@ -183,7 +183,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             Assert.That(result.Success);
 
             //Console.WriteLine(result.Digest.ToHex());
-            Assert.AreEqual(expectedResult.ToHex(), result.Digest.ToHex());
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -205,7 +205,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[32];
             sha.Final(buffer, 256);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[32];
             sha.Final(buffer, 256);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
     }
 }

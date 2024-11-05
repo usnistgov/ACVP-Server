@@ -68,12 +68,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.IKEv2.IntegrationTests
                             testGroup.DerivedKeyingMaterialLength
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.SKeySeed.ToHex(), result.SKeySeed.ToHex(), $"Failed on SKeySeed {testCase.SKeySeed.ToHex()}, got {result.SKeySeed.ToHex()}");
-                        Assert.AreEqual(testCase.DerivedKeyingMaterial.ToHex(), result.DKM.ToHex(), $"Failed on DerivedKeyingMaterial {testCase.DerivedKeyingMaterial.ToHex()}, got {result.DKM.ToHex()}");
-                        Assert.AreEqual(testCase.DerivedKeyingMaterialChild.ToHex(), result.DKMChildSA.ToHex(), $"Failed on DerivedKeyingMaterialChild {testCase.DerivedKeyingMaterialChild.ToHex()}, got {result.DKMChildSA.ToHex()}");
-                        Assert.AreEqual(testCase.DerivedKeyingMaterialDh.ToHex(), result.DKMChildSADh.ToHex(), $"Failed on DerivedKeyingMaterialDh {testCase.DerivedKeyingMaterialDh.ToHex()}, got {result.DKMChildSADh.ToHex()}");
-                        Assert.AreEqual(testCase.SKeySeedReKey.ToHex(), result.SKeySeedReKey.ToHex(), $"Failed on SKeySeedReKey {testCase.SKeySeedReKey.ToHex()}, got {result.SKeySeedReKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.SKeySeed.ToHex(), Is.EqualTo(testCase.SKeySeed.ToHex()), $"Failed on SKeySeed {testCase.SKeySeed.ToHex()}, got {result.SKeySeed.ToHex()}");
+                        Assert.That(result.DKM.ToHex(), Is.EqualTo(testCase.DerivedKeyingMaterial.ToHex()), $"Failed on DerivedKeyingMaterial {testCase.DerivedKeyingMaterial.ToHex()}, got {result.DKM.ToHex()}");
+                        Assert.That(result.DKMChildSA.ToHex(), Is.EqualTo(testCase.DerivedKeyingMaterialChild.ToHex()), $"Failed on DerivedKeyingMaterialChild {testCase.DerivedKeyingMaterialChild.ToHex()}, got {result.DKMChildSA.ToHex()}");
+                        Assert.That(result.DKMChildSADh.ToHex(), Is.EqualTo(testCase.DerivedKeyingMaterialDh.ToHex()), $"Failed on DerivedKeyingMaterialDh {testCase.DerivedKeyingMaterialDh.ToHex()}, got {result.DKMChildSADh.ToHex()}");
+                        Assert.That(result.SKeySeedReKey.ToHex(), Is.EqualTo(testCase.SKeySeedReKey.ToHex()), $"Failed on SKeySeedReKey {testCase.SKeySeedReKey.ToHex()}, got {result.SKeySeedReKey.ToHex()}");
                     }
                 }
             }

@@ -41,10 +41,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstCipherText = result.Response[0].CipherText.ToHex();
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText.ToHex();
 
-            Assert.AreEqual(firstExpectedCipherText.ToHex(), firstCipherText, nameof(firstCipherText));
-            Assert.AreEqual(lastExpectedCipherText.ToHex(), lastCipherText, nameof(lastCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText.ToHex()), nameof(firstCipherText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText.ToHex()), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -68,10 +68,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstCipherText = result.Response[0].CipherText.ToHex();
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText.ToHex();
 
-            Assert.AreEqual(firstExpectedCipherText.ToHex(), firstCipherText, nameof(firstCipherText));
-            Assert.AreEqual(lastExpectedCipherText.ToHex(), lastCipherText, nameof(lastCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText.ToHex()), nameof(firstCipherText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText.ToHex()), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -95,10 +95,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstCipherText = result.Response[0].CipherText.ToHex();
             var lastCipherText = result.Response[result.Response.Count - 1].CipherText.ToHex();
 
-            Assert.AreEqual(firstExpectedCipherText.ToHex(), firstCipherText, nameof(firstCipherText));
-            Assert.AreEqual(lastExpectedCipherText.ToHex(), lastCipherText, nameof(lastCipherText));
+            Assert.That(firstCipherText, Is.EqualTo(firstExpectedCipherText.ToHex()), nameof(firstCipherText));
+            Assert.That(lastCipherText, Is.EqualTo(lastExpectedCipherText.ToHex()), nameof(lastCipherText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
         #endregion Encrypt
 
@@ -124,10 +124,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstPlaintText = result.Response[0].PlainText.ToHex();
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText.ToHex();
 
-            Assert.AreEqual(firstExpectedPlainText.ToHex(), firstPlaintText, nameof(firstExpectedPlainText));
-            Assert.AreEqual(lastExpectedPlainText.ToHex(), lastPlainText, nameof(lastPlainText));
+            Assert.That(firstPlaintText, Is.EqualTo(firstExpectedPlainText.ToHex()), nameof(firstExpectedPlainText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText.ToHex()), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -151,10 +151,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstPlaintText = result.Response[0].PlainText.ToHex();
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText.ToHex();
 
-            Assert.AreEqual(firstExpectedPlainText.ToHex(), firstPlaintText, nameof(firstExpectedPlainText));
-            Assert.AreEqual(lastExpectedPlainText.ToHex(), lastPlainText, nameof(lastPlainText));
+            Assert.That(firstPlaintText, Is.EqualTo(firstExpectedPlainText.ToHex()), nameof(firstExpectedPlainText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText.ToHex()), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -178,10 +178,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             var firstPlaintText = result.Response[0].PlainText.ToHex();
             var lastPlainText = result.Response[result.Response.Count - 1].PlainText.ToHex();
 
-            Assert.AreEqual(firstExpectedPlainText.ToHex(), firstPlaintText, nameof(firstExpectedPlainText));
-            Assert.AreEqual(lastExpectedPlainText.ToHex(), lastPlainText, nameof(lastPlainText));
+            Assert.That(firstPlaintText, Is.EqualTo(firstExpectedPlainText.ToHex()), nameof(firstExpectedPlainText));
+            Assert.That(lastPlainText, Is.EqualTo(lastExpectedPlainText.ToHex()), nameof(lastPlainText));
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
         #endregion Decrypt
     }

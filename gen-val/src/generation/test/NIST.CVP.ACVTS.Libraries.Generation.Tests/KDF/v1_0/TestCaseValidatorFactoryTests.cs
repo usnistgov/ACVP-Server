@@ -36,8 +36,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
 
             var result = _subject.GetValidators(testVectorSet);
 
-            Assert.AreEqual(1, result.Count());
-            Assert.IsInstanceOf(typeof(TestCaseValidator), result.First());
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.First(), Is.InstanceOf(typeof(TestCaseValidator)));
         }
     }
 }

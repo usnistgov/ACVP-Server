@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2
 
             var subject = new TestCaseValidator(testCase);
             var result = await subject.ValidateAsync(GetTestCase(caseNum));
-        
-            Assert.AreEqual(Disposition.Passed, result.Result);
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -41,9 +41,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2
             failureCase.PlainText = null;
             
             var result = await subject.ValidateAsync(failureCase);
-        
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("was not present in the"), $"IUT Plaintext is null.");
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("was not present in the"), Is.True, $"IUT Plaintext is null.");
         }
         [Test]
         [TestCase(1)]
@@ -56,9 +56,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2
             failureCase.PlainText = new BitString("0000");
             
             var result = await subject.ValidateAsync(failureCase);
-        
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("PlainText does not match expected value"), $"PlainText does not match expected value");
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("PlainText does not match expected value"), Is.True, $"PlainText does not match expected value");
         }
 
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, RsaDecryptionPrimitiveResult>> GetResolverMock(RsaDecryptionPrimitiveResult resultToFake)

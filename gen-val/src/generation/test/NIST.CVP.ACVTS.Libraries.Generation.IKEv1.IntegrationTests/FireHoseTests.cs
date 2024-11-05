@@ -65,11 +65,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.IKEv1.IntegrationTests
                             testCase.PreSharedKey
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.SKeyId.ToHex(), result.SKeyId.ToHex(), $"Failed on SKeyId {testCase.SKeyId.ToHex()}, got {result.SKeyId.ToHex()}");
-                        Assert.AreEqual(testCase.SKeyIdA.ToHex(), result.SKeyIdA.ToHex(), $"Failed on SKeyIdA {testCase.SKeyIdA.ToHex()}, got {result.SKeyIdA.ToHex()}");
-                        Assert.AreEqual(testCase.SKeyIdD.ToHex(), result.SKeyIdD.ToHex(), $"Failed on SKeyIdD {testCase.SKeyIdD.ToHex()}, got {result.SKeyIdD.ToHex()}");
-                        Assert.AreEqual(testCase.SKeyIdE.ToHex(), result.SKeyIdE.ToHex(), $"Failed on SKeyIdE {testCase.SKeyIdE.ToHex()}, got {result.SKeyIdE.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.SKeyId.ToHex(), Is.EqualTo(testCase.SKeyId.ToHex()), $"Failed on SKeyId {testCase.SKeyId.ToHex()}, got {result.SKeyId.ToHex()}");
+                        Assert.That(result.SKeyIdA.ToHex(), Is.EqualTo(testCase.SKeyIdA.ToHex()), $"Failed on SKeyIdA {testCase.SKeyIdA.ToHex()}, got {result.SKeyIdA.ToHex()}");
+                        Assert.That(result.SKeyIdD.ToHex(), Is.EqualTo(testCase.SKeyIdD.ToHex()), $"Failed on SKeyIdD {testCase.SKeyIdD.ToHex()}, got {result.SKeyIdD.ToHex()}");
+                        Assert.That(result.SKeyIdE.ToHex(), Is.EqualTo(testCase.SKeyIdE.ToHex()), $"Failed on SKeyIdE {testCase.SKeyIdE.ToHex()}, got {result.SKeyIdE.ToHex()}");
                     }
                 }
             }

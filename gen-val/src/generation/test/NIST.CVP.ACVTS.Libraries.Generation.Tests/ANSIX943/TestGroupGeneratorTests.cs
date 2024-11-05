@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
         {
             var subject = new TestGroupGenerator();
             var results = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroupsCreated, results.Count());
+            Assert.That(results.Count(), Is.EqualTo(expectedGroupsCreated));
         }
     }
 }

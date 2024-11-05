@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Digest.ToHex());
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var result = subject.HashMessage(hashFunction, message, blockSize, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         private HashFunction GetParallelHashHashFunction(int digestLength, int capacity, bool xof)

@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             Assert.That(result.Success);
 
             var resultDigest = result.Response[result.Response.Count - 1].Digest;
-            Assert.AreEqual(digestBitString.ToHex(), resultDigest.ToHex());
+            Assert.That(resultDigest.ToHex(), Is.EqualTo(digestBitString.ToHex()));
         }
 
         [Test]
@@ -51,12 +51,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             domain.AddSegment(new RangeDomainSegment(null, 16, 65536));
             var result = subject.MctHash(messageBitString, true, domain);
 
-            Assert.IsNotNull(result, "null check");
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result, Is.Not.Null, "null check");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
 
             var resultDigest = result.Response[result.Response.Count - 1].Digest;
-            Assert.AreEqual(digestBitString.BitLength, resultDigest.BitLength);
-            Assert.AreEqual(digestBitString.ToLittleEndianHex(), resultDigest.ToHex());
+            Assert.That(resultDigest.BitLength, Is.EqualTo(digestBitString.BitLength));
+            Assert.That(resultDigest.ToHex(), Is.EqualTo(digestBitString.ToLittleEndianHex()));
         }
         
         [Test]
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             Assert.That(result.Success);
 
             var resultDigest = result.Response[result.Response.Count - 1].Digest.ToHex();
-            Assert.AreEqual(new BitString(digest).ToHex(), resultDigest);
+            Assert.That(resultDigest, Is.EqualTo(new BitString(digest).ToHex()));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.KeyLength);
+            Assert.That(result, Is.True);
+            Assert.That(subject.KeyLength, Is.EqualTo(13));
         }
 
         [Test]
@@ -46,8 +46,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.PayloadLen);
+            Assert.That(result, Is.True);
+            Assert.That(subject.PayloadLen, Is.EqualTo(13));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
 
             var result = tg.UseInverseCipher;
 
-            Assert.AreEqual(expectationUseInverseCipher, result);
+            Assert.That(result, Is.EqualTo(expectationUseInverseCipher));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         static object[] directionTestCases = new object[]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] failKeyingOptionTestCases = new object[]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] successKeyingOptionTestCases = new object[]
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
                     .Build()
             );
 
-            Assert.IsTrue(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.True, testCaseLabel);
         }
 
         private class ParameterBuilder

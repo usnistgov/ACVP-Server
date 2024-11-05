@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -29,8 +29,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Message.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Message.ToHex(), Is.EqualTo("00AA"));
         }
 
         // Note: These hex strings are little endian
@@ -43,8 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var expectedResult = new BitString(hex, length, false);
             var subject = new TestCase();
             var result = subject.SetString("msg", hex, length);
-            Assert.IsTrue(result);
-            Assert.AreEqual(expectedResult, subject.Message);
+            Assert.That(result, Is.True);
+            Assert.That(subject.Message, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -57,8 +57,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Digest.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Digest.ToHex(), Is.EqualTo("00AA"));
         }
 
         // Note: These hex strings are little endian
@@ -71,8 +71,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var expectedResult = new BitString(hex, length, false);
             var subject = new TestCase();
             var result = subject.SetString("md", hex, length);
-            Assert.IsTrue(result);
-            Assert.AreEqual(expectedResult, subject.Digest);
+            Assert.That(result, Is.True);
+            Assert.That(subject.Digest, Is.EqualTo(expectedResult));
         }
     }
 }

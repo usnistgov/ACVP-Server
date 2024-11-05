@@ -22,9 +22,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CTR.Tests
             var secondResult = subject.GetNextIV();
             var thirdResult = subject.GetNextIV();
 
-            Assert.AreEqual(initialValue, firstResult);
-            Assert.AreEqual(BitString.Zeroes(128), secondResult);
-            Assert.AreEqual(BitString.ConcatenateBits(BitString.Zeroes(127), BitString.One()), thirdResult);
+            Assert.That(firstResult, Is.EqualTo(initialValue));
+            Assert.That(secondResult, Is.EqualTo(BitString.Zeroes(128)));
+            Assert.That(thirdResult, Is.EqualTo(BitString.ConcatenateBits(BitString.Zeroes(127), BitString.One())));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CTR.Tests
             for (var i = 0; i < 1000; i++)
             {
                 var curResult = subject.GetNextIV().ToPositiveBigInteger();
-                Assert.AreEqual(prevResult + 1, curResult);
+                Assert.That(curResult, Is.EqualTo(prevResult + 1));
 
                 prevResult = curResult;
             }
@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CTR.Tests
 
             for (var i = 0; i < 1000; i++)
             {
-                Assert.AreEqual(128, subject.GetNextIV().BitLength);
+                Assert.That(subject.GetNextIV().BitLength, Is.EqualTo(128));
             }
         }
     }

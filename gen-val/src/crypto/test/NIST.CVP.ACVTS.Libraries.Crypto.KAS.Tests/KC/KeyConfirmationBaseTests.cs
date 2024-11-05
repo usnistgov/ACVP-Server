@@ -406,7 +406,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KC
             _subject = new FakeKeyConfirmationBase(new KeyConfirmationMacDataCreator(), p);
             var result = _subject.GetMacData();
 
-            Assert.AreEqual(expectedMacData.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedMacData.ToHex()));
         }
     }
 }

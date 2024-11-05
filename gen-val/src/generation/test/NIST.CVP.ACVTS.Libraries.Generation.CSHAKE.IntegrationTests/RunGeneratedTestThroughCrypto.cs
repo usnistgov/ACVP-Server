@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests
                 resultFromOracle.CustomizationHex,
                 functionName);
 
-            Assert.AreEqual(resultFromOracle.Digest.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(resultFromOracle.Digest.ToHex()));
         }
 
         [Test]
@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.cSHAKE.IntegrationTests
                 resultFromOracle.Customization,
                 functionName);
 
-            Assert.AreEqual(resultFromOracle.Digest.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(resultFromOracle.Digest.ToHex()));
         }
     }
 }

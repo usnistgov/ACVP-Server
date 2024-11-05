@@ -38,8 +38,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Hash_DF.Tests
 
             var result = subject.DerivationFunction(input, hashFunction.OutputLen);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedOutput.ToHex(), result.Bits.ToHex());
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Bits.ToHex(), Is.EqualTo(expectedOutput.ToHex()));
         }
     }
 }

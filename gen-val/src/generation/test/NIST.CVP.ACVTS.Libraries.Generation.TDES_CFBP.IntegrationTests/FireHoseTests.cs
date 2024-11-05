@@ -105,13 +105,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
 
                             var result = mct.ProcessMonteCarloTest(param);
 
-                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
+                            Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV.ToHex(), result.Response[i].IV.ToHex(), $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
+                                Assert.That(result.Response[i].IV.ToHex(), Is.EqualTo(testCase.ResultsArray[i].IV.ToHex()), $"IV mismatch on index {i}");
+                                Assert.That(result.Response[i].Keys.ToHex(), Is.EqualTo(testCase.ResultsArray[i].Keys.ToHex()), $"Key mismatch on index {i}");
+                                Assert.That(result.Response[i].PlainText.ToHex(), Is.EqualTo(testCase.ResultsArray[i].PlainText.ToHex()), $"PlainText mismatch on index {i}");
+                                Assert.That(result.Response[i].CipherText.ToHex(), Is.EqualTo(testCase.ResultsArray[i].CipherText.ToHex()), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -126,14 +126,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
 
                             var result = mct.ProcessMonteCarloTest(param);
 
-                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
-                            Assert.IsTrue(testCase.ResultsArray.Count == result.Response.Count, "Result and response arrays must be of the same size.");
+                            Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT decrypt count should be gt 0");
+                            Assert.That(testCase.ResultsArray.Count == result.Response.Count, Is.True, "Result and response arrays must be of the same size.");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV.ToHex(), result.Response[i].IV.ToHex(), $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Keys.ToHex(), result.Response[i].Keys.ToHex(), $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText.ToHex(), result.Response[i].PlainText.ToHex(), $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText.ToHex(), result.Response[i].CipherText.ToHex(), $"CipherText mismatch on index {i}");
+                                Assert.That(result.Response[i].IV.ToHex(), Is.EqualTo(testCase.ResultsArray[i].IV.ToHex()), $"IV mismatch on index {i}");
+                                Assert.That(result.Response[i].Keys.ToHex(), Is.EqualTo(testCase.ResultsArray[i].Keys.ToHex()), $"Key mismatch on index {i}");
+                                Assert.That(result.Response[i].PlainText.ToHex(), Is.EqualTo(testCase.ResultsArray[i].PlainText.ToHex()), $"PlainText mismatch on index {i}");
+                                Assert.That(result.Response[i].CipherText.ToHex(), Is.EqualTo(testCase.ResultsArray[i].CipherText.ToHex()), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -170,7 +170,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {ct}, got { result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()), $"Failed on count {count} expected CT {ct}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -193,7 +193,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.CipherText.ToHex()), $"Failed on count {count} expected CT {testCase.CipherText}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -224,7 +224,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {ct}, got { result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()), $"Failed on count {count} expected CT {ct}, got { result.Result}");
                                 continue;
                             }
                             else
@@ -260,7 +260,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {pt}, got { result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()), $"Failed on count {count} expected PT {pt}, got { result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "multiblockmessage")
@@ -283,7 +283,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.PlainText.ToHex()), $"Failed on count {count} expected CT {testCase.PlainText}, got {result.Result}");
                                 continue;
                             }
                             else if (testGroup.TestType.ToLower() == "permutation" ||
@@ -314,7 +314,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                                     fails++;
                                 }
 
-                                Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {pt}, got { result.Result}");
+                                Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()), $"Failed on count {count} expected PT {pt}, got { result.Result}");
                                 continue;
                             }
                             else
@@ -328,8 +328,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CFBP.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(mctTestHit, "No MCT tests were run");
-            Assert.IsTrue(nonMctTestHit, "No normal (non MCT) tests were run");
+            Assert.That(mctTestHit, Is.True, "No MCT tests were run");
+            Assert.That(nonMctTestHit, Is.True, "No normal (non MCT) tests were run");
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
         }
     }

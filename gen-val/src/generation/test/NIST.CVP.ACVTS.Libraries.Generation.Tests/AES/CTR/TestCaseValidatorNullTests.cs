@@ -16,8 +16,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorNull(testCase);
             var result = await subject.ValidateAsync(new TestCase());
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.AreEqual("Test type was not found", result.Reason);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason, Is.EqualTo("Test type was not found"));
         }
     }
 }

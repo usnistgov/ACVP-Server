@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
                 hexes.Add(new BitString(item).ToHex());
             }
 
-            Assert.IsTrue(hexes.Distinct().Count() == hexes.Count);
+            Assert.That(hexes.Distinct().Count() == hexes.Count, Is.True);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var signature = _subject.Sign(key.PrivateKey, _randomizerC, message);
             var verify = _subject.Verify(key.PublicKey, signature, message);
 
-            Assert.IsTrue(verify);
+            Assert.That(verify, Is.True);
         }
     }
 }

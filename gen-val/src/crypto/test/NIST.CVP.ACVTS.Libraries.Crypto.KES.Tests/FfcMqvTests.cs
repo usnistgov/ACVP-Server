@@ -145,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
             );
 
             Assert.That(result.Success, $"{nameof(result)} should have been successful");
-            Assert.AreEqual(expectedSharedZ, result.SharedSecretZ.ToPositiveBigInteger(), nameof(expectedSharedZ));
+            Assert.That(result.SharedSecretZ.ToPositiveBigInteger(), Is.EqualTo(expectedSharedZ), nameof(expectedSharedZ));
         }
     }
 }

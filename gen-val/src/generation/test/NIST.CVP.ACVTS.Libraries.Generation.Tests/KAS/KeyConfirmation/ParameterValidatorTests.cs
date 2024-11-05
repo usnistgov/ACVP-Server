@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
         [Test]
         public void ShouldSucceedWithBuilderDefaults()
         {
-            Assert.IsTrue(_subject.Validate(new ParameterBuilder().Build()).Success);
+            Assert.That(_subject.Validate(new ParameterBuilder().Build()).Success, Is.True);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                 .WithKeyAgreementRole(roles)
                 .Build();
 
-            Assert.IsTrue(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.True);
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                 .WithKeyAgreementRole(roles)
                 .Build();
 
-            Assert.IsFalse(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.False);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                         .Build())
                 .Build();
 
-            Assert.IsTrue(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.True);
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                         .Build())
                 .Build();
 
-            Assert.IsFalse(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.False);
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                         .Build())
                 .Build();
 
-            Assert.IsTrue(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.True);
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                         .Build())
                 .Build();
 
-            Assert.IsFalse(_subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.False);
         }
 
         private static IEnumerable<object> _testMacMethods = new List<object>()
@@ -380,7 +380,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
                 .WithKeyConfirmationMethod(new KeyConfirmationMethodBuilder().WithMacMethods(macMethods).Build())
                 .Build();
 
-            Assert.AreEqual(expectedPass, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(expectedPass));
         }
     }
 }

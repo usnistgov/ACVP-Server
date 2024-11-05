@@ -113,7 +113,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(typeof(IScheme<
+            Assert.That(result, Is.InstanceOf(typeof(IScheme<
                 ISchemeParameters<KasDsaAlgoAttributesFfc>,
                 KasDsaAlgoAttributesFfc,
                 OtherPartySharedInformation<
@@ -122,7 +122,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 >,
                 FfcDomainParameters,
                 FfcKeyPair
-            >), result);
+            >)));
         }
 
         [Test]
@@ -144,9 +144,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 );
             var result = scheme.ReturnPublicInfoThisParty();
 
-            Assert.AreEqual(_mockDomainParameters.P, result.DomainParameters.P, nameof(_mockDomainParameters.P));
-            Assert.AreEqual(_mockDomainParameters.Q, result.DomainParameters.Q, nameof(_mockDomainParameters.Q));
-            Assert.AreEqual(_mockDomainParameters.G, result.DomainParameters.G, nameof(_mockDomainParameters.G));
+            Assert.That(result.DomainParameters.P, Is.EqualTo(_mockDomainParameters.P), nameof(_mockDomainParameters.P));
+            Assert.That(result.DomainParameters.Q, Is.EqualTo(_mockDomainParameters.Q), nameof(_mockDomainParameters.Q));
+            Assert.That(result.DomainParameters.G, Is.EqualTo(_mockDomainParameters.G), nameof(_mockDomainParameters.G));
         }
 
         [Test]
@@ -187,9 +187,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 );
             var result = scheme.ReturnPublicInfoThisParty();
 
-            Assert.AreEqual(newDomainParameters.P, result.DomainParameters.P, nameof(newDomainParameters.P));
-            Assert.AreEqual(newDomainParameters.Q, result.DomainParameters.Q, nameof(newDomainParameters.Q));
-            Assert.AreEqual(newDomainParameters.G, result.DomainParameters.G, nameof(newDomainParameters.G));
+            Assert.That(result.DomainParameters.P, Is.EqualTo(newDomainParameters.P), nameof(newDomainParameters.P));
+            Assert.That(result.DomainParameters.Q, Is.EqualTo(newDomainParameters.Q), nameof(newDomainParameters.Q));
+            Assert.That(result.DomainParameters.G, Is.EqualTo(newDomainParameters.G), nameof(newDomainParameters.G));
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
     }
 }

@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943.ContractResolvers
         {
             var result = _subject.GetContractResolver(projection);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

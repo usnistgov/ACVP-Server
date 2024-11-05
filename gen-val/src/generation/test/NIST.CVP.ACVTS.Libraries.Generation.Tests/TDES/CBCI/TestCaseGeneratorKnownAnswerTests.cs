@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
 
             var subject = new TestCaseGeneratorKat(testType);
             var result = await subject.GenerateAsync(testGroup, false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
     }
 }

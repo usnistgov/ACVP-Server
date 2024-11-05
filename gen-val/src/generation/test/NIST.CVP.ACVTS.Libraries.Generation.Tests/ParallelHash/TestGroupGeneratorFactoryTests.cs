@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 2);
+            Assert.That(result.Count() == 2, Is.True);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(expected, groups.Count);       // 2 * 2 * 2    (digestsizes * XOF * TestGroups)
+            Assert.That(groups.Count, Is.EqualTo(expected));       // 2 * 2 * 2    (digestsizes * XOF * TestGroups)
         }
     }
 }

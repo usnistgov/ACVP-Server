@@ -15,8 +15,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                     .Build()
             );
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         public class ParameterBuilder

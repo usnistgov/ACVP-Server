@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedResultCount));
         }
 
         private MathDomain GetMathDomainFromArray(int[] values)

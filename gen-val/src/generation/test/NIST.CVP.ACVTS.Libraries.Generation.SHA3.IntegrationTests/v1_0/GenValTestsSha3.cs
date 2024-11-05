@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿/* SHA3 1.0 is deprecated. Commenting out this file to prevent these tests from running. */
+ 
+/*
+ using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -6,7 +9,7 @@ using NIST.CVP.ACVTS.Libraries.Math.Domain;
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
 {
     public class GenValTestsSha3 : GenValTestsSha3Base
-    {
+    {                             
         public override string Algorithm { get; } = "SHA3-224";
         public override string Mode { get; } = null;
 
@@ -28,7 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
 
             return CreateRegistration(targetFolder, parameters);
         }
-
+        
         protected override string GetTestFileLotsOfTestCases(string targetFolder)
         {   
             var domain = new MathDomain();
@@ -51,3 +54,4 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
         }
     }
 }
+*/

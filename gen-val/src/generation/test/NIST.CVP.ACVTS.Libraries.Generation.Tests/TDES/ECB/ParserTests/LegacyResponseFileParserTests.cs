@@ -215,8 +215,8 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         {
             var subject = new LegacyResponseFileParser();
             var result = subject.Parse(Path.Combine(_unitTestPath, $"{Guid.NewGuid()}.rsp"));
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -226,8 +226,8 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         {
             var subject = new LegacyResponseFileParser();
             var result = subject.Parse(path);
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -235,8 +235,8 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         {
             var subject = new LegacyResponseFileParser();
             var result = subject.Parse(_unitTestPath);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -246,7 +246,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var result = subject.Parse(_unitTestPath);
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(_groupsTotal, vectorSet.TestGroups.Count);
+            Assert.That(vectorSet.TestGroups.Count, Is.EqualTo(_groupsTotal));
         }
 
         [Test]
@@ -257,7 +257,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var casesWithPlainText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => t.PlainText != null));
-            Assert.IsNotEmpty(casesWithPlainText);
+            Assert.That(casesWithPlainText, Is.Not.Empty);
         }
 
         [Test]
@@ -268,7 +268,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var casesWithCipherText = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => t.CipherText != null));
-            Assert.IsNotEmpty(casesWithCipherText);
+            Assert.That(casesWithCipherText, Is.Not.Empty);
         }
 
         [Test]
@@ -276,8 +276,8 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
         {
             var subject = new LegacyResponseFileParser();
             var result = subject.Parse(_unitTestPath);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -289,7 +289,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var vectorSet = result.ParsedObject;
             Assert.That(vectorSet.TestGroups.Count() == _groupsTotal);
             var decryptCount = vectorSet.TestGroups.Count(g => g.Function.ToLower() == "decrypt");
-            Assert.AreEqual(4, decryptCount, decryptCount.ToString());
+            Assert.That(decryptCount, Is.EqualTo(4), decryptCount.ToString());
         }
 
         [Test]
@@ -301,7 +301,7 @@ PLAINTEXT = a3eba1a25aa7d632cd02b2ba760d3564fca21fcefb1f1d12235b353b03feae82f3dd
             var vectorSet = result.ParsedObject;
             Assert.That(vectorSet.TestGroups.Count() == _groupsTotal);
             var encryptCount = vectorSet.TestGroups.Count(g => g.Function.ToLower() == "encrypt");
-            Assert.AreEqual(4, encryptCount, encryptCount.ToString());
+            Assert.That(encryptCount, Is.EqualTo(4), encryptCount.ToString());
 
         }
     }

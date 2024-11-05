@@ -18,7 +18,7 @@ public class TestCaseValidatorTests
         _subject = new TestCaseValidator(testCase);
         var result = await _subject.ValidateAsync(testCase);
         Assert.That(result != null);
-        Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
     }
     
     [Test]
@@ -34,7 +34,7 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(result.Result == Core.Enums.Disposition.Failed);
-        Assert.IsTrue(result.Reason.Contains("Could not find signature"));
+        Assert.That(result.Reason.Contains("Could not find signature"), Is.True);
     }
     
     [Test]
@@ -51,7 +51,7 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(result.Result == Core.Enums.Disposition.Failed);
-        Assert.IsTrue(result.Reason.Contains("Incorrect signature"));
+        Assert.That(result.Reason.Contains("Incorrect signature"), Is.True);
     }
     
     private TestCase GetTestCase()

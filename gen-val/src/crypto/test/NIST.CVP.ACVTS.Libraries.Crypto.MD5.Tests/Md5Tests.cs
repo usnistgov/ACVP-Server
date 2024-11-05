@@ -23,8 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.MD5.Tests
 
             var result = subject.Hash(message);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedDigest.ToHex(), result.Digest.ToHex());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedDigest.ToHex()));
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.MD5.Tests
 
             var result = subject.Hash(message);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedDigest.ToHex(), result.Digest.ToHex());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedDigest.ToHex()));
         }
     }
 }

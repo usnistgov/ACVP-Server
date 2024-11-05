@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
             var result = paddingFactory.GetSigningPaddingScheme(sigScheme, new NativeShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160)), mods, PssMaskTypes.MGF1);
 
             Assert.That(result != null);
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
     }
 }

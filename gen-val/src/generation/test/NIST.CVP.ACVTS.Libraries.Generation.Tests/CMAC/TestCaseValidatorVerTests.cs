@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             _subject = new TestCaseValidatorVer(testCase);
             var result = await _subject.ValidateAsync(testCase);
             Assert.That((bool)(result != null));
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             suppliedResult.TestPassed = false;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That((bool)(result != null));
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             suppliedResult.TestPassed = null;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That((bool)(result != null));
-            Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
+            Assert.That(Core.Enums.Disposition.Failed == result.Result, Is.True);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             suppliedResult.TestPassed = false;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That((bool)(result != null));
-            Assert.IsTrue(Core.Enums.Disposition.Failed == result.Result);
+            Assert.That(Core.Enums.Disposition.Failed == result.Result, Is.True);
         }
 
         private TestCase GetTestCase()

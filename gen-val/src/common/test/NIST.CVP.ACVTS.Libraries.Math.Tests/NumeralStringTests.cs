@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             {
                 for (var i = 0; i < values.Length; i++)
                 {
-                    Assert.AreEqual(values[i], _subject.Numbers[i], $"{nameof(i)}: {i}");
+                    Assert.That(_subject.Numbers[i], Is.EqualTo(values[i]), $"{nameof(i)}: {i}");
                 }
             });
         }
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             {
                 for (var i = 0; i < expectedValues.Length; i++)
                 {
-                    Assert.AreEqual(expectedValues[i], _subject.Numbers[i], $"{nameof(i)}: {i}");
+                    Assert.That(_subject.Numbers[i], Is.EqualTo(expectedValues[i]), $"{nameof(i)}: {i}");
                 }
             });
         }
@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = NumeralString.ToBitString(_subject);
 
-            Assert.AreEqual(expectedHex, result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedHex));
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             for (var i = 0; i < expectedValues.Length; i++)
             {
-                Assert.AreEqual(expectedValues[i], result.Numbers[i], $"{nameof(i)}: {i}");
+                Assert.That(result.Numbers[i], Is.EqualTo(expectedValues[i]), $"{nameof(i)}: {i}");
             }
         }
 
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         [TestCase("01234567890", false)]
         public void ShouldDetermineIfAlphabetValid(string alphabet, bool expectedOutcome)
         {
-            Assert.AreEqual(expectedOutcome, NumeralString.IsAlphabetValid(alphabet));
+            Assert.That(NumeralString.IsAlphabetValid(alphabet), Is.EqualTo(expectedOutcome));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var numeralString = new NumeralString(numbers);
 
-            Assert.AreEqual(expectedOutcome, NumeralString.IsNumeralStringValidWithAlphabet(alphabet, numeralString));
+            Assert.That(NumeralString.IsNumeralStringValidWithAlphabet(alphabet, numeralString), Is.EqualTo(expectedOutcome));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         [TestCase("abcdefghijklmnopqrstuvwxyz", new[] { 7, 4, 11, 11, 14 }, "hello")]
         public void ShouldToAlphabetString(string alphabet, int[] numbers, string expectation)
         {
-            Assert.AreEqual(expectation, NumeralString.ToAlphabetString(alphabet, alphabet.Length, new NumeralString(numbers)));
+            Assert.That(NumeralString.ToAlphabetString(alphabet, alphabet.Length, new NumeralString(numbers)), Is.EqualTo(expectation));
         }
 
         [Test]
@@ -148,7 +148,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         [TestCase("aaCC", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "0 0 28 28")]
         public void ShouldToNumeralStringFromWord(string word, string alphabet, string expectedBaseToNumbersSeparatedBySpace)
         {
-            Assert.AreEqual(expectedBaseToNumbersSeparatedBySpace, NumeralString.ToNumeralString(word, alphabet).ToString());
+            Assert.That(NumeralString.ToNumeralString(word, alphabet).ToString(), Is.EqualTo(expectedBaseToNumbersSeparatedBySpace));
         }
     }
 }

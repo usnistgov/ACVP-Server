@@ -51,9 +51,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Entropy
             var second = _subject.GetEntropy(2);
             var third = _subject.GetEntropy(3);
 
-            Assert.AreEqual(1, first.BitLength, nameof(first));
-            Assert.AreEqual(2, second.BitLength, nameof(second));
-            Assert.AreEqual(3, third.BitLength, nameof(third));
+            Assert.That(first.BitLength, Is.EqualTo(1), nameof(first));
+            Assert.That(second.BitLength, Is.EqualTo(2), nameof(second));
+            Assert.That(third.BitLength, Is.EqualTo(3), nameof(third));
         }
     }
 }

@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Mac);
+            Assert.That(result.Mac, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Mac);
+            Assert.That(result.Mac, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Mac);
+            Assert.That(result.Mac, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             var result = subject.Generate(new BitString(key, keyLen, true), message, customization, macLength);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Mac);
+            Assert.That(result.Mac, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             Console.WriteLine(expectedResult.ToHex());
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [TestCase("tcId 3 https://admin.demo.acvts.nist.gov/api/testSessions/vectorSet/342666/json/InternalProjection",
@@ -172,7 +172,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             Console.WriteLine(result.Mac.ToHex());
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -207,7 +207,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             Console.WriteLine(result.Mac.ToHex());
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KMAC.Tests
             Console.WriteLine(result.Mac.ToHex());
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
     }
 }

@@ -117,7 +117,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(typeof(IScheme<
+            Assert.That(result, Is.InstanceOf(typeof(IScheme<
                 ISchemeParameters<KasDsaAlgoAttributesEcc>,
                 KasDsaAlgoAttributesEcc,
                 OtherPartySharedInformation<
@@ -126,7 +126,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 >,
                 EccDomainParameters,
                 EccKeyPair
-            >), result);
+            >)));
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                     null
                 );
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
     }
 }

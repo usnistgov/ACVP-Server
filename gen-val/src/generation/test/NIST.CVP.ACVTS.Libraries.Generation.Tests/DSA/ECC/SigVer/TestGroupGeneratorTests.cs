@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
         {
             var subject = new TestGroupGenerator(false);
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

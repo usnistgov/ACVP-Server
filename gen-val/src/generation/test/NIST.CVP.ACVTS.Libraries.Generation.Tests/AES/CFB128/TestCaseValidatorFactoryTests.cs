@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB128
             var testVectorSet = GetTestGroup(direction, testType);
             var result = _subject.GetValidators(testVectorSet);
 
-            Assert.AreEqual(1, result.Count());
-            Assert.IsInstanceOf(expectedType, result.First());
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result.First(), Is.InstanceOf(expectedType));
         }
 
         private TestVectorSet GetTestGroup(string direction, string testType)

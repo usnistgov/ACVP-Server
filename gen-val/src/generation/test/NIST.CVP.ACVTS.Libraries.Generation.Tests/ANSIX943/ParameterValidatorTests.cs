@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         static object[] hashAlgTestCases =
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         #region GetInvalidSharedInfoLens
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         #region GetInvalidKeyDataLens
@@ -142,7 +142,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         static object[] fieldSizeTestCases =
@@ -162,7 +162,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
                     .Build()
                 );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

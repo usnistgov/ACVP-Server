@@ -190,9 +190,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = dsa.Sign(domainParams, keyPair, message);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedSignature, result.Signature.S, "Signature check");
-            Assert.AreEqual(expectedRandom, result.Signature.R, "R check");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Signature.S, Is.EqualTo(expectedSignature), "Signature check");
+            Assert.That(result.Signature.R, Is.EqualTo(expectedRandom), "R check");
         }
 
         [Test]
@@ -577,7 +577,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = dsa.Verify(domainParams, keyPair, message, signature);
 
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
 
         [Test]
@@ -615,10 +615,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             for (var i = 0; i < 100; i++)
             {
                 var keyPairResult = dsa.GenerateKeyPair(domainParams);
-                Assert.IsTrue(keyPairResult.Success, keyPairResult.ErrorMessage);
+                Assert.That(keyPairResult.Success, Is.True, keyPairResult.ErrorMessage);
 
                 var verifyResult = dsa.ValidateKeyPair(domainParams, keyPairResult.KeyPair);
-                Assert.IsTrue(verifyResult.Success, verifyResult.ErrorMessage);
+                Assert.That(verifyResult.Success, Is.True, verifyResult.ErrorMessage);
             }
         }
 
@@ -662,7 +662,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = dsa.Verify(domainParams, keyPair, message, signature);
 
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
 
         private ISha GetSha(string hash)

@@ -22,9 +22,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
         {
             _subject.KeyPair = new EccKeyPair(new EccPoint(0, 0), 0);
 
-            Assert.IsNull(_subject.D, nameof(_subject.D));
-            Assert.IsNull(_subject.Qx, nameof(_subject.Qx));
-            Assert.IsNull(_subject.Qy, nameof(_subject.Qy));
+            Assert.That(_subject.D, Is.Null, nameof(_subject.D));
+            Assert.That(_subject.Qx, Is.Null, nameof(_subject.Qx));
+            Assert.That(_subject.Qy, Is.Null, nameof(_subject.Qy));
         }
 
         [Test]
@@ -35,9 +35,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
             var qy = new BigInteger(3);
             _subject.KeyPair = new EccKeyPair(new EccPoint(qx, qy), d);
 
-            Assert.AreEqual(d, _subject.D.ToPositiveBigInteger(), nameof(_subject.D));
-            Assert.AreEqual(qx, _subject.Qx.ToPositiveBigInteger(), nameof(_subject.Qx));
-            Assert.AreEqual(qy, _subject.Qy.ToPositiveBigInteger(), nameof(_subject.Qy));
+            Assert.That(_subject.D.ToPositiveBigInteger(), Is.EqualTo(d), nameof(_subject.D));
+            Assert.That(_subject.Qx.ToPositiveBigInteger(), Is.EqualTo(qx), nameof(_subject.Qx));
+            Assert.That(_subject.Qy.ToPositiveBigInteger(), Is.EqualTo(qy), nameof(_subject.Qy));
         }
     }
 }

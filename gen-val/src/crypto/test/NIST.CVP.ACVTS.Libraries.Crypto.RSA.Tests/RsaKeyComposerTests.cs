@@ -46,8 +46,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
             var subject = new RsaKeyComposer();
             var result = subject.ComposeKey(e, new PrimePair { P = p, Q = q });
 
-            Assert.AreEqual(expectedN, result.PubKey.N, "n");
-            Assert.AreEqual(expectedD, ((PrivateKey)result.PrivKey).D, "d");
+            Assert.That(result.PubKey.N, Is.EqualTo(expectedN), "n");
+            Assert.That(((PrivateKey)result.PrivKey).D, Is.EqualTo(expectedD), "d");
         }
     }
 }

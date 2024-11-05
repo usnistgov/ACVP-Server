@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Or
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Tests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Tests\NIST.CVP.ACVTS.Libraries.Generation.Tests.csproj", "{DC9AD1B5-AE9E-4A1B-BE02-73EAD9B64130}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests.csproj", "{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +257,18 @@ Global
 		{DC9AD1B5-AE9E-4A1B-BE02-73EAD9B64130}.Release|x64.Build.0 = Release|Any CPU
 		{DC9AD1B5-AE9E-4A1B-BE02-73EAD9B64130}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC9AD1B5-AE9E-4A1B-BE02-73EAD9B64130}.Release|x86.Build.0 = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|x64.Build.0 = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Debug|x86.Build.0 = Debug|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|x64.ActiveCfg = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|x64.Build.0 = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|x86.ActiveCfg = Release|Any CPU
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,6 +291,7 @@ Global
 		{56AA24AC-6FBA-4788-B128-C65D80CD9D50} = {1695A724-2423-4A36-AAEC-9325E16E1A99}
 		{560C109E-5510-498F-9CE7-B5104CC56F75} = {AA8892E3-894B-4538-95BE-C60BE8C61180}
 		{DC9AD1B5-AE9E-4A1B-BE02-73EAD9B64130} = {1695A724-2423-4A36-AAEC-9325E16E1A99}
+		{900EA2D5-4EE8-4329-AA5B-8AAC2523975F} = {1695A724-2423-4A36-AAEC-9325E16E1A99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3711ACC5-2501-4FEC-B32D-D1801FE33609}

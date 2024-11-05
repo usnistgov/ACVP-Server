@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual(new BitString("00AA"), subject.Seed);
+            Assert.That(result, Is.True);
+            Assert.That(subject.Seed, Is.EqualTo(new BitString("00AA")));
         }
     }
 }

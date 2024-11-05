@@ -52,8 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
 
             Console.WriteLine(new BitString(signature.Signature).ToHex());
-            Assert.AreEqual(signatureHex, new BitString(signature.Signature).ToHex());
-            Assert.IsTrue(verify.Success);
+            Assert.That(new BitString(signature.Signature).ToHex(), Is.EqualTo(signatureHex));
+            Assert.That(verify.Success, Is.True);
         }
         
         [Test]
@@ -76,8 +76,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
 
             Console.WriteLine(new BitString(signature.Signature).ToHex());
-            Assert.AreEqual(signatureHex, new BitString(signature.Signature).ToHex());
-            Assert.IsTrue(verify.Success);
+            Assert.That(new BitString(signature.Signature).ToHex(), Is.EqualTo(signatureHex));
+            Assert.That(verify.Success, Is.True);
         }
         
         // The trees here were likely generated using a 32-byte seed rather than a 24-byte seed
@@ -97,9 +97,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             var signature = _subject.Sign(lmsKeyPair.PrivateKey, _randomizerC, message);
             Console.WriteLine(new BitString(signature.Signature).ToHex());
             var verify = _subject.Verify(lmsKeyPair.PublicKey.Key, signature.Signature, message);
-            
-            Assert.AreEqual(expectedSignature, new BitString(signature.Signature).ToHex());
-            Assert.IsTrue(verify.Success);
+
+            Assert.That(new BitString(signature.Signature).ToHex(), Is.EqualTo(expectedSignature));
+            Assert.That(verify.Success, Is.True);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
                 new BitString(signature).ToBytes(),
                 new BitString(message).ToBytes());
 
-            Assert.True(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -148,20 +148,20 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
             {
                 var loopSignature = _subject.Sign(keyPair.PrivateKey, _randomizerC, message);
 
-                Assert.IsFalse(loopSignature.Exhausted);
+                Assert.That(loopSignature.Exhausted, Is.False);
             }
 
             var lastSignatureAttempt = _subject.Sign(keyPair.PrivateKey, _randomizerC, message);
 
             if (expectedValidSignature)
             {
-                Assert.IsFalse(lastSignatureAttempt.Exhausted);
-                Assert.IsNotNull(lastSignatureAttempt.Signature);
+                Assert.That(lastSignatureAttempt.Exhausted, Is.False);
+                Assert.That(lastSignatureAttempt.Signature, Is.Not.Null);
             }
             else
             {
-                Assert.IsTrue(lastSignatureAttempt.Exhausted);
-                Assert.IsNull(lastSignatureAttempt.Signature);
+                Assert.That(lastSignatureAttempt.Exhausted, Is.True);
+                Assert.That(lastSignatureAttempt.Signature, Is.Null);
             }
         }
 
@@ -186,8 +186,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native
                     file.WriteLine($"{i.ToString(format)}: {new BitString(node).ToHex()}");    
                 }
             }
-            
-            Assert.IsNotNull(keyPair.PublicKey.Key);
+
+            Assert.That(keyPair.PublicKey.Key, Is.Not.Null);
         }
     }
 }

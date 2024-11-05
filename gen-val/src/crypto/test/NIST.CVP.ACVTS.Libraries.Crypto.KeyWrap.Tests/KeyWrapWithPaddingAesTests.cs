@@ -111,7 +111,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap.Tests
             var subject = new KeyWrapWithPaddingAes(new BlockCipherEngineFactory(), new ModeBlockCipherFactory());
             var resultCiphertext = subject.Encrypt(key, plaintext, useInverseCipher);
 
-            Assert.IsTrue(resultCiphertext.Success, resultCiphertext.ErrorMessage);
+            Assert.That(resultCiphertext.Success, Is.True, resultCiphertext.ErrorMessage);
 
             // Mangle the actualC returned when it should not decrypt successfully
             if (!successfulAuthenticate)
@@ -124,12 +124,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap.Tests
 
             if (!successfulAuthenticate)
             {
-                Assert.IsFalse(decrypt.Success);
+                Assert.That(decrypt.Success, Is.False);
                 return;
             }
 
-            Assert.AreEqual(expectedCiphertext.ToHex(), resultCiphertext.Result.ToHex(), "encrypt compare");
-            Assert.AreEqual(plaintext.ToHex(), decrypt.Result.ToHex(), "decrypt compare");
+            Assert.That(resultCiphertext.Result.ToHex(), Is.EqualTo(expectedCiphertext.ToHex()), "encrypt compare");
+            Assert.That(decrypt.Result.ToHex(), Is.EqualTo(plaintext.ToHex()), "decrypt compare");
         }
     }
 }

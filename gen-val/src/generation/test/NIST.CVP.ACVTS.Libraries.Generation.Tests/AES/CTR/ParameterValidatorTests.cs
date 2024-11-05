@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -37,8 +37,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage.Count(c => c == ','), Is.EqualTo(errorsExpected));
         }
 
         static object[] _directionTestCases =
@@ -60,7 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
 
@@ -115,7 +115,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -158,7 +158,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

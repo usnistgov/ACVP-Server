@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             var seed = new byte[AttributesHelper.GetLmOtsAttribute(mode).N];
             var key = _subject.GetKeyPair(mode, new byte[16], new byte[4], seed);
 
-            Assert.IsNotNull(key.PublicKey.Key);
+            Assert.That(key.PublicKey.Key, Is.Not.Null);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
                 new BitString("00000005").ToBytes(),
                 new BitString("d9cc64934b53cbdb154b9a4fa0150048bc2fe82b0ec76125c198ec1bf718807b").ToBytes());
 
-            Assert.AreEqual(new BitString(expected).ToHex(), new BitString(key.PrivateKey.Key).ToHex());
+            Assert.That(new BitString(key.PrivateKey.Key).ToHex(), Is.EqualTo(new BitString(expected).ToHex()));
         }
 
         [Test]
@@ -98,7 +98,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             Console.WriteLine($"expected: {expectedHex}");
             Console.WriteLine($"actual: {actualHex}");
 
-            Assert.AreEqual(expectedHex, actualHex);
+            Assert.That(actualHex, Is.EqualTo(expectedHex));
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             Console.WriteLine($"buffer: {new BitString(buffer).ToHex()}");
             Console.WriteLine($"result: {result.Digest.ToHex()}");
 
-            Assert.AreEqual(new BitString(buffer).ToHex(), result.Digest.ToHex());
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(new BitString(buffer).ToHex()));
         }
     }
 }

@@ -72,8 +72,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
                             testCase.BreakLocation
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.KeyOut.ToHex(), result.DerivedKey.ToHex(), $"Failed on count {count} {testCase.KeyOut.ToHex()}, got {result.DerivedKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(testCase.KeyOut.ToHex()), $"Failed on count {count} {testCase.KeyOut.ToHex()}, got {result.DerivedKey.ToHex()}");
                     }
                 }
             }

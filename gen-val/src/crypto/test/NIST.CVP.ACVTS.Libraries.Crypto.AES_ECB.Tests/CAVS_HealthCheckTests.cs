@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
 
             var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
             var encryptOperation = _subject.ProcessPayload(param);
-            Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
+            Assert.That(encryptOperation.Success, Is.True, nameof(encryptOperation));
             var ct = encryptOperation.Result.ToBytes();
             if ((ct[0] != 0x03) || (ct[1] != 0x36) || (ct[2] != 0x76) || (ct[3] != 0x3e) ||
                 (ct[4] != 0x96) || (ct[5] != 0x6d) || (ct[6] != 0x92) || (ct[7] != 0x59) ||
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
-                Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");
+                Assert.That(pt[i], Is.EqualTo(plainText[i]), $"Failed on index {i}");
             }
 
             Assert.Pass();
@@ -92,7 +92,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
 
             var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
             var encryptOperation = _subject.ProcessPayload(param);
-            Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
+            Assert.That(encryptOperation.Success, Is.True, nameof(encryptOperation));
 
             var ct = encryptOperation.Result.ToBytes();
 
@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
-                Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");
+                Assert.That(pt[i], Is.EqualTo(plainText[i]), $"Failed on index {i}");
             }
 
             Assert.Pass();
@@ -143,7 +143,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
 
             var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, keyBits, plainTextBits);
             var encryptOperation = _subject.ProcessPayload(param);
-            Assert.IsTrue(encryptOperation.Success, nameof(encryptOperation));
+            Assert.That(encryptOperation.Success, Is.True, nameof(encryptOperation));
 
             var ct = encryptOperation.Result.ToBytes();
 
@@ -159,7 +159,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_ECB.Tests
             var pt = decryptOperation.Result.ToBytes();
             for (int i = 0; i < pt.Length; i++)
             {
-                Assert.AreEqual(plainText[i], pt[i], $"Failed on index {i}");
+                Assert.That(pt[i], Is.EqualTo(plainText[i]), $"Failed on index {i}");
             }
 
             Assert.Pass();

@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash.Tests
             var subject = new ParallelHashFactory();
             var result = subject.GetParallelHash(hashFunction);
 
-            Assert.IsInstanceOf<ParallelHashWrapper>(result);
+            Assert.That(result, Is.InstanceOf<ParallelHashWrapper>());
         }
 
         [Test]

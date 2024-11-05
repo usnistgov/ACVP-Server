@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
                 .WithPaddingScheme(paddingScheme)
                 .BuildVerify();
 
-            Assert.IsFalse(verify.Success);
+            Assert.That(verify.Success, Is.False);
         }
     }
 }

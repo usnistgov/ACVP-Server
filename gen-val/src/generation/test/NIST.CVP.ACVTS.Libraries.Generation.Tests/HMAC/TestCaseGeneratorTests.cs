@@ -30,8 +30,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
         {
             var result = await _subject.GenerateAsync(new TestGroup(), false);
 
-            Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
+            Assert.That(result, Is.Not.Null, $"{nameof(result)} should be null");
+            Assert.That(result, Is.InstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>)), $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -43,8 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
 
             var result = await _subject.GenerateAsync(new TestGroup(), false);
 
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+            Assert.That(result.TestCase, Is.Null, $"{nameof(result.TestCase)} should be null");
+            Assert.That(result.Success, Is.False, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
@@ -76,12 +76,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
 
             var result = await _subject.GenerateAsync(new TestGroup(), false);
 
-            Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
-            Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-            Assert.AreEqual(key, result.TestCase.Key, nameof(key));
-            Assert.AreEqual(message, result.TestCase.Message, nameof(message));
-            Assert.AreEqual(tag, result.TestCase.Mac, nameof(tag));
-            Assert.IsFalse(result.TestCase.Deferred, "Deferred");
+            Assert.That(result.Success, Is.True, $"{nameof(result)} should be successful");
+            Assert.That(result.TestCase, Is.InstanceOf(typeof(TestCase)), $"{nameof(result.TestCase)} type mismatch");
+            Assert.That(result.TestCase.Key, Is.EqualTo(key), nameof(key));
+            Assert.That(result.TestCase.Message, Is.EqualTo(message), nameof(message));
+            Assert.That(result.TestCase.Mac, Is.EqualTo(tag), nameof(tag));
+            Assert.That(result.TestCase.Deferred, Is.False, "Deferred");
         }
     }
 }

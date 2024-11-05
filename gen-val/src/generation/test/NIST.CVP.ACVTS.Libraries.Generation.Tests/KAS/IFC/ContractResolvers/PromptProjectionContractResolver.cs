@@ -49,17 +49,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.KeyConfirmationDirection, newTg.KeyConfirmationDirection, nameof(newTg.KeyConfirmationDirection));
-            Assert.AreEqual(tg.KeyConfirmationRole, newTg.KeyConfirmationRole, nameof(newTg.KeyConfirmationRole));
-            Assert.AreEqual(tg.KeyGenerationMethod, newTg.KeyGenerationMethod, nameof(newTg.KeyGenerationMethod));
-            Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
-            Assert.AreEqual(tg.Modulo, newTg.Modulo, nameof(newTg.Modulo));
-            Assert.AreEqual(tg.Scheme, newTg.Scheme, nameof(newTg.Scheme));
-            Assert.AreEqual(tg.IutId, newTg.IutId, nameof(newTg.IutId));
-            Assert.AreEqual(tg.ServerId, newTg.ServerId, nameof(newTg.ServerId));
-            Assert.AreEqual(tg.KasRole, newTg.KasRole, nameof(newTg.KasRole));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.KeyConfirmationDirection, Is.EqualTo(tg.KeyConfirmationDirection), nameof(newTg.KeyConfirmationDirection));
+            Assert.That(newTg.KeyConfirmationRole, Is.EqualTo(tg.KeyConfirmationRole), nameof(newTg.KeyConfirmationRole));
+            Assert.That(newTg.KeyGenerationMethod, Is.EqualTo(tg.KeyGenerationMethod), nameof(newTg.KeyGenerationMethod));
+            Assert.That(newTg.L, Is.EqualTo(tg.L), nameof(newTg.L));
+            Assert.That(newTg.Modulo, Is.EqualTo(tg.Modulo), nameof(newTg.Modulo));
+            Assert.That(newTg.Scheme, Is.EqualTo(tg.Scheme), nameof(newTg.Scheme));
+            Assert.That(newTg.IutId, Is.EqualTo(tg.IutId), nameof(newTg.IutId));
+            Assert.That(newTg.ServerId, Is.EqualTo(tg.ServerId), nameof(newTg.ServerId));
+            Assert.That(newTg.KasRole, Is.EqualTo(tg.KasRole), nameof(newTg.KasRole));
         }
 
         [Test]
@@ -80,33 +80,33 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(tc.TestCaseId));
-            Assert.AreEqual(tc.IutE, newTc.IutE, nameof(tc.IutE));
-            Assert.AreEqual(tc.IutN, newTc.IutN, nameof(tc.IutN));
-            Assert.AreEqual(tc.ServerE, newTc.ServerE, nameof(tc.ServerE));
-            Assert.AreEqual(tc.ServerN, newTc.ServerN, nameof(tc.ServerN));
-            Assert.AreEqual(tc.ServerC, newTc.ServerC, nameof(tc.ServerC));
-            Assert.AreEqual(tc.ServerNonce, newTc.ServerNonce, nameof(tc.ServerNonce));
-            Assert.AreEqual(tc.IutD, newTc.IutD, nameof(tc.IutD));
-            Assert.AreEqual(tc.IutDmp1, newTc.IutDmp1, nameof(tc.IutDmp1));
-            Assert.AreEqual(tc.IutDmq1, newTc.IutDmq1, nameof(tc.IutDmq1));
-            Assert.AreEqual(tc.IutIqmp, newTc.IutIqmp, nameof(tc.IutIqmp));
-            Assert.AreEqual(tc.IutP, newTc.IutP, nameof(tc.IutP));
-            Assert.AreEqual(tc.IutQ, newTc.IutQ, nameof(tc.IutQ));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(tc.TestCaseId));
+            Assert.That(newTc.IutE, Is.EqualTo(tc.IutE), nameof(tc.IutE));
+            Assert.That(newTc.IutN, Is.EqualTo(tc.IutN), nameof(tc.IutN));
+            Assert.That(newTc.ServerE, Is.EqualTo(tc.ServerE), nameof(tc.ServerE));
+            Assert.That(newTc.ServerN, Is.EqualTo(tc.ServerN), nameof(tc.ServerN));
+            Assert.That(newTc.ServerC, Is.EqualTo(tc.ServerC), nameof(tc.ServerC));
+            Assert.That(newTc.ServerNonce, Is.EqualTo(tc.ServerNonce), nameof(tc.ServerNonce));
+            Assert.That(newTc.IutD, Is.EqualTo(tc.IutD), nameof(tc.IutD));
+            Assert.That(newTc.IutDmp1, Is.EqualTo(tc.IutDmp1), nameof(tc.IutDmp1));
+            Assert.That(newTc.IutDmq1, Is.EqualTo(tc.IutDmq1), nameof(tc.IutDmq1));
+            Assert.That(newTc.IutIqmp, Is.EqualTo(tc.IutIqmp), nameof(tc.IutIqmp));
+            Assert.That(newTc.IutP, Is.EqualTo(tc.IutP), nameof(tc.IutP));
+            Assert.That(newTc.IutQ, Is.EqualTo(tc.IutQ), nameof(tc.IutQ));
 
             if (testType.Equals("AFT", StringComparison.OrdinalIgnoreCase))
             {
-                Assert.AreNotEqual(tc.ServerDmp1, newTc.ServerDmp1, nameof(tc.ServerDmp1));
-                Assert.AreNotEqual(tc.ServerDmq1, newTc.ServerDmq1, nameof(tc.ServerDmq1));
-                Assert.AreNotEqual(tc.ServerIqmp, newTc.ServerIqmp, nameof(tc.ServerIqmp));
-                Assert.AreNotEqual(tc.Tag, newTc.Tag, nameof(tc.Tag));
-                Assert.AreNotEqual(tc.Dkm, newTc.Dkm, nameof(tc.Dkm));
+                Assert.That(newTc.ServerDmp1, Is.Not.EqualTo(tc.ServerDmp1), nameof(tc.ServerDmp1));
+                Assert.That(newTc.ServerDmq1, Is.Not.EqualTo(tc.ServerDmq1), nameof(tc.ServerDmq1));
+                Assert.That(newTc.ServerIqmp, Is.Not.EqualTo(tc.ServerIqmp), nameof(tc.ServerIqmp));
+                Assert.That(newTc.Tag, Is.Not.EqualTo(tc.Tag), nameof(tc.Tag));
+                Assert.That(newTc.Dkm, Is.Not.EqualTo(tc.Dkm), nameof(tc.Dkm));
             }
 
             if (testType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
             {
-                Assert.AreEqual(tc.Tag, newTc.Tag, nameof(tc.Tag));
-                Assert.AreEqual(tc.Dkm, newTc.Dkm, nameof(tc.Dkm));
+                Assert.That(newTc.Tag, Is.EqualTo(tc.Tag), nameof(tc.Tag));
+                Assert.That(newTc.Dkm, Is.EqualTo(tc.Dkm), nameof(tc.Dkm));
             }
         }
     }

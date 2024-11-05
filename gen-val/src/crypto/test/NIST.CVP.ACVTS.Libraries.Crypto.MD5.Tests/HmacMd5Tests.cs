@@ -23,8 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.MD5.Tests
 
             var result = subject.Generate(key, message);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedDigest.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedDigest.ToHex()));
         }
     }
 }

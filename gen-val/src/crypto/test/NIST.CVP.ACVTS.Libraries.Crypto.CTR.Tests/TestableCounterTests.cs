@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CTR.Tests
             foreach (var iv in ivs)
             {
                 var result = subject.GetNextIV();
-                Assert.AreEqual(iv, result);
+                Assert.That(result, Is.EqualTo(iv));
             }
         }
 
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CTR.Tests
             foreach (var iv in ivs)
             {
                 var result = subject.GetNextIV();
-                Assert.AreEqual(128, result.BitLength);
+                Assert.That(result.BitLength, Is.EqualTo(128));
             }
         }
     }

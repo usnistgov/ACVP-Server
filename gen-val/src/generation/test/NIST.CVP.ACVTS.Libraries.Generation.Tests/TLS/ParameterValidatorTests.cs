@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         static object[] hashAlgTestCases =
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -64,8 +64,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
             var domain = new MathDomain().AddSegment(new RangeDomainSegment(null, min, max, step));
             var subject = new ParameterValidator();
             var result = subject.Validate((new ParameterBuilder().WithAlgorithm("TLS-v1.2").WithMode("KDF").WithRevision("RFC7627").WithKeyBlockLength(domain).Build()));
-            
-            Assert.IsFalse(result.Success);
+
+            Assert.That(result.Success, Is.False);
         }
     }
 }

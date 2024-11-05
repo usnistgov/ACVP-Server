@@ -44,10 +44,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.EngineId, newTg.EngineId, nameof(newTg.EngineId));
-            Assert.AreEqual(tg.PasswordLength, newTg.PasswordLength, nameof(newTg.PasswordLength));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.EngineId, Is.EqualTo(tg.EngineId), nameof(newTg.EngineId));
+            Assert.That(newTg.PasswordLength, Is.EqualTo(tg.PasswordLength), nameof(newTg.PasswordLength));
         }
 
         [Test]
@@ -63,13 +63,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Password, newTc.Password, nameof(newTc.Password));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Password, Is.EqualTo(tc.Password), nameof(newTc.Password));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

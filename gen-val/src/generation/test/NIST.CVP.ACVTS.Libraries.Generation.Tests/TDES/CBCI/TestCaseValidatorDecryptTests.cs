@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
             var subject = new TestCaseValidatorDecrypt(testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
             suppliedResult.PlainText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plain Text"));
+            Assert.That(result.Reason.Contains("Plain Text"), Is.True);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
         {
             var testCase = GetTestCase(id);
             var subject = new TestCaseValidatorDecrypt(testCase);
-            Assert.AreEqual(id, subject.TestCaseId);
+            Assert.That(subject.TestCaseId, Is.EqualTo(id));
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase(int id = 1)

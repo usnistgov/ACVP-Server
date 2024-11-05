@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.TwoStep
         [Test]
         public void ShouldConstructAndValidateSuccessfullyFromBaseBuilder()
         {
-            Assert.IsTrue(_subject.Validate(new ParameterBuilder().Build()).Success);
+            Assert.That(_subject.Validate(new ParameterBuilder().Build()).Success, Is.True);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.TwoStep
                 .WithAlgoModeRevision(algorithm, mode, revision)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
         
         [Test]
@@ -143,7 +143,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.TwoStep
                 .WithAuxSharedSecretLen(auxSSL)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
         
         [TestCase("KDA", "TwoStep", "Sp800-56Cr2", true, 100,false)]
@@ -169,7 +169,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.TwoStep
                 .WithAuxSharedSecretLen(auxSSL)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
     }
 }

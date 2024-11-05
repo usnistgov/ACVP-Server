@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI.ContractResolvers
         {
             var result = _subject.GetContractResolver(projection);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

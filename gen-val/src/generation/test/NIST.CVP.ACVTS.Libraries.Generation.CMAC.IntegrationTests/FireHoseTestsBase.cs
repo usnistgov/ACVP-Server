@@ -76,9 +76,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CMAC.IntegrationTests
                             fails++;
                         }
 
-                        Assert.AreEqual(
-                            testCase.Mac.ToHex(),
-                            result.Mac.ToHex(),
+                        Assert.That(
+                            result.Mac.ToHex(), Is.EqualTo(testCase.Mac.ToHex()),
                             $"Failed on count {count} expected CT {testCase.Mac.ToHex()}, got {result.Mac.ToHex()}"
                         );
                         continue;

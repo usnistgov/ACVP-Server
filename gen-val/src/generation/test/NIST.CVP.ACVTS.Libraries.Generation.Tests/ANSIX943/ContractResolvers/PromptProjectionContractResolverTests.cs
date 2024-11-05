@@ -44,13 +44,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.SharedInfoLength, newTg.SharedInfoLength, nameof(newTg.SharedInfoLength));
-            Assert.AreEqual(tg.KeyDataLength, newTg.KeyDataLength, nameof(newTg.KeyDataLength));
-            Assert.AreEqual(tg.FieldSize, newTg.FieldSize, nameof(newTg.FieldSize));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.HashAlgName, Is.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
+            Assert.That(newTg.SharedInfoLength, Is.EqualTo(tg.SharedInfoLength), nameof(newTg.SharedInfoLength));
+            Assert.That(newTg.KeyDataLength, Is.EqualTo(tg.KeyDataLength), nameof(newTg.KeyDataLength));
+            Assert.That(newTg.FieldSize, Is.EqualTo(tg.FieldSize), nameof(newTg.FieldSize));
         }
 
         [Test]
@@ -66,16 +66,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.SharedSecret, newTc.SharedSecret, nameof(newTc.SharedSecret));
-            Assert.AreEqual(tc.SharedInfo, newTc.SharedInfo, nameof(newTc.SharedInfo));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.SharedSecret, Is.EqualTo(tc.SharedSecret), nameof(newTc.SharedSecret));
+            Assert.That(newTc.SharedInfo, Is.EqualTo(tc.SharedInfo), nameof(newTc.SharedInfo));
 
-            Assert.AreNotEqual(tc.KeyData, newTc.KeyData, nameof(newTc.KeyData));
+            Assert.That(newTc.KeyData, Is.Not.EqualTo(tc.KeyData), nameof(newTc.KeyData));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

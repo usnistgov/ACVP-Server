@@ -16,8 +16,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         [Test]
@@ -74,13 +74,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         [Test]
         [TestCase(127)]
         [TestCase(512)]
-        [TestCase(null)]
+        // int cannot be null [TestCase(null)]
         public void ShouldRejectBadcSHAKEDigestSize(int number)
         {
             var subject = new ParameterValidator();
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                     .Build()
             );
 
-            Assert.AreEqual(isSuccessExpected, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isSuccessExpected));
         }
 
         public class ParameterBuilder

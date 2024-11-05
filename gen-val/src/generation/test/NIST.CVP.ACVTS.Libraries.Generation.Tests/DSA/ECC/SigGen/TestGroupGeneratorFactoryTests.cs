@@ -35,14 +35,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
         public void ReturnedResultShouldContainOneGenerator()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
-            Assert.AreEqual(1, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(12 * 10, groups.Count);
+            Assert.That(groups.Count, Is.EqualTo(12 * 10));
         }
 
         private Capability[] GetCapabilities()

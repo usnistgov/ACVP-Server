@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
         [TestCaseSource(nameof(_data))]
         public void ShouldReturnTrueWhenTypeExtendsIFoo(Type type, bool expected)
         {
-            Assert.AreEqual(expected, type.ImplementsInterface(typeof(IFoo)));
+            Assert.That(type.ImplementsInterface(typeof(IFoo)), Is.EqualTo(expected));
         }
     }
 }

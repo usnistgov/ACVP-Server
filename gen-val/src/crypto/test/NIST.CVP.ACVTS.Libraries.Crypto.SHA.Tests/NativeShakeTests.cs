@@ -35,7 +35,7 @@ public class NativeShakeTests
 
         // HashMessage
         var result = sha.HashMessage(messageBs);
-        Assert.AreEqual(expectedDigest.ToLower(), result.Digest.ToLittleEndianHex().ToLower(), "normal");
+        Assert.That(result.Digest.ToLittleEndianHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()), "normal");
 
         // The following interfaces are only for BYTE inputs
         if (length % 8 == 0)
@@ -47,7 +47,7 @@ public class NativeShakeTests
 
             var iufOutput = new byte[hashFunction.OutputLen / 8];
             shaIuf.Final(iufOutput, hashFunction.OutputLen);
-            Assert.AreEqual(new BitString(expectedDigest).ToBytes(), iufOutput, "init update final");
+            Assert.That(iufOutput, Is.EqualTo(new BitString(expectedDigest).ToBytes()), "init update final");
         
             // Absorb Squeeze
             var shake = shaFactory.GetShakeInstance(new HashFunction(mode, digestSize));
@@ -56,7 +56,7 @@ public class NativeShakeTests
 
             var squeezeOutput = new byte[hashFunction.OutputLen / 8];
             shake.Squeeze(squeezeOutput, hashFunction.OutputLen);
-            Assert.AreEqual(new BitString(expectedDigest).ToBytes(), squeezeOutput, "absorb squeeze");    
+            Assert.That(squeezeOutput, Is.EqualTo(new BitString(expectedDigest).ToBytes()), "absorb squeeze");    
         }
     }
 
@@ -80,7 +80,7 @@ public class NativeShakeTests
 
         // HashMessage
         var result = sha.HashMessage(messageBs, outputLength);
-        Assert.AreEqual(expectedDigest.ToLower(), result.Digest.ToLittleEndianHex().ToLower(), "normal");
+        Assert.That(result.Digest.ToLittleEndianHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()), "normal");
 
         // The following interfaces are only for BYTE outputs
         if (outputLength % 8 == 0)
@@ -92,7 +92,7 @@ public class NativeShakeTests
 
             var iufOutput = new byte[(outputLength / 8) + (outputLength % 8 == 0 ? 0 : 1)];
             shaIuf.Final(iufOutput, outputLength);
-            Assert.AreEqual(new BitString(expectedDigest).ToBytes(), iufOutput, "init update final");
+            Assert.That(iufOutput, Is.EqualTo(new BitString(expectedDigest).ToBytes()), "init update final");
         
             // Absorb Squeeze
             var shake = shaFactory.GetShakeInstance(hashFunction);
@@ -101,7 +101,7 @@ public class NativeShakeTests
 
             var squeezeOutput = new byte[(outputLength / 8) + (outputLength % 8 == 0 ? 0 : 1)];
             shake.Squeeze(squeezeOutput, outputLength);
-            Assert.AreEqual(new BitString(expectedDigest).ToBytes(), squeezeOutput, "absorb squeeze");    
+            Assert.That(squeezeOutput, Is.EqualTo(new BitString(expectedDigest).ToBytes()), "absorb squeeze");    
         }
     }
 
@@ -121,7 +121,7 @@ public class NativeShakeTests
         {
             var digest = new byte[i / 8];
             shake.Squeeze(digest, i);
-            Assert.AreEqual(fullExpected.ToBytes()[..(i / 8)], digest, $"{i}");
+            Assert.That(digest, Is.EqualTo(fullExpected.ToBytes()[..(i / 8)]), $"{i}");
         }
     }
 }

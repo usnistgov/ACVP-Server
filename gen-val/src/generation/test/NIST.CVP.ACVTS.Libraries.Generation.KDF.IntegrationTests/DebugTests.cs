@@ -111,7 +111,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
             // Compare the first run and second run values
             for (var i = 0; i < interations; i++)
             {
-                Assert.AreEqual(resultTasks[i].Result.KeyOut.ToHex(), secondRun[i].Result.KeyOut.ToHex(), $"{i}");
+                Assert.That(secondRun[i].Result.KeyOut.ToHex(), Is.EqualTo(resultTasks[i].Result.KeyOut.ToHex()), $"{i}");
             }
         }
 
@@ -147,7 +147,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
                 KeyIn = keyIn
             });
 
-            Assert.AreEqual(expectedKeyOut.ToHex(), result.KeyOut.ToHex());
+            Assert.That(result.KeyOut.ToHex(), Is.EqualTo(expectedKeyOut.ToHex()));
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
 
             var result = kdf.DeriveKey(keyIn, fixedData, keyOutLength, iv, breakLocation);
 
-            Assert.AreEqual(expectedKeyOut.ToHex(), result.DerivedKey.ToHex());
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(expectedKeyOut.ToHex()));
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.IntegrationTests
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(computedKeyOut.ToHex(), result.DerivedKey.ToHex(), nameof(computedKeyOut));
+                Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(computedKeyOut.ToHex()), nameof(computedKeyOut));
                 //Assert.AreEqual(expectedKeyOutFromInternalProjection.ToHex(), result.DerivedKey.ToHex(), nameof(expectedKeyOutFromInternalProjection));
             });
         }

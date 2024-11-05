@@ -103,7 +103,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
         [Test]
         public void ShouldConstructAndValidateSuccessfullyFromBaseBuilder()
         {
-            Assert.IsTrue(_subject.Validate(new ParameterBuilder().Build()).Success);
+            Assert.That(_subject.Validate(new ParameterBuilder().Build()).Success, Is.True);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 .WithAlgoModeRevision(algorithm, mode, revision)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
         
         [Test]
@@ -142,7 +142,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 .WithAuxSharedSecretLen(auxSSL)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
         
         [Test]
@@ -169,7 +169,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 .WithAuxSharedSecretLen(auxSSL)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
 
         [Test]
@@ -187,8 +187,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.HKDF
                 .WithHmacAlg(hashAlg)
                 .WithSaltLens(saltLens)
                 .Build();
-            
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
     }
 }

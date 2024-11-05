@@ -155,14 +155,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = subject.Generate(L, N, seedLen);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(seed.ToPositiveBigInteger(), result.Seed.Seed, "seed");
-            Assert.AreEqual(q, result.Q, "q");
-            Assert.AreEqual(p, result.P, "p");
-            Assert.AreEqual(qSeed, result.Seed.QSeed, "q seed");
-            Assert.AreEqual(pSeed, result.Seed.PSeed, "p seed");
-            Assert.AreEqual(qCounter, result.Count.QCount, "q count");
-            Assert.AreEqual(pCounter, result.Count.PCount, "p count");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Seed.Seed, Is.EqualTo(seed.ToPositiveBigInteger()), "seed");
+            Assert.That(result.Q, Is.EqualTo(q), "q");
+            Assert.That(result.P, Is.EqualTo(p), "p");
+            Assert.That(result.Seed.QSeed, Is.EqualTo(qSeed), "q seed");
+            Assert.That(result.Seed.PSeed, Is.EqualTo(pSeed), "p seed");
+            Assert.That(result.Count.QCount, Is.EqualTo(qCounter), "q count");
+            Assert.That(result.Count.PCount, Is.EqualTo(pCounter), "p count");
 
             Console.Write($"Hashes used: {fakeSha.Count}");
         }
@@ -527,7 +527,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = subject.Validate(p, q, seed, count);
 
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
 
         private ISha GetSha(string hash)

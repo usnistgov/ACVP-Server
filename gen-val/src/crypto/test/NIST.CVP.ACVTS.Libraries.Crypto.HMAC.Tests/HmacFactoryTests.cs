@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HMAC.Tests
         {
             var result = _subject.GetHmacInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
 
-            Assert.IsInstanceOf(typeof(NativeHmac), result);
+            Assert.That(result, Is.InstanceOf(typeof(NativeHmac)));
         }
     }
 }

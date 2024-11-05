@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             var subject = GetSubject();
             var result = subject.FourBytesToLong(bytes, 0);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             var subject = GetSubject();
             var result = subject.LongToFourBytes(l);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             var subject = GetSubject();
             var result = subject.DoInitialPermutation(input);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             var subject = GetSubject();
             var result = subject.DoPermutationInverse(input);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         private static KeySchedule GetSubject()

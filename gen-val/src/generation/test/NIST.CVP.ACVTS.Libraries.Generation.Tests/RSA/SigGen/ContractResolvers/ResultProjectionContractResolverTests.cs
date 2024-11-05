@@ -47,12 +47,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.E, newTg.E, nameof(newTg.E));
-            Assert.AreEqual(tg.N.ToPositiveBigInteger(), newTg.N.ToPositiveBigInteger(), nameof(newTg.N));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.E, Is.EqualTo(tg.E), nameof(newTg.E));
+            Assert.That(newTg.N.ToPositiveBigInteger(), Is.EqualTo(tg.N.ToPositiveBigInteger()), nameof(newTg.N));
 
-            Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.False, nameof(newTg.IsMessageRandomized));
         }
 
         /// <summary>
@@ -74,12 +74,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Signature, newTc.Signature, nameof(newTc.Signature));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
 
-            Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen == 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen == 0, Is.True, nameof(newTc.RandomValueLen));
         }
 
         /// <summary>
@@ -97,12 +97,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.E, newTg.E, nameof(newTg.E));
-            Assert.AreEqual(tg.N.ToPositiveBigInteger(), newTg.N.ToPositiveBigInteger(), nameof(newTg.N));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.E, Is.EqualTo(tg.E), nameof(newTg.E));
+            Assert.That(newTg.N.ToPositiveBigInteger(), Is.EqualTo(tg.N.ToPositiveBigInteger()), nameof(newTg.N));
 
-            Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.True, nameof(newTg.IsMessageRandomized));
         }
 
         /// <summary>
@@ -125,12 +125,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Signature, newTc.Signature, nameof(newTc.Signature));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
 
-            Assert.IsNotNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen != 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Not.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen != 0, Is.True, nameof(newTc.RandomValueLen));
         }
     }
 }

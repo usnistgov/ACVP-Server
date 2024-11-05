@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("588572c2e4f0d6c7077d2b9eb593687ca92c86e5a9729505fcff52adfcf8a5eb850b910b985df10299bfe7434f3b6b7af92a3edaed732751cdb421c38431e2763afc6799eb61e176f9f20945870680ff8b62484378d3a7fd7d29202e5d371785d68fe399d5f600f34517fcccadf58937");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("04db51649d660a0712b7218a6c5fbf9acb8af0272a6c732af0f2e66292e6c4517e102877c24277c3522984c5320c52b6e1d50a6733d29f31549067b4ffb64bb5d15b261342db73617b415e503652bc7d");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("3c65020a0c8d176d6ef15b5a3db00ba43ea348842c0fc0f03bc757694dc6145c1826049ac5c39b4bbf14bf02332110cd99ae8d346c435308a92a28a600aba3f20f1b145b5a07ba3da7cebb69bc1a6c8bdf74607947bae4faa5c31724ec1e8029a8006e247d3d418bcc6aa8186df53e86");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("549486b786fd7653d128ae45c1301d8ef072310f53ccf7741cd054b59d2258ccd40fffdf47d04f75697d10010d9d634ad78926e408ef4edebb81570815b8dc4e1405af5213d98df443adab024a99d4d5fc88c12c1b0ab4c91c55d6e07e3a764d4649dd4f092b920add34f24c8b6e365761eb9b45fc21c94a1853b8f6930aac12");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -192,7 +192,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("3a3b479e2e09d5e81a4126f6bb6177aa1799c84cdb828c9e75ea20728a68492ab09c989c514a82ce195cd5f94192b3f532f5719db84f84115427335a41daff1d9db65a8905c12682b24b915ab16fa6ebaa016af8c05062f6112f8703cd3827dcf50ff23e7b79fd11d29b976e9f46080f878c35a14e2f3e8d7f72f8364441ed2cad648be07c1efebb88240256e36c4b8648d229c428081cdbb14e183d5483c8b53cc67b520db48502895d57db17945c8911253e1d8da0b7c7b4d484f296fe353c");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("c871ba97832f3f1febe0e844228e387323001652a53d6e8d540818413aea238c006d646eb174c5b974dc8e80087e28a8beb00f103cb999dc76728643bc2f9af043a780492c1055965e2d1183073f60ee8e5b07b8018554bb38c74acd4e07d1b6d3af93ebe06876aa11ec40b407793f4637ef57787b01368e00b54f763a437d419e09171eb551235128d0ec38ef3546fb0edc8328db76fcd296afe9ad87b765aead3b7fa873bd6bd2be4b513504d72db955591d566cc050f73c7bdfb9ffd57e4858f7ca25b2e72ea513a55988a45c294f713d13658b9b414f8cf3f3ae92cdc835a31cf1766e092ee93d05e7fd001a2765c4be43fdcb535d20588dcfbfe3fa5ea8");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -264,7 +264,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("19364b3d0a60572e6b3ac5af144c0e00d74ba64fecb2512460e11ac33f1f4f024352c787eca4b52b42291b8bcdd68a5c06472b374b3c7c6f7838a83595504ad8a1c4ea4d1993fec2566445774aa5f469ee11ae80a6decd13507d2b0a82253b192547054451fe07810f8edcdb1d269b6c");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -299,7 +299,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var expectation = new BitString("ec1c599246b585813a16e3cbb2e461cc62e6b38d96862b98e4bb502d60466d696576571dc0998110fd022ff0ed85f79cc7f6366e8f1c15b14a5cc1e79d68e2ba299d5421e6231bb47d22c998b79424de4113ab0b46e38f8c1057fd4a58201f4c40e491a57201e1a9f581cbca3f03f0e0f729cdaeadfbc86a1a0d708305a18e1a");
 
-            Assert.AreEqual(expectation, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectation));
         }
     }
 }

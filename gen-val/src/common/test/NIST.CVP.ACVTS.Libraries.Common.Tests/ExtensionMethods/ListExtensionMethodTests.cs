@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
             List<string> list = new List<string>();
             string s = null;
             list.AddIfNotNullOrEmpty(s);
-            Assert.AreEqual(0, list.Count);
+            Assert.That(list.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
             List<string> list = new List<string>();
             string s = "";
             list.AddIfNotNullOrEmpty(s);
-            Assert.AreEqual(0, list.Count);
+            Assert.That(list.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
             List<string> list = new List<string>();
             string s = "Not empty";
             list.AddIfNotNullOrEmpty(s);
-            Assert.AreEqual(1, list.Count);
+            Assert.That(list.Count, Is.EqualTo(1));
         }
         #endregion AddIfNotNullOrEmpty
 
@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             int expectedCount = shouldAdd ? 1 : 0;
 
-            Assert.AreEqual(expectedCount, list.Count);
+            Assert.That(list.Count, Is.EqualTo(expectedCount));
         }
         #endregion AddIfNotNull
 
@@ -103,7 +103,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             list.AddRangeIfNotNullOrEmpty(addList);
 
-            Assert.AreEqual(0, list.Count);
+            Assert.That(list.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             list.AddRangeIfNotNullOrEmpty(addList);
 
-            Assert.AreEqual(0, list.Count);
+            Assert.That(list.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             list.AddRangeIfNotNullOrEmpty(addList);
 
-            Assert.AreEqual(1, list.Count);
+            Assert.That(list.Count, Is.EqualTo(1));
         }
         #endregion AddRangeIfNotNullOrEmpty
 
@@ -150,7 +150,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
             list.Add(TestEnum.One);
             list.Add(TestEnum.Two, n);
 
-            Assert.AreEqual(n, list.Count(w => w == TestEnum.Two));
+            Assert.That(list.Count(w => w == TestEnum.Two), Is.EqualTo(n));
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             list.Add(new object(), n);
 
-            Assert.AreEqual(n, list.Count);
+            Assert.That(list.Count, Is.EqualTo(n));
         }
         #endregion AddMultiple
     }

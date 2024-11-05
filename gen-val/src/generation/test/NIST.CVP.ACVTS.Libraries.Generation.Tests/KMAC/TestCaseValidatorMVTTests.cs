@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
             _subject = new TestCaseValidatorMvt(testCase, testGroup);
             var result = await _subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
             suppliedResult.TestPassed = testMacVerified;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
             suppliedResult.TestPassed = testMacVerified;
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("MAC Verification"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains("MAC Verification"), Is.True);
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.TestPassed)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestGroup GetTestGroup()

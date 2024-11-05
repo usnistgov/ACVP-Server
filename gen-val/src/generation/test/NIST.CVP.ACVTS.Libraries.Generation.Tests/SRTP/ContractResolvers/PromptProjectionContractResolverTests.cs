@@ -44,10 +44,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.AesKeyLength, newTg.AesKeyLength, nameof(newTg.AesKeyLength));
-            Assert.AreEqual(tg.Kdr, newTg.Kdr, nameof(newTg.Kdr));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.AesKeyLength, Is.EqualTo(tg.AesKeyLength), nameof(newTg.AesKeyLength));
+            Assert.That(newTg.Kdr, Is.EqualTo(tg.Kdr), nameof(newTg.Kdr));
         }
 
         [Test]
@@ -63,24 +63,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.MasterKey, newTc.MasterKey, nameof(newTc.MasterKey));
-            Assert.AreEqual(tc.MasterSalt, newTc.MasterSalt, nameof(newTc.MasterSalt));
-            Assert.AreEqual(tc.Index, newTc.Index, nameof(newTc.Index));
-            Assert.AreEqual(tc.SrtcpIndex, newTc.SrtcpIndex, nameof(newTc.SrtcpIndex));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.MasterKey, Is.EqualTo(tc.MasterKey), nameof(newTc.MasterKey));
+            Assert.That(newTc.MasterSalt, Is.EqualTo(tc.MasterSalt), nameof(newTc.MasterSalt));
+            Assert.That(newTc.Index, Is.EqualTo(tc.Index), nameof(newTc.Index));
+            Assert.That(newTc.SrtcpIndex, Is.EqualTo(tc.SrtcpIndex), nameof(newTc.SrtcpIndex));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.AreNotEqual(tc.SrtpKe, newTc.SrtpKe, nameof(newTc.SrtpKe));
-            Assert.AreNotEqual(tc.SrtpKa, newTc.SrtpKa, nameof(newTc.SrtpKa));
-            Assert.AreNotEqual(tc.SrtpKs, newTc.SrtpKs, nameof(newTc.SrtpKs));
-            Assert.AreNotEqual(tc.SrtcpKe, newTc.SrtcpKe, nameof(newTc.SrtcpKe));
-            Assert.AreNotEqual(tc.SrtcpKa, newTc.SrtcpKa, nameof(newTc.SrtcpKa));
-            Assert.AreNotEqual(tc.SrtcpKs, newTc.SrtcpKs, nameof(newTc.SrtcpKs));
+            Assert.That(newTc.SrtpKe, Is.Not.EqualTo(tc.SrtpKe), nameof(newTc.SrtpKe));
+            Assert.That(newTc.SrtpKa, Is.Not.EqualTo(tc.SrtpKa), nameof(newTc.SrtpKa));
+            Assert.That(newTc.SrtpKs, Is.Not.EqualTo(tc.SrtpKs), nameof(newTc.SrtpKs));
+            Assert.That(newTc.SrtcpKe, Is.Not.EqualTo(tc.SrtcpKe), nameof(newTc.SrtcpKe));
+            Assert.That(newTc.SrtcpKa, Is.Not.EqualTo(tc.SrtcpKa), nameof(newTc.SrtcpKa));
+            Assert.That(newTc.SrtcpKs, Is.Not.EqualTo(tc.SrtcpKs), nameof(newTc.SrtcpKs));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

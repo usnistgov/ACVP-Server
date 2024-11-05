@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var subject = new TestCaseValidatorDeferredEncrypt(GetTestGroup(), testCase, _mock.Object);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Passed, result.Result, result.Reason);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed), result.Reason);
         }
 
         [Test]
@@ -53,8 +53,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var subject = new TestCaseValidatorDeferredEncrypt(GetTestGroup(), testCase, _mock.Object);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Cipher Text"), Is.True);
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var subject = new TestCaseValidatorDeferredEncrypt(GetTestGroup(), testCase, _mock.Object);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Tag"));
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Tag"), Is.True);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
 
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(testCase.CipherText)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(testCase.CipherText)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
 
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(testCase.Tag)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(testCase.Tag)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
 
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(testCase.IV)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(testCase.IV)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase()

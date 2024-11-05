@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
         public void ShouldConfigureLoggingEvenWithNoFilepath(string path)
         {
             LoggingHelper.ConfigureLogging(path, "DNA");
-            Assert.IsTrue(true);
+            //Assert.That(lltrue, Is.True);
         }
 
         [Test]
@@ -37,14 +37,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
         public void ShouldConfigureLoggingEvenWithInvalidFilepath(string path)
         {
             LoggingHelper.ConfigureLogging(path, "DNA");
-            Assert.IsTrue(true);
+            //Assert.That(true, Is.True);
         }
 
         [Test]
         public void ShouldConfigureLoggingWithValidFilepath()
         {
             LoggingHelper.ConfigureLogging(_testFile, "DNA");
-            Assert.IsTrue(true);
+            //Assert.That(true, Is.True);
         }
 
         [OneTimeTearDown]

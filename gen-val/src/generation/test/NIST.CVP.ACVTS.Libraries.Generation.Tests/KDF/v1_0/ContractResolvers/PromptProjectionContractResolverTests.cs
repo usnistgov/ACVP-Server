@@ -49,24 +49,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.KdfMode, newTg.KdfMode, nameof(newTg.KdfMode));
-            Assert.AreEqual(tg.MacMode, newTg.MacMode, nameof(newTg.MacMode));
-            Assert.AreEqual(tg.CounterLocation, newTg.CounterLocation, nameof(newTg.CounterLocation));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.KdfMode, Is.EqualTo(tg.KdfMode), nameof(newTg.KdfMode));
+            Assert.That(newTg.MacMode, Is.EqualTo(tg.MacMode), nameof(newTg.MacMode));
+            Assert.That(newTg.CounterLocation, Is.EqualTo(tg.CounterLocation), nameof(newTg.CounterLocation));
 
             if (kdfMode == KdfModes.Feedback)
             {
-                Assert.AreEqual(tg.ZeroLengthIv, newTg.ZeroLengthIv, nameof(newTg.ZeroLengthIv));
+                Assert.That(newTg.ZeroLengthIv, Is.EqualTo(tg.ZeroLengthIv), nameof(newTg.ZeroLengthIv));
             }
 
             if (counterLocation != CounterLocations.None)
             {
-                Assert.AreEqual(tg.CounterLength, newTg.CounterLength, nameof(newTg.CounterLength));
+                Assert.That(newTg.CounterLength, Is.EqualTo(tg.CounterLength), nameof(newTg.CounterLength));
             }
             else
             {
-                Assert.AreNotEqual(tg.CounterLength, newTg.CounterLength, nameof(newTg.CounterLength));
+                Assert.That(newTg.CounterLength, Is.Not.EqualTo(tg.CounterLength), nameof(newTg.CounterLength));
             }
         }
 
@@ -87,22 +87,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.KeyIn, newTc.KeyIn, nameof(newTc.KeyIn));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.KeyIn, Is.EqualTo(tc.KeyIn), nameof(newTc.KeyIn));
 
             if (kdfMode == KdfModes.Feedback)
             {
-                Assert.AreEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+                Assert.That(newTc.IV, Is.EqualTo(tc.IV), nameof(newTc.IV));
             }
             else
             {
-                Assert.AreNotEqual(tc.IV, newTc.IV, nameof(newTc.IV));
+                Assert.That(newTc.IV, Is.Not.EqualTo(tc.IV), nameof(newTc.IV));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regexTestPassed = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexTestPassed.Matches(json).Count == 0);
+            Assert.That(regexTestPassed.Matches(json).Count == 0, Is.True);
         }
     }
 }

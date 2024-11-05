@@ -12,21 +12,21 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var expected = new byte[,] { { 1, 2 }, { 3, 4 }, { 5, 6 }, { 7, 8 } };
             var subject = new Array2D(expected);
 
-            Assert.AreEqual(expected, subject.Array);
+            Assert.That(subject.Array, Is.EqualTo(expected));
         }
 
         [Test]
         public void ShouldHaveProperDimension1Size()
         {
             var subject = new Array2D(1, 2);
-            Assert.AreEqual(1, subject.Dimension1Size);
+            Assert.That(subject.Dimension1Size, Is.EqualTo(1));
         }
 
         [Test]
         public void ShouldHaveProperDimension2Size()
         {
             var subject = new Array2D(1, 2);
-            Assert.AreEqual(2, subject.Dimension2Size);
+            Assert.That(subject.Dimension2Size, Is.EqualTo(2));
         }
     }
 }

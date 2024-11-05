@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                 IsSample = false,
                 MessageLength = new MathDomain()
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                 IsSample = false,
                 MessageLength = new MathDomain()
             };
-            Assert.AreEqual("SHA2", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("SHA2"));
         }
     }
 }

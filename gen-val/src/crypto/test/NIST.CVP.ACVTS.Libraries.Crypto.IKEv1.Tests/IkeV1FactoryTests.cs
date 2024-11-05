@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
         public void ShouldReturnCorrectIke(AuthenticationMethods authMode, Type expectedType)
         {
             var result = _subject.GetIkeV1Instance(authMode, new HashFunction(ModeValues.SHA1, DigestSizes.d160));
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
     }
 }

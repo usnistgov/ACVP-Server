@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var result = await subject.ValidateAsync(testCase);
 
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var result = await subject.ValidateAsync(testCase);
 
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         private TestCase GetTestCase(bool testPassed)

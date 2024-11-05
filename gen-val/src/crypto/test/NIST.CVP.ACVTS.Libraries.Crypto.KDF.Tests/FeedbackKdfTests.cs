@@ -80,8 +80,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
 
             var result = kdf.DeriveKey(keyIn, fixedInputData, outLen, iv);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedKey, result.DerivedKey);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.DerivedKey, Is.EqualTo(expectedKey));
         }
     }
 }

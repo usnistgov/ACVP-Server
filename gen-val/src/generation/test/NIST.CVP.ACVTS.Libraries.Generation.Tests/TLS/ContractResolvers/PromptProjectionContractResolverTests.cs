@@ -44,12 +44,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.TlsMode, newTg.TlsMode, nameof(newTg.TlsMode));
-            Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
-            Assert.AreEqual(tg.PreMasterSecretLength, newTg.PreMasterSecretLength, nameof(newTg.PreMasterSecretLength));
-            Assert.AreEqual(tg.KeyBlockLength, newTg.KeyBlockLength, nameof(newTg.KeyBlockLength));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.TlsMode, Is.EqualTo(tg.TlsMode), nameof(newTg.TlsMode));
+            Assert.That(newTg.HashAlgName, Is.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
+            Assert.That(newTg.PreMasterSecretLength, Is.EqualTo(tg.PreMasterSecretLength), nameof(newTg.PreMasterSecretLength));
+            Assert.That(newTg.KeyBlockLength, Is.EqualTo(tg.KeyBlockLength), nameof(newTg.KeyBlockLength));
         }
 
         [Test]
@@ -65,20 +65,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.ClientHelloRandom, newTc.ClientHelloRandom, nameof(newTc.ClientHelloRandom));
-            Assert.AreEqual(tc.ServerHelloRandom, newTc.ServerHelloRandom, nameof(newTc.ServerHelloRandom));
-            Assert.AreEqual(tc.ClientRandom, newTc.ClientRandom, nameof(newTc.ClientRandom));
-            Assert.AreEqual(tc.ServerRandom, newTc.ServerRandom, nameof(newTc.ServerRandom));
-            Assert.AreEqual(tc.PreMasterSecret, newTc.PreMasterSecret, nameof(newTc.PreMasterSecret));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.ClientHelloRandom, Is.EqualTo(tc.ClientHelloRandom), nameof(newTc.ClientHelloRandom));
+            Assert.That(newTc.ServerHelloRandom, Is.EqualTo(tc.ServerHelloRandom), nameof(newTc.ServerHelloRandom));
+            Assert.That(newTc.ClientRandom, Is.EqualTo(tc.ClientRandom), nameof(newTc.ClientRandom));
+            Assert.That(newTc.ServerRandom, Is.EqualTo(tc.ServerRandom), nameof(newTc.ServerRandom));
+            Assert.That(newTc.PreMasterSecret, Is.EqualTo(tc.PreMasterSecret), nameof(newTc.PreMasterSecret));
 
-            Assert.AreNotEqual(tc.MasterSecret, newTc.MasterSecret, nameof(newTc.MasterSecret));
-            Assert.AreNotEqual(tc.KeyBlock, newTc.KeyBlock, nameof(newTc.KeyBlock));
+            Assert.That(newTc.MasterSecret, Is.Not.EqualTo(tc.MasterSecret), nameof(newTc.MasterSecret));
+            Assert.That(newTc.KeyBlock, Is.Not.EqualTo(tc.KeyBlock), nameof(newTc.KeyBlock));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

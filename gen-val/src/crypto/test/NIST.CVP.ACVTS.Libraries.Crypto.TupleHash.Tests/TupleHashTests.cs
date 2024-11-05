@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var result = subject.HashMessage(hashFunction, tuple, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         private HashFunction GetTupleHashFunction(int digestLength, int capacity)

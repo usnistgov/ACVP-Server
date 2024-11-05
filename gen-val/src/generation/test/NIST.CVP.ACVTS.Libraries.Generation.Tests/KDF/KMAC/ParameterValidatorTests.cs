@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().WithMacMode(mode).Build());
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         private static List<MathDomain> GetInvalidDomains(int min, int max)
@@ -63,7 +63,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
             {
                 var subject = new ParameterValidator();
                 var result = subject.Validate(new ParameterBuilder().WithKeyDerivationKeyLength(domain).Build());
-                Assert.IsFalse(result.Success);
+                Assert.That(result.Success, Is.False);
             }
         }
         
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
             {
                 var subject = new ParameterValidator();
                 var result = subject.Validate(new ParameterBuilder().WithDerivedKeyLength(domain).Build());
-                Assert.IsFalse(result.Success);
+                Assert.That(result.Success, Is.False);
             }
         }
         
@@ -87,7 +87,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
             {
                 var subject = new ParameterValidator();
                 var result = subject.Validate(new ParameterBuilder().WithContextLength(domain).Build());
-                Assert.IsFalse(result.Success);
+                Assert.That(result.Success, Is.False);
             }
         }
         
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
             {
                 var subject = new ParameterValidator();
                 var result = subject.Validate(new ParameterBuilder().WithLabelLength(domain).Build());
-                Assert.IsFalse(result.Success);
+                Assert.That(result.Success, Is.False);
             }
         }
 
@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().WithLabelLength(null).Build());
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CFB.Tests
             );
             var result = subject.ProcessPayload(param);
 
-            Assert.AreEqual(cipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(cipherText));
         }
 
         [TestCase(BlockCipherModesOfOperation.CfbBit, "ba70d09252f87ff78f5267fbfe2f9276e3b054e3b9f286b0", "86a5624fd0629b94", "0", "1", false)]
@@ -137,7 +137,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CFB.Tests
             );
             var result = subject.ProcessPayload(param);
 
-            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(plainText.ToHex()));
         }
     }
 }

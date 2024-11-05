@@ -53,11 +53,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
                 nonces.Add(signature.R);
 
-                Assert.IsTrue(verify.Success, verify.ErrorMessage);
+                Assert.That(verify.Success, Is.True, verify.ErrorMessage);
             }
 
             // Check nonces for uniqueness
-            Assert.AreEqual(nonces.Count, nonces.Distinct().Count(), "Repeated nonce detected");
+            Assert.That(nonces.Distinct().Count(), Is.EqualTo(nonces.Count), "Repeated nonce detected");
         }
     }
 }

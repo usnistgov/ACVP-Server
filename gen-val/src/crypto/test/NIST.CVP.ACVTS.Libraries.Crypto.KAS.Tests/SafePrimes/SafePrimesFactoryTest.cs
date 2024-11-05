@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.SafePrimes
                     if (value.Q != calculatedQ)
                         Console.WriteLine($"{key}: {calculatedQ.ToHex()}");
 
-                    Assert.AreEqual(value.Q, calculatedQ, key.ToString());
+                    Assert.That(calculatedQ, Is.EqualTo(value.Q), key.ToString());
                 }
             });
         }
@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.SafePrimes
                 {
                     var result = _subject.GetSafePrime(key);
 
-                    Assert.NotNull(result, nameof(key));
+                    Assert.That(result, Is.Not.Null, nameof(key));
                 }
             });
         }

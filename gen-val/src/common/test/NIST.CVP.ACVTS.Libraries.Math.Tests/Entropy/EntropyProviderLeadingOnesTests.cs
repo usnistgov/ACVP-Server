@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Entropy
                     expectedBitString.Bits[j] = true;
                 }
 
-                Assert.AreEqual(expectedBitString.ToHex(), result.GetMostSignificantBits(leadingOneBits).ToHex());
+                Assert.That(result.GetMostSignificantBits(leadingOneBits).ToHex(), Is.EqualTo(expectedBitString.ToHex()));
             }
         }
 

@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                 KeyFormat = "standard"
             };
 
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                 KeyFormat = "crt"
             };
 
-            Assert.AreEqual("RSA", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("RSA"));
         }
 
         private AlgSpecs[] BuildCapabilities()

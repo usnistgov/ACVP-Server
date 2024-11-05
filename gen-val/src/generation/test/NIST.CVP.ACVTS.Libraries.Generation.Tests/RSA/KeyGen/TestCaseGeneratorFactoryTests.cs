@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
     }
 }

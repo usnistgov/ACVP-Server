@@ -119,7 +119,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
                 var secretEncrypted = _subject.Encrypt(rsaKeyPair.PubKey, key, null);
                 var secretDecrypted = _subject.Decrypt(rsaKeyPair, secretEncrypted.SharedSecretZ, null);
 
-                Assert.AreEqual(key, secretDecrypted.SharedSecretZ);
+                Assert.That(secretDecrypted.SharedSecretZ, Is.EqualTo(key));
             }
         }
 
@@ -161,7 +161,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
 
             var result = _subject.Decrypt(iutKeyPair, serverC, null);
 
-            Assert.AreEqual(serverK.ToHex(), result.SharedSecretZ.ToHex());
+            Assert.That(result.SharedSecretZ.ToHex(), Is.EqualTo(serverK.ToHex()));
         }
     }
 }

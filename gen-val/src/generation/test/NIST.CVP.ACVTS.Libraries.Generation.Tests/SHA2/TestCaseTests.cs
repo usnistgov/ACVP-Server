@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Message.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Message.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Digest.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Digest.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

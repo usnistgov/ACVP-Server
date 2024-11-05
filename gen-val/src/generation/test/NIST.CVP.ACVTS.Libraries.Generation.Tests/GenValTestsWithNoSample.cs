@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
             GenLogger.Info($"{Algorithm}-{Mode} Test Vectors");
             var result = await RunGeneration(targetFolder, fileName, true);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         protected abstract string GetTestFileFewTestCasesNotSample(string folderName);

@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 4);
+            Assert.That(result.Count() == 4, Is.True);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(6, groups.Count);       // 2 * 3 (digest sizes * test types), No LDT for SHAKE
+            Assert.That(groups.Count, Is.EqualTo(6));       // 2 * 3 (digest sizes * test types), No LDT for SHAKE
         }
     }
 }

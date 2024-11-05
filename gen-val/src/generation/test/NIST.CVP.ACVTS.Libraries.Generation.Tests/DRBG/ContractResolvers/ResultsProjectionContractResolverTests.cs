@@ -47,17 +47,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.DerFunc, newTg.DerFunc, nameof(newTg.DerFunc));
-            Assert.AreNotEqual(tg.PredResistance, newTg.PredResistance, nameof(newTg.PredResistance));
-            Assert.AreNotEqual(tg.ReSeed, newTg.ReSeed, nameof(newTg.ReSeed));
-            Assert.AreNotEqual(tg.EntropyInputLen, newTg.EntropyInputLen, nameof(newTg.EntropyInputLen));
-            Assert.AreNotEqual(tg.NonceLen, newTg.NonceLen, nameof(newTg.NonceLen));
-            Assert.AreNotEqual(tg.PersoStringLen, newTg.PersoStringLen, nameof(newTg.PersoStringLen));
-            Assert.AreNotEqual(tg.AdditionalInputLen, newTg.AdditionalInputLen, nameof(newTg.AdditionalInputLen));
-            Assert.AreNotEqual(tg.ReturnedBitsLen, newTg.ReturnedBitsLen, nameof(newTg.ReturnedBitsLen));
+            Assert.That(newTg.DerFunc, Is.Not.EqualTo(tg.DerFunc), nameof(newTg.DerFunc));
+            Assert.That(newTg.PredResistance, Is.Not.EqualTo(tg.PredResistance), nameof(newTg.PredResistance));
+            Assert.That(newTg.ReSeed, Is.Not.EqualTo(tg.ReSeed), nameof(newTg.ReSeed));
+            Assert.That(newTg.EntropyInputLen, Is.Not.EqualTo(tg.EntropyInputLen), nameof(newTg.EntropyInputLen));
+            Assert.That(newTg.NonceLen, Is.Not.EqualTo(tg.NonceLen), nameof(newTg.NonceLen));
+            Assert.That(newTg.PersoStringLen, Is.Not.EqualTo(tg.PersoStringLen), nameof(newTg.PersoStringLen));
+            Assert.That(newTg.AdditionalInputLen, Is.Not.EqualTo(tg.AdditionalInputLen), nameof(newTg.AdditionalInputLen));
+            Assert.That(newTg.ReturnedBitsLen, Is.Not.EqualTo(tg.ReturnedBitsLen), nameof(newTg.ReturnedBitsLen));
         }
 
         /// <summary>
@@ -76,17 +76,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.ReturnedBits, newTc.ReturnedBits, nameof(newTc.ReturnedBits));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.ReturnedBits, Is.EqualTo(tc.ReturnedBits), nameof(newTc.ReturnedBits));
 
-            Assert.AreNotEqual(tc.EntropyInput, newTc.EntropyInput, nameof(newTc.EntropyInput));
-            Assert.AreNotEqual(tc.Nonce, newTc.Nonce, nameof(newTc.Nonce));
-            Assert.AreNotEqual(tc.PersoString, newTc.PersoString, nameof(newTc.PersoString));
+            Assert.That(newTc.EntropyInput, Is.Not.EqualTo(tc.EntropyInput), nameof(newTc.EntropyInput));
+            Assert.That(newTc.Nonce, Is.Not.EqualTo(tc.Nonce), nameof(newTc.Nonce));
+            Assert.That(newTc.PersoString, Is.Not.EqualTo(tc.PersoString), nameof(newTc.PersoString));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

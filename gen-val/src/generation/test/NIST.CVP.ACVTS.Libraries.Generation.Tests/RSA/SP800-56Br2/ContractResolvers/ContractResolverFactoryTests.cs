@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SP800_56Br2.ContractReso
         {
             var result = _subject.GetContractResolver(projection);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

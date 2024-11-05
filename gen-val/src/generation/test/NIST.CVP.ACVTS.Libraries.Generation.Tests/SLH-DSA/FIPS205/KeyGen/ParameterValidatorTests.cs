@@ -60,7 +60,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] // ISSUE #2
@@ -76,7 +76,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     // I'm not really sure how to test this...

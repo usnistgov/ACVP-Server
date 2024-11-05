@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 2);
+            Assert.That(result.Count() == 2, Is.True);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(4, groups.Count);       // (AFT,MCT) = 2 * 2 digestsizes = 4
+            Assert.That(groups.Count, Is.EqualTo(4));       // (AFT,MCT) = 2 * 2 digestsizes = 4
         }
     }
 }

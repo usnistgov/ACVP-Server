@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             var result = items.FirstOrNull(w => w == 2);
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             var result = items.FirstOrNull(w => w == 1);
 
-            Assert.AreEqual(1, result);
+            Assert.That(result, Is.EqualTo(1));
         }
         #endregion
 
@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             var subject = items.TryFirst(w => w == 2, out var result);
 
-            Assert.IsFalse(subject);
+            Assert.That(subject, Is.False);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             items.TryFirst(w => w == 2, out var result);
 
-            Assert.AreEqual(default(int), result);
+            Assert.That(result, Is.EqualTo(default(int)));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             var subject = items.TryFirst(w => w == 1, out var result);
 
-            Assert.IsTrue(subject);
+            Assert.That(subject, Is.True);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.ExtensionMethods
 
             items.TryFirst(w => w == 1, out var result);
 
-            Assert.AreEqual(1, result);
+            Assert.That(result, Is.EqualTo(1));
         }
         #endregion TryFirst
     }

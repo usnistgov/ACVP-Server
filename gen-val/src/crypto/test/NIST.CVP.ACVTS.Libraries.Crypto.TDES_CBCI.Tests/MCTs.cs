@@ -116,10 +116,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             Assert.Multiple(() =>
             {
                 var lastResult = result.Response[result.Response.Count - 1];
-                Assert.AreEqual(expectedFinalKey.ToHex(), lastResult.Keys.ToHex(), nameof(expectedFinalKey));
-                Assert.AreEqual(expectedFinalPt.ToHex(), lastResult.PlainText.ToHex(), nameof(expectedFinalPt));
-                Assert.AreEqual(expectedFinalCt.ToHex(), lastResult.CipherText.ToHex(), nameof(expectedFinalCt));
-                Assert.AreEqual(expectedIv.ToHex(), lastResult.IV.ToHex(), nameof(expectedIv));
+                Assert.That(lastResult.Keys.ToHex(), Is.EqualTo(expectedFinalKey.ToHex()), nameof(expectedFinalKey));
+                Assert.That(lastResult.PlainText.ToHex(), Is.EqualTo(expectedFinalPt.ToHex()), nameof(expectedFinalPt));
+                Assert.That(lastResult.CipherText.ToHex(), Is.EqualTo(expectedFinalCt.ToHex()), nameof(expectedFinalCt));
+                Assert.That(lastResult.IV.ToHex(), Is.EqualTo(expectedIv.ToHex()), nameof(expectedIv));
             });
         }
 
@@ -205,10 +205,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             Assert.Multiple(() =>
             {
                 var lastResult = result.Response[result.Response.Count - 1];
-                Assert.AreEqual(expectedFinalKey.ToHex(), lastResult.Keys.ToHex(), nameof(expectedFinalKey));
-                Assert.AreEqual(expectedFinalPt.ToHex(), lastResult.PlainText.ToHex(), nameof(expectedFinalPt));
-                Assert.AreEqual(expectedFinalCt.ToHex(), lastResult.CipherText.ToHex(), nameof(expectedFinalCt));
-                Assert.AreEqual(expectedIv.ToHex(), lastResult.IV.ToHex(), nameof(expectedIv));
+                Assert.That(lastResult.Keys.ToHex(), Is.EqualTo(expectedFinalKey.ToHex()), nameof(expectedFinalKey));
+                Assert.That(lastResult.PlainText.ToHex(), Is.EqualTo(expectedFinalPt.ToHex()), nameof(expectedFinalPt));
+                Assert.That(lastResult.CipherText.ToHex(), Is.EqualTo(expectedFinalCt.ToHex()), nameof(expectedFinalCt));
+                Assert.That(lastResult.IV.ToHex(), Is.EqualTo(expectedIv.ToHex()), nameof(expectedIv));
             });
         }
     }

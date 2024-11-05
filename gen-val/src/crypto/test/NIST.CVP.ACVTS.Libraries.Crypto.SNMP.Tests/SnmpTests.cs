@@ -25,8 +25,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SNMP.Tests
             var subject = new Snmp(new NativeFastSha1());
             var result = subject.KeyLocalizationFunction(engineId, password);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(sharedKey.ToHex(), result.SharedKey.ToHex());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.SharedKey.ToHex(), Is.EqualTo(sharedKey.ToHex()));
         }
     }
 }

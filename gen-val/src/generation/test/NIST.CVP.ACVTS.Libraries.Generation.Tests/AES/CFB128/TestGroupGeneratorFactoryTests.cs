@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB128
 
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB128
 
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 3);
+            Assert.That(result.Count() == 3, Is.True);
         }
     }
 }

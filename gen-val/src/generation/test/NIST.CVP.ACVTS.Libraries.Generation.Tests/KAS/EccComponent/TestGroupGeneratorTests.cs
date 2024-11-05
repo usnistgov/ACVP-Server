@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedCount, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedCount));
         }
     }
 }

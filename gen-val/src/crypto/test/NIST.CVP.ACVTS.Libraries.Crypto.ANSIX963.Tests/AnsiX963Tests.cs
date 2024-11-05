@@ -44,8 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ANSIX963.Tests
             var subject = new AnsiX963(sha);
             var result = subject.DeriveKey(z, sharedInfo, keyLength);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(keyData, result.DerivedKey.ToHex().ToLower());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.DerivedKey.ToHex().ToLower(), Is.EqualTo(keyData));
         }
     }
 }

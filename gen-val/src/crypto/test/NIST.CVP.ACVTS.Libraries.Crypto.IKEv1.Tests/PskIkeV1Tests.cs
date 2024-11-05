@@ -86,12 +86,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv1.Tests
             var subject = _factory.GetIkeV1Instance(AuthenticationMethods.Psk, hash);
 
             var result = subject.GenerateIke(ni, nr, gxy, ckyi, ckyr, psk);
-            
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(sKeyId, result.SKeyId, "sKeyId");
-            Assert.AreEqual(sKeyIdD, result.SKeyIdD, "sKeyIdD");
-            Assert.AreEqual(sKeyIdA, result.SKeyIdA, "sKeyIdA");
-            Assert.AreEqual(sKeyIdE, result.SKeyIdE, "sKeyIdE");
+
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.SKeyId, Is.EqualTo(sKeyId), "sKeyId");
+            Assert.That(result.SKeyIdD, Is.EqualTo(sKeyIdD), "sKeyIdD");
+            Assert.That(result.SKeyIdA, Is.EqualTo(sKeyIdA), "sKeyIdA");
+            Assert.That(result.SKeyIdE, Is.EqualTo(sKeyIdE), "sKeyIdE");
         }
     }
 }

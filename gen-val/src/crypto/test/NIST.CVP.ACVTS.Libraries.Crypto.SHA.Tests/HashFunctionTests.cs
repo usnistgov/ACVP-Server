@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             _subject = new HashFunction(mode, digestSize);
 
-            Assert.AreEqual(outputLen, _subject.OutputLen);
-            Assert.AreEqual(blockSize, _subject.BlockSize);
+            Assert.That(_subject.OutputLen, Is.EqualTo(outputLen));
+            Assert.That(_subject.BlockSize, Is.EqualTo(blockSize));
         }
 
         [TestCase(ModeValues.SHA1, DigestSizes.d224)]

@@ -45,8 +45,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC
 
             var results = _subject.GetValidators(testVectorSet);
 
-            Assert.IsTrue(results.Count() == 1, "Expected 1 validator");
-            Assert.IsInstanceOf(expectedType, results.First());
+            Assert.That(results.Count() == 1, Is.True, "Expected 1 validator");
+            Assert.That(results.First(), Is.InstanceOf(expectedType));
         }
 
         private void GetData(ref TestVectorSet testVectorSet)

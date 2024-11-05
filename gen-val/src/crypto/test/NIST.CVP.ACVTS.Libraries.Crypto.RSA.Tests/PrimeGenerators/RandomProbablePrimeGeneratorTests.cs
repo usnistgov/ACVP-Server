@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesFips186_2(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesFips186_4(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -89,9 +89,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesFips186_5(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            if (a != 0) Assert.AreEqual(a, (int)(result.Primes.P % 8));
-            if (b != 0) Assert.AreEqual(b, (int)(result.Primes.Q % 8));
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            if (a != 0) Assert.That((int)(result.Primes.P % 8), Is.EqualTo(a));
+            if (b != 0) Assert.That((int)(result.Primes.Q % 8), Is.EqualTo(b));
         }
 
         // These are KATs
@@ -136,7 +136,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             var result = subject.GeneratePrimesKat(param);
 
-            Assert.AreEqual(expectedResult, result.Success, expectedMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedResult), expectedMessage);
             if (!result.Success)
             {
                 Console.Write($"Expected reason: {expectedMessage}\nActual reason: {result.ErrorMessage}");
@@ -157,8 +157,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
                     "43437730C34C04A701B1C1BDC848140EBBB6893626568567DA9D439F8B94D352A26DBE6377A9F3DACFD8558B6E85EF9AAF051A96B9E22802A6EEDAB727D380563C3042B7E3C413D54C42194E582C56B4546A720BEA0F83E525A2278A7F401CE827ADB8C53A4304221004A53CC84DA4CE7959F744BCA703F5F57DFBE7E624DAF27EE19CFCFBD00E4BAE2EB2ED04786320890EAF5A339BC9C3AAB495498FB251C2F2AAB42B6D2EDD28B32ADF856AADA98AC68B9A38E7CD9D330C0A2AD9F8C2768EB41C9BAE0329AB24469627D0CED6CDD48D8E0B064106DF8E58B855195224BEDBFBAE5B37823619D191DB3EC65BF6EB61237DFEB79D723C10541DE41CFB3D00855D83C7B938F1528B45A9797D1634AC3DD4505653A91B5EC3689428D4C25F7A0A5855FB0733C0B27AD0A7D3FC35A4A47DF2A67B764859DA588BFB7AEA6B233319A5AE21BBB29EE450C79EAC8474E9BEE27E94F8F57820B97A10AEA618117A197D2C48E6F4862312EA9CF49701D3EB0731138B6585A15F618BA2A7DFC58981455F")
                 .ToPositiveBigInteger();
 
-            Assert.IsTrue(p > mistakenLowerBounds, nameof(mistakenLowerBounds));
-            Assert.IsTrue(p < actualLowerBounds, nameof(actualLowerBounds));
+            Assert.That(p > mistakenLowerBounds, Is.True, nameof(mistakenLowerBounds));
+            Assert.That(p < actualLowerBounds, Is.True, nameof(actualLowerBounds));
         }
     }
 }

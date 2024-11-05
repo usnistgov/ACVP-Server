@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ANSX942.Tests
 
             var result = subject.DeriveKey(param);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
 
             Console.WriteLine(result.DerivedKey.ToHex());
             Assert.Pass();
@@ -61,7 +61,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ANSX942.Tests
             };
 
             var result = subject.DeriveKey(param);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
     }
 }

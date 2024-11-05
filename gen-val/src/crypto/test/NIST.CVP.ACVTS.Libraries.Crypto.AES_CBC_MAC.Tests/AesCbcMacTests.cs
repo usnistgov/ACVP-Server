@@ -30,8 +30,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_MAC.Tests
             var param = new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, BitString.Zeroes(128), key, payload);
             var result = subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedResult.ToHex(), result.Result.ToHex());
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.Result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
     }
 }

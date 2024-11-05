@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
         {
             var p = new ParameterBuilder().Build();
 
-            Assert.IsTrue(_subject.Validate(p).Success);
+            Assert.That(_subject.Validate(p).Success, Is.True);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
                 .WithRevision(revision)
                 .Build();
 
-            Assert.IsFalse(_subject.Validate(p).Success);
+            Assert.That(_subject.Validate(p).Success, Is.False);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
                 .WithHashAlgs(EnumHelpers.GetEnums<HashFunctions>())
                 .Build();
 
-            Assert.IsFalse(_subject.Validate(p).Success);
+            Assert.That(_subject.Validate(p).Success, Is.False);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
                 .WithHashAlgs(hashFunctions)
                 .Build();
 
-            Assert.AreEqual(shouldPass, _subject.Validate(p).Success);
+            Assert.That(_subject.Validate(p).Success, Is.EqualTo(shouldPass));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
                 .WithRunningMode(runningModes)
                 .Build();
 
-            Assert.AreEqual(shouldPass, _subject.Validate(p).Success);
+            Assert.That(_subject.Validate(p).Success, Is.EqualTo(shouldPass));
         }
     }
 }

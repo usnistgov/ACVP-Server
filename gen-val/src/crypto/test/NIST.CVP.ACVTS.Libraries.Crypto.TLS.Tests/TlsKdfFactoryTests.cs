@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
             var subject = new TlsKdfFactory(new HmacFactory(new NativeShaFactory()));
             var result = subject.GetTlsKdfInstance(tlsMode, hashFunction);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

@@ -81,13 +81,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CFB8.IntegrationTests
                                 testCase.ResultsArray.First().PlainText.GetDeepCopy()
                             ));
 
-                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT encrypt count should be gt 0");
+                            Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT encrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
+                                Assert.That(result.Response[i].IV, Is.EqualTo(testCase.ResultsArray[i].IV), $"IV mismatch on index {i}");
+                                Assert.That(result.Response[i].Key, Is.EqualTo(testCase.ResultsArray[i].Key), $"Key mismatch on index {i}");
+                                Assert.That(result.Response[i].PlainText, Is.EqualTo(testCase.ResultsArray[i].PlainText), $"PlainText mismatch on index {i}");
+                                Assert.That(result.Response[i].CipherText, Is.EqualTo(testCase.ResultsArray[i].CipherText), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -100,13 +100,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CFB8.IntegrationTests
                                 testCase.ResultsArray.First().CipherText.GetDeepCopy()
                             ));
 
-                            Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT decrypt count should be gt 0");
+                            Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT decrypt count should be gt 0");
                             for (int i = 0; i < testCase.ResultsArray.Count; i++)
                             {
-                                Assert.AreEqual(testCase.ResultsArray[i].IV, result.Response[i].IV, $"IV mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].Key, result.Response[i].Key, $"Key mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].PlainText, result.Response[i].PlainText, $"PlainText mismatch on index {i}");
-                                Assert.AreEqual(testCase.ResultsArray[i].CipherText, result.Response[i].CipherText, $"CipherText mismatch on index {i}");
+                                Assert.That(result.Response[i].IV, Is.EqualTo(testCase.ResultsArray[i].IV), $"IV mismatch on index {i}");
+                                Assert.That(result.Response[i].Key, Is.EqualTo(testCase.ResultsArray[i].Key), $"Key mismatch on index {i}");
+                                Assert.That(result.Response[i].PlainText, Is.EqualTo(testCase.ResultsArray[i].PlainText), $"PlainText mismatch on index {i}");
+                                Assert.That(result.Response[i].CipherText, Is.EqualTo(testCase.ResultsArray[i].CipherText), $"CipherText mismatch on index {i}");
                             }
                             continue;
                         }
@@ -129,7 +129,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CFB8.IntegrationTests
                             else
                                 fails++;
 
-                            Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(),
+                            Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.CipherText.ToHex()),
                                 $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
@@ -148,7 +148,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CFB8.IntegrationTests
                             else
                                 fails++;
 
-                            Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(),
+                            Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.PlainText.ToHex()),
                                 $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                             continue;
                         }
@@ -158,8 +158,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CFB8.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(mctTestHit, "No MCT tests were run");
-            Assert.IsTrue(nonMctTestHit, "No normal (non MCT) tests were run");
+            Assert.That(mctTestHit, Is.True, "No MCT tests were run");
+            Assert.That(nonMctTestHit, Is.True, "No normal (non MCT) tests were run");
 
             // Assert.Fail($"Passes {passes}, fails {fails}, count {count}");
         }

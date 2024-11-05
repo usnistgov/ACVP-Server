@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldAddArraysOfEqualLength(string label, byte[] bArrayA, byte[] bArrayB, byte[] expected)
         {
             var result = bArrayA.Add(bArrayB);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldAddArraysWhenByteArrayALongerThanByteArrayB(string label, byte[] bArrayA, byte[] bArrayB, byte[] expected)
         {
             var result = bArrayA.Add(bArrayB);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldPadArrayByAdding0BytesToMostSignificantEnd(byte[] bArrayA, int padLength, byte[] expected)
         {
             var result = bArrayA.PadArrayToLength(padLength);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldSetOddParityBit(string label, byte[] bArray, byte[] expected)
         {
             var result = bArray.SetOddParityBitInSuppliedBytes();
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldHaveOddParityBitInAllBytes(string label, byte[] bArray)
         {
             var result = bArray.AllBytesHaveOddParity();
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldNotHaveOddParityBitInAllBytes(string label, byte[] bArray)
         {
             var result = bArray.AllBytesHaveOddParity();
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ShouldGetProperKeyBit(string label, byte[] subject, int bitNum, byte expected)
         {
             var result = subject.GetKeyBit(bitNum);
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (var i = 0; i < data.Length; i++)
             {
-                Assert.AreEqual(valueToSet, result[i], $"{nameof(i)}: {i}");
+                Assert.That(result[i], Is.EqualTo(valueToSet), $"{nameof(i)}: {i}");
             }
         }
 
@@ -135,7 +135,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void WhenBitLengthGivenByteArrayOfBytesX_ShouldReturnLengthTimesEightOfX(int byteArrayLength, int expectedBits)
         {
             var bytes = new byte[byteArrayLength];
-            Assert.AreEqual(expectedBits, bytes.BitLength());
+            Assert.That(bytes.BitLength(), Is.EqualTo(expectedBits));
         }
 
         [Test]

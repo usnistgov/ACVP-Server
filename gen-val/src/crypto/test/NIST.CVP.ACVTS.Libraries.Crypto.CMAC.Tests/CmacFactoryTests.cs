@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CMAC.Tests
         {
             var result = _subject.GetCmacInstance(cmacType);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

@@ -140,8 +140,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs1.ProcessPayload(param);
 
-            Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()), nameof(ct));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -167,8 +167,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs1.ProcessPayload(param);
 
-            Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()), nameof(pt));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -194,8 +194,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs2.ProcessPayload(param);
 
-            Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()), nameof(ct));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -221,8 +221,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs2.ProcessPayload(param);
 
-            Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()), nameof(pt));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -237,8 +237,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs3.ProcessPayload(param);
 
-            Assert.AreEqual(ct.ToHex(), result.Result.ToHex(), nameof(ct));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()), nameof(ct));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -253,8 +253,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             );
             var result = _subjectCs3.ProcessPayload(param);
 
-            Assert.AreEqual(pt.ToHex(), result.Result.ToHex(), nameof(pt));
-            Assert.AreEqual(nextIv.ToHex(), param.Iv.ToHex(), nameof(nextIv));
+            Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()), nameof(pt));
+            Assert.That(param.Iv.ToHex(), Is.EqualTo(nextIv.ToHex()), nameof(nextIv));
         }
 
         [Test]
@@ -268,7 +268,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                 _subjectCs1.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
                     encryptResult.Result));
 
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()));
         }
 
         [Test]
@@ -282,7 +282,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                 _subjectCs2.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
                     encryptResult.Result));
 
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()));
         }
 
         [Test]
@@ -296,7 +296,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                 _subjectCs3.ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key,
                     encryptResult.Result));
 
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex());
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()));
         }
 
         protected int GetNumberOfBlocks(int outputLengthBits)

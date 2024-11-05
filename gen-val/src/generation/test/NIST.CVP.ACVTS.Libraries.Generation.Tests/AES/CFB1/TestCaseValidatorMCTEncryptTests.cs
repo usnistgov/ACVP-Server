@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected Cipher Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("plain text"), "Reason contains the unexpected value Plain Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("key"), "Reason contains the unexpected value Key");
-            Assert.IsFalse(result.Reason.ToLower().Contains("iv"), "Reason contains the unexpected value IV");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("cipher text"), Is.True, "Reason does not contain the expected Cipher Text");
+            Assert.That(result.Reason.ToLower().Contains("plain text"), Is.False, "Reason contains the unexpected value Plain Text");
+            Assert.That(result.Reason.ToLower().Contains("key"), Is.False, "Reason contains the unexpected value Key");
+            Assert.That(result.Reason.ToLower().Contains("iv"), Is.False, "Reason contains the unexpected value IV");
         }
 
         [Test]
@@ -55,11 +55,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
-            Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected Plain Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("key"), "Reason contains the unexpected value Key");
-            Assert.IsFalse(result.Reason.ToLower().Contains("iv"), "Reason contains the unexpected value IV");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("cipher text"), Is.False, "Reason contains the unexpected value Cipher Text");
+            Assert.That(result.Reason.ToLower().Contains("plain text"), Is.True, "Reason does not contain the expected Plain Text");
+            Assert.That(result.Reason.ToLower().Contains("key"), Is.False, "Reason contains the unexpected value Key");
+            Assert.That(result.Reason.ToLower().Contains("iv"), Is.False, "Reason contains the unexpected value IV");
         }
 
         [Test]
@@ -75,11 +75,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("plain text"), "Reason contains the unexpected value Plain Text");
-            Assert.IsTrue(result.Reason.ToLower().Contains("key"), "Reason does not contain the expected value Key");
-            Assert.IsFalse(result.Reason.ToLower().Contains("iv"), "Reason contains the unexpected value IV");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("cipher text"), Is.False, "Reason contains the unexpected value Cipher Text");
+            Assert.That(result.Reason.ToLower().Contains("plain text"), Is.False, "Reason contains the unexpected value Plain Text");
+            Assert.That(result.Reason.ToLower().Contains("key"), Is.True, "Reason does not contain the expected value Key");
+            Assert.That(result.Reason.ToLower().Contains("iv"), Is.False, "Reason contains the unexpected value IV");
         }
 
         [Test]
@@ -95,11 +95,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsFalse(result.Reason.ToLower().Contains("cipher text"), "Reason contains the unexpected value Cipher Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("plain text"), "Reason contains the unexpected value Plain Text");
-            Assert.IsFalse(result.Reason.ToLower().Contains("key"), "Reason contains the unexpected value Key");
-            Assert.IsTrue(result.Reason.ToLower().Contains("iv"), "Reason does not contain the expected value IV");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("cipher text"), Is.False, "Reason contains the unexpected value Cipher Text");
+            Assert.That(result.Reason.ToLower().Contains("plain text"), Is.False, "Reason contains the unexpected value Plain Text");
+            Assert.That(result.Reason.ToLower().Contains("key"), Is.False, "Reason contains the unexpected value Key");
+            Assert.That(result.Reason.ToLower().Contains("iv"), Is.True, "Reason does not contain the expected value IV");
         }
 
         [Test]
@@ -119,10 +119,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.IsTrue(result.Reason.ToLower().Contains("cipher text"), "Reason does not contain the expected value Cipher Text");
-            Assert.IsTrue(result.Reason.ToLower().Contains("plain text"), "Reason does not contain the expected value Plain Text");
-            Assert.IsTrue(result.Reason.ToLower().Contains("key"), "Reason does not contain the expected value Key");
-            Assert.IsTrue(result.Reason.ToLower().Contains("iv"), "Reason does not contain the expected value IV");
+            Assert.That(result.Reason.ToLower().Contains("cipher text"), Is.True, "Reason does not contain the expected value Cipher Text");
+            Assert.That(result.Reason.ToLower().Contains("plain text"), Is.True, "Reason does not contain the expected value Plain Text");
+            Assert.That(result.Reason.ToLower().Contains("key"), Is.True, "Reason does not contain the expected value Key");
+            Assert.That(result.Reason.ToLower().Contains("iv"), Is.True, "Reason does not contain the expected value IV");
         }
 
         [Test]
@@ -137,9 +137,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason
-                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Key)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Key)}"), Is.True);
         }
 
         [Test]
@@ -154,9 +154,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason
-                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.IV)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.IV)}"), Is.True);
         }
 
         [Test]
@@ -171,9 +171,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason
-                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.PlainText)}"), Is.True);
         }
 
         [Test]
@@ -188,9 +188,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason
-                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason
+                .Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.CipherText)}"), Is.True);
         }
 
         private TestCase GetTestCase()

@@ -47,12 +47,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v1_0.ContractResolve
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
-            Assert.AreNotEqual(tg.PayloadLen, newTg.PayloadLen, nameof(newTg.PayloadLen));
-            Assert.AreNotEqual(tg.TweakMode, newTg.TweakMode, nameof(newTg.TweakMode));
+            Assert.That(newTg.Direction, Is.Not.EqualTo(tg.Direction), nameof(newTg.Direction));
+            Assert.That(newTg.PayloadLen, Is.Not.EqualTo(tg.PayloadLen), nameof(newTg.PayloadLen));
+            Assert.That(newTg.TweakMode, Is.Not.EqualTo(tg.TweakMode), nameof(newTg.TweakMode));
         }
 
         /// <summary>
@@ -76,20 +76,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v1_0.ContractResolve
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.CipherText, Is.EqualTo(tc.CipherText), nameof(newTc.CipherText));
 
-            Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
-            Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Key, Is.Not.EqualTo(tc.Key), nameof(newTc.Key));
+            Assert.That(newTc.PlainText, Is.Not.EqualTo(tc.PlainText), nameof(newTc.PlainText));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
+            Assert.That(regexDeferred.Matches(json).Count == 0, Is.True);
         }
 
         /// <summary>
@@ -113,20 +113,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v1_0.ContractResolve
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.PlainText, Is.EqualTo(tc.PlainText), nameof(newTc.PlainText));
 
-            Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
-            Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Key, Is.Not.EqualTo(tc.Key), nameof(newTc.Key));
+            Assert.That(newTc.CipherText, Is.Not.EqualTo(tc.CipherText), nameof(newTc.CipherText));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
+            Assert.That(regexDeferred.Matches(json).Count == 0, Is.True);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
                 Curve = ParameterValidator.VALID_CURVES
             };
 
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
                 Curve = ParameterValidator.VALID_CURVES
             };
 
-            Assert.AreEqual("EDDSA", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("EDDSA"));
         }
     }
 }

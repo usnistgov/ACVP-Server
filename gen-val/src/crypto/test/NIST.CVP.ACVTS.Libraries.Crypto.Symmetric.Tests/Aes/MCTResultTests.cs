@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
 
             MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(list);
 
-            Assert.AreEqual(numberOfResponses, subject.Response.Count);
+            Assert.That(subject.Response.Count, Is.EqualTo(numberOfResponses));
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             List<AlgoArrayResponse> list = new List<AlgoArrayResponse>();
             MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(list);
 
-            Assert.IsTrue(subject.Success, nameof(subject.Success));
-            Assert.IsTrue(string.IsNullOrEmpty(subject.ErrorMessage), nameof(subject.ErrorMessage));
+            Assert.That(subject.Success, Is.True, nameof(subject.Success));
+            Assert.That(string.IsNullOrEmpty(subject.ErrorMessage), Is.True, nameof(subject.ErrorMessage));
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             string error = "Error!";
             MCTResult<AlgoArrayResponse> subject = new MCTResult<AlgoArrayResponse>(error);
 
-            Assert.IsFalse(subject.Success, nameof(subject.Success));
-            Assert.AreEqual(error, subject.ErrorMessage);
+            Assert.That(subject.Success, Is.False, nameof(subject.Success));
+            Assert.That(subject.ErrorMessage, Is.EqualTo(error));
         }
     }
 }

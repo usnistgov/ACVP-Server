@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, null);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
         }
 
@@ -40,8 +40,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Key.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Key.ToHex(), Is.EqualTo("00AA"));
         }
 
 
@@ -58,8 +58,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var subject = new TestCase();
             var result = subject.SetString(name, text);
-            Assert.IsTrue(result);
-            Assert.AreEqual(expected, subject.CipherText);
+            Assert.That(result, Is.True);
+            Assert.That(subject.CipherText, Is.EqualTo(expected));
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
 
             var subject = new TestCase();
             var result = subject.SetString(name, text);
-            Assert.IsTrue(result);
-            Assert.AreEqual(expected, subject.PlainText);
+            Assert.That(result, Is.True);
+            Assert.That(subject.PlainText, Is.EqualTo(expected));
         }
     }
 }

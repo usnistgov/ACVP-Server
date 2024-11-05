@@ -1640,17 +1640,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             {
                 if (expectedZ != null)
                 {
-                    Assert.AreEqual(expectedZ.ToHex(), result.Z.ToHex(), nameof(result.Z));
+                    Assert.That(result.Z.ToHex(), Is.EqualTo(expectedZ.ToHex()), nameof(result.Z));
                 }
 
                 if (expectedMacData != null)
                 {
-                    Assert.AreEqual(expectedMacData.ToHex(), result.MacData.ToHex(), nameof(result.MacData));
+                    Assert.That(result.MacData.ToHex(), Is.EqualTo(expectedMacData.ToHex()), nameof(result.MacData));
                 }
 
                 if (expectedTag != null)
                 {
-                    Assert.AreEqual(expectedTag.ToHex(), result.Tag.ToHex(), nameof(result.Tag));
+                    Assert.That(result.Tag.ToHex(), Is.EqualTo(expectedTag.ToHex()), nameof(result.Tag));
                 }
             });
         }
@@ -1759,12 +1759,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             {
                 if (expectedZ != null)
                 {
-                    Assert.AreEqual(expectedZ.ToHex(), result.Z.ToHex(), nameof(result.Z));
+                    Assert.That(result.Z.ToHex(), Is.EqualTo(expectedZ.ToHex()), nameof(result.Z));
                 }
 
                 if (expectedDkm != null)
                 {
-                    Assert.AreEqual(expectedDkm.ToHex(), result.Dkm.ToHex(), nameof(result.Dkm));
+                    Assert.That(result.Dkm.ToHex(), Is.EqualTo(expectedDkm.ToHex()), nameof(result.Dkm));
                 }
             });
         }
@@ -1866,12 +1866,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             {
                 if (expectedZ != null)
                 {
-                    Assert.AreEqual(expectedZ.ToHex(), result.Z.ToHex(), nameof(result.Z));
+                    Assert.That(result.Z.ToHex(), Is.EqualTo(expectedZ.ToHex()), nameof(result.Z));
                 }
 
                 if (expectedDkm != null)
                 {
-                    Assert.AreEqual(expectedDkm.ToHex(), result.Dkm.ToHex(), nameof(result.Dkm));
+                    Assert.That(result.Dkm.ToHex(), Is.EqualTo(expectedDkm.ToHex()), nameof(result.Dkm));
                 }
             });
         }

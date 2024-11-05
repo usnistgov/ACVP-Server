@@ -133,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
 
             var result = await _subject.BuildTestGroupsAsync(parameters);
 
-            Assert.AreEqual(expectedNumberOfGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedNumberOfGroups));
         }
     }
 }

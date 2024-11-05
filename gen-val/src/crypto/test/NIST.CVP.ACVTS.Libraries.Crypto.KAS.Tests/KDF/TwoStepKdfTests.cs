@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
 
             var dkm = _kdfVisitor.Kdf(twoStepParam, new BitString(128));
 
-            Assert.AreEqual("EB9436CDC0C6FBC168A3BDE32929C104C2E4F4C1DEA2CA3485A7799E49870E0C", dkm.DerivedKey.ToHex());
+            Assert.That(dkm.DerivedKey.ToHex(), Is.EqualTo("EB9436CDC0C6FBC168A3BDE32929C104C2E4F4C1DEA2CA3485A7799E49870E0C"));
         }
     }
 }

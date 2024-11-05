@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFBI.Tests
             );
             var result = _subject.ProcessPayload(p);
 
-            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(cipherText.ToHex()));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFBI.Tests
             );
             var result = _subject.ProcessPayload(p);
 
-            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(plainText.ToHex()));
         }
     }
 }

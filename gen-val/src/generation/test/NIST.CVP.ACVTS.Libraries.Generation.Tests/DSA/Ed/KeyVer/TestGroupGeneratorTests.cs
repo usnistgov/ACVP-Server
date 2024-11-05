@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.KeyVer
         {
             var subject = new TestGroupGenerator();
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var validateResult = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Passed);
+            Assert.That(validateResult.Result == Core.Enums.Disposition.Passed, Is.True);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var validateResult = await _subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsTrue(validateResult.Result == Core.Enums.Disposition.Failed);
+            Assert.That(validateResult.Result == Core.Enums.Disposition.Failed, Is.True);
         }
     }
 }

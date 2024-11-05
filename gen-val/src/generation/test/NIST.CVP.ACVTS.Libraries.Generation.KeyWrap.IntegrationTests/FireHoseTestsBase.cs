@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.IntegrationTests
                             continue;
                         }
 
-                        Assert.AreEqual(expectedCipher.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {expectedCipher.ToHex()}, got {result.Result.ToHex()}");
+                        Assert.That(result.Result.ToHex(), Is.EqualTo(expectedCipher.ToHex()), $"Failed on count {count} expected CT {expectedCipher.ToHex()}, got {result.Result.ToHex()}");
                         testPasses++;
                         continue;
                     }
@@ -113,7 +113,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.IntegrationTests
 
                         testPasses++;
 
-                        Assert.AreEqual(expectedPlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
+                        Assert.That(result.Result.ToHex(), Is.EqualTo(expectedPlainText.ToHex()), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
 
@@ -124,8 +124,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.IntegrationTests
             if (fails > 0)
                 Assert.Fail("Unexpected failures were encountered.");
 
-            Assert.IsTrue(testPasses > 0, "No tests were run");
-            Assert.IsTrue(failureTests > 0, "No expected failure tests were run");
+            Assert.That(testPasses > 0, Is.True, "No tests were run");
+            Assert.That(failureTests > 0, Is.True, "No expected failure tests were run");
             //Assert.Fail($"Passes {testPasses}, fails {fails}, count {count}.");
         }
     }

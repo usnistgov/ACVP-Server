@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
         {
             var subject = new TestCaseValidatorNull("error", 0);
             var result = await subject.ValidateAsync(new TestCase());
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
     }
 }

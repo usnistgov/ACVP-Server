@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 // If the current bit is not 0, the next bit should not be -1 or 1
                 if (subject.Bits[i] != 0)
                 {
-                    Assert.AreNotEqual(1, System.Math.Abs(subject.Bits[i + 1]), $"Adjacent bit found at {i}");
+                    Assert.That(System.Math.Abs(subject.Bits[i + 1]), Is.Not.EqualTo(1), $"Adjacent bit found at {i}");
                 }
             }
         }
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 result += subject.Bits[i] * (BigInteger.One << i);
             }
 
-            Assert.AreEqual(bigInt, result);
+            Assert.That(result, Is.EqualTo(bigInt));
         }
     }
 }

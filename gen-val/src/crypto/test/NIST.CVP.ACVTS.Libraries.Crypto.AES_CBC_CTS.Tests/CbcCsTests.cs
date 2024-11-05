@@ -80,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             var result = _subjectCs3
                 .ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv.GetDeepCopy(), key, pt)).Result;
 
-            Assert.AreEqual(ct.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(ct.ToHex()));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             var result = _subjectCs3
                 .ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv.GetDeepCopy(), key, ct)).Result;
 
-            Assert.AreEqual(pt.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(pt.ToHex()));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             var decryptResult = _subjectCs3
                 .ProcessPayload(new ModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv.GetDeepCopy(), key, encryptResult)).Result;
 
-            Assert.AreEqual(pt.GetMostSignificantBits(pt.BitLength).ToHex(), decryptResult.GetMostSignificantBits(pt.BitLength).ToHex());
+            Assert.That(decryptResult.GetMostSignificantBits(pt.BitLength).ToHex(), Is.EqualTo(pt.GetMostSignificantBits(pt.BitLength).ToHex()));
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                         key.GetDeepCopy(),
                         encryptResult.GetDeepCopy())).Result;
 
-            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+            Assert.That(decryptResult.ToHex(), Is.EqualTo(pt.ToHex()), "Expected decrypt back to original PT");
         }
 
         [Test]
@@ -161,7 +161,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                         key.GetDeepCopy(),
                         encryptResult.GetDeepCopy())).Result;
 
-            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+            Assert.That(decryptResult.ToHex(), Is.EqualTo(pt.ToHex()), "Expected decrypt back to original PT");
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
                         encryptResult.GetDeepCopy())).Result;
 
             //Assert.AreEqual(expectedCtFromServer.ToHex(), encryptResult.ToHex(), "Expected CT");
-            Assert.AreEqual(pt.ToHex(), decryptResult.ToHex(), "Expected decrypt back to original PT");
+            Assert.That(decryptResult.ToHex(), Is.EqualTo(pt.ToHex()), "Expected decrypt back to original PT");
         }
     }
 }

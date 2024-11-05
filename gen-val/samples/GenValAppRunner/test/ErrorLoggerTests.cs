@@ -34,12 +34,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             ErrorLogger.LogError(code, "test", "test-test", fullPath);
 
             var errorPath = Path.Combine(fullPath, "error.json");
-            Assert.IsTrue(File.Exists(errorPath), "File must exist");
+            Assert.That(File.Exists(errorPath), Is.True, "File must exist");
 
             var errorContent = File.ReadAllText(errorPath);
             var error = JsonConvert.DeserializeObject<Error>(errorContent);
 
-            Assert.AreEqual(code, error.StatusCode, "Status codes must match");
+            Assert.That(error.StatusCode, Is.EqualTo(code), "Status codes must match");
         }
     }
 }

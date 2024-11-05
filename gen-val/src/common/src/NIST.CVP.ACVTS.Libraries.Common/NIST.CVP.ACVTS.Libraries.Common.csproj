@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 		<Version>$(GenValPackageVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Project contains enums, extension methods, database helpers, and other various objects for use in the ACVP program.</Description>

@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             var result = await subject.ValidateAsync(GetResultTestCase());
 
             mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             var result = await subject.ValidateAsync(GetResultTestCase());
 
             mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
             var result = await subject.ValidateAsync(suppliedTestCase);
 
             mockSigner.Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Never);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, VerifyResult>> GetResolverMock()

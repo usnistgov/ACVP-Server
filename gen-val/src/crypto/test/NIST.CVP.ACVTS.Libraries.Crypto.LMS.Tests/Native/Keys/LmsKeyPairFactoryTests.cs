@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             var result = new BitString(keyPair.PublicKey.Key);
             
             Console.WriteLine(result.ToHex());
-            Assert.AreEqual(key.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(key.ToHex()));
         }
         
         // Warning -- these tests were generated using the implementation itself, they are for consistency not correctness
@@ -74,8 +74,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
 
             var publicKey = keyPair.PublicKey.Key;
 
-            Assert.IsNotNull(publicKey);
-            Assert.AreEqual(keyHex, new BitString(publicKey).ToHex());
+            Assert.That(publicKey, Is.Not.Null);
+            Assert.That(new BitString(publicKey).ToHex(), Is.EqualTo(keyHex));
         }
 
         // Warning -- these tests were generated using the implementation itself, they are for consistency not correctness
@@ -104,8 +104,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             
             var publicKey = keyPair.PublicKey.Key;
 
-            Assert.IsNotNull(publicKey);
-            Assert.AreEqual(keyHex, new BitString(publicKey).ToHex());
+            Assert.That(publicKey, Is.Not.Null);
+            Assert.That(new BitString(publicKey).ToHex(), Is.EqualTo(keyHex));
         }
 
         // Warning -- these tests were generated using the implementation itself, they are for consistency not correctness
@@ -129,17 +129,17 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             var lmsKeyPair = _subject.GetKeyPair(lmsMode, lmOtsMode, new byte[16], seed, x);
             var publicKey = lmsKeyPair.PublicKey.Key;
             var tree = lmsKeyPair.PrivateKey;
-            
+
             // Console.WriteLine("public key: " + new BitString(publicKey).ToHex());
-            Assert.IsNotNull(publicKey);
-            Assert.AreEqual(keyHex, new BitString(publicKey).ToHex());
+            Assert.That(publicKey, Is.Not.Null);
+            Assert.That(new BitString(publicKey).ToHex(), Is.EqualTo(keyHex));
 
             for (var i = 1; i < (2 << x); i++)
             {
                 var expected = new BitString(expectedTree.GetTreeNodeAtIndex(i)).ToHex();
                 var computed = new BitString(tree.GetTreeNodeAtIndex(i)).ToHex();
                 // Console.WriteLine(computed);
-                Assert.AreEqual(expected, computed);
+                Assert.That(computed, Is.EqualTo(expected));
             }
         }
 
@@ -172,8 +172,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Keys
             var keyPair = _subject.GetKeyPair(lmsMode, lmOtsMode, new byte[16], seed);
             
         	var publicKey = keyPair.PublicKey.Key;
-        	
-        	Assert.IsNotNull(publicKey);
+
+            Assert.That(publicKey, Is.Not.Null);
         }
     }
 }

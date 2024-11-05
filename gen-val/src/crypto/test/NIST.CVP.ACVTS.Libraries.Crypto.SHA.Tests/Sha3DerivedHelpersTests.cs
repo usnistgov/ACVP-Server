@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var result = Sha3DerivedHelpers.IntToBitString(n);
 
-            Assert.AreEqual(expectedHex, result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedHex));
         }
 
         [Test]
@@ -70,11 +70,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
                     encodedCustomizationString),
                 Sha3DerivedHelpers.IntToBitString(rateBytes));
 
-            Assert.AreEqual(0,
-                (encodedFunctionName.BitLength + encodedCustomizationString.BitLength + leftEncodeRate.BitLength) %
-                blockAlignedToRate.BitLength,
+            Assert.That((encodedFunctionName.BitLength + encodedCustomizationString.BitLength + leftEncodeRate.BitLength) %
+                blockAlignedToRate.BitLength, Is.EqualTo(0),
                 "individual pieces mod rate bits should equal 0");
-            Assert.AreEqual(0, result.BitLength % blockAlignedToRate.BitLength,
+            Assert.That(result.BitLength % blockAlignedToRate.BitLength, Is.EqualTo(0),
                 "result bit length mod rate bits should equal 0");
         }
 
@@ -100,10 +99,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
                 encodedKey,
                 Sha3DerivedHelpers.IntToBitString(rateBytes));
 
-            Assert.AreEqual(0,
-                (encodedKey.BitLength + leftEncodeRate.BitLength) % blockAlignedToRate.BitLength,
+            Assert.That((encodedKey.BitLength + leftEncodeRate.BitLength) % blockAlignedToRate.BitLength, Is.EqualTo(0),
                 "individual pieces mod rate bits should equal 0");
-            Assert.AreEqual(0, result.BitLength % blockAlignedToRate.BitLength,
+            Assert.That(result.BitLength % blockAlignedToRate.BitLength, Is.EqualTo(0),
                 "result bit length mod rate bits should equal 0");
         }
 
@@ -114,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var result = Sha3DerivedHelpers.RightEncode(Sha3DerivedHelpers.IntToBitString(n));
 
-            Assert.AreEqual(expectedHex, result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedHex));
         }
 
         [Test]
@@ -124,7 +122,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var result = Sha3DerivedHelpers.LeftEncode(Sha3DerivedHelpers.IntToBitString(n));
 
-            Assert.AreEqual(expectedHex, result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedHex));
         }
     }
 }

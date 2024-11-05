@@ -112,6 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                 return new ParameterValidateResponse(errors);
             }
 
+            ValidateMacSaltMethods(parameters, errors);
             ValidateFixedInfoPattern(parameters.FixedInfoPattern, errors);
             ValidateFixedInfoEncoding(parameters.Encoding, errors);
             ValidateZ(parameters.Z, errors);
@@ -127,6 +128,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             ValidateSaltLens(parameters, errors);
             
             return new ParameterValidateResponse(errors);
+        }
+
+        private void ValidateMacSaltMethods(Parameters parameters, List<string> errors)
+        {
+            if (parameters.MacSaltMethods == null)
+            {
+                errors.Add($"{nameof(parameters.MacSaltMethods)} is missing and is a required setting.");
+            }
         }
 
         private void ValidateAlgoMode(Parameters parameters, List<string> errors)

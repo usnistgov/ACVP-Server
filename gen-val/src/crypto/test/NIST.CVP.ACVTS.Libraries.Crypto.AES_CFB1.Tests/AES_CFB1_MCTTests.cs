@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
 
             var result = _subject.ProcessMonteCarloTest(p);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
             _algo.Verify(v => v.ProcessPayload(
                 It.IsAny<ModeBlockCipherParameters>()),
                 Times.Exactly(100000),
@@ -109,7 +109,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
 
             var result = _subject.ProcessMonteCarloTest(p);
 
-            Assert.AreEqual(100, result.Response.Count);
+            Assert.That(result.Response.Count, Is.EqualTo(100));
         }
 
         [Test]
@@ -135,8 +135,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
 
             var result = _subject.ProcessMonteCarloTest(p);
 
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.AreEqual(error, result.ErrorMessage, nameof(result.ErrorMessage));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
+            Assert.That(result.ErrorMessage, Is.EqualTo(error), nameof(result.ErrorMessage));
         }
     }
 }

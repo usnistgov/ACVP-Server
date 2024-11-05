@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
         public async Task ShouldReturnValidation()
         {
             var validation = await _subject.ValidateResultsAsync(new List<ITestCaseValidatorAsync<FakeTestGroup, FakeTestCase>>(), new List<FakeTestGroup>(), false);
-            Assert.IsNotNull(validation);
+            Assert.That(validation, Is.Not.Null);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
             var validation = await _subject.ValidateResultsAsync(validators, new List<FakeTestGroup>(), false);
 
             Assert.That(validation != null);
-            Assert.AreEqual(count, validation.Validations.Count);
+            Assert.That(validation.Validations.Count, Is.EqualTo(count));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
             var firstResultValidation = validation.Validations.FirstOrDefault();
 
             Assert.That(firstResultValidation != null);
-            Assert.AreEqual(Disposition.Missing, firstResultValidation.Result);
+            Assert.That(firstResultValidation.Result, Is.EqualTo(Disposition.Missing));
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
             var firstResultValidation = validation.Validations.FirstOrDefault();
 
             Assert.That(firstResultValidation != null);
-            Assert.AreEqual(Disposition.Passed, firstResultValidation.Result);
+            Assert.That(firstResultValidation.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
             var firstResultValidation = validation.Validations.FirstOrDefault();
 
             Assert.That(firstResultValidation != null);
-            Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
+            Assert.That(firstResultValidation.Result, Is.EqualTo(Disposition.Failed));
         }
 
         [Test]
@@ -144,13 +144,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
             Assert.That(validation != null);
 
             var firstResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 1);
-            Assert.AreEqual(Disposition.Failed, firstResultValidation.Result);
+            Assert.That(firstResultValidation.Result, Is.EqualTo(Disposition.Failed));
 
             var secondResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 2);
-            Assert.AreEqual(Disposition.Passed, secondResultValidation.Result);
+            Assert.That(secondResultValidation.Result, Is.EqualTo(Disposition.Passed));
 
             var thirdResultValidation = validation.Validations.FirstOrDefault(v => v.TestCaseId == 3);
-            Assert.AreEqual(Disposition.Missing, thirdResultValidation.Result);
+            Assert.That(thirdResultValidation.Result, Is.EqualTo(Disposition.Missing));
         }
 
         [Test]
@@ -195,7 +195,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
 
             var result = await _subject.ValidateResultsAsync(validators, new List<FakeTestGroup>() { testGroup }, false);
 
-            Assert.AreEqual(numberToQueue, result.Validations.Count());
+            Assert.That(result.Validations.Count(), Is.EqualTo(numberToQueue));
         }
     }
 }

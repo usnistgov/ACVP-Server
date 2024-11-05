@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(true).Object);
             var result = await subject.ValidateAsync(GetResultTestCase());
 
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
             var subject = new TestCaseValidator(GetTestCase(), GetTestGroup(), GetDeferredResolver(false).Object);
             var result = await subject.ValidateAsync(GetResultTestCase());
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
         }
 
         private TestCase GetTestCase()

@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.Helpers
         [TestCase(FakeEnum.Third, TestDescription)]
         public void ShouldReturnCorrectEnumString(FakeEnum value, string expectedValue)
         {
-            Assert.AreEqual(expectedValue, EnumHelpers.GetEnumDescriptionFromEnum(value));
+            Assert.That(EnumHelpers.GetEnumDescriptionFromEnum(value), Is.EqualTo(expectedValue));
         }
 
         [Test]
@@ -38,13 +38,13 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.Helpers
         [TestCase(TestDescription, FakeEnum.Third)]
         public void ShouldReturnCorrectEnumFromDescription(string description, FakeEnum expectedEnum)
         {
-            Assert.AreEqual(expectedEnum, EnumHelpers.GetEnumFromEnumDescription<FakeEnum>(description));
+            Assert.That(EnumHelpers.GetEnumFromEnumDescription<FakeEnum>(description), Is.EqualTo(expectedEnum));
         }
 
         [Test]
         public void ShouldReturnDefaultWhenThrowIsFalse()
         {
-            Assert.AreEqual(default(FakeEnum), EnumHelpers.GetEnumFromEnumDescription<FakeEnum>("bad description", false));
+            Assert.That(EnumHelpers.GetEnumFromEnumDescription<FakeEnum>("bad description", false), Is.EqualTo(default(FakeEnum)));
         }
 
         [Test]
@@ -58,9 +58,9 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Tests.Helpers
         {
             var descriptions = EnumHelpers.GetEnumDescriptions<FakeEnum>();
 
-            Assert.Contains(FakeEnum.First.ToString(), descriptions, "first, no description");
-            Assert.Contains(FakeEnum.Second.ToString(), descriptions, "second, no description");
-            Assert.Contains(TestDescription, descriptions, "third, description");
+            Assert.That(descriptions, Does.Contain(FakeEnum.First.ToString()), "first, no description");
+            Assert.That(descriptions, Does.Contain(FakeEnum.Second.ToString()), "second, no description");
+            Assert.That(descriptions, Does.Contain(TestDescription), "third, description");
         }
     }
 }

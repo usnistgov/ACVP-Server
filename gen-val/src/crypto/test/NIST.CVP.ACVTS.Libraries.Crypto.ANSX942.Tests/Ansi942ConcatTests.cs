@@ -91,8 +91,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ANSX942.Tests
 
             var result = subject.DeriveKey(param);
 
-            Assert.True(result.Success);
-            Assert.AreEqual(new BitString(expectedHex).ToHex(), result.DerivedKey.ToHex());
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(new BitString(expectedHex).ToHex()));
         }
 
         // [TestCase(0)]
@@ -122,8 +122,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.ANSX942.Tests
 
             var result = subject.DeriveKey(param);
 
-            Assert.True(result.Success);
-            Assert.AreEqual(new BitString("DD8469A101758AA949516B0AE4B8F6B56438A0A119575D3265163C6BBBEA2CB58629F387A1AA163D5AE164C5206E1DB5").ToHex(), result.DerivedKey.ToHex());
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(new BitString("DD8469A101758AA949516B0AE4B8F6B56438A0A119575D3265163C6BBBEA2CB58629F387A1AA163D5AE164C5206E1DB5").ToHex()));
         }
     }
 }

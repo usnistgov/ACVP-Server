@@ -58,13 +58,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SRTP.Tests
             var subject = new Srtp();
             var result = subject.DeriveKey(keyLength, key, salt, kdr, index, srtcpIndex);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(srtpKe, result.SrtpResult.EncryptionKey.ToHex().ToLower(), "srtp ke");
-            Assert.AreEqual(srtpKa, result.SrtpResult.AuthenticationKey.ToHex().ToLower(), "srtp ka");
-            Assert.AreEqual(srtpKs, result.SrtpResult.SaltingKey.ToHex().ToLower(), "srtp ks");
-            Assert.AreEqual(srtcpKe, result.SrtcpResult.EncryptionKey.ToHex().ToLower(), "srtcp ke");
-            Assert.AreEqual(srtcpKa, result.SrtcpResult.AuthenticationKey.ToHex().ToLower(), "srtcp ka");
-            Assert.AreEqual(srtcpKs, result.SrtcpResult.SaltingKey.ToHex().ToLower(), "srtcp ks");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.SrtpResult.EncryptionKey.ToHex().ToLower(), Is.EqualTo(srtpKe), "srtp ke");
+            Assert.That(result.SrtpResult.AuthenticationKey.ToHex().ToLower(), Is.EqualTo(srtpKa), "srtp ka");
+            Assert.That(result.SrtpResult.SaltingKey.ToHex().ToLower(), Is.EqualTo(srtpKs), "srtp ks");
+            Assert.That(result.SrtcpResult.EncryptionKey.ToHex().ToLower(), Is.EqualTo(srtcpKe), "srtcp ke");
+            Assert.That(result.SrtcpResult.AuthenticationKey.ToHex().ToLower(), Is.EqualTo(srtcpKa), "srtcp ka");
+            Assert.That(result.SrtcpResult.SaltingKey.ToHex().ToLower(), Is.EqualTo(srtcpKs), "srtcp ks");
 
         }
     }

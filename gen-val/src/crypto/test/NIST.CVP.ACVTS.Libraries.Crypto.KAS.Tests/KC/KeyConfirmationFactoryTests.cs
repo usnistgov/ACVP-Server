@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KC
                 result = _subject.GetInstance(p);
             }
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

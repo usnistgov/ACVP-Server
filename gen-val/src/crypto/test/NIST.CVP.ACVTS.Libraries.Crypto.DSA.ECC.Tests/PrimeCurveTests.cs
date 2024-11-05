@@ -289,8 +289,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Add(a, b);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -519,8 +519,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Double(a);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -800,8 +800,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Multiply(a, multiple);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -848,7 +848,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.PointExistsOnCurve(a);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         private BigInteger LoadValue(string value)

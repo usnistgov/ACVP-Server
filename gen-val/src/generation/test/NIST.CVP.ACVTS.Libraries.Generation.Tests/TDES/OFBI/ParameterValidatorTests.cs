@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFBI
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         static object[] directionTestCases = {
@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFBI
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] failKeyingOptionTestCases = {
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFBI
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] successKeyingOptionTestCases = {
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.OFBI
                     .Build()
             );
 
-            Assert.IsTrue(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.True, testCaseLabel);
         }
 
         private class ParameterBuilder

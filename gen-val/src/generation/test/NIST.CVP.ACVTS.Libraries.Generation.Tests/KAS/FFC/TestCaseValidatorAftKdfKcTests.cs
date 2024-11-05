@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Passed);
+            Assert.That(result.Result == Core.Enums.Disposition.Passed, Is.True);
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         [Test]
@@ -266,7 +266,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         [Test]
@@ -343,7 +343,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         [Test]
@@ -497,7 +497,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         [Test]
@@ -587,7 +587,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
 
             var result = await _subject.ValidateAsync(testCase);
 
-            Assert.IsTrue(result.Result == Core.Enums.Disposition.Failed);
+            Assert.That(result.Result == Core.Enums.Disposition.Failed, Is.True);
         }
 
         private TestGroup GetData(FfcScheme scheme, KeyAgreementRole kasRole, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType)

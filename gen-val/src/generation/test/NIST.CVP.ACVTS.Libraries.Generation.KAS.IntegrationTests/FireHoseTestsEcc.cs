@@ -81,25 +81,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
 
                 if (testCase.TestPassed.Value)
                 {
-                    Assert.AreEqual(
-                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                    Assert.That(
                         result.Tag.ToHex()
-                    );
+, Is.EqualTo(testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex()));
                     passes++;
                 }
                 else
                 {
-                    Assert.AreNotEqual(
-                        testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex(),
+                    Assert.That(
                         result.Tag.ToHex()
-                    );
+, Is.Not.EqualTo(testGroup.KasMode == KasMode.NoKdfNoKc ? testCase.HashZ.ToHex() : testCase.Tag.ToHex()));
                     passes++;
                     expectedFails++;
                 }
             }
 
-            Assert.IsTrue(passes > 0, nameof(passes));
-            Assert.IsTrue(expectedFails > 0, nameof(expectedFails));
+            Assert.That(passes > 0, Is.True, nameof(passes));
+            Assert.That(expectedFails > 0, Is.True, nameof(expectedFails));
         }
 
         /// <summary>

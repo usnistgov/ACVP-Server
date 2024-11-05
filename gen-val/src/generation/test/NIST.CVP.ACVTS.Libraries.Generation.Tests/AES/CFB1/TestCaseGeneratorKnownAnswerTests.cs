@@ -36,8 +36,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
             _subject = new TestCaseGeneratorKnownAnswer(keyLength, katType);
             var result = await _subject.GenerateAsync(testGroup, false);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(keyLength, (result.TestCase).Key.BitLength, nameof(keyLength));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That((result.TestCase).Key.BitLength, Is.EqualTo(keyLength), nameof(keyLength));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
                 results.Add(await _subject.GenerateAsync(testGroup, false));
             }
 
-            Assert.IsTrue(results.TrueForAll(tfa => tfa.Success));
+            Assert.That(results.TrueForAll(tfa => tfa.Success), Is.True);
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1
                 results.Add(await _subject.GenerateAsync(testGroup, false));
             }
 
-            Assert.IsTrue(results.Any(a => !a.Success));
+            Assert.That(results.Any(a => !a.Success), Is.True);
         }
     }
 }

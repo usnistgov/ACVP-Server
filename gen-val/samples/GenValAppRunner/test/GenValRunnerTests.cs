@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = await _subject.Run(parameters, GenValMode.Unset);
 
-            Assert.AreNotEqual(0, result);
+            Assert.That(result, Is.Not.EqualTo(0));
         }
 
         [Test]
@@ -47,9 +47,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = await _subject.RunGeneration("registration.json");
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf(typeof(GenerateResponse), result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf(typeof(GenerateResponse)));
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -58,9 +58,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             _subject = new FakeGenValRunner(_fakeAutofac.GetContainer().BeginLifetimeScope());
             var result = await _subject.RunValidation("response.json", "answer.json", false);
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf(typeof(ValidateResponse), result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf(typeof(ValidateResponse)));
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
                 Console.WriteLine(e);
             }
 
-            Assert.AreEqual(returnCode, result);
+            Assert.That(result, Is.EqualTo(returnCode));
         }
     }
 }

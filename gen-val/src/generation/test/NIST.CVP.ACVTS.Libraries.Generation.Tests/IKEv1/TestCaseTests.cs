@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.NResp.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.NResp.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv1
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.NInit.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.NInit.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

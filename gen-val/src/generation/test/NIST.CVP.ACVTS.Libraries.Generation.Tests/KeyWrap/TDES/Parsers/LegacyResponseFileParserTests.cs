@@ -187,8 +187,8 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
         {
             var subject = new LegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>();
             var result = subject.Parse(Path.Combine(_unitTestPath, $"{Guid.NewGuid()}.rsp"));
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -198,8 +198,8 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
         {
             var subject = new LegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>();
             var result = subject.Parse(path);
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -207,8 +207,8 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
         {
             var subject = new LegacyResponseFileParser<TestVectorSet, TestGroup, TestCase>();
             var result = subject.Parse(_unitTestPath);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -218,7 +218,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             var result = subject.Parse(_unitTestPath);
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(expectedNumberOfGroups, vectorSet.TestGroups.Count);
+            Assert.That(vectorSet.TestGroups.Count, Is.EqualTo(expectedNumberOfGroups));
         }
 
         [Test]
@@ -228,7 +228,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             var result = subject.Parse(_unitTestPath);
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
-            Assert.AreEqual(expectedNumberOfTests, vectorSet.TestGroups.Sum(c => c.Tests.Count));
+            Assert.That(vectorSet.TestGroups.Sum(c => c.Tests.Count), Is.EqualTo(expectedNumberOfTests));
         }
 
         [Test]
@@ -239,8 +239,8 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var testGroups = vectorSet.TestGroups.Select(s => (TestGroup)s);
-            Assert.AreEqual(expectedNumberOfGroups / 2, testGroups.Count(c => c.Direction == "encrypt"), "encrypt");
-            Assert.AreEqual(expectedNumberOfGroups / 2, testGroups.Count(c => c.Direction == "decrypt"), "decrypt");
+            Assert.That(testGroups.Count(c => c.Direction == "encrypt"), Is.EqualTo(expectedNumberOfGroups / 2), "encrypt");
+            Assert.That(testGroups.Count(c => c.Direction == "decrypt"), Is.EqualTo(expectedNumberOfGroups / 2), "decrypt");
         }
 
         [Test]
@@ -251,7 +251,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var testGroups = vectorSet.TestGroups.Select(s => (TestGroup)s);
-            Assert.AreEqual(expectedNumberOfGroups, testGroups.Count(c => c.KeyLength == 192), "keyLen 192");
+            Assert.That(testGroups.Count(c => c.KeyLength == 192), Is.EqualTo(expectedNumberOfGroups), "keyLen 192");
         }
 
         [Test]
@@ -262,8 +262,8 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var testGroups = vectorSet.TestGroups.Select(s => (TestGroup)s);
-            Assert.AreEqual(expectedNumberOfGroups / 2, testGroups.Count(c => c.UseInverseCipher), "UseInverseCipher");
-            Assert.AreEqual(expectedNumberOfGroups / 2, testGroups.Count(c => !c.UseInverseCipher), "!UseInverseCipher");
+            Assert.That(testGroups.Count(c => c.UseInverseCipher), Is.EqualTo(expectedNumberOfGroups / 2), "UseInverseCipher");
+            Assert.That(testGroups.Count(c => !c.UseInverseCipher), Is.EqualTo(expectedNumberOfGroups / 2), "!UseInverseCipher");
         }
 
         [Test]
@@ -274,7 +274,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var cases = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).Key != null));
-            Assert.IsNotEmpty(cases);
+            Assert.That(cases, Is.Not.Empty);
         }
 
         [Test]
@@ -285,7 +285,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var cases = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).PlainText != null));
-            Assert.IsNotEmpty(cases);
+            Assert.That(cases, Is.Not.Empty);
         }
 
         [Test]
@@ -296,7 +296,7 @@ C = 28e75c91dc23981ee5d313517f960043d6d634495003d7f732bd60e9d74eb2371060061b21fa
             Assert.That(result != null);
             var vectorSet = result.ParsedObject;
             var cases = vectorSet.TestGroups.SelectMany(g => g.Tests.Where(t => ((TestCase)t).CipherText != null));
-            Assert.IsNotEmpty(cases);
+            Assert.That(cases, Is.Not.Empty);
         }
     }
 }

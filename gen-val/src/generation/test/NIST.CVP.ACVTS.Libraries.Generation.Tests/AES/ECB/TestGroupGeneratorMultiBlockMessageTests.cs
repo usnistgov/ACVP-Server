@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.ECB
             _subject = new TestGroupGeneratorMultiBlockMessage();
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count);
+            Assert.That(result.Count, Is.EqualTo(expectedResultCount));
         }
     }
 }

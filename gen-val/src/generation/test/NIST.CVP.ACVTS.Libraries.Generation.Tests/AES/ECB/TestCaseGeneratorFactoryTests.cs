@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.ECB
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.ECB
                 Function = string.Empty,
                 InternalTestType = string.Empty
             });
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
     }
 }

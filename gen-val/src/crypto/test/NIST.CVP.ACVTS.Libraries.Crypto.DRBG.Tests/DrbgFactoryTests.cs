@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             var result = _subject.GetDrbgInstance(p, _mockEntropy.Object);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

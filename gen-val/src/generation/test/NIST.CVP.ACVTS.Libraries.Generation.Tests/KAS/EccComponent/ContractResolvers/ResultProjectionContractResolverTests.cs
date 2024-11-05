@@ -43,10 +43,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent.ContractRes
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
+            Assert.That(newTg.Curve, Is.Not.EqualTo(tg.Curve), nameof(newTg.Curve));
         }
 
         [Test]
@@ -62,12 +62,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent.ContractRes
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PublicKeyIutX.ToPositiveBigInteger(), newTc.PublicKeyIutX.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutX));
-            Assert.AreEqual(tc.PublicKeyIutY.ToPositiveBigInteger(), newTc.PublicKeyIutY.ToPositiveBigInteger(), nameof(newTc.PublicKeyIutY));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.PublicKeyIutX.ToPositiveBigInteger(), Is.EqualTo(tc.PublicKeyIutX.ToPositiveBigInteger()), nameof(newTc.PublicKeyIutX));
+            Assert.That(newTc.PublicKeyIutY.ToPositiveBigInteger(), Is.EqualTo(tc.PublicKeyIutY.ToPositiveBigInteger()), nameof(newTc.PublicKeyIutY));
 
-            Assert.IsNull(newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
-            Assert.IsNull(newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
+            Assert.That(newTc.PublicKeyServerX, Is.Null, nameof(newTc.PublicKeyServerX));
+            Assert.That(newTc.PublicKeyServerY, Is.Null, nameof(newTc.PublicKeyServerY));
 
 
         }

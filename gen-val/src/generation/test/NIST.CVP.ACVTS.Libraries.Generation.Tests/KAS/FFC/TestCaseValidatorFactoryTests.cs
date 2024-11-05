@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
             var result = _subject.GetValidators(testVectorSet).ToList();
 
             Assert.That(result.Count == 1);
-            Assert.IsInstanceOf(expectedValidatorType, result[0]);
+            Assert.That(result[0], Is.InstanceOf(expectedValidatorType));
         }
 
         private void GetData(string testType, FfcScheme scheme, KasMode kasMode, KeyConfirmationRole kcRole, KeyConfirmationDirection kcType, ref TestVectorSet testVectorSet)

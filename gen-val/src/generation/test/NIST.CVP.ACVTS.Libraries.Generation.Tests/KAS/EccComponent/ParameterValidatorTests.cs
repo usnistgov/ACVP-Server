@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var p = _builder.Build();
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var result = _subject.Validate(p);
 
             Assert.That(!result.Success, "success");
-            Assert.IsTrue(result.ErrorMessage.ToLower().Contains("algorithm"));
+            Assert.That(result.ErrorMessage.ToLower().Contains("algorithm"), Is.True);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var result = _subject.Validate(p);
 
             Assert.That(!result.Success, "success");
-            Assert.IsTrue(result.ErrorMessage.ToLower().Contains("mode"));
+            Assert.That(result.ErrorMessage.ToLower().Contains("mode"), Is.True);
         }
 
         private static object[] _curveTests = new object[]
@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var p = _builder.WithCurves(curves).Build();
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess));
         }
     }
 }

@@ -97,9 +97,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(cipherText)));
         }
 
         [Test]
@@ -147,9 +147,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(cipherText)));
         }
 
         [Test]
@@ -184,9 +184,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(cipherText)));
         }
 
         [Test]
@@ -259,9 +259,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(cipherText)));
         }
 
         [Test]
@@ -342,9 +342,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(cipherText)));
         }
 
         [Test]
@@ -392,9 +392,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(plaintext)));
         }
 
         [Test]
@@ -474,9 +474,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(plaintext)));
         }
 
         [Test]
@@ -511,9 +511,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(plaintext)));
         }
 
 
@@ -587,9 +587,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(plaintext)));
         }
 
         [Test]
@@ -670,9 +670,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext), result.Result);
+            Assert.That(result.Result, Is.EqualTo(new BitString(plaintext)));
         }
     }
 }

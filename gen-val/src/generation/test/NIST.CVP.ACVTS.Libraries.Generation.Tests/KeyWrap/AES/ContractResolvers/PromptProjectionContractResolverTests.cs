@@ -44,12 +44,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES.ContractResolver
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
-            Assert.AreEqual(tg.Direction, newTg.Direction, nameof(newTg.Direction));
-            Assert.AreEqual(tg.PayloadLen, newTg.PayloadLen, nameof(newTg.PayloadLen));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.KeyLength, Is.EqualTo(tg.KeyLength), nameof(newTg.KeyLength));
+            Assert.That(newTg.Direction, Is.EqualTo(tg.Direction), nameof(newTg.Direction));
+            Assert.That(newTg.PayloadLen, Is.EqualTo(tg.PayloadLen), nameof(newTg.PayloadLen));
         }
 
         [Test]
@@ -65,19 +65,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES.ContractResolver
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-            Assert.AreEqual(tc.Key, newTc.Key, nameof(newTc.Key));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.PlainText, Is.EqualTo(tc.PlainText), nameof(newTc.PlainText));
+            Assert.That(newTc.Key, Is.EqualTo(tc.Key), nameof(newTc.Key));
 
-            Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
+            Assert.That(newTc.CipherText, Is.Not.EqualTo(tc.CipherText), nameof(newTc.CipherText));
 
             // Defaulted property, so this test will not work
             // Assert.AreNotEqual(tc.TestPassed, newTc.TestPassed, nameof(newTc.TestPassed));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

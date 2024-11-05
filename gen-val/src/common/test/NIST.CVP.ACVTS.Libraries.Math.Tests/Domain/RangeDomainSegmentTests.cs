@@ -55,8 +55,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.RangeMinMax;
 
-            Assert.AreEqual(min, result.Minimum, nameof(min));
-            Assert.AreEqual(max, result.Maximum, nameof(max));
+            Assert.That(result.Minimum, Is.EqualTo(min), nameof(min));
+            Assert.That(result.Maximum, Is.EqualTo(max), nameof(max));
         }
         
         [Test]
@@ -69,11 +69,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             if (originalValue > maxValue)
             {
-                Assert.AreEqual(maxValue, _subject.RangeMinMax.Maximum);
+                Assert.That(_subject.RangeMinMax.Maximum, Is.EqualTo(maxValue));
             }
             else
             {
-                Assert.AreEqual(originalValue, _subject.RangeMinMax.Maximum);
+                Assert.That(_subject.RangeMinMax.Maximum, Is.EqualTo(originalValue));
             }
         }
 
@@ -87,11 +87,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             if (originalValue > maxValue)
             {
-                Assert.AreEqual(0, _subject.RangeMinMax.Minimum);
+                Assert.That(_subject.RangeMinMax.Minimum, Is.EqualTo(0));
             }
             else
             {
-                Assert.AreEqual(originalValue, _subject.RangeMinMax.Minimum);
+                Assert.That(_subject.RangeMinMax.Minimum, Is.EqualTo(originalValue));
             }
         }
 
@@ -117,7 +117,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.IsWithinDomain(numberToCheck);
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.MaxNumberOfValuesInSegment;
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(maxQuantityAvailable).ToList();
 
-            Assert.AreEqual(_subject.MaxNumberOfValuesInSegment, result.Count);
+            Assert.That(result.Count, Is.EqualTo(_subject.MaxNumberOfValuesInSegment));
         }
 
         private static object[] _sequenceTestData = {
@@ -177,7 +177,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             for (int i = 0; i < expectation.Length; i++)
             {
-                Assert.AreEqual(expectation[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectation[i]));
             }
         }
 
@@ -209,7 +209,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetRandomValues(quantityToReturn);
 
-            Assert.AreEqual(expectation.ToList(), result.ToList());
+            Assert.That(result.ToList(), Is.EqualTo(expectation.ToList()));
         }
 
         [Test]
@@ -224,7 +224,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             for (int i = 0; i < expectation.Length; i++)
             {
-                Assert.AreEqual(expectation[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectation[i]));
             }
         }
 
@@ -256,7 +256,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetRandomValues(min, max, quantityToReturn);
 
-            Assert.AreEqual(expectation.ToList(), result.ToList());
+            Assert.That(result.ToList(), Is.EqualTo(expectation.ToList()));
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(minSubset, maxSubset, maxQuantityAvailable).ToList();
 
-            Assert.IsTrue(expectedValues.OrderBy(t => t).SequenceEqual(result.OrderBy(t => t)));
+            Assert.That(expectedValues.OrderBy(t => t).SequenceEqual(result.OrderBy(t => t)), Is.True);
         }
 
         [Test]
@@ -293,7 +293,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetRandomValues(minSubset, maxSubset, maxQuantityAvailable);
 
-            Assert.AreEqual(expectedValues.ToList(), result.ToList());
+            Assert.That(result.ToList(), Is.EqualTo(expectedValues.ToList()));
         }
 
         [Test]
@@ -303,7 +303,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var values = _subject.GetSequentialValues(v => v > 64, 10);
 
-            Assert.IsTrue(values.All(a => a % 8 == 0));
+            Assert.That(values.All(a => a % 8 == 0), Is.True);
         }
 
         [Test]
@@ -320,11 +320,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(v => v % 8 == 0, 10);
 
-            Assert.LessOrEqual(result.Count(), 10);
+            Assert.That(result.Count(), Is.LessThanOrEqualTo(10));
 
             foreach (var value in result)
             {
-                Assert.IsTrue(value % 8 == 0);
+                Assert.That(value % 8 == 0, Is.True);
             }
         }
 
@@ -338,13 +338,13 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
             for (var i = 0; i < 100; i++)
             {
                 var result = _subject.GetSequentialValues(v => v % 128 == 0, 5);
-                Assert.AreEqual(result.Count(), 5, "pulled not enough mod 128");
+                Assert.That(result.Count(), Is.EqualTo(5), "pulled not enough mod 128");
             }
 
             for (var i = 0; i < 100; i++)
             {
                 var result = _subject.GetSequentialValues(v => v % 128 != 0, 5);
-                Assert.AreEqual(result.Count(), 5, "pulled not enough not mod 128");
+                Assert.That(result.Count(), Is.EqualTo(5), "pulled not enough not mod 128");
             }
         }
     }

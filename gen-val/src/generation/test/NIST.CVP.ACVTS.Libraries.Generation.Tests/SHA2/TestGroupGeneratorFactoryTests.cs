@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
 
-            Assert.IsTrue(result.Count() == 3);
+            Assert.That(result.Count() == 3, Is.True);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.IsNotNull(groups);
+            Assert.That(groups, Is.Not.Null);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual(18, groups.Count);       // 3 * 6 (aft + mct + ldt * digest sizes)
+            Assert.That(groups.Count, Is.EqualTo(18));       // 3 * 6 (aft + mct + ldt * digest sizes)
         }
     }
 }

@@ -53,3 +53,4 @@ Import Schema Logs
 /Directory.Build.props
 /Directory.Packages.props
 version.txt
+gen-val/src/solutions/all/qodana.yaml

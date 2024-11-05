@@ -33,9 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 new BitString(32 * 8),
                 clientHello);
 
-            Assert.AreEqual(
-                new BitString("33 ad 0a 1c 60 7e c0 3b 09 e6 cd 98 93 68 0c e2 10 ad f3 00 aa 1f 26 60 e1 b2 2e 10 f1 70 f9 2a").ToHex(),
-                early.EarlySecret.ToHex(),
+            Assert.That(
+                early.EarlySecret.ToHex(), Is.EqualTo(new BitString("33 ad 0a 1c 60 7e c0 3b 09 e6 cd 98 93 68 0c e2 10 ad f3 00 aa 1f 26 60 e1 b2 2e 10 f1 70 f9 2a").ToHex()),
                 "Early Secret");
 
             var deriveSecretForHandshake = kdf.ExpandLabel(
@@ -44,9 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 new BitString("e3 b0 c4 42 98 fc 1c 14 9a fb f4 c8 99 6f b9 24 27 ae 41 e4 64 9b 93 4c a4 95 99 1b 78 52 b8 55"),
                 hashLengthBytes);
 
-            Assert.AreEqual(
-                new BitString("6f 26 15 a1 08 c7 02 c5 67 8f 54 fc 9d ba b6 97 16 c0 76 18 9c 48 25 0c eb ea c3 57 6c 36 11 ba").ToHex(),
-                deriveSecretForHandshake.ToHex(),
+            Assert.That(
+                deriveSecretForHandshake.ToHex(), Is.EqualTo(new BitString("6f 26 15 a1 08 c7 02 c5 67 8f 54 fc 9d ba b6 97 16 c0 76 18 9c 48 25 0c eb ea c3 57 6c 36 11 ba").ToHex()),
                 "Derive secret for handshake");
 
             var dhSharedSecret =
@@ -62,10 +60,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 clientHello,
                 serverHello);
 
-            Assert.AreEqual(handshakeFromEarly.HandshakeSecret.ToHex(), handshake.HandshakeSecret.ToHex(), "Check handshake secret through normal process vs specific test.");
+            Assert.That(handshake.HandshakeSecret.ToHex(), Is.EqualTo(handshakeFromEarly.HandshakeSecret.ToHex()), "Check handshake secret through normal process vs specific test.");
 
             var extractSecretHandshakeExpected = new BitString("ee ef ce 91 5d c4 8b 22 a7 ae 76 4a d2 82 ba 41 6f 97 fe 89 e5 d1 bc 89 5b 2d 91 62 35 aa a2 ae");
-            Assert.AreEqual(extractSecretHandshakeExpected, handshakeFromEarly.HandshakeSecret, "Extracted Handshake Secret");
+            Assert.That(handshakeFromEarly.HandshakeSecret, Is.EqualTo(extractSecretHandshakeExpected), "Extracted Handshake Secret");
 
             var deriveSecretClientHandshakeTraffic = kdf.ExpandLabel(
                 handshakeFromEarly.HandshakeSecret,
@@ -73,8 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 new BitString("df 94 98 64 2c c0 b3 7f 60 42 53 bf 34 1b b0 44 8e 3d b5 f5 c8 ab b2 39 31 9b 1c 7b 7b 2e ac 63"),
                 hashLengthBytes);
 
-            Assert.AreEqual(new BitString("a4 d4 cd ed fb 3c 07 d7 be 78 85 8c 0b 63 38 eb 48 02 f1 58 88 ad 14 c1 ef 56 20 74 35 84 06 04"),
-                deriveSecretClientHandshakeTraffic,
+            Assert.That(deriveSecretClientHandshakeTraffic, Is.EqualTo(new BitString("a4 d4 cd ed fb 3c 07 d7 be 78 85 8c 0b 63 38 eb 48 02 f1 58 88 ad 14 c1 ef 56 20 74 35 84 06 04")),
                 "c hs traffic");
         }
 
@@ -90,8 +87,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
             var expectedHash =
                 new BitString("e3 b0 c4 42 98 fc 1c 14 9a fb f4 c8 99 6f b9 24 27 ae 41 e4 64 9b 93 4c a4 95 99 1b 78 52 b8 55");
 
-            Assert.AreEqual(expectedHash.ToHex(), emptyPayload.Digest.ToHex(), nameof(emptyPayload));
-            Assert.AreEqual(expectedHash.ToHex(), tls.TranscriptHash(BitString.Empty()).ToHex(), "Transcript hash");
+            Assert.That(emptyPayload.Digest.ToHex(), Is.EqualTo(expectedHash.ToHex()), nameof(emptyPayload));
+            Assert.That(tls.TranscriptHash(BitString.Empty()).ToHex(), Is.EqualTo(expectedHash.ToHex()), "Transcript hash");
         }
 
         [Test]
@@ -105,11 +102,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
 
             var expectedHash = new BitString("8a ec fe eb b4 23 6e fd 8b 78 bb 3f f1 c7 af e0 87 2b fb b2 60 0f 04 69 ed 58 6f 23 39 7a e0 2d");
 
-            Assert.AreEqual(
-                expectedHash.ToHex(),
-                sha.HashMessage(clientHello).Digest.ToHex(),
+            Assert.That(
+                sha.HashMessage(clientHello).Digest.ToHex(), Is.EqualTo(expectedHash.ToHex()),
                 "concatenate no lengths");
-            Assert.AreEqual(expectedHash.ToHex(), tls.TranscriptHash(clientHello).ToHex(), "Transcript hash");
+            Assert.That(tls.TranscriptHash(clientHello).ToHex(), Is.EqualTo(expectedHash.ToHex()), "Transcript hash");
         }
 
         [Test]
@@ -124,11 +120,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
 
             var expectedHash = new BitString("57 65 19 76 4b f9 ac e3 84 32 c8 6d 9e 0f 72 f2 ef 6b a3 7c 9f 76 30 6e fc bb e7 78 56 ad b3 41");
 
-            Assert.AreEqual(
-                expectedHash.ToHex(),
-                sha.HashMessage(clientHello.ConcatenateBits(serverHello)).Digest.ToHex(),
+            Assert.That(
+                sha.HashMessage(clientHello.ConcatenateBits(serverHello)).Digest.ToHex(), Is.EqualTo(expectedHash.ToHex()),
                 "concatenate no lengths");
-            Assert.AreEqual(expectedHash.ToHex(), tls.TranscriptHash(clientHello, serverHello).ToHex(), "Transcript hash");
+            Assert.That(tls.TranscriptHash(clientHello, serverHello).ToHex(), Is.EqualTo(expectedHash.ToHex()), "Transcript hash");
         }
 
         [Test]
@@ -150,7 +145,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 false, psk, dhe,
                 clientHello, serverHello, serverFinished, clientFinished);
 
-            Assert.AreEqual(expectedResumption.ToHex(), result.MasterSecretResult.ResumptionMasterSecret.ToHex());
+            Assert.That(result.MasterSecretResult.ResumptionMasterSecret.ToHex(), Is.EqualTo(expectedResumption.ToHex()));
         }
 
         [Test]
@@ -172,7 +167,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
                 false, psk, dhe,
                 clientHello, serverHello, serverFinished, clientFinished);
 
-            Assert.AreEqual(expectedResumption.ToHex(), result.MasterSecretResult.ResumptionMasterSecret.ToHex());
+            Assert.That(result.MasterSecretResult.ResumptionMasterSecret.ToHex(), Is.EqualTo(expectedResumption.ToHex()));
         }
 
         // [Test]

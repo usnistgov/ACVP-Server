@@ -197,7 +197,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var qSeed = fullDomainSeed.MSBSubstring(2 * seedLen, seedLen).ToPositiveBigInteger();
 
             var domainSeed = new DomainSeed(firstSeed, pSeed, qSeed);
-            Assert.AreEqual(fullDomainSeed.ToPositiveBigInteger(), domainSeed.GetFullSeed());
+            Assert.That(domainSeed.GetFullSeed(), Is.EqualTo(fullDomainSeed.ToPositiveBigInteger()));
 
             var index = new BitString(indexHex);
 
@@ -208,8 +208,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var subject = new CanonicalGeneratorGeneratorValidator(sha);
 
             var result = subject.Generate(p, q, domainSeed, index);
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedG, result.G);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.G, Is.EqualTo(expectedG));
         }
 
         [Test]
@@ -615,7 +615,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var subject = new CanonicalGeneratorGeneratorValidator(sha);
 
             var result = subject.Validate(p, q, g, domainSeed, index);
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
 
         // In this case, the seed is missing the initial 00 byte in hex. The test ensures the 00 byte is added back in for the hash call.
@@ -649,7 +649,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var result = subject.Validate(p, q, g, seed, index);
 
             // These test cases were generated improperly where the leading 00 byte was not being included for a hash call. They should fail.
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         private ISha GetSha(string hash)

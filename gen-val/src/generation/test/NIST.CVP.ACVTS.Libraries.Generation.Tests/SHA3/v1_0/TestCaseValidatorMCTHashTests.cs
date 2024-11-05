@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("digest"), Is.True, "Reason does not contain the expected digest");
         }
 
         [Test]
@@ -50,8 +50,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var subject = new TestCaseValidatorMCTHash(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         [Test]
@@ -65,8 +65,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var subject = new TestCaseValidatorMCTHash(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponse.Digest)}"), Is.True);
         }
 
         private TestCase GetTestCase()

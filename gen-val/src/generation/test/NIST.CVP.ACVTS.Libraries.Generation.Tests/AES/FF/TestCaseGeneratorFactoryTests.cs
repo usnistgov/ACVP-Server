@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.FF
             var subject = new TestCaseGeneratorFactory(null, null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.FF
             {
                 Function = BlockCipherDirections.Encrypt
             });
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
     }
 }

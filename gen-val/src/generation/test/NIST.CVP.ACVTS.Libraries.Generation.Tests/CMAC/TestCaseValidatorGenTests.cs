@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             _subject = new TestCaseValidatorGen(testCase);
             var result = await _subject.ValidateAsync(testCase);
             Assert.That((bool)(result != null));
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             suppliedResult.Mac = new BitString("D00000");
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That((bool)(result != null));
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             var result = await _subject.ValidateAsync(suppliedResult);
             Assert.That((bool)(result != null));
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue((bool)result.Reason.Contains("MAC"));
+            Assert.That((bool)result.Reason.Contains("MAC"), Is.True);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             Assert.That((bool)(result != null));
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue((bool)result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}"));
+            Assert.That((bool)result.Reason.Contains($"{nameof(suppliedResult.Mac)} was not present in the {typeof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase()

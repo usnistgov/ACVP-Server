@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer
         {
             var subject = new TestGroupGeneratorPQ();
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

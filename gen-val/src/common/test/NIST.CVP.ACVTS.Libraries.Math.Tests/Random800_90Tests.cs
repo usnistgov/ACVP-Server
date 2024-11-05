@@ -56,8 +56,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var subject = new Random800_90();
             var result = subject.GetRandomBitString(length);
-            Assert.IsNotNull(result);
-            Assert.AreEqual(0, result.BitLength);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.BitLength, Is.EqualTo(0));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var subject = new Random800_90();
             var result = subject.GetRandomBitString(length);
             Assert.That(result != null);
-            Assert.AreEqual(length, result.BitLength);
+            Assert.That(result.BitLength, Is.EqualTo(length));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var subject = new Random800_90();
             var result = subject.GetDifferentBitStringOfSameSize(null);
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var zeroLengthBitString = new BitString(0);
             var result = subject.GetDifferentBitStringOfSameSize(zeroLengthBitString);
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             TestRandom800_90 subject = new TestRandom800_90(bs);
             var result = subject.GetDifferentBitStringOfSameSize(bs);
 
-            Assert.AreNotEqual(bs, result);
+            Assert.That(result, Is.Not.EqualTo(bs));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             for (int i = 0; i < iterations; i++)
             {
                 var result = subject.GetRandomInt(min, max);
-                Assert.IsTrue(result >= 0 && result <= 1);
+                Assert.That(result >= 0 && result <= 1, Is.True);
             }
         }
 
@@ -132,8 +132,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = subject.GetRandomAlphaCharacters(length);
 
-            Assert.IsTrue(Regex.IsMatch(result, @"^[a-zA-Z]+$"));
-            Assert.AreEqual(length, result.Length);
+            Assert.That(Regex.IsMatch(result, @"^[a-zA-Z]+$"), Is.True);
+            Assert.That(result.Length, Is.EqualTo(length));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = subject.GetRandomString(length);
 
-            Assert.AreEqual(length, result.Length);
+            Assert.That(result.Length, Is.EqualTo(length));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
                 .OrderByDescending(ob => ob.Count)
                 .ToList();
 
-            Assert.True(true);
+            Assert.That(true, Is.True);
         }
     }
 }

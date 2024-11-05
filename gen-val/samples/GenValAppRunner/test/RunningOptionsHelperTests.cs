@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
 
             var result = RunningOptionsHelper.DetermineRunningMode(parameters);
 
-            Assert.AreEqual(genValMode, result);
+            Assert.That(result, Is.EqualTo(genValMode));
         }
     }
 }

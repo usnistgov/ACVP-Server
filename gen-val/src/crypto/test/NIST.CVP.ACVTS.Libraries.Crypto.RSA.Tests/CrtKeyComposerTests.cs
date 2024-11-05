@@ -25,10 +25,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
             var subject = new CrtKeyComposer();
             var result = subject.ComposeKey(e, new PrimePair { P = p, Q = q });
 
-            Assert.AreEqual(expectedN, result.PubKey.N, "n");
-            Assert.AreEqual(expectedDmp1, ((CrtPrivateKey)result.PrivKey).DMP1, "dmp1");
-            Assert.AreEqual(expectedDmq1, ((CrtPrivateKey)result.PrivKey).DMQ1, "dmq1");
-            Assert.AreEqual(expectedIqmp, ((CrtPrivateKey)result.PrivKey).IQMP, "iqmp");
+            Assert.That(result.PubKey.N, Is.EqualTo(expectedN), "n");
+            Assert.That(((CrtPrivateKey)result.PrivKey).DMP1, Is.EqualTo(expectedDmp1), "dmp1");
+            Assert.That(((CrtPrivateKey)result.PrivKey).DMQ1, Is.EqualTo(expectedDmq1), "dmq1");
+            Assert.That(((CrtPrivateKey)result.PrivKey).IQMP, Is.EqualTo(expectedIqmp), "iqmp");
         }
     }
 }

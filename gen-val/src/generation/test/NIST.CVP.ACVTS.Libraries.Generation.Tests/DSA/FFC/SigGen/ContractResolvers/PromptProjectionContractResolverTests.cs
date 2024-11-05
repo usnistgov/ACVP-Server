@@ -45,20 +45,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
-            Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
-            Assert.AreNotEqual(tg.X, newTg.X, nameof(newTg.X));
-            Assert.AreNotEqual(tg.Y, newTg.Y, nameof(newTg.Y));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.L, Is.EqualTo(tg.L), nameof(newTg.L));
+            Assert.That(newTg.N, Is.EqualTo(tg.N), nameof(newTg.N));
+            Assert.That(newTg.X, Is.Not.EqualTo(tg.X), nameof(newTg.X));
+            Assert.That(newTg.Y, Is.Not.EqualTo(tg.Y), nameof(newTg.Y));
 
 
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.That(newTg.P, Is.Not.EqualTo(tg.P), nameof(newTg.P));
+            Assert.That(newTg.Q, Is.Not.EqualTo(tg.Q), nameof(newTg.Q));
+            Assert.That(newTg.G, Is.Not.EqualTo(tg.G), nameof(newTg.G));
 
-            Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.False, nameof(newTg.IsMessageRandomized));
         }
 
         [Test]
@@ -76,19 +76,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
 
-            Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
-            Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
+            Assert.That(newTc.R, Is.Not.EqualTo(tc.R), nameof(newTc.R));
+            Assert.That(newTc.S, Is.Not.EqualTo(tc.S), nameof(newTc.S));
 
-            Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen == 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen == 0, Is.True, nameof(newTc.RandomValueLen));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
 
         [Test]
@@ -103,20 +103,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
-            Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
-            Assert.AreNotEqual(tg.X, newTg.X, nameof(newTg.X));
-            Assert.AreNotEqual(tg.Y, newTg.Y, nameof(newTg.Y));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.L, Is.EqualTo(tg.L), nameof(newTg.L));
+            Assert.That(newTg.N, Is.EqualTo(tg.N), nameof(newTg.N));
+            Assert.That(newTg.X, Is.Not.EqualTo(tg.X), nameof(newTg.X));
+            Assert.That(newTg.Y, Is.Not.EqualTo(tg.Y), nameof(newTg.Y));
 
 
-            Assert.AreNotEqual(tg.P, newTg.P, nameof(newTg.P));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
-            Assert.AreNotEqual(tg.G, newTg.G, nameof(newTg.G));
+            Assert.That(newTg.P, Is.Not.EqualTo(tg.P), nameof(newTg.P));
+            Assert.That(newTg.Q, Is.Not.EqualTo(tg.Q), nameof(newTg.Q));
+            Assert.That(newTg.G, Is.Not.EqualTo(tg.G), nameof(newTg.G));
 
-            Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.True, nameof(newTg.IsMessageRandomized));
         }
 
         [Test]
@@ -135,19 +135,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
 
-            Assert.AreNotEqual(tc.R, newTc.R, nameof(newTc.R));
-            Assert.AreNotEqual(tc.S, newTc.S, nameof(newTc.S));
+            Assert.That(newTc.R, Is.Not.EqualTo(tc.R), nameof(newTc.R));
+            Assert.That(newTc.S, Is.Not.EqualTo(tc.S), nameof(newTc.S));
 
-            Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen == 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen == 0, Is.True, nameof(newTc.RandomValueLen));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

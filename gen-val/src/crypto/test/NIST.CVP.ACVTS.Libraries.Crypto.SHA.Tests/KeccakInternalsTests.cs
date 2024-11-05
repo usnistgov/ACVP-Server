@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, false);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = KeccakInternals.Keccak(message, digestSize, digestSize * 2, false);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = KeccakInternals.Keccak(message, digestSize, capacity, true);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
                 var result = KeccakInternals.PadMessage(message, rate);
 
                 // Ensure the length of the resulting message is a positive multiple of the rate
-                Assert.AreEqual(0, result.BitLength % rate);
+                Assert.That(result.BitLength % rate, Is.EqualTo(0));
             }
         }
 
@@ -206,7 +206,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = KeccakInternals.Round(state, roundIdx);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -223,7 +223,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = KeccakInternals.Keccak_p(message);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
     }
 }

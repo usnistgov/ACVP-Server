@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CTR
             var subject = new TestGroupGeneratorSingleBlockMessage();
 
             var results = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroupsCreated, results.Count());
+            Assert.That(results.Count(), Is.EqualTo(expectedGroupsCreated));
         }
     }
 }

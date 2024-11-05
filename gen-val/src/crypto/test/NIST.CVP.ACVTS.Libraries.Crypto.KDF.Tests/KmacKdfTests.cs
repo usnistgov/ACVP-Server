@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
             var result = subject.DeriveKey(kI, x, l, s);
             
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.DerivedKey);
+            Assert.That(result.DerivedKey, Is.EqualTo(expectedResult));
         }
     }
 }

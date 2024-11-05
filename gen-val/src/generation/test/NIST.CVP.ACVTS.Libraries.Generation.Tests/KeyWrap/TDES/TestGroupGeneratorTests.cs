@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
 
             var result = await _subject.BuildTestGroupsAsync(parameters);
 
-            Assert.AreEqual(expectedNumberOfGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedNumberOfGroups));
         }
     }
 }

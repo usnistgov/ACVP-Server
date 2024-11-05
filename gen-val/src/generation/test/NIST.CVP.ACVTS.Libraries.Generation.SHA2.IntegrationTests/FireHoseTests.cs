@@ -60,19 +60,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA2.IntegrationTests
                     {
                         var result = shaMct.MctHash(testCase.Message);
 
-                        Assert.IsTrue(result.Success, "result.Success must be successful");
-                        Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
-                        Assert.IsTrue(result.Response.Count > 0, $"{nameof(result)} MCT hash count should be greater than 0");
+                        Assert.That(result.Success, Is.True, "result.Success must be successful");
+                        Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT hash count should be greater than 0");
+                        Assert.That(result.Response.Count > 0, Is.True, $"{nameof(result)} MCT hash count should be greater than 0");
 
                         for (var i = 0; i < testCase.ResultsArray.Count; i++)
                         {
-                            Assert.AreEqual(testCase.ResultsArray[i].Digest, result.Response[i].Digest, $"Digest mismatch on index {i}");
+                            Assert.That(result.Response[i].Digest, Is.EqualTo(testCase.ResultsArray[i].Digest), $"Digest mismatch on index {i}");
                         }
                     }
                     else
                     {
                         var result = sha.HashMessage(testCase.Message);
-                        Assert.AreEqual(testCase.Digest.ToHex(), result.Digest.ToHex(), $"Failed on count {count}.");
+                        Assert.That(result.Digest.ToHex(), Is.EqualTo(testCase.Digest.ToHex()), $"Failed on count {count}.");
                     }
                 }
             }

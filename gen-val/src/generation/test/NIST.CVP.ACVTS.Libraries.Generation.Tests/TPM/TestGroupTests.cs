@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TPM
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
     }
 }

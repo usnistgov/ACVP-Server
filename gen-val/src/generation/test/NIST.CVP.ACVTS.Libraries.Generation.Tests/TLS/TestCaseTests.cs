@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.ClientRandom.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.ClientRandom.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.ServerRandom.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.ServerRandom.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

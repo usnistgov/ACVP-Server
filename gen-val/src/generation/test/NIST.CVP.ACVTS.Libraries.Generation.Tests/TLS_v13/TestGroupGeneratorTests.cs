@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
         {
             var result = await _subject.BuildTestGroupsAsync(parameters);
 
-            Assert.AreEqual(expectedNumberOfGroups, result.Count);
+            Assert.That(result.Count, Is.EqualTo(expectedNumberOfGroups));
         }
     }
 }

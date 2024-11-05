@@ -16,8 +16,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
                 .WithConformances(new[] { "SP800-106" });
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
                     })
                     .Build());
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
                     })
                     .Build());
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         private static IEnumerable<object> _badConformances = new List<object>()
@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
                     .WithConformances(conformances)
                     .Build());
 
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
                     })
                     .Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
     }
 

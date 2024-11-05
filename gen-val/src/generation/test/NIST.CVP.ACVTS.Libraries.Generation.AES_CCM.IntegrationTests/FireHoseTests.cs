@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.IntegrationTests
                         }
 
                         testPasses++;
-                        Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
+                        Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.CipherText.ToHex()), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
 
@@ -128,7 +128,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.IntegrationTests
                         testPasses++;
 
                         //ThisLogger.Debug(testCase.CipherText.ToHex());
-                        Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
+                        Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.PlainText.ToHex()), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                         continue;
                     }
 
@@ -139,8 +139,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.IntegrationTests
                 }
             }
 
-            Assert.IsTrue(failureTests > 0, "No failure test conditions checked");
-            Assert.IsTrue(testPasses > 0, "No tests were run");
+            Assert.That(failureTests > 0, Is.True, "No failure test conditions checked");
+            Assert.That(testPasses > 0, Is.True, "No tests were run");
             //Assert.Fail($"Passes {passes}, fails {fails}, count {count}.  Failure tests {failureTests}");
         }
 

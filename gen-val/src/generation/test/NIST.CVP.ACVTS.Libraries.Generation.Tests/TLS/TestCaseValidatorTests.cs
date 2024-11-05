@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
             var result = await subject.ValidateAsync(testCase);
 
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result, result.Reason);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed), result.Reason);
         }
 
         [Test]
@@ -32,8 +32,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
             var result = await subject.ValidateAsync(suppliedResult);
 
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.KeyBlock)));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains(nameof(suppliedResult.KeyBlock)), Is.True);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
 
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains(nameof(suppliedResult.MasterSecret)));
+            Assert.That(result.Reason.Contains(nameof(suppliedResult.MasterSecret)), Is.True);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.KeyBlock)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.KeyBlock)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase()

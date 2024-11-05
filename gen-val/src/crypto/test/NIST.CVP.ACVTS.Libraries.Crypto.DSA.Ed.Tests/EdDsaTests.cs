@@ -83,9 +83,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.GenerateKeyPair(domainParams);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(result.KeyPair.PrivateD, d, "d");
-            Assert.AreEqual(q, result.KeyPair.PublicQ, "q");
+            Assert.That(result.Success, Is.True);
+            Assert.That(d, Is.EqualTo(result.KeyPair.PrivateD), "d");
+            Assert.That(result.KeyPair.PublicQ, Is.EqualTo(q), "q");
         }
 
         // need more/ better data for this test
@@ -134,7 +134,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.ValidateKeyPair(domainParams, keyPair);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -216,7 +216,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.ValidateKeyPair(domainParams, keyPair);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var keyPair = subject.GenerateKeyPair(domainParams).KeyPair;
 
-            Assert.AreEqual(expectedPublic, keyPair.PublicQ, "expected public key");
+            Assert.That(keyPair.PublicQ, Is.EqualTo(expectedPublic), "expected public key");
             // Check x/y, record
             var x = new BitString("172B32732D86C9D9D63B11957AAD1364E9D3C1EC258CD13AB012E10648942C4E")
                 .ToPositiveBigInteger();
@@ -248,10 +248,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
             var decoded = domainParams.CurveE.Decode(keyPair.PublicQ);
 
             // check that the decoded x/y match the previous prior to encode/decode
-            Assert.AreEqual(x, decoded.X, "x decoded matches");
-            Assert.AreEqual(y, decoded.Y, "y decoded matches");
+            Assert.That(decoded.X, Is.EqualTo(x), "x decoded matches");
+            Assert.That(decoded.Y, Is.EqualTo(y), "y decoded matches");
 
-            Assert.IsTrue(subject.ValidateKeyPair(domainParams, keyPair).Success, "original key pair should be valid");
+            Assert.That(subject.ValidateKeyPair(domainParams, keyPair).Success, Is.True, "original key pair should be valid");
 
             // Modify the public key value until the point is no longer on the curve
             var modifiedPublicQ = curve.Decode(keyPair.PublicQ);
@@ -269,8 +269,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
                 adds++;
             } while (subject.ValidateKeyPair(domainParams, keyPair).Success);
 
-            Assert.IsFalse(curve.PointExistsOnCurve(modifiedPublicQ), "check point not on curve prior to encode");
-            Assert.IsFalse(subject.ValidateKeyPair(domainParams, keyPair).Success, "keypair should not be valid.");
+            Assert.That(curve.PointExistsOnCurve(modifiedPublicQ), Is.False, "check point not on curve prior to encode");
+            Assert.That(subject.ValidateKeyPair(domainParams, keyPair).Success, Is.False, "keypair should not be valid.");
         }
 
         [Test]
@@ -373,8 +373,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Sign(domainParams, keyPair, msg);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Signature.Sig, Is.EqualTo(expectedSig), "sig");
         }
 
         [Test]
@@ -405,8 +405,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Sign(domainParams, keyPair, msg, context);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Signature.Sig, Is.EqualTo(expectedSig), "sig");
         }
 
         [Test]
@@ -453,8 +453,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Sign(domainParams, keyPair, msg, context, true);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedSig, result.Signature.Sig, "sig");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Signature.Sig, Is.EqualTo(expectedSig), "sig");
         }
 
         // need more / better test data for this test
@@ -510,7 +510,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Verify(domainParams, keyPair, msg, signature);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -552,7 +552,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Verify(domainParams, keyPair, msg, signature, context);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -636,7 +636,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Verify(domainParams, keyPair, msg, signature, context, true);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -672,8 +672,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
             var subject = new EdDsa();
 
             var result = subject.Verify(domainParams, keyPair, msg, signature);
-            
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         private BitString LoadValue(string value)

@@ -22,8 +22,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             {
                 var result = AutofacConfig.GetAlgoModeRevisionInjectables(algoMode);
 
-                Assert.IsNotNull(result, $"{nameof(algoMode)}: {algoMode}");
-                Assert.IsInstanceOf(typeof(ISupportedAlgoModeRevisions), result);
+                Assert.That(result, Is.Not.Null, $"{nameof(algoMode)}: {algoMode}");
+                Assert.That(result, Is.InstanceOf(typeof(ISupportedAlgoModeRevisions)));
             }
         }
 
@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.GenValApp.Tests
             // There should never be more than one of any AlgoMode from the candidate list
             var counts = algoModesFromCandidates.GroupBy(gb => gb).Select(s => new {s.Key, Count = s.Count() });
 
-            Assert.True(counts.All(a => a.Count == 1));
+            Assert.That(counts.All(a => a.Count == 1), Is.True);
         }
     }
 }

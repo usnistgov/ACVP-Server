@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC
             var result = _subject.GetValidators(tvs).ToList();
 
             Assert.That(result.Count == 1);
-            Assert.IsInstanceOf(expectedType, result[0]);
+            Assert.That(result[0], Is.InstanceOf(expectedType));
         }
     }
 }

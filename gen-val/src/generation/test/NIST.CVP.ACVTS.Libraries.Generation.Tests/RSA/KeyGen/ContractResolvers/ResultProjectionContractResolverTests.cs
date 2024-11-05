@@ -47,8 +47,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
         }
 
         /// <summary>
@@ -68,15 +68,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.E, newTc.E, nameof(newTc.E));
-            Assert.AreEqual(tc.N.ToPositiveBigInteger(), newTc.N.ToPositiveBigInteger(), nameof(newTc.N));
-            Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
-            Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
-            Assert.AreEqual(tc.Iqmp, newTc.Iqmp, nameof(newTc.Iqmp));
-            Assert.AreEqual(tc.Dmq1, newTc.Dmq1, nameof(newTc.Dmq1));
-            Assert.AreEqual(tc.Dmp1, newTc.Dmp1, nameof(newTc.Dmp1));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.E, Is.EqualTo(tc.E), nameof(newTc.E));
+            Assert.That(newTc.N.ToPositiveBigInteger(), Is.EqualTo(tc.N.ToPositiveBigInteger()), nameof(newTc.N));
+            Assert.That(newTc.P, Is.EqualTo(tc.P), nameof(newTc.P));
+            Assert.That(newTc.Q, Is.EqualTo(tc.Q), nameof(newTc.Q));
+            Assert.That(newTc.Iqmp, Is.EqualTo(tc.Iqmp), nameof(newTc.Iqmp));
+            Assert.That(newTc.Dmq1, Is.EqualTo(tc.Dmq1), nameof(newTc.Dmq1));
+            Assert.That(newTc.Dmp1, Is.EqualTo(tc.Dmp1), nameof(newTc.Dmp1));
         }
     }
 }

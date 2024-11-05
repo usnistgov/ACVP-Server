@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var digest = new BitString("123456");
             var subject = new HashResult(digest);
-            Assert.AreEqual(digest, subject.Digest);
+            Assert.That(subject.Digest, Is.EqualTo(digest));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var digest = new BitString("123456");
             var subject = new HashResult(digest);
-            Assert.IsTrue(subject.Success);
+            Assert.That(subject.Success, Is.True);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var errorMessage = "oops!";
             var subject = new HashResult(errorMessage);
-            Assert.AreEqual(errorMessage, subject.ErrorMessage);
+            Assert.That(subject.ErrorMessage, Is.EqualTo(errorMessage));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var errorMessage = "oops!";
             var subject = new HashResult(errorMessage);
-            Assert.IsFalse(subject.Success);
+            Assert.That(subject.Success, Is.False);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var digest = new BitString("123456");
             var subject = new HashResult(digest);
             Assert.That(subject.Success);
-            Assert.AreEqual("Digest: 123456", subject.ToString());
+            Assert.That(subject.ToString(), Is.EqualTo("Digest: 123456"));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         {
             var subject = new HashResult("oops!");
             Assert.That(!subject.Success);
-            Assert.AreEqual("oops!", subject.ToString());
+            Assert.That(subject.ToString(), Is.EqualTo("oops!"));
         }
     }
 }

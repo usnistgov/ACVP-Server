@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
                 OutputLength = new MathDomain(),
                 IsSample = false
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             };
 
             Assert.That(parameters != null);
-            Assert.AreEqual("cSHAKE", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("cSHAKE"));
         }
     }
 }

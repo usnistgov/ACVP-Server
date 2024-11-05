@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         public void ShouldCreateIVs()
         {
             var subject = new TDESIVs(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
-            Assert.IsNotNull(subject.IVs);
+            Assert.That(subject.IVs, Is.Not.Null);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             var subject = new TDESIVs(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
             Assert.That((bool)(subject.IVs != null));
-            Assert.AreEqual(3, subject.IVs.Count);
+            Assert.That(subject.IVs.Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
             var subject = new TDESIVs(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
             Assert.That((bool)(subject.IVs != null));
             var iv2 = subject.IVs[1];
-            Assert.AreEqual(subject.R1, iv2);
+            Assert.That(iv2, Is.EqualTo(subject.R1));
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
             var subject = new TDESIVs(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 });
             Assert.That((bool)(subject.IVs != null));
             var iv3 = subject.IVs[2];
-            Assert.AreEqual(subject.R2, iv3);
+            Assert.That(iv3, Is.EqualTo(subject.R2));
         }
 
         [Test]
@@ -54,9 +54,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
 
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(new BitString(hexIv1).ToHex(), ivs[0].ToHex(), "iv0");
-                Assert.AreEqual(new BitString(expectedHexIv2).ToHex(), ivs[1].ToHex(), "iv1");
-                Assert.AreEqual(new BitString(expectedHexIv3).ToHex(), ivs[2].ToHex(), "iv2");
+                Assert.That(ivs[0].ToHex(), Is.EqualTo(new BitString(hexIv1).ToHex()), "iv0");
+                Assert.That(ivs[1].ToHex(), Is.EqualTo(new BitString(expectedHexIv2).ToHex()), "iv1");
+                Assert.That(ivs[2].ToHex(), Is.EqualTo(new BitString(expectedHexIv3).ToHex()), "iv2");
             });
         }
     }

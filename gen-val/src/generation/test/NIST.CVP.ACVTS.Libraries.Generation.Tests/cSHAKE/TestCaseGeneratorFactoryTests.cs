@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 
             await typedGen.GenerateAsync(testGroup, isSample);
 
-            Assert.AreEqual(isSample, typedGen.IsSample);
+            Assert.That(typedGen.IsSample, Is.EqualTo(isSample));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
                     OutputLength = new MathDomain().AddSegment(new ValueDomainSegment(8))
                 }
                 );
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
 
         private TestCaseGeneratorFactory GetSubject()

@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
 
             var (messageAuthKey, messageEncKey) = _subject.DeriveKeys(key, nonce);
 
-            Assert.AreEqual(expectedAuthKey, messageAuthKey);
-            Assert.AreEqual(expectedEncKey, messageEncKey);
+            Assert.That(messageAuthKey, Is.EqualTo(expectedAuthKey));
+            Assert.That(messageEncKey, Is.EqualTo(expectedEncKey));
         }
 
         [TestCase("25629347589242761d31f826ba4b757b", "4f4f95668c83dfb6401762bb2d01a262 d1a24ddd2721d006bbe45f20d3c9f362", "f7a3b47b846119fae5b7866cf5e5b77e")]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
 
             var result = _subject.PolyVal(a, b);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [TestCase("01000000000000000000000000000000", "00800000000000000000000000000000")]
@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
 
             var result = _subject.MulXGHash(a);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [TestCase("", "", "01000000000000000000000000000000", "030000000000000000000000", "dc20e2d83f25705bb49e439eca56de25")]
@@ -75,7 +75,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
                 aad, 0);
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.Result.ToHex(), "Result");
+            Assert.That(result.Result.ToHex(), Is.EqualTo(expectedResult.ToHex()), "Result");
         }
 
         [TestCase("dc20e2d83f25705bb49e439eca56de25", "", "01000000000000000000000000000000", "030000000000000000000000", "", true)]
@@ -95,11 +95,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
             var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, nonce, key, cipherText, aad, new BitString(0));
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
 
             if (expectedResult)
             {
-                Assert.AreEqual(expectedPlaintext, result.Result);
+                Assert.That(result.Result, Is.EqualTo(expectedPlaintext));
             }
         }
 
@@ -164,12 +164,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
             var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, plaintext, aad, 0);
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
 
             var param2 = new AeadModeBlockCipherParameters(BlockCipherDirections.Decrypt, iv, key, result.Result, aad, new BitString(0));
             var result2 = _subject.ProcessPayload(param2);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [TestCase("D816303DE43569E6AEBC7F929C9B61C40349320334A4E8101912637EAC3BBC079C", "3BBB98776B70058B9A168EB75B7DC5EFE9813B1AABAAB9D6334290F2B4B3D728", "FFC2B859E0BD9A700B679265067907B2")]
@@ -181,7 +181,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
 
             var result = _subject.AesCtr(key, ctr, input);
 
-            Assert.IsTrue(true);
+            Assert.That(true, Is.True);
         }
 
         [TestCase("000000000000000000000000000000004db923dc793ee6497c76dcc03a98e108", "0000000000000000000000000000000000000000000000000000000000000000", "000000000000000000000000", "f3f80f2cf0cb2dd9c5984fcda908456cc537703b5ba70324a6793a7bf218d3eaffffffff000000000000000000000000")]
@@ -196,9 +196,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM_SIV.Tests
             
             var param = new AeadModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, plainText, new BitString(0), 128);
             var result = _subject.ProcessPayload(param);
-            
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
+
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Result.ToHex(), Is.EqualTo(cipherText.ToHex()));
         }
     }
 }

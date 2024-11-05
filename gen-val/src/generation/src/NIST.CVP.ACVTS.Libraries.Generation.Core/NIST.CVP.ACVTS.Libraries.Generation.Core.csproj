@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	<Version>$(GenValPackageVersion)</Version>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>ACVP Core testing library.  Implementations against this library can be used to generate and validate test vectors against a specific cryptographic algorithm.</Description>

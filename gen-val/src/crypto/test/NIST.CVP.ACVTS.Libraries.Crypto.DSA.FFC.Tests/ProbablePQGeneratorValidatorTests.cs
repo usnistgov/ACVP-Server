@@ -70,10 +70,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = subject.Generate(L, N, seedLen);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(p, result.P, "p");
-            Assert.AreEqual(q, result.Q, "q");
-            Assert.AreEqual(counter, result.Count.Count, "count");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.P, Is.EqualTo(p), "p");
+            Assert.That(result.Q, Is.EqualTo(q), "q");
+            Assert.That(result.Count.Count, Is.EqualTo(counter), "count");
 
             Console.Write($"Hash functions run: {fakeSha.Count}");
         }
@@ -139,7 +139,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var subject = new ProbablePQGeneratorValidator(sha);
 
             var result = subject.Validate(p, q, seed, count);
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
 
         private ISha GetSha(string hash)

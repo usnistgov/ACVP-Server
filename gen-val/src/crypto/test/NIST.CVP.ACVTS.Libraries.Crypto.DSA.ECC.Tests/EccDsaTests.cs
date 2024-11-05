@@ -118,10 +118,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.GenerateKeyPair(domainParams);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(result.KeyPair.PrivateD, d, "d");
-            Assert.AreEqual(result.KeyPair.PublicQ.X, Q.X, "Qx");
-            Assert.AreEqual(result.KeyPair.PublicQ.Y, Q.Y, "Qy");
+            Assert.That(result.Success, Is.True);
+            Assert.That(d, Is.EqualTo(result.KeyPair.PrivateD), "d");
+            Assert.That(Q.X, Is.EqualTo(result.KeyPair.PublicQ.X), "Qx");
+            Assert.That(Q.Y, Is.EqualTo(result.KeyPair.PublicQ.Y), "Qy");
         }
 
         [Test]
@@ -297,7 +297,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.ValidateKeyPair(domainParams, keyPair);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -447,9 +447,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Sign(domainParams, keyPair, msg);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedR, result.Signature.R, "r");
-            Assert.AreEqual(expectedS, result.Signature.S, "s");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Signature.R, Is.EqualTo(expectedR), "r");
+            Assert.That(result.Signature.S, Is.EqualTo(expectedS), "s");
         }
 
         [Test]
@@ -571,9 +571,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Sign(domainParams, keyPair, msg);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedR, result.Signature.R, "r");
-            Assert.AreEqual(expectedS, result.Signature.S, "s");
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Signature.R, Is.EqualTo(expectedR), "r");
+            Assert.That(result.Signature.S, Is.EqualTo(expectedS), "s");
         }
 
         [Test]
@@ -874,7 +874,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Verify(domainParams, keyPair, msg, signature);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -995,7 +995,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var result = subject.Verify(domainParams, keyPair, msg, signature);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -1020,7 +1020,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC.Tests
 
             var attributes = CurveAttributesHelper.GetCurveAttribute(curve);
 
-            Assert.AreEqual(attributes.ExactBitLengthOrderN, curveFactory.GetCurve(curve).OrderN.ExactBitLength(), $"{curve}");
+            Assert.That(curveFactory.GetCurve(curve).OrderN.ExactBitLength(), Is.EqualTo(attributes.ExactBitLengthOrderN), $"{curve}");
         }
 
         private BigInteger LoadValue(string hex)

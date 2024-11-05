@@ -49,15 +49,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.L, newTg.L, nameof(newTg.L));
-            Assert.AreEqual(tg.N, newTg.N, nameof(newTg.N));
-            Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.L, Is.EqualTo(tg.L), nameof(newTg.L));
+            Assert.That(newTg.N, Is.EqualTo(tg.N), nameof(newTg.N));
+            Assert.That(newTg.HashAlgName, Is.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
 
-            Assert.AreEqual(tg.PQGenMode, newTg.PQGenMode, nameof(pqGenMode));
-            Assert.AreEqual(tg.GGenMode, newTg.GGenMode, nameof(gGenMode));
+            Assert.That(newTg.PQGenMode, Is.EqualTo(tg.PQGenMode), nameof(pqGenMode));
+            Assert.That(newTg.GGenMode, Is.EqualTo(tg.GGenMode), nameof(gGenMode));
         }
 
         [Test]
@@ -77,63 +77,63 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
-            Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
+            Assert.That(newTc.P, Is.EqualTo(tc.P), nameof(newTc.P));
+            Assert.That(newTc.Q, Is.EqualTo(tc.Q), nameof(newTc.Q));
 
             if (pqGenMode != PrimeGenMode.None)
             {
-                Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
-                Assert.AreEqual(tg.N, newTc.DomainSeed.BitLength, "BitLength must be valid");
+                Assert.That(newTc.DomainSeed, Is.EqualTo(tc.DomainSeed), nameof(newTc.DomainSeed));
+                Assert.That(newTc.DomainSeed.BitLength, Is.EqualTo(tg.N), "BitLength must be valid");
             }
 
             if (pqGenMode == PrimeGenMode.Provable)
             {
-                Assert.AreEqual(tc.PCount, newTc.PCount, nameof(newTc.PCount));
-                Assert.AreEqual(tc.QCount, newTc.QCount, nameof(newTc.QCount));
-                Assert.AreEqual(tc.PSeed, newTc.PSeed, nameof(newTc.PSeed));
-                Assert.AreEqual(tc.QSeed, newTc.QSeed, nameof(newTc.QSeed));
-                Assert.AreEqual(tg.N, newTc.PSeed.BitLength, "BitLength must be valid");
-                Assert.AreEqual(tg.N, newTc.QSeed.BitLength, "BitLength must be valid");
+                Assert.That(newTc.PCount, Is.EqualTo(tc.PCount), nameof(newTc.PCount));
+                Assert.That(newTc.QCount, Is.EqualTo(tc.QCount), nameof(newTc.QCount));
+                Assert.That(newTc.PSeed, Is.EqualTo(tc.PSeed), nameof(newTc.PSeed));
+                Assert.That(newTc.QSeed, Is.EqualTo(tc.QSeed), nameof(newTc.QSeed));
+                Assert.That(newTc.PSeed.BitLength, Is.EqualTo(tg.N), "BitLength must be valid");
+                Assert.That(newTc.QSeed.BitLength, Is.EqualTo(tg.N), "BitLength must be valid");
             }
             else
             {
-                Assert.AreNotEqual(tc.PCount, newTc.PCount, nameof(newTc.PCount));
-                Assert.AreNotEqual(tc.QCount, newTc.QCount, nameof(newTc.QCount));
-                Assert.AreNotEqual(tc.PSeed, newTc.PSeed, nameof(newTc.PSeed));
-                Assert.AreNotEqual(tc.QSeed, newTc.QSeed, nameof(newTc.QSeed));
+                Assert.That(newTc.PCount, Is.Not.EqualTo(tc.PCount), nameof(newTc.PCount));
+                Assert.That(newTc.QCount, Is.Not.EqualTo(tc.QCount), nameof(newTc.QCount));
+                Assert.That(newTc.PSeed, Is.Not.EqualTo(tc.PSeed), nameof(newTc.PSeed));
+                Assert.That(newTc.QSeed, Is.Not.EqualTo(tc.QSeed), nameof(newTc.QSeed));
             }
 
             if (gGenMode != GeneratorGenMode.None)
             {
-                Assert.AreEqual(tc.G, newTc.G, nameof(newTc.G));
+                Assert.That(newTc.G, Is.EqualTo(tc.G), nameof(newTc.G));
             }
             else
             {
-                Assert.AreNotEqual(tc.G, newTc.G, nameof(newTc.G));
+                Assert.That(newTc.G, Is.Not.EqualTo(tc.G), nameof(newTc.G));
             }
 
             if (gGenMode == GeneratorGenMode.Canonical)
             {
-                Assert.AreEqual(tc.Index, newTc.Index, nameof(newTc.Index));
+                Assert.That(newTc.Index, Is.EqualTo(tc.Index), nameof(newTc.Index));
             }
 
             if (gGenMode == GeneratorGenMode.Unverifiable)
             {
-                Assert.AreEqual(tc.H, newTc.H, nameof(newTc.H));
-                Assert.AreEqual(tc.DomainSeed, newTc.DomainSeed, nameof(newTc.DomainSeed));
-                Assert.AreEqual(tg.N, newTc.DomainSeed.BitLength, "BitLength must be valid");   // Uses a probable seed
+                Assert.That(newTc.H, Is.EqualTo(tc.H), nameof(newTc.H));
+                Assert.That(newTc.DomainSeed, Is.EqualTo(tc.DomainSeed), nameof(newTc.DomainSeed));
+                Assert.That(newTc.DomainSeed.BitLength, Is.EqualTo(tg.N), "BitLength must be valid");   // Uses a probable seed
             }
             else
             {
-                Assert.AreNotEqual(tc.H, newTc.H, nameof(newTc.H));
+                Assert.That(newTc.H, Is.Not.EqualTo(tc.H), nameof(newTc.H));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

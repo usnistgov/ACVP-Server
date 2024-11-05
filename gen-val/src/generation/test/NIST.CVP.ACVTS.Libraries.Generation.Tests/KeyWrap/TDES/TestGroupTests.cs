@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
 
             var result = tg.UseInverseCipher;
 
-            Assert.AreEqual(expectationUseInverseCipher, result);
+            Assert.That(result, Is.EqualTo(expectationUseInverseCipher));
         }
     }
 }

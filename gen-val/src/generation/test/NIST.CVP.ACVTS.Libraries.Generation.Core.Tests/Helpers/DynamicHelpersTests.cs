@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
                 PrintOptionBitStringEmpty.PrintAsDoubleZero
             );
 
-            Assert.IsFalse(((ExpandoObject)d).ContainsProperty(PropertyLabel));
+            Assert.That(((ExpandoObject)d).ContainsProperty(PropertyLabel), Is.False);
         }
 
         [Test]
@@ -36,8 +36,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
                 PrintOptionBitStringEmpty.PrintAsDoubleZero
             );
 
-            Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.IsTrue(d.label == null, "Should be null");
+            Assert.That(((ExpandoObject)d).ContainsProperty(PropertyLabel), Is.True, "Should contain property");
+            Assert.That(d.label == null, Is.True, "Should be null");
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
                 PrintOptionBitStringEmpty.PrintAsEmptyString
             );
 
-            Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.AreEqual(string.Empty, ((BitString)d.label).ToHex(), "Should be null");
+            Assert.That(((ExpandoObject)d).ContainsProperty(PropertyLabel), Is.True, "Should contain property");
+            Assert.That(((BitString)d.label).ToHex(), Is.EqualTo(string.Empty), "Should be null");
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
                 PrintOptionBitStringEmpty.PrintAsDoubleZero
             );
 
-            Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.AreEqual("00", (d.label).ToString(), "Should be 00");
+            Assert.That(((ExpandoObject)d).ContainsProperty(PropertyLabel), Is.True, "Should contain property");
+            Assert.That((d.label).ToString(), Is.EqualTo("00"), "Should be 00");
         }
 
         [Test]
@@ -82,8 +82,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
                 PrintOptionBitStringEmpty.PrintAsDoubleZero
             );
 
-            Assert.IsTrue(((ExpandoObject)d).ContainsProperty(PropertyLabel), "Should contain property");
-            Assert.IsTrue(((BitString)d.label).ToHex() == hex, $"Should equal {nameof(hex)}");
+            Assert.That(((ExpandoObject)d).ContainsProperty(PropertyLabel), Is.True, "Should contain property");
+            Assert.That(((BitString)d.label).ToHex() == hex, Is.True, $"Should equal {nameof(hex)}");
         }
     }
 }

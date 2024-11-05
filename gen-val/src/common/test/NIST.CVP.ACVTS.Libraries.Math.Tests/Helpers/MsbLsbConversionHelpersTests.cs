@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                Assert.AreEqual(expectedResults[i], subject[i]);
+                Assert.That(subject[i], Is.EqualTo(expectedResults[i]));
             }
         }
 
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
             var subject = MsbLsbConversionHelpers.ReverseBitArrayBits(ba);
             for (int i = 0; i < subject.Length; i++)
             {
-                Assert.AreEqual(ba[i], subject[subject.Length - 1 - i]);
+                Assert.That(subject[subject.Length - 1 - i], Is.EqualTo(ba[i]));
             }
         }
 
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (int i = 0; i < result.Length; i++)
             {
-                Assert.AreEqual(expectedLeastSignificantBits[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectedLeastSignificantBits[i]));
             }
         }
 
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (int i = 0; i < result.Length; i++)
             {
-                Assert.AreEqual(expectedLeastSignificantBits[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectedLeastSignificantBits[i]));
             }
         }
 
@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (int i = 0; i < result.Length; i++)
             {
-                Assert.AreEqual(expectedLeastSignificantBits[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectedLeastSignificantBits[i]));
             }
         }
 
@@ -93,7 +93,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             for (int i = 0; i < result.Length; i++)
             {
-                Assert.AreEqual(expectedLeastSignificantBits[i], result[i]);
+                Assert.That(result[i], Is.EqualTo(expectedLeastSignificantBits[i]));
             }
         }
 
@@ -134,7 +134,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
             var result = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testString);
             var bs = new BitString(result);
 
-            Assert.AreEqual(expectation, bs.ToString());
+            Assert.That(bs.ToString(), Is.EqualTo(expectation));
         }
     }
 }

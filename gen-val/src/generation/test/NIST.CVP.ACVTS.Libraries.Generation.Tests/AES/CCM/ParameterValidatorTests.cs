@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -34,8 +34,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','), result.ErrorMessage);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage.Count(c => c == ','), Is.EqualTo(errorsExpected), result.ErrorMessage);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -73,8 +73,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','), result.ErrorMessage);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage.Count(c => c == ','), Is.EqualTo(errorsExpected), result.ErrorMessage);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -113,8 +113,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','), result.ErrorMessage);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage.Count(c => c == ','), Is.EqualTo(errorsExpected), result.ErrorMessage);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -162,7 +162,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

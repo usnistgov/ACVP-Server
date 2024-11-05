@@ -82,9 +82,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var result = await _subject.GenerateAsync(new GenerateRequest(string.Empty));
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorMessage, result.ErrorMessage);
-            Assert.AreEqual(StatusCode.ParameterError, result.StatusCode);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage, Is.EqualTo(errorMessage));
+            Assert.That(result.StatusCode, Is.EqualTo(StatusCode.ParameterError));
         }
 
         [Test]
@@ -97,9 +97,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var result = await _subject.GenerateAsync(new GenerateRequest(string.Empty));
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorMessage.First(), result.ErrorMessage);
-            Assert.AreEqual(StatusCode.ParameterValidationError, result.StatusCode);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage, Is.EqualTo(errorMessage.First()));
+            Assert.That(result.StatusCode, Is.EqualTo(StatusCode.ParameterValidationError));
         }
 
         [Test]
@@ -112,9 +112,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var result = await _subject.GenerateAsync(new GenerateRequest(string.Empty));
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorMessage, result.ErrorMessage);
-            Assert.AreEqual(StatusCode.TestCaseGeneratorError, result.StatusCode);
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage, Is.EqualTo(errorMessage));
+            Assert.That(result.StatusCode, Is.EqualTo(StatusCode.TestCaseGeneratorError));
         }
 
         [Test]
@@ -124,8 +124,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             result = await _subject.GenerateAsync(new GenerateRequest(string.Empty));
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(StatusCode.Success, result.StatusCode);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.StatusCode, Is.EqualTo(StatusCode.Success));
         }
     }
 }

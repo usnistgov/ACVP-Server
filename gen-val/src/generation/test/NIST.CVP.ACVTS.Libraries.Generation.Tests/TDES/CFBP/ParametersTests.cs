@@ -10,7 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFBP
         public void ShouldCoverParametersSet()
         {
             var parameters = new Parameters { Algorithm = "TDES-CFBP", Direction = new[] { "Encrypt" }, IsSample = false };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFBP
         {
             var parameters = new Parameters { Algorithm = "TDES-CFBP", Direction = new[] { "Encrypt" }, IsSample = false };
             Assert.That(parameters != null);
-            Assert.AreEqual("TDES-CFBP", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("TDES-CFBP"));
         }
     }
 }

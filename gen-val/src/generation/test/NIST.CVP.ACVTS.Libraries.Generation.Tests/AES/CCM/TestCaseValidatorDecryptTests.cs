@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             var subject = new TestCaseValidatorDecrypt(testCase);
             var result = await subject.ValidateAsync(testCase, false);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             suppliedResult.PlainText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult, false);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             var result = await subject.ValidateAsync(suppliedResult, false);
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plain Text"));
+            Assert.That(result.Reason.Contains("Plain Text"), Is.True);
         }
 
         [Test]
@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             var subject = new TestCaseValidatorDecrypt(testCase);
             var suppliedResult = GetTestCase(true);
             var result = await subject.ValidateAsync(suppliedResult, false);
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result, nameof(result.Result));
-            Assert.IsTrue(result.Reason.Contains("tag"), nameof(result.Reason));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed), nameof(result.Result));
+            Assert.That(result.Reason.Contains("tag"), Is.True, nameof(result.Reason));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             suppliedResult.PlainText = new BitString(0);
             var result = await subject.ValidateAsync(suppliedResult, false);
             Assert.That(result != null);
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             Assert.That(result != null);
             Assert.That(Core.Enums.Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase(bool testPassed = true)

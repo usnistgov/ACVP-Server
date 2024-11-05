@@ -133,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
             );
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedDerivedKeyingMaterial.ToHex(), result.DerivedKey.ToHex());
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(expectedDerivedKeyingMaterial.ToHex()));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
 
             var expectedDkm = new BitString("C56E3F1ADA02DB5511C7941839A68A4CAFD7B3F3BBFDBAAD430F49619FFEDF28");
 
-            Assert.AreEqual(expectedDkm.ToHex(), result.DerivedKey.ToHex());
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(expectedDkm.ToHex()));
         }
 
         [Test]
@@ -181,8 +181,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
                 Z = z,
             }, fixedInfo);
 
-            Assert.AreEqual(expected.ToHex(), counterKdf.DerivedKey.ToHex(), nameof(counterKdf));
-            Assert.AreNotEqual(expected.ToHex(), noCounterKdf.DerivedKey.ToHex(), nameof(noCounterKdf));
+            Assert.That(counterKdf.DerivedKey.ToHex(), Is.EqualTo(expected.ToHex()), nameof(counterKdf));
+            Assert.That(noCounterKdf.DerivedKey.ToHex(), Is.Not.EqualTo(expected.ToHex()), nameof(noCounterKdf));
         }
 
         [Test]
@@ -207,8 +207,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
                 Z = z,
             }, fixedInfo);
 
-            Assert.AreEqual(expected.ToHex(), noCounterKdf.DerivedKey.ToHex(), nameof(noCounterKdf));
-            Assert.AreNotEqual(expected.ToHex(), counterKdf.DerivedKey.ToHex(), nameof(counterKdf));
+            Assert.That(noCounterKdf.DerivedKey.ToHex(), Is.EqualTo(expected.ToHex()), nameof(noCounterKdf));
+            Assert.That(counterKdf.DerivedKey.ToHex(), Is.Not.EqualTo(expected.ToHex()), nameof(counterKdf));
         }
 
         [Test]
@@ -250,7 +250,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
                 Z = z,
             }, fixedInfo);
 
-            Assert.IsTrue(noCounterKdf.Success);
+            Assert.That(noCounterKdf.Success, Is.True);
         }
 
         [Test]

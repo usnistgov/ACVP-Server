@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ANSIX943
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", new BitString(subject.SharedSecret, 16).ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(new BitString(subject.SharedSecret, 16).ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

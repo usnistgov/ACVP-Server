@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
 
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
     }
 }

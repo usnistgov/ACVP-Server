@@ -47,12 +47,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
-            Assert.AreNotEqual(tg.MessageLength, newTg.MessageLength, nameof(newTg.MessageLength));
-            Assert.AreNotEqual(tg.MacLength, newTg.MacLength, nameof(newTg.MacLength));
+            Assert.That(newTg.KeyLength, Is.Not.EqualTo(tg.KeyLength), nameof(newTg.KeyLength));
+            Assert.That(newTg.MessageLength, Is.Not.EqualTo(tg.MessageLength), nameof(newTg.MessageLength));
+            Assert.That(newTg.MacLength, Is.Not.EqualTo(tg.MacLength), nameof(newTg.MacLength));
         }
 
         /// <summary>
@@ -72,16 +72,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Mac, newTc.Mac, nameof(newTc.Mac));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Mac, Is.EqualTo(tc.Mac), nameof(newTc.Mac));
 
             Regex regexDeferred = new Regex(nameof(TestCase.Deferred), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexDeferred.Matches(json).Count == 0);
+            Assert.That(regexDeferred.Matches(json).Count == 0, Is.True);
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

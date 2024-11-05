@@ -192,7 +192,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         [TestCaseSource(nameof(_testData))]
         public void ShouldSequenceEqualAppropriately(string label, bool shouldEqual, IEnumerable<IFoo> listA, IEnumerable<IFoo> listB)
         {
-            Assert.AreEqual(shouldEqual, listA.SequenceEqual(listB), label);
+            Assert.That(listA.SequenceEqual(listB), Is.EqualTo(shouldEqual), label);
         }
 
         [Test]
@@ -250,12 +250,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
                 },
             };
 
-            Assert.IsTrue(list1.SequenceEqual(matchList1), "list1 equal sequences");
-            Assert.IsTrue(list2.SequenceEqual(matchList2), "list2 equal sequences");
+            Assert.That(list1.SequenceEqual(matchList1), Is.True, "list1 equal sequences");
+            Assert.That(list2.SequenceEqual(matchList2), Is.True, "list2 equal sequences");
 
-            Assert.IsFalse(list1.SequenceEqual(list2), "list1 and list2 different sequences");
-            Assert.IsFalse(list1.SequenceEqual(list3), "list1 and list3 different sequences");
-            Assert.IsFalse(list2.SequenceEqual(list3), "list2 and list3 different sequences");
+            Assert.That(list1.SequenceEqual(list2), Is.False, "list1 and list2 different sequences");
+            Assert.That(list1.SequenceEqual(list3), Is.False, "list1 and list3 different sequences");
+            Assert.That(list2.SequenceEqual(list3), Is.False, "list2 and list3 different sequences");
 
             var dict = new Dictionary<List<IFoo>, string>();
             dict.TryAdd(list1, "1");

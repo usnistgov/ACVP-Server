@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
         [Test]
         public void ShouldConstructAndValidateSuccessfullyFromBaseBuilder()
         {
-            Assert.IsTrue(_subject.Validate(new ParameterBuilder().Build()).Success);
+            Assert.That(_subject.Validate(new ParameterBuilder().Build()).Success, Is.True);
         }
 
         [Test]
@@ -96,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
                 .WithAlgoModeRevision(algorithm, mode, revision)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
                 .WithFixedInfoPattern(fixedInfoPattern)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
                 .WithEncoding(encoding)
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
                 .WithZ(new MathDomain().AddSegment(new ValueDomainSegment(zLength)))
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
 
         [Test]
@@ -254,7 +254,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KDA.OneStepNoCounter
                 .WithAuxFunctions(new[] { auxFunctionNoCounter })
                 .Build();
 
-            Assert.AreEqual(isSuccessful, _subject.Validate(param).Success);
+            Assert.That(_subject.Validate(param).Success, Is.EqualTo(isSuccessful));
         }
     }
 }

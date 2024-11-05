@@ -249,7 +249,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.FFC
         {
             var result = await _subject.BuildTestGroupsAsync(parm);
 
-            Assert.AreEqual(expectedNumberOfGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedNumberOfGroups));
         }
     }
 }

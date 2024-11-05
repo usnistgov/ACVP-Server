@@ -54,28 +54,28 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen.ContractResolvers
             var newTg = newTvs.TestGroups[0];
 
             // Always include
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Modulo, newTg.Modulo, nameof(newTg.Modulo));
-            Assert.AreEqual(tg.FixedPubExp, newTg.FixedPubExp, nameof(newTg.FixedPubExp));
-            Assert.AreEqual(tg.PubExp, newTg.PubExp, nameof(newTg.PubExp));
-            Assert.AreEqual(tg.InfoGeneratedByServer, newTg.InfoGeneratedByServer, nameof(newTg.InfoGeneratedByServer));
-            Assert.AreEqual(tg.KeyFormat, newTg.KeyFormat, nameof(newTg.KeyFormat));
-            Assert.AreEqual(tg.PrimeGenMode, newTg.PrimeGenMode, nameof(newTg.PrimeGenMode));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.Modulo, Is.EqualTo(tg.Modulo), nameof(newTg.Modulo));
+            Assert.That(newTg.FixedPubExp, Is.EqualTo(tg.FixedPubExp), nameof(newTg.FixedPubExp));
+            Assert.That(newTg.PubExp, Is.EqualTo(tg.PubExp), nameof(newTg.PubExp));
+            Assert.That(newTg.InfoGeneratedByServer, Is.EqualTo(tg.InfoGeneratedByServer), nameof(newTg.InfoGeneratedByServer));
+            Assert.That(newTg.KeyFormat, Is.EqualTo(tg.KeyFormat), nameof(newTg.KeyFormat));
+            Assert.That(newTg.PrimeGenMode, Is.EqualTo(tg.PrimeGenMode), nameof(newTg.PrimeGenMode));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
 
             // Provable
             if (primeGenMode == PrimeGenFips186_4Modes.B32 || primeGenMode == PrimeGenFips186_4Modes.B34 ||
                 primeGenMode == PrimeGenFips186_4Modes.B35)
             {
-                Assert.AreEqual(tg.HashAlgName, newTg.HashAlgName, nameof(newTg.HashAlgName));
+                Assert.That(newTg.HashAlgName, Is.EqualTo(tg.HashAlgName), nameof(newTg.HashAlgName));
             }
 
             // Probable
             if (primeGenMode == PrimeGenFips186_4Modes.B33 || primeGenMode == PrimeGenFips186_4Modes.B35 ||
                 primeGenMode == PrimeGenFips186_4Modes.B36)
             {
-                Assert.AreEqual(tg.PrimeTest, newTg.PrimeTest, nameof(newTg.PrimeTest));
+                Assert.That(newTg.PrimeTest, Is.EqualTo(tg.PrimeTest), nameof(newTg.PrimeTest));
             }
         }
 
@@ -102,50 +102,50 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen.ContractResolvers
             var newTc = newTg.Tests[0];
 
             // Always include
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Deferred, Is.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // Not probable
             if (primeGenMode != PrimeGenFips186_4Modes.B33)
             {
-                Assert.AreEqual(tc.E, newTc.E, nameof(newTc.E));
+                Assert.That(newTc.E, Is.EqualTo(tc.E), nameof(newTc.E));
             }
 
             // Provable
             if (primeGenMode == PrimeGenFips186_4Modes.B32 || primeGenMode == PrimeGenFips186_4Modes.B34 ||
                 primeGenMode == PrimeGenFips186_4Modes.B35)
             {
-                Assert.AreEqual(tc.Seed, newTc.Seed, nameof(newTc.Seed));
+                Assert.That(newTc.Seed, Is.EqualTo(tc.Seed), nameof(newTc.Seed));
             }
 
             // With Aux
             if (primeGenMode == PrimeGenFips186_4Modes.B34 || primeGenMode == PrimeGenFips186_4Modes.B35 ||
                 primeGenMode == PrimeGenFips186_4Modes.B36)
             {
-                Assert.AreEqual(tc.Bitlens, newTc.Bitlens, nameof(newTc.Bitlens));
+                Assert.That(newTc.Bitlens, Is.EqualTo(tc.Bitlens), nameof(newTc.Bitlens));
             }
 
             // Probable With Aux
             if (primeGenMode == PrimeGenFips186_4Modes.B35 || primeGenMode == PrimeGenFips186_4Modes.B36)
             {
-                Assert.AreEqual(tc.XP, newTc.XP, nameof(newTc.XP));
-                Assert.AreEqual(tc.XQ, newTc.XQ, nameof(newTc.XQ));
+                Assert.That(newTc.XP, Is.EqualTo(tc.XP), nameof(newTc.XP));
+                Assert.That(newTc.XQ, Is.EqualTo(tc.XQ), nameof(newTc.XQ));
             }
 
             // Probable With Probable Aux
             if (primeGenMode == PrimeGenFips186_4Modes.B36)
             {
-                Assert.AreEqual(tc.XP1, newTc.XP1, nameof(newTc.XP1));
-                Assert.AreEqual(tc.XP2, newTc.XP2, nameof(newTc.XP2));
+                Assert.That(newTc.XP1, Is.EqualTo(tc.XP1), nameof(newTc.XP1));
+                Assert.That(newTc.XP2, Is.EqualTo(tc.XP2), nameof(newTc.XP2));
 
-                Assert.AreEqual(tc.XQ1, newTc.XQ1, nameof(newTc.XQ1));
-                Assert.AreEqual(tc.XQ2, newTc.XQ2, nameof(newTc.XQ2));
+                Assert.That(newTc.XQ1, Is.EqualTo(tc.XQ1), nameof(newTc.XQ1));
+                Assert.That(newTc.XQ2, Is.EqualTo(tc.XQ2), nameof(newTc.XQ2));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

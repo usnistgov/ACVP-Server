@@ -45,7 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(1, result.Count);
+            Assert.That(result.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -105,14 +105,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             foreach (TestGroup result in results)
             {
-                Assert.AreEqual(
-                    expectedMechanism,
-                    result.DrbgParameters.Mechanism,
+                Assert.That(
+                    result.DrbgParameters.Mechanism, Is.EqualTo(expectedMechanism),
                     nameof(expectedMechanism)
                 );
-                Assert.AreEqual(
-                    expectedDrbgMode,
-                    result.DrbgParameters.Mode,
+                Assert.That(
+                    result.DrbgParameters.Mode, Is.EqualTo(expectedDrbgMode),
                     nameof(expectedDrbgMode)
                 );
             }

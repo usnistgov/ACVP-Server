@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen
             var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(true).Object);
             var result = await subject.ValidateAsync(GetResultTestCase());
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen
             var subject = new TestCaseValidatorPQ(GetTestCase(), GetTestGroup(), GetResolverMock(false).Object);
             var result = await subject.ValidateAsync(GetResultTestCase());
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         private TestCase GetTestCase()

@@ -31,14 +31,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.IntegrationTests
             domain.AddSegment(new RangeDomainSegment(null, 16, 65536, 8));
             var result = subject.MCTHash(hashFunction, messageBitStringTuple, domain, true, true);
 
-            Assert.IsNotNull(result, "null check");
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result, Is.Not.Null, "null check");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
 
             var resultDigest = result.Response[result.Response.Count - 1].Digest;
             //            Console.WriteLine($"Should be: {digestBitString.ToHex()}");
             //            Console.WriteLine($"Is       : {resultDigest.ToHex()}");
-            Assert.AreEqual(digestBitString.BitLength, resultDigest.BitLength);
-            Assert.AreEqual(digestBitString.ToHex(), resultDigest.ToHex());
+            Assert.That(resultDigest.BitLength, Is.EqualTo(digestBitString.BitLength));
+            Assert.That(resultDigest.ToHex(), Is.EqualTo(digestBitString.ToHex()));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.EngineId.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.EngineId.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

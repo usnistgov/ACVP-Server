@@ -23,10 +23,10 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
                 var result = (a - b).PosMod(c);
                 var negativeResult = (a - b) % c;
 
-                Assert.GreaterOrEqual(result, BigInteger.Zero);
+                Assert.That(result, Is.GreaterThanOrEqualTo(BigInteger.Zero));
 
                 // result - negativeResult should be a multiple of c. 
-                Assert.AreEqual(BigInteger.Zero, (result + BigInteger.Abs(negativeResult)) % c);
+                Assert.That((result + BigInteger.Abs(negativeResult)) % c, Is.EqualTo(BigInteger.Zero));
             }
         }
 
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         public void ExactBitLengthShouldTakeAllBitsAfterMostSignificantBit(string hex, int expectedResult)
         {
             var value = new BitString(hex).ToPositiveBigInteger();
-            Assert.AreEqual(expectedResult, value.ExactBitLength());
+            Assert.That(value.ExactBitLength(), Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             var result = value.ToHex(zeroAsEmpty);
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
 
             var result = valueAsBigInteger.ToHex();
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         private static object[] ModInvSource =
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         [TestCaseSource(nameof(ModInvSource))]
         public void ShouldFindModularInverseCorrectly(BigInteger a, BigInteger m, BigInteger expectedResult)
         {
-            Assert.AreEqual(expectedResult, a.ModularInverse(m));
+            Assert.That(a.ModularInverse(m), Is.EqualTo(expectedResult));
         }
 
         private static object[] DivSource =
@@ -134,7 +134,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         [TestCaseSource(nameof(DivSource))]
         public void ShouldCeilingDivideCorrectly(BigInteger a, BigInteger b, BigInteger expectedResult)
         {
-            Assert.AreEqual(expectedResult, a.CeilingDivide(b));
+            Assert.That(a.CeilingDivide(b), Is.EqualTo(expectedResult));
         }
     }
 }

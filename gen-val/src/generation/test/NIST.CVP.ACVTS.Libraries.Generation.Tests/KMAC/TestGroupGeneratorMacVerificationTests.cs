@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedResultCount));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount * 2, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedResultCount * 2));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedResultCount));
         }
     }
 }

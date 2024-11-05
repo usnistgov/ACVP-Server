@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _mockSubject.Object.Getj0(h, iv);
 
-            Assert.AreEqual(expectedJ0, result, nameof(expectedJ0));
+            Assert.That(result, Is.EqualTo(expectedJ0), nameof(expectedJ0));
             _mockSubject.Verify(
                 v => v.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.Never,
@@ -106,7 +106,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             var expectedS = 128 * 96 - iv.BitLength;
             var expectedX = iv.ConcatenateBits(new BitString(new BitArray(expectedS + 64))).ConcatenateBits(BitString.To64BitString(iv.BitLength));
 
-            Assert.AreEqual(fakeGHashReturn, result, nameof(result));
+            Assert.That(result, Is.EqualTo(fakeGHashReturn), nameof(result));
             _mockSubject.Verify(
                 v => v.GHash(It.IsAny<BitString>(), It.IsAny<BitString>()),
                 Times.Once,
@@ -126,7 +126,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.GHash(h, x);
 
-            Assert.IsTrue(shouldBeNull ? result == null : result != null);
+            Assert.That(shouldBeNull ? result == null : result != null, Is.True);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.GHash(h, x);
 
-            Assert.IsTrue(shouldBeNull ? result == null : result != null);
+            Assert.That(shouldBeNull ? result == null : result != null, Is.True);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.GCTR(icb, x, key);
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.GCTR(icb, x, key);
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.inc_s(s, bs);
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.inc_s(s, X);
 
-            Assert.AreEqual(expectation, result);
+            Assert.That(result, Is.EqualTo(expectation));
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
 
             var result = _subject.BlockProduct(x, y);
 
-            Assert.IsTrue(shouldBeNull ? result == null : result != null);
+            Assert.That(shouldBeNull ? result == null : result != null, Is.True);
         }
 
         [Test]
@@ -349,7 +349,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_GCM.Tests
             BitString y = x.XOR(x);
             var result = _subject.BlockProduct(x, y);
 
-            Assert.AreEqual(expectation, result.ToPositiveBigInteger());
+            Assert.That(result.ToPositiveBigInteger(), Is.EqualTo(expectation));
         }
     }
 }

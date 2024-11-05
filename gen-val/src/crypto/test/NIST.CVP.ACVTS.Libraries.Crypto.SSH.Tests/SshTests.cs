@@ -57,13 +57,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SSH.Tests
             var subject = new Ssh(sha, ivLength, keyLength);
             var result = subject.DeriveKey(k, h, sessionId);
 
-            Assert.AreEqual(ivCS, result.ClientToServer.InitialIv.ToHex().ToLower(), "C to S, Initial IV");
-            Assert.AreEqual(keyCS, result.ClientToServer.EncryptionKey.ToHex().ToLower(), "C to S, Encryption Key");
-            Assert.AreEqual(iKeyCS, result.ClientToServer.IntegrityKey.ToHex().ToLower(), "C to S, Integrity Key");
+            Assert.That(result.ClientToServer.InitialIv.ToHex().ToLower(), Is.EqualTo(ivCS), "C to S, Initial IV");
+            Assert.That(result.ClientToServer.EncryptionKey.ToHex().ToLower(), Is.EqualTo(keyCS), "C to S, Encryption Key");
+            Assert.That(result.ClientToServer.IntegrityKey.ToHex().ToLower(), Is.EqualTo(iKeyCS), "C to S, Integrity Key");
 
-            Assert.AreEqual(ivSC, result.ServerToClient.InitialIv.ToHex().ToLower(), "S to C, Initial IV");
-            Assert.AreEqual(keySC, result.ServerToClient.EncryptionKey.ToHex().ToLower(), "S to C, Encryption Key");
-            Assert.AreEqual(iKeySC, result.ServerToClient.IntegrityKey.ToHex().ToLower(), "S to C, Integrity Key");
+            Assert.That(result.ServerToClient.InitialIv.ToHex().ToLower(), Is.EqualTo(ivSC), "S to C, Initial IV");
+            Assert.That(result.ServerToClient.EncryptionKey.ToHex().ToLower(), Is.EqualTo(keySC), "S to C, Encryption Key");
+            Assert.That(result.ServerToClient.IntegrityKey.ToHex().ToLower(), Is.EqualTo(iKeySC), "S to C, Integrity Key");
         }
     }
 }

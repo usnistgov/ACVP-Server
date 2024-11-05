@@ -44,11 +44,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
-            Assert.AreEqual(tg.SecretGenerationMode, newTg.SecretGenerationMode, nameof(newTg.SecretGenerationMode));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.Curve, Is.EqualTo(tg.Curve), nameof(newTg.Curve));
+            Assert.That(newTg.SecretGenerationMode, Is.EqualTo(tg.SecretGenerationMode), nameof(newTg.SecretGenerationMode));
         }
 
         [Test]
@@ -64,16 +64,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.IsNull(tc.D, nameof(newTc.D));
-            Assert.IsNull(tc.Qx, nameof(newTc.Qx));
-            Assert.IsNull(tc.Qy, nameof(newTc.Qy));
+            Assert.That(tc.D, Is.Null, nameof(newTc.D));
+            Assert.That(tc.Qx, Is.Null, nameof(newTc.Qx));
+            Assert.That(tc.Qy, Is.Null, nameof(newTc.Qy));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

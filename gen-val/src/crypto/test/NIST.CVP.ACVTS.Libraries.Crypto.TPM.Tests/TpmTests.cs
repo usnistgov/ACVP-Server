@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TPM.Tests
 
             var result = subject.DeriveKey(auth, nonceEven, nonceOdd);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedSKey, result.SKey);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.SKey, Is.EqualTo(expectedSKey));
         }
     }
 }

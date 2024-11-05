@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TPM
         {
             var subject = new TestGroupGenerator();
             var results = await subject.BuildTestGroupsAsync(new ParameterBuilder().Build());
-            Assert.AreEqual(1, results.Count());
+            Assert.That(results.Count(), Is.EqualTo(1));
         }
     }
 }

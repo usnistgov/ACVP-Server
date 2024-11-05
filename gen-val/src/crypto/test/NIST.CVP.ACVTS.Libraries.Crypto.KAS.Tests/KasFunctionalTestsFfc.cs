@@ -807,8 +807,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(vPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
-            Assert.AreEqual(expectedHashZ, result.Tag, nameof(result.Tag));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
+            Assert.That(result.Tag, Is.EqualTo(expectedHashZ), nameof(result.Tag));
         }
 
         private static object[] _test_noKeyConfirmation = new object[]
@@ -2952,11 +2952,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(otherPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
-            Assert.AreEqual(expectedOi, result.Oi, nameof(result.Oi));
-            Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
-            Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
+            Assert.That(result.Oi, Is.EqualTo(expectedOi), nameof(result.Oi));
+            Assert.That(result.Dkm, Is.EqualTo(expectedDkm), nameof(result.Dkm));
+            Assert.That(result.MacData, Is.EqualTo(expectedMacData), nameof(result.MacData));
+            Assert.That(result.Tag, Is.EqualTo(expectedTag), nameof(result.Tag));
         }
 
         private static object[] _test_keyConfirmation = new object[]
@@ -5209,11 +5209,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(otherPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
-            Assert.AreEqual(expectedOi, result.Oi, nameof(result.Oi));
-            Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
-            Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
+            Assert.That(result.Oi, Is.EqualTo(expectedOi), nameof(result.Oi));
+            Assert.That(result.Dkm, Is.EqualTo(expectedDkm), nameof(result.Dkm));
+            Assert.That(result.MacData, Is.EqualTo(expectedMacData), nameof(result.MacData));
+            Assert.That(result.Tag, Is.EqualTo(expectedTag), nameof(result.Tag));
         }
 
     }

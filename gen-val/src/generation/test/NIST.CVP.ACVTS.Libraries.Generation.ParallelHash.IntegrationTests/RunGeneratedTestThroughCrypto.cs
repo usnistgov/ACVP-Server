@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.IntegrationTests
                 resultFromOracle.Message,
                 256, 256, 256, xof);
 
-            Assert.AreEqual(resultFromOracle.Digest.ToHex(), directCryptoResult.ToHex());
-            Assert.AreNotEqual(directCryptoResult.ToHex(), secondCryptoResultWithoutCustomization.ToHex());
+            Assert.That(directCryptoResult.ToHex(), Is.EqualTo(resultFromOracle.Digest.ToHex()));
+            Assert.That(secondCryptoResultWithoutCustomization.ToHex(), Is.Not.EqualTo(directCryptoResult.ToHex()));
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.IntegrationTests
                 resultFromOracle.Message,
                 256, 256, 256, xof);
 
-            Assert.AreEqual(resultFromOracle.Digest.ToHex(), directCryptoResult.ToHex());
-            Assert.AreNotEqual(directCryptoResult.ToHex(), secondCryptoResultWithoutCustomization.ToHex());
+            Assert.That(directCryptoResult.ToHex(), Is.EqualTo(resultFromOracle.Digest.ToHex()));
+            Assert.That(secondCryptoResultWithoutCustomization.ToHex(), Is.Not.EqualTo(directCryptoResult.ToHex()));
         }
     }
 }

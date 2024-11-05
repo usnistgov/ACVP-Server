@@ -43,12 +43,12 @@ public class ResultsProjectionContractResolverTests
 
         var newTg = newTvs.TestGroups[0];
 
-        Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-        Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+        Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+        Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-        Assert.AreNotEqual(tg.ParameterSet, newTg.ParameterSet, nameof(newTg.ParameterSet));
-        Assert.AreNotEqual(tg.PublicKey, newTg.PublicKey, nameof(newTg.PublicKey));
-        Assert.AreNotEqual(tg.PrivateKey, newTg.PrivateKey, nameof(newTg.PrivateKey));
+        Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
+        Assert.That(newTg.PublicKey, Is.Not.EqualTo(tg.PublicKey), nameof(newTg.PublicKey));
+        Assert.That(newTg.PrivateKey, Is.Not.EqualTo(tg.PrivateKey), nameof(newTg.PrivateKey));
     }
     
     [Test]
@@ -64,11 +64,11 @@ public class ResultsProjectionContractResolverTests
         var newTg = newTvs.TestGroups[0];
         var newTc = newTg.Tests[0];
 
-        Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-        Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-        Assert.AreEqual(tc.TestPassed, newTc.TestPassed, nameof(newTc.TestPassed));
+        Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+        Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+        Assert.That(newTc.TestPassed, Is.EqualTo(tc.TestPassed), nameof(newTc.TestPassed));
 
-        Assert.AreNotEqual(tc.Signature, newTc.Signature, nameof(newTc.Signature));
-        Assert.AreNotEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+        Assert.That(newTc.Signature, Is.Not.EqualTo(tc.Signature), nameof(newTc.Signature));
+        Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
     }
 }

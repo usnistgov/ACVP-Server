@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM_SIV
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM_SIV
             suppliedResult.Ciphertext = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM_SIV
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.That(result.Reason.Contains("Cipher Text"), Is.True);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM_SIV
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.Ciphertext)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.Ciphertext)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase()

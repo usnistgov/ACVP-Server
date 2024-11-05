@@ -14,8 +14,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen
             var parameterBuilder = new ParameterBuilder();
             var result = subject.Validate(parameterBuilder.Build());
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         #region CurveTestCases
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen
                     .WithCurves(curves)
                 .Build());
 
-            Assert.AreEqual(shouldPass, result.Success);
+            Assert.That(result.Success, Is.EqualTo(shouldPass));
         }
 
         #region SecretGenerationTestCases
@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyGen
                     .WithSecretGenerationModes(secretModes)
                 .Build());
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 

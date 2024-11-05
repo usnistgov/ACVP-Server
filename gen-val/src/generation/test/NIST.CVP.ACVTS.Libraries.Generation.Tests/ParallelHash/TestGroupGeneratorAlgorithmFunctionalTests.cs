@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
         {
             var subject = new TestGroupGeneratorAlgorithmFunctional();
             var results = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroupsCreated, results.Count());
+            Assert.That(results.Count(), Is.EqualTo(expectedGroupsCreated));
         }
     }
 }

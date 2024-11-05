@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             _subject.AddSegment(_mockDomainSegment.Object);
 
-            Assert.AreEqual(segmentCount + 1, _subject.DomainSegments.Count());
+            Assert.That(_subject.DomainSegments.Count(), Is.EqualTo(segmentCount + 1));
         }
 
         [Test]
@@ -88,8 +88,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetDomainMinMax();
 
-            Assert.AreEqual(min, result.Minimum, nameof(min));
-            Assert.AreEqual(max, result.Maximum, nameof(max));
+            Assert.That(result.Minimum, Is.EqualTo(min), nameof(min));
+            Assert.That(result.Maximum, Is.EqualTo(max), nameof(max));
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.ContainsValueOtherThan(100);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.ContainsValueOtherThan(100);
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -204,9 +204,9 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var values = domain.GetRandomValues(128).ToList();
 
-            Assert.AreEqual(2, values.Count());
-            Assert.IsTrue(values.Contains(64));
-            Assert.IsTrue(values.Contains(128));
+            Assert.That(values.Count(), Is.EqualTo(2));
+            Assert.That(values.Contains(64), Is.True);
+            Assert.That(values.Contains(128), Is.True);
         }
     }
 }

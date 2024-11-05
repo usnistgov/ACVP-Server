@@ -59,8 +59,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ANSIX963.IntegrationTests
                         var z = new BitString(testCase.SharedSecret, testGroup.FieldSize).PadToModulusMsb(8);
                         var result = algo.DeriveKey(z, testCase.SharedInfo, testGroup.KeyDataLength);
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.KeyData.ToHex(), result.DerivedKey.ToHex(), $"Failed on KeyData {testCase.KeyData.ToHex()}, got {result.DerivedKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(testCase.KeyData.ToHex()), $"Failed on KeyData {testCase.KeyData.ToHex()}, got {result.DerivedKey.ToHex()}");
                     }
                 }
             }

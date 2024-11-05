@@ -59,8 +59,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.Result);
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Result, Is.EqualTo(ct));
         }
 
         [Test]
@@ -99,8 +99,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(ct, result.Result);
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Result, Is.EqualTo(ct));
         }
 
         [Test]
@@ -135,8 +135,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(pt, result.Result);
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Result, Is.EqualTo(pt));
         }
 
         [Test]
@@ -263,7 +263,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
             var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, pt, ct);
             var result = _subject.ExtractIvs(param);
 
-            Assert.AreEqual(ivsCorrect, result.IVs);
+            Assert.That(result.IVs, Is.EqualTo(ivsCorrect));
         }
 
         [Test]
@@ -390,7 +390,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
             var param = new CounterModeBlockCipherParameters(BlockCipherDirections.Encrypt, key, pt, ct);
             var result = _subject.ExtractIvs(param);
 
-            Assert.AreEqual(ivsCorrect, result.IVs);
+            Assert.That(result.IVs, Is.EqualTo(ivsCorrect));
         }
     }
 }

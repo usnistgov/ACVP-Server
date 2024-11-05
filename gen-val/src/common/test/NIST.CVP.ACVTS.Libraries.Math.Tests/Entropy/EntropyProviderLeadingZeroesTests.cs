@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Entropy
                 _subject = new EntropyProviderLeadingZeroes(new Random800_90(), leadingZeroBits);
                 var result = _subject.GetEntropy(numberOfBits);
 
-                Assert.AreEqual(BigInteger.Zero, result.GetMostSignificantBits(leadingZeroBits).ToPositiveBigInteger());
+                Assert.That(result.GetMostSignificantBits(leadingZeroBits).ToPositiveBigInteger(), Is.EqualTo(BigInteger.Zero));
             }
         }
 

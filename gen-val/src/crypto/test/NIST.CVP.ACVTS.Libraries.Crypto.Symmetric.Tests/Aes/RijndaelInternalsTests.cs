@@ -66,15 +66,15 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         public void ShouldContainExpectedTestData()
         {
             Array2D testData = new Array2D(GetTestBlock());
-            Assert.AreEqual(4, testData.Dimension1Size, nameof(testData.Dimension1Size));
-            Assert.AreEqual(8, testData.Dimension2Size, nameof(testData.Dimension2Size));
+            Assert.That(testData.Dimension1Size, Is.EqualTo(4), nameof(testData.Dimension1Size));
+            Assert.That(testData.Dimension2Size, Is.EqualTo(8), nameof(testData.Dimension2Size));
 
             byte count = 0;
             for (int dimension1 = 0; dimension1 < testData.Dimension1Size; dimension1++)
             {
                 for (int dimension2 = 0; dimension2 < testData.Dimension2Size; dimension2++)
                 {
-                    Assert.AreEqual(count, testData.Array[dimension1, dimension2]);
+                    Assert.That(testData.Array[dimension1, dimension2], Is.EqualTo(count));
                     count++;
                 }
             }
@@ -213,7 +213,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             {
                 for (int dimension2 = 0; dimension2 < array.Dimension2Size; dimension2++)
                 {
-                    Assert.AreEqual(expectedBlock[dimension1, dimension2], array.Array[dimension1, dimension2]);
+                    Assert.That(array.Array[dimension1, dimension2], Is.EqualTo(expectedBlock[dimension1, dimension2]));
                 }
             }
         }
@@ -261,7 +261,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             {
                 for (int dimension2 = 0; dimension2 < array.Dimension2Size; dimension2++)
                 {
-                    Assert.AreEqual(expectedBlock[dimension1, dimension2], array.Array[dimension1, dimension2]);
+                    Assert.That(array.Array[dimension1, dimension2], Is.EqualTo(expectedBlock[dimension1, dimension2]));
                 }
             }
         }
@@ -294,7 +294,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             // Check row 0 has not changed
             for (int i = 0; i < 8; i++)
             {
-                Assert.AreEqual(testBlock[0, i], row0[i], "Equal check");
+                Assert.That(row0[i], Is.EqualTo(testBlock[0, i]), "Equal check");
             }
 
             // Check other rows have changed
@@ -302,7 +302,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             {
                 for (int dimension2 = 0; dimension2 < 8; dimension2++)
                 {
-                    Assert.AreNotEqual(testBlock[dimension1 + 1, dimension2], otherRows[dimension1, dimension2], "Not equal check");
+                    Assert.That(otherRows[dimension1, dimension2], Is.Not.EqualTo(testBlock[dimension1 + 1, dimension2]), "Not equal check");
                 }
             }
         }
@@ -334,7 +334,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
                 }
                 for (int dimension2 = 0; dimension2 < 8; dimension2++)
                 {
-                    Assert.IsTrue(bytesInOriginalRow.Contains(testBlock[dimension1 + 1, dimension2]));
+                    Assert.That(bytesInOriginalRow.Contains(testBlock[dimension1 + 1, dimension2]), Is.True);
                 }
                 bytesInOriginalRow.Clear();
             }
@@ -436,7 +436,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
 
             subject.Object.MixColumn(testBlock, blockCount);
 
-            Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
+            Assert.That(testBlock[row, column], Is.EqualTo(rowColumnExpectation));
         }
 
         /// <summary>
@@ -509,7 +509,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
 
             subject.Object.InvMixColumn(testBlock, blockCount);
 
-            Assert.AreEqual(rowColumnExpectation, testBlock[row, column]);
+            Assert.That(testBlock[row, column], Is.EqualTo(rowColumnExpectation));
         }
 
         [Test]
@@ -545,7 +545,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         {
             TestableAesEngine subject = new TestableAesEngine();
             var result = subject.Multiply(a, b);
-            Assert.AreEqual(0, result);
+            Assert.That(result, Is.EqualTo(0));
         }
 
         [Test]
@@ -569,7 +569,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
             Assert.That(expectedAlgoTableIndex == (RijndaelBoxes.Logtable[a] + RijndaelBoxes.Logtable[b] % 255), nameof(expectedAlgoTableIndex));
 
             var result = subject.Multiply(a, b);
-            Assert.AreEqual(expectedAlgoTableValue, result, nameof(expectedAlgoTableValue));
+            Assert.That(result, Is.EqualTo(expectedAlgoTableValue), nameof(expectedAlgoTableValue));
         }
         #endregion Multiply
     }

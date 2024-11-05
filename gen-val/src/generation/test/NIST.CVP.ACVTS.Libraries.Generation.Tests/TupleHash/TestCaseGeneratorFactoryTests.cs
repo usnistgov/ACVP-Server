@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash
                     TestType = ""
                 }
                 );
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
 
         private TestCaseGeneratorFactory GetSubject()

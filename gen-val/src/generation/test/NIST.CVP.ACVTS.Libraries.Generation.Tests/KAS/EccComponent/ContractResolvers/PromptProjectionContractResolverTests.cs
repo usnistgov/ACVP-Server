@@ -43,10 +43,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent.ContractRes
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Curve, Is.EqualTo(tg.Curve), nameof(newTg.Curve));
         }
 
         [Test]
@@ -62,12 +62,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent.ContractRes
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.PublicKeyServerX, newTc.PublicKeyServerX, nameof(newTc.PublicKeyServerX));
-            Assert.AreEqual(tc.PublicKeyServerY, newTc.PublicKeyServerY, nameof(newTc.PublicKeyServerY));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.PublicKeyServerX, Is.EqualTo(tc.PublicKeyServerX), nameof(newTc.PublicKeyServerX));
+            Assert.That(newTc.PublicKeyServerY, Is.EqualTo(tc.PublicKeyServerY), nameof(newTc.PublicKeyServerY));
 
-            Assert.AreNotEqual(tc.PublicKeyIutX, newTc.PublicKeyIutX, nameof(newTc.PublicKeyIutX));
-            Assert.AreNotEqual(tc.PublicKeyIutY, newTc.PublicKeyIutY, nameof(newTc.PublicKeyIutY));
+            Assert.That(newTc.PublicKeyIutX, Is.Not.EqualTo(tc.PublicKeyIutX), nameof(newTc.PublicKeyIutX));
+            Assert.That(newTc.PublicKeyIutY, Is.Not.EqualTo(tc.PublicKeyIutY), nameof(newTc.PublicKeyIutY));
         }
     }
 }

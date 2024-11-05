@@ -25,8 +25,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
 
             var tgGen = new TestGroupGenerator();
             var groups = await tgGen.BuildTestGroupsAsync(parameters);
-            
-            Assert.AreEqual(modulus.Length, groups.Count, "modulus");
+
+            Assert.That(groups.Count, Is.EqualTo(modulus.Length), "modulus");
         }
         
         [Test]
@@ -44,8 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
 
             var tgGen = new TestGroupGenerator();
             var groups = await tgGen.BuildTestGroupsAsync(parameters);
-            
-            Assert.AreEqual(keyFormats.Length * parameters.Modulo.Length, groups.Count, "keyFormats");
+
+            Assert.That(groups.Count, Is.EqualTo(keyFormats.Length * parameters.Modulo.Length), "keyFormats");
         }
     }
 }

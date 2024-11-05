@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_SigVer.IntegrationTests.Fips18
                 .WithQMod8(param.QMod8)
                 .Build();
 
-            Assert.IsTrue(keyResult.Success);
+            Assert.That(keyResult.Success, Is.True);
         }
     }
 }

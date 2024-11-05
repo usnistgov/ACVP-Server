@@ -22,8 +22,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
 
             EnumMapping.GetHashFunctionOptions(keyAgreementMacType, ref mode, ref digestSize);
 
-            Assert.AreEqual(expectedModeValue, mode, nameof(expectedModeValue));
-            Assert.AreEqual(expectedDigestSize, digestSize, nameof(expectedDigestSize));
+            Assert.That(mode, Is.EqualTo(expectedModeValue), nameof(expectedModeValue));
+            Assert.That(digestSize, Is.EqualTo(expectedDigestSize), nameof(expectedDigestSize));
         }
 
         [Test]

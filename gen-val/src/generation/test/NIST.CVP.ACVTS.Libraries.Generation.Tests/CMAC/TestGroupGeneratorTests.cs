@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedResultCount));
         }
     }
 }

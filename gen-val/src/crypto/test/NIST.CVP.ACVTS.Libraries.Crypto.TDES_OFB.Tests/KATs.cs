@@ -90,9 +90,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(cipherText).ToHex()));
         }
 
         [Test]
@@ -140,9 +140,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(cipherText).ToHex()));
         }
 
         [Test]
@@ -177,9 +177,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(cipherText).ToHex()));
         }
 
         [Test]
@@ -252,9 +252,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual((new BitString(cipherText)).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo((new BitString(cipherText)).ToHex()));
         }
 
         [Test]
@@ -335,9 +335,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(cipherText).ToHex()));
         }
 
         [Test]
@@ -385,9 +385,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
 
         [Test]
@@ -467,9 +467,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
 
         [Test]
@@ -504,10 +504,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
 
 
@@ -581,9 +581,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
 
         [Test]
@@ -664,9 +664,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_OFB.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
     }
 }

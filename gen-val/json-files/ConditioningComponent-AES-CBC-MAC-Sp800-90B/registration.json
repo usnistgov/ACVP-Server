@@ -1,0 +1,19 @@
+{
+  "vsId": 42,
+  "algorithm": "ConditioningComponent",
+  "mode": "AES-CBC-MAC",
+  "revision": "SP800-90B",
+  "isSample": true,
+  "keyLen": [
+    128,
+    192,
+    256
+  ],
+  "payloadLen": [
+    {
+      "min": 128,
+      "max": 65536,
+      "increment": 128
+    }
+  ]
+}

@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.BlockCipher_DF.Tests
 
             var result = subject.DerivationFunction(input, 128);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(expectedOutput.ToHex(), result.Bits.ToHex());
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.Bits.ToHex(), Is.EqualTo(expectedOutput.ToHex()));
         }
     }
 }

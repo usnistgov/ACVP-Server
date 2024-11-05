@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = _subject.Validate(parameters);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = _subject.Validate(parameters);
 
-            Assert.AreEqual(isSuccessExpected, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isSuccessExpected));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = _subject.Validate(parameters);
 
-            Assert.AreEqual(isSuccessExpected, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isSuccessExpected));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = _subject.Validate(parameters);
 
-            Assert.AreEqual(isSuccessExpected, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isSuccessExpected));
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var result = _subject.Validate(parameters);
 
-            Assert.AreEqual(isSuccessExpected, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isSuccessExpected));
         }
     }
 }

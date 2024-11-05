@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 
             Assert.That(result != null);
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests
             var result = await subject.CompleteDeferredCryptoAsync(testGroup, serverTestCase, suppliedTestCase);
 
             Assert.That(result != null);
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         private TestCase GetTestCase(string hexP, string hexQ)

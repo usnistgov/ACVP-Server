@@ -44,14 +44,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen.ContractResolv
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.Curve, newTg.Curve, nameof(newTg.Curve));
-            Assert.AreEqual(tg.PreHash, newTg.PreHash, nameof(newTg.PreHash));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.Curve, Is.EqualTo(tg.Curve), nameof(newTg.Curve));
+            Assert.That(newTg.PreHash, Is.EqualTo(tg.PreHash), nameof(newTg.PreHash));
 
-            Assert.AreNotEqual(tg.D, newTg.D, nameof(newTg.D));
-            Assert.AreNotEqual(tg.Q, newTg.Q, nameof(newTg.Q));
+            Assert.That(newTg.D, Is.Not.EqualTo(tg.D), nameof(newTg.D));
+            Assert.That(newTg.Q, Is.Not.EqualTo(tg.Q), nameof(newTg.Q));
         }
 
         [Test]
@@ -82,24 +82,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen.ContractResolv
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Message, newTc.Message, nameof(newTc.Message));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
 
             if (curve == 25519 && !preHash)
             {
-                Assert.AreNotEqual(tc.Context, newTc.Context, nameof(newTc.Context));
+                Assert.That(newTc.Context, Is.Not.EqualTo(tc.Context), nameof(newTc.Context));
             }
             else
             {
-                Assert.AreEqual(tc.Context, newTc.Context, nameof(newTc.Context));
+                Assert.That(newTc.Context, Is.EqualTo(tc.Context), nameof(newTc.Context));
             }
 
-            Assert.AreNotEqual(tc.Sig, newTc.Sig, nameof(newTc.Sig));
+            Assert.That(newTc.Sig, Is.Not.EqualTo(tc.Sig), nameof(newTc.Sig));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

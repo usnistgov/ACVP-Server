@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash
                 MessageLength = new MathDomain(),
                 IsSample = false
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TupleHash
             };
 
             Assert.That(parameters != null);
-            Assert.AreEqual("TupleHash", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("TupleHash"));
         }
     }
 }

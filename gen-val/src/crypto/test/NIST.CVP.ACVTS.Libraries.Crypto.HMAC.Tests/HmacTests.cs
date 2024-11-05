@@ -137,7 +137,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HMAC.Tests
 
             var result = _subject.Generate(key, message, macLength);
 
-            Assert.AreEqual(expectedHmac.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedHmac.ToHex()));
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HMAC.Tests
 
             var expected = new BitString(expectedHex, macLength);
 
-            Assert.AreEqual(expected.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expected.ToHex()));
         }
 
         [Test]
@@ -202,7 +202,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HMAC.Tests
             var result = hmac.Generate(key, msg, macLen);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expected.ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expected.ToHex()));
         }
 
         [Test]

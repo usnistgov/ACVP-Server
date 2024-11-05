@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -35,10 +35,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected digest");
-            Assert.IsFalse(result.Reason.ToLower().Contains("message"), "Reason contains the unexpected value message");
-            Assert.IsFalse(result.Reason.ToLower().Contains("customization"), "Reason contains the unexpected value customization");
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.ToLower().Contains("digest"), Is.True, "Reason does not contain the expected digest");
+            Assert.That(result.Reason.ToLower().Contains("message"), Is.False, "Reason contains the unexpected value message");
+            Assert.That(result.Reason.ToLower().Contains("customization"), Is.False, "Reason contains the unexpected value customization");
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
 
             var result = await subject.ValidateAsync(supplied);
 
-            Assert.IsTrue(result.Reason.ToLower().Contains("digest"), "Reason does not contain the expected value digest");
-            Assert.IsFalse(result.Reason.ToLower().Contains("message"), "Reason does not contain the expected value message");
-            Assert.IsFalse(result.Reason.ToLower().Contains("customization"), "Reason does not contain the expected value customization");
+            Assert.That(result.Reason.ToLower().Contains("digest"), Is.True, "Reason does not contain the expected value digest");
+            Assert.That(result.Reason.ToLower().Contains("message"), Is.False, "Reason does not contain the expected value message");
+            Assert.That(result.Reason.ToLower().Contains("customization"), Is.False, "Reason does not contain the expected value customization");
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             var subject = new TestCaseValidatorMCTHash(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         [Test]
@@ -86,8 +86,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.cSHAKE
             var subject = new TestCaseValidatorMCTHash(expected);
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Digest)}"));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.ResultsArray)} did not contain expected element {nameof(AlgoArrayResponseWithCustomization.Digest)}"), Is.True);
         }
 
         private TestCase GetTestCase()

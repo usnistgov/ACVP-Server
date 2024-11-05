@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 .Build();
 
 
-            Assert.AreEqual(KasMode.NoKdfNoKc, result.Scheme.SchemeParameters.KasMode);
+            Assert.That(result.Scheme.SchemeParameters.KasMode, Is.EqualTo(KasMode.NoKdfNoKc));
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 .WithMacParameters(macParams)
                 .Build();
 
-            Assert.AreEqual(KasMode.KdfNoKc, result.Scheme.SchemeParameters.KasMode);
+            Assert.That(result.Scheme.SchemeParameters.KasMode, Is.EqualTo(KasMode.KdfNoKc));
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Builders
                 .WithKeyLength(128)
                 .Build();
 
-            Assert.AreEqual(KasMode.KdfKc, result.Scheme.SchemeParameters.KasMode);
+            Assert.That(result.Scheme.SchemeParameters.KasMode, Is.EqualTo(KasMode.KdfKc));
         }
     }
 }

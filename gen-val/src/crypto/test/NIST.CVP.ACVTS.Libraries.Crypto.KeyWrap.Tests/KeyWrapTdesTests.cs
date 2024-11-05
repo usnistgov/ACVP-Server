@@ -41,12 +41,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap.Tests
 
             if (!successfulAuthenticate)
             {
-                Assert.IsFalse(decrypt.Success);
+                Assert.That(decrypt.Success, Is.False);
                 return;
             }
 
-            Assert.AreEqual(expectedC.ToHex(), actualC.Result.ToHex(), "encrypt compare");
-            Assert.AreEqual(P.ToHex(), decrypt.Result.ToHex(), "decrypt compare");
+            Assert.That(actualC.Result.ToHex(), Is.EqualTo(expectedC.ToHex()), "encrypt compare");
+            Assert.That(decrypt.Result.ToHex(), Is.EqualTo(P.ToHex()), "decrypt compare");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
         {
             var sha = new NativeShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160));
             var result = PrimeGeneratorHelper.ProvablePrimeConstruction(sha, L, N1, N2, new BitString(seed).ToPositiveBigInteger(), new BitString(e).ToPositiveBigInteger());
-            Assert.AreEqual(result.Prime, new BitString(prime).ToPositiveBigInteger());
+            Assert.That(new BitString(prime).ToPositiveBigInteger(), Is.EqualTo(result.Prime));
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
             RunRsaKeyGen(sha, modulo, ourCrypto);
 
-            Assert.True(true, $"Modulo: {modulo}, ourCrypto: {ourCrypto}");
+            Assert.That(true, Is.True, $"Modulo: {modulo}, ourCrypto: {ourCrypto}");
         }
 
         private void RunRsaKeyGen(ISha sha, int modulo, bool ourCrypto)
@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
 
                 var key = keyBuilder.Build();
 
-                Assert.True(key.Success, "Failed to generate key pair");
+                Assert.That(key.Success, Is.True, "Failed to generate key pair");
             }
             else
             {
@@ -85,7 +85,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.PrimeGenerators
         {
             var bs = new BitString(PrimeGeneratorHelper.Root2Mult2Pow7680Minus1).GetMostSignificantBits(modulo / 2);
 
-            Assert.AreEqual(GetAppropriateBitStringBasedOnModulo(modulo).ToHex(), bs.ToHex());
+            Assert.That(bs.ToHex(), Is.EqualTo(GetAppropriateBitStringBasedOnModulo(modulo).ToHex()));
         }
 
         private BitString GetAppropriateBitStringBasedOnModulo(int modulo)

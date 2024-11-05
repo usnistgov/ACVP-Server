@@ -62,8 +62,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TPM.IntegrationTests
                             testCase.NonceOdd
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.SKey.ToHex(), result.SKey.ToHex(), $"Failed on SKey {testCase.SKey.ToHex()}, got {result.SKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.SKey.ToHex(), Is.EqualTo(testCase.SKey.ToHex()), $"Failed on SKey {testCase.SKey.ToHex()}, got {result.SKey.ToHex()}");
                     }
                 }
             }

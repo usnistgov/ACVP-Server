@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.IntegrationTests.v1_0
                                     var param = new XtsModeBlockCipherParameters(BlockCipherDirections.Encrypt, testCase.I, testCase.Key, testCase.PlainText, testCase.PlainText.BitLength);
                                     var result = algo.ProcessPayload(param);
 
-                                    Assert.AreEqual(testCase.CipherText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
+                                    Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.CipherText.ToHex()), $"Failed on count {count} expected CT {testCase.CipherText.ToHex()}, got {result.Result.ToHex()}");
                                     continue;
                                 }
                             case "decrypt":
@@ -82,7 +82,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.IntegrationTests.v1_0
                                     var param = new XtsModeBlockCipherParameters(BlockCipherDirections.Decrypt, testCase.I, testCase.Key, testCase.CipherText, testCase.CipherText.BitLength);
                                     var result = algo.ProcessPayload(param);
 
-                                    Assert.AreEqual(testCase.PlainText.ToHex(), result.Result.ToHex(), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
+                                    Assert.That(result.Result.ToHex(), Is.EqualTo(testCase.PlainText.ToHex()), $"Failed on count {count} expected PT {testCase.PlainText.ToHex()}, got {result.Result.ToHex()}");
                                     continue;
                                 }
                         }

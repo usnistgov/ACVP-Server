@@ -57,13 +57,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
 
             var encryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Encrypt, tweak, key, pt, pt.BitLength));
 
-            Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
+            Assert.That(encryptResult.Success, Is.True, $"encryption failed, {encryptResult.ErrorMessage}");
+            Assert.That(encryptResult.Result.ToHex(), Is.EqualTo(ct.ToHex()), "encrypt comparison");
 
             var decryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Decrypt, tweak, key, ct, ct.BitLength));
 
-            Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
+            Assert.That(decryptResult.Success, Is.True, $"decryption failed, {decryptResult.ErrorMessage}");
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()), "decrypt comparison");
         }
 
         [Test]
@@ -110,13 +110,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
 
             var encryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Encrypt, tweak, key, pt, pt.BitLength));
 
-            Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
+            Assert.That(encryptResult.Success, Is.True, $"encryption failed, {encryptResult.ErrorMessage}");
+            Assert.That(encryptResult.Result.ToHex(), Is.EqualTo(ct.ToHex()), "encrypt comparison");
 
             var decryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Decrypt, tweak, key, ct, ct.BitLength));
 
-            Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
+            Assert.That(decryptResult.Success, Is.True, $"decryption failed, {decryptResult.ErrorMessage}");
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()), "decrypt comparison");
         }
 
         [Test]
@@ -173,13 +173,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
 
             var encryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Encrypt, tweak, key, pt, pt.BitLength));
 
-            Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
+            Assert.That(encryptResult.Success, Is.True, $"encryption failed, {encryptResult.ErrorMessage}");
+            Assert.That(encryptResult.Result.ToHex(), Is.EqualTo(ct.ToHex()), "encrypt comparison");
 
             var decryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Decrypt, tweak, key, ct, ct.BitLength));
 
-            Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
+            Assert.That(decryptResult.Success, Is.True, $"decryption failed, {decryptResult.ErrorMessage}");
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()), "decrypt comparison");
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
 
             var result = XtsHelper.GetIFromBigInteger(new BigInteger(dataUnitSeqNumber));
 
-            Assert.AreEqual(expectedBitString, result);
+            Assert.That(result, Is.EqualTo(expectedBitString));
         }
 
         [Test]
@@ -202,9 +202,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
         public void ShouldComputeProperBigIntegerValueFromI(string reverseByteOrderHex, int dataUnitSeqNumber)
         {
             var result = XtsHelper.GetBigIntegerFromI(new BitString(reverseByteOrderHex));
-            
-            
-            Assert.AreEqual(new BigInteger(dataUnitSeqNumber), result);
+
+
+            Assert.That(result, Is.EqualTo(new BigInteger(dataUnitSeqNumber)));
         }
         
         
@@ -225,13 +225,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_XTS.Tests
 
             var encryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Encrypt, tweak, key, pt, pt.BitLength));
 
-            Assert.IsTrue(encryptResult.Success, $"encryption failed, {encryptResult.ErrorMessage}");
-            Assert.AreEqual(ct.ToHex(), encryptResult.Result.ToHex(), "encrypt comparison");
+            Assert.That(encryptResult.Success, Is.True, $"encryption failed, {encryptResult.ErrorMessage}");
+            Assert.That(encryptResult.Result.ToHex(), Is.EqualTo(ct.ToHex()), "encrypt comparison");
 
             var decryptResult = subject.ProcessPayload(new XtsModeBlockCipherParameters(BlockCipherDirections.Decrypt, tweak, key, ct, ct.BitLength));
 
-            Assert.IsTrue(decryptResult.Success, $"decryption failed, {decryptResult.ErrorMessage}");
-            Assert.AreEqual(pt.ToHex(), decryptResult.Result.ToHex(), "decrypt comparison");
+            Assert.That(decryptResult.Success, Is.True, $"decryption failed, {decryptResult.ErrorMessage}");
+            Assert.That(decryptResult.Result.ToHex(), Is.EqualTo(pt.ToHex()), "decrypt comparison");
         }
     }
 }

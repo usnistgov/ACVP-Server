@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CTR.IntegrationTests
                         BlockCipherDirections.Encrypt, test.Key, test.PlainText
                     ));
 
-                    Assert.IsTrue(result.Success, nameof(result.Success));
-                    Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
+                    Assert.That(result.Success, Is.True, nameof(result.Success));
+                    Assert.That(result.Result, Is.EqualTo(test.CipherText), test.CipherText.ToHex());
                 }
             }
         }
@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TDES_CTR.IntegrationTests
                     var result = algo.ProcessPayload(new ModeBlockCipherParameters(
                         BlockCipherDirections.Decrypt, test.Key, test.CipherText
                     ));
-                    Assert.AreEqual(test.PlainText, result.Result, $"{testType} - {test.PlainText.ToHex()}");
+                    Assert.That(result.Result, Is.EqualTo(test.PlainText), $"{testType} - {test.PlainText.ToHex()}");
                 }
             }
         }

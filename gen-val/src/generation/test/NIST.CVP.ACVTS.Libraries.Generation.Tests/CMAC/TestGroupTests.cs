@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
         {
             var subject = new TestGroup();
             var result = subject.SetString("keyLen", value);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -48,8 +48,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.KeyLength);
+            Assert.That(result, Is.True);
+            Assert.That(subject.KeyLength, Is.EqualTo(13));
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.MessageLength);
+            Assert.That(result, Is.True);
+            Assert.That(subject.MessageLength, Is.EqualTo(13));
         }
 
         [Test]
@@ -72,8 +72,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "13");
-            Assert.IsTrue(result);
-            Assert.AreEqual(13, subject.MacLength);
+            Assert.That(result, Is.True);
+            Assert.That(subject.MacLength, Is.EqualTo(13));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         static object[] keyTestCases =
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] kdrTestCases =
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static IEnumerable<object> atLeastOneTests = new List<object>()
@@ -120,7 +120,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SRTP
                 param
             );
 
-            Assert.AreEqual(shouldValidate, result.Success);
+            Assert.That(result.Success, Is.EqualTo(shouldValidate));
         }
     }
 }

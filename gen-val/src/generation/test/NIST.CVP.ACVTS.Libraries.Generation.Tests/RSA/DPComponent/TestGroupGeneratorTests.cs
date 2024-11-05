@@ -22,11 +22,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestGroupGenerator();
             var result = await subject.BuildTestGroupsAsync(parameters);
 
-            Assert.AreEqual(1, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(1));
 
             var testGroup = result.First();
-            Assert.AreEqual(failing, testGroup.TotalFailingCases, "failing");
-            Assert.AreEqual(total, testGroup.TotalTestCases, "total");
+            Assert.That(testGroup.TotalFailingCases, Is.EqualTo(failing), "failing");
+            Assert.That(testGroup.TotalTestCases, Is.EqualTo(total), "total");
         }
     }
 }

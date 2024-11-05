@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         {
             var subject = new TestCase();
             var result = subject.SetString(name, null);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.EntropyInput.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.EntropyInput.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -46,8 +46,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Nonce.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Nonce.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -58,8 +58,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.PersoString.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.PersoString.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

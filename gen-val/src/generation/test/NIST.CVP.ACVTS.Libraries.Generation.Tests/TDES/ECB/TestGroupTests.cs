@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, value);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
         {
             var subject = new TestGroup();
             var result = subject.SetString("numberOfkeys", value);
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
     }
 }

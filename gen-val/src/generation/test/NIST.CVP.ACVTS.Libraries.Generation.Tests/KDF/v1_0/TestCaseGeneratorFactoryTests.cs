@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(typeof(TestCaseGenerator), generator);
+            Assert.That(generator, Is.InstanceOf(typeof(TestCaseGenerator)));
         }
     }
 }

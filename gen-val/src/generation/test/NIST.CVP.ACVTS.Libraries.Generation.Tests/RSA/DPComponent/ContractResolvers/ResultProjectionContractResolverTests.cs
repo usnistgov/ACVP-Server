@@ -46,12 +46,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent.ContractReso
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Modulo, newTg.Modulo, nameof(newTg.Modulo));
-            Assert.AreNotEqual(tg.TotalTestCases, newTg.TotalTestCases, nameof(newTg.TotalTestCases));
-            Assert.AreNotEqual(tg.TotalFailingCases, newTg.TotalFailingCases, nameof(newTg.TotalFailingCases));
+            Assert.That(newTg.Modulo, Is.Not.EqualTo(tg.Modulo), nameof(newTg.Modulo));
+            Assert.That(newTg.TotalTestCases, Is.Not.EqualTo(tg.TotalTestCases), nameof(newTg.TotalTestCases));
+            Assert.That(newTg.TotalFailingCases, Is.Not.EqualTo(tg.TotalFailingCases), nameof(newTg.TotalFailingCases));
         }
 
         /// <summary>
@@ -73,22 +73,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent.ContractReso
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             for (var i = 0; i < tc.ResultsArray.Count; i++)
             {
-                Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "arrayPlainText");
-                Assert.AreEqual(tc.ResultsArray[i].TestPassed, newTc.ResultsArray[i].TestPassed, "arrayFailureTest");
+                Assert.That(newTc.ResultsArray[i].PlainText, Is.EqualTo(tc.ResultsArray[i].PlainText), "arrayPlainText");
+                Assert.That(newTc.ResultsArray[i].TestPassed, Is.EqualTo(tc.ResultsArray[i].TestPassed), "arrayFailureTest");
 
-                Assert.AreEqual(tc.ResultsArray[i].E, newTc.ResultsArray[i].E, "arrayE");
-                Assert.AreEqual(tc.ResultsArray[i].N, newTc.ResultsArray[i].N, "arrayN");
+                Assert.That(newTc.ResultsArray[i].E, Is.EqualTo(tc.ResultsArray[i].E), "arrayE");
+                Assert.That(newTc.ResultsArray[i].N, Is.EqualTo(tc.ResultsArray[i].N), "arrayN");
 
-                Assert.AreNotEqual(tc.ResultsArray[i].Key.PrivKey.Q, newTc.ResultsArray[i].Key.PrivKey.Q, "arrayQ");
-                Assert.AreNotEqual(tc.ResultsArray[i].Key.PrivKey.P, newTc.ResultsArray[i].Key.PrivKey.P, "arrayP");
+                Assert.That(newTc.ResultsArray[i].Key.PrivKey.Q, Is.Not.EqualTo(tc.ResultsArray[i].Key.PrivKey.Q), "arrayQ");
+                Assert.That(newTc.ResultsArray[i].Key.PrivKey.P, Is.Not.EqualTo(tc.ResultsArray[i].Key.PrivKey.P), "arrayP");
             }
 
-            Assert.AreNotEqual(tc.Deferred, newTc.Deferred, nameof(newTc.Deferred));
+            Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
         }
     }
 }

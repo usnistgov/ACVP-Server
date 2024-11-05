@@ -152,7 +152,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation
             Assembly[] assembly = app.GetAssemblies();
             var targetType = typeof(ISupportedAlgoModeRevisions);
 
-            foreach (var a in assembly)
+            foreach (var a in assembly.Where(x => x.FullName.Contains("NIST.CVP.ACVTS.Libraries.Generation")))
             {
                 a.GetTypes()
                     .Where(w => targetType.IsAssignableFrom(w) && !w.IsInterface)

@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
 
             var subject = new TestGroupGenerator(oracleMock.Object, false);
             var result = await subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups * 3, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups * 3));
         }
     }
 }

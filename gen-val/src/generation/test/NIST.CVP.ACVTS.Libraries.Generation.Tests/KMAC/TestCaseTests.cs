@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
         {
             var subject = new TestCase();
             var result = subject.SetString(name, null);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var subject = new TestCase();
             var result = subject.SetString(name, value);
-            Assert.IsTrue(result);
-            Assert.AreEqual(value, subject.Key.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Key.ToHex(), Is.EqualTo(value));
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var subject = new TestCase();
             var result = subject.SetString(name, value);
-            Assert.IsTrue(result);
-            Assert.AreEqual(value, subject.Message.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Message.ToHex(), Is.EqualTo(value));
         }
 
         [Test]
@@ -65,8 +65,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KMAC
 
             var subject = new TestCase();
             var result = subject.SetString(name, value);
-            Assert.IsTrue(result);
-            Assert.AreEqual(value, subject.Mac.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Mac.ToHex(), Is.EqualTo(value));
         }
     }
 }

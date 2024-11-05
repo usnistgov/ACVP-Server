@@ -51,9 +51,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
             var subject = new TlsKdfv10v11(new NativeHmac(sha1), new HmacMd5(new Md5()));
 
             var result = subject.DeriveKey(preMasterSecret, clientHelloRandom, serverHelloRandom, clientRandom, serverRandom, kbLen);
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedMasterSecret, result.MasterSecret, "master secret");
-            Assert.AreEqual(expectedKeyBlock, result.DerivedKey, "key block");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.MasterSecret, Is.EqualTo(expectedMasterSecret), "master secret");
+            Assert.That(result.DerivedKey, Is.EqualTo(expectedKeyBlock), "key block");
         }
     }
 }

@@ -40,8 +40,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var prime = new BitString(primeHex).ToPositiveBigInteger();
             var primeseed = new BitString(primeSeedHex).ToPositiveBigInteger();
 
-            Assert.AreEqual(prime, result.Prime, "prime");
-            Assert.AreEqual(primeseed, result.PrimeSeed, "primeseed");
+            Assert.That(result.Prime, Is.EqualTo(prime), "prime");
+            Assert.That(result.PrimeSeed, Is.EqualTo(primeseed), "primeseed");
         }
 
         // B32
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
 
             var prime = new BitString(primeHex).ToPositiveBigInteger();
 
-            Assert.AreEqual(prime, result.Prime);
+            Assert.That(result.Prime, Is.EqualTo(prime));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         [TestCase(981724, 8176, 121)]
         public void ShouldCeilingDivideProperly(int numerator, int denominator, int expectedResult)
         {
-            Assert.AreEqual(expectedResult, numerator.CeilingDivide(denominator));
+            Assert.That(numerator.CeilingDivide(denominator), Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var result = value.ValueToMod(modulo);
 
-            Assert.AreEqual(expectedValue, result);
+            Assert.That(result, Is.EqualTo(expectedValue));
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var result = value.GetBytes();
 
-            Assert.IsTrue(result.SequenceEqual(expectedBytes));
+            Assert.That(result.SequenceEqual(expectedBytes), Is.True);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var result = value.Get16Bits();
 
-            Assert.IsTrue(result.SequenceEqual(expectedBytes));
+            Assert.That(result.SequenceEqual(expectedBytes), Is.True);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var result = value.Get8Bits();
 
-            Assert.IsTrue(result.SequenceEqual(expectedBytes));
+            Assert.That(result.SequenceEqual(expectedBytes), Is.True);
         }
 
         [Test]

@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
         {
             var result = _subject.Num(radix, new NumeralString(xStr));
 
-            Assert.AreEqual((BigInteger)expected, result);
+            Assert.That(result, Is.EqualTo((BigInteger)expected));
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
 
             var result = _subject.Num(x);
 
-            Assert.AreEqual((BigInteger)expected, result);
+            Assert.That(result, Is.EqualTo((BigInteger)expected));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
 
             for (var i = 0; i <= m - 1; i++)
             {
-                Assert.AreEqual(expected[i], result.Numbers[i]);
+                Assert.That(result.Numbers[i], Is.EqualTo(expected[i]));
             }
         }
 
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
             {
                 for (var i = 0; i <= expected.Length - 1; i++)
                 {
-                    Assert.AreEqual(expected[i], result.Numbers[i]);
+                    Assert.That(result.Numbers[i], Is.EqualTo(expected[i]));
                 }
             });
         }
@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_FF.Tests
         {
             var result = _subject.RevB(new BitString(x));
 
-            Assert.AreEqual(new BitString(expected), result);
+            Assert.That(result, Is.EqualTo(new BitString(expected)));
         }
     }
 }

@@ -61,7 +61,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC_CTS.Tests
             var result =
                 _subject.ProcessMonteCarloTest(new ModeBlockCipherParameters(BlockCipherDirections.Encrypt, iv, key, payload));
 
-            Assert.AreEqual(expectedCt.ToHex(), result.Response[indexCt].CipherText.ToHex());
+            Assert.That(result.Response[indexCt].CipherText.ToHex(), Is.EqualTo(expectedCt.ToHex()));
         }
     }
 }

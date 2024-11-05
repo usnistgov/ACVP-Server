@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFBP
             _subject = new TestCaseGeneratorMmt(_oracle.Object, group);
 
             var result = await _subject.GenerateAsync(group, false);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFBP
         {
             var group = new TestGroup { Function = "encrypt", KeyingOption = 1, AlgoMode = algo };
             _subject = new TestCaseGeneratorMmt(_oracle.Object, group);
-            Assert.AreEqual(10, _subject.NumberOfTestCasesToGenerate);
+            Assert.That(_subject.NumberOfTestCasesToGenerate, Is.EqualTo(10));
         }
     }
 }

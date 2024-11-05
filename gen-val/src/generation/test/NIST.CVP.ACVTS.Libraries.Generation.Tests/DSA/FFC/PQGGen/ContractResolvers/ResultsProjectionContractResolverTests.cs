@@ -49,8 +49,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
         }
 
         [Test]
@@ -70,56 +70,56 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             if (pqGenMode != PrimeGenMode.None)
             {
-                Assert.AreEqual(tc.P, newTc.P, nameof(newTc.P));
-                Assert.AreEqual(tc.Q, newTc.Q, nameof(newTc.Q));
+                Assert.That(newTc.P, Is.EqualTo(tc.P), nameof(newTc.P));
+                Assert.That(newTc.Q, Is.EqualTo(tc.Q), nameof(newTc.Q));
             }
             else
             {
-                Assert.AreNotEqual(tc.P, newTc.P, nameof(newTc.P));
-                Assert.AreNotEqual(tc.Q, newTc.Q, nameof(newTc.Q));
+                Assert.That(newTc.P, Is.Not.EqualTo(tc.P), nameof(newTc.P));
+                Assert.That(newTc.Q, Is.Not.EqualTo(tc.Q), nameof(newTc.Q));
             }
 
             if (pqGenMode == PrimeGenMode.Provable)
             {
-                Assert.AreEqual(tc.PSeed, newTc.PSeed, nameof(newTc.PSeed));
-                Assert.AreEqual(tc.QSeed, newTc.QSeed, nameof(newTc.QSeed));
-                Assert.AreEqual(tc.PCount, newTc.PCount, nameof(newTc.PCount));
-                Assert.AreEqual(tc.QCount, newTc.QCount, nameof(newTc.QCount));
+                Assert.That(newTc.PSeed, Is.EqualTo(tc.PSeed), nameof(newTc.PSeed));
+                Assert.That(newTc.QSeed, Is.EqualTo(tc.QSeed), nameof(newTc.QSeed));
+                Assert.That(newTc.PCount, Is.EqualTo(tc.PCount), nameof(newTc.PCount));
+                Assert.That(newTc.QCount, Is.EqualTo(tc.QCount), nameof(newTc.QCount));
             }
             else
             {
-                Assert.AreNotEqual(tc.PSeed, newTc.PSeed, nameof(newTc.PSeed));
-                Assert.AreNotEqual(tc.QSeed, newTc.QSeed, nameof(newTc.QSeed));
-                Assert.AreNotEqual(tc.PCount, newTc.PCount, nameof(newTc.PCount));
-                Assert.AreNotEqual(tc.QCount, newTc.QCount, nameof(newTc.QCount));
+                Assert.That(newTc.PSeed, Is.Not.EqualTo(tc.PSeed), nameof(newTc.PSeed));
+                Assert.That(newTc.QSeed, Is.Not.EqualTo(tc.QSeed), nameof(newTc.QSeed));
+                Assert.That(newTc.PCount, Is.Not.EqualTo(tc.PCount), nameof(newTc.PCount));
+                Assert.That(newTc.QCount, Is.Not.EqualTo(tc.QCount), nameof(newTc.QCount));
             }
 
             if (pqGenMode == PrimeGenMode.Probable)
             {
-                Assert.AreEqual(tc.Count, newTc.Count, nameof(newTc.Count));
+                Assert.That(newTc.Count, Is.EqualTo(tc.Count), nameof(newTc.Count));
             }
             else
             {
-                Assert.AreNotEqual(tc.Count, newTc.Count, nameof(newTc.Count));
+                Assert.That(newTc.Count, Is.Not.EqualTo(tc.Count), nameof(newTc.Count));
             }
 
             if (gGenMode != GeneratorGenMode.None)
             {
-                Assert.AreEqual(tc.G, newTc.G, nameof(newTc.G));
+                Assert.That(newTc.G, Is.EqualTo(tc.G), nameof(newTc.G));
             }
             else
             {
-                Assert.AreNotEqual(tc.G, newTc.G, nameof(newTc.G));
+                Assert.That(newTc.G, Is.Not.EqualTo(tc.G), nameof(newTc.G));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

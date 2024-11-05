@@ -27,8 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var message = new BitString(b);
             var subject = new KeccakState(message, b);
 
-            Assert.AreEqual(Width, subject.Width);
-            Assert.AreEqual(L, subject.L);
+            Assert.That(subject.Width, Is.EqualTo(Width));
+            Assert.That(subject.L, Is.EqualTo(L));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             for (var i = 0; i < 5; i++)
                 for (var j = 0; j < 5; j++)
                     for (var k = 0; k < Width; k++)
-                        Assert.AreEqual(false, subject.GetBit(i, j, k));
+                        Assert.That(subject.GetBit(i, j, k), Is.EqualTo(false));
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var stateBitString = randy.GetRandomBitString(b);
             var state = new KeccakState(stateBitString, b);
 
-            Assert.AreEqual(stateBitString, state.ToBitString());
+            Assert.That(state.ToBitString(), Is.EqualTo(stateBitString));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = subject.Theta();
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = subject.Rho();
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = subject.Pi();
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = subject.Chi();
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
 
             var result = subject.Iota(roundIdx);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToBitString().ToHex());
+            Assert.That(result.ToBitString().ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         /*[Test]

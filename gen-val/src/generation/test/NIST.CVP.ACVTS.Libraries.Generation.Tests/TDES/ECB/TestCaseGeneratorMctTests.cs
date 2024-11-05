@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
             };
             var result = await _subject.GenerateAsync(testGroup, true);
 
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.IsTrue(result.ErrorMessage.Contains(errorMessage));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
+            Assert.That(result.ErrorMessage.Contains(errorMessage), Is.True);
         }
     }
 }

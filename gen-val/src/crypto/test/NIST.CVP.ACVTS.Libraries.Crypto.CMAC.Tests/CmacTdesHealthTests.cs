@@ -39,10 +39,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.CMAC.Tests
             var goodValidateResult = _subject.Verify(key, message, generateResult.Mac);
             var badValidateResult = _subject.Verify(key, message, badMac);
 
-            Assert.IsTrue(generateResult.Success, "Successful generate");
-            Assert.AreEqual(expectedMac.ToHex(), generateResult.Mac.ToHex(), "Generate MAC");
-            Assert.IsTrue(goodValidateResult.Success, "Verify success");
-            Assert.IsFalse(badValidateResult.Success, "Verify failure");
+            Assert.That(generateResult.Success, Is.True, "Successful generate");
+            Assert.That(generateResult.Mac.ToHex(), Is.EqualTo(expectedMac.ToHex()), "Generate MAC");
+            Assert.That(goodValidateResult.Success, Is.True, "Verify success");
+            Assert.That(badValidateResult.Success, Is.False, "Verify failure");
         }
     }
 }

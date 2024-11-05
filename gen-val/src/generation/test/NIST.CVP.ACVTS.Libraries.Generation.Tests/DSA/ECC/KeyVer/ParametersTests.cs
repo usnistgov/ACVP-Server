@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
                 Curve = ParameterValidator.VALID_CURVES,
             };
 
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
                 Curve = ParameterValidator.VALID_CURVES,
             };
 
-            Assert.AreEqual("ECDSA", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("ECDSA"));
         }
     }
 }

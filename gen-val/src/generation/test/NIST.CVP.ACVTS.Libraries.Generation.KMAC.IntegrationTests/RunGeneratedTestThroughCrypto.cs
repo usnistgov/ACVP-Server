@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.IntegrationTests
                 resultFromOracle.CustomizationHex,
                 256);
 
-            Assert.AreEqual(resultFromOracle.Tag.ToHex(), directCryptoResult.Mac.ToHex());
+            Assert.That(directCryptoResult.Mac.ToHex(), Is.EqualTo(resultFromOracle.Tag.ToHex()));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.IntegrationTests
                 resultFromOracle.Customization,
                 256);
 
-            Assert.AreEqual(resultFromOracle.Tag.ToHex(), directCryptoResult.Mac.ToHex());
+            Assert.That(directCryptoResult.Mac.ToHex(), Is.EqualTo(resultFromOracle.Tag.ToHex()));
         }
     }
 }

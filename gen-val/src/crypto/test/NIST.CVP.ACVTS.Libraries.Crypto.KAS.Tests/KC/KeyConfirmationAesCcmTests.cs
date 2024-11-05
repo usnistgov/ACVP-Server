@@ -121,8 +121,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KC
             var result = _subject.ComputeMac();
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedMacData.ToHex(), result.MacData.ToHex(), nameof(expectedMacData));
-            Assert.AreEqual(expectedTag.ToHex(), result.Mac.ToHex(), nameof(expectedTag));
+            Assert.That(result.MacData.ToHex(), Is.EqualTo(expectedMacData.ToHex()), nameof(expectedMacData));
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedTag.ToHex()), nameof(expectedTag));
         }
     }
 }

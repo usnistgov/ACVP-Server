@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigGen
         public async Task ShouldCreate1TestGroupForEachCombinationOfModeModuliAndHashAlg(int expectedGroups, Parameters parameters)
         {
             var result = await _subject.BuildTestGroupsAsync(parameters);
-            Assert.AreEqual(expectedGroups, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }
     }
 }

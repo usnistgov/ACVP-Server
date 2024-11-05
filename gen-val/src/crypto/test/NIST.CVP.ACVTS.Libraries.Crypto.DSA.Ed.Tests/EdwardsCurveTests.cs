@@ -53,8 +53,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Add(a, b);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -85,8 +85,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Double(a);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -120,8 +120,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.Multiply(a, multiple);
 
-            Assert.AreEqual(expectedResult.X, result.X, "x");
-            Assert.AreEqual(expectedResult.Y, result.Y, "y");
+            Assert.That(result.X, Is.EqualTo(expectedResult.X), "x");
+            Assert.That(result.Y, Is.EqualTo(expectedResult.Y), "y");
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var result = subject.PointExistsOnCurve(a);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -162,8 +162,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
         {
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 7, 2, 3, new EdPoint(0, 6), 12, 256, 247, 2);
             var result = mattsCurve.Add(new EdPoint(ax, ay), new EdPoint(bx, by));
-            Assert.AreEqual(expectedX, (int)result.X, "x");
-            Assert.AreEqual(expectedY, (int)result.Y, "y");
+            Assert.That((int)result.X, Is.EqualTo(expectedX), "x");
+            Assert.That((int)result.Y, Is.EqualTo(expectedY), "y");
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
         {
             var mattsCurve = new EdwardsCurve(Curve.Ed25519, 7, 2, 3, new EdPoint(0, 6), 12, 256, 247, 2);
             var result = mattsCurve.PointExistsOnCurve(new EdPoint(x, y));
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -245,11 +245,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var decoded = subject.Decode(encodedOriginal);
 
-            Assert.IsTrue(subject.PointExistsOnCurve(decoded));
+            Assert.That(subject.PointExistsOnCurve(decoded), Is.True);
 
             var reEncoded = subject.Encode(decoded);
 
-            Assert.AreEqual(encodedOriginal, reEncoded);
+            Assert.That(reEncoded, Is.EqualTo(encodedOriginal));
         }
 
         [Test]
@@ -261,14 +261,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var decoded = mattsCurve.Decode(encodedOriginal);
 
-            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+            Assert.That(mattsCurve.PointExistsOnCurve(decoded), Is.True);
 
-            Assert.AreEqual(4, (int)decoded.X);
-            Assert.AreEqual(3, (int)decoded.Y);
+            Assert.That((int)decoded.X, Is.EqualTo(4));
+            Assert.That((int)decoded.Y, Is.EqualTo(3));
 
             var reEncoded = mattsCurve.Encode(decoded);
 
-            Assert.AreEqual(encodedOriginal, reEncoded);
+            Assert.That(reEncoded, Is.EqualTo(encodedOriginal));
         }
 
         [Test]
@@ -283,14 +283,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var decoded = mattsCurve.Decode(encodedOriginal);
 
-            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+            Assert.That(mattsCurve.PointExistsOnCurve(decoded), Is.True);
 
-            Assert.AreEqual(expectedX, (int)decoded.X);
-            Assert.AreEqual(expectedY, (int)decoded.Y);
+            Assert.That((int)decoded.X, Is.EqualTo(expectedX));
+            Assert.That((int)decoded.Y, Is.EqualTo(expectedY));
 
             var reEncoded = mattsCurve.Encode(decoded);
 
-            Assert.AreEqual(encodedOriginal, reEncoded);
+            Assert.That(reEncoded, Is.EqualTo(encodedOriginal));
         }
 
         [Test]
@@ -305,14 +305,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed.Tests
 
             var decoded = mattsCurve.Decode(encodedOriginal);
 
-            Assert.IsTrue(mattsCurve.PointExistsOnCurve(decoded));
+            Assert.That(mattsCurve.PointExistsOnCurve(decoded), Is.True);
 
-            Assert.AreEqual(expectedX, (int)decoded.X);
-            Assert.AreEqual(expectedY, (int)decoded.Y);
+            Assert.That((int)decoded.X, Is.EqualTo(expectedX));
+            Assert.That((int)decoded.Y, Is.EqualTo(expectedY));
 
             var reEncoded = mattsCurve.Encode(decoded);
 
-            Assert.AreEqual(encodedOriginal, reEncoded);
+            Assert.That(reEncoded, Is.EqualTo(encodedOriginal));
         }
 
         private BigInteger LoadValue(string value)

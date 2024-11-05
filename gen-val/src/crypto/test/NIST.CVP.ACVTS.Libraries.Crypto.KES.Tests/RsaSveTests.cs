@@ -104,7 +104,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
                 var secretEncrypted = _subject.Generate(keyPair.PubKey);
                 var secretDecrypted = _subject.Recover(keyPair, secretEncrypted.Ciphertext);
 
-                Assert.AreEqual(secretEncrypted.SharedSecretZ, secretDecrypted.SharedSecretZ);
+                Assert.That(secretDecrypted.SharedSecretZ, Is.EqualTo(secretEncrypted.SharedSecretZ));
             }
         }
     }

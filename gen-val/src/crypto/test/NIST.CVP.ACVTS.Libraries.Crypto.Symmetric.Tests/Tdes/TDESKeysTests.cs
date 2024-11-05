@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
             var subject = new TDESKeys(new BitString(keyBytes));
             foreach (var bytes in subject.Keys)
             {
-                Assert.AreEqual(keyBytes, bytes);
+                Assert.That(bytes, Is.EqualTo(keyBytes));
             }
 
         }
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreEqual(subject.Keys[0], subject.Keys[2]);
+            Assert.That(subject.Keys[2], Is.EqualTo(subject.Keys[0]));
         }
 
         [Test]
@@ -35,9 +35,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreNotEqual(subject.Keys[0], subject.Keys[1]);
-            Assert.AreNotEqual(subject.Keys[0], subject.Keys[2]);
-            Assert.AreNotEqual(subject.Keys[1], subject.Keys[2]);
+            Assert.That(subject.Keys[1], Is.Not.EqualTo(subject.Keys[0]));
+            Assert.That(subject.Keys[2], Is.Not.EqualTo(subject.Keys[0]));
+            Assert.That(subject.Keys[2], Is.Not.EqualTo(subject.Keys[1]));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         public void ShouldHaveProperKeyOptionSetBasedOnKeyEquality(byte[] keyBytes, KeyOptionValues expected)
         {
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreEqual(expected, subject.KeyOption);
+            Assert.That(subject.KeyOption, Is.EqualTo(expected));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreNotEqual(subject.Keys[0], subject.Keys[1]);
+            Assert.That(subject.Keys[1], Is.Not.EqualTo(subject.Keys[0]));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = new byte[numBytes];
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreEqual(3, subject.Keys.Count);
+            Assert.That(subject.Keys.Count, Is.EqualTo(3));
 
         }
 
@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = new byte[numBytes];
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.IsNotNull(subject.Keys);
+            Assert.That(subject.Keys, Is.Not.Null);
 
         }
 
@@ -93,7 +93,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = new byte[numBytes];
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.AreEqual(3, subject.KeysAsBitStrings.Count);
+            Assert.That(subject.KeysAsBitStrings.Count, Is.EqualTo(3));
         }
 
         [Test]
@@ -104,7 +104,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Tdes
         {
             byte[] keyBytes = new byte[numBytes];
             var subject = new TDESKeys(new BitString(keyBytes));
-            Assert.IsNotNull(subject.KeysAsBitStrings.Count);
+            //Assert.That(subject.KeysAsBitStrings.Count, Is.Not.Null);
+            Assert.That(subject.KeysAsBitStrings.Count, Is.GreaterThan(0));
         }
     }
 }

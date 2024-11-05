@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var bigInt = new BitString(hex).ToPositiveBigInteger();
 
             var result = NumberTheory.MillerRabin(bigInt, iterations);
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
         #endregion MillerRabin
 
@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
         [TestCaseSource(nameof(GCDSource))]
         public void ShouldFindGCDCorrectly(BigInteger a, BigInteger b, BigInteger expectedResult)
         {
-            Assert.AreEqual(expectedResult, NumberTheory.GCD(a, b));
+            Assert.That(NumberTheory.GCD(a, b), Is.EqualTo(expectedResult));
         }
         #endregion GCD
 
@@ -99,7 +99,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
         [TestCaseSource(nameof(LCMSource))]
         public void ShouldFindLCMCorrectly(BigInteger a, BigInteger b, BigInteger expectedResult)
         {
-            Assert.AreEqual(expectedResult, NumberTheory.LCM(a, b));
+            Assert.That(NumberTheory.LCM(a, b), Is.EqualTo(expectedResult));
         }
         #endregion LCM
 
@@ -111,7 +111,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
         [TestCase(2048)]
         public void ShouldPow2Correctly(int exp)
         {
-            Assert.AreEqual(BigInteger.Pow(2, exp), NumberTheory.Pow2(exp));
+            Assert.That(NumberTheory.Pow2(exp), Is.EqualTo(BigInteger.Pow(2, exp)));
         }
         #endregion Pow2
     }

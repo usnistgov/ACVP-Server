@@ -47,18 +47,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.DerFunc, newTg.DerFunc, nameof(newTg.DerFunc));
-            Assert.AreEqual(tg.PredResistance, newTg.PredResistance, nameof(newTg.PredResistance));
-            Assert.AreEqual(tg.ReSeed, newTg.ReSeed, nameof(newTg.ReSeed));
-            Assert.AreEqual(tg.EntropyInputLen, newTg.EntropyInputLen, nameof(newTg.EntropyInputLen));
-            Assert.AreEqual(tg.NonceLen, newTg.NonceLen, nameof(newTg.NonceLen));
-            Assert.AreEqual(tg.PersoStringLen, newTg.PersoStringLen, nameof(newTg.PersoStringLen));
-            Assert.AreEqual(tg.AdditionalInputLen, newTg.AdditionalInputLen, nameof(newTg.AdditionalInputLen));
-            Assert.AreEqual(tg.ReturnedBitsLen, newTg.ReturnedBitsLen, nameof(newTg.ReturnedBitsLen));
-            Assert.AreEqual(tg.Mode, newTg.Mode, nameof(newTg.Mode));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.DerFunc, Is.EqualTo(tg.DerFunc), nameof(newTg.DerFunc));
+            Assert.That(newTg.PredResistance, Is.EqualTo(tg.PredResistance), nameof(newTg.PredResistance));
+            Assert.That(newTg.ReSeed, Is.EqualTo(tg.ReSeed), nameof(newTg.ReSeed));
+            Assert.That(newTg.EntropyInputLen, Is.EqualTo(tg.EntropyInputLen), nameof(newTg.EntropyInputLen));
+            Assert.That(newTg.NonceLen, Is.EqualTo(tg.NonceLen), nameof(newTg.NonceLen));
+            Assert.That(newTg.PersoStringLen, Is.EqualTo(tg.PersoStringLen), nameof(newTg.PersoStringLen));
+            Assert.That(newTg.AdditionalInputLen, Is.EqualTo(tg.AdditionalInputLen), nameof(newTg.AdditionalInputLen));
+            Assert.That(newTg.ReturnedBitsLen, Is.EqualTo(tg.ReturnedBitsLen), nameof(newTg.ReturnedBitsLen));
+            Assert.That(newTg.Mode, Is.EqualTo(tg.Mode), nameof(newTg.Mode));
         }
 
         /// <summary>
@@ -77,25 +77,25 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.AreNotEqual(tc.ReturnedBits, newTc.ReturnedBits, nameof(newTc.ReturnedBits));
+            Assert.That(newTc.ReturnedBits, Is.Not.EqualTo(tc.ReturnedBits), nameof(newTc.ReturnedBits));
 
-            Assert.AreEqual(tc.EntropyInput, newTc.EntropyInput, nameof(newTc.EntropyInput));
-            Assert.AreEqual(tc.Nonce, newTc.Nonce, nameof(newTc.Nonce));
-            Assert.AreEqual(tc.PersoString, newTc.PersoString, nameof(newTc.PersoString));
+            Assert.That(newTc.EntropyInput, Is.EqualTo(tc.EntropyInput), nameof(newTc.EntropyInput));
+            Assert.That(newTc.Nonce, Is.EqualTo(tc.Nonce), nameof(newTc.Nonce));
+            Assert.That(newTc.PersoString, Is.EqualTo(tc.PersoString), nameof(newTc.PersoString));
             for (int i = 0; i < tc.OtherInput.Count; i++)
             {
                 var otherInput = tc.OtherInput[i];
 
-                Assert.AreEqual(otherInput.AdditionalInput, newTc.OtherInput[i].AdditionalInput, nameof(otherInput.AdditionalInput));
-                Assert.AreEqual(otherInput.EntropyInput, newTc.OtherInput[i].EntropyInput, nameof(otherInput.EntropyInput));
+                Assert.That(newTc.OtherInput[i].AdditionalInput, Is.EqualTo(otherInput.AdditionalInput), nameof(otherInput.AdditionalInput));
+                Assert.That(newTc.OtherInput[i].EntropyInput, Is.EqualTo(otherInput.EntropyInput), nameof(otherInput.EntropyInput));
             }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

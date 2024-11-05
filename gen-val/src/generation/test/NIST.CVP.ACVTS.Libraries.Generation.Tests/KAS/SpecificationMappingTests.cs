@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = SpecificationMapping.GetHmacInfoFromParameterClass(macOptionBase);
 
-            Assert.AreEqual(expectedSpecificationString, result.specificationHmac);
+            Assert.That(result.specificationHmac, Is.EqualTo(expectedSpecificationString));
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = SpecificationMapping.GetMacInfoFromParameterClass(macOptionBase);
 
-            Assert.AreEqual(expectedSpecificationString, result.specificationMac);
+            Assert.That(result.specificationMac, Is.EqualTo(expectedSpecificationString));
         }
 
         private class FakeMacOptionBase : MacOptionsBase { }
@@ -113,7 +113,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             const int numberOfSchemesImplemented = 7;
 
-            Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.FfcSchemeMapping.Count);
+            Assert.That(SpecificationMapping.FfcSchemeMapping.Count, Is.EqualTo(numberOfSchemesImplemented));
         }
 
 
@@ -122,7 +122,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             const int numberOfSchemesImplemented = 7;
 
-            Assert.AreEqual(numberOfSchemesImplemented, SpecificationMapping.EccSchemeMapping.Count);
+            Assert.That(SpecificationMapping.EccSchemeMapping.Count, Is.EqualTo(numberOfSchemesImplemented));
         }
 
         private static object[] _testShouldGetEnumFromTypeFfc = new object[]
@@ -170,7 +170,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = SpecificationMapping.GetFfcEnumFromType(schemeBase);
 
-            Assert.AreEqual(expectedSchemeEnum, result);
+            Assert.That(result, Is.EqualTo(expectedSchemeEnum));
         }
 
         private static object[] _testShouldGetEnumFromTypeEcc = new object[]
@@ -218,7 +218,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = SpecificationMapping.GetEccEnumFromType(schemeBase);
 
-            Assert.AreEqual(expectedSchemeEnum, result);
+            Assert.That(result, Is.EqualTo(expectedSchemeEnum));
         }
 
         private class FakeSchemeBase : SchemeBase { }
@@ -247,7 +247,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
         {
             var result = SpecificationMapping.FunctionArrayToFlags(array);
 
-            Assert.AreEqual(expectedParse, result);
+            Assert.That(result, Is.EqualTo(expectedParse));
         }
         #endregion FunctionArrayToFlags
     }

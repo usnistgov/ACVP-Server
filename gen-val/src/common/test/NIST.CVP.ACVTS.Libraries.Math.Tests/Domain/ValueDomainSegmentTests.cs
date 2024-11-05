@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.IsWithinDomain(value);
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -34,11 +34,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             if (originalValue > maxValue)
             {
-                Assert.AreEqual(maxValue, _subject.GetSequentialValues(1).ToList()[0]);
+                Assert.That(_subject.GetSequentialValues(1).ToList()[0], Is.EqualTo(maxValue));
             }
             else
             {
-                Assert.AreEqual(originalValue, _subject.GetSequentialValues(1).ToList()[0]);
+                Assert.That(_subject.GetSequentialValues(1).ToList()[0], Is.EqualTo(originalValue));
             }
         }
 
@@ -52,8 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.RangeMinMax;
 
-            Assert.AreEqual(value, result.Minimum, "minimum");
-            Assert.AreEqual(value, result.Maximum, "maximum");
+            Assert.That(result.Minimum, Is.EqualTo(value), "minimum");
+            Assert.That(result.Maximum, Is.EqualTo(value), "maximum");
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(1).ToList();
 
-            Assert.AreEqual(value, result[0]);
+            Assert.That(result[0], Is.EqualTo(value));
         }
 
         [Test]
@@ -79,8 +79,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(5).ToList();
 
-            Assert.AreEqual(value, result[0], nameof(value));
-            Assert.AreEqual(1, result.Count, nameof(result.Count));
+            Assert.That(result[0], Is.EqualTo(value), nameof(value));
+            Assert.That(result.Count, Is.EqualTo(1), nameof(result.Count));
         }
 
         [Test]
@@ -96,11 +96,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(v => v > 0, 1).ToList();
 
-            Assert.AreEqual(resultShouldHaveContent, result.Count != 0);
+            Assert.That(result.Count != 0, Is.EqualTo(resultShouldHaveContent));
 
             if (resultShouldHaveContent)
             {
-                Assert.AreEqual(value, result[0]);
+                Assert.That(result[0], Is.EqualTo(value));
             }
         }
 
@@ -116,7 +116,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
 
             var result = _subject.GetSequentialValues(minimum, maximum, 1).ToList();
 
-            Assert.AreEqual(expectItemReturned, result.Count == 1);
+            Assert.That(result.Count == 1, Is.EqualTo(expectItemReturned));
         }
     }
 }

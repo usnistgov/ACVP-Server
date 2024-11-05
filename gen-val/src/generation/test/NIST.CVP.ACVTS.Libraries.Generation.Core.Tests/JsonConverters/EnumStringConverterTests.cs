@@ -64,14 +64,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
             };
 
             var json = JsonConvert.SerializeObject(fake, _settings);
-            Assert.IsNotEmpty(json);
+            Assert.That(json, Is.Not.Empty);
 
             var deserializedFake = JsonConvert.DeserializeObject<FakeClass>(json, _settings);
-            Assert.IsNotNull(deserializedFake);
+            Assert.That(deserializedFake, Is.Not.Null);
 
-            Assert.AreEqual(deserializedFake.TestString, fake.TestString);
-            Assert.AreEqual(deserializedFake.TestInt, fake.TestInt);
-            Assert.AreEqual(deserializedFake.TestEnum, fake.TestEnum);
+            Assert.That(fake.TestString, Is.EqualTo(deserializedFake.TestString));
+            Assert.That(fake.TestInt, Is.EqualTo(deserializedFake.TestInt));
+            Assert.That(fake.TestEnum, Is.EqualTo(deserializedFake.TestEnum));
         }
 
         [Test]
@@ -82,11 +82,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
         public void ShouldReadCorrectJson(string json, TestEnum expectedEnum)
         {
             var deserializedFake = JsonConvert.DeserializeObject<FakeClass>(json, _settings);
-            Assert.IsNotNull(deserializedFake);
-            
-            Assert.AreEqual(deserializedFake.TestString, "abc");
-            Assert.AreEqual(deserializedFake.TestInt, 1);
-            Assert.AreEqual(deserializedFake.TestEnum, expectedEnum);
+            Assert.That(deserializedFake, Is.Not.Null);
+
+            Assert.That(deserializedFake.TestString, Is.EqualTo("abc"));
+            Assert.That(deserializedFake.TestInt, Is.EqualTo(1));
+            Assert.That(expectedEnum, Is.EqualTo(deserializedFake.TestEnum));
         }
 
         [Test]

@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, null);
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
 
         }
 
@@ -38,8 +38,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.AAD.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.AAD.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -49,8 +49,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Key.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Key.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.IV.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.IV.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -71,8 +71,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Tag.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Tag.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.CipherText.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.CipherText.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -97,8 +97,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.PlainText.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.PlainText.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

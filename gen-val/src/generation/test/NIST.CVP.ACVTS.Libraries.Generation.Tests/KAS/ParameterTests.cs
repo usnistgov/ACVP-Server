@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS
             var parsedParams = result.ParsedObject;
 
             Assert.That(result.Success);
-            Assert.IsTrue(parameters.JsonCompare(parsedParams));
+            Assert.That(parameters.JsonCompare(parsedParams), Is.True);
         }
 
         private string CreateRegistration(string targetFolder, Parameters parameters)

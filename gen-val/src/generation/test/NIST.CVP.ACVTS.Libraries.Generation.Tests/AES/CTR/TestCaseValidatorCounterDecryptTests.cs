@@ -23,9 +23,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), GetDeferredResolver().Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains($"{suppliedTestCase.PlainText} was not present"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains($"{suppliedTestCase.PlainText} was not present"), Is.True);
         }
 
         [Test]
@@ -39,9 +39,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = await subject.ValidateAsync(GetTestCase());
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Server unable to complete"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Server unable to complete"), Is.True);
         }
 
         [Test]
@@ -58,9 +58,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedResult);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plain Text does not match"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Plain Text does not match"), Is.True);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), GetTestCase(), deferredMock.Object);
             var result = await subject.ValidateAsync(GetTestCase());
 
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
 
             deferredMock
                 .Verify(v => v.CompleteDeferredCryptoAsync(It.IsAny<TestGroup>(), It.IsAny<TestCase>(), It.IsAny<TestCase>()), Times.Once);
@@ -99,9 +99,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains("distinct"), "Reason");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed), "Result");
+            Assert.That(result.Reason.Contains("distinct"), Is.True, "Reason");
         }
 
         [Test]
@@ -133,9 +133,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains("overflow"), "Reason");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed), "Result");
+            Assert.That(result.Reason.Contains("overflow"), Is.True, "Reason");
         }
 
         [Test]
@@ -167,9 +167,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains("underflow"), "Reason");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed), "Result");
+            Assert.That(result.Reason.Contains("underflow"), Is.True, "Reason");
         }
 
         [Test]
@@ -201,9 +201,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains("none occurred"), "Reason");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed), "Result");
+            Assert.That(result.Reason.Contains("none occurred"), Is.True, "Reason");
         }
 
         [Test]
@@ -237,9 +237,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Failed, result.Result, "Result");
-            Assert.IsTrue(result.Reason.Contains("greater"), "Reason");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed), "Result");
+            Assert.That(result.Reason.Contains("greater"), Is.True, "Reason");
         }
 
         [Test]
@@ -275,8 +275,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(group, suppliedTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(suppliedTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Passed, result.Result, "Result");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed), "Result");
         }
 
         [Test]
@@ -295,8 +295,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CTR
             var subject = new TestCaseValidatorCounterDecrypt(GetTestGroup(), goodTestCase, deferredMock.Object);
             var result = await subject.ValidateAsync(goodTestCase);
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         private TestCase GetTestCase()

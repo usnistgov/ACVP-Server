@@ -21,7 +21,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TupleHash.v1_0
         [JsonProperty(PropertyName = "XOF")]
         public bool XOF { get; set; }
 
-        [JsonIgnore]
         public bool HexCustomization { get; set; } = false;
 
         [JsonIgnore]

@@ -73,10 +73,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
 
             for (var i = 0; i < 3; i++)
             {
-                Assert.AreEqual(expectedArr[i], resultArr[i], $"{i}");
+                Assert.That(resultArr[i], Is.EqualTo(expectedArr[i]), $"{i}");
             }
 
-            Assert.AreEqual(expected, result, "whole");
+            Assert.That(result, Is.EqualTo(expected), "whole");
         }
     }
 }

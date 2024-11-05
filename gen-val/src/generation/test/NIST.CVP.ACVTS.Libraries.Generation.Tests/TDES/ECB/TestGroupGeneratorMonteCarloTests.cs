@@ -62,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(expectedResultCount, result.Count);
+            Assert.That(result.Count, Is.EqualTo(expectedResultCount));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.ECB
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.IsFalse(result.Any(a => a.Function.ToLower() == "encrypt" && a.KeyingOption == 2));
+            Assert.That(result.Any(a => a.Function.ToLower() == "encrypt" && a.KeyingOption == 2), Is.False);
         }
     }
 }

@@ -37,8 +37,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var encryptionResult = _newSubject.ProcessPayload(encryptParam);
 
-            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
+            Assert.That(encryptionResult.Success, Is.True, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.That(encryptionResult.Result, Is.EqualTo(testData.CipherText), nameof(testData.CipherText));
 
             // Validate the decryption operation / tag
             var decryptParam = new AeadModeBlockCipherParameters(
@@ -51,8 +51,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var decryptionResult = _newSubject.ProcessPayload(decryptParam);
 
-            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(testData.Payload, decryptionResult.Result);
+            Assert.That(decryptionResult.Success, Is.True, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.That(decryptionResult.Result, Is.EqualTo(testData.Payload));
         }
 
         [Test]
@@ -76,8 +76,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var encryptionResult = _newSubject.ProcessPayload(encryptParam);
 
-            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(testData.CipherText, encryptionResult.Result, nameof(testData.CipherText));
+            Assert.That(encryptionResult.Success, Is.True, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.That(encryptionResult.Result, Is.EqualTo(testData.CipherText), nameof(testData.CipherText));
 
             // Change a byte value to invalidate the decryption
             var encryptionResultBytes = encryptionResult.Result.ToBytes();
@@ -106,8 +106,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var decryptionResult = _newSubject.ProcessPayload(decryptParam);
 
-            Assert.IsFalse(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(CcmBlockCipher.INVALID_TAG_MESSAGE, decryptionResult.ErrorMessage);
+            Assert.That(decryptionResult.Success, Is.False, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.That(decryptionResult.ErrorMessage, Is.EqualTo(CcmBlockCipher.INVALID_TAG_MESSAGE));
         }
 
         [Test]
@@ -165,8 +165,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var encryptionResult = _newSubject.ProcessPayload(encryptParam);
 
-            Assert.IsTrue(encryptionResult.Success, $"{nameof(encryptionResult.Success)} Encrypt");
-            Assert.AreEqual(expectedCt, encryptionResult.Result, nameof(expectedCt));
+            Assert.That(encryptionResult.Success, Is.True, $"{nameof(encryptionResult.Success)} Encrypt");
+            Assert.That(encryptionResult.Result, Is.EqualTo(expectedCt), nameof(expectedCt));
 
             // Validate the decryption operation / tag
             var decryptParam = new AeadModeBlockCipherParameters(
@@ -179,8 +179,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CCM.Tests
             );
             var decryptionResult = _newSubject.ProcessPayload(decryptParam);
 
-            Assert.IsTrue(decryptionResult.Success, $"{nameof(decryptionResult.Success)} Decrypt");
-            Assert.AreEqual(payload, decryptionResult.Result);
+            Assert.That(decryptionResult.Success, Is.True, $"{nameof(decryptionResult.Success)} Decrypt");
+            Assert.That(decryptionResult.Result, Is.EqualTo(payload));
         }
 
         private class TestData

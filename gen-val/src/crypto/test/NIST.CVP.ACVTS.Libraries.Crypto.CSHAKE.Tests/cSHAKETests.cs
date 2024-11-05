@@ -21,7 +21,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization, functionName);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, customization);
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -175,7 +175,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, "");
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -193,7 +193,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, "");
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, "");
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -229,7 +229,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var result = subject.HashMessage(hashFunction, message, "");
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedResult, result.Digest);
+            Assert.That(result.Digest, Is.EqualTo(expectedResult));
         }
 
         private HashFunction GetcSHAKEHashFunction(int digestLength, int capacity)

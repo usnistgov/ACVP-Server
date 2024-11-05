@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFBP
 
             var result = await _subject.GenerateAsync(testGroup, false);
 
-            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
         }
     }
 }

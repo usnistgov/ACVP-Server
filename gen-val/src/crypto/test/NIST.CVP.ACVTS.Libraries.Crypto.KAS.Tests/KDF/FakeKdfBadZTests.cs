@@ -23,13 +23,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
             var originalZ = new BitString("01");
             var copyZ = originalZ.GetDeepCopy();
 
-            Assert.AreEqual(copyZ, originalZ, "sanity check");
+            Assert.That(originalZ, Is.EqualTo(copyZ), "sanity check");
 
             var badKdf = fakeKdfFactory.GetInstance(KdaOneStepAuxFunction.SHA2_D256, true);
 
             badKdf.DeriveKey(originalZ, 256, new BitString(256), null);
 
-            Assert.AreNotEqual(copyZ, originalZ, nameof(copyZ));
+            Assert.That(originalZ, Is.Not.EqualTo(copyZ), nameof(copyZ));
         }
     }
 }

@@ -28,14 +28,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ParallelHash.IntegrationTests
             blockSizeDomain.AddSegment(new RangeDomainSegment(null, 1, 128));
             var result = subject.MCTHash(hashFunction, messageBitString, domain, blockSizeDomain, false, true);
 
-            Assert.IsNotNull(result, "null check");
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result, Is.Not.Null, "null check");
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
 
             var resultDigest = result.Response[result.Response.Count - 1].Digest;
             //            Console.WriteLine($"Should be: {digestBitString.ToHex()}");
             //            Console.WriteLine($"Is       : {resultDigest.ToHex()}");
             //Assert.AreEqual(digestBitString.BitLength, resultDigest.BitLength);
-            Assert.AreEqual(digestBitString.ToHex(), resultDigest.ToHex(), resultDigest.ToHex());
+            Assert.That(resultDigest.ToHex(), Is.EqualTo(digestBitString.ToHex()), resultDigest.ToHex());
         }
     }
 }

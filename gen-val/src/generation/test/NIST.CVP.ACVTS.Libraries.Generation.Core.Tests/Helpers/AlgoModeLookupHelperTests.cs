@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Helpers
         {
             var result = AlgoModeLookupHelper.GetAlgoModeFromStrings(algo, mode, revision);
 
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]

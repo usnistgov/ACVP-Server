@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
         {
             var result = MqvEcc.AssociateValueFunction(qExactLength, publicKey);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         private static object[] _testsCalculationZ = new object[]
@@ -331,7 +331,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KES.Tests
             );
 
             Assert.That(result.Success);
-            Assert.AreEqual(expectedZ, result.SharedSecretZ);
+            Assert.That(result.SharedSecretZ, Is.EqualTo(expectedZ));
         }
     }
 }

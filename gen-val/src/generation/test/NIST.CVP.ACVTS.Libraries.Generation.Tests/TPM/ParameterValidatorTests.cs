@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TPM
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
                 Direction = new[] { "Encrypt" },
                 IsSample = false
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBCI
                 IsSample = false
             };
             Assert.That(parameters != null);
-            Assert.AreEqual("TDES-CBCI", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("TDES-CBCI"));
         }
     }
 }

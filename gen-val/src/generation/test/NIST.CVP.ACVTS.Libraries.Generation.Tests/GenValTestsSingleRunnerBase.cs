@@ -88,7 +88,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
             var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
             
             // Validate result as pass
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
+            Assert.That(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), Is.EqualTo(parsedValidation.ParsedObject.disposition.ToString()));
         }
 
         [Test]
@@ -110,8 +110,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
             var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as pass
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), parsedValidation.ParsedObject.disposition.ToString());
-
+            Assert.That(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), Is.EqualTo(parsedValidation.ParsedObject.disposition.ToString()));
+            
             // If the assertion passed, move the files to the good directory
             if (!Directory.Exists(JsonSavePath))
             {
@@ -149,7 +149,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
             var parsedValidation = dp.Parse(Path.Combine(targetFolder, "validation.json"));
 
             // Validate result as fail
-            Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), parsedValidation.ParsedObject.disposition.ToString(), "disposition");
+            Assert.That(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), Is.EqualTo(parsedValidation.ParsedObject.disposition.ToString()));
             foreach (var test in parsedValidation.ParsedObject.tests)
             {
                 int tcId = test.tcId;
@@ -160,25 +160,25 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
                 // Validate expected TCs are failure
                 if (expectedFailTestCases.Contains(tcId))
                 {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed), result, tcId.ToString());
+                    Assert.That(result, Is.EqualTo(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Failed)), tcId.ToString());
 
                     // There are certain situations where not enough information is provided to generated expected vs provided results
                     if (expected != null || provided != null)
                     {
-                        Assert.IsNotNull(expected, "expected must not be null");
-                        Assert.IsNotNull(provided, "provided must not be null");
+                        Assert.That(expected, Is.Not.Null, "expected must not be null");
+                        Assert.That(provided, Is.Not.Null, "provided must not be null");
                     }
                 }
                 // Validate other TCs are success
                 else
                 {
-                    Assert.AreEqual(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed), result, tcId.ToString());
-                    Assert.IsNull(expected, "expected must be null");
-                    Assert.IsNull(provided, "provided must be null");
+                    Assert.That(result, Is.EqualTo(EnumHelpers.GetEnumDescriptionFromEnum(Disposition.Passed)), tcId.ToString());
+                    Assert.That(expected, Is.Null, "expected must be null");
+                    Assert.That(provided, Is.Null, "provided must be null");
                 }
             }
-
-            Assert.True(true);
+            // This Assert doesn't make sense. Commenting it out...
+            // Assert.That(true, Is.True);
         }
 
         private string[] GetFileNamesWithPath(string directory, string[] fileNames)
@@ -228,7 +228,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[1]), result.InternalProjection, true);
                 FileService.WriteFile(Path.Combine(targetFolder, _testVectorFileNames[2]), result.PromptProjection, true);
 
-                Assert.IsTrue(result.Success, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
+                Assert.That(result.Success, Is.True, $"Generator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
                 return result;
             }
             catch (Exception ex)
@@ -255,7 +255,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
 
                 FileService.WriteFile(Path.Combine(targetFolder, "validation.json"), result.ValidationResult, true);
 
-                Assert.IsTrue(result.Success,
+                Assert.That(result.Success, Is.True,
                     $"Validator failed to complete with status code: {result.StatusCode}, {EnumHelpers.GetEnumDescriptionFromEnum(result.StatusCode)}, {result.ErrorMessage}");
                 return result;
             }

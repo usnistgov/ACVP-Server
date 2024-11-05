@@ -46,10 +46,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
-            Assert.AreEqual(tg.MacMode, newTg.MacMode, nameof(newTg.MacMode));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
+            Assert.That(newTg.MacMode, Is.EqualTo(tg.MacMode), nameof(newTg.MacMode));
         }
 
         [Test]
@@ -67,16 +67,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.KMAC.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-            Assert.AreEqual(tc.Context, newTc.Context, nameof(newTc.Context));
-            Assert.AreEqual(tc.KeyDerivationKey, newTc.KeyDerivationKey, nameof(newTc.KeyDerivationKey));
-            Assert.AreEqual(tc.DerivedKeyLength, newTc.DerivedKeyLength, nameof(newTc.DerivedKeyLength));
-            Assert.AreEqual(tc.Label, newTc.Label, nameof(newTc.Label));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+            Assert.That(newTc.Context, Is.EqualTo(tc.Context), nameof(newTc.Context));
+            Assert.That(newTc.KeyDerivationKey, Is.EqualTo(tc.KeyDerivationKey), nameof(newTc.KeyDerivationKey));
+            Assert.That(newTc.DerivedKeyLength, Is.EqualTo(tc.DerivedKeyLength), nameof(newTc.DerivedKeyLength));
+            Assert.That(newTc.Label, Is.EqualTo(tc.Label), nameof(newTc.Label));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regexTestPassed = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regexTestPassed.Matches(json).Count == 0);
+            Assert.That(regexTestPassed.Matches(json).Count == 0, Is.True);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         static object[] engineIdTestCases =
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] passwordTestCases =
@@ -70,7 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
     }
 }

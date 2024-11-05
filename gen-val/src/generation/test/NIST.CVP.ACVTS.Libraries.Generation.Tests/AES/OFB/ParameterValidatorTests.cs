@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
             ParameterValidator subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(errorsExpected, result.ErrorMessage.Count(c => c == ','));
+            Assert.That(result.Success, Is.False);
+            Assert.That(result.ErrorMessage.Count(c => c == ','), Is.EqualTo(errorsExpected));
         }
 
         static object[] directionTestCases = new object[]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
     }

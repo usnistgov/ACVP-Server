@@ -48,11 +48,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreNotEqual(tg.Function, newTg.Function, nameof(newTg.Function));
-            Assert.AreNotEqual(tg.KeyLength, newTg.KeyLength, nameof(newTg.KeyLength));
+            Assert.That(newTg.Function, Is.Not.EqualTo(tg.Function), nameof(newTg.Function));
+            Assert.That(newTg.KeyLength, Is.Not.EqualTo(tg.KeyLength), nameof(newTg.KeyLength));
         }
 
         /// <summary>
@@ -76,32 +76,32 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
                 for (int i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].IV, newTc.ResultsArray[i].IV, "mctIv");
-                    Assert.AreEqual(tc.ResultsArray[i].Key, newTc.ResultsArray[i].Key, "mctKey");
-                    Assert.AreEqual(tc.ResultsArray[i].CipherText, newTc.ResultsArray[i].CipherText, "mctCt");
-                    Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "mctPt");
+                    Assert.That(newTc.ResultsArray[i].IV, Is.EqualTo(tc.ResultsArray[i].IV), "mctIv");
+                    Assert.That(newTc.ResultsArray[i].Key, Is.EqualTo(tc.ResultsArray[i].Key), "mctKey");
+                    Assert.That(newTc.ResultsArray[i].CipherText, Is.EqualTo(tc.ResultsArray[i].CipherText), "mctCt");
+                    Assert.That(newTc.ResultsArray[i].PlainText, Is.EqualTo(tc.ResultsArray[i].PlainText), "mctPt");
                 }
             }
             else
             {
-                Assert.AreEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
-                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+                Assert.That(newTc.CipherText, Is.EqualTo(tc.CipherText), nameof(newTc.CipherText));
+                Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.IV, newTc.IV, nameof(newTc.IV));
-            Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
-            Assert.AreNotEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
+            Assert.That(newTc.IV, Is.Not.EqualTo(tc.IV), nameof(newTc.IV));
+            Assert.That(newTc.Key, Is.Not.EqualTo(tc.Key), nameof(newTc.Key));
+            Assert.That(newTc.PlainText, Is.Not.EqualTo(tc.PlainText), nameof(newTc.PlainText));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
 
         /// <summary>
@@ -125,32 +125,32 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CFB1.ContractResolvers
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
             if (tg.TestType.Equals("mct", StringComparison.OrdinalIgnoreCase))
             {
                 for (int i = 0; i < tc.ResultsArray.Count; i++)
                 {
-                    Assert.AreEqual(tc.ResultsArray[i].IV, newTc.ResultsArray[i].IV, "mctIv");
-                    Assert.AreEqual(tc.ResultsArray[i].Key, newTc.ResultsArray[i].Key, "mctKey");
-                    Assert.AreEqual(tc.ResultsArray[i].CipherText, newTc.ResultsArray[i].CipherText, "mctCt");
-                    Assert.AreEqual(tc.ResultsArray[i].PlainText, newTc.ResultsArray[i].PlainText, "mctPt");
+                    Assert.That(newTc.ResultsArray[i].IV, Is.EqualTo(tc.ResultsArray[i].IV), "mctIv");
+                    Assert.That(newTc.ResultsArray[i].Key, Is.EqualTo(tc.ResultsArray[i].Key), "mctKey");
+                    Assert.That(newTc.ResultsArray[i].CipherText, Is.EqualTo(tc.ResultsArray[i].CipherText), "mctCt");
+                    Assert.That(newTc.ResultsArray[i].PlainText, Is.EqualTo(tc.ResultsArray[i].PlainText), "mctPt");
                 }
             }
             else
             {
-                Assert.AreEqual(tc.PlainText, newTc.PlainText, nameof(newTc.PlainText));
-                Assert.IsNull(newTc.ResultsArray, nameof(newTc.ResultsArray));
+                Assert.That(newTc.PlainText, Is.EqualTo(tc.PlainText), nameof(newTc.PlainText));
+                Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
             }
 
-            Assert.AreNotEqual(tc.IV, newTc.IV, nameof(newTc.IV));
-            Assert.AreNotEqual(tc.Key, newTc.Key, nameof(newTc.Key));
-            Assert.AreNotEqual(tc.CipherText, newTc.CipherText, nameof(newTc.CipherText));
+            Assert.That(newTc.IV, Is.Not.EqualTo(tc.IV), nameof(newTc.IV));
+            Assert.That(newTc.Key, Is.Not.EqualTo(tc.Key), nameof(newTc.Key));
+            Assert.That(newTc.CipherText, Is.Not.EqualTo(tc.CipherText), nameof(newTc.CipherText));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

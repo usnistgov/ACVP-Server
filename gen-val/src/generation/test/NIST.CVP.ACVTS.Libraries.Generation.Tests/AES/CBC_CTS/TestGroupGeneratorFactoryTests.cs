@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CBC_CTS
 
             var result = _subject.GetTestGroupGenerators(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CBC_CTS
 
             var result = _subject.GetTestGroupGenerators(new ParameterBuilder().Build());
 
-            Assert.AreEqual(4, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(4));
         }
     }
 }

@@ -33,12 +33,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests
 
             Console.WriteLine(calculatedSecurityStrength);
 
-            Assert.AreEqual(
-                estimatedSecurityStrength,
-                calculatedSecurityStrength,
-                15,
+            Assert.That(
+                calculatedSecurityStrength, Is.EqualTo(estimatedSecurityStrength).Within(15),
                 $"Expected: {estimatedSecurityStrength}, Actual: {calculatedSecurityStrength}");
-            Assert.AreEqual(securityStrength, calculatedSecurityStrength, nameof(securityStrength));
+            Assert.That(calculatedSecurityStrength, Is.EqualTo(securityStrength), nameof(securityStrength));
         }
     }
 }

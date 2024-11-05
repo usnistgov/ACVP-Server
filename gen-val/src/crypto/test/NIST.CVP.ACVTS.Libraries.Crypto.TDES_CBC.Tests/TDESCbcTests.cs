@@ -36,9 +36,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
             var actual = result.Result.ToBytes();
-            Assert.AreEqual(expectedBytes, actual);
+            Assert.That(actual, Is.EqualTo(expectedBytes));
         }
 
         [Test]
@@ -57,9 +57,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
             var actual = result.Result.ToBytes();
-            Assert.AreEqual(expectedBytes, actual);
+            Assert.That(actual, Is.EqualTo(expectedBytes));
         }
 
         [Test]
@@ -77,9 +77,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(cipherText).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(cipherText).ToHex()));
         }
 
         [Test]
@@ -97,9 +97,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBC.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.IsTrue((bool)result.Success);
+            Assert.That((bool)result.Success, Is.True);
 
-            Assert.AreEqual(new BitString(plaintext).ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(new BitString(plaintext).ToHex()));
         }
     }
 }

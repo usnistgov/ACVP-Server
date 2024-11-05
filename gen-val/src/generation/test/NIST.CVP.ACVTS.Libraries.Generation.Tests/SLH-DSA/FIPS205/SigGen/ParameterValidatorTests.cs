@@ -33,7 +33,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsTrue(result.Success);
+        Assert.That(result.Success, Is.True);
     }
     
     [Test] 
@@ -56,7 +56,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -80,7 +80,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -96,7 +96,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -113,7 +113,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -137,7 +137,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -160,7 +160,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -183,7 +183,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -207,7 +207,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -231,7 +231,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -255,7 +255,7 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
     
     [Test] 
@@ -279,6 +279,6 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(parameters);
 
-        Assert.IsFalse(result.Success);
+        Assert.That(result.Success, Is.False);
     }
 }

@@ -59,20 +59,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                         var sha3Mct = GetShaMctInstance(testGroup.CommonHashFunction);
                         var result = sha3Mct.MctHash(testCase.Message);
 
-                        Assert.IsTrue(result.Success, "result.Success must be successful");
-                        Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
-                        Assert.IsTrue(result.Response.Count > 0, $"{nameof(result)} MCT hash count should be greater than 0");
+                        Assert.That(result.Success, Is.True, "result.Success must be successful");
+                        Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT hash count should be greater than 0");
+                        Assert.That(result.Response.Count > 0, Is.True, $"{nameof(result)} MCT hash count should be greater than 0");
 
                         for (var i = 0; i < testCase.ResultsArray.Count; i++)
                         {
-                            Assert.AreEqual(testCase.ResultsArray[i].Digest, result.Response[i].Digest, $"Digest mismatch on index {i}");
+                            Assert.That(result.Response[i].Digest, Is.EqualTo(testCase.ResultsArray[i].Digest), $"Digest mismatch on index {i}");
                         }
                     }
                     else
                     {
                         var sha3 = GetShaInstance(testGroup.CommonHashFunction);
                         var result = sha3.HashMessage(testCase.Message);
-                        Assert.AreEqual(testCase.Digest.ToHex(), result.Digest.ToHex(), $"Failed on count {count} inside AFT for {testGroup.DigestSize} for message {testCase.Message.ToHex()} with length {testCase.Message.BitLength}.");
+                        Assert.That(result.Digest.ToHex(), Is.EqualTo(testCase.Digest.ToHex()), $"Failed on count {count} inside AFT for {testGroup.DigestSize} for message {testCase.Message.ToHex()} with length {testCase.Message.BitLength}.");
                     }
                 }
             }
@@ -116,20 +116,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                         var shakeMct = GetShaMctInstance(testGroup.CommonHashFunction);
                         var result = shakeMct.MctHash(testCase.Message, false, domain);
 
-                        Assert.IsTrue(result.Success, "result.Success must be successful");
-                        Assert.IsTrue(testCase.ResultsArray.Count > 0, $"{nameof(testCase)} MCT hash count should be greater than 0");
-                        Assert.IsTrue(result.Response.Count > 0, $"{nameof(result)} MCT hash count should be greater than 0");
+                        Assert.That(result.Success, Is.True, "result.Success must be successful");
+                        Assert.That(testCase.ResultsArray.Count > 0, Is.True, $"{nameof(testCase)} MCT hash count should be greater than 0");
+                        Assert.That(result.Response.Count > 0, Is.True, $"{nameof(result)} MCT hash count should be greater than 0");
 
                         for (var i = 0; i < testCase.ResultsArray.Count; i++)
                         {
-                            Assert.AreEqual(testCase.ResultsArray[i].Digest.ToLittleEndianHex(), result.Response[i].Digest.ToLittleEndianHex(), $"Digest mismatch on index {i}");
+                            Assert.That(result.Response[i].Digest.ToLittleEndianHex(), Is.EqualTo(testCase.ResultsArray[i].Digest.ToLittleEndianHex()), $"Digest mismatch on index {i}");
                         }
                     }
                     else
                     {
                         var shake = GetShaInstance(testGroup.CommonHashFunction);
                         var result = shake.HashMessage(testCase.Message, testCase.DigestLength);
-                        Assert.AreEqual(testCase.Digest.ToLittleEndianHex(), result.Digest.ToLittleEndianHex(), $"Failed on count {count} inside AFT/VOT for {testGroup.DigestSize} for message {testCase.Message.ToLittleEndianHex()} with length {testCase.Message.BitLength}.");
+                        Assert.That(result.Digest.ToLittleEndianHex(), Is.EqualTo(testCase.Digest.ToLittleEndianHex()), $"Failed on count {count} inside AFT/VOT for {testGroup.DigestSize} for message {testCase.Message.ToLittleEndianHex()} with length {testCase.Message.BitLength}.");
                     }
                 }
             }

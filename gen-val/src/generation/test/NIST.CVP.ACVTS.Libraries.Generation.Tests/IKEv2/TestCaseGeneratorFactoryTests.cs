@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.IKEv2
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(typeof(TestCaseGenerator), generator);
+            Assert.That(generator, Is.InstanceOf(typeof(TestCaseGenerator)));
         }
     }
 }

@@ -88,7 +88,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var contents = _subject.ReadFile(Path.Combine(_testPath, fileName));
 
-            Assert.AreEqual(FileContents, contents);
+            Assert.That(contents, Is.EqualTo(FileContents));
         }
 
         [Test]
@@ -153,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var contents = await _subject.ReadFileAsync(Path.Combine(_testPath, fileName));
 
-            Assert.AreEqual(FileContents, contents);
+            Assert.That(contents, Is.EqualTo(FileContents));
         }
     }
 }

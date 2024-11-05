@@ -85,9 +85,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
             var hkdfResult = _kdfVisitor.Kdf(hkdfParam, fixedInfo);
             var multiExpandHkdfResult = _kdfMultiExpansionVisitor.Kdf(multiExpandHkdfParam);
 
-            Assert.True(multiExpandHkdfResult.Results.Count == 2);
-            Assert.AreEqual(hkdfResult.DerivedKey, multiExpandHkdfResult.Results[0].DerivedKey);
-            Assert.AreEqual(hkdfResult.DerivedKey, multiExpandHkdfResult.Results[1].DerivedKey);
+            Assert.That(multiExpandHkdfResult.Results.Count == 2, Is.True);
+            Assert.That(multiExpandHkdfResult.Results[0].DerivedKey, Is.EqualTo(hkdfResult.DerivedKey));
+            Assert.That(multiExpandHkdfResult.Results[1].DerivedKey, Is.EqualTo(hkdfResult.DerivedKey));
         }
     }
 }

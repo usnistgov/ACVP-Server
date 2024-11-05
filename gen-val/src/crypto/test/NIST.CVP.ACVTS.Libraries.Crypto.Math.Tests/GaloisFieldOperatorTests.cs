@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var subject = new GaloisFieldOperator(m);
             var result = subject.Modulo(x);
 
-            Assert.AreEqual(y, result);
+            Assert.That(result, Is.EqualTo(y));
         }
 
         [Test]
@@ -138,7 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var subject = new GaloisFieldOperator(m);
             var result = subject.Add(x, y);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var subject = new GaloisFieldOperator(m);
             var result = subject.Divide(x, y);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Math.Tests
             var subject = new GaloisFieldOperator(m);
             var result = subject.Multiply(x, y);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         private BigInteger GetModulo(Curve curve)

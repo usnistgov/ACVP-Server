@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
 
             foreach (InternalTestTypes testType in Enum.GetValues(typeof(InternalTestTypes)))
             {
-                Assert.IsTrue(result.Any(a => a.InternalTestType == testType.ToString()));
+                Assert.That(result.Any(a => a.InternalTestType == testType.ToString()), Is.True);
             }
         }
 
@@ -133,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
 
             int expectedResultCount = _subject.KeyLens.Length * aadLenMultiplier * ptLenMultiplier * _subject.NonceLens.Count() * _subject.TagLens.Count();
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
+            Assert.That(result.Count(c => c.InternalTestType == testType.ToString()), Is.EqualTo(expectedResultCount));
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             // pt, tag, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * aadLenRange * 1 * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
+            Assert.That(result.Count(c => c.InternalTestType == testType.ToString()), Is.EqualTo(expectedResultCount));
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             // aad, pt, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * _subject.NonceLens.Count() * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
+            Assert.That(result.Count(c => c.InternalTestType == testType.ToString()), Is.EqualTo(expectedResultCount));
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             // aad, nonce, and tag use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * payloadCount * 1 * 1;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
+            Assert.That(result.Count(c => c.InternalTestType == testType.ToString()), Is.EqualTo(expectedResultCount));
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
             // aad, pt, and nonce use the max value, will always be a multiplier of 1
             int expectedResultCount = keyLen.Length * 1 * 1 * 1 * _subject.TagLens.Length;
 
-            Assert.AreEqual(expectedResultCount, result.Count(c => c.InternalTestType == testType.ToString()));
+            Assert.That(result.Count(c => c.InternalTestType == testType.ToString()), Is.EqualTo(expectedResultCount));
         }
 
         [Test]
@@ -325,7 +325,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
                         a.GroupReusesKeyForTestCases == useSharedKey &&
                         a.GroupReusesNonceForTestCases == useSharedNonce);
 
-            Assert.IsTrue(correctShares);
+            Assert.That(correctShares, Is.True);
         }
     }
 }

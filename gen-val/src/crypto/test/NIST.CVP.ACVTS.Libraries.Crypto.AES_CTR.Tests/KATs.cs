@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
                 );
                 var result = _subject.ProcessPayload(param);
 
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
+                Assert.That(result.Success, Is.True, nameof(result.Success));
+                Assert.That(result.Result, Is.EqualTo(test.CipherText), test.CipherText.ToHex());
             }
         }
 
@@ -61,8 +61,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
                 );
                 var result = _subject.ProcessPayload(param);
 
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
+                Assert.That(result.Success, Is.True, nameof(result.Success));
+                Assert.That(result.Result, Is.EqualTo(test.CipherText), test.CipherText.ToHex());
             }
         }
 
@@ -81,8 +81,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
                 );
                 var result = _subject.ProcessPayload(param);
 
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
+                Assert.That(result.Success, Is.True, nameof(result.Success));
+                Assert.That(result.Result, Is.EqualTo(test.CipherText), test.CipherText.ToHex());
             }
         }
 
@@ -101,8 +101,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CTR.Tests
                 );
                 var result = _subject.ProcessPayload(param);
 
-                Assert.IsTrue(result.Success, nameof(result.Success));
-                Assert.AreEqual(test.CipherText, result.Result, test.CipherText.ToHex());
+                Assert.That(result.Success, Is.True, nameof(result.Success));
+                Assert.That(result.Result, Is.EqualTo(test.CipherText), test.CipherText.ToHex());
             }
         }
     }

@@ -33,8 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.JsonConverters
                 }
             });
 
-            Assert.AreEqual(expectedHex, deserialize.ToHex(), nameof(bs.ToHex));
-            Assert.AreEqual(expectedLength, deserialize.BitLength, nameof(bs.BitLength));
+            Assert.That(deserialize.ToHex(), Is.EqualTo(expectedHex), nameof(bs.ToHex));
+            Assert.That(deserialize.BitLength, Is.EqualTo(expectedLength), nameof(bs.BitLength));
         }
 
         [Test]
@@ -63,8 +63,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.JsonConverters
                 }
             });
 
-            Assert.AreEqual(expectedHex, deserialize.ToHex(), nameof(bs.ToHex));
-            Assert.AreEqual(expectedLength, deserialize.BitLength, nameof(bs.BitLength));
+            Assert.That(deserialize.ToHex(), Is.EqualTo(expectedHex), nameof(bs.ToHex));
+            Assert.That(deserialize.BitLength, Is.EqualTo(expectedLength), nameof(bs.BitLength));
         }
     }
 }

@@ -837,8 +837,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(vPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
-            Assert.AreEqual(expectedHashZ, result.Tag, nameof(result.Tag));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
+            Assert.That(result.Tag, Is.EqualTo(expectedHashZ), nameof(result.Tag));
         }
 
         private static object[] _test_NoKeyConfirmation = new object[]
@@ -2787,11 +2787,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(otherPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ, result.Z, nameof(result.Z));
-            Assert.AreEqual(expectedOi, result.Oi, nameof(result.Oi));
-            Assert.AreEqual(expectedDkm, result.Dkm, nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData, result.MacData, nameof(result.MacData));
-            Assert.AreEqual(expectedTag, result.Tag, nameof(result.Tag));
+            Assert.That(result.Z, Is.EqualTo(expectedZ), nameof(result.Z));
+            Assert.That(result.Oi, Is.EqualTo(expectedOi), nameof(result.Oi));
+            Assert.That(result.Dkm, Is.EqualTo(expectedDkm), nameof(result.Dkm));
+            Assert.That(result.MacData, Is.EqualTo(expectedMacData), nameof(result.MacData));
+            Assert.That(result.Tag, Is.EqualTo(expectedTag), nameof(result.Tag));
         }
 
         private static object[] _test_keyConfirmation = new object[]
@@ -4283,11 +4283,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
             var result = kas.ComputeResult(otherPartySharedInformation);
 
             Assert.That(result.Success, nameof(result.Success));
-            Assert.AreEqual(expectedZ.ToHex(), result.Z.ToHex(), nameof(result.Z));
-            Assert.AreEqual(expectedOi.ToHex(), result.Oi.ToHex(), nameof(result.Oi));
-            Assert.AreEqual(expectedDkm.ToHex(), result.Dkm.ToHex(), nameof(result.Dkm));
-            Assert.AreEqual(expectedMacData.ToHex(), result.MacData.ToHex(), nameof(result.MacData));
-            Assert.AreEqual(expectedTag.ToHex(), result.Tag.ToHex(), nameof(result.Tag));
+            Assert.That(result.Z.ToHex(), Is.EqualTo(expectedZ.ToHex()), nameof(result.Z));
+            Assert.That(result.Oi.ToHex(), Is.EqualTo(expectedOi.ToHex()), nameof(result.Oi));
+            Assert.That(result.Dkm.ToHex(), Is.EqualTo(expectedDkm.ToHex()), nameof(result.Dkm));
+            Assert.That(result.MacData.ToHex(), Is.EqualTo(expectedMacData.ToHex()), nameof(result.MacData));
+            Assert.That(result.Tag.ToHex(), Is.EqualTo(expectedTag.ToHex()), nameof(result.Tag));
         }
 
         private static IEnumerable<object> TestData = new[]
@@ -4789,13 +4789,13 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
 
             var result = kas.ComputeResult(otherPartySharedInformation);
 
-            Assert.AreEqual(result.Dkm.ToHex(), iutDkm.ToHex(), nameof(result.Dkm));
+            Assert.That(iutDkm.ToHex(), Is.EqualTo(result.Dkm.ToHex()), nameof(result.Dkm));
 
             if (iutMacData != null)
             {
-                Assert.AreEqual(iutMacData.ToHex(), result.MacData.ToHex(), nameof(result.MacData));
+                Assert.That(result.MacData.ToHex(), Is.EqualTo(iutMacData.ToHex()), nameof(result.MacData));
             }
-            Assert.AreEqual(result.Tag.ToHex(), iutTag.ToHex(), nameof(result.Tag));
+            Assert.That(iutTag.ToHex(), Is.EqualTo(result.Tag.ToHex()), nameof(result.Tag));
         }
 
         [Test]
@@ -4818,7 +4818,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests
 
             var result = keyConfirmation.ComputeMac();
 
-            Assert.AreEqual(new BitString("3fe6e9cdcf724a64aa330573de36045c").ToHex(), result.Mac.ToHex());
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(new BitString("3fe6e9cdcf724a64aa330573de36045c").ToHex()));
         }
     }
 }

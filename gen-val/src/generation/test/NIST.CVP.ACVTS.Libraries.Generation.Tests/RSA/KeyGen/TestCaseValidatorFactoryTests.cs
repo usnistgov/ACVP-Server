@@ -34,8 +34,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.KeyGen
 
             var results = _subject.GetValidators(testVectorSet);
 
-            Assert.AreEqual(1, results.Count(), "Expected 1 validator");
-            Assert.IsInstanceOf(expectedType, results.First());
+            Assert.That(results.Count(), Is.EqualTo(1), "Expected 1 validator");
+            Assert.That(results.First(), Is.InstanceOf(expectedType));
         }
 
         private void GetData(ref TestVectorSet testVectorSet, string testType)

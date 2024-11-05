@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
                 Capabilities = GetCapabilities()
             };
 
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigVer
                 Capabilities = GetCapabilities()
             };
 
-            Assert.AreEqual("ECDSA", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("ECDSA"));
         }
 
         private Capability[] GetCapabilities()

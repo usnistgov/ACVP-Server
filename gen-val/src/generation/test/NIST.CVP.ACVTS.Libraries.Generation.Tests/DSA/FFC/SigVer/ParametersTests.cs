@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
                 Capabilities = GetCapabilities()
             };
 
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
                 Capabilities = GetCapabilities()
             };
 
-            Assert.AreEqual("DSA", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("DSA"));
         }
 
         private Capability[] GetCapabilities()

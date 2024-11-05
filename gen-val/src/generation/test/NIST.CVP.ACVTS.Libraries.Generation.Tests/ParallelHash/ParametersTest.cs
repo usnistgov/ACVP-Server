@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
                 OutputLength = new MathDomain(),
                 IsSample = false
             };
-            Assert.IsNotNull(parameters);
+            Assert.That(parameters, Is.Not.Null);
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.ParallelHash
             };
 
             Assert.That(parameters != null);
-            Assert.AreEqual("ParallelHash", parameters.Algorithm);
+            Assert.That(parameters.Algorithm, Is.EqualTo("ParallelHash"));
         }
     }
 }

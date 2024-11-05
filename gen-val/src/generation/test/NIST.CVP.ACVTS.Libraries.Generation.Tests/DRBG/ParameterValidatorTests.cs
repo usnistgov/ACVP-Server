@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
             
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
             Parameters p = new ParameterBuilder(DrbgMechanism.Counter, invalid).Build();
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
         
         
@@ -102,7 +102,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
 
         [Test]
@@ -217,7 +217,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
         }
     }
 }

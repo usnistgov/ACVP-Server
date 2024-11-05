@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SNMP
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Password);
+            Assert.That(result, Is.True);
+            Assert.That(subject.Password, Is.EqualTo("00AA"));
         }
     }
 }

@@ -154,10 +154,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
                 .WithPaddingScheme(pssPaddingScheme)
                 .BuildSign();
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
 
             var expectedSig = new BitString(sigHex).ToPositiveBigInteger();
-            Assert.AreEqual(expectedSig, result.Signature);
+            Assert.That(result.Signature, Is.EqualTo(expectedSig));
         }
 
         [Test]
@@ -277,7 +277,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
                 .WithPaddingScheme(pssPaddingScheme)
                 .BuildVerify();
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -341,7 +341,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
                     .WithPaddingScheme(pssPaddingScheme)
                     .BuildVerify();
 
-                Assert.IsTrue(verify.Success, verify.ErrorMessage);
+                Assert.That(verify.Success, Is.True, verify.ErrorMessage);
             }
         }
     }

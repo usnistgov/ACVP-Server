@@ -23,12 +23,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
             _subject.DomainParams = new FfcDomainParameters(0, 0, 0);
             _subject.Key = new FfcKeyPair(0, 0);
 
-            Assert.IsNull(_subject.P, nameof(_subject.P));
-            Assert.IsNull(_subject.Q, nameof(_subject.Q));
-            Assert.IsNull(_subject.G, nameof(_subject.G));
+            Assert.That(_subject.P, Is.Null, nameof(_subject.P));
+            Assert.That(_subject.Q, Is.Null, nameof(_subject.Q));
+            Assert.That(_subject.G, Is.Null, nameof(_subject.G));
 
-            Assert.IsNull(_subject.X, nameof(_subject.X));
-            Assert.IsNull(_subject.Y, nameof(_subject.Y));
+            Assert.That(_subject.X, Is.Null, nameof(_subject.X));
+            Assert.That(_subject.Y, Is.Null, nameof(_subject.Y));
         }
 
         [Test]
@@ -44,12 +44,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen
             _subject.DomainParams = new FfcDomainParameters(p, q, g);
             _subject.Key = new FfcKeyPair(x, y);
 
-            Assert.AreEqual(p, _subject.P.ToPositiveBigInteger(), nameof(_subject.P));
-            Assert.AreEqual(q, _subject.Q.ToPositiveBigInteger(), nameof(_subject.Q));
-            Assert.AreEqual(g, _subject.G.ToPositiveBigInteger(), nameof(_subject.G));
+            Assert.That(_subject.P.ToPositiveBigInteger(), Is.EqualTo(p), nameof(_subject.P));
+            Assert.That(_subject.Q.ToPositiveBigInteger(), Is.EqualTo(q), nameof(_subject.Q));
+            Assert.That(_subject.G.ToPositiveBigInteger(), Is.EqualTo(g), nameof(_subject.G));
 
-            Assert.AreEqual(x, _subject.X.ToPositiveBigInteger(), nameof(_subject.X));
-            Assert.AreEqual(y, _subject.Y.ToPositiveBigInteger(), nameof(_subject.Y));
+            Assert.That(_subject.X.ToPositiveBigInteger(), Is.EqualTo(x), nameof(_subject.X));
+            Assert.That(_subject.Y.ToPositiveBigInteger(), Is.EqualTo(y), nameof(_subject.Y));
         }
     }
 }

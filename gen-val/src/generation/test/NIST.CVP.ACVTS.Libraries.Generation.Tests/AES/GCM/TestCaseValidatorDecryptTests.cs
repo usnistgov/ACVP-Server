@@ -18,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var subject = new TestCaseValidatorDecrypt(GetTestGroup(), testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             suppliedResult.PlainText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Plain Text"));
+            Assert.That(result.Reason.Contains("Plain Text"), Is.True);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("tag"));
+            Assert.That(result.Reason.Contains("tag"), Is.True);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             suppliedResult.PlainText = new BitString(0);
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.GCM
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase(bool failureTest = false)

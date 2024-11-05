@@ -24,8 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.HKDF.Tests
 
             var result = hkdf.DeriveKey(saltBs, ikmBs, infoBs, length);
 
-            Assert.IsTrue(result.Success);
-            Assert.AreEqual(okmBs, result.DerivedKey);
+            Assert.That(result.Success, Is.True);
+            Assert.That(result.DerivedKey, Is.EqualTo(okmBs));
         }
     }
 }

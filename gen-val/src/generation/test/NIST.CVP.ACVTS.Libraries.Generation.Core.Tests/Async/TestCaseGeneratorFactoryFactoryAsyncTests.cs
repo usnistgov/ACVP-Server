@@ -65,8 +65,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
 
             var result = await _subject.BuildTestCasesAsync(_testVectorSet);
 
-            Assert.IsFalse(result.Success, nameof(result.Success));
-            Assert.IsTrue(!string.IsNullOrEmpty(result.ErrorMessage), nameof(result.ErrorMessage));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
+            Assert.That(!string.IsNullOrEmpty(result.ErrorMessage), Is.True, nameof(result.ErrorMessage));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
         {
             var results = await _subject.BuildTestCasesAsync(_testVectorSet);
 
-            Assert.IsTrue(results.Success);
+            Assert.That(results.Success, Is.True);
             _testCaseGeneratorFactory
                 .Verify(v => v.GetCaseGenerator(
                         It.IsAny<FakeTestGroup>()),
@@ -173,7 +173,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Async
 
             await _subject.BuildTestCasesAsync(vectorSet);
 
-            Assert.AreEqual(numberToQueue, vectorSet.TestGroups.SelectMany(s => s.Tests).Count());
+            Assert.That(vectorSet.TestGroups.SelectMany(s => s.Tests).Count(), Is.EqualTo(numberToQueue));
         }
     }
 }

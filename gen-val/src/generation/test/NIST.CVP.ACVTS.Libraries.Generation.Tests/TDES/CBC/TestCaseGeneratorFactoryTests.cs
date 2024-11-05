@@ -49,7 +49,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBC
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CBC
         {
             var subject = GetSubject();
             var generator = subject.GetCaseGenerator(new TestGroup { Function = "", TestType = "" });
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
 
         private TestCaseGeneratorFactory GetSubject()

@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
 
             var result = _subject.GetTestGroupGenerators(param);
 
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.CCM
 
             var result = _subject.GetTestGroupGenerators(param);
 
-            Assert.IsTrue(result.Count() == 1);
+            Assert.That(result.Count() == 1, Is.True);
         }
     }
 }

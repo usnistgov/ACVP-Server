@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DRBG
 
             var subject = new TestCaseGeneratorFactory(null);
             var generator = subject.GetCaseGenerator(testGroup);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
     }
 }

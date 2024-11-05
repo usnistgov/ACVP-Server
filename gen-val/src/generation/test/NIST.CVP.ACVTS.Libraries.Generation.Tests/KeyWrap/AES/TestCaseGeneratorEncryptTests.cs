@@ -31,8 +31,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
         {
             var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
-            Assert.IsNotNull(result, $"{nameof(result)} should be null");
-            Assert.IsInstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>), result, $"{nameof(result)} incorrect type");
+            Assert.That(result, Is.Not.Null, $"{nameof(result)} should be null");
+            Assert.That(result, Is.InstanceOf(typeof(TestCaseGenerateResponse<TestGroup, TestCase>)), $"{nameof(result)} incorrect type");
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
 
             var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
-            Assert.IsNull(result.TestCase, $"{nameof(result.TestCase)} should be null");
-            Assert.IsFalse(result.Success, $"{nameof(result.Success)} should indicate failure");
+            Assert.That(result.TestCase, Is.Null, $"{nameof(result.TestCase)} should be null");
+            Assert.That(result.Success, Is.False, $"{nameof(result.Success)} should indicate failure");
         }
 
         [Test]
@@ -76,12 +76,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
 
             var result = await _subject.GenerateAsync(GetTestGroup(), false);
 
-            Assert.IsTrue(result.Success, $"{nameof(result)} should be successful");
-            Assert.IsInstanceOf(typeof(TestCase), result.TestCase, $"{nameof(result.TestCase)} type mismatch");
-            Assert.AreEqual(key, result.TestCase.Key, nameof(key));
-            Assert.AreEqual(plaintext, result.TestCase.PlainText, nameof(plaintext));
-            Assert.AreEqual(ciphertext, result.TestCase.CipherText, nameof(ciphertext));
-            Assert.IsFalse(result.TestCase.Deferred, "Deferred");
+            Assert.That(result.Success, Is.True, $"{nameof(result)} should be successful");
+            Assert.That(result.TestCase, Is.InstanceOf(typeof(TestCase)), $"{nameof(result.TestCase)} type mismatch");
+            Assert.That(result.TestCase.Key, Is.EqualTo(key), nameof(key));
+            Assert.That(result.TestCase.PlainText, Is.EqualTo(plaintext), nameof(plaintext));
+            Assert.That(result.TestCase.CipherText, Is.EqualTo(ciphertext), nameof(ciphertext));
+            Assert.That(result.TestCase.Deferred, Is.False, "Deferred");
         }
 
         private TestGroup GetTestGroup()

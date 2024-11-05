@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.PBKDF
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         static object[] hashAlgTestCases =
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.PBKDF
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         #region GetInvalidKeyLengths
@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.PBKDF
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
     }
 }

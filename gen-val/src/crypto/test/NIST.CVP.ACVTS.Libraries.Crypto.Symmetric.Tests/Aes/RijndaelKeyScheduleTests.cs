@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         public void ShouldBeInvalidIfInvalidKeySize(int keySize)
         {
             var subject = new RijndaelKeySchedule(keySize, 128, new byte[4, 4]);
-            Assert.IsFalse(subject.IsValid);
+            Assert.That(subject.IsValid, Is.False);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         public void ShouldBeInvalidIfInvalidBlockSize(int blockSize)
         {
             var subject = new RijndaelKeySchedule(128, blockSize, new byte[4, 4]);
-            Assert.IsFalse(subject.IsValid);
+            Assert.That(subject.IsValid, Is.False);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         {
             var subject = new RijndaelKeySchedule(keySize, 128, new byte[4, 4]);
             Assert.That(!subject.IsValid);
-            Assert.AreEqual($"Invalid key size: {keySize}", subject.ErrorMessage);
+            Assert.That(subject.ErrorMessage, Is.EqualTo($"Invalid key size: {keySize}"));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         {
             var subject = new RijndaelKeySchedule(128, blockSize, new byte[4, 4]);
             Assert.That(!subject.IsValid);
-            Assert.AreEqual($"Invalid block size: {blockSize}", subject.ErrorMessage);
+            Assert.That(subject.ErrorMessage, Is.EqualTo($"Invalid block size: {blockSize}"));
         }
 
 
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         {
 
             var subject = new RijndaelKeySchedule(keySize, blockSize, new byte[4, 8]);
-            Assert.IsTrue(subject.IsValid);
+            Assert.That(subject.IsValid, Is.True);
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.Tests.Aes
         public void ShouldHaveProperNumberOfRoundsForKeyAndBlockSize(int keySize, int blockSize, int expectedRounds)
         {
             var subject = new RijndaelKeySchedule(keySize, blockSize, new byte[4, 8]);
-            Assert.AreEqual(expectedRounds, subject.Rounds);
+            Assert.That(subject.Rounds, Is.EqualTo(expectedRounds));
         }
     }
 }

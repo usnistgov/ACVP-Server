@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Entropy
         {
             var result = _subject.GetEntropyProvider(providerType);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

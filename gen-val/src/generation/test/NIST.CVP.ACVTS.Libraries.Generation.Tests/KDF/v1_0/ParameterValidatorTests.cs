@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
         {
             var subject = new ParameterValidator();
             var result = subject.Validate(new ParameterBuilder().Build());
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .Build()
                 );
 
-            Assert.IsFalse(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
 
         static object[] macTestCases =
@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] counterLengthTestCases =
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         static object[] orderTestCases =
@@ -94,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, testCaseLabel);
+            Assert.That(result.Success, Is.False, testCaseLabel);
         }
 
         #region GetInvalidDataLens
@@ -147,7 +147,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -243,7 +243,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
                     .WithCapabilities(new[] { capability })
                     .Build());
 
-            Assert.AreEqual(isValid, result.Success);
+            Assert.That(result.Success, Is.EqualTo(isValid));
         }
     }
 }

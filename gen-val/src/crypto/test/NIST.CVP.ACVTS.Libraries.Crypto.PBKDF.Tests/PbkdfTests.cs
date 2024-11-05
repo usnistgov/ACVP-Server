@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.PBKDF.Tests
             var result = pbkdf.DeriveKey(new BitString("ABDC"), "abcd", c, 1024);
 
             //Console.Write(result.DerivedKey.ToHex());
-            Assert.AreEqual(expectedKey, result.DerivedKey.ToHex());
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(expectedKey));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.PBKDF.Tests
             var pbkdf = _factory.GetKdf(hashFunction);
             var result = pbkdf.DeriveKey(new BitString("ABDC"), "abcd", c, 224);
 
-            Assert.AreEqual(expectedKey, result.DerivedKey.ToHex());
+            Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(expectedKey));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.PBKDF.Tests
                 1_000_000,
                 4095);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.PBKDF.Tests
                 1_000_000,
                 4096);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.PBKDF.Tests
                 1_000_000,
                 4096);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
     }
 }

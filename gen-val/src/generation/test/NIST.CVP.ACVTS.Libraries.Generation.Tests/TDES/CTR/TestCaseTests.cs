@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CTR
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CTR
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.Key.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.Key.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CTR
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.CipherText.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.CipherText.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CTR
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.PlainText.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.PlainText.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

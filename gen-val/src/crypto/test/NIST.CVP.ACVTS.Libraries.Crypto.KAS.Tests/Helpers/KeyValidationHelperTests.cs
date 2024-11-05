@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.Helpers
 
             var result = KeyValidationHelper.PerformEccPublicKeyValidation(curve, publicKey, false);
 
-            Assert.AreEqual(shouldPassValidation, result);
+            Assert.That(result, Is.EqualTo(shouldPassValidation));
         }
     }
 }

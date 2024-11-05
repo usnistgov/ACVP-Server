@@ -45,15 +45,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreEqual(tg.P.ToPositiveBigInteger(), newTg.P.ToPositiveBigInteger(), nameof(newTg.P));
-            Assert.AreEqual(tg.Q.ToPositiveBigInteger(), newTg.Q.ToPositiveBigInteger(), nameof(newTg.Q));
-            Assert.AreEqual(tg.G.ToPositiveBigInteger(), newTg.G.ToPositiveBigInteger(), nameof(newTg.G));
-            Assert.AreEqual(tg.Y.ToPositiveBigInteger(), newTg.Y.ToPositiveBigInteger(), nameof(newTg.Y));
+            Assert.That(newTg.P.ToPositiveBigInteger(), Is.EqualTo(tg.P.ToPositiveBigInteger()), nameof(newTg.P));
+            Assert.That(newTg.Q.ToPositiveBigInteger(), Is.EqualTo(tg.Q.ToPositiveBigInteger()), nameof(newTg.Q));
+            Assert.That(newTg.G.ToPositiveBigInteger(), Is.EqualTo(tg.G.ToPositiveBigInteger()), nameof(newTg.G));
+            Assert.That(newTg.Y.ToPositiveBigInteger(), Is.EqualTo(tg.Y.ToPositiveBigInteger()), nameof(newTg.Y));
 
-            Assert.IsFalse(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.False, nameof(newTg.IsMessageRandomized));
         }
 
         [Test]
@@ -71,15 +71,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.IsNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen == 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen == 0, Is.True, nameof(newTc.RandomValueLen));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
 
         [Test]
@@ -94,15 +94,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-            Assert.AreEqual(tg.P.ToPositiveBigInteger(), newTg.P.ToPositiveBigInteger(), nameof(newTg.P));
-            Assert.AreEqual(tg.Q.ToPositiveBigInteger(), newTg.Q.ToPositiveBigInteger(), nameof(newTg.Q));
-            Assert.AreEqual(tg.G.ToPositiveBigInteger(), newTg.G.ToPositiveBigInteger(), nameof(newTg.G));
-            Assert.AreEqual(tg.Y.ToPositiveBigInteger(), newTg.Y.ToPositiveBigInteger(), nameof(newTg.Y));
+            Assert.That(newTg.P.ToPositiveBigInteger(), Is.EqualTo(tg.P.ToPositiveBigInteger()), nameof(newTg.P));
+            Assert.That(newTg.Q.ToPositiveBigInteger(), Is.EqualTo(tg.Q.ToPositiveBigInteger()), nameof(newTg.Q));
+            Assert.That(newTg.G.ToPositiveBigInteger(), Is.EqualTo(tg.G.ToPositiveBigInteger()), nameof(newTg.G));
+            Assert.That(newTg.Y.ToPositiveBigInteger(), Is.EqualTo(tg.Y.ToPositiveBigInteger()), nameof(newTg.Y));
 
-            Assert.IsTrue(newTg.IsMessageRandomized, nameof(newTg.IsMessageRandomized));
+            Assert.That(newTg.IsMessageRandomized, Is.True, nameof(newTg.IsMessageRandomized));
         }
 
         [Test]
@@ -121,15 +121,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigGen.ContractResol
             var newTg = newTvs.TestGroups[0];
             var newTc = newTg.Tests[0];
 
-            Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-            Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
+            Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+            Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
 
-            Assert.IsNotNull(newTc.RandomValue, nameof(newTc.RandomValue));
-            Assert.IsTrue(newTc.RandomValueLen != 0, nameof(newTc.RandomValueLen));
+            Assert.That(newTc.RandomValue, Is.Not.Null, nameof(newTc.RandomValue));
+            Assert.That(newTc.RandomValueLen != 0, Is.True, nameof(newTc.RandomValueLen));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
-            Assert.IsTrue(regex.Matches(json).Count == 0);
+            Assert.That(regex.Matches(json).Count == 0, Is.True);
         }
     }
 }

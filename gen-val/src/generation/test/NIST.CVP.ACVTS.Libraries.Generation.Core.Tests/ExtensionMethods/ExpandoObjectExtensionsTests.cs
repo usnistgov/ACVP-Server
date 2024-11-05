@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
 
             var result = expando.GetBitStringFromProperty("TestBitString");
 
-            Assert.AreEqual(expectedOutput, result);
+            Assert.That(result, Is.EqualTo(expectedOutput));
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
 
             var result = expando.GetBitStringFromProperty("TestBitString");
 
-            Assert.IsNull(result);
+            Assert.That(result, Is.Null);
         }
 
         private static object[] _testShouldGetBigIntegerFromProperty = {
@@ -117,7 +117,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
 
             var result = expando.GetBigIntegerFromProperty("TestBigInteger");
 
-            Assert.AreEqual(expectedOutput, result);
+            Assert.That(result, Is.EqualTo(expectedOutput));
         }
 
         private static object[] _testShouldGetIntTypeFromProperty = {
@@ -153,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
 
             var result = expando.GetTypeFromProperty<int>("TestInt");
 
-            Assert.AreEqual(expectedOutput, result);
+            Assert.That(result, Is.EqualTo(expectedOutput));
         }
 
         private static object[] _testShouldGetEnumTypeFromProperty = {
@@ -189,7 +189,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
 
             var result = expando.GetTypeFromProperty<TestEnum>("TestEnum");
 
-            Assert.AreEqual(expectedOutput, result);
+            Assert.That(result, Is.EqualTo(expectedOutput));
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
             ExpandoObject dyn = new ExpandoObject();
             dyn.AddBigIntegerWhenNotZero(label, bi);
 
-            Assert.AreEqual(expectedToAdd, dyn.ContainsProperty(label));
+            Assert.That(dyn.ContainsProperty(label), Is.EqualTo(expectedToAdd));
         }
 
         [Test]
@@ -218,7 +218,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.ExtensionMethods
             ExpandoObject dyn = new ExpandoObject();
             dyn.AddIntegerWhenNotZero(label, value);
 
-            Assert.AreEqual(expectedToAdd, dyn.ContainsProperty(label));
+            Assert.That(dyn.ContainsProperty(label), Is.EqualTo(expectedToAdd));
         }
 
         private string ObjectToJson(object obj)

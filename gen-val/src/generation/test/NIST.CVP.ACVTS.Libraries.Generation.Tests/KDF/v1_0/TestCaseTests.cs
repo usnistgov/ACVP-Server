@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -28,8 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.KeyOut.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.KeyOut.ToHex(), Is.EqualTo("00AA"));
         }
 
         [Test]
@@ -41,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KDF.v1_0
         {
             var subject = new TestCase();
             var result = subject.SetString(name, "00AA");
-            Assert.IsTrue(result);
-            Assert.AreEqual("00AA", subject.KeyIn.ToHex());
+            Assert.That(result, Is.True);
+            Assert.That(subject.KeyIn.ToHex(), Is.EqualTo("00AA"));
         }
     }
 }

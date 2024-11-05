@@ -23,8 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestCaseValidator(GetTestGroup(_casesPerGroup), GetTestCase(_casesPerGroup), GetResolverMock(_casesPerGroup).Object);
             var result = await subject.ValidateAsync(GetTestCase(6));
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Improper number of replies"), $"Mismatching number of cases. Reason actually was {result.Reason}");
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Improper number of replies"), Is.True, $"Mismatching number of cases. Reason actually was {result.Reason}");
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestCaseValidator(GetTestGroup(_casesPerGroup), GetTestCase(_casesPerGroup), GetResolverMock(_casesPerGroup).Object);
             var result = await subject.ValidateAsync(GetTestCase(_casesPerGroup, 3));
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Incorrect number of failures"), $"Mismatching number of failures. Reason actually was {result.Reason}");
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Incorrect number of failures"), Is.True, $"Mismatching number of failures. Reason actually was {result.Reason}");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestCaseValidator(GetTestGroup(_casesPerGroup), GetTestCase(_casesPerGroup), GetResolverMock(_casesPerGroup).Object);
             var result = await subject.ValidateAsync(GetTestCase(_casesPerGroup));
 
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -57,8 +57,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestCaseValidator(GetTestGroup(_casesPerGroup), GetTestCase(_casesPerGroup), mock.Object);
             var result = await subject.ValidateAsync(GetTestCase(_casesPerGroup));
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Computed cipherText"), $"Reason should contain computed ciphertext did not match. Reason actually was {result.Reason}");
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Computed cipherText"), Is.True, $"Reason should contain computed ciphertext did not match. Reason actually was {result.Reason}");
         }
 
         [Test]
@@ -72,8 +72,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.DPComponent
             var subject = new TestCaseValidator(GetTestGroup(_casesPerGroup), GetTestCase(_casesPerGroup), mock.Object);
             var result = await subject.ValidateAsync(GetTestCase(_casesPerGroup));
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Test case should have failed"), $"Reason should contain failure test. Reason actually was {result.Reason}");
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Test case should have failed"), Is.True, $"Reason should contain failure test. Reason actually was {result.Reason}");
         }
 
         private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, ManyEncryptionResult>> GetResolverMock(int totalCount)

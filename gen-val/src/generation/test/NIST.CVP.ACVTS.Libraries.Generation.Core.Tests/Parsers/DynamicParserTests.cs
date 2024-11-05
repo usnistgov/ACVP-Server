@@ -23,8 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
         {
             var subject = GetSubject();
             var result = subject.Parse(Path.Combine(_unitTestPath, $"{Guid.NewGuid()}", "testResults.json"));
-            Assert.IsNotNull(result, nameof(result));
-            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.That(result, Is.Not.Null, nameof(result));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
         }
 
         [Test]
@@ -34,8 +34,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
         {
             var subject = GetSubject();
             var result = subject.Parse(path);
-            Assert.IsNotNull(result, nameof(result));
-            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.That(result, Is.Not.Null, nameof(result));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
         }
 
         [Test]
@@ -44,8 +44,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
             var subject = GetSubject();
             var path = Path.Combine(_unitTestPath, "notJson.json");
             var result = subject.Parse(path);
-            Assert.IsNotNull(result, nameof(result));
-            Assert.IsFalse(result.Success, nameof(result.Success));
+            Assert.That(result, Is.Not.Null, nameof(result));
+            Assert.That(result.Success, Is.False, nameof(result.Success));
         }
 
         [Test]
@@ -54,8 +54,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
             var subject = GetSubject();
             var path = Path.Combine(_unitTestPath, "answer.json");
             var result = subject.Parse(path);
-            Assert.IsNotNull(result, nameof(result));
-            Assert.IsTrue(result.Success, nameof(result.Success));
+            Assert.That(result, Is.Not.Null, nameof(result));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
         }
 
         private DynamicParser GetSubject()

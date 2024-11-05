@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         public void ShouldReturnProperMacInstance(MacModes macType, Type expectedType)
         {
             var result = _subject.GetMacInstance(macType);
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
         public void ShouldReturnProperKdfInstance(KdfModes kdfType, MacModes macMode, Type expectedType)
         {
             var result = _subject.GetKdfInstance(kdfType, macMode, CounterLocations.None);
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

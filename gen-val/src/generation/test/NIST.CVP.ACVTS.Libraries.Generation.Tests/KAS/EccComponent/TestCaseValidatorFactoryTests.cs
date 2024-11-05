@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var result = _subject.GetValidators(vectorSet).ToList();
 
             Assert.That(result.Count() == 1, "count");
-            Assert.IsInstanceOf(typeof(TestCaseValidator), result[0]);
+            Assert.That(result[0], Is.InstanceOf(typeof(TestCaseValidator)));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.EccComponent
             var vectorSet = GetVectorSet(numberOfGroups, numberOfTestsPerGroup);
             var result = _subject.GetValidators(vectorSet).ToList();
 
-            Assert.AreEqual(expectedValidators, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(expectedValidators));
         }
 
         public TestVectorSet GetVectorSet(int numberOfGroups = 1, int numberOfCasesPerGroup = 1)

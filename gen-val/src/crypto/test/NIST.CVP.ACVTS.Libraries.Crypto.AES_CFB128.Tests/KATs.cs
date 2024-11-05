@@ -125,8 +125,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, expectedText);
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.CipherText), expectedText);
         }
 
         [Test]
@@ -143,8 +143,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.CipherText), nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -161,8 +161,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.CipherText), nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -179,8 +179,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.CipherText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.CipherText), nameof(algoArrayResponse.CipherText));
         }
 
 
@@ -198,8 +198,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.PlainText, result.Result, expectedText);
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.PlainText), expectedText);
         }
 
         [Test]
@@ -216,8 +216,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.PlainText), nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -234,8 +234,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.PlainText), nameof(algoArrayResponse.CipherText));
         }
 
         [Test]
@@ -252,8 +252,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB128.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.IsTrue(result.Success, nameof(result.Success));
-            Assert.AreEqual(algoArrayResponse.PlainText, result.Result, nameof(algoArrayResponse.CipherText));
+            Assert.That(result.Success, Is.True, nameof(result.Success));
+            Assert.That(result.Result, Is.EqualTo(algoArrayResponse.PlainText), nameof(algoArrayResponse.CipherText));
         }
     }
 }

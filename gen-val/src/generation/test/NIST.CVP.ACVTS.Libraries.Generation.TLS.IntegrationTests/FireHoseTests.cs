@@ -65,9 +65,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.TLS.IntegrationTests
                             testGroup.KeyBlockLength
                         );
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.MasterSecret.ToHex(), result.MasterSecret.ToHex(), $"Failed on MasterSecret {testCase.MasterSecret.ToHex()}, got {result.MasterSecret.ToHex()}");
-                        Assert.AreEqual(testCase.KeyBlock.ToHex(), result.DerivedKey.ToHex(), $"Failed on KeyBlock {testCase.KeyBlock.ToHex()}, got {result.DerivedKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.MasterSecret.ToHex(), Is.EqualTo(testCase.MasterSecret.ToHex()), $"Failed on MasterSecret {testCase.MasterSecret.ToHex()}, got {result.MasterSecret.ToHex()}");
+                        Assert.That(result.DerivedKey.ToHex(), Is.EqualTo(testCase.KeyBlock.ToHex()), $"Failed on KeyBlock {testCase.KeyBlock.ToHex()}, got {result.DerivedKey.ToHex()}");
                     }
                 }
             }

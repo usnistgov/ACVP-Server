@@ -77,9 +77,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.IntegrationTests
                         continue;
                     }
 
-                    Assert.AreEqual(
-                        testCase.Mac.ToHex(),
-                        result.Mac.ToHex(),
+                    Assert.That(
+                        result.Mac.ToHex(), Is.EqualTo(testCase.Mac.ToHex()),
                         $"Failed on count {count}, hmac: {testGroup.ShaMode}-{testGroup.ShaDigestSize}, message: {testCase.Message.ToHex()}, key: {testCase.Key.ToHex()} expected CT {testCase.Mac.ToHex()}, got {result.Mac.ToHex()}"
                     );
 
@@ -88,8 +87,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.IntegrationTests
 
             }
 
-            Assert.IsTrue(passes > 0, nameof(passes));
-            Assert.IsTrue(fails == 0, "fails");
+            Assert.That(passes > 0, Is.True, nameof(passes));
+            Assert.That(fails == 0, Is.True, "fails");
         }
     }
 }

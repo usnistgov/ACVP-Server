@@ -81,7 +81,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CFBP.Tests
             var subject = _factory.GetStandardCipher(_engine, _algo);
             var result = subject.ProcessPayload(p);
 
-            Assert.AreEqual(cipherText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(cipherText.ToHex()));
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CFBP.Tests
             var subject = _factory.GetStandardCipher(_engine, _algo);
             var result = subject.ProcessPayload(p);
 
-            Assert.AreEqual(plainText.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(plainText.ToHex()));
         }
     }
 }

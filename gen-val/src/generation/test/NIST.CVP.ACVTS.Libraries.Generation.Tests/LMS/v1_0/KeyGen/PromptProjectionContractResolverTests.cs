@@ -44,8 +44,8 @@ public class PromptProjectionContractResolverTests
 
         var newTg = newTvs.TestGroups[0];
 
-        Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-        Assert.AreEqual(tg.Tests.Count, newTg.Tests.Count, nameof(newTg.Tests));
+        Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+        Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
     }
     
     [Test]
@@ -62,16 +62,16 @@ public class PromptProjectionContractResolverTests
         var newTc = newTg.Tests[0];
 
         // Prompt properties
-        Assert.AreEqual(tc.ParentGroup.TestGroupId, newTc.ParentGroup.TestGroupId, nameof(newTc.ParentGroup));
-        Assert.AreEqual(tc.TestCaseId, newTc.TestCaseId, nameof(newTc.TestCaseId));
-        Assert.AreEqual(tc.I, newTc.I, nameof(newTc.I));
-        Assert.AreEqual(tc.Seed, newTc.Seed, nameof(newTc.Seed));
+        Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
+        Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+        Assert.That(newTc.I, Is.EqualTo(tc.I), nameof(newTc.I));
+        Assert.That(newTc.Seed, Is.EqualTo(tc.Seed), nameof(newTc.Seed));
 
         // Response properties
-        Assert.AreNotEqual(tc.PublicKey, newTc.PublicKey, nameof(newTc.PublicKey));
+        Assert.That(newTc.PublicKey, Is.Not.EqualTo(tc.PublicKey), nameof(newTc.PublicKey));
 
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
         var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
-        Assert.IsTrue(regex.Matches(json).Count == 0);
+        Assert.That(regex.Matches(json).Count == 0, Is.True);
     }
 }

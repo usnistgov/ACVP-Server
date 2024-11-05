@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void ShouldCreateInstanceWithLength(int length)
         {
             BitString subject = new BitString(length);
-            Assert.AreEqual(length, subject.BitLength);
+            Assert.That(subject.BitLength, Is.EqualTo(length));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < results.Length; i++)
             {
-                Assert.AreEqual(bytes[i], results[i]);
+                Assert.That(results[i], Is.EqualTo(bytes[i]));
             }
         }
 
@@ -52,7 +52,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var bytes = BitConverter.GetBytes(testInt).Reverse().ToArray();
 
             var subject = new BitString(bytes);
-            Assert.AreEqual(new BigInteger(testInt), subject.ToPositiveBigInteger());
+            Assert.That(subject.ToPositiveBigInteger(), Is.EqualTo(new BigInteger(testInt)));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < subject.BitLength; i++)
             {
-                Assert.AreEqual(bits[i], subject.Bits[i]);
+                Assert.That(subject.Bits[i], Is.EqualTo(bits[i]));
             }
         }
 
@@ -89,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = subject.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(expectedBi, result);
+            Assert.That(result, Is.EqualTo(expectedBi));
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var resultBigInt = subject.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(testBigInt, resultBigInt);
+            Assert.That(resultBigInt, Is.EqualTo(testBigInt));
         }
 
         [Test]
@@ -125,8 +125,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BitString subject = new BitString(bi, setBitLengthTo);
 
             // Assert
-            Assert.AreEqual(setBitLengthTo, subject.Bits.Length, $"Resulting bits length should be {setBitLengthTo}");
-            Assert.AreEqual(bi, subject.ToPositiveBigInteger());
+            Assert.That(subject.Bits.Length, Is.EqualTo(setBitLengthTo), $"Resulting bits length should be {setBitLengthTo}");
+            Assert.That(subject.ToPositiveBigInteger(), Is.EqualTo(bi));
         }
 
         [Test]
@@ -145,8 +145,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(results.Length == 2);
-            Assert.IsTrue(results[0] == 0);
-            Assert.IsTrue(results[1] == 1);
+            Assert.That(results[0] == 0, Is.True);
+            Assert.That(results[1] == 1, Is.True);
         }
 
         [Test]
@@ -163,8 +163,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var bs = new BitString(bigint, bitLength % 8 == 0 ? bitLength : bitLength + 8 - bitLength % 8, false);
 
             // Assert
-            Assert.AreEqual(bigint, bs.ToPositiveBigInteger());
-            Assert.AreEqual(hex, bs.ToHex());
+            Assert.That(bs.ToPositiveBigInteger(), Is.EqualTo(bigint));
+            Assert.That(bs.ToHex(), Is.EqualTo(hex));
         }
 
         [Test]
@@ -173,8 +173,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void ShouldCreateEmptyBitStringIfEmptyOrNullHexSupplied(string hexValue)
         {
             var subject = new BitString(hexValue);
-            Assert.IsNotNull(subject);
-            Assert.AreEqual(0, subject.BitLength);
+            Assert.That(subject, Is.Not.Null);
+            Assert.That(subject.BitLength, Is.EqualTo(0));
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = subject.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = subject.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -257,7 +257,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = new BitString(hex, length);
 
-            Assert.AreEqual(bits.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(bits.ToHex()));
         }
 
         [Test]
@@ -290,7 +290,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = new BitString(hex, length, false);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -317,7 +317,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BitString subject = new BitString(bytesInMSB);
 
             var result = subject[0];
-            Assert.AreEqual(1, result);
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -327,7 +327,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             BitString subject = new BitString(bytesInMSB);
 
             var result = subject[2];
-            Assert.AreEqual(3, result);
+            Assert.That(result, Is.EqualTo(3));
         }
 
         [Test]
@@ -337,8 +337,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             subject[0] = 255;
 
             var results = subject.ToBytes();
-            Assert.AreEqual(255, results.First(), "index 0");
-            Assert.AreEqual(0, results.Last(), "last index");
+            Assert.That(results.First(), Is.EqualTo(255), "index 0");
+            Assert.That(results.Last(), Is.EqualTo(0), "last index");
         }
 
         [Test]
@@ -348,8 +348,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             subject[subject.BitLength / 8 - 1] = 255;
 
             var results = subject.ToBytes();
-            Assert.AreEqual(255, results.Last(), "last index");
-            Assert.AreEqual(0, results.First(), "index 0");
+            Assert.That(results.Last(), Is.EqualTo(255), "last index");
+            Assert.That(results.First(), Is.EqualTo(0), "index 0");
         }
 
         [Test]
@@ -369,7 +369,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = workingBs.Equals(compareBs);
 
             // Assert
-            Assert.IsTrue(results);
+            Assert.That(results, Is.True);
         }
 
         [Test]
@@ -383,7 +383,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = bs.Equals(foo);
 
             // Assert
-            Assert.IsFalse(results);
+            Assert.That(results, Is.False);
         }
 
         [Test]
@@ -401,7 +401,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = workingBs.Equals(compareBs);
 
             // Assert
-            Assert.IsFalse(results);
+            Assert.That(results, Is.False);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = workingBs.Equals(compareBs);
 
             // Assert
-            Assert.IsFalse(results);
+            Assert.That(results, Is.False);
         }
 
         //[Test]
@@ -476,7 +476,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < expectedBytes.Length - offsetDueToZeros; i++)
             {
-                Assert.AreEqual(expectedBytes[i + offsetDueToZeros], results[i]);
+                Assert.That(results[i], Is.EqualTo(expectedBytes[i + offsetDueToZeros]));
             }
         }
 
@@ -495,7 +495,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             for (int i = 0; i < results.Length; i++)
             {
-                Assert.AreEqual(bytes[i], results[i]);
+                Assert.That(results[i], Is.EqualTo(bytes[i]));
             }
         }
 
@@ -526,7 +526,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < results.Length; i++)
             {
-                Assert.AreEqual(results[i], resultsReverse[results.Length - 1 - i]);
+                Assert.That(resultsReverse[results.Length - 1 - i], Is.EqualTo(results[i]));
             }
         }
 
@@ -565,7 +565,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < expectedByteArrayOrder.Length; i++)
             {
-                Assert.AreEqual(expectedByteArrayOrder[i], subject[i]);
+                Assert.That(subject[i], Is.EqualTo(expectedByteArrayOrder[i]));
             }
         }
 
@@ -579,7 +579,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var subject = bs.ToBytes();
 
             // Assert
-            Assert.AreEqual(0, subject.Length);
+            Assert.That(subject.Length, Is.EqualTo(0));
         }
 
         [Test]
@@ -595,7 +595,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.ToString();
 
             // Assert
-            Assert.IsFalse(result.Contains(" "));
+            Assert.That(result.Contains(" "), Is.False);
         }
 
         [Test]
@@ -612,7 +612,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.ToString();
 
             // Assert
-            Assert.AreEqual(numberOfSpaces, result.Count(c => c == ' '));
+            Assert.That(result.Count(c => c == ' '), Is.EqualTo(numberOfSpaces));
         }
 
         [Test]
@@ -636,7 +636,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = bitString.ToString();
 
             // Assert
-            Assert.AreEqual(expectedToString, results);
+            Assert.That(results, Is.EqualTo(expectedToString));
         }
 
         [Test]
@@ -654,7 +654,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = subject.ToString();
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -668,7 +668,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.Set(length, true);
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -682,7 +682,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.Set(-1, true);
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -696,7 +696,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.Set(length - 1, true);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -711,7 +711,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.Set(indexToSet, valueToUseInSet);
 
             // Assert
-            Assert.AreEqual(new BitString(new BitArray(expected)), bs);
+            Assert.That(bs, Is.EqualTo(new BitString(new BitArray(expected))));
         }
 
         [Test]
@@ -724,7 +724,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void To64BitStringReturnsIntAsBitStringWith64Bits(int numberToConvert, string toStringRepresentation)
         {
             var result = BitString.To64BitString(numberToConvert);
-            Assert.AreEqual(toStringRepresentation, result.ToString());
+            Assert.That(result.ToString(), Is.EqualTo(toStringRepresentation));
         }
 
         [Test]
@@ -758,7 +758,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < results.BitLength; i++)
             {
-                Assert.AreEqual(expectedResult[i], results.Bits[i]);
+                Assert.That(results.Bits[i], Is.EqualTo(expectedResult[i]));
             }
         }
 
@@ -793,7 +793,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             // Assert
             for (int i = 0; i < results.BitLength; i++)
             {
-                Assert.AreEqual(expectedResult[i], results.Bits[i]);
+                Assert.That(results.Bits[i], Is.EqualTo(expectedResult[i]));
             }
         }
 
@@ -804,7 +804,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var bitsToAppend = new BitString(new byte[] { 0x01 });
             var resultBs = baseBs.ConcatenateBits(bitsToAppend, 4);
 
-            Assert.AreEqual("0001010101", resultBs.ToHex());
+            Assert.That(resultBs.ToHex(), Is.EqualTo("0001010101"));
         }
 
         [Test]
@@ -837,7 +837,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.GetMostSignificantBits(numberOfBits, bs);
 
             // Assert
-            Assert.AreEqual(expectedArray, results.Bits);
+            Assert.That(results.Bits, Is.EqualTo(expectedArray));
         }
 
         [Test]
@@ -870,7 +870,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = bs.GetMostSignificantBits(numberOfBits);
 
             // Assert
-            Assert.AreEqual(expectedArray, results.Bits);
+            Assert.That(results.Bits, Is.EqualTo(expectedArray));
         }
 
         [Test]
@@ -903,7 +903,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.GetLeastSignificantBits(numberOfBits, bs);
 
             // Assert
-            Assert.AreEqual(expectedArray, results.Bits);
+            Assert.That(results.Bits, Is.EqualTo(expectedArray));
         }
 
         [Test]
@@ -936,7 +936,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = bs.GetLeastSignificantBits(numberOfBits);
 
             // Assert
-            Assert.AreEqual(expectedArray, results.Bits);
+            Assert.That(results.Bits, Is.EqualTo(expectedArray));
         }
 
         [Test]
@@ -953,7 +953,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = testBs.Substring(startIndex, numberOfBits);
 
             // Assert
-            Assert.AreEqual(expectedBs, results);
+            Assert.That(results, Is.EqualTo(expectedBs));
         }
 
         [Test]
@@ -1014,7 +1014,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.Substring(testBs, startIndex, numberOfBits);
 
             // Assert
-            Assert.AreEqual(expectedBs, results);
+            Assert.That(results, Is.EqualTo(expectedBs));
         }
 
         [Test]
@@ -1028,7 +1028,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var input = new BitString(inputHex);
             var result = input.MSBSubstring(startIndex, numberOfBits);
 
-            Assert.AreEqual(new BitString(expectedHex).ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(new BitString(expectedHex).ToHex()));
         }
 
         [Test]
@@ -1042,8 +1042,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = BitString.PadToNextByteBoundry(hexBs);
 
-            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
-            Assert.AreEqual(expectedBs, result, nameof(expectedHex));
+            Assert.That(result.BitLength, Is.EqualTo(expectedLength), nameof(expectedLength));
+            Assert.That(result, Is.EqualTo(expectedBs), nameof(expectedHex));
         }
 
         [Test]
@@ -1066,8 +1066,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = BitString.PadToModulus(hexBs, modulus, padLsb);
 
-            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
-            Assert.AreEqual(expectedBs.ToHex(), result.ToHex(), nameof(expectedHex));
+            Assert.That(result.BitLength, Is.EqualTo(expectedLength), nameof(expectedLength));
+            Assert.That(result.ToHex(), Is.EqualTo(expectedBs.ToHex()), nameof(expectedHex));
         }
 
         [TestCase(8, "FF", 4, "0F", 8)]
@@ -1083,8 +1083,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = BitString.PadToModulusMsb(hexBs, modulus);
 
-            Assert.AreEqual(expectedLength, result.BitLength, nameof(expectedLength));
-            Assert.AreEqual(expectedBs.ToHex(), result.ToHex(), nameof(expectedHex));
+            Assert.That(result.BitLength, Is.EqualTo(expectedLength), nameof(expectedLength));
+            Assert.That(result.ToHex(), Is.EqualTo(expectedBs.ToHex()), nameof(expectedHex));
         }
 
         [Test]
@@ -1105,7 +1105,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.XOR(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedXorBs, results);
+            Assert.That(results, Is.EqualTo(expectedXorBs));
         }
 
         //[Test]
@@ -1176,7 +1176,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.XOR(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedXorBs, results);
+            Assert.That(results, Is.EqualTo(expectedXorBs));
         }
 
         [Test]
@@ -1207,8 +1207,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(result));
-            Assert.AreEqual(originalA, new BitString(inputA));
-            Assert.AreEqual(originalB, new BitString(inputB));
+            Assert.That(new BitString(inputA), Is.EqualTo(originalA));
+            Assert.That(new BitString(inputB), Is.EqualTo(originalB));
         }
 
         [Test]
@@ -1241,7 +1241,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.OR(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedOrBs, results);
+            Assert.That(results, Is.EqualTo(expectedOrBs));
         }
 
         [Test]
@@ -1274,7 +1274,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.OR(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedOrBs, results);
+            Assert.That(results, Is.EqualTo(expectedOrBs));
         }
 
         [Test]
@@ -1305,8 +1305,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(result));
-            Assert.AreEqual(originalA, new BitString(inputA));
-            Assert.AreEqual(originalB, new BitString(inputB));
+            Assert.That(new BitString(inputA), Is.EqualTo(originalA));
+            Assert.That(new BitString(inputB), Is.EqualTo(originalB));
         }
 
         [Test]
@@ -1339,7 +1339,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.AND(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedAndBs, results);
+            Assert.That(results, Is.EqualTo(expectedAndBs));
         }
 
         [Test]
@@ -1372,7 +1372,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.AND(bsA, bsB);
 
             // Assert
-            Assert.AreEqual(expectedAndBs, results);
+            Assert.That(results, Is.EqualTo(expectedAndBs));
         }
 
         [Test]
@@ -1403,8 +1403,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(result));
-            Assert.AreEqual(originalA, new BitString(inputA));
-            Assert.AreEqual(originalB, new BitString(inputB));
+            Assert.That(new BitString(inputA), Is.EqualTo(originalA));
+            Assert.That(new BitString(inputB), Is.EqualTo(originalB));
         }
 
         [Test]
@@ -1423,7 +1423,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = BitString.BitStringAddition(num1bs, num2bs).ToPositiveBigInteger();
 
-            Assert.AreEqual(expectationBigInteger, result);
+            Assert.That(result, Is.EqualTo(expectationBigInteger));
         }
 
         [Test]
@@ -1433,11 +1433,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             BitString bs = new BitString(MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(testBitString));
 
-            Assert.AreEqual(testBitString.Length, bs.BitLength, "sanity check");
+            Assert.That(bs.BitLength, Is.EqualTo(testBitString.Length), "sanity check");
 
             var subject = bs.BitStringAddition(BitString.One());
 
-            Assert.AreEqual(testBitString.Length + 1, subject.BitLength, "should be equal");
+            Assert.That(subject.BitLength, Is.EqualTo(testBitString.Length + 1), "should be equal");
         }
 
         // Make all of these actually correct and test this method...
@@ -1471,7 +1471,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = BitString.AddWithModulo(leftBS, rightBS, modulo);
 
             // Assert
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -1511,8 +1511,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(result));
-            Assert.AreEqual(originalLeft, new BitString(inputA));
-            Assert.AreEqual(originalRight, new BitString(inputB));
+            Assert.That(new BitString(inputA), Is.EqualTo(originalLeft));
+            Assert.That(new BitString(inputB), Is.EqualTo(originalRight));
         }
 
         [Test]
@@ -1546,7 +1546,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.MSBRotate(inputString, distance);
 
             // Assert
-            Assert.AreEqual(expectedResult, results);
+            Assert.That(results, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -1559,7 +1559,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = BitString.MSBRotate(inputString, distance);
 
-            Assert.AreEqual(expectedResult.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -1589,7 +1589,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(results));
-            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+            Assert.That(new BitString(new BitArray(bits)), Is.EqualTo(originalString));
         }
 
         [Test]
@@ -1618,7 +1618,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.LSBRotate(inputString, distance);
 
             // Assert
-            Assert.AreEqual(expectedResult, results);
+            Assert.That(results, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -1648,7 +1648,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(results));
-            Assert.AreEqual(originalString, new BitString(new BitArray(bits)));
+            Assert.That(new BitString(new BitArray(bits)), Is.EqualTo(originalString));
         }
 
         [Test]
@@ -1664,7 +1664,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var results = BitString.LSBShift(inputString);
 
             // Assert
-            Assert.AreEqual(expectedResult, results);
+            Assert.That(results, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -1681,7 +1681,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(expectedResult.Equals(results));
-            Assert.AreEqual(originalString, new BitString(hexToShift));
+            Assert.That(new BitString(hexToShift), Is.EqualTo(originalString));
         }
 
         [Test]
@@ -1701,7 +1701,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(expectedBigInt, result);
+            Assert.That(result, Is.EqualTo(expectedBigInt));
         }
 
         [Test]
@@ -1722,7 +1722,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var result = bs.ToPositiveBigInteger();
 
             // Assert
-            Assert.AreEqual(expectedBigInt, result);
+            Assert.That(result, Is.EqualTo(expectedBigInt));
         }
 
         [Test]
@@ -1740,8 +1740,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             var result = bs.ToPositiveBigInteger();
 
-            Assert.GreaterOrEqual(result, (BigInteger)0);       // Verify result > 0
-            Assert.AreEqual(expectedBigInt, result);
+            Assert.That(result, Is.GreaterThanOrEqualTo((BigInteger)0));       // Verify result > 0
+            Assert.That(result, Is.EqualTo(expectedBigInt));
         }
 
         [Test]
@@ -1750,7 +1750,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void ToPositiveBigIntegerFromHexReturnsCorrectValue(string hex, string expectedHex)
         {
             var bigInt = new BitString(hex).ToPositiveBigInteger();
-            Assert.AreEqual(new BitString(bigInt), new BitString(expectedHex));
+            Assert.That(new BitString(expectedHex), Is.EqualTo(new BitString(bigInt)));
         }
 
         [Test]
@@ -1763,7 +1763,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var bs = new BitString(expectedHexString);
             var result = bs.ToHex();
-            Assert.AreEqual(expectedHexString, result);
+            Assert.That(result, Is.EqualTo(expectedHexString));
         }
 
         [Test]
@@ -1783,7 +1783,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             // Note MSB
-            Assert.AreEqual(expectedHex, results);
+            Assert.That(results, Is.EqualTo(expectedHex));
         }
 
         [Test]
@@ -1793,7 +1793,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var bs = new BitString(bitString, numberOfBits);
 
             var hex = bs.ToHex();
-            Assert.AreEqual(expectedBytes, hex);
+            Assert.That(hex, Is.EqualTo(expectedBytes));
         }
 
         [Test]
@@ -1811,7 +1811,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var subject = new BitString(hex, length, false);
             var result = subject.ToLittleEndianHex();
-            Assert.AreEqual(hex, result, subject.ToString());
+            Assert.That(result, Is.EqualTo(hex), subject.ToString());
         }
 
         [Test]
@@ -1832,7 +1832,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(bs1.Equals(bs2));
-            Assert.AreEqual(firstHash, secondHash);
+            Assert.That(secondHash, Is.EqualTo(firstHash));
         }
 
         // The logic here is a -> b
@@ -1857,7 +1857,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(bs1.Equals(bs2));
-            Assert.AreEqual(firstHash, secondHash);
+            Assert.That(secondHash, Is.EqualTo(firstHash));
         }
 
         // Using the contrapositive, ~b -> ~a
@@ -1883,7 +1883,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
 
             // Assert
             Assert.That(firstHash != secondHash);
-            Assert.AreNotEqual(bs1, bs2);
+            Assert.That(bs2, Is.Not.EqualTo(bs1));
         }
 
         [Test]
@@ -1902,8 +1902,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var subject = new BitString(hex, len);
             var expectedResult = new BitString(new BitArray(expected));
 
-            Assert.AreEqual(len, expectedResult.BitLength);
-            Assert.AreEqual(expectedResult, subject);
+            Assert.That(expectedResult.BitLength, Is.EqualTo(len));
+            Assert.That(subject, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -1923,7 +1923,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var expectedResult = new BitString(expectedHex);
             var result = subject.ToHex();
 
-            Assert.AreEqual(expectedResult.ToHex(), result);
+            Assert.That(result, Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -1935,7 +1935,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var subject = new BitString(hex);
             var result = subject.ToBool();
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -1949,23 +1949,23 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
             var subject = new BitString(ba);
             var result = subject.ToOddParityBitString();
 
-            Assert.AreEqual(expectation, result.GetLeastSignificantBits(1).Bits[0], label);
+            Assert.That(result.GetLeastSignificantBits(1).Bits[0], Is.EqualTo(expectation), label);
         }
 
         [Test]
         public void ShouldReturnOne()
         {
             var subject = BitString.One();
-            Assert.AreEqual(1, subject.BitLength);
-            Assert.IsTrue(subject.ToBool());
+            Assert.That(subject.BitLength, Is.EqualTo(1));
+            Assert.That(subject.ToBool(), Is.True);
         }
 
         [Test]
         public void ShouldReturnZero()
         {
             var subject = BitString.Zero();
-            Assert.AreEqual(1, subject.BitLength);
-            Assert.IsFalse(subject.ToBool());
+            Assert.That(subject.BitLength, Is.EqualTo(1));
+            Assert.That(subject.ToBool(), Is.False);
         }
 
         [Test]
@@ -1975,11 +1975,11 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void ShouldReturnOnes(int count)
         {
             var subject = BitString.Ones(count);
-            Assert.AreEqual(count, subject.BitLength);
+            Assert.That(subject.BitLength, Is.EqualTo(count));
 
             for (var i = 0; i < count; i++)
             {
-                Assert.IsTrue(subject.ToBool(i));
+                Assert.That(subject.ToBool(i), Is.True);
             }
         }
 
@@ -1987,8 +1987,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         public void ShouldReturnTwo()
         {
             var subject = BitString.Two();
-            Assert.AreEqual("80", subject.ToHex()); // BigEndian hex, 10 - 000000
-            Assert.AreEqual(2, subject.BitLength);
+            Assert.That(subject.ToHex(), Is.EqualTo("80")); // BigEndian hex, 10 - 000000
+            Assert.That(subject.BitLength, Is.EqualTo(2));
         }
 
         private static object[] _test_GetAtLeastZeroLengthBitString = {
@@ -2015,7 +2015,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var result = BitString.GetAtLeastZeroLengthBitString(testValue);
 
-            Assert.AreEqual(expectedValue.ToHex(), result.ToHex());
+            Assert.That(result.ToHex(), Is.EqualTo(expectedValue.ToHex()));
         }
 
         private static object[] _test_IsZeroLengthOrNull = {
@@ -2047,7 +2047,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var result = BitString.IsZeroLengthOrNull(testValue);
 
-            Assert.AreEqual(expectedResult, result);
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -2058,8 +2058,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests
         {
             var bs = new BitString(hex);
             int numberOfZeros = bs.NumberOfZeros();
-            
-            Assert.AreEqual(expectedResult, numberOfZeros);
+
+            Assert.That(numberOfZeros, Is.EqualTo(expectedResult));
         }
         
     }

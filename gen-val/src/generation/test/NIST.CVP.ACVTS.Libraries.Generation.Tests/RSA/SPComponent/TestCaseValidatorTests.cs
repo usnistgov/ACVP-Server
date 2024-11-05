@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var subject = new TestCaseValidator(GetTestCase());
             var result = await subject.ValidateAsync(GetTestCase());
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var subject = new TestCaseValidator(GetTestCase());
             var result = await subject.ValidateAsync(responseTestCase);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var subject = new TestCaseValidator(GetFailureTestCase());
             var result = await subject.ValidateAsync(responseTestCase);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var subject = new TestCaseValidator(GetTestCase());
             var result = await subject.ValidateAsync(responseTestCase);
 
-            Assert.AreEqual(Core.Enums.Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             var subject = new TestCaseValidator(GetFailureTestCase());
             var result = await subject.ValidateAsync(GetFailureTestCase());
 
-            Assert.AreEqual(Core.Enums.Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
         private TestCase GetTestCase()

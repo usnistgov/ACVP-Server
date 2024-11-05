@@ -28,11 +28,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
 
             var result = _subject.Parse(parametersJson);
 
-            Assert.AreEqual(parameters.Algorithm, result.ParsedObject.Algorithm, nameof(parameters.Algorithm));
-            Assert.AreEqual(parameters.Mode, result.ParsedObject.Mode, nameof(parameters.Mode));
-            Assert.AreEqual(parameters.Revision, result.ParsedObject.Revision, nameof(parameters.Revision));
-            Assert.AreEqual(parameters.IsSample, result.ParsedObject.IsSample, nameof(parameters.IsSample));
-            Assert.AreEqual(parameters.VectorSetId, result.ParsedObject.VectorSetId, nameof(parameters.VectorSetId));
+            Assert.That(result.ParsedObject.Algorithm, Is.EqualTo(parameters.Algorithm), nameof(parameters.Algorithm));
+            Assert.That(result.ParsedObject.Mode, Is.EqualTo(parameters.Mode), nameof(parameters.Mode));
+            Assert.That(result.ParsedObject.Revision, Is.EqualTo(parameters.Revision), nameof(parameters.Revision));
+            Assert.That(result.ParsedObject.IsSample, Is.EqualTo(parameters.IsSample), nameof(parameters.IsSample));
+            Assert.That(result.ParsedObject.VectorSetId, Is.EqualTo(parameters.VectorSetId), nameof(parameters.VectorSetId));
         }
     }
 }

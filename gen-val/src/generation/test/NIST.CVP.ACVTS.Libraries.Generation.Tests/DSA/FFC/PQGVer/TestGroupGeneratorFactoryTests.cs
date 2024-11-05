@@ -26,14 +26,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
-            Assert.IsTrue(result.Count(w => w.GetType() == expectedType) == 1);
+            Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
         public void ReturnedResultShouldContainTwoGenerators()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
-            Assert.AreEqual(2, result.Count());
+            Assert.That(result.Count(), Is.EqualTo(2));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.IsNotNull(result);
+            Assert.That(result, Is.Not.Null);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.PQGVer
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.AreEqual((7 * 2 * 2) + (6 * 2 * 2) + (4 * 2 * 2) + (4 * 2 * 2), groups.Count);
+            Assert.That(groups.Count, Is.EqualTo((7 * 2 * 2) + (6 * 2 * 2) + (4 * 2 * 2) + (4 * 2 * 2)));
         }
 
         private Capability[] GetCapabilities()

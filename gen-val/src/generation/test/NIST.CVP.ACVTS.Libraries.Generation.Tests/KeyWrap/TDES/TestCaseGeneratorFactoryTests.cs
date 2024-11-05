@@ -22,7 +22,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
 
             var subject = new TestCaseGeneratorFactory<TestGroup, TestCase>(null);
             var generator = subject.GetCaseGenerator(testGroup);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
     }
 }

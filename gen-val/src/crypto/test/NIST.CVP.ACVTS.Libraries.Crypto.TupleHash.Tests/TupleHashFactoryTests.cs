@@ -20,7 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TupleHash.Tests
             var subject = new TupleHashFactory();
             var result = subject.GetTupleHash(hashFunction);
 
-            Assert.IsInstanceOf<TupleHashWrapper>(result);
+            Assert.That(result, Is.InstanceOf<TupleHashWrapper>());
         }
 
         [Test]

@@ -62,8 +62,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SNMP.IntegrationTests
                         var testCase = (TestCase)iTestCase;
                         var result = algo.KeyLocalizationFunction(testGroup.EngineId, testCase.Password);
 
-                        Assert.IsTrue(result.Success, result.ErrorMessage);
-                        Assert.AreEqual(testCase.SharedKey.ToHex(), result.SharedKey.ToHex(), $"Failed on SharedKey {testCase.SharedKey.ToHex()}, got {result.SharedKey.ToHex()}");
+                        Assert.That(result.Success, Is.True, result.ErrorMessage);
+                        Assert.That(result.SharedKey.ToHex(), Is.EqualTo(testCase.SharedKey.ToHex()), $"Failed on SharedKey {testCase.SharedKey.ToHex()}, got {result.SharedKey.ToHex()}");
                     }
                 }
             }

@@ -86,7 +86,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.LMS.v1_0.Shared
 
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.LMS.v1_0.Shared
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess));
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.LMS.v1_0.Shared
 
             var result = _subject.Validate(p);
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         private static readonly IEnumerable<object> _specificCapabilities = new List<object>()
@@ -303,7 +303,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.LMS.v1_0.Shared
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(expectedSuccess, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedSuccess));
         }
     }
 }

@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Tests.Native.Helpers
         [TestCaseSource(nameof(_data))]
         public void ShouldByteArrayCoefProperly(byte[] S, int i, int w, BigInteger expected)
         {
-            Assert.AreEqual(expected, LmsHelpers.Coef(S, i, w));
+            Assert.That(LmsHelpers.Coef(S, i, w), Is.EqualTo(expected));
         }
 
         [Test]

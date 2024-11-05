@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.cSHAKE.Tests
             var subject = new cSHAKEFactory();
             var result = subject.GetcSHAKE(hashFunction);
 
-            Assert.IsInstanceOf<cSHAKEWrapper>(result);
+            Assert.That(result, Is.InstanceOf<cSHAKEWrapper>());
         }
 
         [Test]

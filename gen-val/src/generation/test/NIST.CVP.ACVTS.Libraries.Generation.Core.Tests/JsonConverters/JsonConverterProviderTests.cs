@@ -47,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
 
             var result = _subject.GetJsonConverters();
 
-            Assert.IsTrue(result.Any());
+            Assert.That(result.Any(), Is.True);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.JsonConverters
             _subject = new TestJsonConverterProvider();
             var results = _subject.GetJsonConverters();
 
-            Assert.IsTrue(results.Count() > originalCount);
+            Assert.That(results.Count() > originalCount, Is.True);
         }
     }
 }

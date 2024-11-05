@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.KDF
         {
             var result = _subject.GetInstance(auxFunction, true);
 
-            Assert.IsInstanceOf(expectedType, result);
+            Assert.That(result, Is.InstanceOf(expectedType));
         }
 
         [Test]

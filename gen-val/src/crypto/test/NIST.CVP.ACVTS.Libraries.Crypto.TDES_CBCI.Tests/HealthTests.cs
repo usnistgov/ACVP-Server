@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.AreEqual(result.Result.ToHex(), cipherText.ToHex());
+            Assert.That(cipherText.ToHex(), Is.EqualTo(result.Result.ToHex()));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.AreEqual(result.Result.ToHex(), plainText.ToHex());
+            Assert.That(plainText.ToHex(), Is.EqualTo(result.Result.ToHex()));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TDES_CBCI.Tests
             );
             var result = _newSubject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
     }
 }

@@ -977,8 +977,8 @@ Result = P (0 - Correct)
         {
             _subject = new LegacyResponseFileParser();
             var result = _subject.Parse(Path.Combine(_unitTestPath, $"{Guid.NewGuid()}.rsp"));
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -988,8 +988,8 @@ Result = P (0 - Correct)
         {
             _subject = new LegacyResponseFileParser();
             var result = _subject.Parse(path);
-            Assert.IsNotNull(result);
-            Assert.IsFalse(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -997,8 +997,8 @@ Result = P (0 - Correct)
         {
             _subject = new LegacyResponseFileParser();
             var result = _subject.Parse(_unitTestPath);
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.True);
         }
 
     }

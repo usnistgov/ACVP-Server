@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedCipherText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedCipherText));
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -190,7 +190,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -209,7 +209,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -228,7 +228,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
 
         [Test]
@@ -247,7 +247,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CFB1.Tests
             );
             var result = _subject.ProcessPayload(param);
 
-            Assert.AreEqual(expectedPlainText, result.Result);
+            Assert.That(result.Result, Is.EqualTo(expectedPlainText));
         }
     }
 }

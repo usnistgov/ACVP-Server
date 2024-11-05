@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             );
             var result = subject.ProcessPayload(param);
 
-            Assert.AreEqual(ct.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(ct.ToHex()));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.AES_CBC.Tests
             );
             var result = subject.ProcessPayload(param);
 
-            Assert.AreEqual(pt.ToHex(), result.Result.ToHex());
+            Assert.That(result.Result.ToHex(), Is.EqualTo(pt.ToHex()));
         }
     }
 }

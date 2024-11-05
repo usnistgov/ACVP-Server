@@ -76,8 +76,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
 
             var result = kdf.DeriveKey(keyIn, fixedInputData, outLen, breakLocation: breakLocation);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedKey, result.DerivedKey);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.DerivedKey, Is.EqualTo(expectedKey));
         }
 
         [TestCase("Counter KDF - HMAC_SHA256 - before fixed data - 32 bit counter UL vectors",
@@ -96,8 +96,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
 
             var result = kdf.DeriveKey(keyIn, fixedInputData, outLen, breakLocation: breakLocation);
 
-            Assert.IsTrue(result.Success, result.ErrorMessage);
-            Assert.AreEqual(expectedKey, result.DerivedKey);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
+            Assert.That(result.DerivedKey, Is.EqualTo(expectedKey));
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KDF.Tests
 
             var result = kdf.DeriveKey(BitString.Zeroes(128), BitString.Zeroes(dataLen), 1, breakLocation: breakLocation);
 
-            Assert.AreEqual(expectedResult, result.Success);
+            Assert.That(result.Success, Is.EqualTo(expectedResult));
         }
     }
 }

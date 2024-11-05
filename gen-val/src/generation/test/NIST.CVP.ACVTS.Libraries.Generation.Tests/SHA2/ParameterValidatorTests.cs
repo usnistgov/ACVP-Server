@@ -19,8 +19,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
             var parameters = parameterBuilder.Build();
             var result = subject.Validate(parameters);
 
-            Assert.IsNull(result.ErrorMessage);
-            Assert.IsTrue(result.Success);
+            Assert.That(result.ErrorMessage, Is.Null);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     .Build()
             );
 
-            Assert.IsFalse(result.Success, label);
+            Assert.That(result.Success, Is.False, label);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -83,7 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     .Build()
             );
 
-            Assert.IsFalse(result.Success);
+            Assert.That(result.Success, Is.False);
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
                     .Build()
             );
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA2
               .Build()
           );
 
-          Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         public class ParameterBuilder

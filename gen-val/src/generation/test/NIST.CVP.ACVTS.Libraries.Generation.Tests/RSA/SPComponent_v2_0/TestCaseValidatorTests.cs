@@ -26,8 +26,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
 
             var subject = new TestCaseValidator(testCase);
             var result = await subject.ValidateAsync(GetTestCase(caseNum, false));
-        
-            Assert.AreEqual(Disposition.Passed, result.Result);
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -41,9 +41,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
             failureCase.Signature = null;
             
             var result = await subject.ValidateAsync(failureCase);
-        
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("was not present in the"), $"IUT Signature is null.");
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("was not present in the"), Is.True, $"IUT Signature is null.");
         }
         [Test]
         [TestCase(1)]
@@ -56,9 +56,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent_v2_0
             failureCase.Signature = new BitString("0000");
             
             var result = await subject.ValidateAsync(failureCase);
-        
-            Assert.AreEqual(Disposition.Failed, result.Result);
-            Assert.IsTrue(result.Reason.Contains("Signature does not match expected value"), $"Signature does not match expected value");
+
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
+            Assert.That(result.Reason.Contains("Signature does not match expected value"), Is.True, $"Signature does not match expected value");
         }
 
         private RsaSignaturePrimitiveResult GetRsaSignaturePrimitiveResult(int caseNum, bool isCrt = false)

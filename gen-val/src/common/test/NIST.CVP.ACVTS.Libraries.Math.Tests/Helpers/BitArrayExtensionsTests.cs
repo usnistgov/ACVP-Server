@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var array1 = new BitArray(new[] { true, false, false, false });
             var result = array1.BitShiftLeft();
-            Assert.AreEqual(new BitArray(new[] { false, true, false, false }), result);
+            Assert.That(result, Is.EqualTo(new BitArray(new[] { false, true, false, false })));
         }
 
         [Test]
@@ -23,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var array1 = new BitArray(new[] { true, false, false, false });
             var result = array1.BitShiftRight();
-            Assert.AreEqual(new BitArray(new[] { false, false, false, false }), result);
+            Assert.That(result, Is.EqualTo(new BitArray(new[] { false, false, false, false })));
         }
 
         //LSB ----------------> MSB
@@ -46,7 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
                 subject[idx] = bitRep[idx] == '1';
             }
             var result = subject.ToBytes();
-            Assert.AreEqual(expected, result);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
                                           x == '1' :
                                           throw new InvalidCastException()).ToArray());
             var subArray = inArray.SubArray(startIndex, length);
-            Assert.AreEqual(subArray, outArray);
+            Assert.That(outArray, Is.EqualTo(subArray));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Helpers
         {
             var bArray = MsbLsbConversionHelpers.GetBitArrayFromStringOf1sAnd0s(bitsAsZeroesAndOnes);
 
-            Assert.AreEqual(expectedInt, bArray.ToInt());
+            Assert.That(bArray.ToInt(), Is.EqualTo(expectedInt));
         }
     }
 }

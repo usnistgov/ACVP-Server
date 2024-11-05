@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
 
             var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(list);
 
-            Assert.AreEqual(numberOfResponses, subject.TestCases.Count());
+            Assert.That(subject.TestCases.Count(), Is.EqualTo(numberOfResponses));
         }
 
         [Test]
@@ -33,8 +33,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
             List<TestCase> list = new List<TestCase>();
             var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(list);
 
-            Assert.IsTrue(subject.Success, nameof(subject.Success));
-            Assert.IsTrue(string.IsNullOrEmpty(subject.ErrorMessage), nameof(subject.ErrorMessage));
+            Assert.That(subject.Success, Is.True, nameof(subject.Success));
+            Assert.That(string.IsNullOrEmpty(subject.ErrorMessage), Is.True, nameof(subject.ErrorMessage));
         }
 
         [Test]
@@ -43,8 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.OFB
             string error = "Error!";
             var subject = new MultipleTestCaseGenerateResponse<TestGroup, TestCase>(error);
 
-            Assert.IsFalse(subject.Success, nameof(subject.Success));
-            Assert.AreEqual(error, subject.ErrorMessage);
+            Assert.That(subject.Success, Is.False, nameof(subject.Success));
+            Assert.That(subject.ErrorMessage, Is.EqualTo(error));
         }
     }
 }

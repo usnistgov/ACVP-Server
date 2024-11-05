@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SSH
         {
             var subject = new TestGroup();
             var result = subject.SetString(name, "1");
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SSH
             var subject = new TestGroup();
             var result = subject.Equals(null);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -39,8 +39,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SSH
             var subject = new TestGroup();
 
             var result = subject.SetString(name, shaValue);
-            Assert.IsTrue(result, nameof(result));
-            Assert.IsTrue(shaValue.Equals(subject.HashAlg.Name, StringComparison.OrdinalIgnoreCase), nameof(subject.HashAlg.Name));
+            Assert.That(result, Is.True, nameof(result));
+            Assert.That(shaValue.Equals(subject.HashAlg.Name, StringComparison.OrdinalIgnoreCase), Is.True, nameof(subject.HashAlg.Name));
         }
     }
 }

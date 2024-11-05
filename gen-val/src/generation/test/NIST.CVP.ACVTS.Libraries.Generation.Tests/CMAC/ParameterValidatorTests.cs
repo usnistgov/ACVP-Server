@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.IsTrue(result.Success);
+            Assert.That(result.Success, Is.True);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(success, result.Success);
+            Assert.That(result.Success, Is.EqualTo(success));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(success, result.Success);
+            Assert.That(result.Success, Is.EqualTo(success));
         }
 
         private static object[] msgLenDomains = new[]
@@ -138,7 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(success, result.Success);
+            Assert.That(result.Success, Is.EqualTo(success));
         }
 
         private static object[] macLenDomains = new[]
@@ -197,7 +197,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(success, result.Success);
+            Assert.That(result.Success, Is.EqualTo(success));
         }
 
         [Test]
@@ -257,7 +257,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var result = _subject.Validate(p);
 
-            Assert.AreEqual(success, result.Success);
+            Assert.That(result.Success, Is.EqualTo(success));
         }
     }
 }

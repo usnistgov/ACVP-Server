@@ -57,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
 
             var generator = _subject.GetCaseGenerator(testGroup);
             Assert.That(generator != null);
-            Assert.IsInstanceOf(expectedType, generator);
+            Assert.That(generator, Is.InstanceOf(expectedType));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.CMAC
             };
 
             var generator = _subject.GetCaseGenerator(testGroup);
-            Assert.IsNotNull(generator);
+            Assert.That(generator, Is.Not.Null);
         }
     }
 }

@@ -49,13 +49,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC.ContractResolvers
 
             var newTg = newTvs.TestGroups[0];
 
-            Assert.AreEqual(tg.TestGroupId, newTg.TestGroupId, nameof(newTg.TestGroupId));
-            Assert.AreNotEqual(tg.TestType, newTg.TestType, nameof(newTg.TestType));
-            Assert.AreNotEqual(tg.L, newTg.L, nameof(newTg.L));
-            Assert.AreNotEqual(tg.Modulo, newTg.Modulo, nameof(newTg.Modulo));
-            Assert.AreNotEqual(tg.Scheme, newTg.Scheme, nameof(newTg.Scheme));
-            Assert.AreNotEqual(tg.IutId, newTg.IutId, nameof(newTg.IutId));
-            Assert.AreNotEqual(tg.ServerId, newTg.ServerId, nameof(newTg.ServerId));
+            Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
+            Assert.That(newTg.TestType, Is.Not.EqualTo(tg.TestType), nameof(newTg.TestType));
+            Assert.That(newTg.L, Is.Not.EqualTo(tg.L), nameof(newTg.L));
+            Assert.That(newTg.Modulo, Is.Not.EqualTo(tg.Modulo), nameof(newTg.Modulo));
+            Assert.That(newTg.Scheme, Is.Not.EqualTo(tg.Scheme), nameof(newTg.Scheme));
+            Assert.That(newTg.IutId, Is.Not.EqualTo(tg.IutId), nameof(newTg.IutId));
+            Assert.That(newTg.ServerId, Is.Not.EqualTo(tg.ServerId), nameof(newTg.ServerId));
         }
 
         [Test]
@@ -78,13 +78,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.IFC.ContractResolvers
 
             if (testType.Equals("AFT", StringComparison.OrdinalIgnoreCase))
             {
-                Assert.AreEqual(tc.Dkm, newTc.Dkm, nameof(tc.Dkm));
-                Assert.AreEqual(tc.Tag, newTc.Tag, nameof(tc.Tag));
+                Assert.That(newTc.Dkm, Is.EqualTo(tc.Dkm), nameof(tc.Dkm));
+                Assert.That(newTc.Tag, Is.EqualTo(tc.Tag), nameof(tc.Tag));
             }
 
             if (testType.Equals("VAL", StringComparison.OrdinalIgnoreCase))
             {
-                Assert.AreEqual(tc.TestPassed, newTc.TestPassed, nameof(tc.TestPassed));
+                Assert.That(newTc.TestPassed, Is.EqualTo(tc.TestPassed), nameof(tc.TestPassed));
             }
         }
     }

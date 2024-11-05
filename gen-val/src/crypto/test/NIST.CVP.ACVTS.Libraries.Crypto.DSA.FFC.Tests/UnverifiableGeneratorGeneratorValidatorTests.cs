@@ -43,10 +43,10 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
             var subject = new UnverifiableGeneratorGeneratorValidator();
 
             var result = subject.Generate(p, q);
-            Assert.IsTrue(result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.True, result.ErrorMessage);
 
             var verified = subject.Validate(p, q, result.G);
-            Assert.IsTrue(verified.Success, $"g = {result.G}\n{verified.ErrorMessage}");
+            Assert.That(verified.Success, Is.True, $"g = {result.G}\n{verified.ErrorMessage}");
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Tests
 
             var result = subject.Validate(p, q, g);
 
-            Assert.AreEqual(success, result.Success, result.ErrorMessage);
+            Assert.That(result.Success, Is.EqualTo(success), result.ErrorMessage);
         }
     }
 }

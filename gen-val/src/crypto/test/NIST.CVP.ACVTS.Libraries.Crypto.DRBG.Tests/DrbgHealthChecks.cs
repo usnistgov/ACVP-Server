@@ -235,7 +235,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DRBG.Tests
             subject.Generate(parameters.ReturnedBitsLen, addInput1); // Additional Input
             var result = subject.Generate(parameters.ReturnedBitsLen, addInput2); // Additional Input
 
-            Assert.AreEqual(expectedBits, result.Bits);
+            Assert.That(result.Bits, Is.EqualTo(expectedBits));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFB
             var subject = new TestCaseValidatorEncrypt(testCase);
             var result = await subject.ValidateAsync(testCase);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFB
             suppliedResult.CipherText = new BitString("D00000");
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
-            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFB
             var result = await subject.ValidateAsync(suppliedResult);
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
-            Assert.IsTrue(result.Reason.Contains("Cipher Text"));
+            Assert.That(result.Reason.Contains("Cipher Text"), Is.True);
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFB
         {
             var testCase = GetTestCase(id);
             var subject = new TestCaseValidatorEncrypt(testCase);
-            Assert.AreEqual(id, subject.TestCaseId);
+            Assert.That(subject.TestCaseId, Is.EqualTo(id));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TDES.CFB
             Assert.That(result != null);
             Assert.That(Disposition.Failed == result.Result);
 
-            Assert.IsTrue(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"));
+            Assert.That(result.Reason.Contains($"{nameof(suppliedResult.CipherText)} was not present in the {nameof(TestCase)}"), Is.True);
         }
 
         private TestCase GetTestCase(int id = 1)

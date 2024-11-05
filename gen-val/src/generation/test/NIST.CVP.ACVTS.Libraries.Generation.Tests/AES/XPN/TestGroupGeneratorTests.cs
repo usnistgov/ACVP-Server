@@ -24,7 +24,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.AadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).AadLength);
+            Assert.That(((TestGroup)result[0]).AadLength, Is.EqualTo(p.AadLen.GetDomainMinMax().Minimum));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.IvGen, ((TestGroup)result[0]).IvGeneration);
+            Assert.That(((TestGroup)result[0]).IvGeneration, Is.EqualTo(p.IvGen));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.IvGenMode, ((TestGroup)result[0]).IvGenerationMode);
+            Assert.That(((TestGroup)result[0]).IvGenerationMode, Is.EqualTo(p.IvGenMode));
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.Direction[0], ((TestGroup)result[0]).Function);
+            Assert.That(((TestGroup)result[0]).Function, Is.EqualTo(p.Direction[0]));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.PayloadLen.GetDomainMinMax().Minimum, ((TestGroup)result[0]).PayloadLength);
+            Assert.That(((TestGroup)result[0]).PayloadLength, Is.EqualTo(p.PayloadLen.GetDomainMinMax().Minimum));
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(64, ((TestGroup)result[0]).TagLength);
+            Assert.That(((TestGroup)result[0]).TagLength, Is.EqualTo(64));
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XPN
 
             var result = await _subject.BuildTestGroupsAsync(p);
 
-            Assert.AreEqual(p.SaltGen, ((TestGroup)result[0]).SaltGen);
+            Assert.That(((TestGroup)result[0]).SaltGen, Is.EqualTo(p.SaltGen));
         }
 
         private Parameters GetParameters()

@@ -51,7 +51,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var result = RunHash(x => sha.HashMessage(x), messageBs);
             stopWatch.Stop();
 
-            Assert.AreEqual(expectedDigest.ToLower(), result.Digest.ToHex().ToLower(), "New");
+            Assert.That(result.Digest.ToHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()), "New");
             Console.WriteLine(
                 $"New: {stopWatch.Elapsed.Minutes:D2}:{stopWatch.Elapsed.Seconds:D2}:{stopWatch.Elapsed.Milliseconds:D3}");
         }
@@ -132,7 +132,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var bitResult = RunHash(x => sha.HashMessage(x), messageBs);
             stopWatch.Stop();
 
-            Assert.AreEqual(expectedDigest.ToLower(), bitResult.Digest.ToHex().ToLower());
+            Assert.That(bitResult.Digest.ToHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()));
             Console.WriteLine(
                 $"BitOriented: {stopWatch.Elapsed.Minutes:D2}:{stopWatch.Elapsed.Seconds:D2}:{stopWatch.Elapsed.Milliseconds:D3}");
         }
@@ -176,7 +176,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             sha.Final(resultBytes);
             var result = new BitString(resultBytes);
 
-            Assert.AreEqual(expectedDigest.ToLower(), result.ToHex().ToLower());
+            Assert.That(result.ToHex().ToLower(), Is.EqualTo(expectedDigest.ToLower()));
         }
 
         // This is pulled from https://csrc.nist.gov/CSRC/media/Projects/Hash-Functions/documents/SHA3-KATMCT1.pdf which uses SHA2-256 as their example for the SHA3 competition
@@ -210,7 +210,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             Assert.That(result.Success);
 
             //Console.WriteLine(result.Digest.ToHex());
-            Assert.AreEqual(expectedResult.ToHex(), result.Digest.ToHex());
+            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedResult.ToHex()));
         }
 
         [Test]
@@ -232,7 +232,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[32];
             sha.Final(buffer, 256);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[32];
             sha.Final(buffer, 256);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
 
         [Test]
@@ -274,7 +274,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[64];
             sha.Final(buffer, 512);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
 
         [Test]
@@ -294,7 +294,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[64];
             sha.Final(buffer, 512);
 
-            Assert.AreEqual(oneUpdate.Digest.ToHex(), new BitString(buffer).ToHex());
+            Assert.That(new BitString(buffer).ToHex(), Is.EqualTo(oneUpdate.Digest.ToHex()));
         }
 
         [Test]
@@ -320,7 +320,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             var buffer = new byte[sha.HashFunction.OutputLen / 8];
             sha.Final(buffer);
             var output = new BitString(buffer);
-            
+
             // sha.Init();
             // var messageBytes = message.GetBytes().TakeLast(bitLength / 8).ToArray();
             // sha.Update(messageBytes, bitLength);
@@ -332,7 +332,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             //     Console.WriteLine(b);
             // }
             // Console.WriteLine(byteOutput.ToHex());
-            Assert.AreEqual(expectedOutput.ToUpper(), output.ToHex());
+            Assert.That(output.ToHex(), Is.EqualTo(expectedOutput.ToUpper()));
         }
         
         [Test]
@@ -372,7 +372,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             //     Console.WriteLine(b);
             // }
             Console.WriteLine(byteOutput.ToHex());
-            Assert.AreEqual(expectedOutput.ToUpper(), output.ToHex());
+            Assert.That(output.ToHex(), Is.EqualTo(expectedOutput.ToUpper()));
         }
     }
 }

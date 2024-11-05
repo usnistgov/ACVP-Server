@@ -17,7 +17,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
             var subject = new TestCaseValidator(GetResultTestCase(expected));
             var result = await subject.ValidateAsync(GetResultTestCase(supplied));
 
-            Assert.AreEqual(Disposition.Passed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Passed));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.KeyVer
             var subject = new TestCaseValidator(GetResultTestCase(expected));
             var result = await subject.ValidateAsync(GetResultTestCase(supplied));
 
-            Assert.AreEqual(Disposition.Failed, result.Result);
+            Assert.That(result.Result, Is.EqualTo(Disposition.Failed));
         }
 
         private TestCase GetResultTestCase(bool shouldPass)

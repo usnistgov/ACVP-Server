@@ -29,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.SafePrimes
                     var safePrime = _safePrimesGroupFactory.GetSafePrime(group);
                     var key = dsa.GenerateKeyPair(new FfcDomainParameters(safePrime.P, safePrime.Q, safePrime.G));
 
-                    Assert.IsTrue(key.Success, nameof(group));
+                    Assert.That(key.Success, Is.True, nameof(group));
                 }
             });
         }
@@ -48,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Tests.SafePrimes
                     var key = dsa.GenerateKeyPair(new FfcDomainParameters(safePrime.P, safePrime.Q, safePrime.G));
 
                     var ver = dsa.ValidateKeyPair(safePrime, key.KeyPair);
-                    Assert.IsTrue(ver.Success);
+                    Assert.That(ver.Success, Is.True);
                 }
             });
         }

@@ -39,7 +39,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
             var result = await _subject.BuildTestVectorSetAsync(p);
 
-            Assert.AreEqual(algorithm, result.Algorithm);
+            Assert.That(result.Algorithm, Is.EqualTo(algorithm));
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
             _subject = new TestVectorFactory<FakeParameters, FakeTestVectorSet, FakeTestGroup, FakeTestCase>(_testGroupGeneratorFactory.Object);
             var result = await _subject.BuildTestVectorSetAsync(p);
 
-            Assert.AreEqual(isSample, result.IsSample);
+            Assert.That(result.IsSample, Is.EqualTo(isSample));
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests
 
             var result = await _subject.BuildTestVectorSetAsync(p);
 
-            Assert.AreEqual(result.TestGroups[0].TestType, expectedType);
+            Assert.That(expectedType, Is.EqualTo(result.TestGroups[0].TestType));
         }
     }
 }
