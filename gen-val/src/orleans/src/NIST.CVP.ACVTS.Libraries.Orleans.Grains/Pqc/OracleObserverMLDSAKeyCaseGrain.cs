@@ -37,8 +37,7 @@ public class OracleObserverMLDSAKeyCaseGrain : ObservableOracleGrainBase<MLDSAKe
     
     protected override async Task DoWorkAsync()
     {
-        var dilithiumFactory = new DilithiumFactory(_shaFactory, _entropyProvider);
-        var dilithium = dilithiumFactory.GetDilithium(_param.ParameterSet);
+        var dilithium = new Dilithium(_param.ParameterSet, _shaFactory);
 
         var seed = _entropyProvider.GetEntropy(256).Bits;
         var key = dilithium.GenerateKey(seed);

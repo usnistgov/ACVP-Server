@@ -1,7 +1,7 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.Ffx
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.FFX
 {
     public class FfxModeBlockCipherParameters : IFfxModeBlockCipherParameters
     {

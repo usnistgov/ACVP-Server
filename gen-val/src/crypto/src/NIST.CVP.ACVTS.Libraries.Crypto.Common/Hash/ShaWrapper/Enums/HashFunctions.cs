@@ -28,5 +28,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums
         Sha3_d384,
         [EnumMember(Value = "SHA3-512")]
         Sha3_d512,
+        [EnumMember(Value = "SHAKE-128")]
+        Shake_d128,
+        [EnumMember(Value = "SHAKE-256")]
+        Shake_d256
     }
 }

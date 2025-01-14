@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 using NIST.CVP.ACVTS.Libraries.Math;
 
@@ -24,8 +25,8 @@ public static class TestDataMother
             var tg = new TestGroup
             {
                 ParameterSet = DilithiumParameterSet.ML_DSA_44,
-                PublicKey = new BitString("098765"),
-                PrivateKey = new BitString("ABCDEF"),
+                SignatureInterface = SignatureInterface.External,
+                PreHash = PreHash.Pure,
                 Deterministic = true,
                 TestType = "AFT"
             };
@@ -38,8 +39,11 @@ public static class TestDataMother
                 var tc = new TestCase
                 {
                     ParentGroup = tg,
+                    PublicKey = new BitString("098765"),
+                    PrivateKey = new BitString("ABCDEF"),
                     Message = new BitString("ABCD"),
                     Signature = new BitString("1234"),
+                    Context = new BitString("ABCDEF"),
                     TestCaseId = testId
                 };
                 tests.Add(tc);

@@ -19,8 +19,7 @@ public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
         _oracle = oracle;
     }
 
-    public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample,
-        int caseNo = -1)
+    public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
     {
         var param = new SLHDSAKeyGenParameters { SlhdsaParameterSet = group.ParameterSet };
 

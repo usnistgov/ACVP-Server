@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.Ffx
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.FFX
 {
     /// <summary>
     /// Retrieve an instance of a <see cref="IFfxModeBlockCipher"/>.

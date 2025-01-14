@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Numerics;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SLHDSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SLHDSA.Helpers.HashAndPseudorandomFunctions;
 

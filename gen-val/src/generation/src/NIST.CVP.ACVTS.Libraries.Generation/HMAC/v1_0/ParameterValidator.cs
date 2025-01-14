@@ -9,7 +9,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.v1_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-
         public const int _MIN_KEY_LENGTH = 8;
         public const int _MAX_KEY_LENGTH = 524288;
 

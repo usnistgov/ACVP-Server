@@ -1,7 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SLHDSA;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
@@ -13,19 +16,19 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Pqc;
 
 public class OracleObserverSLHDSASignatureCaseGrain :  ObservableOracleGrainBase<SLHDSASignatureResult>, IOracleObserverSLHDSASignatureCaseGrain
 {
-    private readonly IEntropyProvider _entropyProvider;
+    private readonly IRandom800_90 _rand;
     private readonly IShaFactory _shaFactory;
 
     private SLHDSASignatureParameters _param;
 
     public OracleObserverSLHDSASignatureCaseGrain(
         LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler,
-        IEntropyProviderFactory entropyProviderFactory,
-        IShaFactory shaFactory
+        IShaFactory shaFactory,
+        IRandom800_90 rand
     ) : base(nonOrleansScheduler)
     {
-        _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
         _shaFactory = shaFactory;
+        _rand = rand;
     }
     
     public async Task<bool> BeginWorkAsync(SLHDSASignatureParameters param)
@@ -38,53 +41,42 @@ public class OracleObserverSLHDSASignatureCaseGrain :  ObservableOracleGrainBase
 
     protected override async Task DoWorkAsync()
     {
-        var wots = new Wots(_shaFactory);
-        var xmss = new Xmss(_shaFactory, wots);
-        var hypertree = new Hypertree(xmss);
-        var fors = new Fors(_shaFactory);
-        var slhdsa = new Slhdsa(_shaFactory, xmss, hypertree, fors);
+        // the message to be signed
+        var message = _rand.GetRandomBitString(_param.MessageLength);
         
-        // pull back all of the attribute values associated with the SLHDSA parameter set in use
+        BitString context = null;    
+        if (_param.SignatureInterface == SignatureInterface.External)
+        {
+            context = _rand.GetRandomBitString(_param.ContextLength);
+        }
+        
+        // set up slh-dsa parameters object
         var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(_param.SlhdsaParameterSet);
 
-        // the message to be signed
-        var message = _entropyProvider.GetEntropy(_param.MessageLength);
+        // for internal, we can use the random value directly
+        // for external, we need to pass it through an entropy provider
+        // we can set up both at the same time for all cases
+        var additionalRandomness = _param.Deterministic ? new BitString(0) : _rand.GetRandomBitString(slhdsaParameterSetAttributes.N * 8);
+        var testableEntropy = new TestableEntropyProvider(true);
+        testableEntropy.AddEntropy(additionalRandomness);
         
-        // generate the private key to sign the message with
-        var SKSeed = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
-        var SKPrf = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
-        var PKSeed = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
-
-        var keyPair = slhdsa.SlhKeyGen(SKSeed, SKPrf, PKSeed, slhdsaParameterSetAttributes);
-
-        // BitString additionalRandomness;
-        // byte[] signature;
-        //
-        // if (_param.Deterministic)
-        // {
-        //     signature = slhdsa.SlhSignDeterministic(message.ToBytes(), keyPair.PrivateKey,
-        //         slhdsaParameterSetAttributes);
-        // }
-        // else
-        // {
-        //     additionalRandomness = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8);
-        //     signature = slhdsa.SlhSignNonDeterministic(message.ToBytes(), keyPair.PrivateKey,
-        //         additionalRandomness.ToBytes(), slhdsaParameterSetAttributes);
-        // }
+        var slhdsa = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory, testableEntropy);
         
-        // additional randomness, if signing is non-deterministic
-        var additionalRandomness =
-                    _param.Deterministic ? null : _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8);
+        // determine which signature path to use based on the test case/group parameters
+        var signature = (_param.SignatureInterface, _param.PreHash) switch
+        {
+            (SignatureInterface.Internal, _) => slhdsa.Sign(_param.PrivateKey.ToBytes(), message.ToBytes(), additionalRandomness.ToBytes()),
+            
+            (SignatureInterface.External, PreHash.Pure) => slhdsa.ExternalSign(_param.PrivateKey.ToBytes(), message.ToBytes(), _param.Deterministic, context.ToBytes()),
+            (SignatureInterface.External, PreHash.PreHash) => slhdsa.ExternalPreHashSign(_param.PrivateKey.ToBytes(), message.ToBytes(), _param.Deterministic, context.ToBytes(), ShaAttributes.GetHashFunctionFromEnum(_param.HashFunction)),
+            
+            (_, _) => throw new ArgumentException("Invalid combination of parameters for SLH-DSA")
+        };
         
-        var signature = 
-            _param.Deterministic ? slhdsa.SlhSignDeterministic(message.ToBytes(), keyPair.PrivateKey, slhdsaParameterSetAttributes)
-                : slhdsa.SlhSignNonDeterministic(message.ToBytes(), keyPair.PrivateKey, additionalRandomness.ToBytes(), slhdsaParameterSetAttributes);
-
         await Notify(new SLHDSASignatureResult
         {
-            PrivateKey = new BitString(keyPair.PrivateKey.GetBytes()),
-            AdditionalRandomness = additionalRandomness,
-            MessageLength = _param.MessageLength,
+            AdditionalRandomness = !_param.Deterministic ? additionalRandomness : null,      // Only used for non-deterministic
+            Context = _param.SignatureInterface == SignatureInterface.External ? context : null,    // Only used for external
             Message = message,
             Signature = new BitString(signature)
         });

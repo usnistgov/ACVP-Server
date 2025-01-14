@@ -1,6 +1,6 @@
 using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.SLHDSA.Helpers.HashAndPseudorandomFunctions;

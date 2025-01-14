@@ -1,7 +1,6 @@
-using System;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.KeyGen;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -53,10 +52,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            // Test all the SLH-DSA parameter sets            
-            ParameterSets = EnumHelpers.GetEnumsWithoutDefault<SlhdsaParameterSet>().ToArray(),
-            // Test a representative set of SLH-DSA parameter sets
-            // ParameterSets = new [] { SlhdsaParameterSet.SLH_DSA_SHA2_128s, SlhdsaParameterSet.SLH_DSA_SHA2_192f, SlhdsaParameterSet.SLH_DSA_SHAKE_192s, SlhdsaParameterSet.SLH_DSA_SHAKE_256f },
+            ParameterSets = ParameterValidator.VALID_PARAMETER_SETS,
             IsSample = true
         };
 

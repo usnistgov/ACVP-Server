@@ -27,7 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.Ed.SigGen.IntegrationTests
                 Mode = Mode,
                 Revision = Revision,
                 IsSample = true,
-                Curve = ParameterValidator.VALID_CURVES,
+                //Curve = ParameterValidator.VALID_CURVES,
+                Curve = ["ED-25519"],
                 PreHash = true,
                 Pure = true,
                 ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 248, 8))

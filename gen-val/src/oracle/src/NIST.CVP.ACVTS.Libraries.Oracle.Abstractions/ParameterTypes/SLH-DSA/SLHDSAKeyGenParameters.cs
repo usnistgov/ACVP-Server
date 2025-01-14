@@ -1,4 +1,4 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.SLH_DSA;
 

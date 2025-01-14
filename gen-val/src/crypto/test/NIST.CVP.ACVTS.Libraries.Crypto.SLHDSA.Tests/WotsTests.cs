@@ -1,7 +1,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.ACVTS.Libraries.Math;

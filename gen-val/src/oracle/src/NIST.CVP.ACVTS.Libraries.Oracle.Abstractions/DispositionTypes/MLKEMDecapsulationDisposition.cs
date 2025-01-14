@@ -4,9 +4,9 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 public enum MLKEMDecapsulationDisposition
 {
-    [EnumMember(Value = "no modification")]
+    [EnumMember(Value = "valid decapsulation")]
     None,
     
-    [EnumMember(Value = "modify ciphertext")]
+    [EnumMember(Value = "modified ciphertext")]
     ModifyCiphertext
 }

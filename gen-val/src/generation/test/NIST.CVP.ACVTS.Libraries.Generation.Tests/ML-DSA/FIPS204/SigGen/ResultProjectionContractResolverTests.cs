@@ -47,10 +47,6 @@ public class ResultsProjectionContractResolverTests
         Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
         Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
-        // Can't really test if the public key is provided is equal to anything
-        var regex = new Regex("pk", RegexOptions.IgnoreCase);
-        Assert.That(regex.Matches(json).Count, Is.EqualTo(newTvs.TestGroups.Count), nameof(newTg.PublicKey));
-
         Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
     }
     

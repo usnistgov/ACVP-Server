@@ -1,4 +1,4 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.KeyGen;

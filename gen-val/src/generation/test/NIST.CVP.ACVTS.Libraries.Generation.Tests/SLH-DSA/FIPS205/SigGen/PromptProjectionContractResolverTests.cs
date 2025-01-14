@@ -66,11 +66,10 @@ public class PromptProjectionContractResolverTests
 
         // Prompt properties
         Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
-        Assert.That(newTc.PrivateKey, Is.EqualTo(tc.PrivateKey), nameof(newTc.PrivateKey));
         Assert.That(newTc.AdditionalRandomness, Is.EqualTo(tc.AdditionalRandomness), nameof(newTc.AdditionalRandomness));
-        Assert.That(newTc.MessageLength, Is.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
         Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
-
+        Assert.That(tc.PrivateKey, Is.EqualTo(newTc.PrivateKey), nameof(newTc.PrivateKey));
+        
         // Response properties
         Assert.That(newTc.Signature, Is.Not.EqualTo(tc.Signature), nameof(newTc.Signature));
 

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigVer;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
@@ -51,7 +52,7 @@ public class TestCaseValidatorTests
         var result = await _subject.ValidateAsync(suppliedResult);
         Assert.That(result != null);
         Assert.That(result.Result == Core.Enums.Disposition.Failed);
-        Assert.That(result.Reason.Contains("modified signature - R modified"), Is.True);
+        Assert.That(result.Reason.Contains(EnumHelpers.GetEnumDescriptionFromEnum(SLHDSASignatureDisposition.ModifySignatureR)), Is.True);
     }
     
     private TestCase GetTestCase()

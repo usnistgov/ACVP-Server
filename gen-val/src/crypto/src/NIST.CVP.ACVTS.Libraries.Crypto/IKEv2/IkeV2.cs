@@ -1,4 +1,5 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Components.IKEv2;
+﻿using System;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Components.IKEv2;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC.HMAC;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
@@ -24,13 +25,12 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv2
         {
             var sKeySeed = GenerateSKeySeed(ni, nr, gir);
             var dkm = ExpansionKdf(sKeySeed, ni, nr, spii, spir, dkmLength);
-
-            var sKeyD = dkm.GetMostSignificantBits(_hmac.OutputLength);
+            var sKeyD = dkm.GetMostSignificantBits(_hmac.OutputLength); 
+            
             var dkmChildSA = ChildSAKdf(sKeyD, ni, nr, dkmChildLength);
             var dkmChildSADh = ChildSAKdfDh(sKeyD, girNew, ni, nr, dkmChildLength);
-
             var sKeySeedReKey = GenerateSKeySeedReKey(sKeyD, girNew, ni, nr);
-
+            
             return new IkeResult(sKeySeed, dkm, dkmChildSA, dkmChildSADh, sKeySeedReKey);
         }
 
@@ -65,7 +65,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.IKEv2
         private BitString GenerateKeyingMaterial(BitString key, BitString fixedData, int dkmLength)
         {
             var iterations = dkmLength.CeilingDivide(_hmac.OutputLength);
-
+            
             var keyingMaterial = new BitString(0);
             var temp = new BitString(0);
             for (var i = 0; i < iterations; i++)

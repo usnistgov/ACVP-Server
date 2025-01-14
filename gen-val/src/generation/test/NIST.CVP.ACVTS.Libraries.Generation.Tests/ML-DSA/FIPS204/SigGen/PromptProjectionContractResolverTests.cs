@@ -47,8 +47,6 @@ public class PromptProjectionContractResolverTests
         Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
         Assert.That(newTg.ParameterSet, Is.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
         Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
-
-        Assert.That(newTg.PublicKey, Is.Not.EqualTo(tg.PublicKey), nameof(newTg.PublicKey));
     }
     
     [Test]
@@ -67,6 +65,8 @@ public class PromptProjectionContractResolverTests
         // Prompt properties
         Assert.That(newTc.ParentGroup.TestGroupId, Is.EqualTo(tc.ParentGroup.TestGroupId), nameof(newTc.ParentGroup));
         Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
+
+        Assert.That(tc.PublicKey, Is.Not.EqualTo(newTc.PublicKey), nameof(newTc.PublicKey));
 
         // Response properties
         Assert.That(newTc.Signature, Is.Not.EqualTo(tc.Signature), nameof(newTc.Signature));

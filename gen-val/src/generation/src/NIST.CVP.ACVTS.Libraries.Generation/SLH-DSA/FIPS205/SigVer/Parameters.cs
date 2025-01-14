@@ -1,10 +1,11 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using System;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.PqcHelpers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigVer;
 
-public class Parameters : IParameters
+public class Parameters : PqcParametersBase, IParameters
 {
     public int VectorSetId { get; set; }
     public string Algorithm { get; set; }
@@ -13,11 +14,14 @@ public class Parameters : IParameters
     public bool IsSample { get; set; }
     public string[] Conformances { get; set; }
     
-    public Capability[] Capabilities;
+    // signatureInterfaces, preHash inherited from base class
+
+    public Capability[] Capabilities = Array.Empty<Capability>();
 }
 
-public class Capability
+public class Capability : PqcCapabilityBase
 {
-    public SlhdsaParameterSet[] ParameterSets { get; set; }
-    public MathDomain MessageLength { get; set; }
+    // MessageLength, HashAlgs, ContextLength inherited from base class
+
+    public SlhdsaParameterSet[] ParameterSets { get; set; } = Array.Empty<SlhdsaParameterSet>();
 }

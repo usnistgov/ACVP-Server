@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDF.SP800_108r1.KMAC
             errors.AddIfNotNullOrEmpty(result);
 
             ValidateDomain(parameters.KeyDerivationKeyLength, errors, "Key Derivation Key Length", MIN_KEY_DERIVATION_KEY_LENGTH, MAX_KEY_DERIVATION_KEY_LENGTH);
-            ValidateMultipleOf(parameters.KeyDerivationKeyLength, errors, 8, "Ker Derivation Key Length");
+            ValidateMultipleOf(parameters.KeyDerivationKeyLength, errors, 8, "Key Derivation Key Length");
             
             ValidateDomain(parameters.ContextLength, errors, "Context Length", MIN_OTHER_INFO_LENGTH, MAX_OTHER_INFO_LENGTH);
             ValidateMultipleOf(parameters.ContextLength, errors, 8, "Context Length");

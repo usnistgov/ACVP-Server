@@ -1,4 +1,4 @@
-﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.Ffx
+﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.FFX
 {
     /// <summary>
     /// A Mode of Operation that wraps a block cipher.

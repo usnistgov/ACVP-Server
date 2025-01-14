@@ -1,4 +1,4 @@
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 
 public enum SecurityLevel
 {

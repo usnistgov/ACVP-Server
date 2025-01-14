@@ -1,7 +1,7 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA;
 
 /// <summary>
 /// Abstraction of the XMSS functions defined in section 6 of FIPS 205.

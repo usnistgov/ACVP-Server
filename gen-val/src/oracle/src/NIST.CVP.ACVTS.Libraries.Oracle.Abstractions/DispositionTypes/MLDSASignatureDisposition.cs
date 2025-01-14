@@ -6,18 +6,18 @@ public enum MLDSASignatureDisposition
 {
     // TODO add HintCheck, LargeZNorm, CommitmentHash (covered by modify signature and modify message)
     
-    [EnumMember(Value = "no modification")]
+    [EnumMember(Value = "valid signature and message - signature should verify successfully")]
     None,
     
-    [EnumMember(Value = "modify signature")]
+    [EnumMember(Value = "modified signature - commitment")]
     ModifySignature,
     
-    [EnumMember(Value = "modify message")]
+    [EnumMember(Value = "modified message")]
     ModifyMessage,
     
-    [EnumMember(Value = "too many hints")]
+    [EnumMember(Value = "modified signature - hint")]
     ModifyHint,
     
-    [EnumMember(Value = "z too large")]
+    [EnumMember(Value = "modified signature - z")]
     ModifyZ
 }

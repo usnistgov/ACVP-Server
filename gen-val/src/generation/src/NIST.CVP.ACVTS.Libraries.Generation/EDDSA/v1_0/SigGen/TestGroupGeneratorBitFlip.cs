@@ -18,7 +18,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
         private readonly IOracle _oracle;
         private static Random800_90 _rand = new Random800_90();
         private const int BITS_IN_BYTE = 8;
-        
+        private enum EddsaSignatureTypes
+        {
+            Pure,
+            PreHash
+        }
+
         public TestGroupGeneratorBitFlip(IOracle oracle)
         {
             _oracle = oracle;
@@ -26,69 +31,79 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 
         public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         {
+            var supportedSignatureTypes = new List<EddsaSignatureTypes>();
+            if (parameters.Pure) supportedSignatureTypes.Add(EddsaSignatureTypes.Pure);
+            if (parameters.PreHash) supportedSignatureTypes.Add(EddsaSignatureTypes.PreHash);
+            
             // Use a hash set because the registration allows for duplicate pairings to occur
             // Equality of groups is done via name of the curve and name of the hash function.
             // HashSet eliminates any duplicates that may be registered
             var testGroups = new HashSet<TestGroup>();
 
-            foreach (var curveName in parameters.Curve)
+            foreach (var signatureType in supportedSignatureTypes)
             {
-                var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
-
-                EdKeyPair key = null;
-                var param = new EddsaKeyParameters
+                foreach (var curveName in parameters.Curve)
                 {
-                    Curve = curve
-                };
+                    var curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName);
 
-                if (parameters.IsSample)
-                {
-                    var keyResult = await _oracle.GetEddsaKeyAsync(param);
-                    key = keyResult.Key;
-                }
-
-                var paramMsg = new EddsaMessageParameters
-                {
-                    IsSample = parameters.IsSample
-                };
-
-                var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
-                
-                var noContext = curve == Curve.Ed25519 && !parameters.PreHash;
-                var contextLength = parameters.ContextLength.GetRandomValues(
-                    parameters.ContextLength.GetDomainMinMax().Minimum,
-                    parameters.ContextLength.GetDomainMinMax().Maximum, 1).First();
-                var context =  noContext ? new BitString("") : _rand.GetRandomBitString(contextLength * BITS_IN_BYTE);
-
-                if (parameters.Pure)
-                {
-                    var testGroup = new TestGroup
+                    EdKeyPair key = null;
+                    var param = new EddsaKeyParameters
                     {
-                        Curve = curve,
-                        PreHash = false,
-                        KeyPair = key,
-                        Message = message,
-                        TestType = TEST_TYPE,
-                        Context = context,
-                        ContextLength = parameters.ContextLength
+                        Curve = curve
                     };
-                    testGroups.Add(testGroup);
-                }
 
-                if (parameters.PreHash)
-                {
-                    var testGroup = new TestGroup
+                    if (parameters.IsSample)
                     {
-                        Curve = curve,
-                        PreHash = true,
-                        KeyPair = key,
-                        Message = message,
-                        TestType = TEST_TYPE,
-                        Context = context,
-                        ContextLength = parameters.ContextLength
+                        var keyResult = await _oracle.GetEddsaKeyAsync(param);
+                        key = keyResult.Key;
+                    }
+
+                    var paramMsg = new EddsaMessageParameters
+                    {
+                        IsSample = parameters.IsSample
                     };
-                    testGroups.Add(testGroup);
-                }
+
+                    var message = await _oracle.GetEddsaMessageBitFlipAsync(paramMsg);
+                    
+                    // context is applicable except for when the ED-25519 curve is used with the pure signature type 
+                    var noContext = curve == Curve.Ed25519 && signatureType == EddsaSignatureTypes.Pure;
+                    var contextLength = 0;
+                    if (!noContext)
+                    {
+                        contextLength = parameters.ContextLength.GetRandomValues(
+                        parameters.ContextLength.GetDomainMinMax().Minimum,
+                        parameters.ContextLength.GetDomainMinMax().Maximum, 1).First();
+                    }
+                    var context =  noContext ? new BitString("") : _rand.GetRandomBitString(contextLength * BITS_IN_BYTE);
+
+                    if (signatureType == EddsaSignatureTypes.Pure)
+                    {
+                        var testGroup = new TestGroup
+                        {
+                            Curve = curve,
+                            PreHash = false,
+                            KeyPair = key,
+                            Message = message,
+                            TestType = TEST_TYPE,
+                            Context = context,
+                        };
+                        testGroups.Add(testGroup);
+                    }
+
+                    if (signatureType == EddsaSignatureTypes.PreHash)
+                    {
+                        var testGroup = new TestGroup
+                        {
+                            Curve = curve,
+                            PreHash = true,
+                            KeyPair = key,
+                            Message = message,
+                            TestType = TEST_TYPE,
+                            Context = context,
+                        };
+                        testGroups.Add(testGroup);
+                    }
+                }                
             }
 
             return testGroups.ToList();

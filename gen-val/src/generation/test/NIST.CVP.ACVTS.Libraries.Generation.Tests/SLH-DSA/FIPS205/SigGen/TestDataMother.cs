@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigGen;
 using NIST.CVP.ACVTS.Libraries.Math;
 
@@ -19,7 +20,8 @@ public class TestDataMother
             {
                 TestType = "AFT",
                 ParameterSet = SlhdsaParameterSet.SLH_DSA_SHA2_128f,
-                Deterministic = true
+                Deterministic = false,
+                SignatureInterface = SignatureInterface.Internal,
             };
             testGroups.Add(tg);
 
@@ -32,8 +34,8 @@ public class TestDataMother
                     ParentGroup = tg,
                     TestCaseId = testId,
                     PrivateKey = new BitString("ABCD"),
+                    PublicKey = new BitString("DEADBEEF"),
                     AdditionalRandomness = new BitString("123456"),
-                    MessageLength = 5,
                     Message = new BitString("789ABC9ABC"),
                     Signature = new BitString("DEF012") 
                 };

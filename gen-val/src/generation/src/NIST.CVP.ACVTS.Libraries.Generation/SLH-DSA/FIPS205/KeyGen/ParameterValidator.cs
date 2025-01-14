@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.KeyGen;
 
 public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
 {
-    //public static SlhdsaParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<SlhdsaParameterSet>().Except(new [] { SlhdsaParameterSet.None }).ToArray();
+    public static SlhdsaParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<SlhdsaParameterSet>().Except(new [] { SlhdsaParameterSet.None }).ToArray();
     
     public ParameterValidateResponse Validate(Parameters parameters)
     {

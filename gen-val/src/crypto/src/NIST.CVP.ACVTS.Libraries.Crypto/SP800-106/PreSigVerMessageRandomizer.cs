@@ -1,5 +1,6 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.SP800_106;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 

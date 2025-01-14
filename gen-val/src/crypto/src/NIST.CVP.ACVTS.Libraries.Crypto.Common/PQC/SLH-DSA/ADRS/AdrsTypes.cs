@@ -1,4 +1,4 @@
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
 
 /// <summary>
 /// The seven address types as defined in section 4.2 of FIPS 205

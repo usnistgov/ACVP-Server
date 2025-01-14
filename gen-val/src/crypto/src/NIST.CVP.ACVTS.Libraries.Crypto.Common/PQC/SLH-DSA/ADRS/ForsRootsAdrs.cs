@@ -1,6 +1,6 @@
 using System;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
 
 public class ForsRootsAdrs: AdrsBase, IAdrs
 {

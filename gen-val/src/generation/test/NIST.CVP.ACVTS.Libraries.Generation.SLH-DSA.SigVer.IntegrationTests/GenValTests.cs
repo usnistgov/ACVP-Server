@@ -1,6 +1,7 @@
 using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.PqcHelpers;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigVer;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -37,6 +38,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -54,29 +56,31 @@ public class GenValTests : GenValTestsSingleRunnerBase
     protected override string GetTestFileLotsOfTestCases(string targetFolder)
     {
         // Test all the SLH-DSA parameter sets            
-        var firstCapabilityParameterSets = EnumHelpers.GetEnumsWithoutDefault<SlhdsaParameterSet>();
-        firstCapabilityParameterSets.Remove(SlhdsaParameterSet.SLH_DSA_SHAKE_128f); // remove SLH_DSA_SHAKE_128f as it's already contained in the second capability    
-        // Test a representative set of SLH-DSA parameter sets
-        //var firstCapabilityParameterSets = new[] { SlhdsaParameterSet.SLH_DSA_SHA2_192s, SlhdsaParameterSet.SLH_DSA_SHA2_256f, SlhdsaParameterSet.SLH_DSA_SHAKE_192s, SlhdsaParameterSet.SLH_DSA_SHAKE_256f };
         var p = new Parameters
         {
             VectorSetId = 53,
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            Capabilities = new []
-            {
-                new Capability()
+            SignatureInterfaces = [SignatureInterface.External, SignatureInterface.Internal],
+            PreHash = [PreHash.Pure, PreHash.PreHash],
+            Capabilities =
+            [
+                new Capability
                 {
-                    ParameterSets = firstCapabilityParameterSets.ToArray(),
-                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 8, 65536, 8))
+                    ParameterSets = ParameterValidator.FastSigningParameterSets,
+                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinMsgLen, PqcParameterValidator.MaxMsgLen, 8)),
+                    HashAlgs = PqcParameterValidator.ValidHashAlgs,
+                    ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinContextLen, PqcParameterValidator.MaxContextLen, 8))
                 },
-                new Capability()
+                new Capability
                 {
-                    ParameterSets = new[] { SlhdsaParameterSet.SLH_DSA_SHAKE_128f },
-                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 1024, 4096, 8))
+                    ParameterSets = ParameterValidator.SmallSignatureParameterSets,
+                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinMsgLen, PqcParameterValidator.MaxMsgLen, 8)),
+                    HashAlgs = PqcParameterValidator.ValidHashAlgs,
+                    ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinContextLen, PqcParameterValidator.MaxContextLen, 8))
                 }
-            },
+            ],
             IsSample = true
         };
 

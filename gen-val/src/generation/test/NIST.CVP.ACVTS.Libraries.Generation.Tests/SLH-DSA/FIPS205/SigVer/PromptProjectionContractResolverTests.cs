@@ -45,7 +45,6 @@ public class PromptProjectionContractResolverTests
         Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
         Assert.That(newTg.TestType, Is.EqualTo(tg.TestType), nameof(newTg.TestType));
         Assert.That(newTg.ParameterSet, Is.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
-        Assert.That(newTg.MessageLengths, Is.Not.EqualTo(tg.MessageLengths), nameof(newTg.MessageLengths));
         Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
     }
     
@@ -67,15 +66,13 @@ public class PromptProjectionContractResolverTests
         // Prompt properties
         Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
         Assert.That(newTc.PublicKey, Is.EqualTo(tc.PublicKey), nameof(newTc.PublicKey));
-        Assert.That(newTc.MessageLength, Is.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
         Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
         Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
-
+        
         // Response properties
         Assert.That(newTc.Reason, Is.Not.EqualTo(tc.Reason), nameof(newTc.Reason));
 
         // Internal Projection properties
-        Assert.That(newTc.PrivateKey, Is.Not.EqualTo(tc.PrivateKey), nameof(newTc.PrivateKey));
         Assert.That(newTc.AdditionalRandomness, Is.Not.EqualTo(tc.AdditionalRandomness), nameof(newTc.AdditionalRandomness));
         
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

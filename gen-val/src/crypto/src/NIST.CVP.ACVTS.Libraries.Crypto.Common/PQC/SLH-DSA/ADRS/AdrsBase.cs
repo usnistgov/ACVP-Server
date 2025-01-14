@@ -1,4 +1,4 @@
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
 
 /// <summary>
 /// Base ADRS/address class... because all of the ADRS types have some properties in common.  

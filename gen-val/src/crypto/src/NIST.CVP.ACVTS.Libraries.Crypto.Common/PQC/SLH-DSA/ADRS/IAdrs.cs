@@ -1,4 +1,4 @@
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.ADRS;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.ADRS;
 
 /// <summary>
 /// Provides an ADRS implementation (see FIPS 205 Section 4.2). There are 7 types.

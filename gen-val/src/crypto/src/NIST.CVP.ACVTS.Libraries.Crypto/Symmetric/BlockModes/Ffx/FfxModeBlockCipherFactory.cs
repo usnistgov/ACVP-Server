@@ -2,7 +2,7 @@
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.AES;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.FFX;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Engines;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 

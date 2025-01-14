@@ -1,7 +1,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 
 public record SlhdsaParameterSetAttributes(SlhdsaParameterSet SlhdsaParameterSet, int N, int H, int D, int HPrime, int A, int K, int LGw, int W, int Len, int Len1, int Len2, int M, SecurityLevel SecurityLevel, int PKBytes, int SigBytes, ModeValues ShaMode)
 {

@@ -35,7 +35,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS
             var earlyExporterMasterSecret = DeriveSecret(earlySecret, "e exp master", clientHello);
 
             var derivedEarlySecret = DeriveSecret(earlySecret, "derived", BitString.Empty());
-
+            
             return new TlsKdfV13EarlySecretResult()
             {
                 EarlySecret = earlySecret,
@@ -46,8 +46,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS
             };
         }
 
-        public TlsKdfV13HandshakeSecretResult GetDerivedHandshakeSecret(BitString diffieHellmanSharedSecret, BitString salt,
-            BitString clientHello, BitString serverHello)
+        public TlsKdfV13HandshakeSecretResult GetDerivedHandshakeSecret(BitString diffieHellmanSharedSecret, BitString salt, BitString clientHello, BitString serverHello)
         {
             var handshakeSecret = _hkdf.Extract(salt, diffieHellmanSharedSecret);
 
@@ -65,21 +64,15 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS
             };
         }
 
-        public TlsKdfV13MasterSecretResult GetDerivedMasterSecret(BitString salt,
-            BitString clientHello, BitString serverHello, BitString serverFinished, BitString clientFinished)
-
+        public TlsKdfV13MasterSecretResult GetDerivedMasterSecret(BitString salt, BitString clientHello, BitString serverHello, BitString serverFinished, BitString clientFinished)
         {
             var masterSecret = _hkdf.Extract(salt, _bitstringHashLengthBits);
 
-            var clientApplicationTrafficSecret = DeriveSecret(masterSecret, "c ap traffic",
-                clientHello, serverHello, serverFinished);
-            var serverApplicationTrafficSecret = DeriveSecret(masterSecret, "s ap traffic",
-                clientHello, serverHello, serverFinished);
-            var exporterMasterSecret = DeriveSecret(masterSecret, "exp master",
-                clientHello, serverHello, serverFinished);
-            var resumptionMasterSecret = DeriveSecret(masterSecret, "res master",
-                clientHello, serverHello, serverFinished, clientFinished);
-
+            var clientApplicationTrafficSecret = DeriveSecret(masterSecret, "c ap traffic", clientHello, serverHello, serverFinished);
+            var serverApplicationTrafficSecret = DeriveSecret(masterSecret, "s ap traffic", clientHello, serverHello, serverFinished);
+            var exporterMasterSecret = DeriveSecret(masterSecret, "exp master", clientHello, serverHello, serverFinished);
+            var resumptionMasterSecret = DeriveSecret(masterSecret, "res master", clientHello, serverHello, serverFinished, clientFinished);
+            
             return new TlsKdfV13MasterSecretResult()
             {
                 MasterSecret = masterSecret,
@@ -90,14 +83,11 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS
             };
         }
 
-        public TlsKdfV13FullResult GetFullKdf(bool isExternalPsk, BitString preSharedKey, BitString diffieHellmanSharedSecret,
-            BitString clientHello, BitString serverHello, BitString serverFinished, BitString clientFinished)
+        public TlsKdfV13FullResult GetFullKdf(bool isExternalPsk, BitString preSharedKey, BitString diffieHellmanSharedSecret, BitString clientHello, BitString serverHello, BitString serverFinished, BitString clientFinished)
         {
             var earlySecretResult = GetDerivedEarlySecret(isExternalPsk, preSharedKey, clientHello);
-            var handshakeSecretResult = GetDerivedHandshakeSecret(diffieHellmanSharedSecret, earlySecretResult.DerivedEarlySecret,
-                clientHello, serverHello);
-            var masterSecretResult = GetDerivedMasterSecret(handshakeSecretResult.DerivedHandshakeSecret,
-                clientHello, serverHello, serverFinished, clientFinished);
+            var handshakeSecretResult = GetDerivedHandshakeSecret(diffieHellmanSharedSecret, earlySecretResult.DerivedEarlySecret, clientHello, serverHello);
+            var masterSecretResult = GetDerivedMasterSecret(handshakeSecretResult.DerivedHandshakeSecret, clientHello, serverHello, serverFinished, clientFinished);
 
             return new TlsKdfV13FullResult()
             {

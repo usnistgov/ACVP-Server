@@ -9,6 +9,11 @@ public static class IntermediateValueHelper
     {
         return BitConverter.ToString(ba).Replace("-","");
     }
+
+    public static void Print(string name, byte[] ba)
+    {
+        Console.WriteLine($"{name}: {Print(ba)}");
+    }
     
     public static string PrintArray(int[] array)
     {

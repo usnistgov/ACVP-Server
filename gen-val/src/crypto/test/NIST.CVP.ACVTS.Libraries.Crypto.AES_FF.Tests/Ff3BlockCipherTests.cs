@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.Ffx;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.BlockModes.FFX;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes;
 using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.BlockModes.Ffx;

@@ -1,4 +1,5 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigGen;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -21,6 +22,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -44,6 +46,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigGen",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -67,6 +70,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigGen",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -91,6 +95,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigGen",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Deterministic = new [] { true }
         };
 
@@ -108,6 +113,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = System.Array.Empty<Capability>()
         };
 
@@ -125,6 +131,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false, true },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -149,6 +156,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -172,6 +180,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -195,6 +204,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -219,6 +229,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -243,6 +254,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -267,6 +279,7 @@ public class ParameterValidatorTests
             Mode = "sigGen",
             Revision = "FIPS205",
             Deterministic = new [] { true, false },
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()

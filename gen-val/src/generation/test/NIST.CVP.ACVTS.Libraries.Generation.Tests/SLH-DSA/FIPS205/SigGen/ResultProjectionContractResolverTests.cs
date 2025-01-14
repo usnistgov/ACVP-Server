@@ -51,7 +51,7 @@ public class ResultProjectionContractResolverTests
         // Prompt properties
         Assert.That(newTg.TestType, Is.Not.EqualTo(tg.TestType), nameof(newTg.TestType));
         Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
-        Assert.That(newTg.Deterministic, Is.Not.EqualTo(tg.Deterministic), nameof(newTg.Deterministic));
+        //Assert.That(newTg.Deterministic, Is.Not.EqualTo(tg.Deterministic), nameof(newTg.Deterministic)); Not a great test because for a boolean the default is one of the options
     }
     
     [Test]
@@ -74,10 +74,9 @@ public class ResultProjectionContractResolverTests
         Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
 
         // Prompt properties
-        Assert.That(newTc.PrivateKey, Is.Not.EqualTo(tc.PrivateKey), nameof(newTc.PrivateKey));
         Assert.That(newTc.AdditionalRandomness, Is.Not.EqualTo(tc.AdditionalRandomness), nameof(newTc.AdditionalRandomness));
-        Assert.That(newTc.MessageLength, Is.Not.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
         Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
+        Assert.That(tc.PrivateKey, Is.Not.EqualTo(newTc.PrivateKey), nameof(newTc.PrivateKey));
         
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
         var regex = new Regex("testPassed", RegexOptions.IgnoreCase);

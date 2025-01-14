@@ -1,10 +1,12 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -15,21 +17,12 @@ public class SlhdsaTests
 {
     private readonly IShaFactory _shaFactory = new NativeShaFactory();
     private ISha _sha256;
-    private IWots _wots;
-    private IXmss _xmss;
-    private IHypertree _hypertree;
-    private IFors _fors;
     private Slhdsa _subject;
     
     [OneTimeSetUp]
     public void Setup()
     {
         _sha256 = _shaFactory.GetShaInstance(new HashFunction(ModeValues.SHA2, DigestSizes.d256));
-        _wots = new Wots(_shaFactory);
-        _xmss = new Xmss(_shaFactory, _wots);
-        _hypertree = new Hypertree(_xmss);
-        _fors = new Fors(_shaFactory);
-        _subject = new Slhdsa(_shaFactory, _xmss, _hypertree, _fors);
     }
 
     [Test]
@@ -39,7 +32,8 @@ public class SlhdsaTests
     public void ShouldFailSlhdsaKeyGenWithInValidParameters(string description, SlhdsaParameterSet slhdsaParameterSet, int nRandomBytesForSkSeedLen, int nRandomBytesForSkPrfLen, int nRandomBytesForPkSeedLen)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
 
         byte[] nRandomBytesForSkSeed = new byte[nRandomBytesForSkSeedLen];
         byte[] nRandomBytesForSkPrf = new byte[nRandomBytesForSkPrfLen];
@@ -57,9 +51,7 @@ public class SlhdsaTests
         for (int i = 0; i < nRandomBytesForPkSeedLen; i++)
             nRandomBytesForPkSeed[i] = 0x3d;
         
-        Assert.Throws<ArgumentException>(() => _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed, 
-         slhdsaParameterSetAttributes));
-        
+        Assert.Throws<ArgumentException>(() => _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed));
     }
 
     [Test]
@@ -69,8 +61,9 @@ public class SlhdsaTests
     public void ShouldSlhdsaKeyGenWithValidParameters(SlhdsaParameterSet slhdsaParameterSet, string expected)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
-        
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
+
         byte[] nRandomBytesForSkSeed = new byte[slhdsaParameterSetAttributes.N];
         byte[] nRandomBytesForSkPrf = new byte[slhdsaParameterSetAttributes.N];
         byte[] nRandomBytesForPkSeed = new byte[slhdsaParameterSetAttributes.N];
@@ -83,8 +76,7 @@ public class SlhdsaTests
         }
         
         // do the keyGen
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
 
         // create BitStrings that are representative of the components of the private and public keys
         var privateKeyBitString = new BitString(keyPair.PrivateKey.SkSeed).ConcatenateBits(new BitString(keyPair.PrivateKey.SkPrf)).ConcatenateBits(new BitString(keyPair.PrivateKey.PkSeed)).ConcatenateBits(new BitString(keyPair.PrivateKey.PkRoot));
@@ -105,8 +97,9 @@ public class SlhdsaTests
     public void ShouldSlhdsaSignDeterministicKat(SlhdsaParameterSet slhdsaParameterSet, int messageLength, string expected)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
-        
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
+
         // create a message to sign
         byte[] message = new byte[messageLength];
         // build the seeds and message
@@ -125,11 +118,11 @@ public class SlhdsaTests
         }
         
         // create the key pair
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
         
         // calculate the slhdsa signature of message
-        var sig = _subject.SlhSignDeterministic(message, keyPair.PrivateKey, slhdsaParameterSetAttributes);
+        var sig = _subject.Sign(keyPair.PrivateKey.GetBytes(), message, nRandomBytesForPkSeed);
+        
         // SLH-DSA signatures are large; hash the signature to get a smaller representative of the signature
         var hashResult = _sha256.HashMessage(new BitString(sig));
         var resultDigest = hashResult.Digest.ToHex(); 
@@ -149,8 +142,9 @@ public class SlhdsaTests
     public void ShouldSlhdsaSignNonDeterministicKat(SlhdsaParameterSet slhdsaParameterSet, int messageLength, string expected)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
-        
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
+
         // create a message to sign
         byte[] message = new byte[messageLength];
         for (int i = 0; i < message.Length; i++)
@@ -170,11 +164,11 @@ public class SlhdsaTests
         }
         
         // create the key pair
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
         
         // calculate the slhdsa signature of message
-        var sig = _subject.SlhSignNonDeterministic(message, keyPair.PrivateKey, nRandomBytesForOptRand, slhdsaParameterSetAttributes);
+        var sig = _subject.Sign(keyPair.PrivateKey.GetBytes(), message, nRandomBytesForOptRand);
+        
         // SLH-DSA signatures are large; hash the signature to get a smaller representative of the signature
         var hashResult = _sha256.HashMessage(new BitString(sig));
         var resultDigest = hashResult.Digest.ToHex(); 
@@ -185,28 +179,44 @@ public class SlhdsaTests
     }
 
     [Test]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128s,false)] 
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128s, false)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128f, false)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128f, false)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192s, false)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192s, false)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192f, true)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192f, true)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256s, true)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256s, true)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256f, true)]
-    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256f, true)]
-    public void ShouldSlhdsaSignAndVerify(SlhdsaParameterSet slhdsaParameterSet, bool deterministic)
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128s, PreHash.Pure, false)] 
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128s, PreHash.PreHash, false)] 
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128s,PreHash.Pure, false)] 
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128s,PreHash.PreHash, false)] 
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128s, PreHash.Pure, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128s, PreHash.PreHash, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128f, PreHash.Pure, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_128f, PreHash.PreHash, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128f, PreHash.Pure, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_128f, PreHash.PreHash, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192s, PreHash.Pure, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192s, PreHash.PreHash, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192s, PreHash.Pure, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192s, PreHash.PreHash, false)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192f, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_192f, PreHash.PreHash, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192f, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_192f, PreHash.PreHash, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256s, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256s, PreHash.PreHash, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256s, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256s, PreHash.PreHash, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256f, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHA2_256f, PreHash.PreHash, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256f, PreHash.Pure, true)]
+    [TestCase(SlhdsaParameterSet.SLH_DSA_SHAKE_256f, PreHash.PreHash, true)]
+    public void ShouldSlhdsaSignAndVerify(SlhdsaParameterSet slhdsaParameterSet, PreHash preHash, bool deterministic)
     {
-        byte[] sig;
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(slhdsaParameterSet);
         
+
         // create a message to sign
         byte[] message = new byte[2048];
         for (int i = 0; i < message.Length; i++)
+        {
             message[i] = 0xF0;
+        }
         
         // build the inputs to SlhdsaKeyGen and nRandomBytesForOptRand
         byte[] nRandomBytesForSkSeed = new byte[slhdsaParameterSetAttributes.N];
@@ -220,34 +230,40 @@ public class SlhdsaTests
             nRandomBytesForPkSeed[i] = 0x3d;
             nRandomBytesForOptRand[i] = 0x4c;
         }
+
+        var entropyProvider = new TestableEntropyProvider();
+        entropyProvider.AddEntropy(new BitString(nRandomBytesForPkSeed));
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory, entropyProvider);
         
         // create the key pair
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
         
         // calculate the slhdsa signature of message
-        if (deterministic)
+        byte[] sig = preHash switch
         {
-            sig = _subject.SlhSignNonDeterministic(message, keyPair.PrivateKey, nRandomBytesForOptRand, slhdsaParameterSetAttributes);    
-        }
-        else
-        {
-            sig = _subject.SlhSignDeterministic(message, keyPair.PrivateKey, slhdsaParameterSetAttributes);
-        }
+            PreHash.Pure => _subject.Sign(keyPair.PrivateKey.GetBytes(), message, deterministic ? nRandomBytesForPkSeed : nRandomBytesForOptRand),
+            PreHash.PreHash => _subject.ExternalPreHashSign(keyPair.PrivateKey.GetBytes(), message, deterministic, Array.Empty<byte>(), new HashFunction(ModeValues.SHA2, DigestSizes.d256)),
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
-        var result = _subject.SlhVerify(message, sig, keyPair.PublicKey, slhdsaParameterSetAttributes);
-        Assert.That(result.Success, Is.EqualTo(true));
+        bool result = preHash switch
+        {
+            PreHash.Pure => _subject.Verify(keyPair.PublicKey.GetBytes(), message, sig),
+            PreHash.PreHash => _subject.ExternalPreHashVerify(keyPair.PublicKey.GetBytes(), message, Array.Empty<byte>(), sig, new HashFunction(ModeValues.SHA2, DigestSizes.d256)),
+            _ => throw new ArgumentOutOfRangeException()
+        };
         
-        
+        Assert.That(result, Is.True);
     }
-
+    
     [Test]
     [TestCase("altered message")]
     public void ShouldFailSlhVerifyForAlteredMessage(string scenario)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(SlhdsaParameterSet.SLH_DSA_SHA2_128f);
-        
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(SlhdsaParameterSet.SLH_DSA_SHA2_128f);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
+
         // create a message to sign
         byte[] message = new byte[2048];
         for (int i = 0; i < message.Length; i++)
@@ -267,18 +283,16 @@ public class SlhdsaTests
         }
         
         // create the key pair
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
         
         // create the slhdsa signature
-        var sig = _subject.SlhSignNonDeterministic(message, keyPair.PrivateKey, nRandomBytesForOptRand, slhdsaParameterSetAttributes);
+        var sig = _subject.Sign(keyPair.PrivateKey.GetBytes(), message, nRandomBytesForOptRand);
         
         // alter the message
         message[0] = 0x00;
         
-        var result = _subject.SlhVerify(message, sig, keyPair.PublicKey, slhdsaParameterSetAttributes);
-        
-        Assert.That(result.Success, Is.EqualTo(false));
+        var result = _subject.Verify(keyPair.PublicKey.GetBytes(), message, sig);
+        Assert.That(result, Is.False);
     }
    
     [Test]
@@ -286,8 +300,9 @@ public class SlhdsaTests
     public void ShouldFailSlhVerifyForAlteredSignature(string scenario)
     {
         // grab all the values associated w/ the selected parameter set
-        SlhdsaParameterSetAttributes slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(SlhdsaParameterSet.SLH_DSA_SHA2_128f);
-        
+        var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(SlhdsaParameterSet.SLH_DSA_SHA2_128f);
+        _subject = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
+
         // create a message to sign
         byte[] message = new byte[2048];
         for (int i = 0; i < message.Length; i++)
@@ -307,11 +322,10 @@ public class SlhdsaTests
         }
         
         // create the key pair
-        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed,
-            slhdsaParameterSetAttributes);
+        var keyPair = _subject.SlhKeyGen(nRandomBytesForSkSeed, nRandomBytesForSkPrf, nRandomBytesForPkSeed);
         
         // create the slhdsa signature
-        var sig = _subject.SlhSignNonDeterministic(message, keyPair.PrivateKey, nRandomBytesForOptRand, slhdsaParameterSetAttributes);
+        var sig = _subject.Sign(keyPair.PrivateKey.GetBytes(), message, nRandomBytesForOptRand);
         
         // alter the signature
         if (sig[0] != 0x00)
@@ -319,9 +333,7 @@ public class SlhdsaTests
         else
             sig[0] = 0xFF;
         
-        var result = _subject.SlhVerify(message, sig, keyPair.PublicKey, slhdsaParameterSetAttributes);
-        
-        Assert.That(result.Success, Is.EqualTo(false));
+        var result = _subject.Verify(keyPair.PublicKey.GetBytes(), message, sig);
+        Assert.That(result, Is.False);
     }
-    
 }

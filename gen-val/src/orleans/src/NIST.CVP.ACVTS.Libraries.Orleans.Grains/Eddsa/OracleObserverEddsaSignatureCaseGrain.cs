@@ -52,22 +52,14 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         protected override async Task DoWorkAsync()
         {
             var curve = _curveFactory.GetCurve(_param.Curve);
-            var noContext = _param.Curve == Curve.Ed25519 && !_param.PreHash;
-            var contextLength = _param.ContextLength;
             var domainParams = new EdDomainParameters(curve, _shaFactory);
             var edDsa = _dsaFactory.GetInstance(null);
 
             var message = _rand.GetRandomBitString(1024);
 
-            BitString context;
-            if (noContext)
-            {
-                context = new BitString("");
-            }
-            else
-            {
-                context = _rand.GetRandomBitString(contextLength * BITS_IN_BYTE);
-            }
+            // _param.ContextLength will either have been 1) explicitly set to a value or 2) not set to a value. In the 
+            // case of #2, _param.ContextLength will default to 0.
+            BitString context = _rand.GetRandomBitString(_param.ContextLength * BITS_IN_BYTE);
 
             var result = edDsa.Sign(domainParams, _param.Key, message, context, _param.PreHash);
             if (!result.Success)

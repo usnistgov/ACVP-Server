@@ -51,7 +51,6 @@ public class ResultProjectionContractResolverTests
         // Prompt properties
         Assert.That(newTg.TestType, Is.Not.EqualTo(tg.TestType), nameof(newTg.TestType));
         Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
-        Assert.That(newTg.MessageLengths, Is.Not.EqualTo(tg.MessageLengths), nameof(newTg.MessageLengths));
     }
     
     [Test]
@@ -75,10 +74,10 @@ public class ResultProjectionContractResolverTests
 
         // Prompt properties
         Assert.That(newTc.PublicKey, Is.Not.EqualTo(tc.PublicKey), nameof(newTc.PublicKey));
-        Assert.That(newTc.MessageLength, Is.Not.EqualTo(tc.MessageLength), nameof(newTc.MessageLength));
         Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
         Assert.That(newTc.Signature, Is.Not.EqualTo(tc.Signature), nameof(newTc.Signature));
-
+        Assert.That(newTc.PublicKey, Is.Not.EqualTo(tc.PublicKey), nameof(newTc.PublicKey));
+        
         // Internal Projection properties
         Assert.That(newTc.PrivateKey, Is.Not.EqualTo(tc.PrivateKey), nameof(newTc.PrivateKey));
         Assert.That(newTc.AdditionalRandomness, Is.Not.EqualTo(tc.AdditionalRandomness), nameof(newTc.AdditionalRandomness));

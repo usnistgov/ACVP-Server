@@ -1,5 +1,7 @@
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.PqcHelpers;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -37,9 +39,17 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            ParameterSets = new [] { DilithiumParameterSet.ML_DSA_44 },
             Deterministic = new [] { true },
-            MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
+            ExternalMu = new [] { false },
+            Capabilities = new []
+            {
+                new Capability
+                {
+                    ParameterSets = new [] { DilithiumParameterSet.ML_DSA_44 },
+                    MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(1024))
+                }
+            },
             IsSample = true
         };
 
@@ -54,10 +64,21 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            ParameterSets = ParameterValidator.VALID_PARAMETER_SETS,
             Deterministic = new [] { true, false },
-            MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 8, 65536, 8)),
-            IsSample = true
+            PreHash = new [] { PreHash.Pure , PreHash.PreHash },
+            SignatureInterfaces = new [] { SignatureInterface.External, SignatureInterface.Internal },
+            ExternalMu = new [] { true, false },
+            Capabilities = new []
+            {
+                new Capability
+                {
+                    ParameterSets = ParameterValidator.ValidParameterSets,
+                    MessageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinMsgLen, PqcParameterValidator.MaxMsgLen, 8)),
+                    ContextLength = new MathDomain().AddSegment(new RangeDomainSegment(null, PqcParameterValidator.MinContextLen, PqcParameterValidator.MaxContextLen, 8)),
+                    HashAlgs = PqcParameterValidator.ValidHashAlgs,
+                }
+            },
+            IsSample = false
         };
 
         return CreateRegistration(targetFolder, p);

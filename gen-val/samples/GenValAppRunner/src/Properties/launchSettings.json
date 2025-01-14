@@ -5,7 +5,7 @@
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "--generationRequestFile filepath to registration.json"
+      "commandLineArgs": "--generationRequestFile /Users/ctc/Documents/test-registrations/aes-ff1/registration.json"
     },
     "Validate": {
       "commandName": "Project",

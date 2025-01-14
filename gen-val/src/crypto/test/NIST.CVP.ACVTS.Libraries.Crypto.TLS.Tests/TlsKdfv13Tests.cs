@@ -169,7 +169,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.TLS.Tests
 
             Assert.That(result.MasterSecretResult.ResumptionMasterSecret.ToHex(), Is.EqualTo(expectedResumption.ToHex()));
         }
-
+        
         // [Test]
         // public void TestVectorIetfDraft_TranscriptHashHelloRetry()
         // {

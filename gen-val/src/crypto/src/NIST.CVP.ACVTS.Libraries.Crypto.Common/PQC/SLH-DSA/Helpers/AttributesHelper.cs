@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 
 public static class AttributesHelper
 {
@@ -45,7 +45,6 @@ public static class AttributesHelper
             SlhdsaParameterSet.SLH_DSA_SHAKE_192f,
             new SlhdsaParameterSetAttributes(SlhdsaParameterSet.SLH_DSA_SHAKE_192f,  24, 66, 22, 3, 8, 33, 4, 16,51,48,3, 42, SecurityLevel.Three, 48, 35664, ModeValues.SHAKE)
         },
-        
         {
             SlhdsaParameterSet.SLH_DSA_SHA2_256s,
             new SlhdsaParameterSetAttributes(SlhdsaParameterSet.SLH_DSA_SHA2_256s, 32, 64, 8, 8, 14, 22, 4, 16, 67,64,3,47, SecurityLevel.Five, 64, 29792, ModeValues.SHA2)
@@ -54,7 +53,6 @@ public static class AttributesHelper
             SlhdsaParameterSet.SLH_DSA_SHAKE_256s,
             new SlhdsaParameterSetAttributes(SlhdsaParameterSet.SLH_DSA_SHAKE_256s, 32, 64, 8, 8, 14, 22, 4, 16,67,64,3,47, SecurityLevel.Five, 64, 29792, ModeValues.SHAKE)
         },
-        
         {
             SlhdsaParameterSet.SLH_DSA_SHA2_256f,
             new SlhdsaParameterSetAttributes(SlhdsaParameterSet.SLH_DSA_SHA2_256f, 32, 68, 17, 4, 9, 35, 4, 16, 67,64,3,49, SecurityLevel.Five, 64, 49856, ModeValues.SHA2)

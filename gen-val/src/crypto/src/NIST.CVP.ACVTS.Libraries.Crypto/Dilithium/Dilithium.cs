@@ -4,13 +4,14 @@ using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.ExternalInterfaces;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Helpers;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Dilithium;
 
-public class Dilithium : IMLDSA
+public class Dilithium : ExternalSignatureBase, IMLDSA 
 {
     private readonly DilithiumParameters _param;
     private readonly IShake _h;
@@ -46,12 +47,23 @@ public class Dilithium : IMLDSA
         -3974485, -3773731, 1900052, -781875, 1054478, -731434
     };
     
-    public Dilithium(DilithiumParameters param, IShaFactory shaFactory, IEntropyProvider entropyProvider)
+    /// <summary>
+    /// Create a Dilithium, ML-DSA, object
+    /// </summary>
+    /// <param name="param"></param>
+    /// <param name="shaFactory"></param>
+    /// <param name="entropyProvider">Only needed if using non-deterministic signing</param>
+    public Dilithium(DilithiumParameterSet param, IShaFactory shaFactory, IEntropyProvider entropyProvider = null) : base(shaFactory)
     {
-        _param = param;
+        _param = new DilithiumParameters(param);
         _h = shaFactory.GetShakeInstance(new HashFunction(ModeValues.SHAKE, DigestSizes.d256));
         _h128 = shaFactory.GetShakeInstance(new HashFunction(ModeValues.SHAKE, DigestSizes.d128));
         _entropyProvider = entropyProvider;
+    }
+
+    protected override byte[] GetRnd(bool deterministic)
+    {
+        return deterministic ? new byte[32] : _entropyProvider.GetEntropy(256).ToBytes();
     }
 
     /// <summary>
@@ -132,18 +144,17 @@ public class Dilithium : IMLDSA
         
         return (pk, sk);
     }
-    
+
     /// <summary>
-    /// Signs a message with a given secret key
+    /// Signs a message with a given secret key.
+    /// Internal interface.
     /// </summary>
     /// <param name="sk">Secret key.</param>
-    /// <param name="message">Arbitrary set of bits.</param>
-    /// <param name="deterministic">Determines if the signature incorporates any randomness. Opposite is "hedged".</param>
+    /// <param name="m">Arbitrary set of bits, message.</param>
+    /// <param name="rnd">Either a random 32-byte string or 32-bytes of 0s</param>
     /// <returns>Signature</returns>
-    public byte[] Sign(byte[] sk, BitArray m, bool deterministic)
+    public override byte[] Sign(byte[] sk, byte[] m, byte[] rnd)
     {
-        var message = BitsToBytes(m).Reverse().ToArray();
-        
         var (rho, k, tr, s1, s2, t0) = SkDecode(sk);
         var s1Hat = s1.Select(NTT).ToArray();
         var s2Hat = s2.Select(NTT).ToArray();
@@ -154,26 +165,18 @@ public class Dilithium : IMLDSA
         var mu = new byte[64];
         _h.Init();
         _h.Update(BitsToBytes(tr), tr.Length);
-        _h.Update(message, message.Length * 8);
+        _h.Update(m, m.Length * 8);
         _h.Final(mu, 512);
         
-        // rnd is either 256 random bits, or 256 0-bits. 
-        var rnd = new BitArray(256);
-        if (!deterministic)
-        {
-            rnd = _entropyProvider.GetEntropy(256).Bits;
-        }
-
         // Console.WriteLine($"Signature Generation -- {EnumHelpers.GetEnumDescriptionFromEnum(_param.ParameterSet)}");
-        // Console.WriteLine("message: " + IntermediateValueHelper.Print(message));
-        // Console.WriteLine("deterministic: " + (deterministic ? "true" : "false"));
+        // Console.WriteLine("message: " + IntermediateValueHelper.Print(m));
         // Console.WriteLine("sk: " + IntermediateValueHelper.Print(sk));
-        
+        //
         // Console.WriteLine("rho: " + IntermediateValueHelper.Print(rho.ToBytes()));
         // Console.WriteLine("k: " + IntermediateValueHelper.Print(k.ToBytes()));
         // Console.WriteLine("tr: " + IntermediateValueHelper.Print(tr.ToBytes()));
         // Console.WriteLine("mu: " + IntermediateValueHelper.Print(mu));
-        // Console.WriteLine("rnd: " + IntermediateValueHelper.Print(rnd.ToBytes()));
+        // Console.WriteLine("rnd: " + IntermediateValueHelper.Print(rnd.Reverse().ToArray()));
         // Console.WriteLine("aHat: " + IntermediateValueHelper.Print3dArray(aHat));
         // Console.WriteLine("s1Hat: " + IntermediateValueHelper.Print2dArray(s1Hat));
         // Console.WriteLine("s2Hat: " + IntermediateValueHelper.Print2dArray(s2Hat));
@@ -183,7 +186,7 @@ public class Dilithium : IMLDSA
         var rhoPrime = new byte[64];
         _h.Init();
         _h.Update(BitsToBytes(k), k.Length);
-        _h.Update(BitsToBytes(rnd).Reverse().ToArray(), rnd.Length);
+        _h.Update(rnd.ToArray(), rnd.Length * 8); 
         _h.Update(mu, mu.Length * 8);
         _h.Final(rhoPrime, 512);
         var rhoPrimeBits = BytesToBits(rhoPrime);
@@ -297,16 +300,109 @@ public class Dilithium : IMLDSA
     }
 
     /// <summary>
+    /// Signs a pre-computed mu with a given secret key
+    /// Internal interface
+    /// </summary>
+    /// <param name="sk">Secret key.</param>
+    /// <param name="mu">64-byte message that has already been hashed</param>
+    /// <param name="rnd">Either a random 32-byte string or 32-bytes of 0s</param>
+    /// <returns>Signature</returns>
+    public byte[] SignExternalMu(byte[] sk, byte[] mu, byte[] rnd)
+    {
+        var (rho, k, tr, s1, s2, t0) = SkDecode(sk);
+        var s1Hat = s1.Select(NTT).ToArray();
+        var s2Hat = s2.Select(NTT).ToArray();
+        var t0Hat = t0.Select(NTT).ToArray();
+        var aHat = ExpandA(rho);
+        
+        var rhoPrime = new byte[64];
+        _h.Init();
+        _h.Update(BitsToBytes(k), k.Length);
+        _h.Update(rnd.ToArray(), rnd.Length * 8);
+        _h.Update(mu, mu.Length * 8);
+        _h.Final(rhoPrime, 512);
+        var rhoPrimeBits = BytesToBits(rhoPrime);
+        
+        var kappa = 0;
+        var cTilde = new byte[(2 * _param.Lambda) / 8];
+        int[][] z;
+        int[][] h;
+
+        do
+        {
+            var y = ExpandMask(rhoPrimeBits, kappa);
+            var yHat = y.Select(NTT).ToArray();
+            var w = MatrixMultiply(aHat, yHat).Select(NTTInverse).ToArray();
+            
+            var w1 = w.Select(polynomial => polynomial.Select(HighBits).ToArray()).ToArray();
+            var w1Encode = W1Encode(w1);
+            
+            _h.Init();
+            _h.Update(mu, mu.Length * 8);
+            _h.Update(BitsToBytes(w1Encode), w1Encode.Length);
+            _h.Final(cTilde, 2 * _param.Lambda);
+
+            var c = SampleInBall(cTilde);
+            var cHat = NTT(c);
+            var cs1 = PairwiseMultiply(cHat, s1Hat).Select(NTTInverse).ToArray();
+            var cs2 = PairwiseMultiply(cHat, s2Hat).Select(NTTInverse).ToArray();
+            z = MatrixAdd(y, cs1);
+
+            var r0 = MatrixSubtract(w, cs2).Select(polynomial => polynomial.Select(LowBits).ToArray()).ToArray();
+
+            if (InfinityNorm(z) >= _param.Gamma1 - _param.Beta || InfinityNorm(r0) >= _param.Gamma2 - _param.Beta)
+            {
+                z = null;
+                h = null;
+            }
+            else
+            {
+                var ct0 = PairwiseMultiply(cHat, t0Hat).Select(NTTInverse).ToArray();
+                var negatedCt0 = NegateMatrix(ct0);
+                var wMinusCs2PlusCt0 = MatrixAdd(MatrixSubtract(w, cs2), ct0);
+ 
+                h = new int[ct0.Length][];
+                var sumH = 0;
+                
+                for (var i = 0; i < ct0.Length; i++)
+                {
+                    h[i] = new int[ct0[i].Length];
+                    for (var j = 0; j < ct0[i].Length; j++)
+                    {
+                        // Build H and sum at the same time
+                        if (MakeHint(negatedCt0[i][j], wMinusCs2PlusCt0[i][j]))
+                        {
+                            h[i][j] = 1;
+                            sumH++;
+                        }
+                    }
+                }
+
+                if (InfinityNorm(ct0) >= _param.Gamma2 || sumH > _param.Omega)
+                {
+                    z = null;
+                    h = null;
+                }
+            }
+
+            kappa += _param.L;
+
+        } while (z == null && h == null);
+
+        // z plus/minus mod Q is performed within SigEncode because it is easier to apply as the elements are iterated
+        var sig = SigEncode(BytesToBits(cTilde), z, h);
+        return sig;
+    }
+
+    /// <summary>
     /// Verify a signature
     /// </summary>
     /// <param name="pk">Public key.</param>
-    /// <param name="signature">Signature.</param>
     /// <param name="m">Message.</param>
+    /// <param name="signature">Signature.</param>
     /// <returns></returns>
-    public bool Verify(byte[] pk, byte[] signature, BitArray m)
+    public override bool Verify(byte[] pk, byte[] m, byte[] signature)
     {
-        var message = BitsToBytes(m).Reverse().ToArray();
-        
         var (rho, t1) = PkDecode(pk);
         var (cTilde, z, h) = SigDecode(signature);
 
@@ -356,7 +452,7 @@ public class Dilithium : IMLDSA
         var mu = new byte[64];
         _h.Init();
         _h.Update(tr, 512);
-        _h.Update(message, message.Length * 8);
+        _h.Update(m, m.Length * 8);
         _h.Final(mu, 512);
         // Console.WriteLine("muCandidate: " + IntermediateValueHelper.Print(mu));
         // Console.WriteLine();

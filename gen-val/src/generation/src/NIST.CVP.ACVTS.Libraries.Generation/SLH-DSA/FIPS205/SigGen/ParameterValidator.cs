@@ -1,22 +1,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.PqcHelpers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigGen;
 
-public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
+public class ParameterValidator : PqcParameterValidator, IParameterValidator<Parameters>
 {
-    public static readonly int MinMsgLen = 8;
-    public static readonly int MaxMsgLen = 65536;
-
-    public static readonly SlhdsaParameterSet[] FastSigningParameterSets = new[] 
+    public static readonly SlhdsaParameterSet[] FastSigningParameterSets =  
     { 
         SlhdsaParameterSet.SLH_DSA_SHA2_128f, SlhdsaParameterSet.SLH_DSA_SHA2_192f, SlhdsaParameterSet.SLH_DSA_SHA2_256f, 
         SlhdsaParameterSet.SLH_DSA_SHAKE_128f, SlhdsaParameterSet.SLH_DSA_SHAKE_192f, SlhdsaParameterSet.SLH_DSA_SHAKE_256f
     };
-    public static readonly SlhdsaParameterSet[] SmallSignatureParameterSets = new[] 
+    
+    public static readonly SlhdsaParameterSet[] SmallSignatureParameterSets =  
     { 
         SlhdsaParameterSet.SLH_DSA_SHA2_128s, SlhdsaParameterSet.SLH_DSA_SHA2_192s, SlhdsaParameterSet.SLH_DSA_SHA2_256s, 
         SlhdsaParameterSet.SLH_DSA_SHAKE_128s, SlhdsaParameterSet.SLH_DSA_SHAKE_192s, SlhdsaParameterSet.SLH_DSA_SHAKE_256s
@@ -28,6 +27,7 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
 
         ValidateAlgoMode(parameters, new[] { AlgoMode.SLH_DSA_SigGen_FIPS205 }, errors);
         ValidateDeterministic(parameters, errors);
+        ValidateSignatureInterfacesAndPreHash(parameters, errors);
         ValidateCapabilities(parameters, errors);
         
         return errors.Any() ? new ParameterValidateResponse(errors) : new ParameterValidateResponse();  
@@ -50,68 +50,39 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
         }
 
         // 3) the values of 'true' and 'false' should only be included up to once a piece
-        foreach (bool boolValue in new[] { true, false })
+        if (parameters.Deterministic.Distinct().Count() != parameters.Deterministic.Count())
         {
-            if (parameters.Deterministic.Count(t => t == boolValue) > 1)
-                errors.Add($"{nameof(parameters.Deterministic)} may not include {boolValue.ToString()} more than once");
+            errors.Add("Expected no duplicate deterministic options");
         }
     }
-
+    
     private void ValidateCapabilities(Parameters parameters, List<string> errors)
     {
-        // 1) was Capabilities included in the registration?
-        if (parameters.Capabilities == null)
-        {
-            errors.Add($"{nameof(parameters.Capabilities)} was not provided.");
-            return;
-        }
-        
-        var capabilitiesElementType = parameters.Capabilities.GetType().GetElementType();
-        var capabilitiesElementTypeString = capabilitiesElementType != null ? capabilitiesElementType.ToString() : "Capability"; 
-        
-        // 2) was Capabilities included, but empty?
+        // 1) was Capabilities included, but empty?
         if (!parameters.Capabilities.Distinct().Any())
         {
-            errors.Add($"Expected {nameof(parameters.Capabilities)} to contain at least one {capabilitiesElementTypeString}");
+            errors.Add($"Expected {nameof(parameters.Capabilities)} to not be empty");
             return;
         }
 
-        // 3) examine each Capability that was provided
-        var shouldReturn = false;
+        // 2) examine each Capability that was provided
         foreach (var capability in parameters.Capabilities)
         {
-            // i) Were ParameterSets and MessageLength provided?
-            if (capability.ParameterSets == null)
-            {
-                errors.Add($"{nameof(capability.ParameterSets)} was not provided");
-                shouldReturn = true;
-            }
-            if (capability.MessageLength == null)
-            {
-                errors.Add($"{nameof(capability.MessageLength)} was not provided");
-                shouldReturn = true;
-            }
-
-            if (shouldReturn)
-                return;
-            
-            // ii) is ParameterSets non-empty?
+            // i) is ParameterSets non-empty?
             if (!capability.ParameterSets.Distinct().Any())
             {
                 errors.Add($"Expected {nameof(capability.ParameterSets)} to contain at least one valid SLH-DSA parameter set");
-                shouldReturn = true;
+                return;
+            }
+
+            // ii) check no duplicates are provided
+            if (capability.ParameterSets.Length != capability.ParameterSets.Distinct().Count())
+            {
+                errors.Add($"{nameof(capability.ParameterSets)} must not contain the same SLH-DSA parameter set more than once");
             }
             
-            // iii) are the MessageLength values valid?
-            ValidateDomain(capability.MessageLength, errors, "message length", MinMsgLen, MaxMsgLen);
-            ValidateMultipleOf(capability.MessageLength, errors, 8, "complete byte messages");
-            
-            if (shouldReturn)
-                return;
-            
-            //iv) ParameterSets shouldn't contain any repeats
-            if (capability.ParameterSets.Length != capability.ParameterSets.Distinct().Count())
-                errors.Add($"{nameof(capability.ParameterSets)} must not contain the same SLH-DSA parameter set more than once");
+            // iii) run the base validator on each capability
+            ValidateCapability(capability, parameters, errors);
         }
     }
 }

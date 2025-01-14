@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.SLHDSA;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
@@ -38,20 +38,17 @@ public class OracleObserverSLHDSAKeyCaseGrain : ObservableOracleGrainBase<SLHDSA
 
     protected override async Task DoWorkAsync()
     {
-        var wots = new Wots(_shaFactory);
-        var xmss = new Xmss(_shaFactory, wots);
-        var hypertree = new Hypertree(xmss);
-        var fors = new Fors(_shaFactory);
-        var slhdsa = new Slhdsa(_shaFactory, xmss, hypertree, fors);
-
         // pull back all of the attribute values associated with the SLHDSA parameter set in use
         var slhdsaParameterSetAttributes = AttributesHelper.GetParameterSetAttribute(_param.SlhdsaParameterSet);
+        
+        // Doesn't need EntropyProvider in this case
+        var slhdsa = new Slhdsa(slhdsaParameterSetAttributes, _shaFactory);
 
         var SKSeed = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
         var SKPrf = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
         var PKSeed = _entropyProvider.GetEntropy(slhdsaParameterSetAttributes.N * 8).ToBytes();
 
-        var keyPair = slhdsa.SlhKeyGen(SKSeed, SKPrf, PKSeed, slhdsaParameterSetAttributes);
+        var keyPair = slhdsa.SlhKeyGen(SKSeed, SKPrf, PKSeed);
 
         var result = new SLHDSAKeyPairResult
         {

@@ -1,6 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Math;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.SP800_106
 {
     /// <summary>
     /// Applies randomization as defined in https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-106.pdf prior

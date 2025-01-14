@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen.ContractResolvers;
@@ -15,7 +16,18 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             nameof(TestGroup.TestType), 
             nameof(TestGroup.ParameterSet),
             nameof(TestGroup.Deterministic),
-            nameof(TestGroup.Tests),
+            nameof(TestGroup.SignatureInterface),
+            nameof(TestGroup.Tests)
+        };
+        
+        var includeIfInternalProperties = new[]
+        {
+            nameof(TestGroup.ExternalMu)
+        };
+        
+        var includeIfExternalProperties = new[]
+        {
+            nameof(TestGroup.PreHash)
         };
 
         if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -23,6 +35,24 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = _ => true;
         }
 
+        if (includeIfExternalProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestGroupFromTestGroupObject(instance, out var group);
+                return group.SignatureInterface == SignatureInterface.External;
+            };
+        }
+        
+        if (includeIfInternalProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestGroupFromTestGroupObject(instance, out var group);
+                return group.SignatureInterface == SignatureInterface.Internal;
+            };
+        }
+        
         return jsonProperty.ShouldSerialize = _ => false;
     }
 
@@ -30,14 +60,33 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
     {
         var includeProperties = new[]
         {
-            nameof(TestCase.TestCaseId), 
+            nameof(TestCase.TestCaseId),
+            nameof(TestCase.PrivateKey)
+        };
+        
+        var includeNotDeterministicProperties = new[]
+        {
+            nameof(TestCase.Random)
+        };
+        
+        var includeExternalInterfaceProperties = new[]
+        {
+            nameof(TestCase.Context)
+        };
+        
+        var includeExternalMuProperties = new []
+        {
+            nameof(TestCase.Mu)
+        };
+        
+        var includeNotExternalMuProperties = new []
+        {
             nameof(TestCase.Message)
         };
         
-        var includeAftProperties = new[]
+        var includePreHashProperties = new []
         {
-            nameof(TestCase.PrivateKey),
-            nameof(TestCase.Random)
+            nameof(TestCase.HashAlg)
         };
 
         if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
@@ -45,12 +94,48 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = _ => true;
         }
 
-        if (includeAftProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        if (includeNotDeterministicProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.TestType.Equals("AFT", StringComparison.OrdinalIgnoreCase);
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return !group.Deterministic;
+            };
+        }
+        
+        if (includeExternalMuProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.ExternalMu;
+            };
+        }
+        
+        if (includeNotExternalMuProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return !group.ExternalMu;
+            };
+        }
+        
+        if (includeExternalInterfaceProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.SignatureInterface == SignatureInterface.External;
+            };
+        }
+        
+        if (includePreHashProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.PreHash == PreHash.PreHash;
             };
         }
         

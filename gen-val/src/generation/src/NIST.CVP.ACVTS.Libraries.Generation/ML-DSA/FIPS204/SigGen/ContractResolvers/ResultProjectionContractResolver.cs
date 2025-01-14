@@ -12,7 +12,6 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
         var includeProperties = new[]
         {
             nameof(TestGroup.TestGroupId),
-            nameof(TestGroup.PublicKey),
             nameof(TestGroup.Tests)
         };
 

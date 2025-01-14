@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -15,7 +16,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
     {
         private readonly IOracle _oracle;
         private ShuffleQueue<int> _contextLengths;
-
+        private bool _noContext = false;
+        
         public int NumberOfTestCasesToGenerate { get; private set; } = 10;
 
         public TestCaseGenerator(IOracle oracle)
@@ -25,27 +27,40 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            var min = group.ContextLength.GetDomainMinMax().Minimum;
-            var max = group.ContextLength.GetDomainMinMax().Maximum;
+            // context is not applicable when the ED-25519 curve is used with the pure signature type
+            _noContext = group.Curve == Curve.Ed25519 && !group.PreHash;
             
-            var lengths = group.ContextLength.GetRandomValues(min, max, NumberOfTestCasesToGenerate - 2).ToList();
-            lengths.Add(min);
-            lengths.Add(max);
+            // if context is applicable, generate a list of context lengths to test
+            if (!_noContext)
+            {
+                var min = group.ContextLength.GetDomainMinMax().Minimum;
+                var max = group.ContextLength.GetDomainMinMax().Maximum;
             
-            _contextLengths = new ShuffleQueue<int>(lengths, NumberOfTestCasesToGenerate);
+                // We always add min and max, so get between min+1 and max-1
+                var lengths = group.ContextLength.GetRandomValues(min+1, max-1, NumberOfTestCasesToGenerate - 2).ToList();
+                lengths.Add(min);
+                lengths.Add(max);
+            
+                _contextLengths = new ShuffleQueue<int>(lengths, NumberOfTestCasesToGenerate);           
+            }
             
             return new GenerateResponse();
         }
         
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            var param = new EddsaSignatureParameters
+            EddsaSignatureParameters param = new EddsaSignatureParameters
             {
                 Curve = group.Curve,
                 PreHash = group.PreHash,
-                Key = group.KeyPair,
-                ContextLength = _contextLengths.Pop()
+                Key = group.KeyPair
             };
+            
+            // if context is applicable, add it into the passing parameters? 
+            if (!_noContext)
+            {
+                param.ContextLength = _contextLengths.Pop();
+            }
             
             try
             {

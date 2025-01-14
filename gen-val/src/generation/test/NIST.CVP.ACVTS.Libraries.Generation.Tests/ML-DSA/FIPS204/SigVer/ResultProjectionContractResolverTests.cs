@@ -47,8 +47,6 @@ public class ResultsProjectionContractResolverTests
         Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
 
         Assert.That(newTg.ParameterSet, Is.Not.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
-        Assert.That(newTg.PublicKey, Is.Not.EqualTo(tg.PublicKey), nameof(newTg.PublicKey));
-        Assert.That(newTg.PrivateKey, Is.Not.EqualTo(tg.PrivateKey), nameof(newTg.PrivateKey));
     }
     
     [Test]
@@ -70,5 +68,7 @@ public class ResultsProjectionContractResolverTests
 
         Assert.That(newTc.Signature, Is.Not.EqualTo(tc.Signature), nameof(newTc.Signature));
         Assert.That(newTc.Message, Is.Not.EqualTo(tc.Message), nameof(newTc.Message));
+        Assert.That(tc.PublicKey, Is.Not.EqualTo(newTc.PublicKey), nameof(newTc.PublicKey));
+        Assert.That(tc.PrivateKey, Is.Not.EqualTo(newTc.PrivateKey), nameof(newTc.PrivateKey));
     }
 }

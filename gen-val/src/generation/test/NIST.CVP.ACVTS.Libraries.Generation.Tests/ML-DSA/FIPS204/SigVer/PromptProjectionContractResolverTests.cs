@@ -45,11 +45,8 @@ public class PromptProjectionContractResolverTests
         var newTg = newTvs.TestGroups[0];
 
         Assert.That(newTg.TestGroupId, Is.EqualTo(tg.TestGroupId), nameof(newTg.TestGroupId));
-        Assert.That(newTg.PublicKey, Is.EqualTo(tg.PublicKey), nameof(newTg.PublicKey));
         Assert.That(newTg.Tests.Count, Is.EqualTo(tg.Tests.Count), nameof(newTg.Tests));
         Assert.That(newTg.ParameterSet, Is.EqualTo(tg.ParameterSet), nameof(newTg.ParameterSet));
-
-        Assert.That(newTg.PrivateKey, Is.Not.EqualTo(tg.PrivateKey), nameof(newTg.PrivateKey));
     }
     
     [Test]
@@ -70,7 +67,10 @@ public class PromptProjectionContractResolverTests
         Assert.That(newTc.TestCaseId, Is.EqualTo(tc.TestCaseId), nameof(newTc.TestCaseId));
         Assert.That(newTc.Message, Is.EqualTo(tc.Message), nameof(newTc.Message));
         Assert.That(newTc.Signature, Is.EqualTo(tc.Signature), nameof(newTc.Signature));
+        Assert.That(tc.PublicKey, Is.EqualTo(newTc.PublicKey), nameof(newTc.PublicKey));
 
+        Assert.That(tc.PrivateKey, Is.Not.EqualTo(newTc.PrivateKey), nameof(newTc.PrivateKey));
+        
         // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
         var regex = new Regex("testPassed", RegexOptions.IgnoreCase);
         Assert.That(regex.Matches(json).Count == 0, Is.True);

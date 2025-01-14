@@ -1,4 +1,6 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
@@ -10,6 +12,16 @@ public class MLDSASignatureParameters
     public bool Deterministic { get; set; }
     public int MessageLength { get; set; }
     public BitString PrivateKey { get; set; }
+    public SignatureInterface SignatureInterface { get; set; }
+    public int ContextLength { get; set; }
+    public bool ExternalMu { get; set; }
+    
+    public PreHash PreHash { get; set; }
+    
+    /// <summary>
+    /// Only used for PreHash
+    /// </summary>
+    public HashFunctions HashFunction { get; set; }
     
     /// <summary>
     /// Used only in SigVer (MLDSAVerifyCaseGrain)

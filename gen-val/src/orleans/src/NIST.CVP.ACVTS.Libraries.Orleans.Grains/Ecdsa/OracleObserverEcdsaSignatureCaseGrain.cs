@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.SP800_106;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;

@@ -7,6 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
@@ -51,13 +52,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
         public async Task ShouldReturnTestGroups()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
+            var contextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 255));
 
             var p = new Parameters
             {
                 Algorithm = "EDDSA",
                 Mode = "sigGen",
                 IsSample = false,
-                Curve = ParameterValidator.VALID_CURVES
+                Curve = ParameterValidator.VALID_CURVES,
+                ContextLength = contextLength
             };
 
             var groups = new List<TestGroup>();
@@ -74,6 +77,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
         public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
             var result = _subject.GetTestGroupGenerators(new Parameters());
+            var contextLength = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 0, 255));
 
             var p = new Parameters
             {
@@ -81,7 +85,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
                 Mode = "sigGen",
                 IsSample = false,
                 Curve = ParameterValidator.VALID_CURVES,
-                PreHash = true
+                PreHash = true,
+                ContextLength = contextLength
             };
 
             var groups = new List<TestGroup>();
@@ -91,7 +96,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.Ed.SigGen
                 groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
             }
 
-            Assert.That(groups.Count, Is.EqualTo(8));
+            Assert.That(groups.Count, Is.EqualTo(4));
         }
     }
 }

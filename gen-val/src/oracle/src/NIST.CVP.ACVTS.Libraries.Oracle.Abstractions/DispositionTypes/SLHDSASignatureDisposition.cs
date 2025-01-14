@@ -7,21 +7,21 @@ public enum SLHDSASignatureDisposition
     [EnumMember(Value = "valid signature and message - signature should verify successfully")]
     None,
     
-    [EnumMember(Value = "message altered")]
+    [EnumMember(Value = "modified message")]
     ModifyMessage,
     
-    [EnumMember(Value = "modified signature - R modified")]
+    [EnumMember(Value = "modified signature - R")]
     ModifySignatureR,
     
-    [EnumMember(Value = "modified signature - SIGFORS modified")]
+    [EnumMember(Value = "modified signature - SIGFORS")]
     ModifySignatureSigFors,
     
-    [EnumMember(Value = "modified signature - SIGHT modified")]
+    [EnumMember(Value = "modified signature - SIGHT")]
     ModifySignatureSigHt,
     
-    [EnumMember(Value = "invalid signature - signature is too large")]
+    [EnumMember(Value = "invalid signature - too large")]
     ModifySignatureTooLarge,
     
-    [EnumMember(Value = "invalid signature - signature is too small")]
+    [EnumMember(Value = "invalid signature - too small")]
     ModifySignatureTooSmall
 }

@@ -15,13 +15,13 @@ public class TestCaseExpectationProvider : ITestCaseExpectationProvider<SLHDSASi
     {
         var expectationReasons = new List<TestCaseExpectationReason>();
 
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.None), 3);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifyMessage), 1);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureR), 1);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureSigFors), 1);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureSigHt), 1);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureTooLarge), 1);
-        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureTooSmall), 1);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.None), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifyMessage), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureR), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureSigFors), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureSigHt), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureTooLarge), 2);
+        expectationReasons.Add(new TestCaseExpectationReason(SLHDSASignatureDisposition.ModifySignatureTooSmall), 2);
 
         _expectationReasons = new ConcurrentQueue<TestCaseExpectationReason>(expectationReasons.Shuffle());
     }

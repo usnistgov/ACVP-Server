@@ -1,52 +1,76 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigVer.TestCaseExpectations;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_DSA;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.ML_DSA;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigVer;
 
 public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>
 {
-    private readonly IOracle _oracle;
-
-    public TestGroupGenerator(IOracle oracle)
-    {
-        _oracle = oracle;
-    }
-    
-    public async Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
+    public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
     {
         var testGroups = new List<TestGroup>();
-        var map = new Dictionary<TestGroup, Task<MLDSAKeyPairResult>>();
-        
-        foreach (var parameterSet in parameters.ParameterSets.Distinct())
+
+        foreach (var capability in parameters.Capabilities)
         {
-            var testGroup = new TestGroup
+            foreach (var signatureInterface in parameters.SignatureInterfaces.Distinct())
             {
-                TestType = "AFT",
-                ParameterSet = parameterSet,
-                TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
-            };
-            
-            var param = new MLDSAKeyGenParameters { ParameterSet = parameterSet };
-            map.Add(testGroup, _oracle.GetMLDSAKeyCaseAsync(param));
+                foreach (var parameterSet in capability.ParameterSets.Distinct())
+                {
+                    switch (signatureInterface)
+                    {
+                        case SignatureInterface.Internal:
+                        {
+                            foreach (var externalMu in parameters.ExternalMu)
+                            {
+                                var testGroup = new TestGroup
+                                {
+                                    TestType = "AFT",
+                                    ParameterSet = parameterSet,
+                                    SignatureInterface = signatureInterface,
+                                    ExternalMu = externalMu,
+                                    MessageLength = capability.MessageLength,
+                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                                };
+
+                                testGroups.Add(testGroup);
+                            }
+
+                            break;
+                        }
+                        case SignatureInterface.External:
+                        {
+                            foreach (var preHash in parameters.PreHash)
+                            {
+                                var testGroup = new TestGroup
+                                {
+                                    TestType = "AFT",
+                                    ParameterSet = parameterSet,
+                                    SignatureInterface = signatureInterface,
+                                    PreHash = preHash,
+                                    HashFunctions = capability.HashAlgs,
+                                    MessageLength = capability.MessageLength,
+                                    ContextLength = capability.ContextLength,
+                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                                };
+
+                                testGroups.Add(testGroup);
+                            }
+
+                            break;
+                        }
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
+
         }
 
-        await Task.WhenAll(map.Values);
-        foreach (var keyValuePair in map)
-        {
-            var group = keyValuePair.Key;
-            var key = keyValuePair.Value.Result;
-            group.PublicKey = key.PublicKey;
-            group.PrivateKey = key.PrivateKey;
-            
-            testGroups.Add(group);
-        }
-        
-        return testGroups;
+        return Task.FromResult(testGroups);
     }
 }

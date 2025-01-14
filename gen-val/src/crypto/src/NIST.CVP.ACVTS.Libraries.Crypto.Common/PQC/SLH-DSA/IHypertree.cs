@@ -1,6 +1,6 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Helpers;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Helpers;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA;
 
 /// <summary>
 /// Abstraction of the hypertree functions defined in section 7 of FIPS 205.

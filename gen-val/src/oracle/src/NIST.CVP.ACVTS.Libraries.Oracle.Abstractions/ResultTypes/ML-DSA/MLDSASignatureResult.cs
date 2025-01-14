@@ -10,7 +10,9 @@ public class MLDSASignatureResult
     public BitString PublicKey { get; set; }  
     
     public BitString Rnd { get; set; }
+    public BitString Context { get; set; }
     
+    public BitString Mu { get; set; }
     public BitString Message { get; set; }
     public BitString Signature { get; set; }
 }

@@ -5,6 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.SP800_106;
 using NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;

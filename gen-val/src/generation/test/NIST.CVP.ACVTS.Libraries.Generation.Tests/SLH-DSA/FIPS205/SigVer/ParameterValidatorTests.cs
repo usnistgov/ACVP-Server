@@ -1,4 +1,5 @@
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.SLH_DSA.FIPS205.SigVer;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -20,6 +21,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -42,7 +44,8 @@ public class ParameterValidatorTests
         {
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
-            Revision = "FIPS205"
+            Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal }
         };
 
         var result = _subject.Validate(parameters);
@@ -58,6 +61,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = System.Array.Empty<Capability>()
         };
 
@@ -74,6 +78,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -96,6 +101,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -118,6 +124,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -141,6 +148,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -164,6 +172,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()
@@ -187,6 +196,7 @@ public class ParameterValidatorTests
             Algorithm = "SLH-DSA",
             Mode = "sigVer",
             Revision = "FIPS205",
+            SignatureInterfaces = new [] { SignatureInterface.Internal },
             Capabilities = new []
             {
                 new Capability()

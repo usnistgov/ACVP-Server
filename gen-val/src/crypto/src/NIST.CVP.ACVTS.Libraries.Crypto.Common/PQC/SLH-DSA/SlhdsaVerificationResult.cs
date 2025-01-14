@@ -1,4 +1,4 @@
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA;
 
 public class SlhdsaVerificationResult : ICryptoResult
 {

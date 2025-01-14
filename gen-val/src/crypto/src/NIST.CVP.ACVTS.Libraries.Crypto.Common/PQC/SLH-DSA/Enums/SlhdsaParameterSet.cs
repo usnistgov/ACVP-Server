@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLHDSA.Enums;
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.SLH_DSA.Enums;
 
 /// <summary>
 /// Parameter set labels from FIPS 205 Section 10.

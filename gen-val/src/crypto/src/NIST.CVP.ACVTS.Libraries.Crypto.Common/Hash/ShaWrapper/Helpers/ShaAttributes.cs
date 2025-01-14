@@ -18,29 +18,29 @@ public static class ShaAttributes
         {
             (ModeValues.SHA1, DigestSizes.d160, 160, 512, ((BigInteger)1 << 64) - 1, 160, new byte[] {0x00}, "SHA-1"),
                 
-            (ModeValues.SHA2, DigestSizes.d224, 224, 512, ((BigInteger)1 << 64) - 1, 224, new byte[] {0x00}, "SHA2-224"),
+            (ModeValues.SHA2, DigestSizes.d224, 224, 512, ((BigInteger)1 << 64) - 1, 224, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x04}, "SHA2-224"),
             (ModeValues.SHA2, DigestSizes.d256, 256, 512, ((BigInteger)1 << 64) - 1, 256, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01}, "SHA2-256"),
-            (ModeValues.SHA2, DigestSizes.d384, 384, 1024, ((BigInteger)1 << 128) - 1, 384, new byte[] {0x00}, "SHA2-384"),
+            (ModeValues.SHA2, DigestSizes.d384, 384, 1024, ((BigInteger)1 << 128) - 1, 384, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02}, "SHA2-384"),
             (ModeValues.SHA2, DigestSizes.d512, 512, 1024, ((BigInteger)1 << 128) - 1, 512, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03}, "SHA2-512"),
-            (ModeValues.SHA2, DigestSizes.d512t224, 224, 1024, ((BigInteger)1 << 128) - 1, 512, new byte[] {0x00}, "SHA2-512/224"),
-            (ModeValues.SHA2, DigestSizes.d512t256, 256, 1024, ((BigInteger)1 << 128) - 1, 512, new byte[] {0x00}, "SHA2-512/256"),
+            (ModeValues.SHA2, DigestSizes.d512t224, 224, 1024, ((BigInteger)1 << 128) - 1, 512, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x05}, "SHA2-512/224"),
+            (ModeValues.SHA2, DigestSizes.d512t256, 256, 1024, ((BigInteger)1 << 128) - 1, 512, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x06}, "SHA2-512/256"),
                 
             // SHA-3 and SHAKE have no input limit
-            (ModeValues.SHA3, DigestSizes.d224, 224, 1152, -1, 224, new byte[] {0x00}, "SHA3-224"),
-            (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, 256, new byte[] {0x00}, "SHA3-256"),
-            (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, 384, new byte[] {0x00}, "SHA3-384"),
-            (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, 512, new byte[] {0x00}, "SHA3-512"),
+            (ModeValues.SHA3, DigestSizes.d224, 224, 1152, -1, 224, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x07}, "SHA3-224"),
+            (ModeValues.SHA3, DigestSizes.d256, 256, 1088, -1, 256, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x08}, "SHA3-256"),
+            (ModeValues.SHA3, DigestSizes.d384, 384, 832, -1, 384, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x09}, "SHA3-384"),
+            (ModeValues.SHA3, DigestSizes.d512, 512, 576, -1, 512, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0A}, "SHA3-512"),
                 
             // SHAKE has no output limit, but the output size is the common output size
             (ModeValues.SHAKE, DigestSizes.d128, 128, 1344, -1, 128, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0B}, "SHAKE-128"),
-            (ModeValues.SHAKE, DigestSizes.d256, 256, 1088, -1, 256, new byte[] {0x00}, "SHAKE-256") 
+            (ModeValues.SHAKE, DigestSizes.d256, 256, 1088, -1, 256, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0C}, "SHAKE-256") 
         };
 
     private static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, byte[] OID, string name)> xofSignatureAttributes =
         new ()
         {
             (ModeValues.SHAKE, DigestSizes.d128, 256, 1344, -1, 128, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0B}, "SHAKE-128"), // this entry makes SHAKE-128 work as a "Hash" for PSS; FIPS 186-5 requires an outputLen of 256
-            (ModeValues.SHAKE, DigestSizes.d256, 512, 1088, -1, 256, new byte[] {0x00}, "SHAKE-256") // this entry makes SHAKE-256 work as a "Hash" for PSS; FIPS 186-5 requires an outputLen of 512
+            (ModeValues.SHAKE, DigestSizes.d256, 512, 1088, -1, 256, new byte[] {0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x0C}, "SHAKE-256") // this entry makes SHAKE-256 work as a "Hash" for PSS; FIPS 186-5 requires an outputLen of 512
         };
         
     private static List<(HashFunctions hashFunction, ModeValues modeValue, DigestSizes digestSizes)> _hashFunctionsMap = 
@@ -57,6 +57,8 @@ public static class ShaAttributes
             (HashFunctions.Sha3_d256, ModeValues.SHA3, DigestSizes.d256),
             (HashFunctions.Sha3_d384, ModeValues.SHA3, DigestSizes.d384),
             (HashFunctions.Sha3_d512, ModeValues.SHA3, DigestSizes.d512),
+            (HashFunctions.Shake_d128, ModeValues.SHAKE, DigestSizes.d128),
+            (HashFunctions.Shake_d256, ModeValues.SHAKE, DigestSizes.d256)
         };
         
     public static List<(ModeValues mode, DigestSizes digestSize, int outputLen, int blockSize, BigInteger maxMessageSize, int processingLen, byte[] OID, string name)> GetShaAttributes()
