@@ -47,7 +47,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Message = oracleResult.Message,
-                    Digest = oracleResult.Digest
+                    Digest = oracleResult.Digest,
+                    DigestLength = param.OutputLength
                 });
             }
             catch (Exception ex)

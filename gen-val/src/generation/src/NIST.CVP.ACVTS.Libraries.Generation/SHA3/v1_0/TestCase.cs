@@ -33,14 +33,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
         public BitString Digest { get; set; }
 
         [JsonProperty(PropertyName = "outLen")]
-        public int DigestLength
-        {
-            get
-            {
-                if (Digest == null) return 0;
-                return Digest.BitLength;
-            }
-        }
+        public int DigestLength { get; set; }   // Only used in SHAKE VOTs
 
         public List<AlgoArrayResponse> ResultsArray { get; set; }
 

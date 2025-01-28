@@ -128,7 +128,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                     else
                     {
                         var shake = GetShaInstance(testGroup.CommonHashFunction);
-                        var result = shake.HashMessage(testCase.Message, testCase.DigestLength);
+                        var result = shake.HashMessage(testCase.Message, testCase.Digest.BitLength);
                         Assert.That(result.Digest.ToLittleEndianHex(), Is.EqualTo(testCase.Digest.ToLittleEndianHex()), $"Failed on count {count} inside AFT/VOT for {testGroup.DigestSize} for message {testCase.Message.ToLittleEndianHex()} with length {testCase.Message.BitLength}.");
                     }
                 }

@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.ContractResolvers
                 nameof(TestCase.MessageLength)
             };
 
-            var shakeVotAftProperties = new[]
+            var shakeAftVotProperties = new[]
             {
                 nameof(TestCase.DigestLength)
             };
@@ -99,14 +99,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.ContractResolvers
                 };
             }
 
-            if (shakeVotAftProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+            if (shakeAftVotProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance =>
                 {
                     GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
 
-                    if (testGroup.Function == ModeValues.SHAKE &&
-                        (testGroup.TestType.Equals("vot", StringComparison.OrdinalIgnoreCase) || testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase)))
+                    if (testGroup.Function == ModeValues.SHAKE && (testGroup.TestType.Equals("vot", StringComparison.OrdinalIgnoreCase) || 
+                                                                   testGroup.TestType.Equals("aft", StringComparison.OrdinalIgnoreCase)))
                     {
                         return true;
                     }

@@ -84,7 +84,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0.ContractResolvers
             Assert.That(newTc.ResultsArray, Is.Null, nameof(newTc.ResultsArray));
 
             Assert.That(newTc.Digest, Is.Not.EqualTo(tc.Digest), nameof(newTc.Digest));
-            Assert.That(newTc.DigestLength, Is.Not.EqualTo(tc.DigestLength), nameof(newTc.DigestLength));
+            // DigestLength should not serialize for SHA3
+            if (function == ModeValues.SHA3)
+                Assert.That(newTc.DigestLength, Is.Not.EqualTo(tc.DigestLength), nameof(newTc.DigestLength));
             Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON

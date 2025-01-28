@@ -5,7 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
 {
-    public class GenValTestsShake : GenValTestsSha3Base
+    public class GenValTestsShake128 : GenValTestsSha3Base
     {
         public override string Algorithm { get; } = "SHAKE-128";
         public override string Mode { get; } = null;

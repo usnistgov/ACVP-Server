@@ -46,11 +46,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
+            var outputLength = _outputSizes.Pop();
             var param = new ShaParameters
             {
                 HashFunction = group.CommonHashFunction,
                 MessageLength = group.CommonHashFunction.OutputLen,
-                OutputLength = _outputSizes.Pop()
+                OutputLength = outputLength
             };
 
             try
@@ -60,7 +61,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
                     Message = oracleResult.Message,
-                    Digest = new BitString(oracleResult.Digest.ToLittleEndianHex(), param.OutputLength)    // Awkward wrapping because what the C code hands back is just an array of bytes not bits
+                    Digest = new BitString(oracleResult.Digest.ToLittleEndianHex()),
+                    DigestLength = outputLength
                 });
             }
             catch (Exception ex)

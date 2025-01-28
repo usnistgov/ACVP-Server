@@ -44,6 +44,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                         Message = new BitString("ABCD"),
                         Digest = new BitString("ABCDEF"),
                         Deferred = true,
+                        DigestLength = 24,
                         TestCaseId = testId
                     };
                     tests.Add(tc);
