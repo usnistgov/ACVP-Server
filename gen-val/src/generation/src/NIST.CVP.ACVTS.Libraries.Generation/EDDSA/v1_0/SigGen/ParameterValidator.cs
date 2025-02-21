@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
             {
                 if (parameters.ContextLength.GetDomainMinMax().Minimum < 0)
                 {
-                    errors.Add("Invalid ContextLength maximum, it must be 0 or above.");
+                    errors.Add("Invalid ContextLength minimum, it must be 0 or above.");
                 }
             }
             

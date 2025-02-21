@@ -19,7 +19,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
         private readonly IEdwardsCurveFactory _curveFactory;
         private readonly IDsaEdFactory _dsaFactory;
         private readonly IShaFactory _shaFactory;
-        private readonly IEntropyProvider _entropyProvider;
         private readonly IRandom800_90 _rand;
         private const int BITS_IN_BYTE = 8;
         
@@ -37,7 +36,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             _curveFactory = curveFactory;
             _dsaFactory = dsaFactory;
             _shaFactory = shaFactory;
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
             _rand = rand;
         }
 
@@ -58,8 +56,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             var message = _rand.GetRandomBitString(1024);
 
             // _param.ContextLength will either have been 1) explicitly set to a value or 2) not set to a value. In the 
-            // case of #2, _param.ContextLength will default to 0.
-            BitString context = _rand.GetRandomBitString(_param.ContextLength * BITS_IN_BYTE);
+            // case of #2, _param.ContextLength will default to 0 -- returns "new BitString("")" if input is <= 0
+            var context = _rand.GetRandomBitString(_param.ContextLength * BITS_IN_BYTE);
 
             var result = edDsa.Sign(domainParams, _param.Key, message, context, _param.PreHash);
             if (!result.Success)

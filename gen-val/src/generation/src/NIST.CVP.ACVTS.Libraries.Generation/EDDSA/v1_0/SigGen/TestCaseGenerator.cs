@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
@@ -35,13 +37,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
             {
                 var min = group.ContextLength.GetDomainMinMax().Minimum;
                 var max = group.ContextLength.GetDomainMinMax().Maximum;
-            
-                // We always add min and max, so get between min+1 and max-1
-                var lengths = group.ContextLength.GetRandomValues(min+1, max-1, NumberOfTestCasesToGenerate - 2).ToList();
+                
+                var lengths = group.ContextLength.GetRandomValues(x => x >= min && x <= max, NumberOfTestCasesToGenerate-2).ToList();
                 lengths.Add(min);
                 lengths.Add(max);
-            
-                _contextLengths = new ShuffleQueue<int>(lengths, NumberOfTestCasesToGenerate);           
+                
+                _contextLengths = new ShuffleQueue<int>(lengths, NumberOfTestCasesToGenerate);
             }
             
             return new GenerateResponse();
@@ -56,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
                 Key = group.KeyPair
             };
             
-            // if context is applicable, add it into the passing parameters? 
+            // if context is applicable, add it into the passing parameters
             if (!_noContext)
             {
                 param.ContextLength = _contextLengths.Pop();

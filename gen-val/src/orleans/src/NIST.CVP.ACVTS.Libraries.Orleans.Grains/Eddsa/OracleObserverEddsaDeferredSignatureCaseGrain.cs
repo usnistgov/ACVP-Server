@@ -12,9 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
     public class OracleObserverEddsaDeferredSignatureCaseGrain : ObservableOracleGrainBase<EddsaSignatureResult>,
         IOracleObserverEddsaDeferredSignatureCaseGrain
     {
-
-        private readonly IEntropyProvider _entropyProvider;
-        private readonly IRandom800_90 _rand;
+        private readonly IRandom800_90 _rand;       
 
         private EddsaSignatureParameters _param;
         
@@ -26,7 +24,6 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
             IRandom800_90 rand
         ) : base(nonOrleansScheduler)
         {
-            _entropyProvider = entropyProviderFactory.GetEntropyProvider(EntropyProviderTypes.Random);
             _rand = rand;
         }
 
@@ -40,12 +37,12 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa
 
         protected override async Task DoWorkAsync()
         {
-            var noContext = _param.Curve == Curve.Ed25519 && !_param.PreHash;
+            var message = _rand.GetRandomBitString(1024);
 
-            var message = _entropyProvider.GetEntropy(1024);
-
-            var context = noContext ? new BitString("") : _entropyProvider.GetEntropy(_rand.GetRandomInt(0, _param.ContextLength) * 8);
-
+            // _param.ContextLength will either have been 1) explicitly set to a value or 2) not set to a value. In the 
+            // case of #2, _param.ContextLength will default to 0 -- returns "new BitString("")" if input is <= 0
+            var context = _rand.GetRandomBitString(_param.ContextLength * BITS_IN_BYTE);
+            
             // Notify observers of result
             await Notify(new EddsaSignatureResult
             {
