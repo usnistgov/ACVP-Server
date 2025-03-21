@@ -20,6 +20,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.GGeneratorValidators;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.PQGeneratorValidators;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XECDH;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
@@ -122,12 +123,14 @@ using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.Kas.Sp800_56Ar1;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aead;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Xecdh;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Eddsa;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Ar1;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Ar1.Ecc;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Kas.Sp800_56Ar1.Ffc;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa;
 using IShaFactory = NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.IShaFactory;
+using NIST.CVP.ACVTS.Libraries.Crypto.XECDH;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 {
@@ -163,6 +166,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddSingleton<IAeadRunner, AeadRunner>();
 
             svc.AddSingleton<IEddsaKeyGenRunner, EddsaKeyGenRunner>();
+
+            svc.AddSingleton<IXecdhKeyGenRunner, XecdhKeyGenRunner>();
 
             svc.AddTransient<IKasAftTestGeneratorFactory<KasAftParametersEcc, KasAftResultEcc>,
                 KasAftEccTestGeneratorFactory>();
@@ -260,6 +265,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
+
+            svc.AddSingleton<IXecdhFactory, XecdhFactory>();
 
             svc.AddTransient<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>(); // Needs to be transient to account for KMAC in KMAC-KDF
 
