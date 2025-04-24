@@ -52,6 +52,14 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         AES_XTS_v2_0,
         [EnumMember(Value = "CMAC-AES-1.0")]
         CMAC_AES_v1_0,
+        [EnumMember(Value = "Ascon-AEAD128-SP800-232")]
+        ASCON_AEAD128_SP800_232,
+        [EnumMember(Value = "Ascon-Hash256-SP800-232")]
+        ASCON_Hash256_SP800_232,
+        [EnumMember(Value = "Ascon-XOF128-SP800-232")]
+        ASCON_XOF128_SP800_232,
+        [EnumMember(Value = "Ascon-CXOF128-SP800-232")]
+        ASCON_CXOF128_SP800_232,
         [EnumMember(Value = "CMAC-TDES-1.0")]
         CMAC_TDES_v1_0,
         [EnumMember(Value = "ConditioningComponent-AES-CBC-MAC-SP800-90B")]

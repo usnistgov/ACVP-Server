@@ -11,7 +11,7 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.DetSigGen
 {
-    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -22,6 +22,18 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.DetSigGen
             _oracle = oracle;
         }
 
+        public GenerateResponse PrepareGenerator(TestGroup testGroup, bool isSample)
+        {
+            // For deterministic ECDSA, for each curve + hash alg combination, we create a test group that tests an IUT's
+            // ability to correctly left-pad the octet string representation of the private key with 0-bits to a length
+            // of 8 * ceil(nLen/8) bits. We do this only when isSample. As the keypair is a group level value, there is 
+            // no need to have more than one test case for test groups of this type.
+            if (testGroup.TestPaddingDInDetECDSAPerMsgSecretNumberGeneration)
+                NumberOfTestCasesToGenerate = 1;
+            
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
             var param = new EcdsaSignatureParameters
@@ -46,6 +58,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.Fips186_5.DetSigGen
                         Message = result.Message,
                         RandomValue = result.RandomValue,
                         RandomValueLen = result.RandomValue?.BitLength ?? 0,
+                        K = result.K,
                         Signature = result.Signature
                     };
 

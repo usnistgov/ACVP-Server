@@ -13,5 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
     {
         Task InitializeClusterClient();
         Task CloseClusterClient();
+
+        public bool CanRetrieveFromPools { get; }
     }
 }

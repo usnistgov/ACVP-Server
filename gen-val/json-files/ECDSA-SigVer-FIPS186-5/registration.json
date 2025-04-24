@@ -5,7 +5,7 @@
   "revision": "FIPS186-5",
   "isSample": true,
   "conformances": [],
-  "componentTest": true,
+  "componentTest": false,
   "capabilities": [
     {
       "curve": [

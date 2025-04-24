@@ -34,6 +34,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Conformance { get; set; } = string.Empty;
 
+        [JsonIgnore]
+        public bool TestPaddingDInDetECDSAPerMsgSecretNumberGeneration;
         private int DegreeOfPolynomial => CurveAttributesHelper.GetCurveAttribute(Curve).DegreeOfPolynomial;
 
         [JsonIgnore] public EccKeyPair KeyPair { get; set; } = new EccKeyPair();
@@ -87,7 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
 
         public override int GetHashCode()
         {
-            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}{IsMessageRandomized}".GetHashCode();
+            return $"{EnumHelpers.GetEnumDescriptionFromEnum(Curve)}{HashAlg.Name}{IsMessageRandomized}{TestPaddingDInDetECDSAPerMsgSecretNumberGeneration}".GetHashCode();
         }
 
         public override bool Equals(object obj)

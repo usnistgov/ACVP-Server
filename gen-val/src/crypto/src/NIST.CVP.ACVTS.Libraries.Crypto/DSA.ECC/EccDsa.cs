@@ -73,7 +73,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
 
         public EccKeyPairGenerateResult GenerateKeyPair(EccDomainParameters domainParameters)
         {
-            // Generate random number d [1, n - 2]
+            // Generate random number d [1, n - 1]
             var d = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
             // Compute Q such that Q = d * G
@@ -82,7 +82,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             // Return key pair (Q, d)
             return new EccKeyPairGenerateResult(new EccKeyPair(Q, d));
         }
-
+        
         public EccKeyPairValidateResult ValidateKeyPair(EccDomainParameters domainParameters, EccKeyPair keyPair)
         {
             // If Q == O, invalid
@@ -136,7 +136,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             var e = hashDigest.MSBSubstring(0, bitsOfDigestNeeded).ToPositiveBigInteger();
 
             // Generate random number k [1, n-1]
-            var k = _nonceProvider.GetNonce(keyPair.PrivateD, e, domainParameters.CurveE.OrderN);
+            var k = _nonceProvider.GetNonce(keyPair.PrivateD, hashDigest, domainParameters.CurveE.OrderN);
             //var k = _entropyProvider.GetEntropy(1, domainParameters.CurveE.OrderN - 1);
 
             // Compute point (x, y) = k * G
@@ -153,7 +153,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             var s = (kInverse * (e + keyPair.PrivateD * r)).PosMod(domainParameters.CurveE.OrderN);
 
             // Return pair (r, s)
-            return new EccSignatureResult(new EccSignature(r, s));
+            return new EccSignatureResult(k, new EccSignature(r, s));
         }
 
         public EccVerificationResult Verify(EccDomainParameters domainParameters, EccKeyPair keyPair, BitString message, EccSignature signature, bool skipHash = false)

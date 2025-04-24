@@ -45,6 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigGen
                         Message = result.Message,
                         RandomValue = result.RandomValue,
                         RandomValueLen = result.RandomValue?.BitLength ?? 0,
+                        K = result.K,
                         Signature = result.Signature,
                         Deferred = false
                     };

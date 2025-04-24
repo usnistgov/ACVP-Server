@@ -1,0 +1,14 @@
+{
+  "vsId": 42,
+  "algorithm": "Ascon",
+  "mode": "Hash256",
+  "revision": "SP800-232",
+  "isSample": true,
+  "messageLength": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ]
+}

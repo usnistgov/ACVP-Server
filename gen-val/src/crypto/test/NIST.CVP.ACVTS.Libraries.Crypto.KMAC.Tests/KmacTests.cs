@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;

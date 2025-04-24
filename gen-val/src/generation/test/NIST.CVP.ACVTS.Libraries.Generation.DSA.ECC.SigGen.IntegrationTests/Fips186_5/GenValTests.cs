@@ -50,9 +50,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
             {
                 new Capability
                 {
-                    Curve = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_CURVES,
-                    HashAlg = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_HASH_ALGS
+                Curve = new[] { "P-224", "P-256", "P-384", "P-521", "B-233", "B-283", "K-233", "K-283" },
+                HashAlg = new[] { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA3-256", "SHA3-512", "SHAKE-128", "SHAKE-256" }
                 }
+                
+                // new Capability
+                // {
+                //     Curve = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_CURVES,
+                //     HashAlg = ECDSA.Fips186_5.SigGen.ParameterValidator.VALID_HASH_ALGS
+                // }
             };
 
             var p = new Parameters

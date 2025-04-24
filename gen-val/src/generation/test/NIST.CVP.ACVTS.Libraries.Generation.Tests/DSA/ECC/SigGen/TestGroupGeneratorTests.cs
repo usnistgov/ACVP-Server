@@ -72,7 +72,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
                 .Setup(s => s.GetEcdsaKeyAsync(It.IsAny<EcdsaKeyParameters>()))
                 .Returns(Task.FromResult(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) }));
 
-            var subject = new TestGroupGenerator(oracleMock.Object, false);
+            var subject = new TestGroupGenerator(oracleMock.Object, false, false);
             var result = await subject.BuildTestGroupsAsync(parameters);
             Assert.That(result.Count(), Is.EqualTo(expectedGroups));
         }

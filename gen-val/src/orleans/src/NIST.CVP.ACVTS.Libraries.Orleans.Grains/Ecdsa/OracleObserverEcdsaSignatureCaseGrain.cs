@@ -82,6 +82,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ecdsa
                 {
                     Message = message,
                     RandomValue = randomValue,
+                    K = result.K,
                     Signature = result.Signature
                 });
             }

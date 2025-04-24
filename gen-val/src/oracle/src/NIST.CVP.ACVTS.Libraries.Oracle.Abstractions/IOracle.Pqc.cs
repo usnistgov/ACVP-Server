@@ -15,6 +15,8 @@ public partial interface IOracle
     // ML-DSA
     public Task<MLDSAKeyPairResult> GetMLDSAKeyCaseAsync(MLDSAKeyGenParameters param);
     public Task<MLDSASignatureResult> GetMLDSASigGenCaseAsync(MLDSASignatureParameters param);
+    public Task<MLDSASignatureResult> GetMLDSASigGenCornerCaseAsync(MLDSASignatureParameters param);
+    public Task<MLDSASignatureResult> CompleteMLDSASigGenCornerCaseAsync(MLDSASignatureParameters param, MLDSASignatureResult poolResult);
     public Task<VerifyResult<MLDSASignatureResult>> GetMLDSAVerifyResultAsync(MLDSASignatureParameters param);
 
     // ML-KEM

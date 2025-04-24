@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
@@ -107,6 +108,20 @@ public partial class Oracle
         var observableGrain =
             await GetObserverGrain<IOracleObserverSLHDSASignatureVerifyCaseGrain, VerifyResult<SLHDSASignatureResult>>();
         await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+        return await observableGrain.ObserveUntilResult();
+    }
+    
+    public virtual Task<MLDSASignatureResult> GetMLDSASigGenCornerCaseAsync(MLDSASignatureParameters param)
+    {
+        throw new NotImplementedException("Only available with pools");
+    }
+
+    public async Task<MLDSASignatureResult> CompleteMLDSASigGenCornerCaseAsync(MLDSASignatureParameters param, MLDSASignatureResult poolResult)
+    {
+        var observableGrain =
+            await GetObserverGrain<IOracleObserverMLDSACompleteSignatureCornerCaseGrain, MLDSASignatureResult>();
+        await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, poolResult, LoadSheddingRetries);
 
         return await observableGrain.ObserveUntilResult();
     }

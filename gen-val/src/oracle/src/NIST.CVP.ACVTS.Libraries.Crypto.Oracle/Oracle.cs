@@ -23,6 +23,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
 
         protected virtual int LoadSheddingRetries { get; }
 
+        public virtual bool CanRetrieveFromPools => false;
+
         public Oracle(
             IClusterClientFactory clusterClientFactory,
             IOptions<OrleansConfig> orleansConfig,

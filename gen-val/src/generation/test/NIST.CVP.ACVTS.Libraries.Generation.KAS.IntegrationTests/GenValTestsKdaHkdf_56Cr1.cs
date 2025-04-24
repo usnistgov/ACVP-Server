@@ -92,7 +92,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.IntegrationTests
                 },
                 FixedInfoPattern = "uPartyInfo||vPartyInfo||l",
                 MacSaltMethods = new[] { MacSaltMethod.Default, MacSaltMethod.Random },
-                HmacAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>().Except(new[] { HashFunctions.Sha1 }).ToArray()
+                HmacAlg = EnumHelpers.GetEnumsWithoutDefault<HashFunctions>()
+                                     .Except(new[] { HashFunctions.Sha1, HashFunctions.Shake_d128, HashFunctions.Shake_d256 }).ToArray()
             };
 
             return CreateRegistration(folderName, p);

@@ -1,0 +1,28 @@
+{
+  "vsId": 42,
+  "algorithm": "Ascon",
+  "mode": "CXOF128",
+  "revision": "SP800-232",
+  "isSample": true,
+  "messageLength": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "digestLength": [
+    {
+      "min": 1,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "customizationStringLength": [
+    {
+      "min": 0,
+      "max": 2048,
+      "increment": 1
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
@@ -30,3 +30,4 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
         return new ParameterValidateResponse();
     }
 }
+

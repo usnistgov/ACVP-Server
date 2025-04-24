@@ -1,0 +1,254 @@
+{
+  "vsId": 42,
+  "algorithm": "Ascon",
+  "mode": "Hash256",
+  "revision": "SP800-232",
+  "isSample": true,
+  "testGroups": [
+    {
+      "tgId": 1,
+      "tests": [
+        {
+          "tcId": 1,
+          "digest": "84ADA53484D7D11D7B9518754542E6FC6646D2BEB8346B260EF44880A6974593"
+        },
+        {
+          "tcId": 2,
+          "digest": "4F5644FB5313F270E18B45891DC74AAD69D75706FBDC29B7E17FC375D848B713"
+        },
+        {
+          "tcId": 3,
+          "digest": "B34C6CC12B1726B9588B7512B4D0E644D23FB37F8D56682BBF364278E0962232"
+        },
+        {
+          "tcId": 4,
+          "digest": "F108A75F503B4625953011C0AE9CA0F26E34371B1320092F93BC614AC18870E3"
+        },
+        {
+          "tcId": 5,
+          "digest": "759CBFAE583E17F2C1AE34B7C1AAAF955613AE062A5D4D0EAB14EA08E08781C0"
+        },
+        {
+          "tcId": 6,
+          "digest": "938B7E644C5BD7564C0AD84EAF5D51AD5726B0E7FCE6153335E3E07A42B8E1BE"
+        },
+        {
+          "tcId": 7,
+          "digest": "1FB1E8604663AB6DEA3D7F6739CC239DDC0CC5A11864D1CC0979A4C70105BA69"
+        },
+        {
+          "tcId": 8,
+          "digest": "0B3BE5850F2F6B98CAF29F8FDEA89B64A1FA70AA249B8F839BD53BAA304D92B2"
+        },
+        {
+          "tcId": 9,
+          "digest": "AA95A2A3D37BF4DF3409CCF157C3E19135B95EE7CE6D7069AD3656628B18E5A2"
+        },
+        {
+          "tcId": 10,
+          "digest": "B03B1869DC260CCBF4CAB21A6C193DCA3A1839821D2A5CA054E6CCB5E2C4F271"
+        },
+        {
+          "tcId": 11,
+          "digest": "FCFE4219C240962913B718B102AB1B73C0CF6D475CB57900EC1C193CA0B20AFA"
+        },
+        {
+          "tcId": 12,
+          "digest": "3B1A1B8E178476CD0569A5CFCC427ADF819F81A21C94FCFBB9087B18BC46BC0F"
+        },
+        {
+          "tcId": 13,
+          "digest": "E74926530CF4D5FB0CAF1CBC52D99933F34EFE0E1A214DBC7BC239366995736A"
+        },
+        {
+          "tcId": 14,
+          "digest": "770CC94F8B05AD5DED37BCDAF87F3DD411C61EC8FB9FF4D3C0B07008E1A1C07A"
+        },
+        {
+          "tcId": 15,
+          "digest": "4737239DE333C9F800340746974A71BFC8760744BA235A258D35F280E2458FAB"
+        },
+        {
+          "tcId": 16,
+          "digest": "EA16D95DC7AFC5E7F8524FF98FE7F3A75889161EFF29F2A9ED28915941BEF46C"
+        },
+        {
+          "tcId": 17,
+          "digest": "8B5FA98E237EB8509922A06D5F9904C8F081A1F0E2BABD6AF2B8BA1DC560DA95"
+        },
+        {
+          "tcId": 18,
+          "digest": "EF2FE13A7B60F49F224B615D435C4A67842D75C85A89B296C88DBCCC6B59B7F1"
+        },
+        {
+          "tcId": 19,
+          "digest": "CAF7EFC25C2141DBFD0A860F21C7521D130AC5DD043156C805F337AD0015A845"
+        },
+        {
+          "tcId": 20,
+          "digest": "2006AD89E91E9AFE28C56EC7E1634DA8D154200CA4A185C7EF75FA061695BBA8"
+        },
+        {
+          "tcId": 21,
+          "digest": "07C4D5169ECD08973FCA33DF6FA505117CB0E137A16D816FD125675D6602F5AC"
+        },
+        {
+          "tcId": 22,
+          "digest": "5CE1059AAC74F56BD75CA3F05C6AFA9C3F9A7C65D6DE1E431E0EA0EE36F278D1"
+        },
+        {
+          "tcId": 23,
+          "digest": "6DCE73F973FE451AC785E1C70A92F9121D684F5CA9A6EC7E15ADF145D1284A71"
+        },
+        {
+          "tcId": 24,
+          "digest": "B4382DE0C0A669D506F8005488FA1F896FF7912E5D7E1E75EDA388B79F41B113"
+        },
+        {
+          "tcId": 25,
+          "digest": "643AB02A51EA2FD036E8F31584B90772D261164B984BCD631C1FCF556B3B0495"
+        },
+        {
+          "tcId": 26,
+          "digest": "F83F4EB787E7C17E04C8817CF40EA22E8519AF74FD6869CBB47E263A16C23CE7"
+        },
+        {
+          "tcId": 27,
+          "digest": "A7BB2EAB4C3EE33699E24FD15AFB4F5F7F52F87425CC893D42875C1C151D5323"
+        },
+        {
+          "tcId": 28,
+          "digest": "0F1E3C978D1C302A98D79FC50B6C1F7BC154F9BA2A24EFCD817DC196294E83CF"
+        },
+        {
+          "tcId": 29,
+          "digest": "24557A6767AD550B4524BBC5F19E3C5C9A17A5CF22B9AA48F23DFF507B6A2C27"
+        },
+        {
+          "tcId": 30,
+          "digest": "580113B750B11F9B3A7314D1D904A61AE7F6EDF751EDA57017050945711C34C3"
+        },
+        {
+          "tcId": 31,
+          "digest": "4A536862A0300F41ED868A82D6575A3C4E165D15C26CD6FC270563A1272356B4"
+        },
+        {
+          "tcId": 32,
+          "digest": "07A92EE4A30ED84F0E8F50D810E23C31A389A36CEDAC7B141FBBB5BA590680EF"
+        },
+        {
+          "tcId": 33,
+          "digest": "19253AE0746A223BA6982B0B8A0F3F013D7391365F826530AAC8B4EF0D59BABF"
+        },
+        {
+          "tcId": 34,
+          "digest": "7772E5CD1FD68F9D10C3FA7C98AC5AF0655A0BB8D516C4F6BCE85876E7ABDBBE"
+        },
+        {
+          "tcId": 35,
+          "digest": "BA2A053D9C6B57D0F07ACD38E3D1C15307A91D4B3A69BC6658188D714073E5F7"
+        },
+        {
+          "tcId": 36,
+          "digest": "A5B91524587AE60B9FCFF70943B30AAAD8797C4325858A6BB4195D4FA43A4EF6"
+        },
+        {
+          "tcId": 37,
+          "digest": "0CCB7631383811F06EF66B761B916EB604F1786D7C74ECF60BC62A75DEEE3F9B"
+        },
+        {
+          "tcId": 38,
+          "digest": "4F2CBF11A814680FEF120E87AA0AEDDC9A047C3CD87D9F987CEA37CBF2AB1BE2"
+        },
+        {
+          "tcId": 39,
+          "digest": "E129982F49C548323568F342C73B2575BC52297A3304D9F528E107B383B792B2"
+        },
+        {
+          "tcId": 40,
+          "digest": "6F807848A16CB2089D864460A6092467BB6376EDDCDF277135D5903CD3CBBAD4"
+        },
+        {
+          "tcId": 41,
+          "digest": "538A9DC9448B6DAE9A79EF265BD7D6AC8B8579A0DC48E036F7ED210FC178184D"
+        },
+        {
+          "tcId": 42,
+          "digest": "C8E252B96409DD7273313E502BBD311E7A92BBD179EA9030C496649C4BA5EE07"
+        },
+        {
+          "tcId": 43,
+          "digest": "BFD4270BEB339B9D380E9B15BECE213C4246214F3EBA7566F48657609521C2D4"
+        },
+        {
+          "tcId": 44,
+          "digest": "92CD7B58A7E069D2FB7C893C848F66C6DFB10496B655A793AB9526FFAF885C49"
+        },
+        {
+          "tcId": 45,
+          "digest": "85BB31E12048E289AB7018CA377EB33EC541999573BB5B0486DB079AA6FA1B8F"
+        },
+        {
+          "tcId": 46,
+          "digest": "C9340E839162B2DA456ABBDE9C5612E72DD818D1171D8444CA3365E27DCDE629"
+        },
+        {
+          "tcId": 47,
+          "digest": "D05639C3A1E19A4CD80240014502BFD2753AB06A974CBC90F3B3AB69ECB50C92"
+        },
+        {
+          "tcId": 48,
+          "digest": "0D97A249FC6A853392BED393D1EC162929412770E6BBEAC7907A396AAAF745EA"
+        },
+        {
+          "tcId": 49,
+          "digest": "B705D9F3340EC092A0CECD4314AEDED6FDDC1F390D54280F0588ABF6BCAEEBA5"
+        },
+        {
+          "tcId": 50,
+          "digest": "F94E3E6B7D89DC9AE6ACD2AF646BCC00AE5528B25EB9121F13F113CA47D0A43A"
+        },
+        {
+          "tcId": 51,
+          "digest": "AA3F982A4D868C77B35F6355060A01676BA5675CC8186A48886C980444A9D5C6"
+        },
+        {
+          "tcId": 52,
+          "digest": "2617FA3222057A9A416D5ED56BCC99D18AFAF845B50D9CB6C1180FA7201F1FAE"
+        },
+        {
+          "tcId": 53,
+          "digest": "8266F6EB93BC8BB7D563B7A8E8447A7ACA28F3DD51A919123899BFB0ABABEACD"
+        },
+        {
+          "tcId": 54,
+          "digest": "F781BB8AF64139092DC3F1AB136822BFA1F8FA18C13426835DA2E881667FD78A"
+        },
+        {
+          "tcId": 55,
+          "digest": "36227AF07D61C9FE4B8F382DDFCAAB1AEE9719BC01576BCD3511FC64632DE25C"
+        },
+        {
+          "tcId": 56,
+          "digest": "674290D03A5D8421E2AEF262E2F60A1BA0003E76686B0A79E004A05417E76743"
+        },
+        {
+          "tcId": 57,
+          "digest": "575849CFBB0830BB929738C0B5910B98DB962C8F62547C439E28618A0D2058E3"
+        },
+        {
+          "tcId": 58,
+          "digest": "0ADB3100C43B214DDFDC6B30F60F6E74CB1D0D5B0FA59C13C7D6E67B6ABCBD76"
+        },
+        {
+          "tcId": 59,
+          "digest": "304016107DCF0E6F3E2254267CFD5C676EDDC6C1AA068E763F7BD5EF5CCF6CA0"
+        },
+        {
+          "tcId": 60,
+          "digest": "43E8E6A34B20085DB7FD98D5C5DBE08300A83C291F0D9B9AF6CBF91BA5F0DB1F"
+        }
+      ]
+    }
+  ]
+}

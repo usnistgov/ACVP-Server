@@ -16,11 +16,39 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             _hmac = hmac;
         }
 
+        // FIPS 186-5, A.3.3 Per-Message Secret Number Generation for Deterministic ECDSA
         // Question: Is it a hard restriction that the hash within HMAC is the same used within the signature process?
-        public BigInteger GetNonce(BigInteger privateD, BigInteger hashedMessage, BigInteger orderN)
+        public BigInteger GetNonce(BigInteger privateD, BitString hashedMessage, BigInteger orderN)
         {
+            var nLen = orderN.ExactBitLength();
+            
+            // 1.1 "Convert the private key d to an octet string using the procedure in Appendix B.2.3"
+            // Note: from the FIPS, it's not clear what the length of the octet string produced by B.2.3 should be. But 
+            // RFC 6979 Section 2.3.3 makes it clear that B.2.3 should produce a string rlen bits in length,
+            // where rlen = 8 * ceil(qlen/8); qlen = len(n) => rlen = 8 * ceil( len(n)/8 )
+            var rLen = (int) (8 * System.Math.Ceiling((double)nLen / 8)); 
+            // 1. by definition, d is an integer and 0 < d < n
+            // 2. the BitString constructor will always produce a byte-aligned string
+            // 3. depending on the value of d, its BitString representation may be as small as a single byte.
+            // 4. Do: convert d to a BitString and left-pad it with 0 bits until it is rlen bits in length
+            var privateDOctets = new BitString(privateD).PadToModulusMsb(rLen);
+            
+            // 1.2 "Convert the Hash H to an octet string using the procedure in Appendix B.2.4 with modulus n."
+            //  B.2.4 #1
+            BitString nLenHashedMessage;
+            if (hashedMessage.BitLength < nLen)
+                nLenHashedMessage = BitString.Zeroes(nLen - hashedMessage.BitLength).ConcatenateBits(hashedMessage);
+            else
+                nLenHashedMessage = hashedMessage.GetMostSignificantBits(nLen);
+            //  B.2.4 #2
+            var c = nLenHashedMessage.ToPositiveBigInteger();
+            //  B.2.4 #3
+            if (c > orderN) c %= orderN;
+            //  B.2.4 #4 & #5
+            var hashedMessageOctets = new BitString(c).PadToModulusMsb(rLen); 
+            
             // 1.3
-            var seedMaterial = new BitString(privateD).PadToModulusMsb(32).ConcatenateBits(new BitString(hashedMessage).PadToModulusMsb(32));
+            var seedMaterial = privateDOctets.ConcatenateBits(hashedMessageOctets);
 
             // 1.4
             var key = BitString.Zeroes(_hmac.OutputLength);
@@ -41,7 +69,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             v = _hmac.Generate(key, v).Mac;
 
             // 2
-            var nlen = orderN.ExactBitLength();
+            // var nLen = orderN.ExactBitLength();
 
             // 3
             BigInteger k = 0;
@@ -52,14 +80,14 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
                 var tmp = new BitString(0);
 
                 // 4.2
-                while (tmp.BitLength < nlen)
+                while (tmp.BitLength < nLen)
                 {
                     v = _hmac.Generate(key, v).Mac;
                     tmp = tmp.ConcatenateBits(v);
                 }
 
                 // 4.3
-                k = tmp.GetMostSignificantBits(nlen).ToPositiveBigInteger();
+                k = tmp.GetMostSignificantBits(nLen).ToPositiveBigInteger();
 
                 // 4.4
                 if (k > 0 && k < orderN)

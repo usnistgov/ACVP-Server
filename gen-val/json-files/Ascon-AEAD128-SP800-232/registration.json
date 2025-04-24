@@ -1,0 +1,36 @@
+{
+  "vsId": 42,
+  "algorithm": "Ascon",
+  "mode": "AEAD128",
+  "revision": "SP800-232",
+  "isSample": true,
+  "directions": [
+    "encrypt",
+    "decrypt"
+  ],
+  "payloadLength": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "adLength": [
+    {
+      "min": 0,
+      "max": 65536,
+      "increment": 1
+    }
+  ],
+  "tagLength": [
+    {
+      "min": 64,
+      "max": 128,
+      "increment": 1
+    }
+  ],
+  "supportsNonceMasking": [
+    true,
+    false
+  ]
+}

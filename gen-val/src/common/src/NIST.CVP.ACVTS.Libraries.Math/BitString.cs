@@ -529,19 +529,23 @@ namespace NIST.CVP.ACVTS.Libraries.Math
         /// <returns></returns>
         public static BitString LSBShift(BitString bStr)
         {
-            var block = bStr.ToBytes();
-            var output = new byte[block.Length];
-
-            int i = block.Length;
-            uint bit = 0;
-            while (--i >= 0)
+            if (bStr.BitLength != 0)
             {
-                uint b = block[i];
-                output[i] = (byte)((b << 1) | bit);
-                bit = (b >> 7) & 1;
-            }
+                var block = bStr.ToBytes();
+                var output = new byte[block.Length];
 
-            return new BitString(output).GetLeastSignificantBits(bStr.BitLength);
+                int i = block.Length;
+                uint bit = 0;
+                while (--i >= 0)
+                {
+                    uint b = block[i];
+                    output[i] = (byte)((b << 1) | bit);
+                    bit = (b >> 7) & 1;
+                }
+
+                return new BitString(output).GetLeastSignificantBits(bStr.BitLength);
+            }
+            return bStr;
         }
 
         public BitString LSBShift()

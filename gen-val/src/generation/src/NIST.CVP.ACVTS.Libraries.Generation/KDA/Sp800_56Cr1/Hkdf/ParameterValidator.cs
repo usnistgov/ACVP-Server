@@ -246,8 +246,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr1.Hkdf
             // Ensure the L value meets the minimum L per auxFunction
             foreach (var hmacAlg in param.HmacAlg)
             {
-                var auxFunctionMinimumL = MapHashFunctionsMinimumL
-                    .First(w => w.hashFunction == hmacAlg).minimumL;
+                var auxFunctionMinimumL = MapHashFunctionsMinimumL.First(w => w.hashFunction == hmacAlg).minimumL;
 
                 if (param.L < auxFunctionMinimumL)
                 {

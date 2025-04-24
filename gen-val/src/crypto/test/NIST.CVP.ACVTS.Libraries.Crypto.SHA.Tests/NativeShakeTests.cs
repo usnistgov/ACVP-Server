@@ -1,4 +1,4 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.SHA.NativeFastSha;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;

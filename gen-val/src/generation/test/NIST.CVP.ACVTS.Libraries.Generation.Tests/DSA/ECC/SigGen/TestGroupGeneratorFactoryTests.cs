@@ -18,7 +18,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
     public class TestGroupGeneratorFactoryTests
     {
         private TestGroupGeneratorFactory _subject;
-
+        private Parameters _parameters;
+        
         [SetUp]
         public void SetUp()
         {
@@ -28,41 +29,42 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
                 .Returns(Task.FromResult(new EcdsaKeyResult { Key = new EccKeyPair(new EccPoint(1, 2), 3) }));
 
             _subject = new TestGroupGeneratorFactory(oracleMock.Object);
+            
+            _parameters = new Parameters
+            {
+                Algorithm = "ECDSA",
+                Mode = "sigGen",
+                Revision = "FIPS186-5",
+                IsSample = false,
+                Capabilities = GetCapabilities(),
+            };
         }
 
         [Test]
         [TestCase(typeof(TestGroupGenerator))]
         public void ReturnedResultShouldContainExpectedTypes(Type expectedType)
         {
-            var result = _subject.GetTestGroupGenerators(new Parameters());
+            var result = _subject.GetTestGroupGenerators(_parameters);
             Assert.That(result.Count(w => w.GetType() == expectedType) == 1, Is.True);
         }
 
         [Test]
         public void ReturnedResultShouldContainOneGenerator()
         {
-            var result = _subject.GetTestGroupGenerators(new Parameters());
+            var result = _subject.GetTestGroupGenerators(_parameters);
             Assert.That(result.Count(), Is.EqualTo(1));
         }
 
         [Test]
         public async Task ShouldReturnTestGroups()
         {
-            var result = _subject.GetTestGroupGenerators(new Parameters());
-
-            var p = new Parameters
-            {
-                Algorithm = "ECDSA",
-                Mode = "sigGen",
-                IsSample = false,
-                Capabilities = GetCapabilities(),
-            };
+            var result = _subject.GetTestGroupGenerators(_parameters);
 
             var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(_parameters));
             }
 
             Assert.That(result, Is.Not.Null);
@@ -71,21 +73,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.ECC.SigGen
         [Test]
         public async Task ShouldReturnVectorSetWithProperTestGroupsForAllModes()
         {
-            var result = _subject.GetTestGroupGenerators(new Parameters());
-
-            var p = new Parameters
-            {
-                Algorithm = "ECDSA",
-                Mode = "sigGen",
-                IsSample = false,
-                Capabilities = GetCapabilities(),
-            };
+            var result = _subject.GetTestGroupGenerators(_parameters);
 
             var groups = new List<TestGroup>();
 
             foreach (var genny in result)
             {
-                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(p));
+                groups.AddRangeIfNotNullOrEmpty(await genny.BuildTestGroupsAsync(_parameters));
             }
 
             Assert.That(groups.Count, Is.EqualTo(12 * 10));

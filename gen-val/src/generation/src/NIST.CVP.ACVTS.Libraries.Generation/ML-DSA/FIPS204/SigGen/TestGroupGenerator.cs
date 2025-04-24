@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 
@@ -24,7 +25,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                         switch (signatureInterface)
                         {
                             case SignatureInterface.Internal:
-                            
+
                                 foreach (var externalMu in parameters.ExternalMu)
                                 {
                                     var testGroup = new TestGroup
@@ -36,12 +37,12 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                                         ExternalMu = externalMu,
                                         MessageLength = capability.MessageLength
                                     };
-                                    
+
                                     testGroups.Add(testGroup);
                                 }
 
                                 break;
-                            
+
                             case SignatureInterface.External:
 
                                 foreach (var preHash in parameters.PreHash)
@@ -62,7 +63,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                                 }
 
                                 break;
-                            
+
 
                             default:
                                 throw new ArgumentOutOfRangeException();
@@ -71,7 +72,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                 }
             }
         }
-        
+
         return Task.FromResult(testGroups);
     }
 }

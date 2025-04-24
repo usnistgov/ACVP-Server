@@ -99,6 +99,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core
             }
             return null;
         }
+        protected string ValidateBoolArray(bool[] supplied, string friendlyName)
+        {
+            string err = ValidateArray<bool>(supplied, new bool[] { true, false }, friendlyName);
+            if (err != null)
+            {
+                return err;
+            }
+            if (supplied.Count() != supplied.Distinct().Count())
+            {
+                return $"Duplicate {friendlyName} supplied.";
+            }
+            return null;
+        }
 
         protected string ValidateArrayAtLeastOneItem<T>(IEnumerable<T> supplied, string friendlyName)
         {
