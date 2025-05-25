@@ -1,0 +1,78 @@
+name: Sync NIST ACVP-Server
+
+on:
+  schedule:
+    - cron: '0 7 * * 1,3,5' # Runs at 7 AM on Monday, Wednesday, and Friday
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Sync with NIST ACVP-Server
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout forked repo
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
+
+    - name: Set up Git identity
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Add upstream remote
+      run: git remote add upstream https://github.com/usnistgov/ACVP-Server.git
+
+    - name: Fetch upstream
+      run: git fetch upstream
+
+    - name: Check for upstream changes
+      id: upstream-check
+      run: |
+        git fetch upstream master
+        git diff --quiet HEAD..upstream/master || echo "has_changes=true" >> $GITHUB_OUTPUT
+
+    - name: Exit if no changes
+      if: steps.upstream-check.outputs.has_changes != 'true'
+      run: echo "No changes to sync. Exiting."
+
+    - name: Create sync branch
+      if: steps.upstream-check.outputs.has_changes == 'true'
+      run: git checkout -B sync/upstream-changes
+
+    - name: Attempt merge from upstream/master
+      if: steps.upstream-check.outputs.has_changes == 'true'
+      id: merge
+      run: |
+        git merge upstream/master --no-edit || echo "conflict=true" >> $GITHUB_OUTPUT
+
+    - name: Check for merge conflicts
+      if: steps.merge.outputs.conflict == 'true'
+      run: |
+        echo "::error ::Merge conflict detected. Manual resolution required."
+        exit 1
+
+    - name: Push changes to remote
+      if: steps.merge.outputs.conflict != 'true'
+      run: git push origin sync/upstream-changes
+
+    - name: Create Pull Request via GitHub CLI
+      if: steps.merge.outputs.conflict != 'true'
+      run: |
+        gh pr create \
+          --title "Sync from NIST upstream" \
+          --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
+          --head sync/upstream-changes \
+          --base main
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Auto-merge Pull Request 
+      if: steps.merge.outputs.conflict != 'true'
+      run: |
+        PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
+        gh pr merge $PR_NUMBER --squash --auto
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
