@@ -1,9 +1,9 @@
-name: Sync NIST ACVP-Server (Test on Kdykes/Bug3)
+name: Sync NIST ACVP-Server (Test on kdykes/Bug3)
 
 on:
   push:
     branches:
-      - Kdykes/Bug3
+      - kdykes/Bug3
   workflow_dispatch:
 
 jobs:
@@ -68,9 +68,9 @@ jobs:
       run: |
         gh pr create \
           --title "Sync from NIST upstream (Test)" \
-          --body "This is a test PR to sync from upstream (usnistgov/ACVP-Server) into Kdykes/Bug3." \
+          --body "This is a test PR to sync from upstream (usnistgov/ACVP-Server) into kdykes/Bug3." \
           --head sync/upstream-changes \
-          --base Kdykes/Bug3
+          --base kdykes/Bug3
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
