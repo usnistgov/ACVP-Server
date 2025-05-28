@@ -25,16 +25,14 @@ jobs:
       - name: Add upstream remote
         run: git remote add upstream https://github.com/usnistgov/ACVP-Server.git
 
-      - name: Fetch upstream and origin
-        run: |
-          git fetch upstream
-          git fetch origin
+      - name: Fetch upstream
+        run: git fetch upstream
 
       - name: Check for upstream changes
         id: upstream-check
         run: |
-          git checkout master
-          if git diff --quiet origin/master..upstream/master; then
+          git fetch upstream master
+          if git diff --quiet HEAD..upstream/master; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -46,7 +44,7 @@ jobs:
 
       - name: Create sync branch
         if: steps.upstream-check.outputs.has_changes == 'true'
-        run: git checkout -b sync/upstream-changes origin/master
+        run: git checkout -B sync/upstream-changes
 
       - name: Attempt merge from upstream/master
         if: steps.upstream-check.outputs.has_changes == 'true'
@@ -66,7 +64,7 @@ jobs:
           PAT_PUSH: ${{ secrets.PAT_PUSH }}
         run: |
           git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
-          git push origin sync/upstream-changes --force
+          git push origin sync/upstream-changes
 
       - name: Create Pull Request via GitHub CLI
         if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
@@ -86,10 +84,4 @@ jobs:
           gh pr merge $PR_NUMBER --squash --auto
         env:
           GH_TOKEN: ${{ secrets.PAT_PUSH }}
-
-      - name: Delete sync branch
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
-        env:
-          PAT_PUSH: ${{ secrets.PAT_PUSH }}
-        run: |
-          git push origin --delete sync/upstream-changes || echo "Branch already deleted."
+          
