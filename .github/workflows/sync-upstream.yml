@@ -33,10 +33,12 @@ jobs:
       - name: Check for upstream changes
         id: upstream-check
         run: |
-          git checkout main
-          git diff --quiet origin/main..upstream/master && \
-            echo "has_changes=false" >> $GITHUB_OUTPUT || \
+          git checkout master
+          if git diff --quiet origin/master..upstream/master; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
             echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Exit if no changes
         if: steps.upstream-check.outputs.has_changes != 'true'
@@ -44,7 +46,7 @@ jobs:
 
       - name: Create sync branch
         if: steps.upstream-check.outputs.has_changes == 'true'
-        run: git checkout -b sync/upstream-changes origin/main
+        run: git checkout -b sync/upstream-changes origin/master
 
       - name: Attempt merge from upstream/master
         if: steps.upstream-check.outputs.has_changes == 'true'
@@ -73,7 +75,7 @@ jobs:
             --title "Sync from NIST upstream" \
             --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
             --head sync/upstream-changes \
-            --base main
+            --base master
         env:
           GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
@@ -87,7 +89,7 @@ jobs:
 
       - name: Delete sync branch
         if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
-        run: |
-          git push origin --delete sync/upstream-changes
         env:
           PAT_PUSH: ${{ secrets.PAT_PUSH }}
+        run: |
+          git push origin --delete sync/upstream-changes || echo "Branch already deleted."
