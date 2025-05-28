@@ -30,9 +30,13 @@ jobs:
 
     - name: Check for upstream changes
       id: upstream-check
-      run: |
+        run: |
         git fetch upstream master
-        git diff --quiet HEAD..upstream/master || echo "has_changes=true" >> $GITHUB_OUTPUT
+        if git diff --quiet HEAD..upstream/master; then
+        echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+        echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
 
     - name: Exit if no changes
       if: steps.upstream-check.outputs.has_changes != 'true'
