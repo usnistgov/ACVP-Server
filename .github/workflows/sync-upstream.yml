@@ -58,8 +58,23 @@ jobs:
           echo "::error ::Merge conflict detected. Manual resolution required."
           exit 1
 
+      - name: Check if merged branch differs from master
+        if: steps.merge.outputs.conflict != 'true'
+        id: diff-check
+        run: |
+          git fetch origin master
+          if git diff --quiet origin/master; then
+            echo "no_diff=true" >> $GITHUB_OUTPUT
+          else
+            echo "no_diff=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if no actual diff from master
+        if: steps.diff-check.outputs.no_diff == 'true'
+        run: echo "Merged result is identical to master. Nothing to push."
+
       - name: Push changes to remote
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
+        if: steps.merge.outputs.conflict != 'true' && steps.diff-check.outputs.no_diff != 'true'
         env:
           PAT_PUSH: ${{ secrets.PAT_PUSH }}
         run: |
@@ -67,7 +82,7 @@ jobs:
           git push origin sync/upstream-changes
 
       - name: Create Pull Request via GitHub CLI
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
+        if: steps.merge.outputs.conflict != 'true' && steps.diff-check.outputs.no_diff != 'true'
         run: |
           gh pr create \
             --title "Sync from NIST upstream" \
@@ -78,10 +93,9 @@ jobs:
           GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
       - name: Auto-merge Pull Request 
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
+        if: steps.merge.outputs.conflict != 'true' && steps.diff-check.outputs.no_diff != 'true'
         run: |
           PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
           gh pr merge $PR_NUMBER --squash --auto
         env:
           GH_TOKEN: ${{ secrets.PAT_PUSH }}
-          
