@@ -57,9 +57,9 @@ jobs:
     - name: Push changes to remote
       if: steps.merge.outputs.conflict != 'true'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PAT_PUSH: ${{ secrets.PAT_PUSH }}
       run: |
-        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+        git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
         git push origin sync/upstream-changes
 
     - name: Create Pull Request via GitHub CLI
@@ -71,7 +71,7 @@ jobs:
           --head sync/upstream-changes \
           --base main
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
     - name: Auto-merge Pull Request 
       if: steps.merge.outputs.conflict != 'true'
@@ -79,4 +79,4 @@ jobs:
         PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
         gh pr merge $PR_NUMBER --squash --auto
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.PAT_PUSH }}
