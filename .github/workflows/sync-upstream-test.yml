@@ -33,11 +33,15 @@ jobs:
       id: upstream-check
       run: |
         git fetch upstream master
-        if git diff --quiet HEAD..upstream/master; then
-          echo "has_changes=false" >> $GITHUB_OUTPUT
+        git fetch origin kdykes/Bug3
+        if git diff --quiet origin/kdykes/Bug3..upstream/master; then
+          echo "has_changes=false" >> "$GITHUB_OUTPUT"
         else
-          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
         fi
+
+    - name: Log has_changes value
+      run: echo "🔍 has_changes = ${{ steps.upstream-check.outputs.has_changes }}"
 
     - name: Exit if no changes
       if: steps.upstream-check.outputs.has_changes != 'true'
@@ -53,7 +57,14 @@ jobs:
       if: steps.upstream-check.outputs.has_changes == 'true'
       id: merge
       run: |
-        git merge upstream/master --no-edit || echo "conflict=true" >> $GITHUB_OUTPUT
+        if git merge upstream/master --no-edit; then
+          echo "conflict=false" >> "$GITHUB_OUTPUT"
+        else
+          echo "conflict=true" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Log conflict value
+      run: echo "❗ conflict = ${{ steps.merge.outputs.conflict }}"
 
     - name: Check for merge conflicts
       if: steps.merge.outputs.conflict == 'true'
