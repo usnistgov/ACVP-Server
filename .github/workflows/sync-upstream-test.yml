@@ -33,15 +33,11 @@ jobs:
       id: upstream-check
       run: |
         git fetch upstream master
-        git fetch origin kdykes/Bug3
         if git diff --quiet origin/kdykes/Bug3..upstream/master; then
-          echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
         else
-          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          echo "has_changes=true" >> $GITHUB_OUTPUT
         fi
-
-    - name: Log has_changes value
-      run: echo "🔍 has_changes = ${{ steps.upstream-check.outputs.has_changes }}"
 
     - name: Exit if no changes
       if: steps.upstream-check.outputs.has_changes != 'true'
@@ -57,23 +53,20 @@ jobs:
       if: steps.upstream-check.outputs.has_changes == 'true'
       id: merge
       run: |
-        if git merge upstream/master --no-edit; then
-          echo "conflict=false" >> "$GITHUB_OUTPUT"
+        git merge upstream/master --no-edit > merge.log 2>&1 || true
+        cat merge.log
+        if grep -q "Already up to date." merge.log; then
+          echo "up_to_date=true" >> $GITHUB_OUTPUT
         else
-          echo "conflict=true" >> "$GITHUB_OUTPUT"
+          echo "up_to_date=false" >> $GITHUB_OUTPUT
         fi
 
-    - name: Log conflict value
-      run: echo "❗ conflict = ${{ steps.merge.outputs.conflict }}"
-
-    - name: Check for merge conflicts
-      if: steps.merge.outputs.conflict == 'true'
-      run: |
-        echo "::error ::Merge conflict detected. Manual resolution required."
-        exit 1
+    - name: Exit if already up to date
+      if: steps.merge.outputs.up_to_date == 'true'
+      run: echo " Already up to date. Nothing to sync. Exiting."
 
     - name: Push changes to remote
-      if: steps.merge.outputs.conflict != 'true'
+      if: steps.merge.outputs.up_to_date != 'true'
       env:
         PAT_PUSH: ${{ secrets.PAT_PUSH }}
       run: |
@@ -81,7 +74,7 @@ jobs:
         git push origin sync/upstream-changes
 
     - name: Create Pull Request via GitHub CLI
-      if: steps.merge.outputs.conflict != 'true'
+      if: steps.merge.outputs.up_to_date != 'true'
       run: |
         gh pr create \
           --title "Sync from NIST upstream (Test)" \
@@ -92,7 +85,7 @@ jobs:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
     - name: Auto-merge Pull Request 
-      if: steps.merge.outputs.conflict != 'true'
+      if: steps.merge.outputs.up_to_date != 'true'
       run: |
         PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
         gh pr merge $PR_NUMBER --squash --auto
