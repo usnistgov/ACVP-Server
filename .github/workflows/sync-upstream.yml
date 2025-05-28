@@ -11,77 +11,91 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout forked repo
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+    - name: Checkout forked repo
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+        fetch-depth: 0
 
-      - name: Set up Git identity
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+    - name: Set up Git identity
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Add upstream remote
-        run: git remote add upstream https://github.com/usnistgov/ACVP-Server.git
+    - name: Add upstream remote
+      run: git remote add upstream https://github.com/usnistgov/ACVP-Server.git
 
-      - name: Fetch upstream
-        run: git fetch upstream
+    - name: Fetch upstream
+      run: git fetch upstream
 
-      - name: Check for upstream changes
-        id: upstream-check
-        run: |
-          git fetch upstream master
-          if git diff --quiet HEAD..upstream/master; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          fi
+    - name: Check for upstream changes
+      id: upstream-check
+      run: |
+        git fetch upstream master
+        if git diff --quiet HEAD..upstream/master; then
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
 
-      - name: Exit if no changes
-        if: steps.upstream-check.outputs.has_changes != 'true'
-        run: echo "No changes to sync. Exiting."
+    - name: Exit if no changes
+      if: steps.upstream-check.outputs.has_changes != 'true'
+      run: echo "No changes to sync. Exiting."
 
-      - name: Create sync branch
-        if: steps.upstream-check.outputs.has_changes == 'true'
-        run: git checkout -B sync/upstream-changes
+    - name: Create sync branch
+      if: steps.upstream-check.outputs.has_changes == 'true'
+      run: git checkout -B sync/upstream-changes
 
-      - name: Attempt merge from upstream/master
-        if: steps.upstream-check.outputs.has_changes == 'true'
-        id: merge
-        run: |
-          git merge upstream/master --no-edit || echo "conflict=true" >> $GITHUB_OUTPUT
+    - name: Attempt merge from upstream/master
+      if: steps.upstream-check.outputs.has_changes == 'true'
+      id: merge
+      run: |
+        git merge upstream/master --no-edit > merge.log 2>&1 || true
+        cat merge.log
+        if grep -q "Already up to date." merge.log; then
+          echo "up_to_date=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+        fi
+        if grep -q "CONFLICT" merge.log; then
+          echo "conflict=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "conflict=false" >> "$GITHUB_OUTPUT"
+        fi
 
-      - name: Check for merge conflicts
-        if: steps.merge.outputs.conflict == 'true'
-        run: |
-          echo "::error ::Merge conflict detected. Manual resolution required."
-          exit 1
+    - name: Exit if already up to date
+      if: steps.merge.outputs.up_to_date == 'true'
+      run: echo "Already up to date. Nothing to sync. Exiting."
 
-      - name: Push changes to remote
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
-        env:
-          PAT_PUSH: ${{ secrets.PAT_PUSH }}
-        run: |
-          git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
-          git push origin sync/upstream-changes
+    - name: Check for merge conflicts
+      if: steps.merge.outputs.conflict == 'true'
+      run: |
+        echo "::error ::Merge conflict detected. Manual resolution required."
+        exit 1
 
-      - name: Create Pull Request via GitHub CLI
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
-        run: |
-          gh pr create \
-            --title "Sync from NIST upstream" \
-            --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
-            --head sync/upstream-changes \
-            --base master
-        env:
-          GH_TOKEN: ${{ secrets.PAT_PUSH }}
+    - name: Push changes to remote
+      if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
+      env:
+        PAT_PUSH: ${{ secrets.PAT_PUSH }}
+      run: |
+        git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
+        git push origin sync/upstream-changes
 
-      - name: Auto-merge Pull Request 
-        if: steps.merge.outputs.conflict != 'true' && steps.upstream-check.outputs.has_changes == 'true'
-        run: |
-          PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
-          gh pr merge $PR_NUMBER --squash --auto
-        env:
-          GH_TOKEN: ${{ secrets.PAT_PUSH }}
-          
+    - name: Create Pull Request via GitHub CLI
+      if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
+      run: |
+        gh pr create \
+          --title "Sync from NIST upstream" \
+          --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
+          --head sync/upstream-changes \
+          --base master
+      env:
+        GH_TOKEN: ${{ secrets.PAT_PUSH }}
+
+    - name: Auto-merge Pull Request 
+      if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
+      run: |
+        PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
+        gh pr merge $PR_NUMBER --squash --auto
+      env:
+        GH_TOKEN: ${{ secrets.PAT_PUSH }}
