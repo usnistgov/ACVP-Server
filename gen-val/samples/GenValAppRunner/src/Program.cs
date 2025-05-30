@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using CommandLineParser.Exceptions;
 using NIST.CVP.ACVTS.Generation.GenValApp.Helpers;
 using NIST.CVP.ACVTS.Generation.GenValApp.Models;
@@ -11,12 +9,15 @@ using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Exceptions;
-using Microsoft.Extensions.DependencyInjection;           
 using NIST.CVP.ACVTS.Libraries.Generation;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle;
 using NLog;
-using StackExchange.Redis;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace NIST.CVP.ACVTS.Generation.GenValApp
 {
@@ -44,7 +45,7 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
         /// <returns></returns>
         public static async Task<int> Main(string[] args)
         {
-             if (args.Length > 0) //Runs as original console application that reads file from directory 
+            if (args.Length > 0) //Runs as original console application that reads file from directory 
             {
                 var argumentParser = new ArgumentParsingHelper();
 
@@ -90,23 +91,30 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
                     return (int)StatusCode.Exception;
                 }
             }
-            else  //Uses application as a background service where GenValWorker runs
+            else // sets up and runs controller for rest api
             {
-                 var host = Host.CreateDefaultBuilder(args)
-                  .ConfigureServices((context, services) =>
-                  {
-                      // Register Redis multiplexer
-                     services.AddSingleton<IConnectionMultiplexer>(sp =>
-                        ConnectionMultiplexer.Connect("localhost:6379,abortConnect=false"));
+              var builder = WebApplication.CreateBuilder(args);
 
-                      // Register needed services for GenValInvoker
-                      services.AddHostedService<GenValWorker>();
+                // Add services to the container.
+                builder.Services.AddControllers();
+                builder.Services.AddEndpointsApiExplorer(); // Enables Swagger endpoints
+                builder.Services.AddSwaggerGen();           // Registers Swagger generator
 
-            
-                  })
-                  .UseConsoleLifetime()
-                  .Build();
-                await host.RunAsync();
+                var app = builder.Build();
+
+                // Enable Swagger unconditionally or based on an env variable
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenVal API V1");
+                 c.RoutePrefix = "swagger"; // so it's hosted at /swagger
+                });
+
+                // Middleware setup
+                app.UseHttpsRedirection();
+                app.UseAuthorization();
+                app.MapControllers();
+                app.Run();
                 return 0;
             }
          
