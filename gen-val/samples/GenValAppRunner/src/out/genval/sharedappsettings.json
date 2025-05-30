@@ -1,0 +1,21 @@
+﻿{
+	"ApplicationName": "Gen/Val runner",
+	"EnvironmentConfig": null,
+    "OrleansConfig": {
+        "OrleansNodeConfig": [
+          {
+            "HostName":  "localhost",
+            "MaxConcurrentWork" : 3
+          }
+        ],
+        "OrleansSiloPort": 8000,
+        "OrleansGatewayPort": 30000,
+        "ClusterId": "cryptoDist-local",
+        "MinimumLogLevel": "Warning",
+        "OrleansDashboardPort": 8081,
+        "FallBackMinimumCores": 3,
+        "LoadSheddingCpuThreshold": 0,
+        "MaxWorkItemsToQueuePerGenValInstance": 100,
+        "TimeoutRetryAttempts": 15
+      }
+}
