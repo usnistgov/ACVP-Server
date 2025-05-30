@@ -17,6 +17,8 @@
     <PackageReference Include="Microsoft.Orleans.Client" />
 
     <PackageReference Include="Microsoft.NETCore.Targets" PrivateAssets="all" />
+
+    <PackageReference Include="StackExchange.Redis" />
   </ItemGroup>
 
   <ItemGroup Condition="$(BuildGenValPackages) == 'false'">

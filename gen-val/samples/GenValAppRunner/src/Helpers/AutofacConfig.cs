@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using System.Runtime.Serialization;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle;
@@ -74,5 +75,78 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp.Helpers
 
             return types;
         }
+        public static List<AlgoMode> GetSupportedAlgoModes()
+        {
+            var algoModes = new List<AlgoMode>();
+
+            AppDomain app = AppDomain.CurrentDomain;
+            Assembly[] assemblies = app.GetAssemblies();
+            var targetType = typeof(ISupportedAlgoModeRevisions);
+
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes()
+               .Where(t => targetType.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+
+                foreach (var type in types)
+                {
+                    try
+                    {
+                        var instance = (ISupportedAlgoModeRevisions)Activator.CreateInstance(type);
+                        if (instance?.SupportedAlgoModeRevisions != null)
+                        {
+                            algoModes.AddRange(instance.SupportedAlgoModeRevisions);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                            Console.Error.WriteLine($"[GetSupportedAlgoModes] Failed to create instance of {type.FullName}: {ex.Message}");
+                    }
+                }
+            }
+
+            return algoModes.Distinct().ToList();
+        }
+        public static List<AlgoModeInfo> GetSupportedAlgoModeInfos()
+        {
+            var modes = GetSupportedAlgoModes();
+            var result = new List<AlgoModeInfo>();
+
+            foreach (var mode in modes)
+             {
+                  var memInfo = typeof(AlgoMode).GetMember(mode.ToString()).FirstOrDefault();
+                  var enumAttr = memInfo?.GetCustomAttribute<EnumMemberAttribute>();
+                  var value = enumAttr?.Value ?? mode.ToString();
+
+                 // Attempt to split on the last dash before version
+                  var lastDash = value.LastIndexOf('-');
+                   if (lastDash >= 0 && lastDash < value.Length - 1)
+                     {
+                         var cipher = value.Substring(0, lastDash);
+                         var version = value.Substring(lastDash + 1);
+
+                         result.Add(new AlgoModeInfo
+                       {
+                          Cipher = cipher,
+                          Version = version
+                       });
+                     }
+                  else
+                    {
+                        // Fallback if splitting fails
+                      result.Add(new AlgoModeInfo
+                        {
+                          Cipher = value,
+                          Version = "unknown"
+                        });
+                    }
+             }
+
+                return result;
+        }
+
+        
     }
+
+
 }
