@@ -48,7 +48,7 @@ jobs:
   docker-package:
     runs-on: macos-latest
     needs: build-and-test
-    if: github.ref == 'refs/heads/master'
+
 
     steps:
     - name: Checkout Repo
