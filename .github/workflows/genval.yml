@@ -23,7 +23,7 @@ jobs:
       with:
         dotnet-version: '9.0.x'
 
-    - name: Restore & Build GenVal App
+    - name: Restore and Build GenVal App
       run: |
         dotnet restore gen-val/samples/GenValAppRunner/src
         dotnet build gen-val/samples/GenValAppRunner/src --configuration Release
@@ -35,6 +35,7 @@ jobs:
   docker-package:
     runs-on: macos-latest
     needs: build-and-test
+    if: github.ref == 'refs/heads/master'
 
     steps:
     - name: Checkout Repo
@@ -52,17 +53,18 @@ jobs:
     - name: Build Docker Image
       run: docker build -t katalyst/genval:latest .
 
-    - name: Push to Registry (optional)
-      if: github.ref == 'refs/heads/main'
+    - name: Login to GHCR
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Tag and Push Docker Image
       run: |
-        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker tag katalyst/genval:latest ${{ secrets.DOCKER_REGISTRY }}/genval:latest
-        docker push ${{ secrets.DOCKER_REGISTRY }}/genval:latest
+        docker tag katalyst/genval:latest ${{ secrets.DOCKER_REGISTRY }}/katalyst-llc/genval:latest
+        docker push ${{ secrets.DOCKER_REGISTRY }}/katalyst-llc/genval:latest
 
     - name: Notify on Success
       if: success()
-      run: echo "GenVal build + tests passed and Docker image built."
+      run: echo " GenVal build, tests passed, and Docker image pushed to GHCR."
 
     - name: Notify on Failure
       if: failure()
-      run: echo " GenVal pipeline failed at some step."
+      run: echo " GenVal pipeline failed during Docker packaging or push."
