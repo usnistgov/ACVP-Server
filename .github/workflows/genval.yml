@@ -75,7 +75,7 @@ jobs:
         path: app
 
     - name: Build Docker Image
-      run: docker build -t katalyst/genval:latest app
+      run: docker build -t katalyst/genval:latest gen-val/samples/GenValAppRunner/src
 
     - name: Login to GHCR
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${{ secrets.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
