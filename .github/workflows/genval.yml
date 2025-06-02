@@ -21,7 +21,20 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x'
+        dotnet-version: '9.0.x'  
+
+    - name: Create Symbolic Links for Build Props
+      run: |
+        rm -f Directory.Build.props
+        rm -f Directory.Packages.props
+        ln -s ./_config/Directory.Build.props
+        ln -s ./_config/Directory.Packages.props
+
+    - name: Ensure sharedappsettings.json Exists
+      run: |
+        if [ ! -f gen-val/samples/sharedappsettings.json ]; then
+          echo '{}' > gen-val/samples/sharedappsettings.json
+        fi
 
     - name: Restore and Build GenVal App
       run: |
@@ -45,6 +58,19 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
+
+    - name: Create Symbolic Links for Build Props
+      run: |
+        rm -f Directory.Build.props
+        rm -f Directory.Packages.props
+        ln -s ./_config/Directory.Build.props
+        ln -s ./_config/Directory.Packages.props
+
+    - name: Ensure sharedappsettings.json Exists
+      run: |
+        if [ ! -f gen-val/samples/sharedappsettings.json ]; then
+          echo '{}' > gen-val/samples/sharedappsettings.json
+        fi
 
     - name: Publish GenVal App
       run: |
