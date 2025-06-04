@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,8 +15,9 @@
     <PackageReference Include="CommandLineArgumentsParser" />
     <PackageReference Include="Autofac" />
     <PackageReference Include="Microsoft.Orleans.Client" />
-
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" />
     <PackageReference Include="Microsoft.NETCore.Targets" PrivateAssets="all" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup Condition="$(BuildGenValPackages) == 'false'">
