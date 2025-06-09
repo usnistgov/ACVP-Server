@@ -1,6 +1,0 @@
-public class RequestResponse
-{
-    public int StatusCode {get; set;}
-    public string ErrorMessage {get; set;}
-    public string Results {get; set;}
-}

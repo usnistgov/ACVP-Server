@@ -11,21 +11,23 @@ using NIST.CVP.ACVTS.Libraries.Common.Enums;
 using System.Threading.Tasks;
 using Autofac;
 using Newtonsoft.Json;
+using GenValAppRunner.DTO;
 
-
-[ApiController]
-[Route("api/v1/vectorsets")]
-public class VectorSetsController : ControllerBase
+namespace GenValApp.Controllers
 {
-    private readonly IGeneratorResolver _generatorResolver;
-
-    public VectorSetsController(IGeneratorResolver generatorResolver)
+    [ApiController]
+    [Route("api/v1/vectorsets")]
+    public class VectorSetsController : ControllerBase
     {
+     private readonly IGeneratorResolver _generatorResolver;
+
+     public VectorSetsController(IGeneratorResolver generatorResolver)
+     {
         _generatorResolver = generatorResolver;
-    }
+     }
 
     [HttpPost("generate")]
-    public async Task<IActionResult> Generate([FromBody] Registration registration)
+    public async Task<ActionResult<VectorSetResponse>> Generate([FromBody] Registration registration)
     {
      try{
            var registrationString = JsonConvert.SerializeObject(registration);
@@ -37,17 +39,19 @@ public class VectorSetsController : ControllerBase
            {
            var response = await generator.GenerateAsync(new GenerateRequest(registrationString));
 
-            return Ok(new 
-            {
-                response.StatusCode,
-                response.ErrorMessage,
-                response.InternalProjection
-            });
+            return Ok(new VectorSetResponse
+                {
+                     StatusCode = response.StatusCode,
+                     ErrorMessage = response.ErrorMessage,
+                     Result = JsonConvert.DeserializeObject<TestVectorSet>(response.InternalProjection)
+       
+                });
            }
         }
         catch (Exception ex)
         {
             return StatusCode(500, new { error = ex.Message });
         }
+     }
     }
 }
