@@ -30,6 +30,10 @@ namespace GenValApp.Controllers
     public async Task<ActionResult<VectorSetResponse>> Generate([FromBody] Registration registration)
     {
      try{
+          if (!ModelState.IsValid)
+           {
+             return BadRequest(ModelState);
+           }
            var registrationString = JsonConvert.SerializeObject(registration);
 
            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(registration.Algorithm, "", registration.Revision);
