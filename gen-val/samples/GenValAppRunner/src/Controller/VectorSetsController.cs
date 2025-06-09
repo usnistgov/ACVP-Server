@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Common.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,36 +17,33 @@ using Newtonsoft.Json;
 [Route("api/v1/vectorsets")]
 public class VectorSetsController : ControllerBase
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IGeneratorResolver _generatorResolver;
 
-    public VectorSetsController(IServiceProvider serviceProvider)
+    public VectorSetsController(IGeneratorResolver generatorResolver)
     {
-        _serviceProvider = serviceProvider;
+        _generatorResolver = generatorResolver;
     }
 
     [HttpPost("generate")]
     public async Task<IActionResult> Generate([FromBody] Registration registration)
     {
      try{
-          var registrationString = JsonConvert.SerializeObject(registration);
-          var registrationJson = JObject.Parse(registrationString);
-
+           var registrationString = JsonConvert.SerializeObject(registration);
 
            var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(registration.Algorithm, "", registration.Revision);
+    
+           var (generator, scope) = _generatorResolver.Resolve(algoMode);
+           using (scope) // ensure scope is disposed
+           {
+           var response = await generator.GenerateAsync(new GenerateRequest(registrationString));
 
-            // Dynamically configure container for algorithm
-            AutofacConfig.IoCConfiguration(_serviceProvider, algoMode);
-            using var scope = AutofacConfig.GetContainer().BeginLifetimeScope();
-
-            var generator = scope.Resolve<IGenerator>();
-            var response = await generator.GenerateAsync(new GenerateRequest(registrationString));
-
-            return Ok(new
+            return Ok(new 
             {
                 response.StatusCode,
                 response.ErrorMessage,
-                response.ResultProjection 
+                response.InternalProjection
             });
+           }
         }
         catch (Exception ex)
         {
