@@ -10,33 +10,48 @@ using NIST.CVP.ACVTS.Generation.GenValApp.Helpers;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Enums;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Autofac;
-
 public interface IGeneratorResolver
 {
     (IGenerator Generator, ILifetimeScope Scope) Resolve(AlgoMode algoMode);
 }
 
-
-public class GeneratorResolver : IGeneratorResolver
+public class GeneratorResolver : IGeneratorResolver, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly ConcurrentDictionary<AlgoMode, IContainer> _containers = new();
+    private bool _disposed;
 
-    public GeneratorResolver()
+    public GeneratorResolver(IServiceProvider serviceProvider)
     {
         _serviceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
     }
 
     public (IGenerator Generator, ILifetimeScope Scope) Resolve(AlgoMode algoMode)
     {
-        // Rebuild Autofac container for specific algoMode
-        AutofacConfig.IoCConfiguration(_serviceProvider, algoMode);
-        var container = AutofacConfig.GetContainer();
+        var container = _containers.GetOrAdd(algoMode, mode =>
+        {
+            AutofacConfig.IoCConfiguration(_serviceProvider, mode);
+            return AutofacConfig.GetContainer();
+        });
+
         var scope = container.BeginLifetimeScope();
-             
-        // Resolve the generator inside the scope
         var generator = scope.Resolve<IGenerator>();
 
         return (generator, scope);
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+
+        foreach (var container in _containers.Values)
+        {
+            container.Dispose();
+        }
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
     }
 }
