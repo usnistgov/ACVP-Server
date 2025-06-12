@@ -1,0 +1,57 @@
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Enums;
+using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
+using NIST.CVP.ACVTS.Generation.GenValApp.Helpers;
+using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Enums;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
+using Autofac;
+public interface IGeneratorResolver
+{
+    (IGenerator Generator, ILifetimeScope Scope) Resolve(AlgoMode algoMode);
+}
+
+public class GeneratorResolver : IGeneratorResolver, IDisposable
+{
+    private readonly IServiceProvider _serviceProvider;
+    private readonly ConcurrentDictionary<AlgoMode, IContainer> _containers = new();
+    private bool _disposed;
+
+    public GeneratorResolver(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
+    }
+
+    public (IGenerator Generator, ILifetimeScope Scope) Resolve(AlgoMode algoMode)
+    {
+        var container = _containers.GetOrAdd(algoMode, mode =>
+        {
+            AutofacConfig.IoCConfiguration(_serviceProvider, mode);
+            return AutofacConfig.GetContainer();
+        });
+
+        var scope = container.BeginLifetimeScope();
+        var generator = scope.Resolve<IGenerator>();
+
+        return (generator, scope);
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+
+        foreach (var container in _containers.Values)
+        {
+            container.Dispose();
+        }
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
+    }
+}

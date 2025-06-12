@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.Helpers
 
             StringBuilder sb = new StringBuilder();
             sb.Append(algorithm);
-            if (mode != null)
+            if (!string.IsNullOrEmpty(mode))
             {
                 sb.Append("-");
                 sb.Append(mode);

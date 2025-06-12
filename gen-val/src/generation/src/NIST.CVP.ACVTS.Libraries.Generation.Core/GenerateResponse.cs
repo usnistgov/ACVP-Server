@@ -7,24 +7,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core
         /// <summary>
         /// Status code representing the outcome of the generation
         /// </summary>
-        public StatusCode StatusCode { get; }
+        public StatusCode StatusCode { get; set;}
         /// <summary>
         /// A delimited Error response due to an error in generation.
         /// </summary>
-        public string ErrorMessage { get; }
+        public string ErrorMessage { get; set;}
 
         /// <summary>
         /// The json representing the internal projection of the generation.
         /// </summary>
-        public string InternalProjection { get; }
+        public string InternalProjection { get; set;}
         /// <summary>
         /// The json representing the prompt projection of the generation.
         /// </summary>
-        public string PromptProjection { get; }
+        public string PromptProjection { get; set;}
         /// <summary>
         /// The expected results from the IUT in validation (not always applicable).
         /// </summary>
-        public string ResultProjection { get; }
+        public string ResultProjection { get; set;}
 
         public GenerateResponse()
         {

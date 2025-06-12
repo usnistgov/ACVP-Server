@@ -7,13 +7,13 @@ using NIST.CVP.ACVTS.Generation.GenValApp.Helpers;
 namespace GenValApp.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class GenValController : ControllerBase
+    [Route("api/v1/algorithms")]
+    public class AlgorithmsController : ControllerBase
     {
-        public GenValController()
+        public AlgorithmsController()
         {}
 
-        [HttpGet("algorithms")]
+        [HttpGet()]
         public IActionResult GetSupportedAlgorithms()
         {
             try
