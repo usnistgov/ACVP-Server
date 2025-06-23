@@ -6,10 +6,11 @@ namespace GenValAppRunner.DTO
     {
         public int VsId { get; set; }
         public string Disposition {get; set;}
-        public List<TestCaseValidation> Tests { get; set; }
+        public List<TestCaseValidationResult> Tests { get; set; }
 
     }
-    public class TestCaseValidation
+
+    public class TestCaseValidationResult
     {
         public int TcId { get; set; }
         public string Result { get; set; }
