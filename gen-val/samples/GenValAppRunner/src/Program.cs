@@ -97,6 +97,7 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
 
                 // Add services to the container.
                 builder.Services.AddScoped<IGeneratorResolver, GeneratorResolver>();
+                builder.Services.AddScoped<IValidationResolver, ValidationResolver>();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer(); // Enables Swagger endpoints
                 builder.Services.AddSwaggerGen();           // Registers Swagger generator

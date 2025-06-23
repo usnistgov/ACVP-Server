@@ -12,7 +12,7 @@ namespace GenValAppRunner.DTO
     public class TestCaseValidation
     {
         public int TcId { get; set; }
-        public string Results { get; set; }
+        public string Result { get; set; }
     }
 
  }
