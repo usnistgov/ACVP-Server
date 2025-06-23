@@ -80,15 +80,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.IntegrationTests.v2_0
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                KeyLen = new[] { 128, 256 },
-                Direction = new[] { BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt },
+                KeyLen = [128, 256],
+                Direction = [BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt],
                 PayloadLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
                 DataUnitLen = new MathDomain().AddSegment(new RangeDomainSegment(new Random800_90(), 128, 65536)),
                 DataUnitLenMatchesPayload = false,
-                TweakMode = new[] { XtsTweakModes.Hex, XtsTweakModes.Number },
+                TweakMode = [XtsTweakModes.Hex, XtsTweakModes.Number],
                 IsSample = true
             };
-
+            
             return CreateRegistration(folderName, p);
         }
     }

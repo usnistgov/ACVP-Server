@@ -14,7 +14,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
         TestGroup tg = new TestGroup();
         tg.TestType = "AFT";
         tg.MessageLength = parameters.MessageLength;
-        tg.DigestLength = parameters.DigestLength;
+        tg.DigestLength = parameters.OutputLength;
         testGroups.Add(tg);
 
         return Task.FromResult(testGroups);

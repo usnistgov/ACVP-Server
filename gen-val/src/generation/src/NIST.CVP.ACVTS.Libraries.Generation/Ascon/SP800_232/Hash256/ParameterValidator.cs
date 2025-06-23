@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Common;
+﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256
@@ -15,6 +8,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256
     {
         public static int MIN_MESSAGE_LENGTH = 0;
         public static int MAX_MESSAGE_LENGTH = 65536;
+        
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errors = new List<string>();
@@ -22,6 +16,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256
 
             return new ParameterValidateResponse(errors);
         }
+        
         private void ValidateMessageLength(Parameters parameters, List<string> errors)
         {
             if (parameters.MessageLength == null)
@@ -39,6 +34,4 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }
     }
-
-
 }

@@ -11,7 +11,6 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;

@@ -105,6 +105,18 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
 
             return values;
         }
+
+        public IEnumerable<int> GetSequentialValuesInIncrement(int start, int quantity)
+        {
+            List<int> values = new List<int>();
+
+            if (_value == start)
+            {
+                values.Add(_value);
+            }
+
+            return values;
+        }
         
         /// <summary>
         /// Get values from the <see cref="IDomainSegment" />, with a minimum of <see cref="min" />

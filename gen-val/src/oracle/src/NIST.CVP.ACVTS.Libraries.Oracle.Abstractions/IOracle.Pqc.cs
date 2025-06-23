@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_DSA;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_KEM;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.SLH_DSA;
@@ -22,9 +21,9 @@ public partial interface IOracle
     // ML-KEM
     public Task<MLKEMKeyPairResult> GetMLKEMKeyCaseAsync(MLKEMKeyGenParameters param);
     public Task<MLKEMEncapsulationResult> GetMLKEMEncapCaseAsync(MLKEMEncapsulationParameters param);
-    public Task<MLKEMEncapsulationResult> GetMLKEMEncapDeferredCaseAsync(MLKEMEncapsulationParameters param);
     public Task<MLKEMEncapsulationResult> GetMLKEMDecapCaseAsync(MLKEMDecapsulationParameters param);   // This function performs encapsulation
-    public Task<MLKEMDecapsulationResult> CompleteDeferredMLKEMEncapsulationAsync(MLKEMDecapsulationParameters param, MLKEMEncapsulationResult providedResult);
+    public Task<MLKEMKeyPairResult> GetMLKEMEncapKeyCheckCaseAsync(MLKEMKeyGenParameters param);
+    public Task<MLKEMKeyPairResult> GetMLKEMDecapKeyCheckCaseAsync(MLKEMKeyGenParameters param);
     
     // SLH-DSA
     public Task<SLHDSAKeyPairResult> GetSLHDSAKeyCaseAsync(SLHDSAKeyGenParameters param);

@@ -3,30 +3,31 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.KeyConfirmation;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_KC
 {
-    public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<KasKcDisposition> _testCaseExpectationProvider;
+        public int NumberOfTestCasesToGenerate { get; private set; }
 
-        public TestCaseGeneratorAft(IOracle oracle, ITestCaseExpectationProvider<KasKcDisposition> testCaseExpectationProvider)
+        public TestCaseGeneratorAft(IOracle oracle)
         {
             _oracle = oracle;
-            _testCaseExpectationProvider = testCaseExpectationProvider;
-            NumberOfTestCasesToGenerate = _testCaseExpectationProvider.ExpectationCount;
         }
 
-        public int NumberOfTestCasesToGenerate { get; }
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            NumberOfTestCasesToGenerate = group.KasKcExpectationProvider.ExpectationCount;
+            return new GenerateResponse();
+        }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
         {
             try
             {
-                var disposition = _testCaseExpectationProvider.GetRandomReason().GetReason();
+                var disposition = group.KasKcExpectationProvider.GetRandomReason();
                 var result = await _oracle.GetKasKcAftTestAsync(new KasKcAftParameters()
                 {
                     Disposition = disposition,

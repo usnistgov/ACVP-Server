@@ -12,7 +12,7 @@ public class TestGroup : ITestGroup<TestGroup, TestCase>
     public int TestGroupId { get; set; }
     public string TestType { get; set; }
     public List<TestCase> Tests { get; set; } = new List<TestCase>();
+    
     [JsonIgnore]
     public MathDomain MessageLength { get; set; }
 }
-

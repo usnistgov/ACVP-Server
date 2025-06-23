@@ -1,6 +1,7 @@
 ﻿using System;
  using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
+ using NIST.CVP.ACVTS.Libraries.Common.Helpers;
+ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
@@ -10,7 +11,7 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
 {
-    public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+    public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
 
@@ -19,16 +20,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
         public TestCaseGenerator(IOracle oracle)
         {
             _oracle = oracle;
-        }
-        
-        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
-        {
-            if (isSample)
-            {
-                NumberOfTestCasesToGenerate = 10;
-            }
-            
-            return new GenerateResponse();
         }
         
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
@@ -41,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
                 Modulus = group.Modulo,
                 KeyFormat = group.KeyMode,
                 PublicExponent = group.PublicExponentMode == PublicExponentModes.Fixed ? group.PublicExponent : null,
-                Disposition = reason.GetName()
+                Disposition = EnumHelpers.GetEnumDescriptionFromEnum(reason)
             };
 
             try

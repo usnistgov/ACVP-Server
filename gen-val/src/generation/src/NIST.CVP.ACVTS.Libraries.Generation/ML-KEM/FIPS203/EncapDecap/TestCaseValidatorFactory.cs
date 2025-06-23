@@ -1,19 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
 public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVectorSet, TestGroup, TestCase>
 {
-    private readonly IOracle _oracle;
-
-    public TestCaseValidatorFactory(IOracle oracle)
-    {
-        _oracle = oracle;
-    }
-
     public List<ITestCaseValidatorAsync<TestGroup, TestCase>> GetValidators(TestVectorSet testVectorSet)
     {
         var list = new List<ITestCaseValidatorAsync<TestGroup, TestCase>>();
@@ -22,16 +16,15 @@ public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVecto
         {
             foreach (var test in group.Tests.Select(t => t))
             {
-                switch (group.TestType.ToUpper())
+                list.Add(group.Function switch
                 {
-                    case "VAL":
-                        list.Add(new TestCaseValidatorVal(test));
-                        break;
+                    KyberFunction.Encapsulation => new TestCaseValidatorEncapsulationAft(test),
+                    KyberFunction.Decapsulation => new TestCaseValidatorDecapsulationVal(test),
+                    KyberFunction.EncapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
+                    KyberFunction.DecapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
                     
-                    case "AFT":
-                        list.Add(new TestCaseValidatorAft(test, group, new DeferredAftTestCaseResolver(_oracle)));
-                        break;
-                }
+                    _ => throw new ArgumentOutOfRangeException()
+                });
             }
         }
 

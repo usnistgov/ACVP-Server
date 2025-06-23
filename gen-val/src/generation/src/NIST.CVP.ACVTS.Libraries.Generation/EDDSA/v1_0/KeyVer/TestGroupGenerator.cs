@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed.Enums;
@@ -19,7 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyVer
                 var testGroup = new TestGroup
                 {
                     Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName),
-                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                    TestCaseExpectationProvider = new KeyExpectationProvider()
                 };
 
                 testGroups.Add(testGroup);

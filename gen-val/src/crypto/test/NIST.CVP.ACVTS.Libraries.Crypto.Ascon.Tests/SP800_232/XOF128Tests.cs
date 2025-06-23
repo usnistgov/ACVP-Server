@@ -67,6 +67,33 @@ public class XOF128Tests
         Assert.That(digest, Is.EqualTo(digestString));
     }
 
+    [Test, Ignore("Debugging only")]
+    [TestCase("000102030405060708090A0B0C0D0E0F", "10BFEDC5F6442D3E1D8C324878CE1DDF", 128, 128)]
+    [TestCase("000102030405060708090A0B0C0D0E0F01", "ED0CECAF5510F137ADD594C99F404A1200", 129, 129)]
+    public void GenerateIntermediateValuesCXOFBitOriented(string messageString, string digestString, int messageBitLength, int digestLength)
+    {
+        byte[] message = StringToHexBytes(messageString);
+
+        Console.WriteLine("Ascon XOF128\n");
+
+        Console.WriteLine("message = " + messageString);
+        Console.WriteLine("messageLen = " + messageBitLength);
+        Console.WriteLine("digestLen = " + digestLength + "\n");
+
+        byte[] digestBytes = ascon.Xof128(message, messageBitLength, digestLength);
+
+        string digest = "";
+
+        for (int i = 0; i < digestBytes.Length; i++)
+        {
+            digest = digest + digestBytes[i].ToString("X2");
+        }
+
+        Console.WriteLine("\ndigest = " + digest);
+
+        Assert.That(digest, Is.EqualTo(digestString));
+    }
+
     [Test]
     public void ShouldXOFAllValuesNoAnswers()
     {

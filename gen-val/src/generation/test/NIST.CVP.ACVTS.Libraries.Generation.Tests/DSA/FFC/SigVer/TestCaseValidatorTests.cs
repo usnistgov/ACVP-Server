@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer;
-using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -38,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
             {
                 TestCaseId = 1,
                 TestPassed = shouldPass,   // Says the test Core.Enums.Disposition.Passed
-                Reason = new TestCaseExpectationReason(DsaSignatureDisposition.ModifyMessage)     // Only matters in the failure event
+                Reason = DsaSignatureDisposition.ModifyMessage     // Only matters in the failure event
             };
         }
     }

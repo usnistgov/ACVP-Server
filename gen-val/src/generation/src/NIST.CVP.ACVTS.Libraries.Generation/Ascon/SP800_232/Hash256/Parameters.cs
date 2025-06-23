@@ -1,8 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256
 {

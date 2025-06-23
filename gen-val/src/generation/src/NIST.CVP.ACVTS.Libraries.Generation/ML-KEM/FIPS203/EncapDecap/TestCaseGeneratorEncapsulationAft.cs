@@ -48,21 +48,12 @@ public class TestCaseGeneratorEncapsulationAft : ITestCaseGeneratorAsync<TestGro
                 ParameterSet = group.ParameterSet,
                 EncapsulationKey = testCase.EncapsulationKey
             };
-            
-            if (isSample)
-            {
-                var encapResult = await _oracle.GetMLKEMEncapCaseAsync(encapParam);
 
-                testCase.Ciphertext = encapResult.Ciphertext;
-                testCase.SharedKey = encapResult.SharedKey;
-                testCase.SeedM = encapResult.SeedM;
-            }
-            else
-            {
-                var encapResult = await _oracle.GetMLKEMEncapDeferredCaseAsync(encapParam);
+            var encapResult = await _oracle.GetMLKEMEncapCaseAsync(encapParam);
 
-                testCase.SeedM = encapResult.SeedM;
-            }
+            testCase.Ciphertext = encapResult.Ciphertext;
+            testCase.SharedKey = encapResult.SharedKey;
+            testCase.SeedM = encapResult.SeedM;
         }
         catch (Exception ex)
         {

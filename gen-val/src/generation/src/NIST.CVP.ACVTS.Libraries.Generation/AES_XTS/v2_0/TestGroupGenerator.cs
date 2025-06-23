@@ -26,6 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
                             KeyLen = keyLen,
                             TweakMode = tweakMode,
                             PayloadLen = parameters.PayloadLen.GetDeepCopy(),
+                            DataUnitLen = parameters.DataUnitLen?.GetDeepCopy(),
                             TestType = TEST_TYPE_LABEL,
                             InternalTestType = SINGLE_DATA_UNIT,
                         };
@@ -40,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
                                 KeyLen = keyLen,
                                 TweakMode = tweakMode,
                                 PayloadLen = parameters.PayloadLen.GetDeepCopy(),
-                                DataUnitLen = parameters.DataUnitLen.GetDeepCopy(),
+                                DataUnitLen = parameters.DataUnitLen!.GetDeepCopy(),
                                 TestType = TEST_TYPE_LABEL,
                                 InternalTestType = MULTIPLE_DATA_UNIT
                             };

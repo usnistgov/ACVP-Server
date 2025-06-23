@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
@@ -40,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
                 Modulo = group.Modulo,
                 Mode = group.KeyMode,
                 PublicExponent = group.PublicExponentMode == PublicExponentModes.Fixed ? group.PublicExponent : null,
-                Disposition = reason.GetName()
+                Disposition = EnumHelpers.GetEnumDescriptionFromEnum(reason)
             };
             
             try

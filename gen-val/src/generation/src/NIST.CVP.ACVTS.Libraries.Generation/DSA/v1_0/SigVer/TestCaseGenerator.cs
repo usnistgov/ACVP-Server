@@ -47,16 +47,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
                 ThisLogger.Error(ex);
                 return new TestCaseGenerateResponse<TestGroup, TestCase>("Unable to generate key");
             }
-
-            ITestCaseExpectationReason<DsaSignatureDisposition> reason = group.TestCaseExpectationProvider.GetRandomReason();
-
+            
             var param = new DsaSignatureParameters
             {
                 HashAlg = group.HashAlg,
                 DomainParameters = group.DomainParams,
                 MessageLength = group.N,
                 Key = keyResult.Key,
-                Disposition = reason.GetReason(),
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason(),
                 IsMessageRandomized = group.IsMessageRandomized
             };
 
@@ -71,8 +69,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
                     RandomValue = result.RandomValue,
                     RandomValueLen = result.RandomValue?.BitLength ?? 0,
                     Key = result.Key,
-                    Reason = reason,
-                    TestPassed = reason.GetReason() == DsaSignatureDisposition.None
+                    Reason = param.Disposition,
+                    TestPassed = param.Disposition == DsaSignatureDisposition.None
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

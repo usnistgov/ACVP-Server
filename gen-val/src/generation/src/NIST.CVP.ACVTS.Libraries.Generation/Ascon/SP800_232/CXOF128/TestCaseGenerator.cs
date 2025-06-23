@@ -43,9 +43,9 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
         //Testing breakpoints and surrounding values for chunk sizes
         for (int i = 3; i < 8; i++)
         {
-            mlengths.AddRange(group.MessageLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
-            dlengths.AddRange(group.DigestLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
-            cslengths.AddRange(group.CSLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
+            mlengths.AddRange(group.MessageLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
+            dlengths.AddRange(group.DigestLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
+            cslengths.AddRange(group.CSLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
         messageLengths = new ShuffleQueue<int>(mlengths);
         digestLengths = new ShuffleQueue<int>(dlengths);

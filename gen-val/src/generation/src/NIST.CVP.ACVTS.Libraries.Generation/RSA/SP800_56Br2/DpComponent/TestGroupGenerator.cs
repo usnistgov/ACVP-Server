@@ -25,7 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
                             Modulo = modulus,
                             KeyMode = format,
                             TestType = TEST_TYPE,
-                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                            TestCaseExpectationProvider = new RsaDecryptExpectationProvider(),
                             PublicExponentMode = PublicExponentModes.Random,
                             PublicExponent = null
                         });
@@ -37,7 +37,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
                             Modulo = modulus,
                             KeyMode = format,
                             TestType = TEST_TYPE,
-                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                            TestCaseExpectationProvider = new RsaDecryptExpectationProvider(),
                             PublicExponentMode = parameters.PublicExponentMode,
                             PublicExponent = parameters.PublicExponentMode == PublicExponentModes.Fixed ? parameters.PublicExponentValue : null
                         });

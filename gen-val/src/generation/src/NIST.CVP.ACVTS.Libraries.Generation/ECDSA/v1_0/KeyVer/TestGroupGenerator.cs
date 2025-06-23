@@ -19,7 +19,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyVer
                 var testGroup = new TestGroup
                 {
                     Curve = EnumHelpers.GetEnumFromEnumDescription<Curve>(curveName),
-                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                    TestCaseExpectationProvider = new KeyExpectationProvider(parameters.IsSample)
                 };
 
                 testGroups.Add(testGroup);

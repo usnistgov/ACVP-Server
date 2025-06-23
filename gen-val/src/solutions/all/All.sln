@@ -339,6 +339,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.SLH-DSA.SigVer.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.SLH-DSA.SigVer.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.SLH-DSA.SigVer.IntegrationTests.csproj", "{93DF4979-3E83-47CC-B66D-E0774D5EBBE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests\NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests.csproj", "{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests.csproj", "{FDCF9689-7ED4-491C-BD11-56101A288352}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests.csproj", "{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests.csproj", "{AF7FC455-7C4E-4507-8971-76DA850E306B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests.csproj", "{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -969,6 +979,26 @@ Global
 		{93DF4979-3E83-47CC-B66D-E0774D5EBBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93DF4979-3E83-47CC-B66D-E0774D5EBBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93DF4979-3E83-47CC-B66D-E0774D5EBBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCF9689-7ED4-491C-BD11-56101A288352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCF9689-7ED4-491C-BD11-56101A288352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCF9689-7ED4-491C-BD11-56101A288352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCF9689-7ED4-491C-BD11-56101A288352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF7FC455-7C4E-4507-8971-76DA850E306B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7FC455-7C4E-4507-8971-76DA850E306B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7FC455-7C4E-4507-8971-76DA850E306B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF7FC455-7C4E-4507-8971-76DA850E306B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1137,6 +1167,11 @@ Global
 		{8842041F-A75C-44EA-B542-DD21051687DE} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
 		{2DE04D64-34F7-4314-B3D4-3D838F42E360} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
 		{93DF4979-3E83-47CC-B66D-E0774D5EBBE1} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
+		{91E46794-DB11-4AE3-85FE-3CDDA99FDB3E} = {A63BBC4A-ADDF-46CA-A28C-47CF83DFE7D2}
+		{FDCF9689-7ED4-491C-BD11-56101A288352} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
+		{E42D3C90-C3C6-40B7-A473-E958EFC8AFE6} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
+		{AF7FC455-7C4E-4507-8971-76DA850E306B} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
+		{6CAB163B-C7FB-4E69-93F4-7D540CED6CB4} = {3C313600-95EB-4ACA-A8C1-2E7B21284443}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F781EC4-A553-4391-9FED-162CD368CC37}

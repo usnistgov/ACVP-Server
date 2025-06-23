@@ -66,6 +66,32 @@ public class Hash256Tests
         Assert.That(digest, Is.EqualTo(digestString));
     }
 
+    [Test, Ignore("Debugging only")]
+    [TestCase("000102030405060708090A0B0C0D0E0F", "3158C1940A2FBADBD68AB661777859B94A689E4EFC375911467ADDD641835C38", 128)]
+    [TestCase("000102030405060708090A0B0C0D0E0F01", "E232ABFD6A74D9232AFEB6BBA07CD2DA237A460171CB9570C833498D60F1D26C", 129)]
+    public void GenerateIntermediateValuesHashBitOriented(string messageString, string digestString, int messageBitLength)
+    {
+        byte[] message = StringToHexBytes(messageString);
+
+        Console.WriteLine("Ascon Hash256\n");
+
+        Console.WriteLine("message = " + messageString);
+        Console.WriteLine("messageLen = " + messageBitLength);
+
+        byte[] digestBytes = ascon.Hash256(message, messageBitLength);
+
+        string digest = "";
+
+        for (int i = 0; i < digestBytes.Length; i++)
+        {
+            digest = digest + digestBytes[i].ToString("X2");
+        }
+
+        Console.WriteLine("\ndigest = " + digest);
+
+        Assert.That(digest, Is.EqualTo(digestString));
+    }
+
     [Test]
     public void ShouldHashAllValuesNoAnswers()
     {

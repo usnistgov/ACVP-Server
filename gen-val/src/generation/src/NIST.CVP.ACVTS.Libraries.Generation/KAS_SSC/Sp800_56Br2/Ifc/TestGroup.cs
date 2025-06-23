@@ -7,6 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
@@ -15,16 +16,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
-
         public bool IsSample { get; set; }
 
         public SscIfcScheme Scheme { get; set; }
-
         public KasMode KasMode => KasMode.NoKdfNoKc;
-
         public KeyAgreementRole KasRole { get; set; }
-
         public IfcKeyGenerationMethod KeyGenerationMethod { get; set; }
 
         [JsonIgnore]
@@ -35,7 +31,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
                 : PrivateKeyModes.Standard;
 
         public int Modulo { get; set; }
-
         public HashFunctions HashFunctionZ { get; set; }
 
         [JsonProperty("fixedPubExp", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -52,6 +47,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
             KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(Scheme, KasMode, KasRole,
                 KeyConfirmationRole.None, KeyConfirmationDirection.None);
 
-        [JsonIgnore] public ShuffleQueue<KeyPair> ShuffleKeys { get; set; }
+        [JsonIgnore] 
+        public ShuffleQueue<KeyPair> ShuffleKeys { get; set; }
+        
+        [JsonIgnore]
+        public KasSscExpectationProvider KasSscExpectationProvider { get; set; }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }

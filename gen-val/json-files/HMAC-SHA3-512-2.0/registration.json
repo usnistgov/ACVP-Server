@@ -1,0 +1,28 @@
+{
+  "vsId": 0,
+  "algorithm": "HMAC-SHA3-512",
+  "revision": "2.0",
+  "isSample": false,
+  "conformances": [],
+  "keyLen": [
+    {
+      "min": 8,
+      "max": 2048,
+      "increment": 8
+    }
+  ],
+  "macLen": [
+    {
+      "min": 80,
+      "max": 160,
+      "increment": 8
+    }
+  ],
+  "msgLen": [
+    {
+      "min": 0,
+      "max": 1024,
+      "increment": 8
+    }
+  ]
+}

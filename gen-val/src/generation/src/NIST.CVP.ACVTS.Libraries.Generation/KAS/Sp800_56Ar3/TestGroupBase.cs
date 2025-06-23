@@ -8,6 +8,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Sp800_56Ar3.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
@@ -24,18 +25,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
         public bool IsSample { get; set; }
 
         public KasAssurance Function { get; set; }
-
         public KasDpGeneration DomainParameterGenerationMode { get; set; }
 
         [JsonIgnore] public virtual IDsaDomainParameters DomainParameters { get; set; }
         [JsonIgnore] public ShuffleQueue<TKeyPair> ShuffleKeys { get; set; }
 
         public KasScheme Scheme { get; set; }
-
         public KasAlgorithm KasAlgorithm { get; set; }
-
         public KeyAgreementRole KasRole { get; set; }
-
         public KasMode KasMode { get; set; }
 
         public int L { get; set; }
@@ -55,11 +52,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
 
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IKdfConfiguration KdfConfiguration { get; set; }
+        
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MacConfiguration MacConfiguration { get; set; }
+        
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
+        
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public KeyConfirmationRole KeyConfirmationRole { get; set; }
+        
+        [JsonIgnore]
+        public KasExpectationProvider<TTestGroup, TTestCase, TKeyPair> KasExpectationProvider { get; set; }
     }
 }

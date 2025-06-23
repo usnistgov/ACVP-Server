@@ -1,8 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.CXOF128
 {
@@ -16,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.CXOF128
         public string[] Conformances { get; set; }
 
         public MathDomain MessageLength { get; set; }
-        public MathDomain DigestLength { get; set; }
+        public MathDomain OutputLength { get; set; }
         public MathDomain CustomizationStringLength { get; set; }
     }
 }

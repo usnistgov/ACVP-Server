@@ -20,8 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr1.Hkdf
                 case "aft":
                     return new TestCaseGeneratorAft(_oracle);
                 case "val":
-                    var testCaseExpectationProvider = new TestCaseExpectationProvider(testGroup.IsSample);
-                    return new TestCaseGeneratorVal(_oracle, testCaseExpectationProvider, testCaseExpectationProvider.ExpectationCount);
+                    return new TestCaseGeneratorVal(_oracle);
                 default:
                     return new TestCaseGeneratorNull();
             }

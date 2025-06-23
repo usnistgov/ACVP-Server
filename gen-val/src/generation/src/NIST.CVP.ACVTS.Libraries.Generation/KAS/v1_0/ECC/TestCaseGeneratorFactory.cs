@@ -8,7 +8,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0.ECC
 {
     public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup, TestCase>
     {
-
         private const string aftTest = "aft";
         private const string valTest = "val";
 
@@ -21,7 +20,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0.ECC
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
             {
                 return new TestCaseGeneratorAft(_oracle);
@@ -29,9 +27,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.v1_0.ECC
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
-                var validityTestCaseOptions =
-                    new TestCaseExpectationProvider<TestGroup, TestCase, KasDsaAlgoAttributesEcc>(testGroup);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                testGroup.KasExpectationProvider = new KasExpectationProvider<TestGroup, TestCase, KasDsaAlgoAttributesEcc>(testGroup);
+                return new TestCaseGeneratorVal(_oracle);
             }
 
             return new TestCaseGeneratorNull();

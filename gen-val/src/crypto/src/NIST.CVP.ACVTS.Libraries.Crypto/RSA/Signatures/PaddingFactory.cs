@@ -39,28 +39,28 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
         }
         
         /// Could introduce errors
-        public IPaddingScheme GetSigningPaddingScheme(SignatureSchemes sigMode, ISha sha, SignatureModifications errors, PssMaskTypes maskType = PssMaskTypes.None, IEntropyProvider entropyProvider = null, int saltLength = 0, int outputLen = 0)
+        public IPaddingScheme GetSigningPaddingScheme(SignatureSchemes sigMode, ISha sha, RSASignatureModifications errors, PssMaskTypes maskType = PssMaskTypes.None, IEntropyProvider entropyProvider = null, int saltLength = 0, int outputLen = 0)
         {
             if (sigMode == SignatureSchemes.Ansx931)
             {
                 switch (errors)
                 {
-                    case SignatureModifications.None:
+                    case RSASignatureModifications.None:
                         return new AnsxPadder(sha);
 
-                    case SignatureModifications.E:
+                    case RSASignatureModifications.E:
                         return new AnsxPadderWithModifiedPublicExponent(sha);
 
-                    case SignatureModifications.Message:
+                    case RSASignatureModifications.Message:
                         return new AnsxPadderWithModifiedMessage(sha);
 
-                    case SignatureModifications.ModifyTrailer:
+                    case RSASignatureModifications.ModifyTrailer:
                         return new AnsxPadderWithModifiedTrailer(sha);
 
-                    case SignatureModifications.MoveIr:
+                    case RSASignatureModifications.MoveIr:
                         return new AnsxPadderWithMovedIr(sha);
 
-                    case SignatureModifications.Signature:
+                    case RSASignatureModifications.Signature:
                         return new AnsxPadderWithModifiedSignature(sha);
 
                     default:
@@ -71,22 +71,22 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
             {
                 switch (errors)
                 {
-                    case SignatureModifications.None:
+                    case RSASignatureModifications.None:
                         return new PkcsPadder(sha);
 
-                    case SignatureModifications.E:
+                    case RSASignatureModifications.E:
                         return new PkcsPadderWithModifiedPublicExponent(sha);
 
-                    case SignatureModifications.Message:
+                    case RSASignatureModifications.Message:
                         return new PkcsPadderWithModifiedMessage(sha);
 
-                    case SignatureModifications.ModifyTrailer:
+                    case RSASignatureModifications.ModifyTrailer:
                         return new PkcsPadderWithModifiedTrailer(sha);
 
-                    case SignatureModifications.MoveIr:
+                    case RSASignatureModifications.MoveIr:
                         return new PkcsPadderWithMovedIr(sha);
 
-                    case SignatureModifications.Signature:
+                    case RSASignatureModifications.Signature:
                         return new PkcsPadderWithModifiedSignature(sha);
 
                     default:
@@ -99,22 +99,22 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
 
                 switch (errors)
                 {
-                    case SignatureModifications.None:
+                    case RSASignatureModifications.None:
                         return new PssPadder(sha, mask, entropyProvider, saltLength, outputLen);
 
-                    case SignatureModifications.E:
+                    case RSASignatureModifications.E:
                         return new PssPadderWithModifiedPublicExponent(sha, mask, entropyProvider, saltLength, outputLen);
 
-                    case SignatureModifications.Message:
+                    case RSASignatureModifications.Message:
                         return new PssPadderWithModifiedMessage(sha, mask, entropyProvider, saltLength, outputLen);
 
-                    case SignatureModifications.ModifyTrailer:
+                    case RSASignatureModifications.ModifyTrailer:
                         return new PssPadderWithModifiedTrailer(sha, mask, entropyProvider, saltLength, outputLen);
 
-                    case SignatureModifications.MoveIr:
+                    case RSASignatureModifications.MoveIr:
                         return new PssPadderWithMovedIr(sha, mask, entropyProvider, saltLength, outputLen);
 
-                    case SignatureModifications.Signature:
+                    case RSASignatureModifications.Signature:
                         return new PssPadderWithModifiedSignature(sha, mask, entropyProvider, saltLength, outputLen);
 
                     default:

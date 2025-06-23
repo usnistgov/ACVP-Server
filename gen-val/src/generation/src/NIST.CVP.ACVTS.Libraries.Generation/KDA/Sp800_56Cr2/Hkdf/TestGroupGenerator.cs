@@ -7,6 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfHkdf;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared;
 using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.Hkdf;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
@@ -95,11 +96,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                                         FixedInfoPattern = parameters.FixedInfoPattern
                                     },
                                     TestType = testType,
-                                    IsSample = parameters.IsSample,
                                     ZLength = zLength,
                                     UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                                     AuxSharedSecretLen = tLength,
-                                    MultiExpansion = false
+                                    MultiExpansion = false,
+                                    KdaExpectationProvider = testType.Equals("VAL") ? new KdaExpectationProvider(parameters.IsSample) : null
                                 });
 
                                 // Create groups for multi expansion using more or less the same options
@@ -119,11 +120,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
                                             L = parameters.L
                                         },
                                         TestType = testType,
-                                        IsSample = parameters.IsSample,
                                         ZLength = zLength,
                                         UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                                         AuxSharedSecretLen = tLength,
-                                        MultiExpansion = true
+                                        MultiExpansion = true,
+                                        KdaExpectationProvider = testType.Equals("VAL") ? new KdaExpectationProvider(parameters.IsSample) : null
                                     });
                                 }
                             }
@@ -147,8 +148,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.Hkdf
             else
             {
                 values.AddRange(sS.GetRandomValues(i => i < 1024, 10));
-                values.AddRange(sS.GetRandomValues(i => i < 4098, 5));
-                values.AddRange(sS.GetRandomValues(i => i < 8196, 2));
+                values.AddRange(sS.GetRandomValues(i => i < 4096, 5));
+                values.AddRange(sS.GetRandomValues(i => i < 8192, 2));
                 values.AddRange(sS.GetRandomValues(1));
 
                 values = values.Shuffle().Take(3).ToList();

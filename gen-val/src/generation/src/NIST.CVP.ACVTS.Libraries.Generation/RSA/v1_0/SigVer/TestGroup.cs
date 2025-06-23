@@ -7,6 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer
@@ -31,6 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer
 
         [JsonIgnore]
         public bool IsMessageRandomized => "SP800-106".Equals(Conformance, StringComparison.OrdinalIgnoreCase);
+        
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Conformance { get; set; } = string.Empty;
 
@@ -52,7 +54,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer
         }
 
         [JsonIgnore]
-        public ITestCaseExpectationProvider<SignatureModifications> TestCaseExpectationProvider { get; set; }
+        public SignatureExpectationProvider TestCaseExpectationProvider { get; set; }
 
         public string TestType { get; set; }
         public List<TestCase> Tests { get; set; } = new List<TestCase>();

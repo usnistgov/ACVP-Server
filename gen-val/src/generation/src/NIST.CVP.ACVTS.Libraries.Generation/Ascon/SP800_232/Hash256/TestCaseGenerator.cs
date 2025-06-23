@@ -18,7 +18,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
 
     public int NumberOfTestCasesToGenerate => 60;
 
-    ShuffleQueue<int> messageLengths;
+    ShuffleQueue<int> _messageLengths;
 
     public TestCaseGenerator(IOracle oracle)
     {
@@ -37,9 +37,9 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
         //Testing breakpoints and surrounding values for chunk sizes
         for (int i = 3; i < 8; i++)
         {
-            mlengths.AddRange(group.MessageLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
+            mlengths.AddRange(group.MessageLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
-        messageLengths = new ShuffleQueue<int>(mlengths);
+        _messageLengths = new ShuffleQueue<int>(mlengths);
         
         return new GenerateResponse();
     }
@@ -48,7 +48,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         var param = new AsconHashParameters
         {
-            MessageBitLength = messageLengths.Pop(),
+            MessageBitLength = _messageLengths.Pop(),
         };
 
         try

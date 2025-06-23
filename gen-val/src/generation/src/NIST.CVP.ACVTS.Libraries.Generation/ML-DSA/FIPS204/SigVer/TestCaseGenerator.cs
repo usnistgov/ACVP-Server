@@ -20,8 +20,8 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     private ShuffleQueue<int> _contextLengths;
     private ShuffleQueue<HashFunctions> _hashFunctions;
     
-    // Set up to use 3 of each possible disposition, 10 is a placeholder
-    public int NumberOfTestCasesToGenerate { get; private set; } = 10;
+    // Set up to use 3 of each possible disposition, 15 is a placeholder
+    public int NumberOfTestCasesToGenerate { get; private set; } = 15;
 
     public TestCaseGenerator(IOracle oracle)
     {
@@ -30,7 +30,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     
     public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
     {
-        NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;
+        NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;   // 15
 
         // Add min, max and fill rest with random values
         var messageLengthList = new List<int>
@@ -87,7 +87,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
                 PrivateKey = keyResult.PrivateKey,
                 HashFunction = group.PreHash == PreHash.PreHash ? _hashFunctions.Pop() : HashFunctions.None,    // Only used on PreHash
                 ContextLength = group.SignatureInterface == SignatureInterface.External ? _contextLengths.Pop() : 0, // Only used on External interface
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason()
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason()
             };
             
             var result = await _oracle.GetMLDSAVerifyResultAsync(param);

@@ -30,7 +30,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
                             L = capability.L,
                             N = capability.N,
                             HashAlg = ShaAttributes.GetHashFunctionFromName(hashAlg),
-                            GTestCaseExpectationProvider = new GTestCaseExpectationProvider(parameters.IsSample),
+                            GTestCaseExpectationProvider = new GExpectationProvider(parameters.IsSample),
 
                             TestType = TEST_TYPE
                         };

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128.ContractResolvers
@@ -31,11 +33,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128.ContractRe
                 nameof(TestCase.TestCaseId),
             };
 
-            var includeDecryptProperties = new[]
-            {
-                nameof(TestCase.Plaintext)
-            };
-
             var includeEncryptProperties = new[]
             {
                 nameof(TestCase.Ciphertext),
@@ -47,15 +44,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128.ContractRe
                 return jsonProperty.ShouldSerialize = _ => true;
             }
 
-            if (includeDecryptProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-            {
-                return jsonProperty.ShouldSerialize = instance =>
-                {
-                    GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                    return group.Direction == Crypto.Common.Symmetric.Enums.BlockCipherDirections.Decrypt;
-                };
-            }
-
             if (includeEncryptProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
             {
                 return jsonProperty.ShouldSerialize = instance =>
@@ -63,6 +51,42 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128.ContractRe
                     GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
                     return group.Direction == Crypto.Common.Symmetric.Enums.BlockCipherDirections.Encrypt;
                 };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.TestPassed))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        // only write the "testPassed: false" when the test case is a failure test.
+                        if (EnumHelpers.GetEnumDescriptionFromEnum(testGroup.Direction) == "decrypt")
+                            //&& (testCase.TestPassed != null && !testCase.TestPassed.Value))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
+            }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.Plaintext))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+
+                        // only write the "testPassed: false" when the test case is a failure test.
+                        if (EnumHelpers.GetEnumDescriptionFromEnum(testGroup.Direction) == "decrypt"
+                            && (testCase.TestPassed != null && testCase.TestPassed.Value && testCase.Plaintext != null))
+                        {
+                            return true;
+                        }
+
+                        return false;
+                    };
             }
 
             return jsonProperty.ShouldSerialize = _ => false;

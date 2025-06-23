@@ -8,6 +8,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfTwoStep;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KDF.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
@@ -86,6 +87,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                             UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                             AuxSharedSecretLen = tLength,
                             MultiExpansion = false,
+                            KdaExpectationProvider = testType.Equals("VAL") ? new KdaExpectationProvider(parameters.IsSample) : null
                         });
 
                         // Create groups for multi expansion using more or less the same options
@@ -110,6 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
                                 UsesHybridSharedSecret = parameters.UsesHybridSharedSecret,
                                 AuxSharedSecretLen = tLength,
                                 MultiExpansion = true,
+                                KdaExpectationProvider = testType.Equals("VAL") ? new KdaExpectationProvider(parameters.IsSample) : null
                             });
                         }
                     }
@@ -131,8 +134,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
             else
             {
                 values.AddRange(sS.GetRandomValues(i => i < 1024, 10));
-                values.AddRange(sS.GetRandomValues(i => i < 4098, 5));
-                values.AddRange(sS.GetRandomValues(i => i < 8196, 2));
+                values.AddRange(sS.GetRandomValues(i => i < 4096, 5));
+                values.AddRange(sS.GetRandomValues(i => i < 8192, 2));
                 values.AddRange(sS.GetRandomValues(1));
 
                 values = values.Shuffle().Take(3).ToList();

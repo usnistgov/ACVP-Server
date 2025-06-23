@@ -18,7 +18,7 @@ public class TestCaseGeneratorEncrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
 
     public int NumberOfTestCasesToGenerate => 60;
 
-    ShuffleQueue<int> plaintextLengths, ADLengths, truncationLengths;
+    ShuffleQueue<int> _plaintextLengths, _adLengths, _truncationLengths;
 
     public TestCaseGeneratorEncrypt(IOracle oracle)
     {
@@ -39,15 +39,17 @@ public class TestCaseGeneratorEncrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
             plengths.AddRange(group.PlaintextLength.GetRandomValues(x => x % 8 == i, 5));
             adlengths.AddRange(group.ADLength.GetRandomValues(x => x % 8 == i, 5));
         }
-        //Testing breakpoints and surrounding values for chunk sizes
+        
+        //T esting breakpoints and surrounding values for chunk sizes
         for (int i = 3; i < 8; i++)
         {
-            plengths.AddRange(group.PlaintextLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
-            adlengths.AddRange(group.ADLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
+            plengths.AddRange(group.PlaintextLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
+            adlengths.AddRange(group.ADLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
-        plaintextLengths = new ShuffleQueue<int>(plengths);
-        ADLengths = new ShuffleQueue<int>(adlengths);
-        truncationLengths = new ShuffleQueue<int>(trunclengths);
+        
+        _plaintextLengths = new ShuffleQueue<int>(plengths);
+        _adLengths = new ShuffleQueue<int>(adlengths);
+        _truncationLengths = new ShuffleQueue<int>(trunclengths);
 
         return new GenerateResponse();
     }
@@ -56,10 +58,10 @@ public class TestCaseGeneratorEncrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
     {
         var param = new AsconAEAD128Parameters
         {
-            PayloadBitLength = plaintextLengths.Pop(),
-            ADBitLength = ADLengths.Pop(),
+            PayloadBitLength = _plaintextLengths.Pop(),
+            ADBitLength = _adLengths.Pop(),
             NonceMasking = group.NonceMasking,
-            TruncationLength = truncationLengths.Pop(),
+            TruncationLength = _truncationLengths.Pop(),
         };
 
         try
@@ -89,4 +91,3 @@ public class TestCaseGeneratorEncrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
 
     private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
 }
-

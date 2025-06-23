@@ -24,18 +24,18 @@ public class GenValTests : GenValTestsSingleRunnerBase
 
     protected override void ModifyTestCaseToFail(dynamic testCase)
     {
-        if (testCase.digest != null)
+        if (testCase.md != null)
         {
-            if (testCase.digest.ToString().Length == 0)
+            if (testCase.md.ToString().Length == 0)
             {
-                testCase.digest = "AB";
+                testCase.md = "AB";
                 return;
             }
             var rand = new Random800_90();
 
-            var bs = new BitString(testCase.digest.ToString());
+            var bs = new BitString(testCase.md.ToString());
             bs = rand.GetDifferentBitStringOfSameSize(bs);
-            testCase.digest = bs.ToHex();
+            testCase.md = bs.ToHex();
         }
     }
 

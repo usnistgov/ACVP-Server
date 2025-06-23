@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
 {
@@ -16,8 +16,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
         [JsonProperty(PropertyName = "keyMode")]
         public PrivateKeyModes KeyMode { get; set; }
         
-        public List<TestCase> Tests { get; set; } = new List<TestCase>();
-        
         [JsonIgnore]
         public PublicExponentModes PublicExponentMode { get; set; }
 
@@ -26,7 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
         
         [JsonIgnore]
         // Used internally to build test cases for the group
-        public ITestCaseExpectationProvider<RsaSpDisposition> TestCaseExpectationProvider { get; set; }
-
+        public RsaSignaturePrimitiveExpectationProvider TestCaseExpectationProvider { get; set; }
+        
+        public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }

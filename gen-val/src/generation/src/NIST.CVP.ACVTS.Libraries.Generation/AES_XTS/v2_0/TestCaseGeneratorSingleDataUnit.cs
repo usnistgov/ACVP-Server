@@ -7,7 +7,6 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
@@ -28,11 +27,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            var payloadLenDomain = group.PayloadLen.GetDeepCopy();
+            // If a dataUnitLen is provided, use that, but it is only expected if dataUnitLenMatchesPayloadLen is false
+            // Otherwise use the payloadLen which is always provided.
+            var payloadLen = group.DataUnitLen ?? group.PayloadLen;
 
-            var payloadLenValues = payloadLenDomain.GetDomainMinMaxAsEnumerable().ToList();
-            payloadLenValues.AddRange(payloadLenDomain.GetRandomValues(x => x <= 1024, 24));
-            payloadLenValues.AddRange(payloadLenDomain.GetRandomValues(x => x > 1024, 24));
+            var payloadLenValues = payloadLen.GetDomainMinMaxAsEnumerable().ToList();
+            payloadLenValues.AddRange(payloadLen.GetRandomValues(x => x <= 1024, 24));
+            payloadLenValues.AddRange(payloadLen.GetRandomValues(x => x > 1024, 24));
 
             _payloadLen = new ShuffleQueue<int>(payloadLenValues);
             NumberOfTestCasesToGenerate = payloadLenValues.Count;

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
 {
@@ -57,7 +56,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 
         [JsonIgnore]
-        public ITestCaseExpectationProvider<DsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
+        public SignatureExpectationProvider TestCaseExpectationProvider { get; set; }
 
         public bool SetString(string name, string value)
         {

@@ -8,6 +8,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KTS;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
@@ -50,6 +51,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
         public KeyConfirmationDirection KeyConfirmationDirection { get; set; }
         public KeyConfirmationRole KeyConfirmationRole { get; set; }
 
-        [JsonIgnore] public ShuffleQueue<KeyPair> ShuffleKeys { get; set; }
+        [JsonIgnore] 
+        public ShuffleQueue<KeyPair> ShuffleKeys { get; set; }
+        
+        [JsonIgnore]
+        public KasIfcExpectationProvider KasExpectationProvider { get; set; }
     }
 }

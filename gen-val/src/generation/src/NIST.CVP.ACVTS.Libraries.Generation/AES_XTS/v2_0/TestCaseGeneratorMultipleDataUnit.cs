@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.AES;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
@@ -29,29 +29,46 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            // 1024 is a bit arbitrary, but should allow for multiple data units to exist within the payload.
-
-            // Pick a bunch of payload length values
-            var payloadLenDomain = group.PayloadLen.GetDeepCopy();
-            var payloadLengths = payloadLenDomain.GetRandomValues(_ => true, 5000).ToArray();
+            var iterations = 0;
             
-            // Pick a bunch of low data unit length values
-            var dataUnitDomain = group.DataUnitLen.GetDeepCopy();
-
-            // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
-            var dataUnitLengths = payloadLengths.Select(p => dataUnitDomain.GetRandomValues(du => (du <= p) && (p % du >= 128), 1).FirstOrDefault()).ToList();
-
-            // Build tuple of (dataUnitLength, payloadLength) and remove any where the dataUnitLength is the default (i.e. where a valid test case could not be found)
-            var lengthTuple = dataUnitLengths.Zip(payloadLengths, (x, y) => (x, y)).Take(50).ToList();
-            lengthTuple.RemoveAll(tuple => tuple.x == default);
-            _payloadLen = new ShuffleQueue<(int dataUnitLength, int payloadLength)>(lengthTuple);
+            // Pick all the available payload length values
+            var allPayloadLengths = new ShuffleQueue<int>(group.PayloadLen.GetSequentialValues(_ => true, 65536).ToList());
+            
+            var pairedLengths = new List<(int p, int du)>();
+            
+            do
+            {
+                // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
+                var p = allPayloadLengths.Pop();
+                var du = group.DataUnitLen.GetRandomValues(du => (du <= p) && (p % du >= 128), 1).FirstOrDefault();
+                
+                // Remove any cases where the dataUnitLengthToAdd is the default (i.e. where a valid test case could not be found)
+                if (du != 0)
+                {
+                    pairedLengths.Add((p, du));
+                }
+                
+                // 1) If we've exhausted the list of valid payload lengths, and have been unable to find any valid (payloadLen, dataUnitLen) pairs, abort.
+                // Note: this condition should never be met due to checks performed by the ParameterValidator 
+                if (iterations > allPayloadLengths.OriginalListCount && pairedLengths.Count == 0)
+                {
+                    throw new Exception("Unable to find test cases for XTS");
+                }
+                
+                iterations++;
+            }
+                // 2) Otherwise, continue until we get 50 total test cases. 
+            while (pairedLengths.Count < NumberOfTestCasesToGenerate);
+            
+            // Build ShuffleQueue of (payloadLength, dataUnitLength) tuples
+            _payloadLen = new ShuffleQueue<(int payloadLength, int dataUnitLength)>(pairedLengths);
 
             return new GenerateResponse();
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            var (dataUnitLength, payloadLength) = _payloadLen.Pop();
+            var (payloadLength, dataUnitLength) = _payloadLen.Pop();
 
             var param = new AesXtsParameters
             {

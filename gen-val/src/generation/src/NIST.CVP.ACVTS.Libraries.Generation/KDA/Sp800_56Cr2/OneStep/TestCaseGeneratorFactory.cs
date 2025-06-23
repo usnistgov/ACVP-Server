@@ -1,4 +1,5 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStep
@@ -19,8 +20,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStep
                 case "aft":
                     return new TestCaseGeneratorAft(_oracle);
                 case "val":
-                    var testCaseExpectationProvider = new TestCaseExpectationProvider(testGroup.IsSample);
-                    return new TestCaseGeneratorVal(_oracle, testCaseExpectationProvider, testCaseExpectationProvider.ExpectationCount);
+                    return new TestCaseGeneratorVal(_oracle);
                 default:
                     return new TestCaseGeneratorNull();
             }

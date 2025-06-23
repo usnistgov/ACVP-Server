@@ -47,17 +47,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.CXOF128
 
         private void ValidateDigestLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.DigestLength == null)
+            if (parameters.OutputLength == null)
             {
-                errors.Add("digestLength was null and is required.");
+                errors.Add("outputLength was null and is required.");
                 return;
             }
 
-            var fullDomain = parameters.DigestLength.GetDomainMinMax();
+            var fullDomain = parameters.OutputLength.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_DIGEST_LENGTH, MAX_DIGEST_LENGTH,
-                "DigestLength Range"
+                "OutputLength Range"
             );
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }

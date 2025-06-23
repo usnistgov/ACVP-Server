@@ -20,7 +20,6 @@ public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVecto
             {
                 list.AddRange(group.Tests.Select(test => new TestCaseValidatorDecrypt(test)));
             }
-            
         }
 
         return list;

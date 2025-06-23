@@ -26,6 +26,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep
         
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public TwoStepMultiExpansionConfiguration KdfMultiExpansionConfiguration { get; set; }
+        
+        [JsonIgnore]
+        public KdaExpectationProvider KdaExpectationProvider { get; set; }
+        
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }
