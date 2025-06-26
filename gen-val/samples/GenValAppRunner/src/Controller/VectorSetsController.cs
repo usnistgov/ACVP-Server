@@ -20,11 +20,48 @@ namespace GenValApp.Controllers
     public class VectorSetsController : ControllerBase
     {
      private readonly IGeneratorResolver _generatorResolver;
+     private readonly IValidationResolver _validationResolver;
 
-     public VectorSetsController(IGeneratorResolver generatorResolver)
+
+     public VectorSetsController(IGeneratorResolver generatorResolver,
+     IValidationResolver validationResolver)
      {
         _generatorResolver = generatorResolver;
+        _validationResolver = validationResolver;
      }
+
+    [HttpPost("validate")]
+    public async Task<ActionResult<ValidationResponse>> Validate(ValidationRequest request)
+    {
+        try
+        {  
+           if (!ModelState.IsValid)
+           {
+             return BadRequest(ModelState);
+           }
+           var answerString = JsonConvert.SerializeObject(request.Answer);
+           var expectedString = JsonConvert.SerializeObject(request.Expected);
+
+           var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(request.Answer.Algorithm, "", request.Answer.Revision);
+        
+           var (validator, scope) = _validationResolver.Resolve(algoMode);
+           using (scope) // ensure scope is disposed
+           {
+            var response = await validator.ValidateAsync(new ValidateRequest(answerString,expectedString, true));
+
+            return Ok(new ValidationResponse
+            {
+               StatusCode = response.StatusCode,
+               ErrorMessage = response.ErrorMessage,
+               Result = JsonConvert.DeserializeObject<VectorSetValidationResults>(response.ValidationResult)
+            });
+           }
+
+        }catch (Exception ex)
+        {
+            return StatusCode(500, new { error = ex.Message });
+        }
+    }
 
     [HttpPost("generate")]
     public async Task<ActionResult<VectorSetResponse>> Generate([FromBody] Registration registration)

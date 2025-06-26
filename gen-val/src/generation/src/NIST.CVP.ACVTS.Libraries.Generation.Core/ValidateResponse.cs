@@ -7,17 +7,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core
         /// <summary>
         /// Status code representing the outcome of the validation
         /// </summary>
-        public StatusCode StatusCode { get; }
+        public StatusCode StatusCode { get; set; }
 
         /// <summary>
         /// A delimited Error response due to an error in generation.
         /// </summary>
-        public string ErrorMessage { get; }
+        public string ErrorMessage { get; set;}
 
         /// <summary>
         /// The json representing the validation result.
         /// </summary>
-        public string ValidationResult { get; }
+        public string ValidationResult { get; set;}
 
         // public ValidateResponse()
         // {
