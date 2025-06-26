@@ -5,29 +5,29 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Br2;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
 {
-    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorVal : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<KasIfcValTestDisposition> _testDispositions;
-
-        public TestCaseGeneratorVal(IOracle oracle, ITestCaseExpectationProvider<KasIfcValTestDisposition> validityTestCaseOptions)
+        public int NumberOfTestCasesToGenerate { get; private set; }
+        
+        public TestCaseGeneratorVal(IOracle oracle)
         {
             _oracle = oracle;
-            _testDispositions = validityTestCaseOptions;
-            NumberOfTestCasesToGenerate = _testDispositions.ExpectationCount;
         }
 
-        public int NumberOfTestCasesToGenerate { get; }
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            NumberOfTestCasesToGenerate = group.KasExpectationProvider.ExpectationCount;
+            return new GenerateResponse();
+        }
+
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
         {
-            var testCaseDisposition = _testDispositions.GetRandomReason().GetReason();
-
             try
             {
                 var serverRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -46,9 +46,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
                 KeyPair serverKey = serverRequirements.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : null;
                 KeyPair iutKey = iutRequirements.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : null;
 
-                var result = await _oracle.GetKasValTestIfcAsync(new KasValParametersIfc()
+                var result = await _oracle.GetKasValTestIfcAsync(new KasValParametersIfc
                 {
-                    Disposition = testCaseDisposition,
+                    Disposition = group.KasExpectationProvider.GetRandomReason(),
                     L = group.L,
                     Modulo = group.Modulo,
                     Scheme = group.Scheme,

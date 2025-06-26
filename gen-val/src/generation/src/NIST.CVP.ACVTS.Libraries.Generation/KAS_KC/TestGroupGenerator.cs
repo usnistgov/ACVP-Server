@@ -25,6 +25,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_KC
                               KeyConfirmationRole = keyConfirmationRole,
                               KeyAgreementMacType = mac.MacType,
                               IsSample = parameters.IsSample,
+                              KasKcExpectationProvider = new KasKcExpectationProvider(parameters.IsSample)
                           }).ToList();
 
             return Task.FromResult(groups);

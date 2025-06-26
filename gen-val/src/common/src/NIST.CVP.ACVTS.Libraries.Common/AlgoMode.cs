@@ -136,6 +136,28 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         HMAC_SHA3_384_v1_0,
         [EnumMember(Value = "HMAC-SHA3-512-1.0")]
         HMAC_SHA3_512_v1_0,
+        [EnumMember(Value = "HMAC-SHA-1-2.0")]
+        HMAC_SHA1_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-224-2.0")]
+        HMAC_SHA2_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-256-2.0")]
+        HMAC_SHA2_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-384-2.0")]
+        HMAC_SHA2_384_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512-2.0")]
+        HMAC_SHA2_512_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512/224-2.0")]
+        HMAC_SHA2_512_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512/256-2.0")]
+        HMAC_SHA2_512_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-224-2.0")]
+        HMAC_SHA3_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-256-2.0")]
+        HMAC_SHA3_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-384-2.0")]
+        HMAC_SHA3_384_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-512-2.0")]
+        HMAC_SHA3_512_v2_0,
         //[EnumMember(Value = "HSS-KeyGen-1.0")]
         //HSS_KeyGen_v1_0,
         //[EnumMember(Value = "HSS-SigGen-1.0")]

@@ -17,6 +17,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CMAC.v1_0
     public class Capability
     {
         public string[] Direction { get; set; }
+        public MathDomain MsgLen { get; set; }
+        public MathDomain MacLen { get; set; }
 
         /// <summary>
         /// AES only
@@ -27,7 +29,5 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.CMAC.v1_0
         /// TDES only
         /// </summary>
         public int[] KeyingOption { get; set; } = { };
-        public MathDomain MsgLen { get; set; }
-        public MathDomain MacLen { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.KDA.KdfOneStep;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter
@@ -40,8 +41,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter
                                         FixedInfoPattern = parameters.FixedInfoPattern
                                     },
                                     TestType = testType,
-                                    IsSample = parameters.IsSample,
-                                    ZLength = zLength
+                                    ZLength = zLength,
+                                    KdaExpectationProvider = testType.Equals("VAL") ? new KdaExpectationProvider(parameters.IsSample) : null
                                 });
                             }
                         }
@@ -113,8 +114,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.OneStepNoCounter
             else
             {
                 values.AddRange(z.GetRandomValues(i => i < 1024, 10));
-                values.AddRange(z.GetRandomValues(i => i < 4098, 5));
-                values.AddRange(z.GetRandomValues(i => i < 8196, 2));
+                values.AddRange(z.GetRandomValues(i => i < 4096, 5));
+                values.AddRange(z.GetRandomValues(i => i < 8192, 2));
                 values.AddRange(z.GetRandomValues(1));
                 
                 values = values.Shuffle().Take(3).ToList();

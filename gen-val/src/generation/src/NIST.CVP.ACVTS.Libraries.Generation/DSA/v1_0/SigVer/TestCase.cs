@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
 using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
@@ -20,20 +18,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
         private int l => ParentGroup?.L ?? 0;
         private int n => ParentGroup?.N ?? 0;
 
-        [JsonIgnore]
-        public ITestCaseExpectationReason<DsaSignatureDisposition> Reason { get; set; }
-
-        [JsonProperty(PropertyName = "reason")]
-        public string ReasonVal
-        {
-            get => Reason?.GetName();
-
-            set
-            {
-                var failureReason = EnumHelpers.GetEnumFromEnumDescription<DsaSignatureDisposition>(value);
-                Reason = new TestCaseExpectationReason(failureReason);
-            }
-        }
+        public DsaSignatureDisposition Reason { get; set; }
 
         /// <summary>
         /// Ignoring for (De)Serialization as KeyPairs are flattened

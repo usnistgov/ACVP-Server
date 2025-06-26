@@ -23,6 +23,7 @@ public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup
         {
             return new TestCaseGeneratorDecrypt(_oracle);
         }
+        
         return null;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
@@ -8,44 +9,55 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
-public class TestCaseGeneratorDecapsulationVal : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
+public class TestCaseGeneratorDecapsulationVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
 {
     private readonly IOracle _oracle;
     
-    // Set up to use 3 of each possible disposition, 10 is a placeholder because we need the group
-    public int NumberOfTestCasesToGenerate { get; private set; } = 10;
+    // Set up to use 5 of each possible disposition
+    public int NumberOfTestCasesToGenerate => 10;
 
     public TestCaseGeneratorDecapsulationVal(IOracle oracle)
     {
         _oracle = oracle;
     }
-    
-    public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
-    {
-        NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;
-        return new GenerateResponse();
-    }
-    
+
     public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
     {
+        TestCase testCase = new TestCase();
+        
+        var keyParam = new MLKEMKeyGenParameters
+        {
+            ParameterSet = group.ParameterSet
+        };
+
+        try
+        {
+            var keyResult = await _oracle.GetMLKEMKeyCaseAsync(keyParam);
+
+            testCase.EncapsulationKey = keyResult.EncapsulationKey;
+            testCase.DecapsulationKey = keyResult.DecapsulationKey;
+        }
+        catch (Exception ex)
+        {
+            ThisLogger.Error(ex);
+            return new TestCaseGenerateResponse<TestGroup, TestCase>($"Error generating key: {ex.Message}");
+        }
+
         var param = new MLKEMDecapsulationParameters
         {
             ParameterSet = group.ParameterSet,
-            Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
-            EncapsulationKey = group.EncapsulationKey,
-            DecapsulationKey = group.DecapsulationKey
+            Disposition = group.DecapsulationExpectationProvider.GetRandomReason(),
+            EncapsulationKey = testCase.EncapsulationKey,
+            DecapsulationKey = testCase.DecapsulationKey,
         };
 
         try
         {
             var result = await _oracle.GetMLKEMDecapCaseAsync(param);
-
-            var testCase = new TestCase
-            {
-                Reason = param.Disposition, 
-                SharedKey = result.SharedKey,
-                Ciphertext = result.Ciphertext
-            };
+            
+            testCase.Reason = EnumHelpers.GetEnumDescriptionFromEnum(param.Disposition); 
+            testCase.SharedKey = result.SharedKey;
+            testCase.Ciphertext = result.Ciphertext;
 
             return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);
         }

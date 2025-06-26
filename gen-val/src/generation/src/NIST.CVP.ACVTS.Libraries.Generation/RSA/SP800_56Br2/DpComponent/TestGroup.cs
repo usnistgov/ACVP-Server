@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
 {
@@ -25,6 +25,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.SP800_56Br2.DpComponent
         
         [JsonIgnore]
         // Used internally to build test cases for the group
-        public ITestCaseExpectationProvider<RsaDpDisposition> TestCaseExpectationProvider { get; set; }
+        public RsaDecryptExpectationProvider TestCaseExpectationProvider { get; set; }
     }
 }

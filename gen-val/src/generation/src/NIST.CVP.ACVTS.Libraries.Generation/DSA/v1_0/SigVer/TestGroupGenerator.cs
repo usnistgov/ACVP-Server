@@ -50,7 +50,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer
                         L = l,
                         N = n,
                         HashAlg = hashFunction,
-                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        TestCaseExpectationProvider = new SignatureExpectationProvider(parameters.IsSample),
                         Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null
                     };
 

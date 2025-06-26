@@ -110,7 +110,7 @@ public class ParameterValidatorTests
             return new Parameters
             {
                 MessageLength = _messageLength,
-                DigestLength = _digestLength,
+                OutputLength = _digestLength,
                 CustomizationStringLength = _csLength,
             };
         }

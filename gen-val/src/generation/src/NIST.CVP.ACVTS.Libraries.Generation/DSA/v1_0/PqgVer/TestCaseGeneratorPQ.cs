@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
@@ -14,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
     public class TestCaseGeneratorPQ : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-
+        
         public int NumberOfTestCasesToGenerate { get; private set; } = 5;
 
         public TestCaseGeneratorPQ(IOracle oracle)
@@ -22,23 +23,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
             _oracle = oracle;
         }
 
-        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            if (isSample)
-            {
-                NumberOfTestCasesToGenerate = 2;
-            }
+            NumberOfTestCasesToGenerate = group.PqExpectationProvider.ExpectationCount;
             return new GenerateResponse();
         }
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
-            var reason = group.PQTestCaseExpectationProvider.GetRandomReason();
+            var reason = group.PqExpectationProvider.GetRandomReason();
             var param = new DsaDomainParametersParameters
             {
-                Disposition = reason.GetName(),
+                Disposition = EnumHelpers.GetEnumDescriptionFromEnum(reason),   // string because it is reused between PQ and G dispositions
                 PQGenMode = group.PQGenMode,
-                GGenMode = GeneratorGenMode.Unverifiable, // need to provide a GGenMode in order to get a potential pool value
+                GGenMode = GeneratorGenMode.Unverifiable,                       // need to provide a GGenMode in order to get a potential pool value
                 HashAlg = group.HashAlg,
                 L = group.L,
                 N = group.N
@@ -55,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
                     Q = result.Q != 0 ? new BitString(result.Q, group.N) : null,
                     Seed = result.Seed,
                     Counter = result.Counter,
-                    TestPassed = reason.GetReason() == DsaPQDisposition.None
+                    TestPassed = reason == DsaPQDisposition.None
                 };
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(testCase);

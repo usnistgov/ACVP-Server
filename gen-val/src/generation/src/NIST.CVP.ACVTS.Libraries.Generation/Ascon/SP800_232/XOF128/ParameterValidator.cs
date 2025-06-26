@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Common;
+﻿using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.XOF128
@@ -17,6 +10,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.XOF128
         public static int MAX_MESSAGE_LENGTH = 65536;
         public static int MIN_DIGEST_LENGTH = 1;
         public static int MAX_DIGEST_LENGTH = 65536;
+        
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errors = new List<string>();
@@ -44,17 +38,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.XOF128
 
         private void ValidateDigestLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.DigestLength == null)
+            if (parameters.OutputLength == null)
             {
-                errors.Add("digestLength was null and is required.");
+                errors.Add("outputLength was null and is required.");
                 return;
             }
 
-            var fullDomain = parameters.DigestLength.GetDomainMinMax();
+            var fullDomain = parameters.OutputLength.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_DIGEST_LENGTH, MAX_DIGEST_LENGTH,
-                "DigestLength Range"
+                "OutputLength Range"
             );
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }

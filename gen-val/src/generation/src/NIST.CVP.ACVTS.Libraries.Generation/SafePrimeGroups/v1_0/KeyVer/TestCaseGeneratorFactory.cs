@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SafePrimeGroups.v1_0.KeyVer
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            var validityTestCaseOptions = new TestCaseExpectationProvider(testGroup.IsSample);
+            var validityTestCaseOptions = new KeyExpectationProvider(testGroup.IsSample);
             return new TestCaseGenerator(_oracle, validityTestCaseOptions);
         }
     }

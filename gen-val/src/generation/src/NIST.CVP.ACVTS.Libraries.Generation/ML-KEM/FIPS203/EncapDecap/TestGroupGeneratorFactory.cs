@@ -6,19 +6,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
 public class TestGroupGeneratorFactory : ITestGroupGeneratorFactory<Parameters, TestGroup, TestCase>
 {
-    private readonly IOracle _oracle;
-    
-    public TestGroupGeneratorFactory(IOracle oracle)
-    {
-        _oracle = oracle;
-    }
-    
     public IEnumerable<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>> GetTestGroupGenerators(Parameters parameters)
     {
         var list = new HashSet<ITestGroupGeneratorAsync<Parameters, TestGroup, TestCase>>
         {
-            new TestGroupGeneratorAft(),
-            new TestGroupGeneratorVal(_oracle)
+            new TestGroupGeneratorEncapsulationAft(),
+            new TestGroupGeneratorDecapsulationVal(),
+            new TestGroupGeneratorKeyCheckVal()
         };
 
         return list;

@@ -11,7 +11,7 @@
       "increment": 1
     }
   ],
-  "digestLength": [
+  "outputLength": [
     {
       "min": 1,
       "max": 65536,

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 using NUnit.Framework;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests.SP800_232;
 
@@ -78,6 +79,36 @@ public class CXOF128Tests
         {
             digest = digest + digestBytes[i].ToString("X2");
         }
+
+        Assert.That(digest, Is.EqualTo(digestString));
+    }
+
+    [Test, Ignore("Debugging only")]
+    [TestCase("000102030405060708090A0B0C0D0E0F", 128, "000102030405060708090A0B0C0D0E0F", 128, "30B0682E8BEC6515DB72978A32F0A43A", 128)]
+    [TestCase("000102030405060708090A0B0C0D0E0F01", 129, "000102030405060708090A0B0C0D0E0F01", 129, "1170EED48E3F0C7960589AF689C9EBE200", 129)]
+    public void GenerateIntermediateValuesCXOFBitOriented(string messageString, int messageBitLength, string csString, int csLength, string digestString, int digestLength)
+    {
+        byte[] message = StringToHexBytes(messageString);
+        byte[] cs = StringToHexBytes(csString);
+
+        Console.WriteLine("Ascon CXOF128\n");
+
+        Console.WriteLine("message = " + messageString);
+        Console.WriteLine("messageLen = " + messageBitLength);
+        Console.WriteLine("customizationString = " + csString);
+        Console.WriteLine("customizationStringLen = " + csLength);
+        Console.WriteLine("digestLen = " + digestLength + "\n");
+
+        byte[] digestBytes = ascon.CXof128(message, messageBitLength, cs, csLength, digestLength);
+
+        string digest = "";
+
+        for (int i = 0; i < digestBytes.Length; i++)
+        {
+            digest = digest + digestBytes[i].ToString("X2");
+        }
+
+        Console.WriteLine("\ndigest = " + digest);
 
         Assert.That(digest, Is.EqualTo(digestString));
     }

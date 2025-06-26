@@ -24,8 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
             {
                 // When running in sample mode, the ACVP server needs produce vectors as if it were both parties.
                 // Since VAL tests do this anyway, we can fall back on its test case generator for producing sample AFT tests.
-                var validityTestCaseOptions = new TestCaseExpectationProvider(testGroup, false);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                testGroup.KasExpectationProvider = new KasIfcExpectationProvider(testGroup, false);
+                return new TestCaseGeneratorVal(_oracle);
             }
 
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
@@ -35,8 +35,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
-                var validityTestCaseOptions = new TestCaseExpectationProvider(testGroup, true);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                testGroup.KasExpectationProvider = new KasIfcExpectationProvider(testGroup, true);
+                return new TestCaseGeneratorVal(_oracle);
             }
 
             return new TestCaseGeneratorNull();

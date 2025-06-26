@@ -39,8 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{10616AFA-A7B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BB007148-1E21-4554-88F6-97DBB621B053}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests.csproj", "{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests\NIST.CVP.ACVTS.Libraries.Crypto.Ascon.Tests.csproj", "{EBC039D2-FE89-4467-8015-BB08125AC506}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.Hash.IntegrationTests.csproj", "{848969BB-89C3-4A6D-BB74-90638BCAB308}"
@@ -48,6 +46,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.XOF.IntegrationTests.csproj", "{11466961-2C79-4D5D-B35C-98A577A78BE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.CXOF.IntegrationTests.csproj", "{1A1EC5E9-2203-467C-B301-647486C23B3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests.csproj", "{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,10 +119,6 @@ Global
 		{DD190C21-300C-4EBA-AD06-ED91927F3DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD190C21-300C-4EBA-AD06-ED91927F3DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD190C21-300C-4EBA-AD06-ED91927F3DF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EBC039D2-FE89-4467-8015-BB08125AC506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EBC039D2-FE89-4467-8015-BB08125AC506}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBC039D2-FE89-4467-8015-BB08125AC506}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -139,6 +135,10 @@ Global
 		{1A1EC5E9-2203-467C-B301-647486C23B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A1EC5E9-2203-467C-B301-647486C23B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A1EC5E9-2203-467C-B301-647486C23B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,11 +160,11 @@ Global
 		{BF75C40E-43CA-43BA-8BB8-BFEE5608A591} = {10616AFA-A7B3-4D3F-9651-85F063772D0F}
 		{68437285-9C01-4390-9A45-03CC8745F559} = {10616AFA-A7B3-4D3F-9651-85F063772D0F}
 		{DD190C21-300C-4EBA-AD06-ED91927F3DF9} = {10616AFA-A7B3-4D3F-9651-85F063772D0F}
-		{8CE874CC-2B06-4874-8A53-E7BBEE18BBCA} = {BB007148-1E21-4554-88F6-97DBB621B053}
 		{EBC039D2-FE89-4467-8015-BB08125AC506} = {BB007148-1E21-4554-88F6-97DBB621B053}
 		{848969BB-89C3-4A6D-BB74-90638BCAB308} = {BB007148-1E21-4554-88F6-97DBB621B053}
 		{11466961-2C79-4D5D-B35C-98A577A78BE4} = {BB007148-1E21-4554-88F6-97DBB621B053}
 		{1A1EC5E9-2203-467C-B301-647486C23B3D} = {BB007148-1E21-4554-88F6-97DBB621B053}
+		{93D4CF2F-ACDD-4462-9B57-EFBDE1F5D452} = {BB007148-1E21-4554-88F6-97DBB621B053}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2C30BEE-A0C8-49F3-963B-576A4BA12B8A}

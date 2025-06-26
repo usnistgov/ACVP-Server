@@ -86,23 +86,18 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
         [TestCase(168, 163 + 168 * 1)]
         [TestCase(168, 163 + 168 * 2)]
         [TestCase(168, 163 + 168 * 3)]
-        public void ShouldGetBlockAlignedDataWithSpecificKeyLengthForKmac(int rateBytes, int keyLength)
+        public void ShouldGetBlockAlignedDataWithSpecificKeyLengthForKmac(int rate, int keyLength)
         {
-            var blockAlignedToRate = new BitString(new byte[rateBytes]);
+            var blockAlignedToRate = new BitString(new byte[rate]);
 
             var key = new BitString(new byte[keyLength]);
 
             var encodedKey = Sha3DerivedHelpers.EncodeString(key);
-            var leftEncodeRate = Sha3DerivedHelpers.LeftEncode(Sha3DerivedHelpers.IntToBitString(rateBytes));
+            var leftEncodeRate = Sha3DerivedHelpers.LeftEncode(Sha3DerivedHelpers.IntToBitString(rate));
+            var result = Sha3DerivedHelpers.Bytepad(encodedKey, Sha3DerivedHelpers.IntToBitString(rate));
 
-            var result = Sha3DerivedHelpers.Bytepad(
-                encodedKey,
-                Sha3DerivedHelpers.IntToBitString(rateBytes));
-
-            Assert.That((encodedKey.BitLength + leftEncodeRate.BitLength) % blockAlignedToRate.BitLength, Is.EqualTo(0),
-                "individual pieces mod rate bits should equal 0");
-            Assert.That(result.BitLength % blockAlignedToRate.BitLength, Is.EqualTo(0),
-                "result bit length mod rate bits should equal 0");
+            Assert.That((encodedKey.BitLength + leftEncodeRate.BitLength) % blockAlignedToRate.BitLength, Is.EqualTo(0), "individual pieces mod rate bits should equal 0");
+            Assert.That(result.BitLength % blockAlignedToRate.BitLength, Is.EqualTo(0), "result bit length mod rate bits should equal 0");
         }
 
         [Test]

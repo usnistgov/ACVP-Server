@@ -64,9 +64,9 @@ public class ParameterValidatorTests
     }
 
     [Test]
-    [TestCase(64, 65, true)]
+    [TestCase(32, 33, true)]
     [TestCase(127, 128, true)]
-    [TestCase(63, 64, false)]
+    [TestCase(31, 32, false)]
     [TestCase(128, 129, false)]
     public void ShouldReturnSuccessWithValidTagLengths(int min, int max, bool expectedSuccess)
     {
@@ -161,10 +161,10 @@ public class ParameterValidatorTests
             return new Parameters
             {
                 Algorithm = _algorithm,
-                Directions = _direction,
-                PayloadLength = _plaintextLength,
-                ADLength = _adLength,
-                TagLength = _tagLength,
+                Direction = _direction,
+                PayloadLen = _plaintextLength,
+                AadLen = _adLength,
+                TagLen = _tagLength,
                 SupportsNonceMasking = _nonceMasking
             };
         }

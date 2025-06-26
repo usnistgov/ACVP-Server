@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
@@ -12,18 +12,17 @@ public class TestGroup : ITestGroup<TestGroup, TestCase>
     public int TestGroupId { get; set; }
     public string TestType { get; set; }
     
-    public KyberParameterSet ParameterSet { get; set; }
-    
+    public KyberParameterSet ParameterSet { get; init; }
     public KyberFunction Function { get; set; }
     
-    [JsonProperty(PropertyName = "ek")]
-    public BitString EncapsulationKey { get; set; }
-    
-    [JsonProperty(PropertyName = "dk")]
-    public BitString DecapsulationKey { get; set; }
-    
-    public List<TestCase> Tests { get; set; } = new();
+    public List<TestCase> Tests { get; set; } = [];
     
     [JsonIgnore]
-    public ITestCaseExpectationProvider<MLKEMDecapsulationDisposition> TestCaseExpectationProvider { get; set; }
+    public DecapsulationExpectationProvider DecapsulationExpectationProvider { get; init; }
+    
+    [JsonIgnore]
+    public EncapsulationKeyExpectationProvider EncapsulationKeyExpectationProvider { get; init; }
+    
+    [JsonIgnore]
+    public DecapsulationKeyExpectationProvider DecapsulationKeyExpectationProvider { get; init; }
 }

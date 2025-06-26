@@ -112,7 +112,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
             // Notify observers of result
             await Notify(new VerifyResult<RsaSignatureResult>
             {
-                Result = _param.Reason == SignatureModifications.None,
+                Result = _param.Reason == RSASignatureModifications.None,
                 VerifiedValue = new RsaSignatureResult
                 {
                     Key = copyKey,

@@ -2,7 +2,6 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer;
-using NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
@@ -42,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.DSA.FFC.SigVer
                         Message = new BitString("BEEFFACE"),
                         Signature = new FfcSignature(1, 2),
                         TestPassed = true,
-                        Reason = new TestCaseExpectationReason(DsaSignatureDisposition.None),
+                        Reason = DsaSignatureDisposition.None,
                         TestCaseId = testId,
                         ParentGroup = tg
                     });

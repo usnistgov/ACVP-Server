@@ -10,6 +10,7 @@ using System.Linq;
 using System.Collections.Immutable;
 using System.Threading;
 using NIST.CVP.ACVTS.Libraries.Math.Helpers;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Ascon;
 
@@ -38,8 +39,10 @@ public class OracleObserverAsconDecrypt128CaseGrain : ObservableOracleGrainBase<
         var ad = _rand.GetRandomBitString(_param.ADBitLength).ToBytes().Reverse().ToArray();
         var plaintext = _rand.GetRandomBitString(_param.PayloadBitLength).ToBytes().Reverse().ToArray();
         var result = new AsconAead128Result();
-
         var ascon = new Crypto.Ascon.Ascon();
+
+        //Need to set result nonce now because it is later modified
+        result.Nonce = new BitString(nonce);
 
         (byte[] c, byte[] tag) encryptResult;
         AsconDecryptResult decryptResult;
@@ -62,7 +65,6 @@ public class OracleObserverAsconDecrypt128CaseGrain : ObservableOracleGrainBase<
         result.Ciphertext = new BitString(encryptResult.c);
         result.Tag = new BitString(encryptResult.tag);
         result.Key = new BitString(key);
-        result.Nonce = new BitString(nonce);
         result.AD = new BitString(ad);
         if (decryptResult.HasResult)
         {
@@ -72,7 +74,31 @@ public class OracleObserverAsconDecrypt128CaseGrain : ObservableOracleGrainBase<
         {
             throw new Exception("Ascon AEAD decrypt failure");
         }
-        
+
+        switch (_param.Disposition)
+        {
+            case AsconAEADDisposition.None:
+                break;
+            //case AsconAEADDisposition.ModifyKey:
+            //    result.Key.Bits.Set(0, !result.Key.Bits.Get(0));
+            //    break;
+            //case AsconAEADDisposition.ModifyNonce:
+            //    result.Nonce.Bits.Set(0, !result.Nonce.Bits.Get(0));
+            //    break;
+            //case AsconAEADDisposition.ModifyAD:
+            //    result.AD.Bits.Set(0, !result.AD.Bits.Get(0));
+            //    break;
+            //case AsconAEADDisposition.ModifyCiphertext:
+            //    result.Ciphertext.Bits.Set(0, !result.Ciphertext.Bits.Get(0));
+            //    break;
+            case AsconAEADDisposition.ModifyTag:
+                result.Tag.Bits.Set(0, !result.Tag.Bits.Get(0));
+                break;
+            //case AsconAEADDisposition.ModifySecondKey:
+            //    result.SecondKey.Bits.Set(0, !result.SecondKey.Bits.Get(0));
+            //    break;
+        }
+
 
         await Notify(result);
     }

@@ -10,5 +10,11 @@ public enum KyberFunction
     Encapsulation,
     
     [EnumMember(Value = "decapsulation")]
-    Decapsulation
+    Decapsulation,
+    
+    [EnumMember(Value = "encapsulationKeyCheck")]
+    EncapsulationKeyCheck,
+    
+    [EnumMember(Value = "decapsulationKeyCheck")]
+    DecapsulationKeyCheck,
 }

@@ -6,7 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
+using NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer.TestCaseExpectations;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
 {
@@ -36,7 +36,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
         }
 
         [JsonIgnore]
-        public ITestCaseExpectationProvider<EcdsaSignatureDisposition> TestCaseExpectationProvider { get; set; }
+        public SignatureExpectationProvider TestCaseExpectationProvider { get; set; }
 
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
 

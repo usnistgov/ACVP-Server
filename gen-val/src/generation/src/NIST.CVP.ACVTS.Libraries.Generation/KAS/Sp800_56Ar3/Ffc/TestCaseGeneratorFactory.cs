@@ -20,14 +20,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3.Ffc
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase)
-                && testGroup.IsSample)
+            if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase) && testGroup.IsSample)
             {
                 // When running in sample mode, the ACVP server needs produce vectors as if it were both parties.
                 // Since VAL tests do this anyway, we can fall back on its test case generator for producing sample AFT tests.
-                var validityTestCaseOptions =
-                    new TestCaseExpectationProvider<TestGroup, TestCase, FfcKeyPair>(testGroup, false);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                // I don't like setting this here but the TestGroupGeneratorBase is too complicated to figure out.
+                testGroup.KasExpectationProvider = new KasExpectationProvider<TestGroup, TestCase, FfcKeyPair>(testGroup, false);
+                return new TestCaseGeneratorVal(_oracle);
             }
 
             if (testGroup.TestType.Equals(aftTest, StringComparison.OrdinalIgnoreCase))
@@ -37,9 +36,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3.Ffc
 
             if (testGroup.TestType.Equals(valTest, StringComparison.OrdinalIgnoreCase))
             {
-                var validityTestCaseOptions =
-                    new TestCaseExpectationProvider<TestGroup, TestCase, FfcKeyPair>(testGroup, true);
-                return new TestCaseGeneratorVal(_oracle, validityTestCaseOptions);
+                testGroup.KasExpectationProvider = new KasExpectationProvider<TestGroup, TestCase, FfcKeyPair>(testGroup, true);
+                return new TestCaseGeneratorVal(_oracle);
             }
 
             return new TestCaseGeneratorNull<TestGroup, TestCase, FfcKeyPair>();

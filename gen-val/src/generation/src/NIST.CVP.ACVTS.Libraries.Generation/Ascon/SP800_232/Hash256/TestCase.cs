@@ -8,15 +8,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.Hash256;
 public class TestCase : ITestCase<TestGroup, TestCase>
 {
     public int TestCaseId { get; set; }
-    [JsonIgnore]
-    public bool? TestPassed => true;
+    public bool? TestPassed { get; set; }
     public bool Deferred { get; set; }
     public TestGroup ParentGroup { get; set; }
-    [JsonProperty(PropertyName = "message")]
+    
+    [JsonProperty(PropertyName = "msg")]
     public BitString Message { get; set; }
-    [JsonProperty(PropertyName = "messageBitLength")]
+    
+    [JsonProperty(PropertyName = "len")]
     public int MessageBitLength { get; set; }
-    [JsonProperty(PropertyName = "digest")]
+    
+    [JsonProperty(PropertyName = "md")]
     public BitString Digest { get; set; }
 }
-

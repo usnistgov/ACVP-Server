@@ -9,6 +9,7 @@ using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Ascon;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NLog;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128;
 
@@ -18,7 +19,7 @@ public class TestCaseGeneratorDecrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
 
     public int NumberOfTestCasesToGenerate => 60;
 
-    ShuffleQueue<int> plaintextLengths, ADLengths, truncationLengths;
+    ShuffleQueue<int> _plaintextLengths, _adLengths, _truncationLengths;
 
     public TestCaseGeneratorDecrypt(IOracle oracle)
     {
@@ -27,27 +28,28 @@ public class TestCaseGeneratorDecrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
 
     public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
     {
-        List<int> plengths = new List<int>();
-        List<int> adlengths = new List<int>();
-        List<int> trunclengths = new List<int>();
+        List<int> pLengths = new List<int>();
+        List<int> adLengths = new List<int>();
+        List<int> truncLengths = new List<int>();
 
-        plengths.AddRange(group.PlaintextLength.GetDomainMinMaxAsEnumerable());
-        adlengths.AddRange(group.ADLength.GetDomainMinMaxAsEnumerable());
-        trunclengths.AddRange(group.TruncationLength.GetDomainMinMaxAsEnumerable());
+        pLengths.AddRange(group.PlaintextLength.GetDomainMinMaxAsEnumerable());
+        adLengths.AddRange(group.ADLength.GetDomainMinMaxAsEnumerable());
+        truncLengths.AddRange(group.TruncationLength.GetDomainMinMaxAsEnumerable());
         for (int i = 0; i < 8; i++)
         {
-            plengths.AddRange(group.PlaintextLength.GetRandomValues(x => x % 8 == i, 5));
-            adlengths.AddRange(group.ADLength.GetRandomValues(x => x % 8 == i, 5));
+            pLengths.AddRange(group.PlaintextLength.GetRandomValues(x => x % 8 == i, 5));
+            adLengths.AddRange(group.ADLength.GetRandomValues(x => x % 8 == i, 5));
         }
-        //Testing breakpoints and surrounding values for chunk sizes
+        
+        // Testing breakpoints and surrounding values for chunk sizes
         for (int i = 3; i < 8; i++)
         {
-            plengths.AddRange(group.PlaintextLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
-            adlengths.AddRange(group.ADLength.GetSequentialValues((i << i) - 1, (i << i) + 1, 3));
+            pLengths.AddRange(group.PlaintextLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
+            adLengths.AddRange(group.ADLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
-        plaintextLengths = new ShuffleQueue<int>(plengths);
-        ADLengths = new ShuffleQueue<int>(adlengths);
-        truncationLengths = new ShuffleQueue<int>(trunclengths);
+        _plaintextLengths = new ShuffleQueue<int>(pLengths);
+        _adLengths = new ShuffleQueue<int>(adLengths);
+        _truncationLengths = new ShuffleQueue<int>(truncLengths);
 
         return new GenerateResponse();
     }
@@ -56,10 +58,11 @@ public class TestCaseGeneratorDecrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
     {
         var param = new AsconAEAD128Parameters
         {
-            PayloadBitLength = plaintextLengths.Pop(),
-            ADBitLength = ADLengths.Pop(),
+            PayloadBitLength = _plaintextLengths.Pop(),
+            ADBitLength = _adLengths.Pop(),
             NonceMasking = group.NonceMasking,
-            TruncationLength = truncationLengths.Pop(),
+            TruncationLength = _truncationLengths.Pop(),
+            Disposition = group.TestCaseExpectationProvider.GetRandomReason()
         };
 
         try
@@ -77,7 +80,9 @@ public class TestCaseGeneratorDecrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
                 SecondKey = result.SecondKey,
                 PayloadBitLength = param.PayloadBitLength,
                 ADBitLength = param.ADBitLength,
-                TagLength = param.TruncationLength
+                TagLength = param.TruncationLength,
+                Reason = param.Disposition,
+                TestPassed = param.Disposition == AsconAEADDisposition.None,
             });
         }
         catch (Exception ex)

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.ContractResolvers;
@@ -28,25 +29,52 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
         var includeProperties = new[]
         {
             nameof(TestCase.TestCaseId),
+        };
+        
+        var includeEncapDecapProperties = new[]
+        {
             nameof(TestCase.SharedKey)
         };
         
-        var includeAftProperties = new[]
+        var includeEncapProperties = new[]
         {
             nameof(TestCase.Ciphertext)
         };
-        
+
+        var includeKeyCheckProperties = new[]
+        {
+            nameof(TestCase.TestPassed)
+        };
+
         if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = _ => true;
         }
 
-        if (includeAftProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        if (includeEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.TestType.Equals("AFT", StringComparison.OrdinalIgnoreCase);
+                return group.Function == KyberFunction.Encapsulation;
+            };
+        }
+        
+        if (includeEncapDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
+                return group.Function is KyberFunction.Encapsulation or KyberFunction.Decapsulation;
+            };
+        }
+        
+        if (includeKeyCheckProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
+                return group.Function is KyberFunction.EncapsulationKeyCheck or KyberFunction.DecapsulationKeyCheck;
             };
         }
         

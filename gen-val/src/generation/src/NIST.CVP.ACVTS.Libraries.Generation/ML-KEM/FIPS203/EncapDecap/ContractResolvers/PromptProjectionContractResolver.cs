@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.ContractResolvers;
@@ -9,16 +10,15 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
 {
     protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
     {
-        var includeProperties = new[]
+        var includeProperties = new []
         {
             nameof(TestGroup.TestGroupId), 
             nameof(TestGroup.TestType), 
             nameof(TestGroup.ParameterSet),
             nameof(TestGroup.Function),
-            nameof(TestGroup.DecapsulationKey),
-            nameof(TestGroup.Tests),
+            nameof(TestGroup.Tests)
         };
-
+        
         if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = _ => true;
@@ -34,13 +34,22 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             nameof(TestCase.TestCaseId)
         };
         
-        var includeAftProperties = new[]
+        var includeAllEncapProperties = new []
         {
-            nameof(TestCase.EncapsulationKey),
+            nameof(TestCase.EncapsulationKey)
+        };
+        
+        var includeAlLDecapProperties = new []
+        {
+            nameof(TestCase.DecapsulationKey)
+        };
+        
+        var includeEncapProperties = new[]
+        {
             nameof(TestCase.SeedM)
         };
         
-        var includeValProperties = new[]
+        var includeDecapProperties = new[]
         {
             nameof(TestCase.Ciphertext)
         };
@@ -50,21 +59,39 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = _ => true;
         }
 
-        if (includeAftProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        if (includeEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.TestType.Equals("AFT", StringComparison.OrdinalIgnoreCase);
+                return group.Function == KyberFunction.Encapsulation;
             };
         }
         
-        if (includeValProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        if (includeDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.TestType.Equals("VAL", StringComparison.OrdinalIgnoreCase);
+                return group.Function == KyberFunction.Decapsulation;
+            };
+        }
+        
+        if (includeAllEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
+                return group.Function is KyberFunction.Encapsulation or KyberFunction.EncapsulationKeyCheck;
+            };
+        }
+        
+        if (includeAlLDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
+                return group.Function is KyberFunction.Decapsulation or KyberFunction.DecapsulationKeyCheck;
             };
         }
         

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
@@ -22,10 +21,23 @@ public class TestCaseValidatorDecrypt : ITestCaseValidatorAsync<TestGroup, TestC
         var expected = new Dictionary<string, string>();
         var provided = new Dictionary<string, string>();
 
-        ValidateResultPresent(suppliedResult, errors);
-        if (errors.Count == 0)
+        if (_expectedResult.TestPassed != null && !_expectedResult.TestPassed.Value)
         {
-            CheckResults(suppliedResult, errors, expected, provided);
+            if (!suppliedResult.TestPassed.HasValue ||
+                    (suppliedResult.TestPassed != null && suppliedResult.TestPassed.Value))
+            {
+                errors.Add("Expected tag validation failure");
+                expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.Value.ToString());
+                provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
+            }
+        }
+        else
+        {
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                CheckResults(suppliedResult, errors, expected, provided);
+            }
         }
 
         if (errors.Count > 0)

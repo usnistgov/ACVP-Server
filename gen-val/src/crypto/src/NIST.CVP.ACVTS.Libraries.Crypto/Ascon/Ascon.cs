@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Net.Mail;
-using System.Threading;
-using NIST.CVP.ACVTS.Libraries.Crypto.DSA.FFC.Helpers;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Ascon;
 
 public class Ascon
 {
+    private const bool ENABLE_DEBUG_OUTPUT = false;
+
     private const UInt64 _aead128Iv = 0x00001000808c0001;
     private const UInt64 _hash256Iv = 0x0000080100cc0002;
     private const UInt64 _xof128Iv = 0x0000080000cc0003;
@@ -63,7 +60,7 @@ public class Ascon
             throw new ArgumentException("Invalid second key length provided");
         }
 
-        if (!(tagLen >= 64 && tagLen <= 128))
+        if (!(tagLen >= 32 && tagLen <= 128))
         {
             throw new ArgumentException("Invalid tag length provided");
         }
@@ -89,10 +86,12 @@ public class Ascon
         // 1.0 Initialization
         var s = new UInt64[5];
         
-        s[0] = _aead128Iv;
-       
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s);
 
+        s[0] = _aead128Iv;
+
+        PrintState(s, "Append IV");
+        
         for (var i = 0; i < 8; i++)
         {
             s[1] |= (((UInt64) k[i]) << i * 8);
@@ -104,20 +103,18 @@ public class Ascon
             s[2] |= (((UInt64) k[i]) << i * 8);
             s[4] |= (((UInt64) n[i]) << i * 8);
         }
-        
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+
+        PrintState(s, "Append key and nonce");
 
         Permute(s, 12);
-        
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         for (var i = 0; i < 8; i++)
         {
             s[3] ^= (((UInt64) k[i]) << i * 8);
             s[4] ^= (((UInt64) k[i+8]) << i * 8);
         }
-        
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+
+        PrintState(s, "XOR key");
 
         // 2.0 Processing associated data
         if (a.Length != 0)
@@ -130,15 +127,16 @@ public class Ascon
             {
                 s[0] ^= (UInt64)aadChunk;
                 s[1] ^= (UInt64)(aadChunk >> 64);
+                
+                PrintState(s, "XOR associated data chunk");
+                
                 Permute(s, 8);
             }
         }
-        
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         s[4] ^= 0x8000000000000000;
-        
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+
+        PrintState(s, "XOR separation bit");
 
         // 3.0 Processing plaintext
         var parsedPlaintext = Parse128(p, PBitLength);
@@ -149,6 +147,9 @@ public class Ascon
         {
             s[0] ^= (UInt64)parsedPlaintext[i];
             s[1] ^= (UInt64)(parsedPlaintext[i] >> 64);
+
+            PrintState(s, "XOR complete plaintext block");
+           
             for (int j = 0; j < 16; j++)
             {
                 if(j < 8)
@@ -160,17 +161,16 @@ public class Ascon
                     c[(16 * i) + j] = (byte)(s[1] >> ((j - 8) * 8));
                 }
             }
+            
             Permute(s, 8);
         }
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         parsedPlaintext[^1] = Pad128(parsedPlaintext[^1], (PBitLength % 128));
 
         s[0] ^= (UInt64)parsedPlaintext[^1];
         s[1] ^= (UInt64)(parsedPlaintext[^1] >> 64);
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR incomplete plaintext blocks");
 
         int remainingBits = PBitLength % 128;
 
@@ -197,11 +197,9 @@ public class Ascon
             s[3] ^= ((UInt64)k[i+8]) << (i * 8);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR key");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int tagByteLength = tagLen / 8;
         
@@ -267,7 +265,7 @@ public class Ascon
             throw new ArgumentException("Invalid second key length provided");
         }
 
-        if (!(tagLen >= 64 && tagLen <= 128))
+        if (!(tagLen >= 32 && tagLen <= 128))
         {
             throw new ArgumentException("Invalid tag length provided");
         }
@@ -293,9 +291,11 @@ public class Ascon
         // 1.0 Initialization
         var s = new UInt64[5];
         
+        PrintState(s);
+
         s[0] = _aead128Iv;
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Append IV");
 
         for (var i = 0; i < 8; i++)
         {
@@ -309,11 +309,9 @@ public class Ascon
             s[4] |= ((UInt64)n[i]) << (i * 8);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Append key and nonce");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         for (var i = 0; i < 8; i++)
         {
@@ -321,7 +319,7 @@ public class Ascon
             s[4] ^= ((UInt64)k[i + 8]) << (i * 8);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR key");
 
         // 2.0 Processing associated data
         if (a.Length != 0)
@@ -334,15 +332,16 @@ public class Ascon
             {
                 s[0] ^= (UInt64)aadChunk;
                 s[1] ^= (UInt64)(aadChunk >> 64);
+
+                PrintState(s, "Process associated data chunk");
+
                 Permute(s, 8);
             }
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
-
         s[4] ^= 0x8000000000000000;
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR separation bit");
 
         // 3.0 Processing plaintext
         var parsedCiphertext = Parse128(c, CBitLength);
@@ -364,10 +363,11 @@ public class Ascon
             }
             s[0] = (UInt64)parsedCiphertext[i];
             s[1] = (UInt64)(parsedCiphertext[i] >> 64);
+
+            PrintState(s, "Process complete ciphertext block");
+
             Permute(s, 8);
         }
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int remainingBits = CBitLength % 128;
 
@@ -406,7 +406,7 @@ public class Ascon
             s[1] ^= ((UInt64)1 << (remainingBits - 64));
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR separation bit");
 
         for (int i = 0; i < remainingBits; i++)
         {
@@ -423,7 +423,7 @@ public class Ascon
             }
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Process incomplete ciphertext block");
 
         // 4.0 Finalization
         for (int i = 0; i < 8; i++)
@@ -432,11 +432,9 @@ public class Ascon
             s[3] ^= ((UInt64)k[i + 8]) << (i * 8);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "XOR key");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int tagByteLength = tagLen / 8;
         
@@ -491,14 +489,14 @@ public class Ascon
     {
         // 1.0 Initialization
         var s = new UInt64[5];
-        
+
+        PrintState(s);
+
         s[0] = _hash256Iv;
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Append IV");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         // 2.0 Absorbing
         var parsedM = Parse64(m, MBitLength);
@@ -508,19 +506,18 @@ public class Ascon
         for(int i = 0; i < parsedM.Length - 1; i++)
         {
             s[0] ^= parsedM[i];
+
+            PrintState(s, "Absorb complete message block");
+
             Permute(s, 12);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
-
         s[0] ^= parsedM[^1];
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Absorb incomplete message block");
         
         // 3.0 Squeezing
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         var h64 = new UInt64[4];
        
@@ -529,8 +526,6 @@ public class Ascon
             h64[i] = s[0];
             Permute(s, 12);
         }
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         h64[3] = s[0];
         
@@ -559,14 +554,14 @@ public class Ascon
     {
         // 1.0 Initialization
         var s = new UInt64[5];
-        
+
+        PrintState(s);
+
         s[0] = _xof128Iv;
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Append IV");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         // 2.0 Absorbing
         var parsedM = Parse64(m, MBitLength);
@@ -575,19 +570,18 @@ public class Ascon
         for (int i = 0; i < parsedM.Length - 1; i++)
         {
             s[0] ^= parsedM[i];
+
+            PrintState(s, "Absorb complete message block");
+
             Permute(s, 12);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
-
         s[0] ^= parsedM[^1];
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Absorb incomplete message block");
 
         // 3.0 Squeezing
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int h64Len = ((outputLength - 1) / 64) + 1;
 
@@ -596,14 +590,11 @@ public class Ascon
         for (int i = 0; i < h64Len - 1; i++)
         {
             h64[i] = s[0];
+
             Permute(s, 12);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
-
         h64[^1] = s[0];
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int hLen = ((outputLength - 1) / 8) + 1;
         
@@ -631,14 +622,14 @@ public class Ascon
     {
         // 1.0 Initialization
         var s = new UInt64[5];
-        
+
+        PrintState(s);
+
         s[0] = _cxof128Iv;
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Append IV");
 
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         // 2.0 Customization
         var parsedCs = Parse64(cs, CSBitLength);
@@ -655,10 +646,11 @@ public class Ascon
         for (int i = 0; i < cs64.Length; i++)
         {
             s[0] ^= cs64[i];
+
+            PrintState(s, "XOR customization string block");
+
             Permute(s, 12);
         }
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         // 3.0 Absorbing
         var parsedM = Parse64(m, MBitLength);
@@ -668,19 +660,18 @@ public class Ascon
         for (int i = 0; i < parsedM.Length - 1; i++)
         {
             s[0] ^= parsedM[i];
+
+            PrintState(s, "Absorb complete message block");
+
             Permute(s, 12);
         }
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
-
         s[0] ^= parsedM[^1];
 
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        PrintState(s, "Absorb incomplete message block");
 
         // 4.0 Squeezing
         Permute(s, 12);
-
-        Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
 
         int h64Len = ((outputLength - 1) / 64) + 1;
 
@@ -689,6 +680,7 @@ public class Ascon
         for (int i = 0; i < h64Len - 1; i++)
         {
             h64[i] = s[0];
+
             Permute(s, 12);
         }
 
@@ -816,8 +808,11 @@ public class Ascon
         for (var i = 0; i < rounds; i++)
         {
             Pc(s, i, rounds);
+            PrintState(s, "Constant-addition layer   Round " + i);
             Ps(s);
+            PrintState(s, "Substitution layer   Round " + i);
             Pl(s);
+            PrintState(s, "Linear diffusion layer   Round " + i);
         }
     }
 
@@ -865,5 +860,17 @@ public class Ascon
     private void Pc(UInt64[] s, int round, int maxRounds)
     {
         s[2] ^= _c[16 - maxRounds + round];
+    }
+
+    private void PrintState(UInt64[] s, string label = null)
+    {
+        if (ENABLE_DEBUG_OUTPUT)
+        {
+            if (label != null)
+            {
+                Console.WriteLine(label);
+            }
+            Console.WriteLine("State:           " + s[0].ToString("X16") + "    " + s[1].ToString("X16") + "    " + s[2].ToString("X16") + "    " + s[3].ToString("X16") + "    " + s[4].ToString("X16"));
+        }
     }
 }

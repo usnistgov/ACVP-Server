@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
@@ -17,8 +12,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128
         public static int MAX_PLAINTEXT_LENGTH = 65536;
         public static int MIN_AD_LENGTH = 0;
         public static int MAX_AD_LENGTH = 65536;
-        public static int MIN_TRUNC_LENGTH = 64;
+        public static int MIN_TRUNC_LENGTH = 32;
         public static int MAX_TRUNC_LENGTH = 128;
+        
         public ParameterValidateResponse Validate(Parameters parameters)
         {
             var errors = new List<string>();
@@ -33,63 +29,63 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128
 
         private void ValidateDirections(Parameters parameters, List<string> errors)
         {
-            if (!parameters.Directions.Any())
+            if (!parameters.Direction.Any())
             {
                 errors.Add("Expected at least one cipher direction");
             }
 
-            if (parameters.Directions.Contains(BlockCipherDirections.None))
+            if (parameters.Direction.Contains(BlockCipherDirections.None))
             {
-                errors.Add("Unexpectd value in ciper direction");
+                errors.Add("Unexpected value in cipher direction");
             }
 
-            string err = ValidateArray<BlockCipherDirections>(parameters.Directions.Distinct(), new[] { BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt }, "Direction");
+            string err = ValidateArray(parameters.Direction.Distinct(), [BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt], "Direction");
             errors.AddIfNotNullOrEmpty(err);
         }
 
         private void ValidatePlaintextLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.PayloadLength == null)
+            if (parameters.PayloadLen == null)
             {
-                errors.Add("plaintextLength was null and is required.");
+                errors.Add("payloadLen was null and is required.");
                 return;
             }
 
-            var fullDomain = parameters.PayloadLength.GetDomainMinMax();
+            var fullDomain = parameters.PayloadLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_PLAINTEXT_LENGTH, MAX_PLAINTEXT_LENGTH,
-                "PlaintextLength Range"
+                "payloadLen Range"
             );
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }
 
         private void ValidateADLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.ADLength == null)
+            if (parameters.AadLen == null)
             {
-                errors.Add("associatedDataLength was null and is required.");
+                errors.Add("adLen was null and is required.");
                 return;
             }
 
-            var fullDomain = parameters.ADLength.GetDomainMinMax();
+            var fullDomain = parameters.AadLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_AD_LENGTH, MAX_AD_LENGTH,
-                "ADLength Range"
+                "AadLen Range"
             );
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }
 
         private void ValidateTagLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.TagLength.DomainSegments.Count() > 1)
+            if (parameters.TagLen == null)
             {
-                errors.Add("tagLength must have exactly one segment in the domain.");
+                errors.Add("tagLen was null and is required.");
                 return;
             }
-
-            var fullDomain = parameters.TagLength.GetDomainMinMax();
+            
+            var fullDomain = parameters.TagLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_TRUNC_LENGTH, MAX_TRUNC_LENGTH,
@@ -103,6 +99,4 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128
             errors.AddIfNotNullOrEmpty(ValidateBoolArray(parameters.SupportsNonceMasking, "SupportsNonceMasking"));
         }
     }
-
-
 }

@@ -9,7 +9,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.Hkdf
     {
         public int TestGroupId { get; set; }
         public string TestType { get; set; }
-        public bool IsSample { get; set; }
         
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public HkdfConfiguration KdfConfiguration { get; set; }
@@ -26,6 +25,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.Hkdf
         
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public HkdfMultiExpansionConfiguration KdfMultiExpansionConfiguration { get; set; }
+        
+        [JsonIgnore]
+        public KdaExpectationProvider KdaExpectationProvider { get; set; }
+        
         public List<TestCase> Tests { get; set; } = new List<TestCase>();
     }
 }
