@@ -15,7 +15,6 @@ public class OracleObserverAsconEncrypt128CaseGrain : ObservableOracleGrainBase<
 {
     private AsconAEAD128Parameters _param;
     private readonly IRandom800_90 _rand;
-    private Crypto.Ascon.Ascon ascon = new Crypto.Ascon.Ascon();
 
     public OracleObserverAsconEncrypt128CaseGrain(LimitedConcurrencyLevelTaskScheduler nonOrleansScheduler, IRandom800_90 rand) : base(nonOrleansScheduler)
     {
@@ -32,11 +31,17 @@ public class OracleObserverAsconEncrypt128CaseGrain : ObservableOracleGrainBase<
 
     protected override async Task DoWorkAsync()
     {
+        var ascon = new Crypto.Ascon.Ascon();
+        
         var key = _rand.GetRandomBitString(128).ToBytes();
         var nonce = _rand.GetRandomBitString(128).ToBytes();
+        
+        // Need to do the reverse for bit-oriented inputs to be properly handled by Ascon
         var ad = _rand.GetRandomBitString(_param.ADBitLength).ToBytes().Reverse().ToArray();
         var plaintext = _rand.GetRandomBitString(_param.PayloadBitLength).ToBytes().Reverse().ToArray();
+        
         var result = new AsconAead128Result();
+        result.Nonce = new BitString(nonce);  // Nonce is sometimes modified in Encrypt so it needs to be stored beforehand
 
         (byte[] c, byte[] tag) asconResult;
         if (_param.NonceMasking)
@@ -53,7 +58,6 @@ public class OracleObserverAsconEncrypt128CaseGrain : ObservableOracleGrainBase<
         result.Ciphertext = new BitString(asconResult.c);
         result.Tag = new BitString(asconResult.tag);
         result.Key = new BitString(key);
-        result.Nonce = new BitString(nonce);
         result.AD = new BitString(ad);
         result.Plaintext = new BitString(plaintext);
 

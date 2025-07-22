@@ -163,7 +163,7 @@ public class ParameterValidatorTests
                 Algorithm = _algorithm,
                 Direction = _direction,
                 PayloadLen = _plaintextLength,
-                AadLen = _adLength,
+                AdLen = _adLength,
                 TagLen = _tagLength,
                 SupportsNonceMasking = _nonceMasking
             };

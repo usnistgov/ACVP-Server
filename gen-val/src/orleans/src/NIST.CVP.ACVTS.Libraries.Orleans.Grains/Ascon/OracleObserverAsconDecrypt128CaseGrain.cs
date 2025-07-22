@@ -36,8 +36,11 @@ public class OracleObserverAsconDecrypt128CaseGrain : ObservableOracleGrainBase<
     {
         var key = _rand.GetRandomBitString(128).ToBytes();
         var nonce = _rand.GetRandomBitString(128).ToBytes();
+        
+        // Need to do the reverse for bit-oriented inputs to be properly handled by Ascon
         var ad = _rand.GetRandomBitString(_param.ADBitLength).ToBytes().Reverse().ToArray();
         var plaintext = _rand.GetRandomBitString(_param.PayloadBitLength).ToBytes().Reverse().ToArray();
+        
         var result = new AsconAead128Result();
         var ascon = new Crypto.Ascon.Ascon();
 
@@ -79,26 +82,12 @@ public class OracleObserverAsconDecrypt128CaseGrain : ObservableOracleGrainBase<
         {
             case AsconAEADDisposition.None:
                 break;
-            //case AsconAEADDisposition.ModifyKey:
-            //    result.Key.Bits.Set(0, !result.Key.Bits.Get(0));
-            //    break;
-            //case AsconAEADDisposition.ModifyNonce:
-            //    result.Nonce.Bits.Set(0, !result.Nonce.Bits.Get(0));
-            //    break;
-            //case AsconAEADDisposition.ModifyAD:
-            //    result.AD.Bits.Set(0, !result.AD.Bits.Get(0));
-            //    break;
-            //case AsconAEADDisposition.ModifyCiphertext:
-            //    result.Ciphertext.Bits.Set(0, !result.Ciphertext.Bits.Get(0));
-            //    break;
             case AsconAEADDisposition.ModifyTag:
                 result.Tag.Bits.Set(0, !result.Tag.Bits.Get(0));
                 break;
-            //case AsconAEADDisposition.ModifySecondKey:
-            //    result.SecondKey.Bits.Set(0, !result.SecondKey.Bits.Get(0));
-            //    break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
-
 
         await Notify(result);
     }

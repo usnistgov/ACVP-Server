@@ -18,7 +18,7 @@ public class TestCase : ITestCase<TestGroup, TestCase>
     [JsonProperty(PropertyName = "nonce")]
     public BitString Nonce { get; set; }
     
-    [JsonProperty(PropertyName = "aad")]
+    [JsonProperty(PropertyName = "ad")]
     public BitString AD { get; set; }
     
     [JsonProperty(PropertyName = "tag")]
@@ -30,7 +30,7 @@ public class TestCase : ITestCase<TestGroup, TestCase>
     [JsonProperty(PropertyName = "payloadLen")]
     public int PayloadBitLength { get; set; }
     
-    [JsonProperty(PropertyName = "aadLen")]
+    [JsonProperty(PropertyName = "adLen")]
     public int ADBitLength { get; set; }
     
     [JsonProperty(PropertyName = "tagLen")]

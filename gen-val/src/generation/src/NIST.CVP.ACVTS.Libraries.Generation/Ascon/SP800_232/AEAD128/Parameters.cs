@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128
 
         public BlockCipherDirections[] Direction { get; set; } = [];
         public MathDomain PayloadLen { get; set; }
-        public MathDomain AadLen { get; set; }
+        public MathDomain AdLen { get; set; }
         public MathDomain TagLen { get; set; }
         public bool[] SupportsNonceMasking { get; set; } = [];
     }

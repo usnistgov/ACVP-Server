@@ -21,7 +21,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                     TestType = "AFT", 
                     Direction = direction, 
                     PlaintextLength = parameters.PayloadLen, 
-                    ADLength = parameters.AadLen,
+                    ADLength = parameters.AdLen,
                     TruncationLength = parameters.TagLen,
                     NonceMasking = mask,
                     TestCaseExpectationProvider = new AEADExpectationProvider()

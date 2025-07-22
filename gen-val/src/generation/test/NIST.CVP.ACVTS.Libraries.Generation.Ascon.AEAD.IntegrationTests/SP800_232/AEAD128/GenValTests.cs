@@ -1,7 +1,5 @@
-﻿ using System.Collections.Generic;
-using NIST.CVP.ACVTS.Libraries.Common;
+﻿using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
-
 using NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -9,7 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD128.IntegrationTests;
+namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.AEAD.IntegrationTests.SP800_232.AEAD128;
 
 [TestFixture, FastIntegrationTest]
 public class GenValTests : GenValTestsSingleRunnerBase
@@ -66,11 +64,11 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Mode = Mode,
             Revision = Revision,
             IsSample = true,
-            Direction = new[] {BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt},
+            Direction = [BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt],
             PayloadLen = plainLens,
-            AadLen = adLens,
+            AdLen = adLens,
             TagLen = truncLens,
-            SupportsNonceMasking = new[] { true, false }
+            SupportsNonceMasking = [true, false]
         };
 
         return CreateRegistration(targetFolder, p);
@@ -89,11 +87,11 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Mode = Mode,
             Revision = Revision,
             IsSample = true,
-            Direction = new[] { BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt },
+            Direction = [BlockCipherDirections.Encrypt, BlockCipherDirections.Decrypt],
             PayloadLen = plainLens,
-            AadLen = adLens,
+            AdLen = adLens,
             TagLen = truncLens,
-            SupportsNonceMasking = new[] { true, false }
+            SupportsNonceMasking = [true, false]
         };
 
         return CreateRegistration(targetFolder, p);
