@@ -44,10 +44,9 @@ jobs:
 
     - name: Create sync branch
       if: steps.upstream-check.outputs.has_changes == 'true'
-      run: |
+      run:  |
         git fetch origin master
-        git checkout origin/master
-        git checkout -B sync/upstream-change
+        git checkout -b sync/upstream-changes origin/master
 
     - name: Attempt merge from upstream/master
       if: steps.upstream-check.outputs.has_changes == 'true'
