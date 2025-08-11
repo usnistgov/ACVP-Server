@@ -44,9 +44,10 @@ jobs:
 
     - name: Create sync branch
       if: steps.upstream-check.outputs.has_changes == 'true'
-      run:  |
+      run: |
         git fetch origin master
-        git checkout -b sync/upstream-changes origin/master
+        git checkout origin/master
+        git checkout -B sync/upstream-change
 
     - name: Attempt merge from upstream/master
       if: steps.upstream-check.outputs.has_changes == 'true'
@@ -90,6 +91,12 @@ jobs:
     - name: Exit if no new commits
       if: steps.has-commits.outputs.has_commits != 'true'
       run: echo "No new commits to push. Skipping push and PR."
+    
+    - name: Show branches and HEAD info
+      run: |
+      echo "Current branch: $(git branch --show-current)"
+        git branch -a
+        git status
 
     - name: Push sync branch (force)
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
