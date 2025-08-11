@@ -94,7 +94,7 @@ jobs:
     
     - name: Show branches and HEAD info
       run: |
-      echo "Current branch: $(git branch --show-current)"
+        echo "Current branch: $(git branch --show-current)"
         git branch -a
         git status
 
