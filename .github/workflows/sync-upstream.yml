@@ -73,13 +73,29 @@ jobs:
         echo "::error ::Merge conflict detected. Manual resolution required."
         exit 1
 
-    - name: Push changes to remote
+    - name: Check if sync branch has new commits
+      id: has-commits
+      run: |
+        git fetch origin master
+        COMMITS=$(git rev-list origin/master..HEAD --count)
+        echo "Commits ahead: $COMMITS"
+        if [ "$COMMITS" -eq 0 ]; then
+          echo "has_commits=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_commits=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Exit if no new commits
+      if: steps.has-commits.outputs.has_commits != 'true'
+      run: echo "No new commits to push. Skipping push and PR."
+
+    - name: Push sync branch (force)
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       env:
         PAT_PUSH: ${{ secrets.PAT_PUSH }}
       run: |
         git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
-        git push origin sync/upstream-changes
+        git push --force origin sync/upstream-changes
 
     - name: Create Pull Request via GitHub CLI
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
