@@ -115,14 +115,16 @@ jobs:
            --base master \
            --title "Sync from NIST upstream" \
            --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)."
+            echo "Created PR: $PR_URL"
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+            echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
     - name: Auto-merge Pull Request 
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
-        sleep 5
-        PR_NUMBER=$(gh pr list --repo Katalyst-LLC/nist-ACVP-Server --state open --head sync/upstream-changes --json number --jq '.[0].number')
-        gh pr merge $PR_NUMBER --squash --auto
+        echo "Merging PR #${{ steps.create_pr.outputs.pr_number }}"
+        gh pr merge ${{ steps.create_pr.outputs.pr_number }} --repo Katalyst-LLC/nist-ACVP-Server --squash --auto
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
