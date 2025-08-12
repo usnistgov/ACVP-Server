@@ -121,8 +121,8 @@ jobs:
     - name: Auto-merge Pull Request 
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
-        sleep 35
-        PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
+        sleep 5
+        PR_NUMBER=$(gh pr list --repo Katalyst-LLC/nist-ACVP-Server --state open --head sync/upstream-changes --json number --jq '.[0].number')
         gh pr merge $PR_NUMBER --squash --auto
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
