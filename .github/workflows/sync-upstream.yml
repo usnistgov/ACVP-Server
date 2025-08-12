@@ -109,11 +109,12 @@ jobs:
     - name: Create Pull Request via GitHub CLI
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
-        gh pr create \
-          --title "Sync from NIST upstream" \
-          --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
-          --head sync/upstream-changes \
-          --base master
+           gh pr create \
+           --repo Katalyst-LLC/nist-ACVP-Server \
+           --head sync/upstream-changes \
+           --base master \
+           --title "Sync from NIST upstream" \
+           --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)."
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
