@@ -107,6 +107,7 @@ jobs:
         git push --force origin sync/upstream-changes
 
     - name: Create Pull Request via GitHub CLI
+      id: create_pr
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
            PR_URL=$(gh pr create \
