@@ -44,7 +44,10 @@ jobs:
 
     - name: Create sync branch
       if: steps.upstream-check.outputs.has_changes == 'true'
-      run: git checkout -B sync/upstream-changes
+      run: |
+        git fetch origin master
+        git checkout origin/master
+        git checkout -B sync/upstream-changes
 
     - name: Attempt merge from upstream/master
       if: steps.upstream-check.outputs.has_changes == 'true'
@@ -73,29 +76,56 @@ jobs:
         echo "::error ::Merge conflict detected. Manual resolution required."
         exit 1
 
-    - name: Push changes to remote
+    - name: Check if sync branch has new commits
+      id: has-commits
+      run: |
+        git fetch origin master
+        COMMITS=$(git rev-list origin/master..HEAD --count)
+        echo "Commits ahead: $COMMITS"
+        if [ "$COMMITS" -eq 0 ]; then
+          echo "has_commits=false" >> $GITHUB_OUTPUT
+        else
+          echo "has_commits=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Exit if no new commits
+      if: steps.has-commits.outputs.has_commits != 'true'
+      run: echo "No new commits to push. Skipping push and PR."
+    
+    - name: Show branches and HEAD info
+      run: |
+        echo "Current branch: $(git branch --show-current)"
+        git branch -a
+        git status
+
+    - name: Push sync branch (force)
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       env:
         PAT_PUSH: ${{ secrets.PAT_PUSH }}
       run: |
         git remote set-url origin https://x-access-token:${PAT_PUSH}@github.com/${{ github.repository }}
-        git push origin sync/upstream-changes
+        git push --force origin sync/upstream-changes
 
     - name: Create Pull Request via GitHub CLI
+      id: create_pr
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
-        gh pr create \
-          --title "Sync from NIST upstream" \
-          --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server)." \
-          --head sync/upstream-changes \
-          --base master
+           PR_URL=$(gh pr create \
+           --repo Katalyst-LLC/nist-ACVP-Server \
+           --head sync/upstream-changes \
+           --base master \
+           --title "Sync from NIST upstream" \
+           --body "This pull request brings in the latest changes from upstream (NIST usnistgov/ACVP-Server).")
+            echo "Created PR: $PR_URL"
+            PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+            echo "pr_number=$PR_NUMBER" >> "$GITHUB_OUTPUT"
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
 
     - name: Auto-merge Pull Request 
       if: steps.merge.outputs.conflict != 'true' && steps.merge.outputs.up_to_date != 'true'
       run: |
-        PR_NUMBER=$(gh pr list --state open --head sync/upstream-changes --json number --jq '.[0].number')
-        gh pr merge $PR_NUMBER --squash --auto
+        echo "Merging PR #${{ steps.create_pr.outputs.pr_number }}"
+        gh pr merge ${{ steps.create_pr.outputs.pr_number }} --repo Katalyst-LLC/nist-ACVP-Server --squash --auto
       env:
         GH_TOKEN: ${{ secrets.PAT_PUSH }}
