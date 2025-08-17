@@ -62,17 +62,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Ascon.SP800_232.AEAD128
 
         private void ValidateADLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.AadLen == null)
+            if (parameters.AdLen == null)
             {
                 errors.Add("adLen was null and is required.");
                 return;
             }
 
-            var fullDomain = parameters.AadLen.GetDomainMinMax();
+            var fullDomain = parameters.AdLen.GetDomainMinMax();
             var rangeCheck = ValidateRange(
                 new long[] { fullDomain.Minimum, fullDomain.Maximum },
                 MIN_AD_LENGTH, MAX_AD_LENGTH,
-                "AadLen Range"
+                "adLen Range"
             );
             errors.AddIfNotNullOrEmpty(rangeCheck);
         }
