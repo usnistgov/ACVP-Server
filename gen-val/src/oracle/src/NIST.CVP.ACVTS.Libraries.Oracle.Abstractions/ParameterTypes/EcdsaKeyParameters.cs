@@ -8,6 +8,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
     {
         public Curve Curve { get; set; }
         public EcdsaKeyDisposition Disposition { get; set; }
+        public bool GenerateKeyPairWithSmallRandomD  { get; set; } = false;
 
         public override bool Equals(object other)
         {
@@ -19,6 +20,6 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
             return false;
         }
 
-        public override int GetHashCode() => HashCode.Combine(Curve, Disposition);
+        public override int GetHashCode() => HashCode.Combine(Curve, Disposition, GenerateKeyPairWithSmallRandomD);
     }
 }

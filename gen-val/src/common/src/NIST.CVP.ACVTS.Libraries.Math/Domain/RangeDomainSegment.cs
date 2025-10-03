@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace NIST.CVP.ACVTS.Libraries.Math.Domain
 {
@@ -218,7 +219,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
             return range.Where(condition).OrderBy(a => Guid.NewGuid()).Take(quantity);
             // return GetValues(MaxNumberOfValuesInSegment).Where(condition).Take(quantity);
         }
-        
+
         /// <summary>
         /// Get values from the <see cref="IDomainSegment" />, with a minimum of <see cref="min" />
         /// and a maximum <see cref="max" />, up to the quantity
@@ -244,6 +245,29 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
             _max = holdMinMax.Maximum;
 
             return result;
+        }
+
+        public IEnumerable<int> GetSequentialValuesInIncrement(int start, int quantity)
+        {
+            List<int> values = new List<int>();
+
+            for(int i = 0; i < quantity; i++)
+            {
+                int value  = start + i;
+
+                if (IsWithinDomain(value))
+                {
+                    values.Add(value);
+                }
+            }
+
+            if(values.Count > 0)
+            {
+                _valuesHaveBeenGenerated = true;
+                _returnedValues.AddRange(values);
+            }
+
+            return values;
         }
 
         /// <summary>

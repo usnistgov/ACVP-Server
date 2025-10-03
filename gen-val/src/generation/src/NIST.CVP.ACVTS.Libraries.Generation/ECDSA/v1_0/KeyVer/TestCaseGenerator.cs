@@ -13,6 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyVer
     {
         private readonly IOracle _oracle;
 
+        // Placeholder, depends on the sample flag via dispositions
         public int NumberOfTestCasesToGenerate { get; private set; } = 12;
 
         public TestCaseGenerator(IOracle oracle)
@@ -20,12 +21,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyVer
             _oracle = oracle;
         }
 
-        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            if (isSample)
-            {
-                NumberOfTestCasesToGenerate = 3;
-            }
+            NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;
             return new GenerateResponse();
         }
 
@@ -34,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.KeyVer
             var param = new EcdsaKeyParameters
             {
                 Curve = group.Curve,
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason()
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason()
             };
 
             try

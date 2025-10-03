@@ -12,6 +12,7 @@
         EccSignature,
         EccSignatureResult,
         EccVerificationResult
-        >
-    { }
+    >
+    {
+    }
 }

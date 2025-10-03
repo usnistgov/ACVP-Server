@@ -78,7 +78,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                                     Modulo = moduloCap.Modulo,
                                     HashAlg = hashAlg,
                                     SaltLen = hashPair.SaltLen,
-                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                                    RsaSignatureExpectationProvider = new RsaSignatureExpectationProvider(),
                                     MaskFunction = maskFunction,
                                     Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 

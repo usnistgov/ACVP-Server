@@ -62,7 +62,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer
                                 Modulo = modulo,
                                 HashAlg = ShaAttributes.GetHashFunctionFromName(hashPair.HashAlg),
                                 SaltLen = hashPair.SaltLen,
-                                TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                                TestCaseExpectationProvider = new SignatureExpectationProvider(),
                                 Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null,
 
                                 TestType = TEST_TYPE

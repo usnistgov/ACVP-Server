@@ -70,15 +70,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KMAC.v1_0
                 keyMinMax.Minimum,
                 keyMinMax.Maximum
             };
-
-            // Due to the way byte pad works, there are extra padding bits added that makes the "amount of 
-            // key bits" in order to hit the block aligned test... odd.
+            
+            // Due to the way bytepad works, there are extra padding bits added that makes the "amount of key bits" in order to hit the block aligned test... odd.
+            // These cases specifically cover KMAC under data directly aligned to a block, i.e. no padding in "bytepad" should be performed.
             // See Sha3DerivedHelpersTests.ShouldGetBlockAlignedDataWithSpecificKeyLengthForKmac tests for some more detail.
-            keyLengths.AddRangeIfNotNullOrEmpty(@group.DigestSize == 128
-                ? keyAllowed.GetRandomValues(x => x == 131 % 136, blockAlignedTestCasesToGenerate)
-                : keyAllowed.GetRandomValues(x => x == 163 % 168, blockAlignedTestCasesToGenerate));
+            keyLengths.AddRangeIfNotNullOrEmpty(group.DigestSize == 128
+                ? keyAllowed.GetRandomValues(x => (x % 168) == 163, blockAlignedTestCasesToGenerate)
+                : keyAllowed.GetRandomValues(x => (x % 136) == 131, blockAlignedTestCasesToGenerate));
 
-            keyLengths.AddRange(keyAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate - blockAlignedTestCasesToGenerate));
+            // These cases specifically cover KMAC under data directly not aligned to a block, i.e. both padding branches in "bytepad" should be performed.
+            keyLengths.AddRangeIfNotNullOrEmpty(group.DigestSize == 128
+                ? keyAllowed.GetRandomValues(x => (x % 168) != 163 && (x % 8) != 0, blockAlignedTestCasesToGenerate)
+                : keyAllowed.GetRandomValues(x => (x % 136) != 131 && (x % 8) != 0, blockAlignedTestCasesToGenerate));
+            
+            keyLengths.AddRange(keyAllowed.GetRandomValues(x => true, NumberOfTestCasesToGenerate - (2 * blockAlignedTestCasesToGenerate)));
             #endregion KeyLengths
 
             var macQueue = new ShuffleQueue<int>(macLengths);

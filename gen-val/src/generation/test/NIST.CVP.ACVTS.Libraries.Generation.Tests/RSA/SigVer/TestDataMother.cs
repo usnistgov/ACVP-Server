@@ -3,7 +3,6 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
@@ -44,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SigVer
                         ParentGroup = tg,
                         Message = new BitString("ABCD"),
                         Signature = new BitString("1234"),
-                        Reason = new TestCaseExpectationReason(SignatureModifications.E),
+                        Reason = RSASignatureModifications.E,
                         TestPassed = testId % 2 == 0,
                         Deferred = false,
                         TestCaseId = testId

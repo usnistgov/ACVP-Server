@@ -38,7 +38,7 @@ public class TestGroup : ITestGroup<TestGroup, TestCase>
     }
     
     [JsonIgnore]
-    public readonly ITestCaseExpectationProvider<LmsSignatureDisposition> TestCaseExpectationProvider = new TestCaseExpectationProvider();
+    public readonly SignatureExpectationProvider TestCaseExpectationProvider = new();
 
     public List<TestCase> Tests { get; set; } = new();
 }

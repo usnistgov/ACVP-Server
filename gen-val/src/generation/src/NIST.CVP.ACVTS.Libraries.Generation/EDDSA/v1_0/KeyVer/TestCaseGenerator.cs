@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.KeyVer
             var param = new EddsaKeyParameters
             {
                 Curve = group.Curve,
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason()
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason()
             };
 
             try

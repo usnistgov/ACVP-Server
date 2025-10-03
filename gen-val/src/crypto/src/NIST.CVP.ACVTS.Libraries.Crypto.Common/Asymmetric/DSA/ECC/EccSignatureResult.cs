@@ -1,12 +1,16 @@
-﻿namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC
+﻿using System.Numerics;
+
+namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC
 {
     public class EccSignatureResult : IDsaSignatureResult
     {
         public EccSignature Signature { get; }
+        public BigInteger K { get; }
         public string ErrorMessage { get; }
 
-        public EccSignatureResult(EccSignature signature)
+        public EccSignatureResult( BigInteger k, EccSignature signature)
         {
+            K = k;
             Signature = signature;
         }
 

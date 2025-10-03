@@ -2,12 +2,18 @@
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.ML_DSA;
 
-public class MLDSASignatureResult
+public class MLDSASignatureResult : IResult
 {
     /// <summary>
-    /// Only used in the deferred signature case to verify the signature
+    /// PublicKey only used in the deferred signature case to verify the signature
     /// </summary>
     public BitString PublicKey { get; set; }  
+
+    /// <summary>
+    /// Seed and private key only used in pool signatures to regenerate the key and signature 
+    /// </summary>
+    public BitString Seed { get; set; }
+    public BitString PrivateKey { get; set; }
     
     public BitString Rnd { get; set; }
     public BitString Context { get; set; }

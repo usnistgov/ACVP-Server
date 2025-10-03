@@ -1,4 +1,5 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
+﻿using System.Numerics;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes
@@ -11,6 +12,10 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes
         /// </summary>
         public BitString RandomValue { get; set; }
         public EccKeyPair Key { get; set; }
+        /// <summary>
+        /// Per-message secret number
+        /// </summary>
+        public BigInteger K { get; set; }
         public EccSignature Signature { get; set; }
     }
 }

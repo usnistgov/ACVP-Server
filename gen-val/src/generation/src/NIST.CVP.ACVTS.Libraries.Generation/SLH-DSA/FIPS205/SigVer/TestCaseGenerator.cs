@@ -20,7 +20,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     private ShuffleQueue<int> _contextLengths;
     private ShuffleQueue<HashFunctions> _hashFunctions;
     
-    // Set up to use each of the possible dispositions 2X, placeholder to be calcuated later
+    // Set up to use each of the possible dispositions 2X, placeholder to be calculated later
     public int NumberOfTestCasesToGenerate { get; private set; } = 14;
     
     public TestCaseGenerator(IOracle oracle)
@@ -59,10 +59,6 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
                 _hashFunctions = new ShuffleQueue<HashFunctions>(group.HashFunctions.ToList());
                 
                 // It is not a requirement but a recommendation to filter by hash functions strong enough for the parameter set, we want to test all valid possibilities though not just the recommended ones
-                // var lambda = new DilithiumParameters(group.ParameterSet).Lambda;
-                //
-                // // Filter out hash functions that do not meet the collision and second pre-image strength for lambda on the parameter set
-                // _hashFunctions = new ShuffleQueue<HashFunctions>(group.HashFunctions.Where(hf => ShaAttributes.GetHashFunctionFromEnum(hf).OutputLen >= lambda).ToList());
             }
         }
 
@@ -81,7 +77,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
                 SlhdsaParameterSet = group.ParameterSet,
                 Deterministic = false,
                 MessageLength = _messageLengths.Pop(),
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason(),
                 PreHash = group.PreHash,
                 SignatureInterface = group.SignatureInterface,
                 PrivateKey = keyResult.PrivateKey,

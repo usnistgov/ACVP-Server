@@ -36,6 +36,11 @@ public class GenValTests : GenValTestsSingleRunnerBase
             bs = rand.GetDifferentBitStringOfSameSize(bs);
             testCase.c = bs.ToHex();    
         }
+        
+        if (testCase.testPassed != null)
+        {
+            testCase.testPassed = testCase.testPassed != true;
+        }
     }
 
     protected override string GetTestFileFewTestCases(string targetFolder)
@@ -46,8 +51,8 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            ParameterSets = new [] { KyberParameterSet.ML_KEM_512 },
-            Functions = new [] { KyberFunction.Encapsulation, KyberFunction.Decapsulation },
+            ParameterSets = [KyberParameterSet.ML_KEM_512],
+            Functions = [KyberFunction.Encapsulation, KyberFunction.Decapsulation, KyberFunction.EncapsulationKeyCheck, KyberFunction.DecapsulationKeyCheck],
             IsSample = true
         };
 
@@ -63,7 +68,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Mode = Mode,
             Revision = Revision,
             ParameterSets = ParameterValidator.VALID_PARAMETER_SETS,
-            Functions = new [] { KyberFunction.Encapsulation, KyberFunction.Decapsulation },
+            Functions = [KyberFunction.Encapsulation, KyberFunction.Decapsulation, KyberFunction.EncapsulationKeyCheck, KyberFunction.DecapsulationKeyCheck],
             IsSample = true
         };
 

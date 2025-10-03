@@ -4,34 +4,34 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Cr1;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Shared.TwoStep
 {
-    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorVal : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<KdaTestCaseDisposition> _testCaseExpectationProvider;
+        public int NumberOfTestCasesToGenerate { get; private set; }
 
-        public TestCaseGeneratorVal(IOracle oracle, ITestCaseExpectationProvider<KdaTestCaseDisposition> testCaseExpectationProvider, int numberOfTestCasesToGenerate)
+        public TestCaseGeneratorVal(IOracle oracle)
         {
             _oracle = oracle;
-            _testCaseExpectationProvider = testCaseExpectationProvider;
-            NumberOfTestCasesToGenerate = numberOfTestCasesToGenerate;
         }
 
-        public int NumberOfTestCasesToGenerate { get; }
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            NumberOfTestCasesToGenerate = group.KdaExpectationProvider.ExpectationCount;
+            return new GenerateResponse();
+        }
+
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
         {
-            var disposition = _testCaseExpectationProvider.GetRandomReason();
-
             try
             {
                 var result = await _oracle.GetKdaValTwoStepTestAsync(new KdaValTwoStepParameters()
                 {
-                    Disposition = disposition.GetReason(),
+                    Disposition = group.KdaExpectationProvider.GetRandomReason(),
                     KdfConfiguration = group.KdfConfiguration,
                     KdfConfigurationMultiExpand = group.KdfMultiExpansionConfiguration,
                     ZLength = group.ZLength,

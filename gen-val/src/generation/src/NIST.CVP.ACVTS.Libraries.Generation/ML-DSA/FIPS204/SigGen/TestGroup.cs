@@ -29,5 +29,7 @@ public class TestGroup : ITestGroup<TestGroup, TestCase>
     [JsonIgnore]
     public HashFunctions[] HashFunctions { get; init; }
     
+    public MLDSASignatureCornerCase CornerCase { get; init; }
+    
     public List<TestCase> Tests { get; set; } = new();
 }

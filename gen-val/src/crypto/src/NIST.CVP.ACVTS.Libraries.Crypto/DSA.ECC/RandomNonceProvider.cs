@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
@@ -13,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.ECC
             _entropyProvider = entropyProvider;
         }
 
-        public BigInteger GetNonce(BigInteger privateD, BigInteger hashedMessage, BigInteger orderN)
+        public BigInteger GetNonce(BigInteger privateD, BitString hashedMessage, BigInteger orderN)
         {
             return _entropyProvider.GetEntropy(1, orderN - 1);
         }

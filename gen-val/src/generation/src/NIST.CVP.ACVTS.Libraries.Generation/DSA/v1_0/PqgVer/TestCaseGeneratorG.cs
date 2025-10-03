@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
@@ -25,10 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
 
         public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
         {
-            if (isSample)
-            {
-                NumberOfTestCasesToGenerate = 2;
-            }
+            NumberOfTestCasesToGenerate = group.GTestCaseExpectationProvider.ExpectationCount;
             return new GenerateResponse();
         }
 
@@ -59,7 +57,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
             var reason = group.GTestCaseExpectationProvider.GetRandomReason();
             var gParam = new DsaDomainParametersParameters
             {
-                Disposition = reason.GetName(),
+                Disposition = EnumHelpers.GetEnumDescriptionFromEnum(reason),   // string because the field is shared with the PQ dispositions
                 GGenMode = group.GGenMode,
                 HashAlg = group.HashAlg,
                 L = group.L,
@@ -78,8 +76,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.v1_0.PqgVer
                     Seed = pqResult.Seed,
                     Counter = pqResult.Counter,
                     Index = gResult.Index,
-                    Reason = reason.GetName(),
-                    TestPassed = reason.GetReason() == DsaGDisposition.None,
+                    Reason = EnumHelpers.GetEnumDescriptionFromEnum(reason),
+                    TestPassed = reason == DsaGDisposition.None,
                     G = gResult.G != 0 ? new BitString(gResult.G, group.L) : null,
                     H = gResult.H
                 };

@@ -33,7 +33,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                                     SignatureInterface = signatureInterface,
                                     ExternalMu = externalMu,
                                     MessageLength = capability.MessageLength,
-                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                                    TestCaseExpectationProvider = new SignatureExpectationProvider()
                                 };
 
                                 testGroups.Add(testGroup);
@@ -54,7 +54,7 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                                     HashFunctions = capability.HashAlgs,
                                     MessageLength = capability.MessageLength,
                                     ContextLength = capability.ContextLength,
-                                    TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample)
+                                    TestCaseExpectationProvider = new SignatureExpectationProvider()
                                 };
 
                                 testGroups.Add(testGroup);

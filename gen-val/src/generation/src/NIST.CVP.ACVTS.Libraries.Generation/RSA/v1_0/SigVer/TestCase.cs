@@ -26,15 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SigVer
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
 
-        [JsonIgnore]
-        public ITestCaseExpectationReason<SignatureModifications> Reason { get; set; }      // Tells us what value was modified leading to the failure
-
-        [JsonProperty(PropertyName = "reason")]
-        public string ReasonName
-        {
-            get => Reason.GetName();
-            set => Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(value));
-        }
+        public RSASignatureModifications Reason { get; set; }      // Tells us what value was modified leading to the failure
 
         public bool SetString(string name, string value)
         {

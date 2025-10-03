@@ -52,6 +52,14 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         AES_XTS_v2_0,
         [EnumMember(Value = "CMAC-AES-1.0")]
         CMAC_AES_v1_0,
+        [EnumMember(Value = "Ascon-AEAD128-SP800-232")]
+        ASCON_AEAD128_SP800_232,
+        [EnumMember(Value = "Ascon-Hash256-SP800-232")]
+        ASCON_Hash256_SP800_232,
+        [EnumMember(Value = "Ascon-XOF128-SP800-232")]
+        ASCON_XOF128_SP800_232,
+        [EnumMember(Value = "Ascon-CXOF128-SP800-232")]
+        ASCON_CXOF128_SP800_232,
         [EnumMember(Value = "CMAC-TDES-1.0")]
         CMAC_TDES_v1_0,
         [EnumMember(Value = "ConditioningComponent-AES-CBC-MAC-SP800-90B")]
@@ -128,6 +136,28 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         HMAC_SHA3_384_v1_0,
         [EnumMember(Value = "HMAC-SHA3-512-1.0")]
         HMAC_SHA3_512_v1_0,
+        [EnumMember(Value = "HMAC-SHA-1-2.0")]
+        HMAC_SHA1_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-224-2.0")]
+        HMAC_SHA2_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-256-2.0")]
+        HMAC_SHA2_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-384-2.0")]
+        HMAC_SHA2_384_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512-2.0")]
+        HMAC_SHA2_512_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512/224-2.0")]
+        HMAC_SHA2_512_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA2-512/256-2.0")]
+        HMAC_SHA2_512_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-224-2.0")]
+        HMAC_SHA3_224_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-256-2.0")]
+        HMAC_SHA3_256_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-384-2.0")]
+        HMAC_SHA3_384_v2_0,
+        [EnumMember(Value = "HMAC-SHA3-512-2.0")]
+        HMAC_SHA3_512_v2_0,
         //[EnumMember(Value = "HSS-KeyGen-1.0")]
         //HSS_KeyGen_v1_0,
         //[EnumMember(Value = "HSS-SigGen-1.0")]

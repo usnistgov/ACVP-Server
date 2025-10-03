@@ -9,14 +9,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
 public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
 {
-    public static KyberParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<KyberParameterSet>().Except(new [] { KyberParameterSet.None }).ToArray();
-    public static KyberFunction[] VALID_FUNCTIONS = EnumHelpers.GetEnums<KyberFunction>().Except(new[] { KyberFunction.None }).ToArray();
+    public static KyberParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<KyberParameterSet>().Except([KyberParameterSet.None]).ToArray();
+    public static KyberFunction[] VALID_FUNCTIONS = EnumHelpers.GetEnums<KyberFunction>().Except([KyberFunction.None]).ToArray();
     
     public ParameterValidateResponse Validate(Parameters parameters)
     {
         var errors = new List<string>();
 
-        ValidateAlgoMode(parameters, new[] { AlgoMode.ML_KEM_EncapDecap_FIPS203 }, errors);
+        ValidateAlgoMode(parameters, [AlgoMode.ML_KEM_EncapDecap_FIPS203], errors);
 
         if (!parameters.ParameterSets.Distinct().Any())
         {

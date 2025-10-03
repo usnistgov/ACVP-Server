@@ -228,6 +228,25 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Tests.Domain
             }
         }
 
+        [Test]
+        [TestCase(2, 8, 1, 2, 3, new[] {2, 3, 4})]
+        [TestCase(2, 8, 1, 2, 7, new[] {2, 3, 4, 5, 6, 7, 8})]
+        [TestCase(2, 8, 1, 2, 20, new[] {2, 3, 4, 5, 6, 7, 8})]
+        [TestCase(0, 32, 8, -8, 3, new int[0])]
+        [TestCase(0, 32, 8, -8, 8, new int[0])]
+        [TestCase(0, 32, 8, -8, 9, new[] {0})]
+        [TestCase(0, 32, 8, -8, 10, new[] {0})]
+        [TestCase(0, 32, 8, -8, 16, new[] {0})]
+        [TestCase(0, 32, 8, -8, 17, new[] {0, 8})]
+        public void ShouldReturnOnlyNumbersInRangeFromSequence(int min, int max, int increment, int seqMin, int numberOfValues, int[] expectation)
+        {
+            _subject = new RangeDomainSegment(_mockRandom.Object, min, max, increment);
+
+            var result = _subject.GetSequentialValuesInIncrement(seqMin, numberOfValues).ToList();
+
+            Assert.That(result.SequenceEqual(expectation), Is.True);
+        }
+
         /// <summary>
         /// Using the first case as an example ([TestCase(1, 5, 1, 3, new int[] { 2, 3, 1 } )])
         /// If we cause our random generator to always return 3, given a range of 1-5, increment of one.

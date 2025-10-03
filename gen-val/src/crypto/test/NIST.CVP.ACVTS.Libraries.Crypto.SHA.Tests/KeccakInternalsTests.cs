@@ -1,4 +1,5 @@
-﻿using NIST.CVP.ACVTS.Libraries.Math;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
@@ -96,6 +97,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests
             "e4c4961e2213a51ea129d1efddf64880ec0613bd4d0e1304570cb2642b57353a74f27d3554ffbb2c4c48fefbf73c0390def2c0514088fdde02")]
         [TestCase(512, 256, 673, "2f17f54c6201f073e6c4f6ad94e846cd41f807f0e6218ab2fffcd0a230a74cf3",
             "06152ba4a6d3fc70031a3572204e35c473fa0975a60da27e3699168883136af80a0bacc0413785455790d0bc823eadc2ae6716d386ca79c3024b5e8621a1490e4709c706765c25b8920cbbb5b6a9da755524a24000")]
+        [TestCase(512, 11, 256, "c907", "5714b276f46e92e62abe8230ca6f5d9f6d6cdce2a37af67747c1b0df82260f75")]
         public void ShouldPerformExtendableOutputFunction(int capacity, int inputLen, int digestSize, string inputHex,
             string outputHex)
         {

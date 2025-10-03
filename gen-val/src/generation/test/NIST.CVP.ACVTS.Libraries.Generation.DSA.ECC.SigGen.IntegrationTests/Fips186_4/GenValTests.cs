@@ -51,11 +51,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.DSA.ECC.SigGen.IntegrationTests.Fi
         {
             var caps = new[]
             {
+                // new Capability
+                // {
+                //     Curve = ParameterValidator.VALID_CURVES,
+                //     HashAlg = ParameterValidator.VALID_HASH_ALGS
+                // }
+                
                 new Capability
                 {
-                    Curve = ParameterValidator.VALID_CURVES,
-                    HashAlg = ParameterValidator.VALID_HASH_ALGS
+                Curve = new[] { "P-224", "P-256", "P-384", "P-521", "B-233", "B-283", "K-233", "K-283" },
+                HashAlg =  new[] { "SHA2-224", "SHA2-256", "SHA2-384", "SHA2-512", "SHA3-224", "SHA3-256", "SHA3-384", "SHA3-512" }
                 }
+                
+                // new Capability
+                // {
+                // Curve = new[] { "P-521" },
+                // HashAlg = new[] { "SHA2-512" }
+                // }
             };
 
             var p = new Parameters

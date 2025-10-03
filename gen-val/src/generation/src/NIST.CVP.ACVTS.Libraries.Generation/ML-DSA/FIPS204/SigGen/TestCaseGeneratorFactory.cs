@@ -1,4 +1,5 @@
 using System;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
@@ -15,6 +16,13 @@ public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup
         
     public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
     {
-        return new TestCaseGeneratorAft(_oracle);
+        if (testGroup.CornerCase == MLDSASignatureCornerCase.None)
+        {
+            return new TestCaseGeneratorAft(_oracle);
+        }
+        else
+        {
+            return new TestCaseGeneratorPoolAft(_oracle);
+        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Enums;
@@ -7,29 +6,29 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.KAS.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Br2;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
 {
-    public class TestCaseGeneratorVal : ITestCaseGeneratorAsync<TestGroup, TestCase>
+    public class TestCaseGeneratorVal : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<KasSscTestCaseExpectation> _testCaseExpectationProvider;
+        public int NumberOfTestCasesToGenerate { get; private set; }
 
-        public TestCaseGeneratorVal(IOracle oracle, ITestCaseExpectationProvider<KasSscTestCaseExpectation> testCaseExpectationProvider, int numberOfTestCasesToGenerate)
+        public TestCaseGeneratorVal(IOracle oracle)
         {
             _oracle = oracle;
-            _testCaseExpectationProvider = testCaseExpectationProvider;
-            NumberOfTestCasesToGenerate = numberOfTestCasesToGenerate;
         }
 
-        public int NumberOfTestCasesToGenerate { get; }
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+        {
+            NumberOfTestCasesToGenerate = group.KasSscExpectationProvider.ExpectationCount;
+            return new GenerateResponse();
+        }
+
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup @group, bool isSample, int caseNo = -1)
         {
-            var disposition = _testCaseExpectationProvider.GetRandomReason();
-
             try
             {
                 var serverRequirements = KeyGenerationRequirementsHelper.GetKeyGenerationOptionsForSchemeAndRole(
@@ -49,7 +48,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_SSC.Sp800_56Br2.Ifc
 
                 var result = await _oracle.GetKasIfcSscValTestAsync(new KasSscValParametersIfc()
                 {
-                    Disposition = disposition.GetReason(),
+                    Disposition = group.KasSscExpectationProvider.GetRandomReason(),
                     Modulo = group.Modulo,
                     Scheme = group.Scheme,
                     KasMode = group.KasMode,

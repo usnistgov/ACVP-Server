@@ -20,12 +20,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer
             _oracle = oracle;
         }
 
-        public GenerateResponse PrepareGenerator(TestGroup @group, bool isSample)
+        public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
-            if (isSample)
-            {
-                NumberOfTestCasesToGenerate = 5;
-            }
+            NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;
             return new GenerateResponse();
         }
 
@@ -50,7 +47,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer
             var param = new EddsaSignatureParameters
             {
                 Curve = group.Curve,
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason(),
                 PreHash = group.PreHash,
                 Key = keyResult.Key
             };
@@ -81,4 +78,3 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer
         private static ILogger ThisLogger => LogManager.GetCurrentClassLogger();
     }
 }
-

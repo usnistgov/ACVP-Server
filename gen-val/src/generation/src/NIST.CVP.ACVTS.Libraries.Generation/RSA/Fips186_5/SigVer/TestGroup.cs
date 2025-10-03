@@ -7,6 +7,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
@@ -52,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
         }
 
         [JsonIgnore]
-        public ITestCaseExpectationProvider<SignatureModifications> TestCaseExpectationProvider { get; set; }
+        public RsaSignatureExpectationProvider RsaSignatureExpectationProvider { get; set; }
 
         public PssMaskTypes MaskFunction { get; set; }
 

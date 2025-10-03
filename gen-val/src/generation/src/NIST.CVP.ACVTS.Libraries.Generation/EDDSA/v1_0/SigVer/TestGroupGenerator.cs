@@ -41,7 +41,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer
                 {
                     var testGroup = new TestGroup
                     {
-                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        TestCaseExpectationProvider = new SignatureExpectationProvider(),
                         Curve = curve,
                         PreHash = false
                     };
@@ -53,7 +53,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigVer
                 {
                     var testGroup = new TestGroup
                     {
-                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        TestCaseExpectationProvider = new SignatureExpectationProvider(),
                         Curve = curve,
                         PreHash = true
                     };

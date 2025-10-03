@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 
@@ -33,7 +34,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                 {
                     TestCaseId = suppliedResult.TestCaseId,
                     Result = Core.Enums.Disposition.Failed,
-                    Reason = _expectedResult.ReasonName,
+                    Reason = EnumHelpers.GetEnumDescriptionFromEnum(_expectedResult.Reason),
                     Expected = expected.Count != 0 && showExpected ? expected : null,
                     Provided = provided.Count != 0 && showExpected ? provided : null
                 });

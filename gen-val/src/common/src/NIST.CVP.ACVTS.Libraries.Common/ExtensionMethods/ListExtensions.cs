@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods
         /// <summary>
         /// Adds a string to a <see cref="List{T}"/> when the string is not null or empty, otherwise do nothing.
         /// </summary>
-        /// <param name="list">The list to (potentially) add the <see cref="itemToAdd"/> too</param>
+        /// <param name="list">The list to (potentially) add the <see cref="itemToAdd"/> to</param>
         /// <param name="itemToAdd">The item that is evaluated for adding to <see cref="list"/></param>
         /// <returns>True if item added, false otherwise.</returns>
         public static bool AddIfNotNullOrEmpty(this List<string> list, string itemToAdd)

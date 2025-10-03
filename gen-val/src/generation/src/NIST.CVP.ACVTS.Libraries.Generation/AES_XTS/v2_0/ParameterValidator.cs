@@ -3,13 +3,12 @@ using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
-using Orleans;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 {
     public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
     {
-        public static int[] VALID_KEY_SIZES = { 128, 256 };        // 192 is not allowed
+        public static int[] VALID_KEY_SIZES = [128, 256];        // 192 is not allowed
         public static int MINIMUM_PT_LEN = 128;
         public static int MAXIMUM_PT_LEN = 65536;
 
@@ -18,12 +17,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
             var errorResults = new List<string>();
             string result;
 
-            if (parameters.Direction.Length == 0 || parameters.Direction.Length > 2)
+            if (parameters.Direction.Length is 0 or > 2)
             {
                 errorResults.Add($"{nameof(parameters.Direction)} must contain 1 or 2 values");
             }
 
-            if (parameters.TweakMode.Length == 0 || parameters.TweakMode.Length > 2)
+            if (parameters.TweakMode.Length is 0 or > 2)
             {
                 errorResults.Add($"{nameof(parameters.TweakMode)} must contain 1 or 2 values");
             }

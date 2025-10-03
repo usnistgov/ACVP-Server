@@ -4,37 +4,38 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Ar3;
 using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
 {
-    public abstract class TestCaseGeneratorValBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorAsync<TTestGroup, TTestCase>
+    public abstract class TestCaseGeneratorValBase<TTestGroup, TTestCase, TKeyPair> : ITestCaseGeneratorWithPrep<TTestGroup, TTestCase>
         where TTestGroup : TestGroupBase<TTestGroup, TTestCase, TKeyPair>
         where TTestCase : TestCaseBase<TTestGroup, TTestCase, TKeyPair>, new()
         where TKeyPair : IDsaKeyPair
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<KasValTestDisposition> _testDispositions;
 
-        protected TestCaseGeneratorValBase(IOracle oracle, ITestCaseExpectationProvider<KasValTestDisposition> validityTestCaseOptions)
+        public int NumberOfTestCasesToGenerate { get; private set; }
+
+        protected TestCaseGeneratorValBase(IOracle oracle)
         {
             _oracle = oracle;
-            _testDispositions = validityTestCaseOptions;
-            NumberOfTestCasesToGenerate = _testDispositions.ExpectationCount;
         }
-
-        public int NumberOfTestCasesToGenerate { get; }
+        
+        public GenerateResponse PrepareGenerator(TTestGroup group, bool isSample)
+        {
+            NumberOfTestCasesToGenerate = group.KasExpectationProvider.ExpectationCount;
+            return new GenerateResponse();
+        }
+        
         public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = -1)
         {
-            var testCaseDisposition = _testDispositions.GetRandomReason().GetReason();
-
             try
             {
                 var result = await _oracle.GetKasValTestAsync(new KasValParameters()
                 {
-                    Disposition = testCaseDisposition,
+                    Disposition = group.KasExpectationProvider.GetRandomReason(),
                     L = group.L,
                     KasScheme = group.Scheme,
                     KasAlgorithm = group.KasAlgorithm,

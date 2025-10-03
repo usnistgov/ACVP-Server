@@ -61,6 +61,8 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
         /// <param name="quantity"></param>
         /// <returns></returns>
         IEnumerable<int> GetSequentialValues(Func<int, bool> condition, int quantity);
+
+        IEnumerable<int> GetSequentialValuesInIncrement(int start, int quantity);
         /// <summary>
         /// Get values from the <see cref="IDomainSegment"/>, with a specific condition.
         /// </summary>

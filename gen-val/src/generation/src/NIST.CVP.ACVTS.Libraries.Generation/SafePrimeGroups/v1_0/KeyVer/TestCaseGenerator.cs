@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Generation.SafePrimeGroups.v1_0.KeyVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
-using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
 
@@ -13,11 +12,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SafePrimeGroups.v1_0.KeyVer
     public class TestCaseGenerator : ITestCaseGeneratorAsync<TestGroup, TestCase>
     {
         private readonly IOracle _oracle;
-        private readonly ITestCaseExpectationProvider<SafePrimesKeyDisposition> _testDispositions;
+        private readonly KeyExpectationProvider _testDispositions;
 
         public int NumberOfTestCasesToGenerate { get; }
 
-        public TestCaseGenerator(IOracle oracle, ITestCaseExpectationProvider<SafePrimesKeyDisposition> validityTestCaseOptions)
+        public TestCaseGenerator(IOracle oracle, KeyExpectationProvider validityTestCaseOptions)
         {
             _oracle = oracle;
             _testDispositions = validityTestCaseOptions;
@@ -30,7 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SafePrimeGroups.v1_0.KeyVer
             {
                 SafePrime = group.SafePrimeGroup,
                 DomainParameters = group.DomainParameters,
-                Disposition = _testDispositions.GetRandomReason().GetReason()
+                Disposition = _testDispositions.GetRandomReason()
             };
 
             try

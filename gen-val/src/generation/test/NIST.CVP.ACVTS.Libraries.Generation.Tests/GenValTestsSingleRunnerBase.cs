@@ -130,7 +130,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests
                 Directory.Delete(newLocation, true);
             }
 
-            Directory.Move(targetFolder, newLocation);
+            Directory.CreateDirectory(newLocation);
+            IEnumerable<String> fileList = Directory.EnumerateFiles(targetFolder);
+            foreach (var item in fileList)
+            {
+                File.Move(item, Path.Combine(newLocation, Path.GetFileName(item)), true);
+            }
         }
 
         [Test]

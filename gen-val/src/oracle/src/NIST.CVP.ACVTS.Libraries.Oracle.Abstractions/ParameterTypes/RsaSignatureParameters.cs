@@ -6,7 +6,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes
 {
     public class RsaSignatureParameters
     {
-        public SignatureModifications Reason { get; set; }
+        public RSASignatureModifications Reason { get; set; }
         public int Modulo { get; set; }
         public HashFunction HashAlg { get; set; }
         public int SaltLength { get; set; }

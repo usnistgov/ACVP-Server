@@ -38,7 +38,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.ECDSA.v1_0.SigVer
 
                         var testGroup = new TestGroup
                         {
-                            TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                            TestCaseExpectationProvider = new SignatureExpectationProvider(parameters.IsSample),
                             Curve = curve,
                             HashAlg = sha,
                             Conformance = _randomizeMessagePriorToSign ? "SP800-106" : null

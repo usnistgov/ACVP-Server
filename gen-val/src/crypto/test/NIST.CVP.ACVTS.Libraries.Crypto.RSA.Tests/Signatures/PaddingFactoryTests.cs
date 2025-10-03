@@ -15,27 +15,27 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Tests.Signatures
     public class PaddingFactoryTests
     {
         [Test]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.None, typeof(AnsxPadder))]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.E, typeof(AnsxPadderWithModifiedPublicExponent))]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.Message, typeof(AnsxPadderWithModifiedMessage))]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.ModifyTrailer, typeof(AnsxPadderWithModifiedTrailer))]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.MoveIr, typeof(AnsxPadderWithMovedIr))]
-        [TestCase(SignatureSchemes.Ansx931, SignatureModifications.Signature, typeof(AnsxPadderWithModifiedSignature))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.None, typeof(AnsxPadder))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.E, typeof(AnsxPadderWithModifiedPublicExponent))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.Message, typeof(AnsxPadderWithModifiedMessage))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.ModifyTrailer, typeof(AnsxPadderWithModifiedTrailer))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.MoveIr, typeof(AnsxPadderWithMovedIr))]
+        [TestCase(SignatureSchemes.Ansx931, RSASignatureModifications.Signature, typeof(AnsxPadderWithModifiedSignature))]
 
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.None, typeof(PkcsPadder))]
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.E, typeof(PkcsPadderWithModifiedPublicExponent))]
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.Message, typeof(PkcsPadderWithModifiedMessage))]
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.ModifyTrailer, typeof(PkcsPadderWithModifiedTrailer))]
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.MoveIr, typeof(PkcsPadderWithMovedIr))]
-        [TestCase(SignatureSchemes.Pkcs1v15, SignatureModifications.Signature, typeof(PkcsPadderWithModifiedSignature))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.None, typeof(PkcsPadder))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.E, typeof(PkcsPadderWithModifiedPublicExponent))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.Message, typeof(PkcsPadderWithModifiedMessage))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.ModifyTrailer, typeof(PkcsPadderWithModifiedTrailer))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.MoveIr, typeof(PkcsPadderWithMovedIr))]
+        [TestCase(SignatureSchemes.Pkcs1v15, RSASignatureModifications.Signature, typeof(PkcsPadderWithModifiedSignature))]
 
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.None, typeof(PssPadder))]
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.E, typeof(PssPadderWithModifiedPublicExponent))]
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.Message, typeof(PssPadderWithModifiedMessage))]
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.ModifyTrailer, typeof(PssPadderWithModifiedTrailer))]
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.MoveIr, typeof(PssPadderWithMovedIr))]
-        [TestCase(SignatureSchemes.Pss, SignatureModifications.Signature, typeof(PssPadderWithModifiedSignature))]
-        public void ShouldReturnCorrectPaddingSchemeWithErrors(SignatureSchemes sigScheme, SignatureModifications mods, Type expectedType)
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.None, typeof(PssPadder))]
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.E, typeof(PssPadderWithModifiedPublicExponent))]
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.Message, typeof(PssPadderWithModifiedMessage))]
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.ModifyTrailer, typeof(PssPadderWithModifiedTrailer))]
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.MoveIr, typeof(PssPadderWithMovedIr))]
+        [TestCase(SignatureSchemes.Pss, RSASignatureModifications.Signature, typeof(PssPadderWithModifiedSignature))]
+        public void ShouldReturnCorrectPaddingSchemeWithErrors(SignatureSchemes sigScheme, RSASignatureModifications mods, Type expectedType)
         {
             var paddingFactory = new PaddingFactory(new MaskFactory(new NativeShaFactory()));
             var result = paddingFactory.GetSigningPaddingScheme(sigScheme, new NativeShaFactory().GetShaInstance(new HashFunction(ModeValues.SHA1, DigestSizes.d160)), mods, PssMaskTypes.MGF1);

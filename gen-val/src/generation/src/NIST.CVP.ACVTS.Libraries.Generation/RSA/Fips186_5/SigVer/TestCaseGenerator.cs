@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                 HashAlg = group.HashAlg,
                 Modulo = group.Modulo,
                 PaddingScheme = group.Mode,
-                Reason = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
+                Reason = group.RsaSignatureExpectationProvider.GetRandomReason(),
                 SaltLength = group.SaltLen,
                 Key = group.Key,
                 MaskFunction = group.MaskFunction,
@@ -43,7 +43,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
                     Message = result.VerifiedValue.Message,
                     RandomValue = result.VerifiedValue.RandomValue,
                     RandomValueLen = result.VerifiedValue.RandomValue?.BitLength ?? 0,
-                    Reason = new TestCaseExpectationReason(param.Reason),
+                    Reason = param.Reason,
                     TestPassed = result.Result,
                     Salt = result.VerifiedValue.Salt,
                     Signature = result.VerifiedValue.Signature?.PadToModulusMsb(group.Modulo)

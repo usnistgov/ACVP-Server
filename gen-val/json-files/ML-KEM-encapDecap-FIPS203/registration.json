@@ -11,6 +11,8 @@
   ],
   "functions": [
     "encapsulation",
-    "decapsulation"
+    "decapsulation",
+    "encapsulationKeyCheck",
+    "decapsulationKeyCheck"
   ]
 }

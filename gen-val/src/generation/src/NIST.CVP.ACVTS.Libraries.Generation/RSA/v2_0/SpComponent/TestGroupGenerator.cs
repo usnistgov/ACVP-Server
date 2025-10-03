@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent.TestCaseExpectations;
-using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
 {
@@ -24,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v2_0.SpComponent
                         Modulo = modulus,
                         KeyMode = format,
                         TestType = TEST_TYPE,
-                        TestCaseExpectationProvider = new TestCaseExpectationProvider(parameters.IsSample),
+                        TestCaseExpectationProvider = new RsaSignaturePrimitiveExpectationProvider(),
                         PublicExponentMode = parameters.PublicExponentMode,
                         PublicExponent = parameters.PublicExponentMode == PublicExponentModes.Fixed ? parameters.PublicExponentValue : null
                     });

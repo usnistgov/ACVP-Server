@@ -25,7 +25,7 @@ public class TestCaseGeneratorAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
         {
             var param = new LmsSignatureParameters
             {
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason().GetReason(),
+                Disposition = group.TestCaseExpectationProvider.GetRandomReason(),
                 LmsMode = group.LmsMode,
                 LmOtsMode = group.LmOtsMode,
                 MessageLength = 1024,

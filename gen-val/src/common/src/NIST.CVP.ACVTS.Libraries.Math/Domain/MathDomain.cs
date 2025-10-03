@@ -176,6 +176,20 @@ namespace NIST.CVP.ACVTS.Libraries.Math.Domain
                 .Distinct()
                 .OrderBy(ob => ob);
         }
+
+        public IEnumerable<int> GetSequentialValuesInIncrement(int start, int quantity)
+        {
+            List<int> values = new List<int>();
+
+            foreach (var domainSegment in _domainSegments)
+            {
+                values.AddRange(domainSegment.GetSequentialValuesInIncrement(start, quantity));
+            }
+
+            return values
+                .Distinct()
+                .OrderBy(ob => ob);
+        }
         
         /// <summary>
         /// Gets the number of values specified from each segment (or up to the upper limit of the segment)

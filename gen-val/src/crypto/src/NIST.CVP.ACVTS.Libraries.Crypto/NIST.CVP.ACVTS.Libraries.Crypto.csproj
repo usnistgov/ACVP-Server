@@ -5,6 +5,7 @@
     <Version>$(GenValPackageVersion)</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>ACVP Cryptography implementations and helper methods.</Description>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup Condition="$(BuildGenValPackages) == 'false'">

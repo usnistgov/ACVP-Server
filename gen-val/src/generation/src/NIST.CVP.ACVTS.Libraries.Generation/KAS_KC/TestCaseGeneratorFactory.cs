@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+﻿using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_KC
@@ -15,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_KC
 
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
-            return new TestCaseGeneratorAft(_oracle, new TestCaseExpectationProvider(testGroup.IsSample));
+            return new TestCaseGeneratorAft(_oracle);
         }
     }
 }

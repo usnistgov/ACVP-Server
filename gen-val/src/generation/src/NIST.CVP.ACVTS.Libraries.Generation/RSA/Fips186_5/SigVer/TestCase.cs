@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
-using NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
@@ -26,14 +24,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
         public BitString Signature { get; set; }
         public BitString Salt { get; set; }
 
-        [JsonIgnore]
-        public ITestCaseExpectationReason<SignatureModifications> Reason { get; set; }      // Tells us what value was modified leading to the failure
-
-        [JsonProperty(PropertyName = "reason")]
-        public string ReasonName
-        {
-            get => Reason.GetName();
-            set => Reason = new TestCaseExpectationReason(EnumHelpers.GetEnumFromEnumDescription<SignatureModifications>(value));
-        }
+        public RSASignatureModifications Reason { get; set; }      // Tells us what value was modified leading to the failure
     }
 }
