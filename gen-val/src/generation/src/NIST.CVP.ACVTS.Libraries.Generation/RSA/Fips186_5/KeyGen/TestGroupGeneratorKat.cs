@@ -28,6 +28,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                         // KATs only available for 2048 and 3072
                         if (capability.Modulo != 2048 && capability.Modulo != 3072) continue;
 
+                        // PMod8 and QMod8 don't apply here but probably should 
+                        
                         var testGroup = new TestGroup
                         {
                             PrimeGenMode = algSpec.RandPQ,

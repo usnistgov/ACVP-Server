@@ -11,8 +11,8 @@
           "primeTest": [
             "2powSecStr"
           ],
-          "pMod8": 1,
-          "qMod8": 1
+          "pMod8": 0,
+          "qMod8": 0
         }
       ]
     },
@@ -43,7 +43,7 @@
           "primeTest": [
             "2powSecStr"
           ],
-          "pMod8": 7,
+          "pMod8": 0,
           "qMod8": 0
         }
       ]

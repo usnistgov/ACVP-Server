@@ -1,8 +1,8 @@
 ﻿using System;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
-using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0;
-using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0.ContractResolvers;
+using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0;
+using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0.ContractResolvers;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 

@@ -22,12 +22,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
 
         public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
         {
+            _caseSizes = DetermineMessageLength(group.BitOrientedInput, group.CommonHashFunction.OutputLen);
+            
             if (group.IncludeNull)
             {
                 _caseSizes.Add(0);
             }
 
-            _caseSizes = DetermineMessageLength(group.BitOrientedInput, group.CommonHashFunction.OutputLen);
             return new GenerateResponse();
         }
 

@@ -140,9 +140,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                         {
                             Modulo = 2048,
                             HashAlgs = new [] { "SHA2-224" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound},
-                            PMod8 = 1,
-                            QMod8 = 1
+                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}
                         }
                     }
                 },
@@ -170,9 +168,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA_KeyGen.IntegrationTests.Fips18
                         {
                             Modulo = 4096,
                             HashAlgs = new [] { "SHA2-512" },
-                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound},
-                            PMod8 = 7,
-                            QMod8 = 0
+                            PrimeTests = new [] {PrimeTestModes.TwoPowSecurityStrengthErrorBound}
                         }
                     }
                 },

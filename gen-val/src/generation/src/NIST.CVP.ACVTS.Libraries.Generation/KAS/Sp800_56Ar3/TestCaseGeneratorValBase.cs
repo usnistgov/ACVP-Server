@@ -31,29 +31,31 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
         
         public async Task<TestCaseGenerateResponse<TTestGroup, TTestCase>> GenerateAsync(TTestGroup @group, bool isSample, int caseNo = -1)
         {
+            var param = new KasValParameters
+            {
+                Disposition = group.KasExpectationProvider.GetRandomReason(),
+                L = group.L,
+                KasScheme = group.Scheme,
+                KasAlgorithm = group.KasAlgorithm,
+                DomainParameters = group.DomainParameters,
+                KasDpGeneration = group.DomainParameterGenerationMode,
+                KdfConfiguration = group.KdfConfiguration,
+                MacConfiguration = group.MacConfiguration,
+                PartyIdIut = group.IutId,
+                PartyIdServer = group.ServerId,
+                IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
+                ServerGenerationRequirements = group.KeyNonceGenRequirementsServer,
+
+                ServerEphemeralKey = group.KeyNonceGenRequirementsServer.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : default,
+                ServerStaticKey = group.KeyNonceGenRequirementsServer.GeneratesStaticKeyPair ? group.ShuffleKeys.Pop() : default,
+
+                IutEphemeralKey = group.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : default,
+                IutStaticKey = group.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair ? group.ShuffleKeys.Pop() : default,
+            };
+            
             try
             {
-                var result = await _oracle.GetKasValTestAsync(new KasValParameters()
-                {
-                    Disposition = group.KasExpectationProvider.GetRandomReason(),
-                    L = group.L,
-                    KasScheme = group.Scheme,
-                    KasAlgorithm = group.KasAlgorithm,
-                    DomainParameters = group.DomainParameters,
-                    KasDpGeneration = group.DomainParameterGenerationMode,
-                    KdfConfiguration = group.KdfConfiguration,
-                    MacConfiguration = group.MacConfiguration,
-                    PartyIdIut = group.IutId,
-                    PartyIdServer = group.ServerId,
-                    IutGenerationRequirements = group.KeyNonceGenRequirementsIut,
-                    ServerGenerationRequirements = group.KeyNonceGenRequirementsServer,
-
-                    ServerEphemeralKey = group.KeyNonceGenRequirementsServer.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : default,
-                    ServerStaticKey = group.KeyNonceGenRequirementsServer.GeneratesStaticKeyPair ? group.ShuffleKeys.Pop() : default,
-
-                    IutEphemeralKey = group.KeyNonceGenRequirementsIut.GeneratesEphemeralKeyPair ? group.ShuffleKeys.Pop() : default,
-                    IutStaticKey = group.KeyNonceGenRequirementsIut.GeneratesStaticKeyPair ? group.ShuffleKeys.Pop() : default,
-                }, true);
+                var result = await _oracle.GetKasValTestAsync(param, true);
 
                 return new TestCaseGenerateResponse<TTestGroup, TTestCase>(new TTestCase()
                 {

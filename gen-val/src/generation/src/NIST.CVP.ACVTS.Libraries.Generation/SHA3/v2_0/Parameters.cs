@@ -18,9 +18,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
         public MathDomain MessageLength { get; set; }
 
         [JsonProperty(PropertyName = "performLargeDataTest")]
-        public int[] PerformLargeDataTest { get; set; } = { };
+        public int[] PerformLargeDataTest { get; set; }
         
-        [JsonProperty(PropertyName = "digestSize")]
+        [JsonIgnore]
         public List<string> DigestSizes { get; set; }
     }
 }

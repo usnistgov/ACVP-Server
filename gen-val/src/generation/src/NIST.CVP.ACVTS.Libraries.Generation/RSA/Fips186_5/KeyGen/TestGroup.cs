@@ -26,6 +26,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
         public PublicExponentModes PubExp { get; set; }
         public BitString FixedPubExp { get; set; }
 
+        public int PMod8 { get; set; }
+        public int QMod8 { get; set; }
+        
         [JsonIgnore]
         public HashFunction HashAlg { get; set; }
 

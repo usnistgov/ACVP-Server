@@ -40,7 +40,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
             {
                 // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
                 var p = allPayloadLengths.Pop();
-                var du = group.DataUnitLen.GetRandomValues(du => (du <= p) && (p % du >= 128), 1).FirstOrDefault();
+                var du = group.DataUnitLen.GetRandomValues(du => p % du >= 128 || p % du == 0, 1).FirstOrDefault();
                 
                 // Remove any cases where the dataUnitLengthToAdd is the default (i.e. where a valid test case could not be found)
                 if (du != 0)

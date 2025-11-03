@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Cshake;
@@ -12,6 +13,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
 {
     public partial class Oracle
     {
+        private IOracle _oracleImplementation;
+
         public async Task<HashResult> GetShaCaseAsync(ShaParameters param)
         {
             try
@@ -63,6 +66,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
+        public async Task<HashResult> GetShakeCaseAsync(ShaParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverShakeCaseGrain, HashResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetShakeCaseAsync(param);
+            }
+        }
+        
         public async Task<CShakeResult> GetCShakeCaseAsync(CShakeParameters param)
         {
             try

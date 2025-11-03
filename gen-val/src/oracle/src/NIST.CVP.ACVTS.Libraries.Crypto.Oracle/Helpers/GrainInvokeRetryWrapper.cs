@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Exceptions;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces;
 using NLog;
 using Orleans.Runtime;

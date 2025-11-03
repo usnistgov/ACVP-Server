@@ -72,6 +72,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
                 return;
             }
 
+            Dictionary<ShuffleQueue<IKdfConfiguration>, (List<OneStepConfiguration> oneStep, List<OneStepNoCounterConfiguration> oneStepNoCounter, List<TwoStepConfiguration> twoStep)> shuffleQueueKdfConfigurations = new();
+            
             var kdfConfigQueue = GetKdfConfigurations(schemeBase.KdfMethods, schemeBase.L);
             var kasRoles = new ShuffleQueue<KeyAgreementRole>(schemeBase.KasRole.ToList());
             var testTypes = new ShuffleQueue<string>(TestTypes.ToList());
@@ -121,7 +123,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
                             kcRole = kcRoleQueue.Pop();
                         }
                     }
-
+                    
                     groups.Add(new TTestGroup()
                     {
                         IsSample = param.IsSample,
@@ -177,7 +179,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
             }
         }
 
-        readonly HashSet<ShuffleQueue<MacConfiguration>> _shuffleQueueMacConfigurations = new HashSet<ShuffleQueue<MacConfiguration>>();
+        readonly HashSet<ShuffleQueue<MacConfiguration>> _shuffleQueueMacConfigurations = [];
         private ShuffleQueue<MacConfiguration> GetMacConfigurations(MacMethods schemeBaseMacMethods)
         {
             if (schemeBaseMacMethods == null)
@@ -221,9 +223,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
         }
 
         #region KDFs
-
-        private readonly Dictionary<ShuffleQueue<IKdfConfiguration>, (List<OneStepConfiguration> oneStep, List<OneStepNoCounterConfiguration> oneStepNoCounter, List<TwoStepConfiguration> twoStep)> _shuffleQueueKdfConfigurations =
-            new();
         /// <summary>
         /// Uses a backing Dictionary of ShuffleQueue and OneStep/TwoStep configurations two reuse the shuffle queue for multiple schemes
         /// </summary>
@@ -234,7 +233,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
         {
             if (kdfMethods == null)
             {
-                return new ShuffleQueue<IKdfConfiguration>(new List<IKdfConfiguration>());
+                return new ShuffleQueue<IKdfConfiguration>([]);
             }
 
             var list = new List<IKdfConfiguration>();
@@ -247,29 +246,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
             list.AddRangeIfNotNullOrEmpty(oneStepNoCounter);
             list.AddRangeIfNotNullOrEmpty(twoStep);
 
-            if (_shuffleQueueKdfConfigurations.Count == 0)
-            {
-                _shuffleQueueKdfConfigurations.Add(new ShuffleQueue<IKdfConfiguration>(list), (oneStep, oneStepNoCounter, twoStep));
-            }
-
-            foreach (var kvp in _shuffleQueueKdfConfigurations)
-            {
-                // if the current oneStep and twoStep list is found within the kvp, return that k.
-                if (oneStep.Select(s => s.AuxFunction)
-                    .All(value => kvp.Value.oneStep.Select(s => s.AuxFunction).Contains(value)) &&
-                    oneStepNoCounter.Select(s => s.AuxFunction)
-                        .All(value => kvp.Value.oneStepNoCounter.Select(s => s.AuxFunction).Contains(value)) &&
-                    twoStep.Select(s => s.KdfType)
-                        .All(value => kvp.Value.twoStep.Select(s => s.KdfType).Contains(value)))
-                {
-                    return kvp.Key;
-                }
-            }
-
             // otherwise we need to add it as a new item to the dictionary, and use the newly added one.
             var shuffleQueue = new ShuffleQueue<IKdfConfiguration>(list);
-            _shuffleQueueKdfConfigurations.Add(shuffleQueue, (oneStep, oneStepNoCounter, twoStep));
-
             return shuffleQueue;
         }
 

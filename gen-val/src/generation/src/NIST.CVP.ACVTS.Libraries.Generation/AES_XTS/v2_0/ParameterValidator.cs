@@ -84,8 +84,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
         {
             var payloadLengths = payloadLen.GetSequentialValues(_ => true, 65536).Distinct();
             
-            // We need a dataUnitLength that provides (p % du) >= 128 so that the last data unit has at least one block of content. This is a gap in the XTS standard.
-            return payloadLengths.Any(p => dataUnitLen.GetSequentialValues(du => (du <= p) && (p % du >= 128), 1).Any());
+            // Must avoid the case where the following case is the ONLY one present in the payloadLen and dataUnitLen
+            //      p % d < 128, there must always be a complete block of payload to begin every data unit, even if the data unit is left incomplete
+            // It must be the case that either
+            //      p % d >= 128 (regardless of if p or d is larger) or p % d == 0. 
+            // XTS standard says that this is a requirement of the payload.
+            
+            return payloadLengths.Any(p => dataUnitLen.GetSequentialValues(du => p % du >= 128 || p % du == 0, 1).Any());
         }
     }
 }

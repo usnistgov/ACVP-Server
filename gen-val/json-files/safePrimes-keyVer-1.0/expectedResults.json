@@ -10,7 +10,7 @@
       "tests": [
         {
           "tcId": 1,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 2,
@@ -22,15 +22,15 @@
         },
         {
           "tcId": 4,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 5,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 6,
-          "testPassed": true
+          "testPassed": false
         },
         {
           "tcId": 7,
@@ -38,7 +38,7 @@
         },
         {
           "tcId": 8,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 9,
@@ -46,7 +46,7 @@
         },
         {
           "tcId": 10,
-          "testPassed": false
+          "testPassed": true
         }
       ]
     },
@@ -75,7 +75,7 @@
         },
         {
           "tcId": 16,
-          "testPassed": false
+          "testPassed": true
         },
         {
           "tcId": 17,
@@ -91,7 +91,7 @@
         },
         {
           "tcId": 20,
-          "testPassed": true
+          "testPassed": false
         }
       ]
     }

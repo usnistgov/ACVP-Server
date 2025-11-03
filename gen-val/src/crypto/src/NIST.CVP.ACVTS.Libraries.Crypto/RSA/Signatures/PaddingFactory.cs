@@ -67,7 +67,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
                         throw new ArgumentException("Signature modification does not exist for selected scheme");
                 }
             }
-            else if (sigMode == SignatureSchemes.Pkcs1v15)
+            
+            if (sigMode == SignatureSchemes.Pkcs1v15)
             {
                 switch (errors)
                 {
@@ -93,7 +94,8 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.RSA.Signatures
                         throw new ArgumentException("Signature modification does not exist for selected scheme");
                 }
             }
-            else if (sigMode == SignatureSchemes.Pss)
+            
+            if (sigMode == SignatureSchemes.Pss)
             {
                 var mask = _maskFactory.GetMaskInstance(maskType, sha.HashFunction, outputLen);
 

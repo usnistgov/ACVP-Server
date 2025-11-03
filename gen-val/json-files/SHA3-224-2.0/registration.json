@@ -7,7 +7,7 @@
   "messageLength": [
     {
       "min": 0,
-      "max": 65535,
+      "max": 65536,
       "increment": 1
     }
   ],
@@ -16,8 +16,5 @@
     2,
     4,
     8
-  ],
-  "digestSize": [
-    "224"
   ]
 }

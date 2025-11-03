@@ -66,7 +66,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Sp800_56Ar3.Scheme
             {
                 return new KeyAgreementResult(keyingMaterialPartyU, keyingMaterialPartyV, z, fixedInfo, dkm);
             }
-
+            
             var keyConfirmationKey = dkm.GetMostSignificantBits(_keyConfirmationParameter.KeyLength);
             var keyConfirmationResult = KeyConfirmation(otherPartyKeyingMaterial, keyConfirmationKey);
 

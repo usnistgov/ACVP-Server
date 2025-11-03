@@ -30,6 +30,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                             PubExp = parameters.PubExpMode,
                             FixedPubExp = parameters.FixedPubExp,
                             KeyFormat = parameters.KeyFormat,
+                            PMod8 = capability.PMod8,
+                            QMod8 = capability.QMod8,
                             TestType = TEST_TYPE
                         };
 

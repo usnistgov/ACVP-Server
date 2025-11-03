@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
@@ -22,8 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
         }
 
         [Test]
-        [TestCase("Invalid valid", "notValid")]
-        [TestCase("Partially valid", "SHA")]
+        [TestCase("Invalid valid", "SHA-1")]
+        [TestCase("Partially valid", "SHA-1")]
         public void ShouldReturnErrorWithInvalidAlgorithm(string label, string mode)
         {
             var subject = new ParameterValidator();
@@ -32,7 +34,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                     .WithAlgorithm(mode)
                     .Build()
             );
-
             Assert.That(result.Success, Is.False, label);
         }
 
@@ -46,7 +47,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("SHA3")
+                    .WithAlgorithm("SHA3-256")
+                    .WithRevision("2.0")
                     .WithDigestSizes(intDigs)
                     .Build()
             );
@@ -68,7 +70,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("shake")
+                    .WithAlgorithm("SHAKE-128")
                     .WithDigestSizes(new List<int>() { 128 })
                     .WithOutputLength(outputLength)
                     .WithBitOrientedOutput(bitOriented)
@@ -84,22 +86,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             var subject = new ParameterValidator();
             var result = subject.Validate(
                 new ParameterBuilder()
-                    .WithAlgorithm("SHA3")
+                    .WithAlgorithm("SHA3-256")
+                    .WithRevision("2.0")
                     .WithDigestSizes(new List<int>() { 128 })
-                    .Build()
-            );
-
-            Assert.That(result.Success, Is.False);
-        }
-
-        [Test]
-        public void ShouldRejectBadSHAKEDigestSize()
-        {
-            var subject = new ParameterValidator();
-            var result = subject.Validate(
-                new ParameterBuilder()
-                    .WithAlgorithm("SHAKE")
-                    .WithDigestSizes(new List<int>() { 224 })
                     .Build()
             );
 
@@ -180,6 +169,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
             private bool _bitOrientedInput;
             private bool _bitOrientedOutput;
             private MathDomain _outputLength;
+            private string _revision;
 
             public ParameterBuilder()
             {
@@ -188,6 +178,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                 _includeNull = true;
                 _bitOrientedInput = true;
                 _bitOrientedOutput = true;
+                _revision = "1.0";
 
                 _outputLength = new MathDomain();
                 _outputLength.AddSegment(new RangeDomainSegment(null, 16, 65536));
@@ -199,6 +190,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                 return this;
             }
 
+            public ParameterBuilder WithRevision(string value)
+            {
+                _revision = value;
+                return this;
+                
+            }
             public ParameterBuilder WithDigestSizes(List<int> value)
             {
                 _digestSizes = value;
@@ -234,6 +231,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v1_0
                 return new Parameters
                 {
                     Algorithm = _algorithm,
+                    Revision = _revision,
                     DigestSizes = _digestSizes,
                     BitOrientedInput = _bitOrientedInput,
                     BitOrientedOutput = _bitOrientedOutput,

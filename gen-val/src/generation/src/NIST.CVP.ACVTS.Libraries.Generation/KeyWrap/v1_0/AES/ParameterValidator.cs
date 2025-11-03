@@ -82,7 +82,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KeyWrap.v1_0.AES
             {
                 errorResults.Add($"{nameof(parameters.PayloadLen)} minimum must be at least {MINIMUM_PAYLOAD_LEN}");
             }
-
+            
+            if (fullDomain.Maximum > MAXIMUM_PAYLOAD_LEN)
+            {
+                errorResults.Add($"{nameof(parameters.PayloadLen)} maximum must be at most {MAXIMUM_PAYLOAD_LEN}");
+            }
+            
             var modCheck = ValidateMultipleOf(parameters.PayloadLen, PT_MODULUS, $"{nameof(parameters.PayloadLen)} Modulus");
             errorResults.AddIfNotNullOrEmpty(modCheck);
         }

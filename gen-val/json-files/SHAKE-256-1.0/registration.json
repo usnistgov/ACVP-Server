@@ -4,9 +4,6 @@
   "revision": "1.0",
   "isSample": true,
   "conformances": [],
-  "digestSize": [
-    256
-  ],
   "inBit": true,
   "outBit": true,
   "inEmpty": true,

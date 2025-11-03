@@ -15,7 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
             var testGroups = new List<TestGroup>();
             var function = ShaAttributes.GetHashFunctionFromName(parameters.Algorithm);
 
-            if (parameters.PerformLargeDataTest.Any())
+            if (parameters.PerformLargeDataTest != null && parameters.PerformLargeDataTest.Any())
             {
                 var testGroup = new TestGroup
                 {

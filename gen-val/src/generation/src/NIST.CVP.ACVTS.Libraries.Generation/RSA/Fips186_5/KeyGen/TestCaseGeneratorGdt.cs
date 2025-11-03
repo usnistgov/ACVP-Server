@@ -43,6 +43,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                     PrimeTest = group.PrimeTest,
                     PublicExponentMode = group.PubExp,
                     PublicExponent = group.FixedPubExp,
+                    PMod8 = group.PMod8,
+                    QMod8 = group.QMod8,
                     Standard = Fips186Standard.Fips186_5
                 };
 
