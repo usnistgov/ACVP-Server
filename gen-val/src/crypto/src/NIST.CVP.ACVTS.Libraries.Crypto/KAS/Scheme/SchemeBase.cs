@@ -149,7 +149,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.KAS.Scheme
 
             return new KasResult(z, oi, dkm.DerivedKey, computedKeyMac.MacData, computedKeyMac.Mac);
         }
-
+        
         private KdaOneStepAuxFunction GetKdfAuxFunction(HashFunction shaHashFunction)
         {
             if (shaHashFunction.Mode == ModeValues.SHA1 && shaHashFunction.DigestSize == DigestSizes.d160)

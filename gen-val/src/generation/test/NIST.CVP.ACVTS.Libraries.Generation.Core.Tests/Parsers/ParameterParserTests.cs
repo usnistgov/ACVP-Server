@@ -13,6 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.Parsers
     {
         private ParameterParser<FakeParameters> _subject = new ParameterParser<FakeParameters>();
 
+        [Test]
         public void ShouldParseParametersCorrectly()
         {
             var parameters = new FakeParameters()

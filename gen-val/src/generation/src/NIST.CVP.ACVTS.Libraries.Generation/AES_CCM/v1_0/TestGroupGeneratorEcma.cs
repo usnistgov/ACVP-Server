@@ -37,7 +37,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.v1_0
                     PayloadLength = PT_LEN,
                     TagLength = TAG_LEN,
                     InternalTestType = "ECMA-AFT",
-                    AADLength = AAD_MAX_LEN
+                    AADLength = AAD_MAX_LEN,
+                    IVLength = parameters.IvLen.GetDomainMinMax().Maximum,
                 };
 
                 testGroups.Add(testGroupAft);
@@ -49,7 +50,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_CCM.v1_0
                     PayloadLength = PT_LEN,
                     TagLength = TAG_LEN,
                     InternalTestType = "ECMA-VADT",
-                    AADLengths = aadLens
+                    AADLengths = aadLens,
+                    IVLength = parameters.IvLen.GetDomainMinMax().Maximum,
                 };
 
                 testGroups.Add(testGroupVadt);

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0;
+using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -21,7 +23,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
         }
 
         [Test]
-        [TestCase("Invalid valid", "SHA-1")]
+        [TestCase("Fully valid", "SHA-1")]
         [TestCase("Partially valid", "SHA2-224")]
         public void ShouldReturnErrorWithInvalidAlgorithm(string label, string mode)
         {
@@ -29,9 +31,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
             var result = subject.Validate(
                 new ParameterBuilder()
                     .WithAlgorithm(mode)
+                    .WithRevision("1.0")
                     .Build()
             );
-
+            
             Assert.That(result.Success, Is.False, label);
         }
 
@@ -91,7 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.SHA3.v2_0
 
             Assert.That(result.Success, Is.False, result.ErrorMessage);
         }
-
+        
         public class ParameterBuilder
         {
             private string _algorithm;

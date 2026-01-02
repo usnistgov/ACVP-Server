@@ -7,7 +7,6 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.DeSerialization;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.JsonConverters;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Parsers;
 using NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0.ContractResolvers;
-using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
 {

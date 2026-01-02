@@ -12,7 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v2_0
         {
             _oracle = oracle;
         }
-
+        
         public ITestCaseGeneratorAsync<TestGroup, TestCase> GetCaseGenerator(TestGroup testGroup)
         {
             return testGroup.TestType.ToLower() switch

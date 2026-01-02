@@ -166,21 +166,31 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
             {
                 new object[]
                 {
-                    "All payloads lower than data units -- Value",
-                    new MathDomain().AddSegment(new ValueDomainSegment(2048)),
-                    new MathDomain().AddSegment(new ValueDomainSegment(128))
+                    "Last data unit contains an initial incomplete AES block -- Fail",
+                    new MathDomain().AddSegment(new ValueDomainSegment(128)),
+                    new MathDomain().AddSegment(new ValueDomainSegment(192)),
+                    false
                 },
                 new object[]
                 {
-                    "All payloads lower than data units -- Range",
+                    "All payloads lower than data units -- Pass",
                     new MathDomain().AddSegment(new RangeDomainSegment(null, 1024, 4096, 1)),
-                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 512, 1))
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 512, 1)),
+                    true
                 },
                 new object[]
                 {
-                    "Weird specific values",
+                    "PayloadLen too short -- Fail",
                     new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 65536, 128)),
-                    new MathDomain().AddSegment(new RangeDomainSegment(null, 128, 165, 37))
+                    new MathDomain().AddSegment(new ValueDomainSegment(64)),
+                    false
+                },
+                new object[]
+                {
+                    "Specific case -- Pass",
+                    new MathDomain().AddSegment(new ValueDomainSegment(256)),
+                    new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 512, 256)),
+                    true
                 }
             };
         }
@@ -188,7 +198,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
         
         [Test]
         [TestCaseSource(nameof(GetInvalidDuPtLens))]
-        public void ShouldReturnErrorWithInvalidDataUnitLenAndPayloadLen(string label, MathDomain dataUnitLen, MathDomain payloadLen)
+        public void ShouldReturnErrorWithInvalidDataUnitLenAndPayloadLen(string label, MathDomain dataUnitLen, MathDomain payloadLen, bool shouldPass)
         {
             Parameters p = new ParameterBuilder()
                 .WithDataUnitLen(dataUnitLen)
@@ -199,7 +209,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
             var subject = new ParameterValidator();
             var result = subject.Validate(p);
 
-            Assert.That(result.Success, Is.False);
+            Assert.That(result.Success, Is.EqualTo(shouldPass));
         }
     }
 }

@@ -22,7 +22,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
                 Algorithm = Algorithm,
                 Mode = Mode,
                 Revision = Revision,
-                DigestSizes = new List<int>() { 128 },
                 BitOrientedInput = false,
                 BitOrientedOutput = false,
                 IncludeNull = false,
@@ -42,7 +41,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.IntegrationTests.v1_0
             {
                 Algorithm = Algorithm,
                 Revision = Revision,
-                DigestSizes = new List<int>() { 128 },
                 BitOrientedInput = true,
                 BitOrientedOutput = true,
                 IncludeNull = true,

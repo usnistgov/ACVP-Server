@@ -115,6 +115,19 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.AES
                 },
                 new object[]
                 {
+                    "Above maximum",
+                    new MathDomain()
+                        .AddSegment(
+                            new RangeDomainSegment(
+                                new Random800_90(),
+                                128,
+                                4224,
+                                64
+                            )
+                        )
+                },
+                new object[]
+                {
                     "Bad modulus on value",
                     new MathDomain()
                         .AddSegment(

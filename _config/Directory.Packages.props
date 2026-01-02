@@ -7,7 +7,7 @@
     <PackageVersion Include="Autofac" Version="8.0.0" />
     <PackageVersion Include="CommandLineArgumentsParser" Version="3.0.23" />
     <PackageVersion Include="CsvHelper" Version="28.0.1" />
-    <PackageVersion Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.7.2" />
+    <PackageVersion Include="Microsoft.Orleans.Clustering.AdoNet" Version="3.8.0" />
     <PackageVersion Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
@@ -27,14 +27,14 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageVersion Include="Microsoft.NETCore.DotNetHostPolicy" Version="6.0.9" />
     <PackageVersion Include="Microsoft.NETCore.Targets" Version="5.0.0" />
-    <PackageVersion Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.7.2">
+    <PackageVersion Include="Microsoft.Orleans.CodeGenerator.MSBuild" Version="3.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="3.7.2" />
-    <PackageVersion Include="Microsoft.Orleans.Server" Version="3.7.2" />
-    <PackageVersion Include="Microsoft.Orleans.Client" Version="3.7.2" />
-    <PackageVersion Include="Microsoft.Orleans.Core.Abstractions" Version="3.7.2" />
+    <PackageVersion Include="Microsoft.Orleans.OrleansTelemetryConsumers.Counters" Version="3.8.0" />
+    <PackageVersion Include="Microsoft.Orleans.Server" Version="3.8.0" />
+    <PackageVersion Include="Microsoft.Orleans.Client" Version="3.8.0" />
+    <PackageVersion Include="Microsoft.Orleans.Core.Abstractions" Version="3.8.0" />
     <PackageVersion Include="Mighty" Version="3.2.0" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />

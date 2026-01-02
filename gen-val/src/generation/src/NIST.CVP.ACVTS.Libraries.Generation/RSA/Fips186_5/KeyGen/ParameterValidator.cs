@@ -68,6 +68,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                     try
                     {
                         PrimeGeneratorGuard.AgainstInvalidModulusFips186_5(capability.Modulo);
+                        PrimeGeneratorGuard.AgainstInvalidAB(capability.PMod8);
+                        PrimeGeneratorGuard.AgainstInvalidAB(capability.QMod8);
                     }
                     catch (RsaPrimeGenException e)
                     {
@@ -82,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
 
                     if (algSpec.RandPQ == PrimeGenModes.RandomProbablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes || algSpec.RandPQ == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProvablePrimes)
                     {
-                        if (capability.PrimeTests.Contains(PrimeTestModes.Invalid) || !capability.PrimeTests.Any())
+                        if (capability.PrimeTests == null || capability.PrimeTests.Contains(PrimeTestModes.Invalid) || !capability.PrimeTests.Any())
                         {
                             errorResults.Add("Invalid prime test provided");
                         }

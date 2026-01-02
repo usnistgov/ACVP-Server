@@ -177,7 +177,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KAS.KeyConfirmation
         [TestCase(new[] { KeyConfirmationRole.Provider })]
         [TestCase(new[] { KeyConfirmationRole.Provider })]
         [TestCase(new[] { KeyConfirmationRole.Provider, KeyConfirmationRole.Recipient })]
-        public void ShouldAcceptValidKeyConfirmationDirections(KeyConfirmationRole[] roles)
+        public void ShouldAcceptValidKeyConfirmationRoles(KeyConfirmationRole[] roles)
         {
             var param = new ParameterBuilder()
                 .WithKeyConfirmationMethod(

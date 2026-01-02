@@ -59,6 +59,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                                     FixedPubExp = parameters.FixedPubExp,
                                     InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                     KeyFormat = parameters.KeyFormat,
+                                    PMod8 = capability.PMod8,
+                                    QMod8 = capability.QMod8,
                                     TestType = TEST_TYPE
                                 };
 
@@ -81,6 +83,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                                 FixedPubExp = parameters.FixedPubExp,
                                 InfoGeneratedByServer = parameters.InfoGeneratedByServer,
                                 KeyFormat = parameters.KeyFormat,
+                                PMod8 = capability.PMod8,
+                                QMod8 = capability.QMod8,
                                 TestType = TEST_TYPE
                             };
 

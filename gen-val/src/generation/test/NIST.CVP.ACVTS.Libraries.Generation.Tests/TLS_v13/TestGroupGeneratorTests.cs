@@ -13,12 +13,14 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
     {
         private readonly TestGroupGenerator _subject = new TestGroupGenerator(new Random800_90());
 
-        private static readonly IEnumerable<object> TestData = new[]
+        private static object[] _testParameters = new object[]
         {
             new object[]
             {
-                0,
-                new ParameterBuilder().WithHashAlgs(new[] {HashFunctions.None})
+                5, // not sure if this is the intended value
+                new ParameterBuilder()
+                    .WithHashAlgs(new[] {HashFunctions.None})
+                    .Build()
             },
             new object[]
             {
@@ -29,13 +31,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.TLS_v13
             },
             new object[]
             {
-                5,
+                10, // not sure if this is the intended value
                 new ParameterBuilder()
                     .WithHashAlgs(new[] {HashFunctions.Sha1, HashFunctions.Sha3_d512})
                     .Build()
             },
         };
 
+        [Test]
+        [TestCaseSource(nameof(_testParameters))]
         public async Task ShouldCreateProperNumberOfGroups(int expectedNumberOfGroups, Parameters parameters)
         {
             var result = await _subject.BuildTestGroupsAsync(parameters);

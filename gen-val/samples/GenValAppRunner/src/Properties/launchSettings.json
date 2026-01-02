@@ -5,11 +5,15 @@
     },
     "Generate": {
       "commandName": "Project",
-      "commandLineArgs": "--generationRequestFile /Users/ctc/Documents/test-registrations/aes-ff1/registration.json"
+      "commandLineArgs": "--generationRequestFile /Users/ctc/Documents/test-registrations/KAS-ECC/registration.json"
     },
     "Validate": {
       "commandName": "Project",
       "commandLineArgs": "-n filepath to internalProjection.json -b filepath to submittedAnswers.json"
+    },
+    "Check": {
+      "commandName": "Project",
+      "commandLineArgs": "-c /Users/ctc/Documents/test-registrations/KAS-ECC/registration.json"
     }
   }
 }

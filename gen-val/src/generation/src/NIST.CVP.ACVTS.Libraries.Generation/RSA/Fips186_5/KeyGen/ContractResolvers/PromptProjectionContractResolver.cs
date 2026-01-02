@@ -65,12 +65,17 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen.ContractResol
             {
                 GetTestGroupFromTestGroupObject(instance, out var testGroup);
 
-                // Ignore PrimeTest for B.3.2 and B.3.4
+                // Ignore PrimeTest and pMod8 qMod8 for B.3.2 and B.3.4
                 if (testGroup.PrimeGenMode == PrimeGenModes.RandomProvablePrimes ||
                     testGroup.PrimeGenMode == PrimeGenModes.RandomProvablePrimesWithAuxiliaryProvablePrimes)
                 {
-                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.PrimeTest),
-                        StringComparison.OrdinalIgnoreCase))
+                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.PrimeTest), StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+
+                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.PMod8), StringComparison.OrdinalIgnoreCase) ||
+                        jsonProperty.UnderlyingName.Equals(nameof(TestGroup.QMod8), StringComparison.OrdinalIgnoreCase))
                     {
                         return false;
                     }
@@ -80,8 +85,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen.ContractResol
                 if (testGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimes ||
                     testGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
                 {
-                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.HashAlgName),
-                        StringComparison.OrdinalIgnoreCase))
+                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.HashAlgName), StringComparison.OrdinalIgnoreCase))
                     {
                         return false;
                     }
@@ -90,8 +94,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen.ContractResol
                 // Ignore E if public exponent is random
                 if (testGroup.PubExp == PublicExponentModes.Random)
                 {
-                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.FixedPubExp),
-                        StringComparison.OrdinalIgnoreCase))
+                    if (jsonProperty.UnderlyingName.Equals(nameof(TestGroup.FixedPubExp), StringComparison.OrdinalIgnoreCase))
                     {
                         return false;
                     }

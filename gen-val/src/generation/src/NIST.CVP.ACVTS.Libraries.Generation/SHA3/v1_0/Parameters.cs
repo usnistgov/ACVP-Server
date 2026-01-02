@@ -13,9 +13,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.SHA3.v1_0
         public string Revision { get; set; }
         public bool IsSample { get; set; }
         public string[] Conformances { get; set; } = { };
-
-        // Was "digestSizes" but client only will send one at a time
-        [JsonProperty(PropertyName = "digestSize")]
+        
+        [JsonIgnore]
         public List<int> DigestSizes { get; set; }
 
         [JsonProperty(PropertyName = "inBit")]

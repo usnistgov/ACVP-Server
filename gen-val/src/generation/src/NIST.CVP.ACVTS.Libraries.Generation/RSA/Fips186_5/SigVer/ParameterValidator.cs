@@ -56,12 +56,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.SigVer
 
                     if (capability.SigType == SignatureSchemes.Pss)
                     {
-                        if (moduloCap.MaskFunction.Length == 0)
+                        if (moduloCap.MaskFunction == null || moduloCap.MaskFunction.Length == 0)
                         {
                             errorResults.Add("No mask generation function found");
                         }
-
-                        if (moduloCap.MaskFunction.Contains(PssMaskTypes.None))
+                        else if (moduloCap.MaskFunction.Contains(PssMaskTypes.None))
                         {
                             errorResults.Add("Unable to resolve a mask generation function");
                         }

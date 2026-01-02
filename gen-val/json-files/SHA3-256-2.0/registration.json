@@ -6,9 +6,9 @@
   "conformances": [],
   "messageLength": [
     {
-      "min": 1720,
-      "max": 12144,
-      "increment": 8
+      "min": 0,
+      "max": 65536,
+      "increment": 1
     }
   ],
   "performLargeDataTest": [
@@ -16,8 +16,5 @@
     2,
     4,
     8
-  ],
-  "digestSize": [
-    "256"
   ]
 }

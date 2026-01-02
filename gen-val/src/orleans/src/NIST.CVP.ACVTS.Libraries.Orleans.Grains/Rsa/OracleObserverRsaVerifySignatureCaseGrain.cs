@@ -64,7 +64,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Rsa
             entropyProvider.AddEntropy(salt);
             IPaddingScheme paddingScheme;
             
-            // shouldn't need to check if the scheme is PSS... if the Mode is SHAKE, then the scheme should be PSS.
+            // shouldn't need to check if the scheme is PSS... if the Mode is SHAKE, then the scheme should/MUST be PSS.
             if (_param.PaddingScheme == SignatureSchemes.Pss && _param.HashAlg.Mode == ModeValues.SHAKE)
             {
                 // Since we're using an XOF, we need to specify the outputLen. Otherwise the default outputLens from

@@ -327,6 +327,10 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         SHAKE_128_v1_0,
         [EnumMember(Value = "SHAKE-256-1.0")]
         SHAKE_256_v1_0,
+        [EnumMember(Value = "SHAKE-128-FIPS202")]
+        SHAKE_128_FIPS202,
+        [EnumMember(Value = "SHAKE-256-FIPS202")]
+        SHAKE_256_FIPS202,
         [EnumMember(Value = "ACVP-TDES-CBC-1.0")]
         TDES_CBC_v1_0,
         [EnumMember(Value = "ACVP-TDES-CBCI-1.0")]

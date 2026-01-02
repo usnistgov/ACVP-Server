@@ -27,7 +27,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.EDDSA.v1_0.SigGen
             {
                 if (parameters.Curve.Contains("ED-448"))
                 {
-                    errors.Add("A ContextLength was not provided and is required when testing with the ED-449 curve.");
+                    errors.Add("A ContextLength was not provided and is required when testing with the ED-448 curve.");
                 }
 
                 if (parameters.PreHash)

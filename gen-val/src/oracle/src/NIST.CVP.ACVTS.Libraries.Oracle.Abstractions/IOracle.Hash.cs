@@ -12,6 +12,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
         
         Task<HashResult> GetShaCaseAsync(ShaParameters param);
         Task<HashResult> GetSha3CaseAsync(ShaParameters param);
+        Task<HashResult> GetShakeCaseAsync(ShaParameters param);
         Task<MctResult<HashResult>> GetShaMctCaseAsync(ShaParameters param);
         Task<MctResult<HashResult>> GetSha3MctCaseAsync(ShaParameters param);
         
