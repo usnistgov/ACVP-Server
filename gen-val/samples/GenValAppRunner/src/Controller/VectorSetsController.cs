@@ -19,15 +19,12 @@ namespace GenValApp.Controllers
     [Route("api/v1/vectorsets")]
     public class VectorSetsController : ControllerBase
     {
-     private readonly IGeneratorResolver _generatorResolver;
-     private readonly IValidationResolver _validationResolver;
+     private readonly IVectorSetService _vectorSetService;
 
-
-     public VectorSetsController(IGeneratorResolver generatorResolver,
-     IValidationResolver validationResolver)
+     public VectorSetsController(
+     IVectorSetService vectorSetService)
      {
-        _generatorResolver = generatorResolver;
-        _validationResolver = validationResolver;
+        _vectorSetService = vectorSetService;
      }
 
     [HttpPost("validate")]
@@ -39,23 +36,13 @@ namespace GenValApp.Controllers
            {
              return BadRequest(ModelState);
            }
+
            var answerString = JsonConvert.SerializeObject(request.Answer);
            var expectedString = JsonConvert.SerializeObject(request.Expected);
 
-           var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(request.Answer.Algorithm, "", request.Answer.Revision);
-        
-           var (validator, scope) = _validationResolver.Resolve(algoMode);
-           using (scope) // ensure scope is disposed
-           {
-            var response = await validator.ValidateAsync(new ValidateRequest(answerString,expectedString, true));
+           var response = await _vectorSetService.ValidateAsync(request);
 
-            return Ok(new ValidationResponse
-            {
-               StatusCode = response.StatusCode,
-               ErrorMessage = response.ErrorMessage,
-               Result = JsonConvert.DeserializeObject<VectorSetValidationResults>(response.ValidationResult)
-            });
-           }
+           return Ok(response);
 
         }catch (Exception ex)
         {
@@ -72,22 +59,10 @@ namespace GenValApp.Controllers
              return BadRequest(ModelState);
            }
            var registrationString = JsonConvert.SerializeObject(registration);
+      
+           var response = await _vectorSetService.GenerateAsync(registration);
 
-           var algoMode = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode(registration.Algorithm, "", registration.Revision);
-    
-           var (generator, scope) = _generatorResolver.Resolve(algoMode);
-           using (scope) // ensure scope is disposed
-           {
-           var response = await generator.GenerateAsync(new GenerateRequest(registrationString));
-
-            return Ok(new VectorSetResponse
-                {
-                     StatusCode = response.StatusCode,
-                     ErrorMessage = response.ErrorMessage,
-                     Result = JsonConvert.DeserializeObject<TestVectorSet>(response.InternalProjection)
-       
-                });
-           }
+           return Ok(response);
         }
         catch (Exception ex)
         {

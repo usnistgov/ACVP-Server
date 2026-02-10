@@ -25,7 +25,8 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
     {
         static Program()
         {
-            ServiceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
+            //Not needed for us (Only for console usage) NOT SURE IF THIS IMPACTS OLDER TESTS
+           // ServiceProvider = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
         }
 
         private static IServiceProvider ServiceProvider { get; }
@@ -93,11 +94,15 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
             }
             else // sets up and runs controller for rest api
             {
-              var builder = WebApplication.CreateBuilder(args);
+               var builder = WebApplication.CreateBuilder(args);
 
-                // Add services to the container.
-                builder.Services.AddScoped<IGeneratorResolver, GeneratorResolver>();
-                builder.Services.AddScoped<IValidationResolver, ValidationResolver>();
+                builder.Services.AddSingleton<IAlgoModeContainerRegistry>(sp =>
+                {
+                var root = EntryPointConfigHelper.GetServiceProviderFromConfigurationBuilder();
+                return new AlgoModeContainerRegistry(root);
+                });
+
+                builder.Services.AddScoped<IVectorSetService, VectorSetService>();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer(); // Enables Swagger endpoints
                 builder.Services.AddSwaggerGen();           // Registers Swagger generator
@@ -109,7 +114,7 @@ namespace NIST.CVP.ACVTS.Generation.GenValApp
                 app.UseSwaggerUI(c =>
                 {
                  c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenVal API V1");
-                 c.RoutePrefix = "swagger"; // so it's hosted at /swagger
+                 c.RoutePrefix = string.Empty; 
                 });
 
                 // Middleware setup
