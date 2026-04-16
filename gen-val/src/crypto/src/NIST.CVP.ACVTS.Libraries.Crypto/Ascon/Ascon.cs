@@ -224,10 +224,15 @@ public class Ascon
         }
 
         int partial = (128 - tagLen) % 8;
-        
-        for (int i = 0; i < partial; i++)
+        if (partial != 0)
         {
-            t[15 - ((128 - tagLen) / 8)] &= (byte)~(1 << i);
+            byte mask = 0;
+            for (int i = 0; i < (8-partial); i++)
+            {
+                mask |= (byte)(1 << i);
+            }
+
+            t[15 - ((128 - tagLen) / 8)] &= mask;
         }
 
         return (c, t);
@@ -463,10 +468,15 @@ public class Ascon
         }
 
         int partial = (128 - tagLen) % 8;
-        
-        for (int i = 0; i < partial; i++)
+        if (partial != 0)
         {
-            tNew[15 - ((128 - tagLen) / 8)] &= (byte)~(1 << i);
+            byte mask = 0;
+            for (int i = 0; i < (8-partial); i++)
+            {
+                mask |= (byte)(1 << i);
+            }
+
+            tNew[15 - ((128 - tagLen) / 8)] &= mask;
         }
 
         if (t.SequenceEqual(tNew))

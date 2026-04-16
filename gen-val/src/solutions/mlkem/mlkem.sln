@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{01B9EB64-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests\NIST.CVP.ACVTS.Libraries.Crypto.SHA.Tests.csproj", "{06D2D683-4DE8-46BF-8D20-8E6960CA54CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests\NIST.CVP.ACVTS.Libraries.Crypto.Kyber.Tests.csproj", "{7D040C1B-BFC1-4649-9C23-C672D5B4D853}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.MLKEM.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.MLKEM.Tests\NIST.CVP.ACVTS.Libraries.Crypto.MLKEM.Tests.csproj", "{7D040C1B-BFC1-4649-9C23-C672D5B4D853}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.MLKEM.EncapDecap.IntegrationTests.csproj", "{E4E481CE-79E3-4B87-86AA-01AE2FF3C132}"
 EndProject

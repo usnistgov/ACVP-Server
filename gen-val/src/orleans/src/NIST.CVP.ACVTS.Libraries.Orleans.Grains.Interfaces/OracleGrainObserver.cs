@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces
 {
     public class OracleGrainObserver<TResult> : IGrainObserver<TResult>, IObserverResult<TResult>
     {
-        public bool HasResult { get; private set; }
-        public bool IsFaulted { get; private set; }
+        public bool HasResult => _hasResult;
+        public bool IsFaulted => _isFaulted;
 
+        private volatile bool _hasResult;
+        private volatile bool _isFaulted;
+        
         private TResult _result;
         private Exception _exception;
 
@@ -23,14 +26,22 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces
 
         public void ReceiveMessageFromCluster(TResult result)
         {
-            HasResult = true;
             _result = result;
+            
+            // Force the previous statement to complete before declaring the result is ready
+            Thread.MemoryBarrier();
+            
+            _hasResult = true;
         }
 
         public void Throw(Exception exception)
         {
-            IsFaulted = true;
             _exception = exception;
+            
+            // Force the previous statement to complete before declaring an exception is present
+            Thread.MemoryBarrier();
+            
+            _isFaulted = true;
         }
     }
 }

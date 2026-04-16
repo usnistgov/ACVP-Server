@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
-using NIST.CVP.ACVTS.Libraries.Math;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.v1_0
 {
@@ -61,35 +59,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.v1_0
 
         private void CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
         {
-            SetBitStringLengthsToCorrectLength(suppliedResult);
+            // Don't check the exact bitlength to the group property because it won't handle bit-oriented MACs properly. 
+            // The suppliedResult.Mac hex is read as a multiple of 8 bits regardless of what the actual Mac/Tag length is.
+            // Luckily the same is true for the _expectedResult.Mac hex. 
+            if (_expectedResult.Mac.BitLength != suppliedResult.Mac.BitLength)
+            {
+                errors.Add("MAC does not match");
+                expected.Add(nameof(_expectedResult.Mac), _expectedResult.Mac.ToHex());
+                provided.Add(nameof(suppliedResult.Mac), suppliedResult.Mac.ToHex());
 
+                return;
+            }
+            
             if (!_expectedResult.Mac.Equals(suppliedResult.Mac))
             {
                 errors.Add("MAC does not match");
                 expected.Add(nameof(_expectedResult.Mac), _expectedResult.Mac.ToHex());
                 provided.Add(nameof(suppliedResult.Mac), suppliedResult.Mac.ToHex());
             }
-        }
-
-        /// <summary>
-        /// The <see cref="TestCase"/> <see cref="BitString"/>s are not parsed w/ the <see cref="TestGroups"/> length in mind.
-        /// This method will ensure the correct bitlengths are compared.
-        /// </summary>
-        /// <param name="suppliedResult"></param>
-        private void SetBitStringLengthsToCorrectLength(TestCase suppliedResult)
-        {
-            _expectedResult.Mac = GetBitStringAtLengthOrOriginalIfNotLongEnough(_expectedResult.Mac, _currentGroup.MacLength);
-            suppliedResult.Mac = GetBitStringAtLengthOrOriginalIfNotLongEnough(suppliedResult.Mac, _currentGroup.MacLength);
-        }
-
-        private BitString GetBitStringAtLengthOrOriginalIfNotLongEnough(BitString bs, int intendedLength)
-        {
-            if (bs.BitLength < intendedLength)
-            {
-                return bs;
-            }
-
-            return bs.GetMostSignificantBits(intendedLength);
         }
     }
 }

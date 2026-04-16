@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
@@ -39,10 +39,10 @@ public class OracleObserverMLKEMDecapCaseGrain : ObservableOracleGrainBase<MLKEM
     protected override async Task DoWorkAsync()
     {
         // Generate a test case for an IUT to exercise decapsulation with potential errors introduced
-        var kyber = new KyberFactory(_shaFactory).GetKyber(_param.ParameterSet);
+        var mlkem = new MLKEMFactory(_shaFactory).GetMlkem(_param.ParameterSet);
 
         var seedM = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
-        var result = kyber.Encapsulate(_param.EncapsulationKey.ToBytes(), seedM);
+        var result = mlkem.Encapsulate(_param.EncapsulationKey.ToBytes(), seedM);
 
         var sharedKey = new BitString(result.K);
         var ciphertext = new BitString(result.c);
@@ -71,7 +71,7 @@ public class OracleObserverMLKEMDecapCaseGrain : ObservableOracleGrainBase<MLKEM
         else
         {
             // If the disposition leads to implicit rejection, we need to pre-compute the implicit rejection shared key
-            var implicitRejectionResult = kyber.Decapsulate(_param.DecapsulationKey.ToBytes(), ciphertext.ToBytes());
+            var implicitRejectionResult = mlkem.Decapsulate(_param.DecapsulationKey.ToBytes(), ciphertext.ToBytes());
             
             await Notify(new MLKEMEncapsulationResult
             {

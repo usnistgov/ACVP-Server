@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.TestCaseExpectations;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
@@ -17,12 +17,12 @@ public Task<List<TestGroup>> BuildTestGroupsAsync(Parameters parameters)
         
         foreach (var parameterSet in parameters.ParameterSets.Distinct())
         {
-            if (parameters.Functions.Contains(KyberFunction.Decapsulation))
+            if (parameters.Functions.Contains(MLKEMFunction.Decapsulation))
             {
                 var testGroup = new TestGroup
                 {
                     TestType = "VAL",
-                    Function = KyberFunction.Decapsulation,
+                    Function = MLKEMFunction.Decapsulation,
                     ParameterSet = parameterSet,
                     DecapsulationExpectationProvider = new DecapsulationExpectationProvider()
                 };

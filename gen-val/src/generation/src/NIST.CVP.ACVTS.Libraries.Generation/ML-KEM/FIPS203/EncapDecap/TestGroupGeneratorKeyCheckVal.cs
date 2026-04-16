@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.TestCaseExpectations;
 
@@ -15,23 +15,23 @@ public class TestGroupGeneratorKeyCheckVal : ITestGroupGeneratorAsync<Parameters
 
         foreach (var parameterSet in parameters.ParameterSets.Distinct())
         {
-            if (parameters.Functions.Contains(KyberFunction.DecapsulationKeyCheck))
+            if (parameters.Functions.Contains(MLKEMFunction.DecapsulationKeyCheck))
             {
                 testGroups.Add(new TestGroup
                 {
                     TestType = "VAL",
-                    Function = KyberFunction.DecapsulationKeyCheck,
+                    Function = MLKEMFunction.DecapsulationKeyCheck,
                     ParameterSet = parameterSet,
                     DecapsulationKeyExpectationProvider = new DecapsulationKeyExpectationProvider()
                 });
             }
 
-            if (parameters.Functions.Contains(KyberFunction.EncapsulationKeyCheck))
+            if (parameters.Functions.Contains(MLKEMFunction.EncapsulationKeyCheck))
             {
                 testGroups.Add(new TestGroup
                 {
                     TestType = "VAL",
-                    Function = KyberFunction.EncapsulationKeyCheck,
+                    Function = MLKEMFunction.EncapsulationKeyCheck,
                     ParameterSet = parameterSet,
                     EncapsulationKeyExpectationProvider = new EncapsulationKeyExpectationProvider()
                 });

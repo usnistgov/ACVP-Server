@@ -85,7 +85,6 @@ public class ParameterValidatorTests
     [Test]
     [TestCase(true, true)]
     [TestCase(false, true)]
-
     public void ShouldReturnSuccessWithValidNonceMasking(bool masking, bool expectedSuccess)
     {
         var validator = new ParameterValidator();
@@ -96,6 +95,19 @@ public class ParameterValidatorTests
             );
 
         Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
+    }
+
+    [Test]
+    public void ShouldReturnFailureWithNullDomain()
+    {
+        var validator = new ParameterValidator();
+        var result = validator.Validate(
+            new ParameterBuilder()
+                .WithPlaintextLength(null)
+                .Build()
+        );
+        
+        Assert.That(result.Success, Is.False);
     }
 
     public class ParameterBuilder

@@ -1,5 +1,5 @@
 ﻿using System;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
 
@@ -18,10 +18,10 @@ public class TestCaseGeneratorFactory : ITestCaseGeneratorFactoryAsync<TestGroup
     {
         return testGroup.Function switch
         {
-            KyberFunction.Encapsulation => new TestCaseGeneratorEncapsulationAft(_oracle),
-            KyberFunction.Decapsulation => new TestCaseGeneratorDecapsulationVal(_oracle),
-            KyberFunction.EncapsulationKeyCheck => new TestCaseGeneratorEncapsulationKeyCheck(_oracle),
-            KyberFunction.DecapsulationKeyCheck => new TestCaseGeneratorDecapsulationKeyCheck(_oracle),
+            MLKEMFunction.Encapsulation => new TestCaseGeneratorEncapsulationAft(_oracle),
+            MLKEMFunction.Decapsulation => new TestCaseGeneratorDecapsulationVal(_oracle),
+            MLKEMFunction.EncapsulationKeyCheck => new TestCaseGeneratorEncapsulationKeyCheck(_oracle),
+            MLKEMFunction.DecapsulationKeyCheck => new TestCaseGeneratorDecapsulationKeyCheck(_oracle),
 
             _ => throw new ArgumentException("Invalid test type")
         };

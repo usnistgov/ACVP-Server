@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_KEM;
@@ -37,13 +37,13 @@ public class OracleObserverMLKEMKeyCaseGrain : ObservableOracleGrainBase<MLKEMKe
 
     protected override async Task DoWorkAsync()
     {
-        var kyberFactory = new KyberFactory(_shaFactory);
-        var kyber = kyberFactory.GetKyber(_param.ParameterSet);
+        var mlkemFactory = new MLKEMFactory(_shaFactory);
+        var mlkem = mlkemFactory.GetMlkem(_param.ParameterSet);
 
         var seedZ = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
         var seedD = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
 
-        var key = kyber.GenerateKey(seedZ, seedD);
+        var key = mlkem.GenerateKey(seedZ, seedD);
 
         var result = new MLKEMKeyPairResult
         {

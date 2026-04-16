@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
@@ -18,10 +18,10 @@ public class TestCaseValidatorFactory : ITestCaseValidatorFactoryAsync<TestVecto
             {
                 list.Add(group.Function switch
                 {
-                    KyberFunction.Encapsulation => new TestCaseValidatorEncapsulationAft(test),
-                    KyberFunction.Decapsulation => new TestCaseValidatorDecapsulationVal(test),
-                    KyberFunction.EncapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
-                    KyberFunction.DecapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
+                    MLKEMFunction.Encapsulation => new TestCaseValidatorEncapsulationAft(test),
+                    MLKEMFunction.Decapsulation => new TestCaseValidatorDecapsulationVal(test),
+                    MLKEMFunction.EncapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
+                    MLKEMFunction.DecapsulationKeyCheck => new TestCaseValidatorKeyCheck(test),
                     
                     _ => throw new ArgumentOutOfRangeException()
                 });

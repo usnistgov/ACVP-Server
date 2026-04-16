@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.SPDM;
 
 namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
 {
@@ -23,7 +24,8 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
         Task<PbKdfResult> GetPbKdfCaseAsync(PbKdfParameters param);
         Task<HkdfResult> GetHkdfCaseAsync(HkdfParameters param);
         Task<TlsKdfv13Result> GetTlsv13CaseAsync(TlsKdfv13Parameters param);
-
+        Task<SPDMResult> GetSpdmCaseAsync(SPDMParameters param);
+        
         Task<KdfKmacResult> GetKdfKmacCaseAsync(KdfKmacParameters param);
     }
 }

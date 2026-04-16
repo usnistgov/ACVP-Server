@@ -1343,7 +1343,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return w.Select(value => (int) (((long)value * 8347681).PosMod(_param.Q))).ToArray();
     }
 
-    private int[][] ScalarMultiply(int[][] a, int b)
+    protected int[][] ScalarMultiply(int[][] a, int b)
     {
         var product = new int[a.Length][];
         for (var i = 0; i < a.Length; i++)
@@ -1358,7 +1358,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return product;
     }
 
-    private int[][] PairwiseMultiply(int[] a, int[][] b)
+    protected int[][] PairwiseMultiply(int[] a, int[][] b)
     {
         var product = new int[b.Length][];
         for (var i = 0; i < b.Length; i++)
@@ -1373,7 +1373,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return product;
     }
 
-    private int[][] MatrixMultiply(int[][][] a, int[][] b)
+    protected int[][] MatrixMultiply(int[][][] a, int[][] b)
     {
         var aRows = a.Length;
         var aCols = a[0].Length;
@@ -1396,7 +1396,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return product;
     }
 
-    private int[][] MatrixAdd(int[][] a, int[][] b)
+    protected int[][] MatrixAdd(int[][] a, int[][] b)
     {
         var rows = a.Length;
         var cols = a[0].Length;
@@ -1415,7 +1415,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return sum;
     }
 
-    private int[][] MatrixSubtract(int[][] a, int[][] b)
+    protected int[][] MatrixSubtract(int[][] a, int[][] b)
     {
         var rows = a.Length;
         var cols = a[0].Length;
@@ -1434,7 +1434,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return difference;
     }
 
-    private int[][] NegateMatrix(int[][] a)
+    protected int[][] NegateMatrix(int[][] a)
     {
         var negated = new int[a.Length][];
 
@@ -1450,7 +1450,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
         return negated;
     }
 
-    private int InfinityNorm(int[][] a)
+    public int InfinityNorm(int[][] a)
     {
         return a.Max(polynomial => polynomial.Max(value => System.Math.Abs(value.PlusMinusMod(_param.Q))));
     }

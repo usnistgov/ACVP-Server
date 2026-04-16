@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using Newtonsoft.Json.Serialization;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.ContractResolvers;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap.ContractResolvers;
@@ -56,7 +56,7 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.Function == KyberFunction.Encapsulation;
+                return group.Function == MLKEMFunction.Encapsulation;
             };
         }
         
@@ -65,7 +65,7 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.Function is KyberFunction.Encapsulation or KyberFunction.Decapsulation;
+                return group.Function is MLKEMFunction.Encapsulation or MLKEMFunction.Decapsulation;
             };
         }
         
@@ -74,7 +74,7 @@ public class ResultProjectionContractResolver : ProjectionContractResolverBase<T
             return jsonProperty.ShouldSerialize = instance =>
             {
                 GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.Function is KyberFunction.EncapsulationKeyCheck or KyberFunction.DecapsulationKeyCheck;
+                return group.Function is MLKEMFunction.EncapsulationKeyCheck or MLKEMFunction.DecapsulationKeyCheck;
             };
         }
         

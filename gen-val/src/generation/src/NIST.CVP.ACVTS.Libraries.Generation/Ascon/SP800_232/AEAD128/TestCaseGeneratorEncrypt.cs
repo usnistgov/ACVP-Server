@@ -40,12 +40,15 @@ public class TestCaseGeneratorEncrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
             adlengths.AddRange(group.ADLength.GetRandomValues(x => x % 8 == i, 5));
         }
         
-        //T esting breakpoints and surrounding values for chunk sizes
+        // Testing breakpoints and surrounding values for chunk sizes
         for (int i = 3; i < 8; i++)
         {
             plengths.AddRange(group.PlaintextLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
             adlengths.AddRange(group.ADLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
+        
+        // Get any tag lengths
+        trunclengths.AddRange(group.TruncationLength.GetRandomValues(_ => true, NumberOfTestCasesToGenerate - 2));
         
         _plaintextLengths = new ShuffleQueue<int>(plengths);
         _adLengths = new ShuffleQueue<int>(adlengths);

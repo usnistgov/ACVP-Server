@@ -107,11 +107,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
                     .AddSegment(
                         new RangeDomainSegment(
                             new Random800_90(),
-                            64,
+                            0,
                             ParameterValidator.MAXIMUM_PAYLOAD_LEN,
-                            64
+                            32
                         )
                     )
+                },
+                new object[]
+                {
+                    "Above maximum",
+                    new MathDomain()
+                        .AddSegment(
+                            new RangeDomainSegment(
+                                new Random800_90(),
+                                64,
+                                6400,
+                                32
+                            )
+                        )
                 },
                 new object[]
                 {
@@ -120,9 +133,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
                         .AddSegment(
                             new RangeDomainSegment(
                                 new Random800_90(),
-                                96,
-                                96+64,
-                                64
+                                80,
+                                80+32,
+                                32
                             )
                         )
                 },
@@ -135,7 +148,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
                                 new Random800_90(),
                                 128,
                                 ParameterValidator.MAXIMUM_PAYLOAD_LEN,
-                                32
+                                16
                             )
                         )
                 }
@@ -149,7 +162,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.TDES
         [TestCaseSource(nameof(GetInvalidPtLens))]
         public void ShouldReturnErrorWithPtLenInvalid(string label, MathDomain ptLen)
         {
-            Parameters p = new ParameterBuilder(KeyWrapType.AES_KW)
+            Parameters p = new ParameterBuilder(KeyWrapType.TDES_KW)
                 .WithPtLens(ptLen)
                 .Build();
 

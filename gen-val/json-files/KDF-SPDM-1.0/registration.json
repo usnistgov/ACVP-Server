@@ -1,0 +1,38 @@
+{
+  "vsId": 0,
+  "algorithm": "KDF",
+  "mode": "SPDM",
+  "revision": "1.0",
+  "isSample": false,
+  "keyLen": [
+    {
+      "min": 128,
+      "max": 4096,
+      "increment": 8
+    }
+  ],
+  "thLen": [
+    {
+      "min": 256,
+      "max": 512,
+      "increment": 128
+    }
+  ],
+  "spdmVersion": [
+    "spdm1.1",
+    "spdm1.2",
+    "spdm1.3"
+  ],
+  "usesPSK": [
+    true,
+    false
+  ],
+  "hashAlgs": [
+    "SHA2-256",
+    "SHA2-384",
+    "SHA2-512",
+    "SHA3-256",
+    "SHA3-384",
+    "SHA3-512"
+  ]
+}

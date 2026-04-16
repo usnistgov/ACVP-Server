@@ -47,6 +47,10 @@ public class TestCaseGeneratorDecrypt : ITestCaseGeneratorWithPrep<TestGroup, Te
             pLengths.AddRange(group.PlaintextLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
             adLengths.AddRange(group.ADLength.GetSequentialValuesInIncrement((1 << i) - 1, 3));
         }
+        
+        // Get any tag lengths
+        truncLengths.AddRange(group.TruncationLength.GetRandomValues(_ => true, NumberOfTestCasesToGenerate - 2));
+        
         _plaintextLengths = new ShuffleQueue<int>(pLengths);
         _adLengths = new ShuffleQueue<int>(adLengths);
         _truncationLengths = new ShuffleQueue<int>(truncLengths);

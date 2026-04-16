@@ -14,7 +14,6 @@ using NIST.CVP.ACVTS.Libraries.Crypto.AES_FF;
 using NIST.CVP.ACVTS.Libraries.Crypto.ANSIX942;
 using NIST.CVP.ACVTS.Libraries.Crypto.ANSIX963;
 using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.FFC;
@@ -95,9 +94,10 @@ using NIST.CVP.ACVTS.Libraries.Crypto.KES;
 using NIST.CVP.ACVTS.Libraries.Crypto.KeyWrap;
 using NIST.CVP.ACVTS.Libraries.Crypto.KMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.KTS;
-using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XECDH;
 using NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.PBKDF;
 using NIST.CVP.ACVTS.Libraries.Crypto.RSA;
@@ -117,6 +117,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Symmetric.MonteCarlo;
 using NIST.CVP.ACVTS.Libraries.Crypto.TLS;
 using NIST.CVP.ACVTS.Libraries.Crypto.TPM;
 using NIST.CVP.ACVTS.Libraries.Crypto.TupleHash;
+using NIST.CVP.ACVTS.Libraries.Crypto.XECDH;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.Kas.Sp800_56Ar1;
@@ -260,6 +261,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
 
             svc.AddSingleton<IEdwardsCurveFactory, EdwardsCurveFactory>();
             svc.AddSingleton<IDsaEdFactory, DsaEdFactory>();
+            
+            svc.AddSingleton<IXecdhFactory, XecdhFactory>();
 
             svc.AddTransient<Crypto.Common.KDF.IKdfFactory, Crypto.KDF.KdfFactory>(); // Needs to be transient to account for KMAC in KMAC-KDF
 

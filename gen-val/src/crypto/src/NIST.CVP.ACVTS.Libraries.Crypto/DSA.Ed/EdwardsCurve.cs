@@ -15,9 +15,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed
         public EdPoint BasePointG { get; }
         public BigInteger OrderN { get; }
         public BigInteger FieldSizeQ { get; }
-
-        // Cofactor is always 1 for a prime curve (TODO check for 25519 and Montgomery-448)
-        public int CofactorH { get { return 1; } }
+        public int CofactorH { get; }
 
         // Coefficients used for EdDSA as specified in IETF RFC 8032
         public int VariableB { get; }
@@ -40,6 +38,19 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.DSA.Ed
             VariableC = c;
 
             _operator = new PrimeFieldOperator(p);
+
+            switch (curveName)
+            {
+                case Curve.Ed25519:
+                    CofactorH = 8;
+                    break;
+                case Curve.Ed448:
+                    CofactorH = 4;
+                    break;
+                default:
+                    CofactorH = 1; // Cofactor is always 1 for a prime curve
+                    break;
+            }
         }
 
         public EdPoint Add(EdPoint pointA, EdPoint pointB)

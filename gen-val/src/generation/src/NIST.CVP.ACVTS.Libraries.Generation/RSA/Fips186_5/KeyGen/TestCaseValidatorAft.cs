@@ -88,16 +88,30 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
             {
                 errors.Add($"{nameof(suppliedResult.Key.PubKey)} not present in {nameof(TestCase)}");
             }
+            else
+            {
+                if (suppliedResult.Key.PubKey.E == 0 || suppliedResult.Key.PubKey.N == 0)
+                {
+                    errors.Add($"A {nameof(suppliedResult.Key.PubKey)} value is 0");
+                }
+            }
 
             // if with random probable primes with aux probable primes, and the work is deferred
             // check that the bitlengths are provided, and the associated aux value has a 1 in the MSB
             if (_serverGroup.PrimeGenMode == PrimeGenModes.RandomProbablePrimesWithAuxiliaryProbablePrimes)
             {
                 var bitLens = _serverGroup.InfoGeneratedByServer ? _expectedResult.Bitlens : suppliedResult.Bitlens;
+                var maximumBitLenSize = _serverGroup.InfoGeneratedByServer ? _expectedResult.N.BitLength : suppliedResult.N.BitLength;
 
-                if (bitLens?.Length != 4)
+                if (bitLens is not { Length: 4 })
                 {
                     errors.Add("Expecting 4 element bitLens array");
+                    return;
+                }
+                
+                if (bitLens.Any(x => x <= 0 || x >= maximumBitLenSize))
+                {
+                    errors.Add("Expecting each bitLens value to be between 1 - modulus");
                     return;
                 }
 

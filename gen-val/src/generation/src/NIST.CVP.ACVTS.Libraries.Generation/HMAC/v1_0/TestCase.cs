@@ -7,14 +7,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.HMAC.v1_0
     public class TestCase : ITestCase<TestGroup, TestCase>
     {
         public int TestCaseId { get; set; }
+        
         [JsonIgnore]
         public bool? TestPassed => true;
+        
         [JsonIgnore]
         public bool Deferred => false;
+        
         public TestGroup ParentGroup { get; set; }
+        
         public BitString Key { get; set; }
+        
         [JsonProperty(PropertyName = "msg")]
         public BitString Message { get; set; }
+        
         public BitString Mac { get; set; }
 
         public bool SetString(string name, string value)

@@ -89,6 +89,7 @@ namespace NIST.CVP.ACVTS.Libraries.Math
 
         /// <summary>
         /// Create a <see cref="BitString"/> using MSB hex.
+  
         /// </summary>
         /// <param name="hexMSB">The MSB hexadecimal string</param>
         /// <param name="bitLength">The length of the resulting <see cref="BitString"/> by taking that amount of MSBs</param>

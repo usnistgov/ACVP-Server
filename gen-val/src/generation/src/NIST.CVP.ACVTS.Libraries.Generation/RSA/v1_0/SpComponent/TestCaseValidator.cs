@@ -23,19 +23,28 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.v1_0.SpComponent
 
             if (suppliedResult.TestPassed == true)
             {
-                if (suppliedResult.Signature == null)
+                if (_expectedResult.TestPassed != suppliedResult.TestPassed)
                 {
-                    errors.Add("Could not find signature");
-                    expected.Add(nameof(_expectedResult.Signature), "");
-                    provided.Add(nameof(suppliedResult.Signature), "");
+                    errors.Add("Test was expected to fail");
+                    expected.Add(nameof(_expectedResult.TestPassed), _expectedResult.TestPassed.ToString());
+                    provided.Add(nameof(suppliedResult.TestPassed), suppliedResult.TestPassed.ToString());
                 }
                 else
                 {
-                    if (!_expectedResult.Signature.Equals(suppliedResult.Signature))
+                    if (suppliedResult.Signature == null)
                     {
-                        errors.Add("Signature does not match expected value");
+                        errors.Add("Could not find signature");
                         expected.Add(nameof(_expectedResult.Signature), _expectedResult.Signature.ToHex());
-                        provided.Add(nameof(suppliedResult.Signature), suppliedResult.Signature.ToHex());
+                        provided.Add(nameof(suppliedResult.Signature), "");
+                    }
+                    else
+                    {
+                        if (!_expectedResult.Signature.Equals(suppliedResult.Signature))
+                        {
+                            errors.Add("Signature does not match expected value");
+                            expected.Add(nameof(_expectedResult.Signature), _expectedResult.Signature.ToHex());
+                            provided.Add(nameof(suppliedResult.Signature), suppliedResult.Signature.ToHex());
+                        }
                     }
                 }
             }

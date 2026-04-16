@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
@@ -14,12 +14,12 @@ public class TestGroupGeneratorEncapsulationAft : ITestGroupGeneratorAsync<Param
         
         foreach (var parameterSet in parameters.ParameterSets.Distinct())
         {
-            if (parameters.Functions.Contains(KyberFunction.Encapsulation))
+            if (parameters.Functions.Contains(MLKEMFunction.Encapsulation))
             {
                 testGroups.Add(new TestGroup
                 {
                     TestType = "AFT",
-                    Function = KyberFunction.Encapsulation,
+                    Function = MLKEMFunction.Encapsulation,
                     ParameterSet = parameterSet
                 });    
             }

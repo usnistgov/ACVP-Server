@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_KEM;
@@ -40,11 +39,11 @@ public class OracleObserverMLKEMEncapCaseGrain : ObservableOracleGrainBase<MLKEM
     {
         // Generate an encapsulation output (really only used for samples, this could be taken from the DecapCaseGrain with Disposition = None)
         
-        var kyber = new KyberFactory(_shaFactory).GetKyber(_param.ParameterSet);
+        var mlkem = new MLKEMFactory(_shaFactory).GetMlkem(_param.ParameterSet);
 
         var seedM = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
         var seedMBitString = new BitString(seedM);  // SeedM value gets wiped during encapsulate, so we need to store it first
-        var result = kyber.Encapsulate(_param.EncapsulationKey.ToBytes(), seedM);
+        var result = mlkem.Encapsulate(_param.EncapsulationKey.ToBytes(), seedM);
         
         await Notify(new MLKEMEncapsulationResult
         {

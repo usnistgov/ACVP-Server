@@ -1,5 +1,7 @@
 using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Dilithium;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
@@ -8,16 +10,27 @@ using NLog;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_DSA.FIPS204.SigGen;
 
-public class TestCaseGeneratorPoolAft : ITestCaseGeneratorAsync<TestGroup, TestCase>
+public class TestCaseGeneratorPoolAft : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
 {
     private readonly IOracle _oracle;
-    public int NumberOfTestCasesToGenerate => 10;
+    public int NumberOfTestCasesToGenerate { get; set; } = 5;
 
     public TestCaseGeneratorPoolAft(IOracle oracle)
     {
         _oracle = oracle;
     }
     
+    public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
+    {
+        // For ML-DSA-87, Total Rejection cases, lower the amount of test cases to 2.
+        // These are really hard to generate for the server, so there is not many available in the pools.
+        if (group.ParameterSet == DilithiumParameterSet.ML_DSA_87 && group.CornerCase == MLDSASignatureCornerCase.TotalRejection)
+        {
+            NumberOfTestCasesToGenerate = 2;
+        }
+
+        return new GenerateResponse();
+    }
     
     public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = -1)
     {

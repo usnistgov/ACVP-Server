@@ -1,4 +1,4 @@
-﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+﻿using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.KeyGen;
@@ -12,5 +12,5 @@ public class Parameters : IParameters
     public bool IsSample { get; set; }
     public string[] Conformances { get; set; }
     
-    public KyberParameterSet[] ParameterSets { get; set; }
+    public MLKEMParameterSet[] ParameterSets { get; set; }
 }

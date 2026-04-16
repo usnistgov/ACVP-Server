@@ -54,3 +54,4 @@ Import Schema Logs
 /Directory.Packages.props
 version.txt
 gen-val/src/solutions/all/qodana.yaml
+gen-val/samples/GenValAppRunner/src/Properties/launchSettings.json

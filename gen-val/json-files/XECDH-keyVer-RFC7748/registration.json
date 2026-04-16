@@ -1,0 +1,12 @@
+{
+  "vsId": 0,
+  "algorithm": "XECDH",
+  "mode": "keyVer",
+  "revision": "RFC7748",
+  "isSample": true,
+  "conformances": [],
+  "curve": [
+    "Curve25519",
+    "Curve448"
+  ]
+}

@@ -1,5 +1,6 @@
 ﻿using NIST.CVP.ACVTS.Libraries.Common;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 using NIST.CVP.ACVTS.Libraries.Generation.Tests;
 using NIST.CVP.ACVTS.Libraries.Math;
@@ -51,8 +52,8 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Algorithm = Algorithm,
             Mode = Mode,
             Revision = Revision,
-            ParameterSets = [KyberParameterSet.ML_KEM_512],
-            Functions = [KyberFunction.Encapsulation, KyberFunction.Decapsulation, KyberFunction.EncapsulationKeyCheck, KyberFunction.DecapsulationKeyCheck],
+            ParameterSets = [MLKEMParameterSet.ML_KEM_512],
+            Functions = [MLKEMFunction.Encapsulation, MLKEMFunction.Decapsulation, MLKEMFunction.EncapsulationKeyCheck, MLKEMFunction.DecapsulationKeyCheck],
             IsSample = true
         };
 
@@ -68,7 +69,7 @@ public class GenValTests : GenValTestsSingleRunnerBase
             Mode = Mode,
             Revision = Revision,
             ParameterSets = ParameterValidator.VALID_PARAMETER_SETS,
-            Functions = [KyberFunction.Encapsulation, KyberFunction.Decapsulation, KyberFunction.EncapsulationKeyCheck, KyberFunction.DecapsulationKeyCheck],
+            Functions = [MLKEMFunction.Encapsulation, MLKEMFunction.Decapsulation, MLKEMFunction.EncapsulationKeyCheck, MLKEMFunction.DecapsulationKeyCheck],
             IsSample = true
         };
 

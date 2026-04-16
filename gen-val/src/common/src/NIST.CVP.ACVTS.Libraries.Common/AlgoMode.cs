@@ -235,6 +235,8 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         KDFComponents_TPM_v1_0,
         [EnumMember(Value = "KDF-Components-ANSIX9.42-1.0")]
         KDFComponents_ANSIX942_v1_0,
+        [EnumMember(Value = "KDF-SPDM-1.0")]
+        KDF_SPDM_v1_0,
         [EnumMember(Value = "KMAC-128-1.0")]
         KMAC_128_v1_0,
         [EnumMember(Value = "KMAC-256-1.0")]
@@ -327,6 +329,12 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         SHAKE_128_v1_0,
         [EnumMember(Value = "SHAKE-256-1.0")]
         SHAKE_256_v1_0,
+        [EnumMember(Value = "XECDH-keyGen-RFC7748")]
+        XECDH_KeyGen_RFC7748,
+        [EnumMember(Value = "XECDH-keyVer-RFC7748")]
+        XECDH_KeyVer_RFC7748,
+        [EnumMember(Value = "XECDH-SSC-RFC7748")]
+        XECDH_SSC_RFC7748,
         [EnumMember(Value = "SHAKE-128-FIPS202")]
         SHAKE_128_FIPS202,
         [EnumMember(Value = "SHAKE-256-FIPS202")]

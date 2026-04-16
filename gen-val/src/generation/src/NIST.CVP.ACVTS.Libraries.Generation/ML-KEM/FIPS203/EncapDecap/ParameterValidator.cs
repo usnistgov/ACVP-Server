@@ -2,15 +2,15 @@
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Common.Helpers;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.PQC.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.ML_KEM.FIPS203.EncapDecap;
 
 public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Parameters>
 {
-    public static KyberParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<KyberParameterSet>().Except([KyberParameterSet.None]).ToArray();
-    public static KyberFunction[] VALID_FUNCTIONS = EnumHelpers.GetEnums<KyberFunction>().Except([KyberFunction.None]).ToArray();
+    public static MLKEMParameterSet[] VALID_PARAMETER_SETS = EnumHelpers.GetEnums<MLKEMParameterSet>().Except([MLKEMParameterSet.None]).ToArray();
+    public static MLKEMFunction[] VALID_FUNCTIONS = EnumHelpers.GetEnums<MLKEMFunction>().Except([MLKEMFunction.None]).ToArray();
     
     public ParameterValidateResponse Validate(Parameters parameters)
     {

@@ -59,7 +59,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC.v1_0
         }
 
         [Test]
-        public async Task ShouldFailIfCipherTextNotPresent()
+        public async Task ShouldFailIfMacNotPresent()
         {
             var testCase = GetTestCase();
             var testGroup = GetTestGroup();
@@ -76,12 +76,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC.v1_0
         }
 
         [Test]
-        public async Task ShouldPassWithMacsDifferingAfterBitLength()
+        public async Task ShouldFailWithMacsDifferingAfterBitLength()
         {
             var testCaseExpected = GetTestCase();
             var testCaseSupplied = GetTestCase();
             var testGroup = GetTestGroup();
-            testGroup.MacLength = 9;
 
             testCaseExpected.Mac = new BitString("F500CAFECAFE");
             testCaseSupplied.Mac = new BitString("F500FACEFACE");
@@ -89,7 +88,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.HMAC.v1_0
             _subject = new TestCaseValidator(testCaseExpected, testGroup);
             var result = await _subject.ValidateAsync(testCaseSupplied);
             Assert.That(result != null);
-            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+        }
+
+        [Test]
+        public async Task ShouldFailWithMacsDifferingInLength()
+        {
+            var testCaseExpected = GetTestCase();
+            var testCaseSupplied = GetTestCase();
+            var testGroup = GetTestGroup();
+
+            testCaseExpected.Mac = new BitString("F500CAFE");
+            testCaseSupplied.Mac = new BitString("F500CAFEFACE");
+
+            _subject = new TestCaseValidator(testCaseExpected, testGroup);
+            var result = await _subject.ValidateAsync(testCaseSupplied);
+            Assert.That(result != null);
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
         }
 
         private TestGroup GetTestGroup()

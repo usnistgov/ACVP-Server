@@ -117,14 +117,27 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.KeyWrap.Padding
                 },
                 new object[]
                 {
+                    "Above maximum",
+                    new MathDomain()
+                        .AddSegment(
+                            new RangeDomainSegment(
+                                new Random800_90(),
+                                64,
+                                6400,
+                                ParameterValidator.PT_MODULUS
+                            )
+                        )
+                },
+                new object[]
+                {
                     "Bad modulus on value",
                     new MathDomain()
                         .AddSegment(
                             new RangeDomainSegment(
                                 new Random800_90(),
-                                96,
-                                96+63,
-                                63
+                                12,
+                                12+8,
+                                8
                             )
                         )
                 },

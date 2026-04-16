@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NUnit" />
+    <PackageReference Include="NUnit.Analyzers">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NIST.CVP.ACVTS.Libraries.Generation\NIST.CVP.ACVTS.Libraries.Generation.csproj" />
+    <ProjectReference Include="..\..\test\NIST.CVP.ACVTS.Libraries.Generation.Core.Tests\NIST.CVP.ACVTS.Libraries.Generation.Core.Tests.csproj" />
+    <ProjectReference Include="..\..\..\common\test\NIST.CVP.ACVTS.Tests.Core\NIST.CVP.ACVTS.Tests.Core.csproj" />
+    <ProjectReference Include="..\..\..\crypto\src\NIST.CVP.ACVTS.Libraries.Crypto\NIST.CVP.ACVTS.Libraries.Crypto.csproj" />
+    <ProjectReference Include="..\NIST.CVP.ACVTS.Libraries.Generation.Tests\NIST.CVP.ACVTS.Libraries.Generation.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

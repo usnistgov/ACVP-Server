@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using NIST.CVP.ACVTS.Libraries.Common;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
-using NIST.CVP.ACVTS.Libraries.Crypto.Kyber;
+using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
@@ -39,13 +39,13 @@ public class OracleObserverMLKEMDecapKeyCheckCaseGrain : ObservableOracleGrainBa
 
     protected override async Task DoWorkAsync()
     {
-        var kyberFactory = new KyberFactory(_shaFactory);
-        var kyber = kyberFactory.GetKyber(_param.ParameterSet);
+        var mlkemFactory = new MLKEMFactory(_shaFactory);
+        var mlkem = mlkemFactory.GetMlkem(_param.ParameterSet);
 
         var seedZ = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
         var seedD = _entropyProvider.GetEntropy(256).ToBytes(); // 32 bytes
 
-        (byte[] ek, byte[] dk) key = kyber.GenerateKey(seedZ, seedD);
+        (byte[] ek, byte[] dk) key = mlkem.GenerateKey(seedZ, seedD);
 
         switch (_param.DecapDisposition)
         {
@@ -55,7 +55,7 @@ public class OracleObserverMLKEMDecapKeyCheckCaseGrain : ObservableOracleGrainBa
             
             case MLKEMDecapsulationKeyDisposition.ModifyH:
                 // Modify the values in dk so that ek || H(ek) no longer matches
-                key.dk = new BadDecapsulationKeyManipulator(kyber as Kyber).ManipulateDecapsulationKey(key.dk);
+                key.dk = new BadDecapsulationKeyManipulator(mlkem as MLKEM).ManipulateDecapsulationKey(key.dk);
                 break;
             
             default:

@@ -257,6 +257,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Core
         /// <returns></returns>
         protected bool ValidateDomain(MathDomain domain, List<string> errors, string errorTag, int min, int max)
         {
+            if (domain == null)
+            {
+                errors.Add("Domain expected but is null");
+                return false;
+            }
+            
             var result = ValidateSegmentCountGreaterThanZero(domain, errorTag);
             if (!string.IsNullOrEmpty(result))
             {

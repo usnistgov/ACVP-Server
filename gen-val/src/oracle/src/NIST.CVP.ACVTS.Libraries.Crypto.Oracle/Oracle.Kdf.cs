@@ -4,8 +4,10 @@ using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Crypto.Oracle.Helpers;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.SPDM;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Exceptions;
 using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.Kdf;
+using NIST.CVP.ACVTS.Libraries.Orleans.Grains.Interfaces.SPDM;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
 {
@@ -280,6 +282,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             {
                 _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
                 return await GetTlsv13CaseAsync(param);
+            }
+        }
+        
+        public async Task<SPDMResult> GetSpdmCaseAsync(SPDMParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverSPDMCaseGrain, SPDMResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetSpdmCaseAsync(param);
             }
         }
     }

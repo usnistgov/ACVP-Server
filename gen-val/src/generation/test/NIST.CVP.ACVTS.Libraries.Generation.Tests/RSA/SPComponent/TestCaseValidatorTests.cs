@@ -63,6 +63,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.RSA.SPComponent
             Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
         }
 
+        [Test]
+        public async Task ShouldVerifyIfExpectedResultIsFalseAndProvidedResultIsTrue()
+        {
+            var subject = new TestCaseValidator(GetFailureTestCase());
+            var result = await subject.ValidateAsync(GetTestCase());
+            
+            Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+        }
+
         private TestCase GetTestCase()
         {
             return new TestCase

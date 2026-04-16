@@ -44,11 +44,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.RSA.Fips186_5.KeyGen
                 fullParam.AuxValues = new AuxiliaryResult
                 {
                     XP = iutTestCase.XP.ToPositiveBigInteger(),
-                    XP1 = iutTestCase.XP1.ToPositiveBigInteger(),
-                    XP2 = iutTestCase.XP2.ToPositiveBigInteger(),
+                    XP1 = iutTestCase.XP1?.ToPositiveBigInteger() ?? 0,
+                    XP2 = iutTestCase.XP2?.ToPositiveBigInteger() ?? 0,
                     XQ = iutTestCase.XQ.ToPositiveBigInteger(),
-                    XQ1 = iutTestCase.XQ1.ToPositiveBigInteger(),
-                    XQ2 = iutTestCase.XQ2.ToPositiveBigInteger()
+                    XQ1 = iutTestCase.XQ1?.ToPositiveBigInteger() ?? 0,
+                    XQ2 = iutTestCase.XQ2?.ToPositiveBigInteger() ?? 0
                 };
             }
 
