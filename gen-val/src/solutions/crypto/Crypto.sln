@@ -131,6 +131,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kas", "kas", "{D29C461D-5D3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "signature", "signature", "{58A3F77A-30E9-4BDE-A54E-BB9B210B5FEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Crypto.BLAKE2.Tests", "..\..\crypto\test\NIST.CVP.ACVTS.Libraries.Crypto.BLAKE2.Tests\NIST.CVP.ACVTS.Libraries.Crypto.BLAKE2.Tests.csproj", "{9BC1F609-7CAF-4C37-8B38-17546FE5BD9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -357,6 +359,10 @@ Global
 		{B4A4772F-D790-4657-BADB-5C8B45E24769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A4772F-D790-4657-BADB-5C8B45E24769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4A4772F-D790-4657-BADB-5C8B45E24769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BC1F609-7CAF-4C37-8B38-17546FE5BD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BC1F609-7CAF-4C37-8B38-17546FE5BD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BC1F609-7CAF-4C37-8B38-17546FE5BD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BC1F609-7CAF-4C37-8B38-17546FE5BD9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
