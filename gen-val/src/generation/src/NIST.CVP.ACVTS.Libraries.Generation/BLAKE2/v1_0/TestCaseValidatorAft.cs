@@ -5,13 +5,13 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
 {
-    public class TestCaseValidatorHash : ITestCaseValidatorAsync<TestGroup, TestCase>
+    public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
     {
         private readonly TestCase _expectedResult;
 
         public int TestCaseId => _expectedResult.TestCaseId;
 
-        public TestCaseValidatorHash(TestCase expectedResult)
+        public TestCaseValidatorAft(TestCase expectedResult)
         {
             _expectedResult = expectedResult;
         }

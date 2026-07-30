@@ -7,12 +7,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
     public class TestVectorSet : ITestVectorSet<TestGroup, TestCase>
     {
         public int VectorSetId { get; set; }
-        public string Algorithm { get; set; }
+        public string Algorithm { get; set; } = "BLAKE2b";
 
         [JsonIgnore]
         public string Mode { get; set; } = string.Empty;
 
-        public string Revision { get; set; }
+        public string Revision { get; set; } = "RFC7693";
         public bool IsSample { get; set; }
         public List<TestGroup> TestGroups { get; set; } = new List<TestGroup>();
     }

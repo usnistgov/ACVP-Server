@@ -7,13 +7,13 @@ using NUnit.Framework;
 namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
 {
     [TestFixture, UnitTest]
-    public class TestCaseValidatorHashTests
+    public class TestCaseValidatorAftTests
     {
         [Test]
         public async Task ShouldPassWhenDigestMatches()
         {
             var testCase = GetTestCase();
-            var subject = new TestCaseValidatorHash(testCase);
+            var subject = new TestCaseValidatorAft(testCase);
 
             var result = await subject.ValidateAsync(testCase);
 
@@ -26,7 +26,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
             var expected = GetTestCase();
             var supplied = GetTestCase();
             supplied.Digest = new BitString("BEEFFACE");
-            var subject = new TestCaseValidatorHash(expected);
+            var subject = new TestCaseValidatorAft(expected);
 
             var result = await subject.ValidateAsync(supplied);
 

@@ -27,6 +27,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
         [JsonProperty(PropertyName = "keyLen")]
         public int KeyLength => Key?.BitLength ?? 0;
 
+        [JsonProperty(PropertyName = "digestLen")]
+        public int DigestLength { get; set; }
+
         [JsonProperty(PropertyName = "md")]
         public BitString Digest { get; set; }
     }

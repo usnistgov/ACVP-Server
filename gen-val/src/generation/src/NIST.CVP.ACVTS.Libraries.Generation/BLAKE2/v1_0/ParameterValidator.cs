@@ -21,31 +21,23 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
             var errors = new List<string>();
 
             errors.AddIfNotNullOrEmpty(ValidateValue(parameters.Algorithm, ValidAlgorithms, "BLAKE2 function"));
-            ValidateDigestLengths(parameters, errors);
+            ValidateDigestLength(parameters, errors);
             ValidateMessageLength(parameters.MessageLength, errors);
             ValidateKeyLength(parameters.KeyLength, errors);
 
             return new ParameterValidateResponse(errors);
         }
 
-        private void ValidateDigestLengths(Parameters parameters, List<string> errors)
+        private void ValidateDigestLength(Parameters parameters, List<string> errors)
         {
-            if (parameters.DigestLengths == null || parameters.DigestLengths.Count == 0)
+            if (parameters.DigestLength == null)
             {
-                parameters.DigestLengths = new List<int> { MaxDigestLength };
+                parameters.DigestLength = new MathDomain().AddSegment(new ValueDomainSegment(MaxDigestLength));
             }
 
-            foreach (var digestLength in parameters.DigestLengths)
+            if (ValidateDomain(parameters.DigestLength, errors, "Digest Length", MinDigestLength, MaxDigestLength))
             {
-                if (digestLength < MinDigestLength || digestLength > MaxDigestLength)
-                {
-                    errors.Add($"Digest length must be between {MinDigestLength} and {MaxDigestLength} bits.");
-                }
-
-                if (digestLength % 8 != 0)
-                {
-                    errors.Add("Digest length must be a multiple of 8 bits.");
-                }
+                ValidateMultipleOf(parameters.DigestLength, errors, 8, "byte-aligned digest lengths");
             }
         }
 

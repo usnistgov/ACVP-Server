@@ -14,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
     {
         public IEnumerable<AlgoMode> SupportedAlgoModeRevisions => new List<AlgoMode>
         {
-            AlgoMode.BLAKE2b_v1_0
+            AlgoMode.BLAKE2b_RFC7693
         };
 
         public void RegisterTypes(ContainerBuilder builder, AlgoMode algoMode)

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.Blake2;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
@@ -13,18 +12,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
         {
             var testGroups = new List<TestGroup>();
 
-            foreach (var digestLength in parameters.DigestLengths)
+            testGroups.Add(new TestGroup
             {
-                var hashFunction = new Blake2HashFunction(Blake2Variant.Blake2b, digestLength);
-                testGroups.Add(new TestGroup
-                {
-                    TestType = TestType,
-                    DigestLength = digestLength,
-                    MessageLength = parameters.MessageLength.GetDeepCopy(),
-                    KeyLength = parameters.KeyLength?.GetDeepCopy(),
-                    HashFunction = hashFunction
-                });
-            }
+                TestType = TestType,
+                DigestLength = parameters.DigestLength.GetDeepCopy(),
+                MessageLength = parameters.MessageLength.GetDeepCopy(),
+                KeyLength = parameters.KeyLength?.GetDeepCopy()
+            });
 
             return Task.FromResult(testGroups);
         }

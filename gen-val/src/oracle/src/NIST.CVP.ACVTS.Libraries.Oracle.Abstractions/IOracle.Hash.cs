@@ -7,9 +7,10 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
     public partial interface IOracle
     {
         Task<CShakeResult> GetCShakeCaseAsync(CShakeParameters param);
-        Task<Blake2Result> GetBlake2CaseAsync(Blake2Parameters param);
         Task<ParallelHashResult> GetParallelHashCaseAsync(ParallelHashParameters param);
         Task<TupleHashResult> GetTupleHashCaseAsync(TupleHashParameters param);
+
+        Task<Blake2Result> GetBlake2CaseAsync(Blake2Parameters param);
         
         Task<HashResult> GetShaCaseAsync(ShaParameters param);
         Task<HashResult> GetSha3CaseAsync(ShaParameters param);

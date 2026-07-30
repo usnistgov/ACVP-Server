@@ -13,7 +13,6 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0.ContractResolvers
             {
                 nameof(TestGroup.TestGroupId),
                 nameof(TestGroup.TestType),
-                nameof(TestGroup.DigestLength),
                 nameof(TestGroup.Tests)
             };
 
@@ -30,6 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0.ContractResolvers
             var includeProperties = new[]
             {
                 nameof(TestCase.TestCaseId),
+                nameof(TestCase.DigestLength),
                 nameof(TestCase.Message),
                 nameof(TestCase.MessageLength)
             };

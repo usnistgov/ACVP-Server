@@ -13,7 +13,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
             {
                 foreach (var test in group.Tests)
                 {
-                    validators.Add(new TestCaseValidatorHash(test));
+                    validators.Add(new TestCaseValidatorAft(test));
                 }
             }
 

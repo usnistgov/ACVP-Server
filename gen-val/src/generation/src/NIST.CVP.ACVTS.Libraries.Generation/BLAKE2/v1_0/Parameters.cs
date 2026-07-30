@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
@@ -15,7 +14,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
         public string[] Conformances { get; set; } = { };
 
         [JsonProperty(PropertyName = "digestLen")]
-        public List<int> DigestLengths { get; set; }
+        public MathDomain DigestLength { get; set; }
 
         [JsonProperty(PropertyName = "msgLen")]
         public MathDomain MessageLength { get; set; }

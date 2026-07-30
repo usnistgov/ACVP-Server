@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using NIST.CVP.ACVTS.Libraries.Common;
+using NIST.CVP.ACVTS.Libraries.Common.Helpers;
 using NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
@@ -17,6 +18,26 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
             var result = subject.Validate(new ParameterBuilder().Build());
 
             Assert.That(result.Success, Is.True, result.ErrorMessage);
+        }
+
+        [Test]
+        public void ShouldResolveCanonicalAlgoMode()
+        {
+            var result = AlgoModeHelpers.GetAlgoModeFromAlgoAndMode("BLAKE2b", null, "RFC7693");
+
+            Assert.That(result, Is.EqualTo(AlgoMode.BLAKE2b_RFC7693));
+        }
+
+        [Test]
+        public void ShouldUseCanonicalVectorSetIdentity()
+        {
+            var subject = new TestVectorSet();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(subject.Algorithm, Is.EqualTo("BLAKE2b"));
+                Assert.That(subject.Revision, Is.EqualTo("RFC7693"));
+            });
         }
 
         [Test]
@@ -39,7 +60,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
         {
             var subject = new ParameterValidator();
 
-            var result = subject.Validate(new ParameterBuilder().WithDigestLengths(digestLength).Build());
+            var result = subject.Validate(new ParameterBuilder().WithDigestLength(digestLength).Build());
 
             Assert.That(result.Success, Is.False);
         }
@@ -71,7 +92,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
         public class ParameterBuilder
         {
             private string _algorithm = "BLAKE2b";
-            private List<int> _digestLengths = new List<int> { 256, 512 };
+            private MathDomain _digestLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 256, 512, 8));
             private MathDomain _messageLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 0, 1024, 8));
             private MathDomain _keyLength = new MathDomain().AddSegment(new RangeDomainSegment(null, 0, 512, 8));
 
@@ -81,9 +102,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
                 return this;
             }
 
-            public ParameterBuilder WithDigestLengths(params int[] digestLengths)
+            public ParameterBuilder WithDigestLength(int digestLength)
             {
-                _digestLengths = new List<int>(digestLengths);
+                _digestLength = new MathDomain().AddSegment(new ValueDomainSegment(digestLength));
                 return this;
             }
 
@@ -104,8 +125,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
                 return new Parameters
                 {
                     Algorithm = _algorithm,
-                    Revision = "1.0",
-                    DigestLengths = _digestLengths,
+                    Revision = "RFC7693",
+                    DigestLength = _digestLength,
                     MessageLength = _messageLength,
                     KeyLength = _keyLength
                 };
