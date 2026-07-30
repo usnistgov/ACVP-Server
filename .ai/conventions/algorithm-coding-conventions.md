@@ -94,8 +94,20 @@ Source: [PR #455 review, comments 1, 3, 12, and 13](../review-notes/pr-455-blake
 - Add crypto known-answer tests for primitive behavior.
 - Add generation tests for registration validation, group shape, concrete case
   generation, projections, and result validation when those surfaces change.
+- Add an algorithm-specific integration-test project based on
+  `GenValTestsSingleRunnerBase` when generation uses the oracle/Orleans path.
+- Exercise the real registration-to-generation path through Orleans, the oracle
+  grain, crypto, projections, and result validation. A mocked `IOracle` unit test
+  does not replace this coverage.
+- Generate and inspect the JSON bundle under
+  `gen-val/json-files/<algorithm>[-<mode>]-<revision>/`: `registration.json`,
+  `prompt.json`, `internalProjection.json`, `expectedResults.json`, and
+  `validation.json`.
 - Add a focused solution under `gen-val/src/solutions/<algorithm>/<Algorithm>.sln`.
 - Include the common/math, crypto, oracle/orleans, generation, and focused test
   projects required to build the complete algorithm path.
+- Include the algorithm's integration-test project and
+  `gen-val/samples/NIST.CVP.ACVTS.Orleans.ServerHost` in the focused solution so
+  the full path can be run from that solution.
 
-Source: [PR #455 review, comments 11 and 14](../review-notes/pr-455-blake2b.md).
+Source: [PR #455 review, comments 11, 14, and 15](../review-notes/pr-455-blake2b.md).

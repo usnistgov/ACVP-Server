@@ -4,7 +4,7 @@
 - Reviewer: `celic`
 - Review captured: 2026-07-23
 - Local re-audit: 2026-07-30
-- GitHub state at re-audit: 14 current, non-outdated review threads; all 14
+- GitHub state at re-audit: 15 current, non-outdated review threads; all 15
   remained unresolved on GitHub.
 
 "Addressed" below describes the local working tree. A thread remains unresolved
@@ -28,11 +28,12 @@ on GitHub until the fixes are pushed and the thread is explicitly resolved.
 | 12 | `Blake2Parameters` does not need custom `Equals` and `GetHashCode`. | Actionable and valid. | Removed both overrides from `Oracle.Abstractions/ParameterTypes/Blake2Parameters.cs`. |
 | 13 | The BLAKE2 oracle method should not split the cSHAKE, ParallelHash, and TupleHash method group. | Actionable and valid. | Moved `GetBlake2CaseAsync` below that related block in `IOracle.Hash.cs`. |
 | 14 | Add a focused BLAKE solution like other algorithm families use. | Actionable and valid. | Added `gen-val/src/solutions/blake/Blake.sln` with the common, crypto, oracle/orleans, generation, and focused test projects needed by the algorithm path. |
+| 15 | Add integration tests, using Ascon XOF as the example. | Actionable and valid. | Added the BLAKE2 RFC7693 integration project and `GenValTestsSingleRunnerBase` fixture, wired the integration project and Orleans server host into the focused and aggregate solutions, and generated the reviewable `gen-val/json-files/BLAKE2b-RFC7693/` bundle. |
 
 ## Audit Result
 
-- All 14 comments were accounted for locally.
-- 12 comments produced code, test, or solution changes.
+- All 15 comments were accounted for locally.
+- 13 comments produced code, test, solution, or workflow-documentation changes.
 - 2 comments were informational or future architectural direction and did not
   request an immediate code change.
 - No comment was invalid. Comments 1 and 3 differed only in disposition: they
@@ -54,6 +55,10 @@ on GitHub until the fixes are pushed and the thread is explicitly resolved.
   candidates and should not rewrite the public case count.
 - Match validators to the ACVP test type and include the entire algorithm path in
   a focused solution.
+- Generation unit tests with a mocked oracle do not replace full-path integration
+  coverage. Run the real Orleans server, generate the JSON artifacts, and inspect
+  their actual registration, prompt, internal, expected-result, and validation
+  shapes.
 - Reviewer comments can be valid without requiring immediate code. Record that
   disposition explicitly so future work does not confuse deferred architecture
   direction with a missed blocker.
@@ -69,3 +74,5 @@ on GitHub until the fixes are pushed and the thread is explicitly resolved.
   message-length patterns.
 - Validator naming, oracle grouping, parameter DTO shape, and focused solution
   layout now match the review direction.
+- The BLAKE2 integration fixture exercises the registration-to-Orleans-to-crypto
+  path and writes the five-file JSON bundle used for output-shape review.

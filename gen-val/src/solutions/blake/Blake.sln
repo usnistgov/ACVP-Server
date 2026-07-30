@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Ge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.Tests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.Tests\NIST.CVP.ACVTS.Libraries.Generation.Tests.csproj", "{BB26E46E-7BFD-4AFD-9F43-FC733B2C1479}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Orleans.ServerHost", "..\..\..\samples\NIST.CVP.ACVTS.Orleans.ServerHost\NIST.CVP.ACVTS.Orleans.ServerHost.csproj", "{6D3C25B7-5A32-4C73-B9F1-930414C9369E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.IntegrationTests", "..\..\generation\test\NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.IntegrationTests\NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.IntegrationTests.csproj", "{9FBC238A-37E4-4E06-9A9C-02470FE7B822}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,5 +112,13 @@ Global
 		{BB26E46E-7BFD-4AFD-9F43-FC733B2C1479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB26E46E-7BFD-4AFD-9F43-FC733B2C1479}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB26E46E-7BFD-4AFD-9F43-FC733B2C1479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D3C25B7-5A32-4C73-B9F1-930414C9369E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D3C25B7-5A32-4C73-B9F1-930414C9369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D3C25B7-5A32-4C73-B9F1-930414C9369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D3C25B7-5A32-4C73-B9F1-930414C9369E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBC238A-37E4-4E06-9A9C-02470FE7B822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBC238A-37E4-4E06-9A9C-02470FE7B822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBC238A-37E4-4E06-9A9C-02470FE7B822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBC238A-37E4-4E06-9A9C-02470FE7B822}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

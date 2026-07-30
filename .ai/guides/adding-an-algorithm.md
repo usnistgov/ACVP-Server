@@ -28,10 +28,10 @@ Build a working manifest before editing:
 | Crypto | Primitive/wrapper, factory implementation, and known-answer tests. |
 | Oracle abstractions | Minimal parameter/result DTOs and `IOracle` method. |
 | Oracle implementation | Dispatch from the oracle to the correct observer grain. |
-| Orleans | Grain interface, grain implementation, and dependency registration. |
+| Orleans | Grain interface, grain implementation, dependency registration, and a runnable server host. |
 | Generation | Parameters, validation, groups, cases, generators, validators, projections, and DI registration. |
-| Tests | Validation, generation shape, boundary behavior, projections, validation, and crypto behavior. |
-| Solution | Focused solution under `gen-val/src/solutions/<algorithm>/`. |
+| Tests | Validation, generation shape, boundary behavior, projections, result validation, crypto behavior, and a full-path integration test that generates JSON. |
+| Solution | Focused solution under `gen-val/src/solutions/<algorithm>/`, including the integration test and Orleans server host. |
 
 ## 2. Define Identity and Registration
 
@@ -146,18 +146,59 @@ Cover the behavior introduced by the algorithm:
   modes.
 - Canonical algorithm/mode/revision values survive complete vector-set creation.
 
+Generation unit tests and a mocked `IOracle` are useful but do not prove the
+deployed path works. Add an integration-test project under
+`gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.<Algorithm>.IntegrationTests`
+and follow a nearby `GenValTestsSingleRunnerBase` fixture. The fixture should:
+
+- Declare the canonical `Algorithm`, optional `Mode`, `Revision`, `AlgoMode`, and
+  `RegisterInjections` values.
+- Provide a small sample registration and a representative larger registration.
+- Mutate one expected result so the harness also proves failed validation is
+  detected.
+- Exercise registration parsing, generation, the Orleans-backed oracle and
+  crypto implementation, prompt/internal/result projections, and validation.
+
+The larger test writes a reviewable bundle to
+`gen-val/json-files/<algorithm>[-<mode>]-<revision>/`. Inspect all five files:
+
+- `registration.json` has canonical identity and the intended capability
+  domains.
+- `prompt.json` contains concrete IUT inputs, lengths, and test identifiers, not
+  registration-only domains or expected outputs.
+- `internalProjection.json` retains the server fields needed for validation.
+- `expectedResults.json` contains the generated result fields and identifiers.
+- `validation.json` reports the expected disposition for every test case.
+
+Do not treat the integration test as complete merely because it passes. Review
+the generated JSON for field placement, canonical identity, lengths, empty and
+optional values, group/test counts, and result sizes.
+
 ## 8. Add and Run the Focused Solution
 
 - Add `gen-val/src/solutions/<algorithm>/<Algorithm>.sln`.
 - Include the common/math, crypto, oracle/orleans, generation, and test projects
   needed for the complete path.
-- Restore and test the focused solution before running broader suites:
+- Include the algorithm integration-test project and
+  `gen-val/samples/NIST.CVP.ACVTS.Orleans.ServerHost`.
+- Restore the focused solution, then run its Orleans server host in one terminal:
 
 ```text
 dotnet restore gen-val/src/solutions/<algorithm>/<Algorithm>.sln
-dotnet test gen-val/src/solutions/<algorithm>/<Algorithm>.sln --no-restore
+DOTNET_ENVIRONMENT=dev dotnet run --project gen-val/samples/NIST.CVP.ACVTS.Orleans.ServerHost/NIST.CVP.ACVTS.Orleans.ServerHost.csproj --no-restore
+```
+
+Run the focused tests from a second terminal:
+
+```text
+DOTNET_ENVIRONMENT=dev dotnet test gen-val/src/solutions/<algorithm>/<Algorithm>.sln --no-restore
 git diff --check
 ```
+
+The development server and test client use the `cryptoDist-local` cluster and
+the localhost Orleans gateway on port `30000`. A missing server normally appears
+as connection-refused retries followed by an Orleans initialization failure.
+Stop the server with Ctrl-C after the integration tests finish.
 
 If shared infrastructure changed, follow with the relevant broader solution or
 project tests.
@@ -175,6 +216,11 @@ An algorithm addition is complete when:
 - Prompt and result projections serialize the intended fields.
 - Result validation compares every required output.
 - Focused tests cover primitive correctness, schema shape, and boundary behavior.
+- The Orleans-backed integration test passes through the real oracle/grain/crypto
+  path, including both successful and intentionally failed result validation.
+- The generated registration, prompt, internal projection, expected-result, and
+  validation JSON files were inspected for canonical identity and correct field
+  placement.
 - A focused solution restores and tests successfully, or any environmental
   blocker is reported with the exact command and output.
 - Relevant prior review lessons were checked and new review feedback is recorded
@@ -192,5 +238,7 @@ solution path using nearby implementations. Model numeric registration
 capabilities with MathDomain, retain allowed domains on TestGroup, and emit each
 selected concrete value on TestCase. Use canonical identity strings, cover
 behavioral boundaries, keep generated case counts stable, update projections,
-add the focused solution, and run its restore/test commands plus git diff --check.
+add an Orleans-backed GenVal integration test that generates an inspectable JSON
+bundle, include the integration project and server host in the focused solution,
+and run its restore/server/test commands plus git diff --check.
 ```
