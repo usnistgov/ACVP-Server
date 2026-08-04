@@ -12,7 +12,9 @@ public class EncapsulationKeyExpectationProvider : TestCaseExpectationProviderBa
         var expectationReasons = new List<MLKEMEncapsulationKeyDisposition>
         {
             { MLKEMEncapsulationKeyDisposition.None, 5 },
-            { MLKEMEncapsulationKeyDisposition.ValuesTooLarge, 5 }
+            { MLKEMEncapsulationKeyDisposition.ValuesTooLarge, 5 },
+            { MLKEMEncapsulationKeyDisposition.TooShort, 5 },
+            { MLKEMEncapsulationKeyDisposition.TooLong, 5 }
         };
 
         LoadExpectationReasons(expectationReasons);
