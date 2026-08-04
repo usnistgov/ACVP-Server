@@ -20,8 +20,8 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     private ShuffleQueue<int> _contextLengths;
     private ShuffleQueue<HashFunctions> _hashFunctions;
     
-    // Set up to use 3 of each possible disposition, 15 is a placeholder
-    public int NumberOfTestCasesToGenerate { get; private set; } = 15;
+    // Set up to use 3 of each possible disposition, 18 is a placeholder
+    public int NumberOfTestCasesToGenerate { get; private set; } = 18;
 
     public TestCaseGenerator(IOracle oracle)
     {
@@ -30,7 +30,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     
     public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
     {
-        NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;   // 15
+        NumberOfTestCasesToGenerate = group.TestCaseExpectationProvider.ExpectationCount;   // 18
 
         // Add min, max and fill rest with random values
         var messageLengthList = new List<int>

@@ -4,7 +4,7 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 
 public enum MLDSASignatureDisposition
 {
-    // TODO add HintCheck, LargeZNorm, CommitmentHash (covered by modify signature and modify message)
+    // TODO add HintCheck, CommitmentHash (covered by modify signature and modify message)
     
     [EnumMember(Value = "valid signature and message - signature should verify successfully")]
     None,
@@ -19,5 +19,8 @@ public enum MLDSASignatureDisposition
     ModifyHint,
     
     [EnumMember(Value = "modified signature - z")]
-    ModifyZ
+    ModifyZ,
+    
+    [EnumMember(Value = "invalid signature - z norm too large")]
+    LargeZNorm
 }

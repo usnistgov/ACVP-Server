@@ -15,7 +15,8 @@ public class SignatureExpectationProvider : TestCaseExpectationProviderBase<MLDS
             { MLDSASignatureDisposition.ModifyMessage, 3 },
             { MLDSASignatureDisposition.ModifySignature, 3 },
             { MLDSASignatureDisposition.ModifyHint, 3 },
-            { MLDSASignatureDisposition.ModifyZ, 3 }
+            { MLDSASignatureDisposition.ModifyZ, 3 },
+            { MLDSASignatureDisposition.LargeZNorm, 3 }
         };
 
         LoadExpectationReasons(expectationReasons);
