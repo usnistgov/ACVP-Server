@@ -55,7 +55,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys
                 {
                     // Just tree values, hashes[0] is T[1]
                     T = new byte[hashes.Length+1][];
-                    for (var j = 1; j < hashes.Length; j++)
+                    for (var j = 1; j <= hashes.Length; j++)
                     {
                         T[j] = hashes[j-1];
                     }
