@@ -11,21 +11,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.XMSS.Tests.Native.Keys
     [TestFixture, FastCryptoTest]
     public class XmssPrivateKeyTests
     {
-        private static XmssAttribute Attribute => AttributesHelper.GetXmssAttribute(XmssMode.XMSS_SHA2_10_256);
-
-        private static byte[][] Nodes(int count)
-        {
-            // distinct, recognizable node values
-            return Enumerable.Range(1, count)
-                .Select(i => Enumerable.Repeat((byte)i, 32).ToArray())
-                .ToArray();
-        }
-
-        private static XmssPrivateKey KeyWithTree(int x, byte[][] hashes)
-        {
-            var n = Attribute.N;
-            return new XmssPrivateKey(Attribute, new byte[n], new byte[n], new byte[n], new byte[n], 0, x, hashes);
-        }
+        private static readonly XmssAttribute _xmssAttribute = AttributesHelper.GetXmssAttribute(XmssMode.XMSS_SHA2_10_256);
 
         [Test]
         public void WhenGivenEitherPrecomputedTreeShape_ShouldExposeIdenticalNodes()
@@ -64,8 +50,22 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.XMSS.Tests.Native.Keys
         public void WhenGivenIdxBeyondTree_ShouldThrow()
         {
             var key = KeyWithTree(0, null);
-            Assert.Throws<ArgumentOutOfRangeException>(() => key.SetIdx(1 << Attribute.H));
+            Assert.Throws<ArgumentOutOfRangeException>(() => key.SetIdx(1 << _xmssAttribute.H));
             Assert.Throws<ArgumentOutOfRangeException>(() => key.SetIdx(-1));
+        }
+
+        private static byte[][] Nodes(int count)
+        {
+            // distinct, recognizable node values
+            return Enumerable.Range(1, count)
+                .Select(i => Enumerable.Repeat((byte)i, 32).ToArray())
+                .ToArray();
+        }
+
+        private static XmssPrivateKey KeyWithTree(int x, byte[][] hashes)
+        {
+            var n = _xmssAttribute.N;
+            return new XmssPrivateKey(_xmssAttribute, new byte[n], new byte[n], new byte[n], new byte[n], 0, x, hashes);
         }
     }
 }

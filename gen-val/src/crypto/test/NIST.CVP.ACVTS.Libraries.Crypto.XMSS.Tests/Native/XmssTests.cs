@@ -29,6 +29,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.XMSS.Tests.Native
         [Test]
         [TestCase("xmss-h10.jsonl")]
         [TestCase("xmss-h16.jsonl")]
+        [TestCase("xmss-h20.jsonl")]
         public void WhenGivenReferenceVectors_ShouldVerifySuccessfully(string file)
         {
             var vectors = ReferenceVectors.LoadXmss(file);
