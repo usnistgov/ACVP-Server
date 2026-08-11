@@ -8,6 +8,7 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.SLH_DSA;
 using NLog;
 
@@ -19,6 +20,7 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
     private ShuffleQueue<int> _messageLengths;
     private ShuffleQueue<int> _contextLengths;
     private ShuffleQueue<HashFunctions> _hashFunctions;
+    private ShuffleQueue<HashFunctions> _validHashFunctions;
     
     // Set up to use each of the possible dispositions 2X, placeholder to be calculated later
     public int NumberOfTestCasesToGenerate { get; private set; } = 14;
@@ -57,6 +59,9 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
             if (group.PreHash == PreHash.PreHash)
             {
                 _hashFunctions = new ShuffleQueue<HashFunctions>(group.HashFunctions.ToList());
+                // Valid cases draw from their own queue so each registered hash function is paired with a
+                // valid case; the expectation provider supplies one None per hash function for these groups.
+                _validHashFunctions = new ShuffleQueue<HashFunctions>(group.HashFunctions.ToList());
                 
                 // It is not a requirement but a recommendation to filter by hash functions strong enough for the parameter set, we want to test all valid possibilities though not just the recommended ones
             }
@@ -71,17 +76,29 @@ public class TestCaseGenerator : ITestCaseGeneratorWithPrep<TestGroup, TestCase>
         {
             var keyParam = new SLHDSAKeyGenParameters { SlhdsaParameterSet = group.ParameterSet };
             var keyResult = await _oracle.GetSLHDSAKeyCaseAsync(keyParam);
-            
+
+            var disposition = group.TestCaseExpectationProvider.GetRandomReason();
+
+            // On pre-hash groups, valid cases pull from the coverage queue so every registered hash
+            // function gets a valid case; negative cases can use any function.
+            var hashFunction = HashFunctions.None;
+            if (group.PreHash == PreHash.PreHash)
+            {
+                hashFunction = disposition == SLHDSASignatureDisposition.None
+                    ? _validHashFunctions.Pop()
+                    : _hashFunctions.Pop();
+            }
+
             var param = new SLHDSASignatureParameters
             {
                 SlhdsaParameterSet = group.ParameterSet,
                 Deterministic = false,
                 MessageLength = _messageLengths.Pop(),
-                Disposition = group.TestCaseExpectationProvider.GetRandomReason(),
+                Disposition = disposition,
                 PreHash = group.PreHash,
                 SignatureInterface = group.SignatureInterface,
                 PrivateKey = keyResult.PrivateKey,
-                HashFunction = group.PreHash == PreHash.PreHash ? _hashFunctions.Pop() : HashFunctions.None, // Only used on PreHash
+                HashFunction = hashFunction, // Only used on PreHash
                 ContextLength = group.SignatureInterface == SignatureInterface.External ? _contextLengths.Pop() : 0 // Only used on External interface
             };
             
