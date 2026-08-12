@@ -6,7 +6,7 @@ using NIST.CVP.ACVTS.Libraries.Math.Domain;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
 
-namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2b.IntegrationTests;
+namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.IntegrationTests;
 
 [TestFixture, FastIntegrationTest]
 public class GenValTests : GenValTestsSingleRunnerBase
