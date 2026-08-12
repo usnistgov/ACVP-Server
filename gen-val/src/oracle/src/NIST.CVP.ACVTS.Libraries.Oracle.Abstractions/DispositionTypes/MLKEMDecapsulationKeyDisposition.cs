@@ -8,5 +8,11 @@ public enum MLKEMDecapsulationKeyDisposition
     None,
     
     [EnumMember(Value = "modified H")]
-    ModifyH
+    ModifyH,
+
+    [EnumMember(Value = "invalid decapsulation key - too short")]
+    TooShort,
+
+    [EnumMember(Value = "invalid decapsulation key - too long")]
+    TooLong
 }

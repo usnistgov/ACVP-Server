@@ -14,7 +14,7 @@ public class TestCaseGeneratorDecapsulationKeyCheck : ITestCaseGeneratorAsync<Te
 {
     private readonly IOracle _oracle;
     
-    public int NumberOfTestCasesToGenerate => 10;
+    public int NumberOfTestCasesToGenerate => 20;
 
     public TestCaseGeneratorDecapsulationKeyCheck(IOracle oracle)
     {

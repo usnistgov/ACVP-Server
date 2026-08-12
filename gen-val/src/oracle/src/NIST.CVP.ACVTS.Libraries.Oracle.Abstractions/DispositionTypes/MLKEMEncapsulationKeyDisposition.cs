@@ -9,4 +9,10 @@ public enum MLKEMEncapsulationKeyDisposition
     
     [EnumMember(Value = "noisy linear system values too large")]
     ValuesTooLarge,
+
+    [EnumMember(Value = "invalid encapsulation key - too short")]
+    TooShort,
+
+    [EnumMember(Value = "invalid encapsulation key - too long")]
+    TooLong,
 }

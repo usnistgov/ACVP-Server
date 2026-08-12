@@ -12,7 +12,9 @@ public class DecapsulationKeyExpectationProvider : TestCaseExpectationProviderBa
         var expectationReasons = new List<MLKEMDecapsulationKeyDisposition>
         {
             { MLKEMDecapsulationKeyDisposition.None, 5 },
-            { MLKEMDecapsulationKeyDisposition.ModifyH, 5}
+            { MLKEMDecapsulationKeyDisposition.ModifyH, 5},
+            { MLKEMDecapsulationKeyDisposition.TooShort, 5 },
+            { MLKEMDecapsulationKeyDisposition.TooLong, 5 }
         };
         
         LoadExpectationReasons(expectationReasons);

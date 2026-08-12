@@ -5,6 +5,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper;
 using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Libraries.Math.Entropy;
+using NIST.CVP.ACVTS.Libraries.Math.Helpers;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes.ML_KEM;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes.ML_KEM;
@@ -56,6 +57,16 @@ public class OracleObserverMLKEMDecapKeyCheckCaseGrain : ObservableOracleGrainBa
             case MLKEMDecapsulationKeyDisposition.ModifyH:
                 // Modify the values in dk so that ek || H(ek) no longer matches
                 key.dk = new BadDecapsulationKeyManipulator(mlkem as MLKEM).ManipulateDecapsulationKey(key.dk);
+                break;
+            
+            case MLKEMDecapsulationKeyDisposition.TooShort:
+                // Drop the last byte, dk is no longer 768k + 96 bytes
+                key.dk = key.dk[..^1];
+                break;
+            
+            case MLKEMDecapsulationKeyDisposition.TooLong:
+                // Append a byte, dk is no longer 768k + 96 bytes
+                key.dk = key.dk.Concatenate(new byte[] { 0xAA });
                 break;
             
             default:
