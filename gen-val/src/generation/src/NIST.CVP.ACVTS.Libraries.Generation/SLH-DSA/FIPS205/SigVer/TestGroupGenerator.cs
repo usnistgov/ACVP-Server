@@ -49,7 +49,11 @@ public class TestGroupGenerator : ITestGroupGeneratorAsync<Parameters, TestGroup
                                     PreHash = preHash,
                                     HashFunctions = capability.HashAlgs,
                                     ContextLength = capability.ContextLength,
-                                    TestCaseExpectationProvider = new SignatureExpectationProvider()
+                                    // Pre-hash groups need one valid case per registered hash function so
+                                    // each function's OID and digest binding is actually tested.
+                                    TestCaseExpectationProvider = preHash == PreHash.PreHash
+                                        ? new SignatureExpectationProvider(capability.HashAlgs.Length)
+                                        : new SignatureExpectationProvider()
                                 };
                                 
                                 testGroups.Add(extTestGroup);
