@@ -113,6 +113,25 @@ public class OracleObserverMLDSAVerifyCaseGrain : ObservableOracleGrainBase<Veri
                 var zBit = result.Signature.Bits.Count - ((mldsaParameters.Lambda * 2) + 1);
                 result.Signature.Bits.Set(zBit, !result.Signature.Bits.Get(zBit));
                 break;
+
+            case MLDSASignatureDisposition.LargeZNorm:
+                // A mutation cannot exercise the ||z|| bound: any change to z also changes w' and the
+                // commitment hash rejects the signature first. Re-sign with a signer whose rejection
+                // step keeps ||z|| >= gamma1 - beta candidates instead, so the ||z|| check in
+                // FIPS 204 Algorithm 8 is the only condition that rejects the signature.
+                var largeZNorm = new DilithiumLargeZNorm(_param.ParameterSet, _shaFactory);
+                var largeZNormSignature = (_param.SignatureInterface, _param.PreHash, _param.ExternalMu) switch
+                {
+                    (SignatureInterface.Internal, _, true) => largeZNorm.SignExternalMu(_param.PrivateKey.ToBytes(), mu.ToBytes(), BitString.Zeroes(256).ToBytes()),
+                    (SignatureInterface.Internal, _, false) => largeZNorm.Sign(_param.PrivateKey.ToBytes(), message.ToBytes(), BitString.Zeroes(256).ToBytes()),
+
+                    (SignatureInterface.External, PreHash.Pure, _) => largeZNorm.ExternalSign(_param.PrivateKey.ToBytes(), message.ToBytes(), _param.Deterministic, context.ToBytes()),
+                    (SignatureInterface.External, PreHash.PreHash, _) => largeZNorm.ExternalPreHashSign(_param.PrivateKey.ToBytes(), message.ToBytes(), _param.Deterministic, context.ToBytes(), ShaAttributes.GetHashFunctionFromEnum(_param.HashFunction)),
+
+                    (_, _, _) => throw new ArgumentException("Invalid combination of parameters for ML-DSA")
+                };
+                result.Signature = new BitString(largeZNormSignature);
+                break;
         }
         
         await Notify(new VerifyResult<MLDSASignatureResult>

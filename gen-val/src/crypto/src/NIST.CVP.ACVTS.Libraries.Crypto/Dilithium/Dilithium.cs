@@ -307,7 +307,7 @@ public class Dilithium : ExternalSignatureBase, IMLDSA
     /// <param name="mu">64-byte message that has already been hashed</param>
     /// <param name="rnd">Either a random 32-byte string or 32-bytes of 0s</param>
     /// <returns>Signature</returns>
-    public byte[] SignExternalMu(byte[] sk, byte[] mu, byte[] rnd)
+    public virtual byte[] SignExternalMu(byte[] sk, byte[] mu, byte[] rnd)
     {
         var (rho, k, tr, s1, s2, t0) = SkDecode(sk);
         var s1Hat = s1.Select(NTT).ToArray();
