@@ -11,13 +11,13 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
 {
     protected override Predicate<object> TestGroupSerialization(JsonProperty jsonProperty)
     {
+        // Always include
         var includeProperties = new []
         {
             nameof(TestGroup.TestGroupId), 
             nameof(TestGroup.TestType), 
             nameof(TestGroup.ParameterSet),
             nameof(TestGroup.Function),
-            nameof(TestGroup.KeyFormat),
             nameof(TestGroup.Tests)
         };
         
@@ -25,100 +25,119 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
         {
             return jsonProperty.ShouldSerialize = _ => true;
         }
+        
+        // Only include for function = Decapsulation, and function = DecapsulationKeyCheck
+        // Note, this value will only ever be "expanded" for function = DecapsulationKeyCheck, that is OK, we want to be clear to the user.
+        var includeDecapProperties = new []
+        {
+            nameof(TestGroup.KeyFormat)
+        };
+        
+        if (includeDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestGroupFromTestGroupObject(instance, out var group);
+                return group.Function is MLKEMFunction.Decapsulation or MLKEMFunction.DecapsulationKeyCheck;
+            };
+        }
 
         return jsonProperty.ShouldSerialize = _ => false;
     }
 
     protected override Predicate<object> TestCaseSerialization(JsonProperty jsonProperty)
     {
-        var includeProperties = new[]
+        // Applies to all test cases
+        var alwaysIncludeProperties = new[]
         {
             nameof(TestCase.TestCaseId)
         };
         
-        var includeAllEncapProperties = new []
+        if (alwaysIncludeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = _ => true;
+        }
+        
+        // Applies to function = Encapsulation and EncapsulationKeyChecks
+        var alwaysIncludeEncapProperties = new []
         {
             nameof(TestCase.EncapsulationKey)
         };
         
-        var includeAllDecapProperties = new []
+        if (alwaysIncludeEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
-            nameof(TestCase.DecapsulationKey),
-            nameof(TestCase.SeedD),
-            nameof(TestCase.SeedZ)
-        };
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.Function is MLKEMFunction.Encapsulation or MLKEMFunction.EncapsulationKeyCheck;
+            };
+        }
         
-        var includeExpandedDecapKeyProperties = new []
-        {
-            nameof(TestCase.DecapsulationKey)
-        };
-        
+        // Applies to function = Encapsulation
         var includeEncapProperties = new[]
         {
             nameof(TestCase.SeedM)
         };
         
+        if (includeEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.Function == MLKEMFunction.Encapsulation;
+            };
+        }
+        
+        // Applies to function = Decapsulation and KeyFormat = Seed
+        // Note that function = DecapsulationKeyCheck and KeyFormat = Seed is not a valid combination.
+        var includeDecapSeedKeyProperties = new []
+        {
+            nameof(TestCase.SeedD),
+            nameof(TestCase.SeedZ)
+        };
+        
+        if (includeDecapSeedKeyProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.Function is MLKEMFunction.Decapsulation &&
+                       group.KeyFormat is PrivateKeyFormat.Seed;
+            };
+        }
+        
+        // Applies to function = Decapsulation and DecapsulationKeyCheck and KeyFormat = Expanded
+        var includeDecapExpandedKeyProperties = new []
+        {
+            nameof(TestCase.DecapsulationKey)
+        };
+        
+        if (includeDecapExpandedKeyProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        {
+            return jsonProperty.ShouldSerialize = instance =>
+            {
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
+                return group.Function is MLKEMFunction.Decapsulation or MLKEMFunction.DecapsulationKeyCheck &&
+                       group.KeyFormat is PrivateKeyFormat.Expanded;
+            };
+        }
+        
+        // Applies to function = Decapsulation
         var includeDecapProperties = new[]
         {
             nameof(TestCase.Ciphertext)
         };
 
-        if (includeProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-        {
-            return jsonProperty.ShouldSerialize = _ => true;
-        }
-
-        if (includeEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-        {
-            return jsonProperty.ShouldSerialize = instance =>
-            {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.Function == MLKEMFunction.Encapsulation;
-            };
-        }
-        
         if (includeDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
+                GetTestCaseFromTestCaseObject(instance, out var group, out _);
                 return group.Function == MLKEMFunction.Decapsulation;
             };
         }
-        
-        if (includeAllEncapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-        {
-            return jsonProperty.ShouldSerialize = instance =>
-            {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                return group.Function is MLKEMFunction.Encapsulation or MLKEMFunction.EncapsulationKeyCheck;
-            };
-        }
-        
-        if (includeAllDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
-        {
-            return jsonProperty.ShouldSerialize = instance =>
-            {
-                GetTestCaseFromTestCaseObject(instance, out var group, out var testCase);
-                if (group.Function is MLKEMFunction.Decapsulation or MLKEMFunction.DecapsulationKeyCheck)
-                {
-                    if (includeExpandedDecapKeyProperties.Contains(jsonProperty.UnderlyingName,
-                            StringComparer.OrdinalIgnoreCase))
-                    {
-                        return group.KeyFormat == PrivateKeyFormat.Expanded;
-                    }
-                    else
-                    {
-                        return group.KeyFormat == PrivateKeyFormat.Seed;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            };
-        }
-        
+
+        // Otherwise property should not be serialized
         return jsonProperty.ShouldSerialize = _ => false;
     }
 }

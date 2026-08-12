@@ -39,8 +39,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             true
         },
         new object[]
@@ -50,8 +50,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -61,8 +61,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -72,8 +72,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.None },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -83,8 +83,8 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -94,8 +94,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(9000)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -105,8 +105,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(1025)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -116,8 +116,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.None },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -127,8 +127,8 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             new [] { HashFunctions.Sha2_d256 },
             null,
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -138,8 +138,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             Array.Empty<HashFunctions>(),
             null,
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             false
         },
         new object[]
@@ -149,7 +149,18 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
+            false
+        },
+        new object[]
+        {
+            "internal but no externalMu",
+            new [] { SignatureInterface.Internal },
+            Array.Empty<PreHash>(),
+            Array.Empty<HashFunctions>(),
+            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
             null,
             false
         },
@@ -160,8 +171,8 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             Array.Empty<HashFunctions>(),
             null,
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            null,
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { true, false },
             true
         },
         new object[]
@@ -171,8 +182,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            new [] { false },
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            null,
             false
         },
         new object[]
@@ -182,8 +193,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             null, 
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            new [] { false },
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            null,
             false
         },
         new object[]
@@ -193,8 +204,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            new [] { false },
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            null,
             true
         },
         new object[]
@@ -204,8 +215,8 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            new [] { false },
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            null,
             false
         },
         new object[]
@@ -215,19 +226,30 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
-            new [] { false },
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            null,
             true
         },
         new object[]
         {
-            "external mu with external interface",
+            "externalMu true with external interface",
             new [] { SignatureInterface.External },
             new [] { PreHash.Pure },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded},
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
             new [] { true },
+            false
+        },
+        new object[]
+        {
+            "externalMu included with external interface",
+            new [] { SignatureInterface.External },
+            new [] { PreHash.Pure },
+            Array.Empty<HashFunctions>(),
+            new MathDomain().AddSegment(new ValueDomainSegment(128)),
+            new [] { PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded },
+            new [] { false },
             false
         },
         new object[]
@@ -237,8 +259,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed},
-            null,
+            new [] { PrivateKeyFormat.Seed },
+            new [] { true, false },
             true
         },
         new object[]
@@ -248,8 +270,8 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            new [] {PrivateKeyFormat.Seed},
-            null,
+            new [] { PrivateKeyFormat.Seed },
+            new [] { true, false },
             true
         },
         new object[]
@@ -260,7 +282,7 @@ public class ParameterValidatorTests
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
             Array.Empty<PrivateKeyFormat>(),
-            null,
+            new [] { true, false },
             false
         }
     };
@@ -280,6 +302,6 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(p);
 
-        Assert.That(expectedSuccess, Is.EqualTo(result.Success), result.ErrorMessage);
+        Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
     }
 }

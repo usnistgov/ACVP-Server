@@ -35,7 +35,7 @@ public class BadEncapsulationKeyManipulator
         var newEk = Array.Empty<byte>();
         for (var i = 0; i < Mlkem.Param.K; i++)
         {
-            newEk = ek.Concatenate(Mlkem.ByteEncode(12, tHat[i]));
+            newEk = newEk.Concatenate(Mlkem.ByteEncode(12, tHat[i]));
         }
         
         // Need to grab rho from the original key

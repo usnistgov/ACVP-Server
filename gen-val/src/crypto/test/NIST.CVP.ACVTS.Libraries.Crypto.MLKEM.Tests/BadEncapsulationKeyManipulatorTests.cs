@@ -32,7 +32,11 @@ public class BadEncapsulationKeyManipulatorTests
         var badKeyShouldFailResult = mlkem.EncapsulationKeyCheck(badKey);
         var goodKeyShouldPassResult = mlkem.EncapsulationKeyCheck(goodKey.ek);
         
-        Assert.That(badKeyShouldFailResult, Is.False);          
-        Assert.That(goodKeyShouldPassResult, Is.True);
+        Assert.Multiple(() =>
+        {
+            Assert.That(badKey, Has.Length.EqualTo(goodKey.ek.Length), "Should be the same length");
+            Assert.That(badKeyShouldFailResult, Is.False, "Bad key should fail encapsulationKeyCheck");
+            Assert.That(goodKeyShouldPassResult, Is.True, "Good key should pass encapsulationKeyCheck");
+        });
     }
 }

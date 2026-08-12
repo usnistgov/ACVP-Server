@@ -82,14 +82,33 @@ public class ParameterValidator : PqcParameterValidator, IParameterValidator<Par
 
     private void ValidateExternalMu(Parameters parameters, List<string> errors)
     {
-        if (parameters.ExternalMu.Distinct().Count() != parameters.ExternalMu.Length)
+        // ExternalMu is only allowed when SignatureInterface.Internal is present
+        //      For which no duplicates are allowed and the length must be > 0
+        // ExternalMu is not allowed in all other cases (so that it doesn't appear on the certificate when it is not relevant)
+        if (parameters.SignatureInterfaces.Contains(SignatureInterface.Internal))
         {
-            errors.Add("Expected no duplicates in external mu");
-        }
+            if (parameters.ExternalMu == null)
+            {
+                errors.Add("Internal signature interface was defined without providing externalMu");
+                return;
+            }
 
-        if (parameters.ExternalMu.Contains(true) && !parameters.SignatureInterfaces.Contains(SignatureInterface.Internal))
+            if (parameters.ExternalMu.Length == 0)
+            {
+                errors.Add("No externalMu values found in array");
+            }
+            
+            if (parameters.ExternalMu.Distinct().Count() != parameters.ExternalMu.Length)
+            {
+                errors.Add("Expected no duplicates in externalMu");
+            }
+        }
+        else
         {
-            errors.Add("Expected external mu must be tested with internal signature interface");
+            if (parameters.ExternalMu != null)
+            {
+                errors.Add("ExternalMu was provided when only the external signature interface is included");
+            }
         }
     }
 

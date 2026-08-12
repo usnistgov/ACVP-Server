@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XECDH.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.DispositionTypes;
 using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ParameterTypes;
 using NLog;
 
@@ -27,6 +29,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.XECDH.RFC7748.KeyVer
                 Curve = group.Curve,
                 Disposition = group.TestCaseExpectationProvider.GetRandomReason()
             };
+
+            // Disposition MsbSet does not apply to Curve448 as the public key bit size divisible by 8
+            if (param.Curve == Curve.Curve448 && param.Disposition == XecdhKeyDisposition.MsbSet)
+            {
+                param.Disposition = XecdhKeyDisposition.None;
+            }
 
             try
             {

@@ -14,20 +14,20 @@ public class ParameterBuilder
         Algorithm = "ML-DSA",
         Mode = "SigGen",
         Revision = "FIPS204-tr1",
-        PreHash = new[] { PreHash.Pure, PreHash.PreHash },
-        Deterministic = new[] { true, false },
-        SignatureInterfaces = new[] { SignatureInterface.External, SignatureInterface.Internal },
-        ExternalMu = new [] { true, false },
-        Capabilities = new[]
-        {
+        PreHash = [PreHash.Pure, PreHash.PreHash],
+        Deterministic = [true, false],
+        SignatureInterfaces = [SignatureInterface.External, SignatureInterface.Internal],
+        ExternalMu = [true, false],
+        Capabilities =
+        [
             new Capability
             {
-                ParameterSets = new[] { DilithiumParameterSet.ML_DSA_44 },
+                ParameterSets = [DilithiumParameterSet.ML_DSA_44],
                 MessageLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
                 ContextLength = new MathDomain().AddSegment(new ValueDomainSegment(1024)),
-                HashAlgs = new[] { HashFunctions.Sha2_d256, HashFunctions.Sha3_d512, HashFunctions.Shake_d128 }
+                HashAlgs = [HashFunctions.Sha2_d256, HashFunctions.Sha3_d512, HashFunctions.Shake_d128]
             }
-        },
+        ],
         KeyFormats = [PrivateKeyFormat.Seed, PrivateKeyFormat.Expanded]
     };
 
@@ -39,45 +39,30 @@ public class ParameterBuilder
 
     public ParameterBuilder WithPreHash(PreHash[] preHashes)
     {
-        if (preHashes == null)
-            return this;
-        
         _param.PreHash = preHashes;
         return this;
     }
 
     public ParameterBuilder WithSignatureInterfaces(SignatureInterface[] signatureInterfaces)
     {
-        if (signatureInterfaces == null)
-            return this;
-        
         _param.SignatureInterfaces = signatureInterfaces;
         return this;
     }
 
     public ParameterBuilder WithHashAlgs(HashFunctions[] hashFunctions)
     {
-        if (hashFunctions == null)
-            return this;
-        
         _param.Capabilities.First().HashAlgs = hashFunctions;
         return this;
     }
 
     public ParameterBuilder WithKeyFormat(PrivateKeyFormat[] keyFormats)
     {
-        if (keyFormats == null)
-            return this;
-
         _param.KeyFormats = keyFormats;
         return this;
     }
     
     public ParameterBuilder WithExternalMu(bool[] externalMu)
     {
-        if (externalMu == null)
-            return this;
-
         _param.ExternalMu = externalMu;
         return this;
     }

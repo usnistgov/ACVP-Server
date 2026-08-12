@@ -39,7 +39,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false },
             true
         },
         new object[]
@@ -149,7 +149,7 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             Array.Empty<HashFunctions>(),
             null, 
-            null,
+            new [] { true, false },
             true
         },
         new object[]
@@ -159,7 +159,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -169,7 +169,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             null,
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -179,7 +179,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             true
         },
         new object[]
@@ -189,7 +189,7 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -199,7 +199,7 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             true
         }
     };
@@ -218,6 +218,6 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(p);
 
-        Assert.That(expectedSuccess, Is.EqualTo(result.Success), result.ErrorMessage);
+        Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
     }
 }

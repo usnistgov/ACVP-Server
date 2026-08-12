@@ -110,7 +110,7 @@ public class OracleObserverMLDSAVerifyCaseGrain : ObservableOracleGrainBase<Veri
                 // Flip a bit in the middle
                 // TODO make sure this leads to a large z that fails the check
                 var mldsaParameters = new DilithiumParameters(_param.ParameterSet);
-                var zBit = (mldsaParameters.Lambda * 2) + 1;
+                var zBit = result.Signature.Bits.Count - ((mldsaParameters.Lambda * 2) + 1);
                 result.Signature.Bits.Set(zBit, !result.Signature.Bits.Get(zBit));
                 break;
         }

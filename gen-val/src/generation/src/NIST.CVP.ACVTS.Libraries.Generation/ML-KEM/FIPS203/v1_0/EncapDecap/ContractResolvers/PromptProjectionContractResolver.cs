@@ -39,7 +39,7 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             nameof(TestCase.EncapsulationKey)
         };
         
-        var includeAlLDecapProperties = new []
+        var includeAllDecapProperties = new []
         {
             nameof(TestCase.DecapsulationKey)
         };
@@ -86,7 +86,7 @@ public class PromptProjectionContractResolver : ProjectionContractResolverBase<T
             };
         }
         
-        if (includeAlLDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
+        if (includeAllDecapProperties.Contains(jsonProperty.UnderlyingName, StringComparer.OrdinalIgnoreCase))
         {
             return jsonProperty.ShouldSerialize = instance =>
             {

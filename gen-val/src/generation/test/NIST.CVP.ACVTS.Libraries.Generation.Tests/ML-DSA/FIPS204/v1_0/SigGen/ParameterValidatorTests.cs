@@ -31,7 +31,7 @@ public class ParameterValidatorTests
     }
 
     private static readonly object[] SpecificCapabilities =
-    {
+    [
         new object[]
         {
             "valid params",
@@ -39,7 +39,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false },
             true
         },
         new object[]
@@ -49,7 +49,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -59,7 +59,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -69,7 +69,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.None },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -79,7 +79,7 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -89,7 +89,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(9000)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -99,7 +99,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.Sha2_d256 },
             new MathDomain().AddSegment(new ValueDomainSegment(1025)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -109,7 +109,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash, PreHash.Pure },
             new [] { HashFunctions.None },
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -119,7 +119,7 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             new [] { HashFunctions.Sha2_d256 },
             null,
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -129,7 +129,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             Array.Empty<HashFunctions>(),
             null,
-            null,
+            new [] { true, false},
             false
         },
         new object[]
@@ -139,6 +139,16 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
+            new [] { true, false},
+            false
+        },
+        new object[]
+        {
+            "internal but no externalMu",
+            new [] { SignatureInterface.Internal },
+            Array.Empty<PreHash>(),
+            Array.Empty<HashFunctions>(),
+            null, 
             null,
             false
         },
@@ -149,7 +159,7 @@ public class ParameterValidatorTests
             Array.Empty<PreHash>(),
             Array.Empty<HashFunctions>(),
             null, 
-            null,
+            new [] { true },
             true
         },
         new object[]
@@ -159,7 +169,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -169,7 +179,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             null, 
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -179,7 +189,7 @@ public class ParameterValidatorTests
             new [] { PreHash.PreHash },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             true
         },
         new object[]
@@ -189,7 +199,7 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             new [] { HashFunctions.Sha3_d512 },
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             false
         },
         new object[]
@@ -199,20 +209,30 @@ public class ParameterValidatorTests
             new [] { PreHash.Pure },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)), 
-            new [] { false },
+            null,
             true
         },
         new object[]
         {
-            "external mu with external interface",
+            "externalMu true with external interface",
             new [] { SignatureInterface.External },
             new [] { PreHash.Pure },
             Array.Empty<HashFunctions>(),
             new MathDomain().AddSegment(new ValueDomainSegment(128)),
             new [] { true },
             false
+        },
+        new object[]
+        {
+            "externalMu included with external interface",
+            new [] { SignatureInterface.External },
+            new [] { PreHash.Pure },
+            Array.Empty<HashFunctions>(),
+            new MathDomain().AddSegment(new ValueDomainSegment(128)),
+            new [] { false },
+            false
         }
-    };
+    ];
     
     [Test]
     [TestCaseSource(nameof(SpecificCapabilities))]
@@ -228,6 +248,6 @@ public class ParameterValidatorTests
 
         var result = _subject.Validate(p);
 
-        Assert.That(expectedSuccess, Is.EqualTo(result.Success), result.ErrorMessage);
+        Assert.That(result.Success, Is.EqualTo(expectedSuccess), result.ErrorMessage);
     }
 }

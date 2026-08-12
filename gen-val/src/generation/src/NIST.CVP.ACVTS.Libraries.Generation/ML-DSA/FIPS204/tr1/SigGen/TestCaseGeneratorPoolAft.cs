@@ -22,8 +22,8 @@ public class TestCaseGeneratorPoolAft : ITestCaseGeneratorWithPrep<TestGroup, Te
     
     public GenerateResponse PrepareGenerator(TestGroup group, bool isSample)
     {
-        // For ML-DSA-87, Total Rejection cases, lower the amount of test cases to 2.
-        // These are really hard to generate for the server, so there is not many available in the pools.
+        // For ML-DSA-87, Total Rejection cases, lower the number of test cases to 2.
+        // These are really hard to generate for the server, so there are few available in the pools.
         if (group.ParameterSet == DilithiumParameterSet.ML_DSA_87 && group.CornerCase == MLDSASignatureCornerCase.TotalRejection)
         {
             NumberOfTestCasesToGenerate = 2;
@@ -52,6 +52,7 @@ public class TestCaseGeneratorPoolAft : ITestCaseGeneratorWithPrep<TestGroup, Te
             
             return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
             {
+                Seed = poolResult.Seed,
                 PrivateKey = fullResult.PrivateKey,
                 Message = poolResult.Message,
                 Signature = fullResult.Signature
