@@ -1,5 +1,7 @@
 using NIST.CVP.ACVTS.Libraries.Crypto.Blake2;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.Blake2;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.MAC;
 using NIST.CVP.ACVTS.Libraries.Math;
 using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 using NUnit.Framework;
@@ -59,10 +61,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.BLAKE2.Tests
             var subject = new Blake2Factory().GetBlake2Instance(new Blake2HashFunction(Blake2Variant.Blake2b, 512));
             var key = new BitString("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f");
 
-            var result = subject.HashMessage(new BitString(messageHex), key);
+            var result = subject.Generate(key, new BitString(messageHex));
 
             Assert.That(result.Success);
-            Assert.That(result.Digest.ToHex(), Is.EqualTo(expectedDigestHex.ToUpperInvariant()));
+            Assert.That(result.Mac.ToHex(), Is.EqualTo(expectedDigestHex.ToUpperInvariant()));
+        }
+
+        [Test]
+        public void ShouldExposeCommonHashAndMacInterfaces()
+        {
+            var subject = new Blake2Factory().GetBlake2Instance(new Blake2HashFunction(Blake2Variant.Blake2b, 256));
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(subject, Is.AssignableTo<IHash>());
+                Assert.That(subject, Is.AssignableTo<IMac>());
+                Assert.That(subject.OutputLength, Is.EqualTo(256));
+            });
         }
 
         /// <summary>
@@ -118,7 +133,7 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.BLAKE2.Tests
         {
             var subject = new Blake2Factory().GetBlake2Instance(new Blake2HashFunction(Blake2Variant.Blake2b, 512));
 
-            var result = subject.HashMessage(new BitString("00"), new BitString("0F", 7));
+            var result = subject.Generate(new BitString("0F", 7), new BitString("00"));
 
             Assert.That(result.Success, Is.False);
             Assert.That(result.ErrorMessage, Is.EqualTo("BLAKE2b currently supports byte-aligned keys only."));

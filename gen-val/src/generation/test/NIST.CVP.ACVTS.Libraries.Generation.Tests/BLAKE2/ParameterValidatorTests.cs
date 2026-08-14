@@ -66,6 +66,20 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
         }
 
         [Test]
+        public void ShouldRejectMissingDigestLength()
+        {
+            var subject = new ParameterValidator();
+
+            var result = subject.Validate(new ParameterBuilder().WithoutDigestLength().Build());
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result.Success, Is.False);
+                Assert.That(result.ErrorMessage, Does.Contain("Digest Length must be provided."));
+            });
+        }
+
+        [Test]
         public void ShouldRejectMessageLengthsThatAreNotByteAligned()
         {
             var subject = new ParameterValidator();
@@ -105,6 +119,12 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.BLAKE2
             public ParameterBuilder WithDigestLength(int digestLength)
             {
                 _digestLength = new MathDomain().AddSegment(new ValueDomainSegment(digestLength));
+                return this;
+            }
+
+            public ParameterBuilder WithoutDigestLength()
+            {
+                _digestLength = null;
                 return this;
             }
 

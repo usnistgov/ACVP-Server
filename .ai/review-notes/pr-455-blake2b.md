@@ -42,6 +42,36 @@ on GitHub until the fixes are pushed and the thread is explicitly resolved.
   be pushed, replies added where useful, and threads resolved before claiming the
   online review is fully closed.
 
+## August 2026 Follow-up
+
+On August 7, `celic` reviewed the integration output and confirmed that the JSON
+files were complete and the unit tests looked good. The follow-up identified one
+additional required registration change and one small crypto-interface alignment:
+
+- `digestLen` must be supplied by the registrant. The validator must reject an
+  omitted domain instead of defaulting it to 512 bits, because the gen/vals are
+  also consumed as a library and must preserve the caller's declared support.
+- Optional `keyLen` remained acceptable as implemented. Registering an explicit
+  zero for unkeyed use was described as a preference, not a required change.
+- The imported BLAKE2b primitive could remain behind a narrow wrapper, but
+  unkeyed and keyed use should align with the repository's hash and MAC
+  abstractions.
+
+On August 12, `celic` pushed commit `a0b521a9` directly to the PR branch using
+maintainer edit access. That commit adjusted the integration-test layout and
+focused solution organization and regenerated the JSON artifacts; it did not
+merge PR #455 or address the required `digestLen` behavior.
+
+The August 14 local response:
+
+- Removed the implicit 512-bit `digestLen` default and added a focused missing-
+  domain validation test.
+- Added a common one-shot `IHash` abstraction inherited by `ISha`, and made
+  `IBlake2` expose both `IHash` and `IMac` behavior.
+- Separated the unkeyed `HashMessage` path from keyed `Generate` behavior while
+  retaining the existing native BLAKE2b implementation behind the wrapper.
+- Updated the Orleans grain and crypto tests to exercise the hash and MAC paths.
+
 ## What This Review Taught Us
 
 - Do not infer revision identity from a `v1_0` namespace; verify the standard and

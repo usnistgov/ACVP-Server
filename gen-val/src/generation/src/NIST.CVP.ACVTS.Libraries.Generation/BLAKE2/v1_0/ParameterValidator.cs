@@ -21,23 +21,24 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.BLAKE2.v1_0
             var errors = new List<string>();
 
             errors.AddIfNotNullOrEmpty(ValidateValue(parameters.Algorithm, ValidAlgorithms, "BLAKE2 function"));
-            ValidateDigestLength(parameters, errors);
+            ValidateDigestLength(parameters.DigestLength, errors);
             ValidateMessageLength(parameters.MessageLength, errors);
             ValidateKeyLength(parameters.KeyLength, errors);
 
             return new ParameterValidateResponse(errors);
         }
 
-        private void ValidateDigestLength(Parameters parameters, List<string> errors)
+        private void ValidateDigestLength(MathDomain digestLength, List<string> errors)
         {
-            if (parameters.DigestLength == null)
+            if (digestLength == null)
             {
-                parameters.DigestLength = new MathDomain().AddSegment(new ValueDomainSegment(MaxDigestLength));
+                errors.Add("Digest Length must be provided.");
+                return;
             }
 
-            if (ValidateDomain(parameters.DigestLength, errors, "Digest Length", MinDigestLength, MaxDigestLength))
+            if (ValidateDomain(digestLength, errors, "Digest Length", MinDigestLength, MaxDigestLength))
             {
-                ValidateMultipleOf(parameters.DigestLength, errors, 8, "byte-aligned digest lengths");
+                ValidateMultipleOf(digestLength, errors, 8, "byte-aligned digest lengths");
             }
         }
 

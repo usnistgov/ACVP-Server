@@ -40,18 +40,34 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Hash
             var message = _rand.GetRandomBitString(_param.MessageLength);
             var key = _param.KeyLength == 0 ? null : _rand.GetRandomBitString(_param.KeyLength);
 
-            var result = _blake2Factory.GetBlake2Instance(_param.HashFunction)
-                .HashMessage(message, key);
-            if (!result.Success)
+            var blake2 = _blake2Factory.GetBlake2Instance(_param.HashFunction);
+            BitString digest;
+            if (key == null)
             {
-                throw new Exception(result.ErrorMessage);
+                var result = blake2.HashMessage(message);
+                if (!result.Success)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+
+                digest = result.Digest;
+            }
+            else
+            {
+                var result = blake2.Generate(key, message);
+                if (!result.Success)
+                {
+                    throw new Exception(result.ErrorMessage);
+                }
+
+                digest = result.Mac;
             }
 
             await Notify(new Blake2Result
             {
                 Message = message,
                 Key = key,
-                Digest = result.Digest
+                Digest = digest
             });
         }
     }

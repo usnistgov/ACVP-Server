@@ -22,13 +22,15 @@ Source: [PR #455 review, comments 2 and 4](../review-notes/pr-455-blake2b.md).
 
 - Use `MathDomain` for numeric registration capabilities that can be ranges,
   sets, or single values.
+- Reject an omitted required capability instead of inventing a default. Library
+  consumers must receive the exact capabilities declared by the registrant.
 - Apply defaults for omitted optional domains in `ParameterValidator`, not in a
   generator.
 - Validate bounds and increments in `ParameterValidator`.
 - Do not repeat an already validated alignment constraint in a generator unless
   generation intentionally narrows the domain for another reason.
 
-Source: [PR #455 review, comments 7 and 8](../review-notes/pr-455-blake2b.md).
+Source: [PR #455 review, comments 7 and 8 and August follow-up](../review-notes/pr-455-blake2b.md).
 
 ## Test Groups and Test Cases
 
@@ -75,6 +77,9 @@ Source: [PR #455 review, comments 8-10](../review-notes/pr-455-blake2b.md).
 ## Crypto and Oracle Style
 
 - Prefer project-native crypto interfaces and implementation style.
+- Expose unkeyed hashing and keyed hashing through the shared hash and MAC
+  abstractions when an algorithm supports both roles. Keep algorithm-specific
+  metadata on the narrower algorithm interface.
 - When imported/reference crypto code is a deliberate first implementation,
   keep its wrapper small and record the follow-up concern without expanding the
   current PR beyond review scope.
@@ -85,7 +90,7 @@ Source: [PR #455 review, comments 8-10](../review-notes/pr-455-blake2b.md).
 - Group `IOracle` members by algorithm family or standard; do not split a related
   block to insert an unrelated algorithm.
 
-Source: [PR #455 review, comments 1, 3, 12, and 13](../review-notes/pr-455-blake2b.md).
+Source: [PR #455 review, comments 1, 3, 12, and 13 and August follow-up](../review-notes/pr-455-blake2b.md).
 
 ## Naming, Tests, and Solutions
 
