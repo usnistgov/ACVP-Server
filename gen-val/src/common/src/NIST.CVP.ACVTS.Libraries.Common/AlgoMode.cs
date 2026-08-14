@@ -60,6 +60,8 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         ASCON_XOF128_SP800_232,
         [EnumMember(Value = "Ascon-CXOF128-SP800-232")]
         ASCON_CXOF128_SP800_232,
+        [EnumMember(Value = "BLAKE2b-RFC7693")]
+        BLAKE2b_RFC7693,
         [EnumMember(Value = "CMAC-TDES-1.0")]
         CMAC_TDES_v1_0,
         [EnumMember(Value = "ConditioningComponent-AES-CBC-MAC-SP800-90B")]

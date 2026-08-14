@@ -13,6 +13,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto;
 using NIST.CVP.ACVTS.Libraries.Crypto.AES_FF;
 using NIST.CVP.ACVTS.Libraries.Crypto.ANSIX942;
 using NIST.CVP.ACVTS.Libraries.Crypto.ANSIX963;
+using NIST.CVP.ACVTS.Libraries.Crypto.Blake2;
 using NIST.CVP.ACVTS.Libraries.Crypto.CMAC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.ECC;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.DSA.Ed;
@@ -27,6 +28,7 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.ConditioningComponents;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.Blake2;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ParallelHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.TupleHash;
@@ -297,6 +299,7 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddTransient<ISignatureBuilder, SignatureBuilder>();
             svc.AddSingleton<IPaddingFactory, PaddingFactory>();
             svc.AddSingleton<IShaFactory, NativeShaFactory>();
+            svc.AddSingleton<IBlake2Factory, Blake2Factory>();
 
             svc.AddSingleton<IPQGeneratorValidatorFactory, PQGeneratorValidatorFactory>();
             svc.AddSingleton<IGGeneratorValidatorFactory, GGeneratorValidatorFactory>();
