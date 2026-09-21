@@ -166,6 +166,40 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
+        public async Task<AesXtsResult> GetDeferredAesXtsCaseAsync(AesXtsParameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverAesDeferredXtsCaseGrain, AesXtsResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetDeferredAesXtsCaseAsync(param);
+            }
+        }
+
+        public async Task<AesXtsResult> CompleteDeferredAesXtsCaseAsync(AesXtsParameters param, AesXtsResult fullParam)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverAesCompleteDeferredXtsCaseGrain, AesXtsResult>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, fullParam, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await CompleteDeferredAesXtsCaseAsync(param, fullParam);
+            }
+        }
+
         public async Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param)
         {
             try
