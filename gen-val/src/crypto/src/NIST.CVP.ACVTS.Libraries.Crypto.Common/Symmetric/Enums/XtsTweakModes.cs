@@ -8,6 +8,9 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums
         Hex,
 
         [EnumMember(Value = "number")]
-        Number
+        Number,
+
+        [EnumMember(Value = "iut")]
+        IutGenerated,
     }
 }
