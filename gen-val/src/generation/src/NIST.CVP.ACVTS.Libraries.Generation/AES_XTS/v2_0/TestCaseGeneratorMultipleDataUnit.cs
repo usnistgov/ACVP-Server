@@ -68,6 +68,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
         public async Task<TestCaseGenerateResponse<TestGroup, TestCase>> GenerateAsync(TestGroup group, bool isSample, int caseNo = 0)
         {
+            var deferred = group.TweakMode == XtsTweakModes.IutGenerated && !isSample;
+
             var (payloadLength, dataUnitLength) = _payloadLen.Pop();
 
             var param = new AesXtsParameters
@@ -82,7 +84,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
 
             try
             {
-                var oracleResult = await _oracle.GetAesXtsCaseAsync(param);
+                var oracleResult = deferred ? await _oracle.GetDeferredAesXtsCaseAsync(param) : await _oracle.GetAesXtsCaseAsync(param);
 
                 return new TestCaseGenerateResponse<TestGroup, TestCase>(new TestCase
                 {
@@ -92,7 +94,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
                     PlainText = oracleResult.PlainText,
                     SequenceNumber = oracleResult.SequenceNumber,
                     XtsKey = new XtsKey(oracleResult.Key),
-                    DataUnitLen = dataUnitLength
+                    DataUnitLen = dataUnitLength,
+                    PayloadLen = payloadLength,
                 });
             }
             catch (Exception ex)

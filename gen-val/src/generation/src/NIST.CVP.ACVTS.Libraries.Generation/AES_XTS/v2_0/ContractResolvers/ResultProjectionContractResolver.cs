@@ -59,6 +59,16 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0.ContractResolvers
                         return testGroup.Direction == BlockCipherDirections.Encrypt;
                     };
             }
+
+            if (jsonProperty.UnderlyingName == nameof(TestCase.I))
+            {
+                return jsonProperty.ShouldSerialize =
+                    instance =>
+                    {
+                        GetTestCaseFromTestCaseObject(instance, out var testGroup, out var testCase);
+                        return testGroup.TweakMode == XtsTweakModes.IutGenerated;
+                    };
+            }
             #endregion Conditional Test Case properties
 
             return jsonProperty.ShouldSerialize = instance => false;

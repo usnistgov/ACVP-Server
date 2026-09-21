@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0;
 using NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0.ContractResolvers;
@@ -58,6 +59,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Hex, false)]
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Number, true)]
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Number, false)]
+        [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.IutGenerated, true)]
+        [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.IutGenerated, false)]
         public void ShouldSerializeEncryptCaseProperties(BlockCipherDirections function, XtsTweakModes tweakMode, bool payloadLenMatch)
         {
             var tvs = TestDataMother.GetTestGroups(1, payloadLenMatch, function, tweakMode);
@@ -78,6 +81,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
             Assert.That(newTc.PlainText, Is.Not.EqualTo(tc.PlainText), nameof(newTc.PlainText));
             Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
             Assert.That(newTc.DataUnitLen, Is.Not.EqualTo(tc.DataUnitLen), nameof(newTc.DataUnitLen));
+            Assert.That(newTc.PayloadLen, Is.Not.EqualTo(tc.PayloadLen), nameof(newTc.PayloadLen));
+
+            switch (tweakMode)
+            {
+                case XtsTweakModes.Hex:
+                case XtsTweakModes.Number:
+                    Assert.That(newTc.I, Is.Null, nameof(newTc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
+                    break;
+                case XtsTweakModes.IutGenerated:
+                    Assert.That(newTc.I, Is.EqualTo(tc.I), nameof(newTc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(tweakMode), tweakMode, null);
+            }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);
@@ -92,9 +111,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Hex, false)]
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Number, true)]
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Number, false)]
+        [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.IutGenerated, true)]
+        [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.IutGenerated, false)]
         public void ShouldSerializeDecryptCaseProperties(BlockCipherDirections function, XtsTweakModes tweakMode, bool payloadLenMatch)
         {
-            var tvs = TestDataMother.GetTestGroups(1, true, function, tweakMode);
+            var tvs = TestDataMother.GetTestGroups(1, payloadLenMatch, function, tweakMode);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -112,6 +133,22 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
             Assert.That(newTc.CipherText, Is.Not.EqualTo(tc.CipherText), nameof(newTc.CipherText));
             Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
             Assert.That(newTc.DataUnitLen, Is.Not.EqualTo(tc.DataUnitLen), nameof(newTc.DataUnitLen));
+            Assert.That(newTc.PayloadLen, Is.Not.EqualTo(tc.PayloadLen), nameof(newTc.PayloadLen));
+
+            switch (tweakMode)
+            {
+                case XtsTweakModes.Hex:
+                case XtsTweakModes.Number:
+                    Assert.That(newTc.I, Is.Null, nameof(newTc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
+                    break;
+                case XtsTweakModes.IutGenerated:
+                    Assert.That(newTc.I, Is.EqualTo(tc.I), nameof(newTc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(tweakMode), tweakMode, null);
+            }
 
             // TestPassed will have the default value when re-hydrated, check to make sure it isn't in the JSON
             Regex regex = new Regex(nameof(TestCase.TestPassed), RegexOptions.IgnoreCase);

@@ -1,0 +1,84 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using NIST.CVP.ACVTS.Libraries.Generation.Core;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
+using NIST.CVP.ACVTS.Libraries.Generation.Core.Enums;
+using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Oracle.Abstractions.ResultTypes;
+
+namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
+{
+    public class TestCaseValidatorDeferredDecrypt : ITestCaseValidatorAsync<TestGroup, TestCase>
+    {
+        private readonly TestGroup _testGroup;
+        private readonly TestCase _serverTestCase;
+        private readonly IDeferredTestCaseResolverAsync<TestGroup, TestCase, AesXtsResult> _testCaseResolver;
+
+        public TestCaseValidatorDeferredDecrypt(
+            TestGroup testGroup,
+            TestCase serverTestCase,
+            IDeferredTestCaseResolverAsync<TestGroup, TestCase, AesXtsResult> deferredTestCaseResolver)
+        {
+            _testGroup = testGroup;
+            _serverTestCase = serverTestCase;
+            _testCaseResolver = deferredTestCaseResolver;
+        }
+
+        public int TestCaseId => _serverTestCase.TestCaseId;
+
+        public async Task<TestCaseValidation> ValidateAsync(TestCase suppliedResult, bool showExpected = false)
+        {
+            var errors = new List<string>();
+            var expected = new Dictionary<string, string>();
+            var provided = new Dictionary<string, string>();
+
+            ValidateResultPresent(suppliedResult, errors);
+            if (errors.Count == 0)
+            {
+                await CheckResults(suppliedResult, errors, expected, provided);
+            }
+
+            if (errors.Count > 0)
+            {
+                return new TestCaseValidation
+                {
+                    TestCaseId = suppliedResult.TestCaseId,
+                    Result = Disposition.Failed,
+                    Reason = string.Join("; ", errors),
+                    Expected = expected.Count != 0 && showExpected ? expected : null,
+                    Provided = provided.Count != 0 && showExpected ? provided : null
+                };
+            }
+            return new TestCaseValidation { TestCaseId = suppliedResult.TestCaseId, Result = Disposition.Passed };
+        }
+
+        private void ValidateResultPresent(TestCase suppliedResult, List<string> errors)
+        {
+            if (suppliedResult.I == null)
+            {
+                errors.Add($"Tweak value was not present in the {nameof(TestCase)}");
+            }
+            else if (suppliedResult.I.BitLength != 128)
+            {
+                errors.Add($"Tweak value was not 128 bits in the {nameof(TestCase)}");
+            }
+
+            if (suppliedResult.PlainText == null)
+            {
+                errors.Add($"{nameof(suppliedResult.PlainText)} was not present in the {nameof(TestCase)}");
+            }
+        }
+
+        private async Task CheckResults(TestCase suppliedResult, List<string> errors, Dictionary<string, string> expected, Dictionary<string, string> provided)
+        {
+            var serverResult = await _testCaseResolver.CompleteDeferredCryptoAsync(_testGroup, _serverTestCase, suppliedResult);
+
+            if (!BitString.PadToNextByteBoundry(serverResult.PlainText).Equals(suppliedResult.PlainText))
+            {
+                errors.Add("Plain Text does not match");
+                expected.Add(nameof(serverResult.PlainText), serverResult.PlainText.ToHex());
+                provided.Add(nameof(suppliedResult.PlainText), suppliedResult.PlainText.ToHex());
+            }
+        }
+    }
+}

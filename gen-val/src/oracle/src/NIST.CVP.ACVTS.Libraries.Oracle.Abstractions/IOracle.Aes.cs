@@ -16,6 +16,8 @@ namespace NIST.CVP.ACVTS.Libraries.Oracle.Abstractions
         Task<CounterResult> ExtractIvsAsync(AesParameters param, AesResult fullParam);
         Task<AesResult> GetAesCounterRfcCaseAsync(CounterParameters<AesParameters> param);
         Task<AesResult> CompleteDeferredAesCounterRfcCaseAsync(AesWithPayloadParameters param);
+        Task<AesXtsResult> GetDeferredAesXtsCaseAsync(AesXtsParameters param);
+        Task<AesXtsResult> CompleteDeferredAesXtsCaseAsync(AesXtsParameters param, AesXtsResult fullParam);
 
         Task<AesResult> GetAesCaseAsync(AesWithPayloadParameters param);
     }

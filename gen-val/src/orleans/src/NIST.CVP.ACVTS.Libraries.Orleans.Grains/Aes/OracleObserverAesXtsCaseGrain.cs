@@ -52,6 +52,8 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains.Aes
 
             switch (_param.TweakMode.ToLower())
             {
+                case "iut":
+                    // Fallthrough only for sample generation.
                 case "hex":
                     i = _rand.GetRandomBitString(128);
                     // The max payload length is 65536. The min data unit length is 128. 65536 / 128 = 512 implies that 

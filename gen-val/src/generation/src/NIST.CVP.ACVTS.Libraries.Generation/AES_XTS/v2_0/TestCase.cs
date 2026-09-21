@@ -32,7 +32,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
         public int DataUnitLen { get; set; }
 
         [JsonProperty(PropertyName = "payloadLen")]
-        public int PayloadLen => PlainText.BitLength;
+        public int PayloadLen { get; set; }
 
         [JsonProperty(PropertyName = "pt")]
         public BitString PlainText { get; set; }

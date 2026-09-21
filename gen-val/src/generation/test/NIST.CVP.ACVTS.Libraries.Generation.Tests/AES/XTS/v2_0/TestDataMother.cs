@@ -45,6 +45,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
                         TestCaseId = testId,
                         ParentGroup = tg,
                         DataUnitLen = 128,
+                        PayloadLen = 32,
                         // note not actually true in real scenarios, 
                         // just want to be able to confirm the property isn't serialized.
                         Deferred = true
@@ -57,6 +58,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
                             break;
                         case XtsTweakModes.Number:
                             tc.SequenceNumber = 10;
+                            break;
+                        case XtsTweakModes.IutGenerated:
+                            tc.I = new BitString("CAFECAFECAFECAFECAFECAFECAFECAFE");
                             break;
                     }
 
