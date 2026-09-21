@@ -61,7 +61,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0
 
         static object[] tweakTestCases =
         {
-            new object[] { "empty", new XtsTweakModes[] { } }
+            new object[] { "empty", new XtsTweakModes[] { } },
+            new object[] { "duplicate", new XtsTweakModes[] { XtsTweakModes.Hex, XtsTweakModes.Hex } },
+            new object[] { "iutAndHex", new XtsTweakModes[] { XtsTweakModes.IutGenerated, XtsTweakModes.Hex } },
+            new object[] { "iutAndNumber", new XtsTweakModes[] { XtsTweakModes.IutGenerated, XtsTweakModes.Number } }
         };
         [Test]
         [TestCaseSource(nameof(tweakTestCases))]

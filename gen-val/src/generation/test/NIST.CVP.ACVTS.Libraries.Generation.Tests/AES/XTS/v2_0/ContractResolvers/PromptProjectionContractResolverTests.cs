@@ -64,6 +64,8 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Hex, false)]
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Number, true)]
         [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.Number, false)]
+        [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.IutGenerated, true)]
+        [TestCase(BlockCipherDirections.Encrypt, XtsTweakModes.IutGenerated, false)]
         public void ShouldSerializeEncryptCaseProperties(BlockCipherDirections function, XtsTweakModes tweakMode, bool payloadLenMatch)
         {
             var tvs = TestDataMother.GetTestGroups(1, payloadLenMatch, function, tweakMode);
@@ -81,6 +83,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
             Assert.That(newTc.Key, Is.EqualTo(tc.Key), nameof(newTc.Key));
             Assert.That(newTc.PlainText, Is.EqualTo(tc.PlainText), nameof(newTc.PlainText));
             Assert.That(newTc.DataUnitLen, Is.EqualTo(tc.DataUnitLen), nameof(newTc.DataUnitLen));
+            Assert.That(newTc.PayloadLen, Is.EqualTo(tc.PayloadLen));
 
             Assert.That(newTc.CipherText, Is.Not.EqualTo(tc.CipherText), nameof(newTc.CipherText));
             Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
@@ -94,6 +97,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
                 case XtsTweakModes.Number:
                     Assert.That(newTc.SequenceNumber, Is.EqualTo(tc.SequenceNumber), nameof(newTc.SequenceNumber));
                     Assert.That(newTc.I, Is.Null, nameof(tc.I));
+                    break;
+                case XtsTweakModes.IutGenerated:
+                    Assert.That(newTc.I, Is.Null, nameof(tc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tweakMode), tweakMode, null);
@@ -112,9 +119,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Hex, false)]
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Number, true)]
         [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.Number, false)]
+        [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.IutGenerated, true)]
+        [TestCase(BlockCipherDirections.Decrypt, XtsTweakModes.IutGenerated, false)]
         public void ShouldSerializeDecryptCaseProperties(BlockCipherDirections function, XtsTweakModes tweakMode, bool payloadLenMatch)
         {
-            var tvs = TestDataMother.GetTestGroups(1, true, function, tweakMode);
+            var tvs = TestDataMother.GetTestGroups(1, payloadLenMatch, function, tweakMode);
             var tg = tvs.TestGroups[0];
             var tc = tg.Tests[0];
 
@@ -129,6 +138,7 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
             Assert.That(newTc.Key, Is.EqualTo(tc.Key), nameof(newTc.Key));
             Assert.That(newTc.CipherText, Is.EqualTo(tc.CipherText), nameof(newTc.CipherText));
             Assert.That(newTc.DataUnitLen, Is.EqualTo(tc.DataUnitLen), nameof(newTc.DataUnitLen));
+            Assert.That(newTc.PayloadLen, Is.EqualTo(tc.PayloadLen));
 
             Assert.That(newTc.PlainText, Is.Not.EqualTo(tc.PlainText), nameof(newTc.PlainText));
             Assert.That(newTc.Deferred, Is.Not.EqualTo(tc.Deferred), nameof(newTc.Deferred));
@@ -142,6 +152,10 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.AES.XTS.v2_0.ContractResolve
                 case XtsTweakModes.Number:
                     Assert.That(newTc.SequenceNumber, Is.EqualTo(tc.SequenceNumber), nameof(newTc.SequenceNumber));
                     Assert.That(newTc.I, Is.Null, nameof(tc.I));
+                    break;
+                case XtsTweakModes.IutGenerated:
+                    Assert.That(newTc.I, Is.Null, nameof(tc.I));
+                    Assert.That(newTc.SequenceNumber, Is.EqualTo(0), nameof(newTc.SequenceNumber));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tweakMode), tweakMode, null);
