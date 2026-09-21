@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using NIST.CVP.ACVTS.Libraries.Common.ExtensionMethods;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Symmetric.Enums;
 using NIST.CVP.ACVTS.Libraries.Generation.Core;
 using NIST.CVP.ACVTS.Libraries.Math.Domain;
 
@@ -26,6 +27,15 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.AES_XTS.v2_0
             {
                 errorResults.Add($"{nameof(parameters.TweakMode)} must contain 1 or 2 values");
             }
+            if (parameters.TweakMode.Distinct().Count() != parameters.TweakMode.Length)
+            {
+                errorResults.Add($"{nameof(parameters.TweakMode)} must not contain duplicate values");
+            }
+            if (parameters.TweakMode.Contains(XtsTweakModes.IutGenerated) && parameters.TweakMode.Length > 1)
+            {
+                errorResults.Add($"{nameof(parameters.TweakMode)} value \"iut\" must be the only value provided");
+            }
+
 
             result = ValidateArray(parameters.KeyLen, VALID_KEY_SIZES, "Key Sizes");
             errorResults.AddIfNotNullOrEmpty(result);
