@@ -59,9 +59,22 @@ public class TestCaseValidatorAft : ITestCaseValidatorAsync<TestGroup, TestCase>
 
     private void ValidatePrivateKeyUniqueness(TestCase suppliedResult, List<string> errors)
     {
+        // q is the first 32 bits of the signature
+        if (suppliedResult.Signature.BitLength < 32)
+        {
+            errors.Add("Signature is too short to contain q");
+            return;
+        }
+
         foreach (var testCase in suppliedResult.ParentGroup.Tests)
         {
             if (suppliedResult.TestCaseId == testCase.TestCaseId)
+            {
+                continue;
+            }
+
+            // A missing or too short signature fails the validation of its own test case
+            if (testCase.Signature == null || testCase.Signature.BitLength < 32)
             {
                 continue;
             }

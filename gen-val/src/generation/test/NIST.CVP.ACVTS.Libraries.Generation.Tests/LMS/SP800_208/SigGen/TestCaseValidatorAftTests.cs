@@ -5,10 +5,11 @@ using NIST.CVP.ACVTS.Libraries.Generation.Core.Async;
 using NIST.CVP.ACVTS.Libraries.Generation.LMS.SP800_208.SigGen;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Tests.Core.TestCategoryAttributes;
 
 namespace NIST.CVP.ACVTS.Libraries.Generation.Tests.LMS.SP800_208.SigGen;
 
-[TestFixture]
+[TestFixture, UnitTest]
 public class TestCaseValidatorAftTests
 {
     private Mock<IDeferredTestCaseResolverAsync<TestGroup, TestCase, LmsVerificationResult>> _mockResolver;
@@ -126,5 +127,113 @@ public class TestCaseValidatorAftTests
 
         // Assert
         Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
+    }
+
+    [Test]
+    [TestCase(null, -1)]
+    [TestCase("", -1)]
+    [TestCase("AABBCC", -1)]
+    [TestCase("AABBCCDD", 31)]
+    public async Task ValidateAsync_OtherTestCaseSignatureMissingOrTooShort_ReturnsPassed(string otherSignatureHex, int bitLength)
+    {
+        // Arrange
+        var otherSignature = otherSignatureHex == null ? null : new BitString(otherSignatureHex, bitLength);
+
+        var supplied = new TestCase { TestCaseId = 1, Signature = new BitString("AABBCCDD11223344") };
+        supplied.ParentGroup = new TestGroup
+        {
+            Tests = { supplied, new TestCase { TestCaseId = 2, Signature = otherSignature } }
+        };
+
+        var validator = new TestCaseValidatorAft(_expectedResult, _group, _mockResolver.Object);
+
+        _mockResolver.Setup(r => r.CompleteDeferredCryptoAsync(_group, _expectedResult, supplied))
+            .ReturnsAsync(new LmsVerificationResult());
+
+        // Act
+        var result = await validator.ValidateAsync(supplied);
+
+        // Assert
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Passed));
+    }
+
+    [Test]
+    public async Task ValidateAsync_OtherTestCaseSignatureOf32BitsWithSameQ_ReturnsFailed()
+    {
+        // Arrange
+        var supplied = new TestCase { TestCaseId = 1, Signature = new BitString("AABBCCDD11223344") };
+        supplied.ParentGroup = new TestGroup
+        {
+            Tests = { supplied, new TestCase { TestCaseId = 2, Signature = new BitString("AABBCCDD") } }
+        };
+
+        var validator = new TestCaseValidatorAft(_expectedResult, _group, _mockResolver.Object);
+
+        _mockResolver.Setup(r => r.CompleteDeferredCryptoAsync(_group, _expectedResult, supplied))
+            .ReturnsAsync(new LmsVerificationResult());
+
+        // Act
+        var result = await validator.ValidateAsync(supplied);
+
+        // Assert
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+        Assert.That(result.Reason, Does.Contain("Duplicate private key detected for tcId: 1 and tcId: 2"));
+    }
+
+    [Test]
+    [TestCase("", -1)]
+    [TestCase("AABBCC", -1)]
+    [TestCase("AABBCCDD", 31)]
+    public async Task ValidateAsync_SignatureTooShort_ReturnsFailed(string signatureHex, int bitLength)
+    {
+        // Arrange
+        var supplied = new TestCase { TestCaseId = 1, Signature = new BitString(signatureHex, bitLength) };
+        supplied.ParentGroup = new TestGroup
+        {
+            Tests = { supplied, new TestCase { TestCaseId = 2, Signature = new BitString("FFEECCDD55667788") } }
+        };
+
+        var validator = new TestCaseValidatorAft(_expectedResult, _group, _mockResolver.Object);
+
+        _mockResolver.Setup(r => r.CompleteDeferredCryptoAsync(_group, _expectedResult, supplied))
+            .ReturnsAsync(new LmsVerificationResult());
+
+        // Act
+        var result = await validator.ValidateAsync(supplied);
+
+        // Assert
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+        Assert.That(result.Reason, Does.Contain("Signature is too short to contain q"));
+    }
+
+    [Test]
+    public async Task ValidateAsync_DuplicatePrivateKeyWithMalformedTestCaseInGroup_ReturnsFailed()
+    {
+        // Arrange
+        var supplied = new TestCase { TestCaseId = 1, Signature = new BitString("AABBCCDD11223344") };
+        supplied.ParentGroup = new TestGroup
+        {
+            Tests =
+            {
+                supplied,
+                new TestCase { TestCaseId = 2, Signature = null },
+                new TestCase { TestCaseId = 3, Signature = new BitString("AABBCC") },
+                new TestCase { TestCaseId = 4, Signature = new BitString("AABBCCDD55667788") } // First 4 bytes (AABBCCDD) are identical
+            }
+        };
+
+        var validator = new TestCaseValidatorAft(_expectedResult, _group, _mockResolver.Object);
+
+        _mockResolver.Setup(r => r.CompleteDeferredCryptoAsync(_group, _expectedResult, supplied))
+            .ReturnsAsync(new LmsVerificationResult());
+
+        // Act
+        var result = await validator.ValidateAsync(supplied);
+
+        // Assert
+        Assert.That(result.Result, Is.EqualTo(Core.Enums.Disposition.Failed));
+        Assert.That(result.Reason, Does.Contain("Duplicate private key detected for tcId: 1 and tcId: 4"));
+        Assert.That(result.Reason, Does.Not.Contain("tcId: 2"));
+        Assert.That(result.Reason, Does.Not.Contain("tcId: 3"));
     }
 }
