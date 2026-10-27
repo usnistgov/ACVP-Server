@@ -386,6 +386,10 @@ namespace NIST.CVP.ACVTS.Libraries.Common
         [EnumMember(Value = "TupleHash-128-1.0")]
         TupleHash_128_v1_0,
         [EnumMember(Value = "TupleHash-256-1.0")]
-        TupleHash_256_v1_0
+        TupleHash_256_v1_0,
+        [EnumMember(Value = "XMSS-SigGen-SP800-208")]
+        XMSS_SigGen_SP800_208,
+        [EnumMember(Value = "XMSS-SigVer-SP800-208")]
+        XMSS_SigVer_SP800_208
     }
 }

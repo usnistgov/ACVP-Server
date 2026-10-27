@@ -25,6 +25,8 @@ using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.PrimeGenerators;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.RSA.Signatures;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XMSS.Native;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XMSS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.DRBG.ConditioningComponents;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.cSHAKE;
@@ -97,6 +99,8 @@ using NIST.CVP.ACVTS.Libraries.Crypto.KTS;
 using NIST.CVP.ACVTS.Libraries.Crypto.MLKEM;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native;
 using NIST.CVP.ACVTS.Libraries.Crypto.LMS.Native.Keys;
+using NIST.CVP.ACVTS.Libraries.Crypto.XMSS.Native;
+using NIST.CVP.ACVTS.Libraries.Crypto.XMSS.Native.Keys;
 using NIST.CVP.ACVTS.Libraries.Crypto.Common.Asymmetric.XECDH;
 using NIST.CVP.ACVTS.Libraries.Crypto.ParallelHash;
 using NIST.CVP.ACVTS.Libraries.Crypto.PBKDF;
@@ -273,6 +277,11 @@ namespace NIST.CVP.ACVTS.Libraries.Orleans.Grains
             svc.AddSingleton<ILmOtsSigner, LmOts>();
             svc.AddSingleton<ILmsVerifier, Crypto.LMS.Native.Lms>();
             svc.AddSingleton<ILmOtsVerifier, LmOts>();
+
+            svc.AddSingleton<IWotsPlus, Wots>();
+            svc.AddSingleton<IXmssKeyPairFactory, XmssKeyPairFactory>();
+            svc.AddSingleton<IXmssSigner, Crypto.XMSS.Native.Xmss>();
+            svc.AddSingleton<IXmssVerifier, Crypto.XMSS.Native.Xmss>();
 
             svc.AddSingleton<IAnsiX942Factory, AnsiX942Factory>();
             svc.AddSingleton<IAnsiX963Factory, AnsiX963Factory>();
