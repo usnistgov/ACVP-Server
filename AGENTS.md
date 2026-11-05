@@ -1,6 +1,6 @@
 # Working in ACVP-Server
 
-For a new algorithm, mode, or revision, follow
+When adding or changing algorithm support, follow
 [Adding an algorithm](.ai/guides/adding-an-algorithm.md) before editing.
 In Claude Code, this procedure is also available through `/add-algorithm`.
 
@@ -12,9 +12,9 @@ Paths below are relative to the repository root:
 | --- | --- |
 | `gen-val/src/common/src` | Algorithm identities and shared helpers. |
 | `gen-val/src/crypto/src` | Crypto implementations, interfaces, and factories. |
-| `gen-val/src/crypto/test` | Primitive and wrapper tests. |
+| `gen-val/src/crypto/test` | Crypto correctness and regression tests. |
 | `gen-val/src/generation/src` | Registration, generation, projections, and validation. |
-| `gen-val/src/generation/test` | Generation unit and integration tests. |
+| `gen-val/src/generation/test` | Generation and validation unit and integration tests. |
 | `gen-val/src/oracle/src` | Oracle interfaces and dispatch. |
 | `gen-val/src/orleans/src` | Observer grains and dependency registration. |
 | `gen-val/src/solutions` | Focused solutions by algorithm or subsystem. |

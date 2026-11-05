@@ -1,21 +1,31 @@
 # Adding an algorithm
 
-Use this procedure for a new algorithm, mode, or revision. For an extension,
-identify which steps are already satisfied and change only the affected layers.
+Use this procedure when adding or changing algorithm support. For an existing
+algorithm and mode, create a new revision if the change affects the registration
+properties in `Parameters.cs`. Otherwise, make the change on the latest revision
+available on the deployed server. Deprecated revisions remain in the source;
+if the deployed revision is unclear, confirm it with a maintainer.
 
 ## 1. Establish the contract
 
-- Confirm the defining standard (including draft/final version) and ACVP
-  registration/vector specification.
-  Record the exact `algorithm`, optional `mode`, and `revision`, supported test
-  types, units, required/optional fields, defaults, and capability domains.
+- Confirm the defining standard and its draft or final version. The Gen/Vals
+  often precede the ACVP schema; use the specification where it exists and
+  confirm open contract decisions before implementing behavior that depends on them.
+- **Registration:** Record the exact `algorithm`, optional `mode`, and `revision`.
+  List the capabilities a registrant can declare in `Parameters.cs`, their units,
+  required and optional properties, and defaults. Specify what
+  `ParameterValidator.cs` must enforce: allowed values, minimums, maximums,
+  increments, and relationships between properties.
+- **Test vectors:** For each supported test type, specify the inputs the IUT
+  receives in `prompt.json` and the outputs that belong in `expectedResults.json`.
+  Identify which fields belong to a group or a case, their encodings and units,
+  and when they are present.
 - Identify authoritative known-answer vectors or an independent reference for
   crypto tests. Do not use the new implementation as its own correctness oracle.
-- Identify missing schema or scope decisions before implementing behavior that
-  depends on them. Describe the question and continue independent work where possible.
 - Choose current examples for the relevant family and data flow. Ascon provides
   hash/XOF/AEAD examples; SPDM provides a KDF; XECDH includes deferred cases.
-  `ML-DSA/FIPS204/v1_0/SigVer` provides signature verification; `HMAC/v2_0` and
+  `ML-KEM/FIPS203/v1_0/EncapDecap` shows KEM encapsulation and decapsulation;
+  `ML-DSA/FIPS204/v1_0/SigVer` shows signature verification. `HMAC/v2_0` and
   `SHAKE/FIPS202` show revisions that reuse existing crypto/oracle operations.
   Their generation code is under
   `gen-val/src/generation/src/NIST.CVP.ACVTS.Libraries.Generation/`.
@@ -23,7 +33,8 @@ identify which steps are already satisfied and change only the affected layers.
 
 ## 2. Map the implementation
 
-Before editing, identify existing components to reuse and the files to add or
+Use the feature branch for the change, or create one from the intended base
+before editing. Identify existing components to reuse and the files to add or
 change. Trace one case through generation, oracle dispatch, observer grain,
 crypto, and result validation. Cover the applicable layers:
 
@@ -34,7 +45,7 @@ crypto, and result validation. Cover the applicable layers:
 | Oracle | Parameter/result types, `IOracle`, and dispatch. |
 | Orleans | Grain interface, implementation, and dependency registration. |
 | Generation | Parameters, validation, groups/cases, factories, generators, projections, and validators. |
-| Discovery | `RegisterInjections` advertises `ISupportedAlgoModeRevisions`; `GenValInvokerTests` checks enum coverage and uniqueness. |
+| Discovery | Advertise each `AlgoMode` in exactly one `RegisterInjections.cs`; run the existing `GenValInvokerTests` to check coverage and uniqueness. |
 | Tests/solutions | Focused crypto/generation tests, integration fixture, and solution wiring. |
 
 For deferred cases, follow the resolver and completion path as well. Reuse the
@@ -44,26 +55,22 @@ crypto, oracle methods, and grains. Keep unrelated refactors outside the change.
 ## 3. Implement crypto and registration
 
 - Implement the standard using the repository's crypto interfaces and factory
-  patterns. Make entropy injectable when deterministic testing requires it.
+  patterns. Pass entropy as a function argument or inject its source when
+  tests need deterministic inputs.
 - Test supported operations, relevant empty/boundary inputs, and invalid inputs
   against the contract. Keep expensive tests in the appropriate test category.
 - Match `AlgoMode` naming and its `EnumMember` value to the algorithm/mode/revision
   identity. Use the specified revision, not a guess based on a namespace name.
-  Extend `AlgoModeLookupHelperTests` to check that the contract's literal algorithm,
-  optional mode, and revision resolve to the intended enum through
-  `AlgoModeLookupHelper.GetAlgoModeFromStrings`.
 - Set fixed `TestVectorSet` identity fields to canonical values and test the
   identity produced by the complete vector-set creation path.
-- Use `MathDomain` where the ACVP schema specifies a domain; use the specified
-  array or scalar type otherwise. Validate required capabilities, allowed values,
-  bounds, and increments in `ParameterValidator`; apply only defaults permitted
-  by the contract. Preserve the registrant's capabilities.
+- Use `MathDomain` for registration properties that accept a range of values.
+  Apply the validation rules and defaults established in step 1.
 
 ## 4. Generate and validate cases
 
-- Keep registration capabilities on `Parameters`. Carry generation domains on
-  `TestGroup` where needed; place selected values on `TestCase` when the schema
-  makes them case-specific. Keep truly shared emitted values at group level.
+- Keep registration capabilities on `Parameters`. Carry the `MathDomain` on
+  `TestGroup` so case generators can select values within the registered range.
+  Put case-specific values on `TestCase` and shared values on `TestGroup`.
 - Name generators and validators for their test type. Include valid extrema and
   relevant behavior classes when selecting candidate values. Follow the test
   type's count policy: keep fixed counts stable and cap their candidate queues,
@@ -93,33 +100,41 @@ crypto, oracle methods, and grains. Keep unrelated refactors outside the change.
   deferred completion with separately supplied valid and corrupted IUT responses.
   Feeding sample expected results back through validation does not cover that path.
 - Restore the focused solution and run the affected crypto and generation unit
-  tests first. Then start the local server using the repository's development
-  configuration and run the affected integration fixtures. Select the SDK from
-  the project and `Directory.Build.props` target frameworks.
+  tests first. Select the SDK from the project and `Directory.Build.props` target
+  frameworks. Then run the integration fixture for the affected revision against
+  a local Orleans server.
 
-The larger integration test replaces affected `gen-val/json-files/` directories.
-Before running it, check those destinations for local work, including untracked
-files, and preserve it. Filter shared projects to the intended fixtures/revisions;
-for example, HMAC-SHA2-256 v2 uses
-`FullyQualifiedName~v2_0.GenValTestsHmacSha2_256`. Broaden deliberately when needed.
-Replace the project and filter placeholders below. Commands use POSIX shell syntax:
+The checked-in host and test client settings already target the same local
+cluster. If you need a local override:
+
+- The sample host reads `gen-val/samples/sharedappsettings.json` directly.
+- For the test client, copy its `sharedappsettings.json` to
+  `sharedappsettings.local.json` in the integration test output directory and
+  adjust the settings to match the host. The client selects this optional file
+  with `DOTNET_ENVIRONMENT=local`.
+
+From the repository root, start the local Orleans server in one terminal:
 
 ```sh
-DOTNET_ENVIRONMENT=dev dotnet run --project gen-val/samples/NIST.CVP.ACVTS.Orleans.ServerHost/NIST.CVP.ACVTS.Orleans.ServerHost.csproj --no-restore
-DOTNET_ENVIRONMENT=dev dotnet test <algorithm-integration-project.csproj> --no-restore --filter '<relevant-fixture-filter>'
+dotnet run --project gen-val/samples/NIST.CVP.ACVTS.Orleans.ServerHost --no-restore
 ```
 
-Run the server in a separate terminal. Compare `gen-val/samples/sharedappsettings.json`
-with the test client's `sharedappsettings*.json`; both must address the same
-cluster. The checked-in local configuration uses the localhost gateway on port
-30000 and cluster `cryptoDist-local`. Stop the server after testing. Report
-unavailable dependencies or connectivity failures without treating them as
-passing tests.
+In another terminal, run the affected fixture. For example, this runs the
+small HMAC-SHA2-256 v2 cases for valid and corrupted responses:
 
-Inspect the generated registration, prompt, internal projection, expected results,
-and validation output for identity, field placement, lengths, counts, and
-dispositions. Use selected fields and structural summaries. Review generated-file
-changes separately and include only artifacts required for the contribution.
+```sh
+tests=gen-val/src/generation/test/NIST.CVP.ACVTS.Libraries.Generation.HMAC.IntegrationTests
+DOTNET_ENVIRONMENT=local dotnet test "$tests" --no-restore --filter 'FullyQualifiedName~v2_0.GenValTestsHmacSha2_256&Name!~LotsOfTests'
+```
+
+Omit `&Name!~LotsOfTests` to run the full fixture in a clean worktree: the
+large-vector test replaces its algorithm's sample directory under
+`gen-val/json-files/`. Stop the server after testing.
+
+In the affected algorithm's generated files,
+check identity, field placement, lengths, counts, and validation dispositions
+using selected fields and structural summaries. Local samples can omit cases
+available on the deployed server. Include only artifacts required for the change.
 
 ## 6. Prepare the review
 
