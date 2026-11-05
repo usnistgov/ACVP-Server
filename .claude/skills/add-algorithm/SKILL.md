@@ -5,6 +5,6 @@ description: Implement new algorithms, modes, or revisions in ACVP-Server, inclu
 
 # Add an algorithm
 
-Read and follow [Adding an algorithm](../../../.ai/guides/adding-an-algorithm.md)
+Read and follow [Adding an algorithm](../../../.si/guides/adding-an-algorithm.md)
 before making implementation changes. Paths and commands in that procedure are
 relative to the repository root.

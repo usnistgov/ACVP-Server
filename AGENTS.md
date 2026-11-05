@@ -1,7 +1,7 @@
 # Working in ACVP-Server
 
 When adding or changing algorithm support, follow
-[Adding an algorithm](.ai/guides/adding-an-algorithm.md) before editing.
+[Adding an algorithm](.si/guides/adding-an-algorithm.md) before editing.
 In Claude Code, this procedure is also available through `/add-algorithm`.
 
 ## Find the relevant code
