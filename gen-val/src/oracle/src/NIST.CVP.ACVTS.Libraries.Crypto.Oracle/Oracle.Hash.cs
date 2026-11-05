@@ -100,6 +100,23 @@ namespace NIST.CVP.ACVTS.Libraries.Crypto.Oracle
             }
         }
 
+        public async Task<Blake2Result> GetBlake2CaseAsync(Blake2Parameters param)
+        {
+            try
+            {
+                var observableGrain =
+                    await GetObserverGrain<IOracleObserverBlake2CaseGrain, Blake2Result>();
+                await GrainInvokeRetryWrapper.WrapGrainCall(observableGrain.Grain.BeginWorkAsync, param, LoadSheddingRetries);
+
+                return await observableGrain.ObserveUntilResult();
+            }
+            catch (OriginalClusterNodeSuicideException ex)
+            {
+                _logger.Warn(ex, $"{ex.Message}{Environment.NewLine}Restarting grain with {param.GetType()} parameter: {JsonConvert.SerializeObject(param)}");
+                return await GetBlake2CaseAsync(param);
+            }
+        }
+
         public async Task<ParallelHashResult> GetParallelHashCaseAsync(ParallelHashParameters param)
         {
             try

@@ -1,26 +1,18 @@
 ﻿using System.Numerics;
-using NIST.CVP.ACVTS.Libraries.Math;
+using NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash;
 using NIST.CVP.ACVTS.Libraries.Math.LargeBitString;
 
 namespace NIST.CVP.ACVTS.Libraries.Crypto.Common.Hash.ShaWrapper
 {
     /// <summary>
-    /// Provides a SHA implementation for hashing <see cref="message"/>s
+    /// Provides a SHA implementation for hashing messages.
     /// </summary>
-    public interface ISha
+    public interface ISha : IHash
     {
         /// <summary>
         /// The <see cref="HashFunction"/> attributed to the <see cref="ISha"/> instance
         /// </summary>
         HashFunction HashFunction { get; }
-
-        /// <summary>
-        /// Given a <see cref="message"/>, return a <see cref="BitString"/>
-        /// </summary>
-        /// <param name="message">The message to hash</param>
-        /// <param name="outLen"></param>
-        /// <returns></returns>
-        HashResult HashMessage(BitString message, int outLen = 0);
 
         /// <summary>
         /// Given a <see cref="BigInteger"/>, return a digest
