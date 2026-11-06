@@ -17,6 +17,12 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
 
         ValidateAlgoMode(parameters, new[] { AlgoMode.ML_KEM_KeyGen_FIPS203 }, errors);
 
+        if (parameters.ParameterSets == null)
+        {
+            errors.Add($"{nameof(parameters.ParameterSets)} was not provided.");
+            return new ParameterValidateResponse(errors);
+        }
+
         if (!parameters.ParameterSets.Distinct().Any())
         {
             errors.Add("Expected at least one valid ML-KEM parameter set");

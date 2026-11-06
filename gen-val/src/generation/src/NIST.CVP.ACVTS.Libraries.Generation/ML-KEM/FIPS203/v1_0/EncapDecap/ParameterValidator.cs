@@ -18,9 +18,21 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
 
         ValidateAlgoMode(parameters, [AlgoMode.ML_KEM_EncapDecap_FIPS203], errors);
 
+        if (parameters.ParameterSets == null)
+        {
+            errors.Add($"{nameof(parameters.ParameterSets)} was not provided.");
+            return new ParameterValidateResponse(errors);
+        }
+
         if (!parameters.ParameterSets.Distinct().Any())
         {
             errors.Add("Expected at least one valid ML-KEM parameter set");
+        }
+
+        if (parameters.Functions == null)
+        {
+            errors.Add($"{nameof(parameters.Functions)} was not provided.");
+            return new ParameterValidateResponse(errors);
         }
 
         if (!parameters.Functions.Distinct().Any())
