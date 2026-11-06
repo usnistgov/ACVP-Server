@@ -47,14 +47,14 @@ public class ParameterValidator : PqcParameterValidator, IParameterValidator<Par
             // i) is ParameterSets non-empty?
             if (!capability.ParameterSets.Distinct().Any())
             {
-                errors.Add($"Expected {nameof(capability.ParameterSets)} to contain at least one valid ML-DSA parameter set");
+                errors.Add($"Expected {nameof(capability.ParameterSets)} to contain at least one valid SLH-DSA parameter set");
                 return;
             }
 
             // ii) check no duplicates are provided
             if (capability.ParameterSets.Length != capability.ParameterSets.Distinct().Count())
             {
-                errors.Add($"{nameof(capability.ParameterSets)} must not contain the same ML-DSA parameter set more than once");
+                errors.Add($"{nameof(capability.ParameterSets)} must not contain the same SLH-DSA parameter set more than once");
             }
             
             // iii) run the base validator on each capability
