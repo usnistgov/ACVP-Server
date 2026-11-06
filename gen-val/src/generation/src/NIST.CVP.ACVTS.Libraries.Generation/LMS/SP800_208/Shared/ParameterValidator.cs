@@ -43,8 +43,8 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
 
     private void ValidateGeneralSpecific(Parameters parameters, List<string> errors)
     {
-        if (parameters.SpecificCapabilities?.Length == 0 &&
-            (parameters.Capabilities?.LmOtsModes?.Length == 0 || parameters.Capabilities?.LmsModes?.Length == 0))
+        if ((parameters.SpecificCapabilities?.Length ?? 0) == 0 &&
+            ((parameters.Capabilities?.LmOtsModes?.Length ?? 0) == 0 || (parameters.Capabilities?.LmsModes?.Length ?? 0) == 0))
         {
             errors.Add("Either specificCapabilities or Capabilities must be provided.");
             return;
