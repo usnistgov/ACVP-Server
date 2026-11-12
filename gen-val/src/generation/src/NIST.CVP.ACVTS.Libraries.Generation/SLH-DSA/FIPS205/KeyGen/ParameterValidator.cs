@@ -23,7 +23,8 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
             return new ParameterValidateResponse(errors);
         }
         
-        if (!parameters.ParameterSets.Distinct().Any())
+        if (!parameters.ParameterSets.Distinct().Any() ||
+            !parameters.ParameterSets.Distinct().All(parameterSet => VALID_PARAMETER_SETS.Contains(parameterSet)))
             errors.Add("Expected at least one valid SLH-DSA parameter set");
 
         // ParameterSets shouldn't contain any repeats
