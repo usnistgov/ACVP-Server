@@ -17,7 +17,8 @@ public class ParameterValidator : ParameterValidatorBase, IParameterValidator<Pa
 
         ValidateAlgoMode(parameters, new[] { AlgoMode.ML_DSA_KeyGen_FIPS204 }, errors);
 
-        if (!parameters.ParameterSets.Distinct().Any())
+        if (!parameters.ParameterSets.Distinct().Any() ||
+            !parameters.ParameterSets.Distinct().All(parameterSet => VALID_PARAMETER_SETS.Contains(parameterSet)))
         {
             errors.Add("Expected at least one valid ML-DSA parameter set");
         }

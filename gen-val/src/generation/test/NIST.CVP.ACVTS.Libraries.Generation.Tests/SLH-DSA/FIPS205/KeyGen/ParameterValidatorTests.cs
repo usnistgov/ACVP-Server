@@ -79,21 +79,20 @@ public class ParameterValidatorTests
         Assert.That(result.Success, Is.False);
     }
     
-    // I'm not really sure how to test this...
-    // [Test] // ISSUE #1
-    // public void ValidationShouldFailForInvalidParameterSetsValue()
-    // {
-    //     var parameters = new Parameters()
-    //     {
-    //         Algorithm = "SLH-DSA",
-    //         Mode = "keyGen",
-    //         Revision = "FIPS205",
-    //         ParameterSets = new SlhdsaParameterSet[] { SlhdsaParameterSet.Invalid }
-    //     };
-    //
-    //     var result = _subject.Validate(parameters);
-    //
-    //     Assert.IsFalse(result.Success);
-    // }
-    
+    [Test] // ISSUE #1
+    public void ValidationShouldFailForInvalidParameterSetsValue()
+    {
+        var parameters = new Parameters()
+        {
+            Algorithm = "SLH-DSA",
+            Mode = "keyGen",
+            Revision = "FIPS205",
+            ParameterSets = new SlhdsaParameterSet[] { (SlhdsaParameterSet)999 }
+        };
+
+        var result = _subject.Validate(parameters);
+
+        Assert.That(result.Success, Is.False);
+    }
+
 }
