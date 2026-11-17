@@ -393,6 +393,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
                 int saltLen = 0;
                 switch (auxFunction.AuxFunctionName)
                 {
+                    case KdaOneStepAuxFunction.HMAC_SHA1:
+                        saltLen = 160;
+                        break;
                     case KdaOneStepAuxFunction.HMAC_SHA2_D224:
                     case KdaOneStepAuxFunction.HMAC_SHA2_D512_T224:
                     case KdaOneStepAuxFunction.HMAC_SHA3_D224:
@@ -473,6 +476,9 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS_IFC.Sp800_56Br2
                 int saltLen = 0;
                 switch (auxFunction.AuxFunctionName)
                 {
+                    case KdaOneStepAuxFunction.HMAC_SHA1:
+                        saltLen = 160;
+                        break;
                     case KdaOneStepAuxFunction.HMAC_SHA2_D224:
                     case KdaOneStepAuxFunction.HMAC_SHA2_D512_T224:
                     case KdaOneStepAuxFunction.HMAC_SHA3_D224:
