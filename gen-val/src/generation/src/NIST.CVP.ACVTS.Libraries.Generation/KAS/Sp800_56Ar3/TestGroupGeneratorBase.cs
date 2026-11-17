@@ -496,11 +496,13 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KAS.Sp800_56Ar3
                             ivLen = 160;
                             break;
                         case MacModes.HMAC_SHA224:
+                        case MacModes.HMAC_SHA_d512t224:
                         case MacModes.HMAC_SHA3_224:
                             saltLen = 224;
                             ivLen = 224;
                             break;
                         case MacModes.HMAC_SHA256:
+                        case MacModes.HMAC_SHA_d512t256:
                         case MacModes.HMAC_SHA3_256:
                             saltLen = 256;
                             ivLen = 256;
