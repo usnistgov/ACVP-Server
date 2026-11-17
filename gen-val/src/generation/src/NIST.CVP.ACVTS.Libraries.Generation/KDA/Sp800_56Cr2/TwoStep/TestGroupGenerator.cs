@@ -326,6 +326,11 @@ namespace NIST.CVP.ACVTS.Libraries.Generation.KDA.Sp800_56Cr2.TwoStep
 
             var chosenMacModes = new List<MacModes>();
 
+            if (registeredMacMethods.Contains(MacModes.HMAC_SHA1))
+            {
+                chosenMacModes.Add(MacModes.HMAC_SHA1);
+            }
+
             var chosenHmacSha2 = registeredMacMethods.FirstOrDefault(f => hmacSha2.Contains(f));
             if (chosenHmacSha2 != MacModes.None)
             {
